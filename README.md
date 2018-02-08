@@ -33,6 +33,15 @@ In order to apply chosen optional patches find the patch you want
 in `optional.patches.json` in this repository and copy-paste
 the entry to your project's `composer.patches.json` file.
 
+## Gotacha's
+
+*The patch repository cannot be update and patches applied on the same
+run.*
+
+This means that when you add something to the patch repository
+or add the patch packge to your project the patches will be applied
+only at the subsequent build!
+
 ## How to create a patch?
 
 _Unfortunately I haven't found a way to install magento modules
