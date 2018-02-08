@@ -13,7 +13,6 @@ Add to your `composer.json`:
     "extra": {
         "patches-file": "composer.patches.json",
         "enable-patching": true,
-        "composer-exit-on-patch-failure": true
     }
 }
 ```
@@ -42,12 +41,22 @@ out-of-the-box on MacOS.
 
 ### Double build
 
-*The patch repository cannot be update and patches applied on the same
+*The patch repository cannot be updated and patches applied on the same
 run.*
+
+First run will update/install the patches, but the patching will fail
+because they will not exist yet. Subsequent build will apply them.
+There is no good way to fix this besides storing patches remotely
+and fetch them using HTTP. We can't do that, because we want to store
+them here.
 
 This means that when you add something to the patch repository
 or add the patch packge to your project the patches will be applied
 only at the subsequent build!
+
+_This has one big downside - the patching will fail on first run -
+and this is to be expected - so we cannot enable the option which
+will fail the whole composer run on patch fail._
 
 ## How to create a patch?
 
