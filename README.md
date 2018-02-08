@@ -74,16 +74,23 @@ If the patch fixes basic magento bugs and does not introduce any
 breaking changes put it into `essential` patches, otherwise, use
 `optional`.
 
-Now add an entry to the respective `*.patches.json` file:
+If the patch is essential add an entry to the respective `composer.json`
+file in `extra` section:
 ```
 {
-    "patches": {
-        "magento/module-customer": {
-            "Short fix description": "your-descriptive-name.patch"
+    "extra": {
+        "patches": {
+            "magento/module-customer": {
+                "Short fix description": "your-descriptive-name.patch"
+            }
         }
     }
 }
 ```
+
+If the patch is optional add this entry to `optional.patches.json`
+for future reference. This fill will not be used directly but will
+come handy for copy-pasting patch definitions.
 
 ### Bonus step - please do that!
 
