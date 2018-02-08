@@ -35,6 +35,13 @@ the entry to your project's `composer.patches.json` file.
 
 ## Gotacha's
 
+In order for the patching to work you need the `patch` command.
+
+In CentOS just do `yum install patch`. It should be available
+out-of-the-box on MacOS.
+
+### Double build
+
 *The patch repository cannot be update and patches applied on the same
 run.*
 
