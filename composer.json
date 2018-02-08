@@ -5,6 +5,11 @@
         "cweagans/composer-patches": "~1.0"
     },
     "extra": {
-        "patches-file": "essential.patches.json"
+        "patches-file": "essential.patches.json",
+        "patches": {
+            "magento/framework": {
+                "Fix customer grid EAV indexing": "essential/customer-grid-indexing-fix.patch"
+            }
+        }
     }
 }

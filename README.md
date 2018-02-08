@@ -12,7 +12,8 @@ Add to your `composer.json`:
     },
     "extra": {
         "patches-file": "composer.patches.json",
-        "enable-patching": true
+        "enable-patching": true,
+        "composer-exit-on-patch-failure": true
     }
 }
 ```
