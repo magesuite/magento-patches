@@ -1,0 +1,10 @@
+{
+    "name": "creativestyle/magento-patches",
+    "description": "patches for magento core",
+    "require": {
+        "cweagans/composer-patches": "~1.0"
+    },
+    "extra": {
+        "patches-file": "essential.patches.json"
+    }
+}
