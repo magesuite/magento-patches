@@ -7,7 +7,8 @@ Add to your `composer.json`:
 ```json
 {
     "require": {
-        "cweagans/composer-patches": "~1.0"
+        "cweagans/composer-patches": "~1.0",
+        "creativestyle/magento-patches": "dev-develop"
     },
     "extra": {
         "patches-file": "composer.patches.json",
@@ -15,6 +16,8 @@ Add to your `composer.json`:
     }
 }
 ```
+
+_Tip: Use `develop` branch for magento 2.1 and `develop-m2.2` for magento 2.2`._
 
 Then create `composer.patches.json` file containing:
 
