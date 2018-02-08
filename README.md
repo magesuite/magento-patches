@@ -31,12 +31,7 @@ Then create `composer.patches.json` file containing:
 This setup will install only the essential patches.
 In order to apply chosen optional patches find the patch you want
 in `optional.patches.json` in this repository and copy-paste
-the entry to your project's `composer.patches.json` file
-changing the path to point to the vendor directory, e.g.:
-
-```
-    vendor/creativestyle/magento-patches/optional/some-name.patch
-```
+the entry to your project's `composer.patches.json` file.
 
 ## How to create a patch?
 
@@ -81,7 +76,7 @@ file in `extra` section:
     "extra": {
         "patches": {
             "magento/module-customer": {
-                "Short fix description": "your-descriptive-name.patch"
+                "Short fix description": "vendor/creativestyle/magento-patches/essential/your-descriptive-name.patch"
             }
         }
     }
