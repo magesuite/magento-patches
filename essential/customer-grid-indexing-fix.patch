@@ -1,0 +1,19 @@
+Fixes indexer crashes when custom customer EAV fields visible in grid are added.
+
+Bug confirmed present in 2.2.0 and 2.2.2. The fix should be officialy released with 2.2.4.
+
+Original issue: https://github.com/magento/magento2/issues/10838
+PR: https://github.com/magento/magento2/pull/12729
+
+index 94f34ec..4b74ce5 100644
+--- a/Indexer/Handler/AttributeHandler.php
++++ b/Indexer/Handler/AttributeHandler.php
+@@ -35,7 +35,7 @@ class AttributeHandler implements HandlerInterface
+                 'left'
+             );
+         } else {
+-            $source->addAttributeToSelect($fieldInfo['origin'], 'left');
++            $source->addFieldToSelect($fieldInfo['origin'], 'left');
+         }
+     }
+ }

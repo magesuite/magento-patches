@@ -5,15 +5,15 @@ creativeshop magento patch set
 
 Add to your `composer.json`:
 ```json
-    {
-        "require": {
-            "cweagans/composer-patches": "~1.0"
-        },
-        "extra": {
-            "patches-file": "composer.patches.json",
-            "enable-patching": true
-        }
+{
+    "require": {
+        "cweagans/composer-patches": "~1.0"
+    },
+    "extra": {
+        "patches-file": "composer.patches.json",
+        "enable-patching": true
     }
+}
 ```
 
 Then create `composer.patches.json` file containing:
@@ -43,11 +43,53 @@ dist versions._
 This means that for now you have to install module you want to patch
 by other means.
 
-Let's say we'll patch the `customer` module's `indexer.xml` config.
+Let's say we'll patch the `customer` module.
 
 Go into your creativeshop project directory, then:
-```
-# Remove the affected module
-rm -rf vendor/magento/module-customer
 
+```bash
+# Go into the module directory
+cd vendor/magento/module-customer
+# Initialize git repository
+git init
+# Create a dummy commit to save current state
+git add . && git commit -m "dummy"
+```
+
+Now make your changes to the module, test them create the patch.
+```
+git add some/files
+git diff --cached > your-descriptive-name.patch
+```
+
+Congratulations! The file `your-descriptive-name.patch` contains
+a fresh patch.
+
+Now copy the patch file to the `magento-patches` project.
+If the patch fixes basic magento bugs and does not introduce any
+breaking changes put it into `essential` patches, otherwise, use
+`optional`.
+
+Now add an entry to the respective `*.patches.json` file:
+```
+{
+    "patches": {
+        "magento/module-customer": {
+            "Short fix description": "your-descriptive-name.patch"
+        }
+    }
+}
+```
+
+### Bonus step - please do that!
+
+Edit the patch file with a description. Put it before the header -
+the line starting with `---`. Following information may be important:
+ - What is the rationale behind the patch?
+ - Does it solve a certain issue - link to github.
+ - Is it an external patch? Provide original link.
+ - Can it break something?
+ - Do you know in which version the official fix will be released?
+
+See `essential/customer-grid-indexing-fix.patch` for an example.
 
