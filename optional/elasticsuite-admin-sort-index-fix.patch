@@ -1,0 +1,35 @@
+diff --git a/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php b/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php
+index 2db3f1b..b74ef8d 100644
+--- a/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php
++++ b/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php
+@@ -273,11 +273,27 @@ class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute impl
+                 }
+             }
+ 
+-            usort($items, function ($item1, $item2) {
+-                return $item1['adminSortIndex'] <= $item2['adminSortIndex'] ? -1 : 1;
+-            });
++            $items = $this->sortOptionsData($items);
+         }
+ 
+         return $items;
+     }
++
++    /**
++     * Sort items by adminSortIndex key.
++     *
++     * @param array $items to be sorted.
++     *
++     * @return array
++     */
++    private function sortOptionsData(array $items)
++    {
++        usort($items, function ($item1, $item2) {
++            if (!isset($item1['adminSortIndex']) or !isset($item2['adminSortIndex'])) {
++                return 0;
++            }
++            return $item1['adminSortIndex'] <= $item2['adminSortIndex'] ? -1 : 1;
++        });
++        return $items;
++    }
+ }
