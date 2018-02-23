@@ -1,0 +1,12 @@
+diff --git a/etc/module.xml b/etc/module.xml
+index f2cf4ad..fda43b8 100644
+--- a/etc/module.xml
++++ b/etc/module.xml
+@@ -10,6 +10,7 @@
+     <module name="Amasty_Rolepermissions" setup_version="1.2.0">
+         <sequence>
+             <module name="Amasty_Base" />
++	    <module name=“Magento_Catalog” />
+         </sequence>
+     </module>
+ </config>
