@@ -5,6 +5,13 @@
         "cweagans/composer-patches": "~1.0"
     },
     "extra": {
-        "patches-file": "essential.patches.json"
+        "patches": {
+            "magento/framework": {
+                "Fix customer grid EAV indexing": "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch"
+            },
+            "amasty/module-advanced-permissions": {
+                "Fix module loading order": "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
+            }
+        }
     }
 }

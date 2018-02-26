@@ -1,7 +1,0 @@
-{
-    "patches": {
-        "magento/framework": {
-            "Fix customer grid EAV indexing": "essential/customer-grid-indexing-fix.patch"
-        }
-    }
-}

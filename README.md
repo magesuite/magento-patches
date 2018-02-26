@@ -7,14 +7,17 @@ Add to your `composer.json`:
 ```json
 {
     "require": {
-        "cweagans/composer-patches": "~1.0"
+        "cweagans/composer-patches": "~1.0",
+        "creativestyle/magento-patches": "dev-develop"
     },
     "extra": {
         "patches-file": "composer.patches.json",
-        "enable-patching": true
+        "enable-patching": true,
     }
 }
 ```
+
+_Tip: Use `develop` branch for magento 2.1 and `develop-m2.2` for magento 2.2`._
 
 Then create `composer.patches.json` file containing:
 
@@ -27,12 +30,33 @@ Then create `composer.patches.json` file containing:
 This setup will install only the essential patches.
 In order to apply chosen optional patches find the patch you want
 in `optional.patches.json` in this repository and copy-paste
-the entry to your project's `composer.patches.json` file
-changing the path to point to the vendor directory, e.g.:
+the entry to your project's `composer.patches.json` file.
 
-```
-    vendor/creativestyle/magento-patches/optional/some-name.patch
-```
+## Gotacha's
+
+In order for the patching to work you need the `patch` command.
+
+In CentOS just do `yum install patch`. It should be available
+out-of-the-box on MacOS.
+
+### Double build
+
+*The patch repository cannot be updated and patches applied on the same
+run.*
+
+First run will update/install the patches, but the patching will fail
+because they will not exist yet. Subsequent build will apply them.
+There is no good way to fix this besides storing patches remotely
+and fetch them using HTTP. We can't do that, because we want to store
+them here.
+
+This means that when you add something to the patch repository
+or add the patch packge to your project the patches will be applied
+only at the subsequent build!
+
+_This has one big downside - the patching will fail on first run -
+and this is to be expected - so we cannot enable the option which
+will fail the whole composer run on patch fail._
 
 ## How to create a patch?
 
@@ -70,16 +94,23 @@ If the patch fixes basic magento bugs and does not introduce any
 breaking changes put it into `essential` patches, otherwise, use
 `optional`.
 
-Now add an entry to the respective `*.patches.json` file:
+If the patch is essential add an entry to the respective `composer.json`
+file in `extra` section:
 ```
 {
-    "patches": {
-        "magento/module-customer": {
-            "Short fix description": "your-descriptive-name.patch"
+    "extra": {
+        "patches": {
+            "magento/module-customer": {
+                "Short fix description": "vendor/creativestyle/magento-patches/essential/your-descriptive-name.patch"
+            }
         }
     }
 }
 ```
+
+If the patch is optional add this entry to `optional.patches.json`
+for future reference. This fill will not be used directly but will
+come handy for copy-pasting patch definitions.
 
 ### Bonus step - please do that!
 
