@@ -1,3 +1,7 @@
 {
-    "patches": {}
+    "patches": {
+        "smile/elasticsuite": {
+          "Fix adminSortIndex bug": "vendor/creativestyle/magento-patches/optional/elasticsuite-admin-sort-index-fix.patch"
+        }
+    }
 }
