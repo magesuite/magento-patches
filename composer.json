@@ -17,6 +17,10 @@
             "magento/magento2-base": {
                 "Make it possible to close fullscreen product gallery on iOS":
                     "vendor/creativestyle/magento-patches/essential/ios-fullscreen-gallery-close-fix.patch"
+            },
+            "magento/module-search": {
+                "Fix focus being lost after in search input after JS init":
+                    "vendor/creativestyle/magento-patches/essential/mini-search-focus-fix.patch"
             }
         }
     }

@@ -1,0 +1,26 @@
+From 9eb3c6f5a00b12cde1b397bab983305acf568688 Mon Sep 17 00:00:00 2001
+From: Mateusz Krzeszowiak <matkrzesz@gmail.com>
+Date: Wed, 7 Mar 2018 11:14:09 +0100
+Subject: [PATCH] Act better on existing input focus instead of removing it
+Url: https://github.com/magento/magento2/pull/13989
+
+The focus of the input field is maintained, proper classes are added and autocomplete fires once the component is initialized.
+---
+ app/code/Magento/Search/view/frontend/web/form-mini.js | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/view/frontend/web/form-mini.js b/view/frontend/web/form-mini.js
+index 7b2c700..3aa4186 100644
+--- a/view/frontend/web/form-mini.js
++++ b/view/frontend/web/form-mini.js
+@@ -98,7 +98,9 @@ define([
+                 }, this), 250);
+             }, this));
+ 
+-            this.element.trigger('blur');
++            if (this.element.get(0) === document.activeElement) {
++                this.setActiveState(true);
++            }
+ 
+             this.element.on('focus', this.setActiveState.bind(this, true));
+             this.element.on('keydown', this._onKeyDown);
