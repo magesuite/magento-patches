@@ -21,6 +21,10 @@
             "magento/module-search": {
                 "Fix focus being lost after in search input after JS init":
                     "vendor/creativestyle/magento-patches/essential/mini-search-focus-fix.patch"
+            },
+            "magento/module-config": {
+                "Fix module loading order":
+                "vendor/creativestyle/magento-patches/essential/magento-config-load-order.patch"
             }
         }
     }
