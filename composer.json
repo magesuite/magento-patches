@@ -29,7 +29,7 @@
             "smile/elasticsuite": {
                 "Fix isInline method that cause filters in layered navigation to not expand":
 		"vendor/creativestyle/magento-patches/essential/fix-is-inline-elasticsuite-2-5.patch"
-            },
+            }
         }
     }
 }
