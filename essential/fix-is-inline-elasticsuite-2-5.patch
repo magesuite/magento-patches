@@ -1,0 +1,13 @@
+diff --git a/src/module-elasticsuite-catalog/Block/Navigation.php b/src/module-elasticsuite-catalog/Block/Navigation.php
+index 9da859b..49ad7b0 100644
+--- a/src/module-elasticsuite-catalog/Block/Navigation.php
++++ b/src/module-elasticsuite-catalog/Block/Navigation.php
+@@ -160,7 +160,7 @@ class Navigation extends \Magento\LayeredNavigation\Block\Navigation
+      */
+     public function isInline()
+     {
+-        return in_array($this->pageLayout, $this->inlineLayouts);
++        return false;
+     }
+ 
+     /**
