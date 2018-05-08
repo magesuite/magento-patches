@@ -1,3 +1,8 @@
 {
-    "patches": {}
+    "patches": {
+        "magento/module-ui": {
+          "Fix limited roles problem in admin panel": "vendor/creativestyle/magento-patches/optional/fix-for-limited-roles-in-admin-panel.patch"
+        }
+    }
 }
+
