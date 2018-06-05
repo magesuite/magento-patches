@@ -1,0 +1,13 @@
+diff --git a/Model/ResourceModel/Page/Fulltext/Collection.php b/Model/ResourceModel/Page/Fulltext/Collection.php
+index 3e24309..53a6a86 100644
+--- a/Model/ResourceModel/Page/Fulltext/Collection.php
++++ b/Model/ResourceModel/Page/Fulltext/Collection.php
+@@ -122,7 +122,7 @@ class Collection extends \Magento\Cms\Model\ResourceModel\Page\Collection
+     /**
+      * {@inheritDoc}
+      */
+-    public function setOrder($attribute, $dir = Select::SQL_DESC)
++    public function setOrder($attribute, $dir = \Magento\Framework\DB\Select::SQL_DESC)
+     {
+         throw new \LogicException("Sorting on multiple stores is not allowed in search engine collections.");
+     }

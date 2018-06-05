@@ -29,6 +29,10 @@
             "smile/elasticsuite": {
                 "Fix isInline method that cause filters in layered navigation to not expand":
 		"vendor/creativestyle/magento-patches/essential/fix-is-inline-elasticsuite-2-5.patch"
+            },
+            "smile/module-elasticsuite-cms-search": {
+                "Fix setOrder method that contains not imported class name":
+                "vendor/creativestyle/magento-patches/essential/cms-search-set-order.patch"
             }
         }
     }
