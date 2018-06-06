@@ -33,6 +33,10 @@
             "smile/module-elasticsuite-cms-search": {
                 "Fix setOrder method that contains not imported class name":
                 "vendor/creativestyle/magento-patches/essential/cms-search-set-order.patch"
+            },
+            "magento/module-catalog-inventory": {
+                "Fix stock indexer to correctly reindex stock using materialized views":
+                  "vendor/creativestyle/magento-patches/essential/fix-stock-mview-indexing.patch"
             }
         }
     }
