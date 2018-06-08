@@ -8,7 +8,9 @@
         "patches": {
             "magento/framework": {
                 "Fix customer grid EAV indexing":
-                    "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch"
+                    "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch",
+                "Fix image upload error when target directory is symlinked":
+                    "vendor/creativestyle/magento-patches/essential/magento-config-load-order.patch"
             },
             "amasty/module-advanced-permissions": {
                 "Fix module loading order":
@@ -24,19 +26,19 @@
             },
             "magento/module-config": {
                 "Fix module loading order":
-                "vendor/creativestyle/magento-patches/essential/magento-config-load-order.patch"
+                    "vendor/creativestyle/magento-patches/essential/magento-config-load-order.patch"
             },
             "smile/elasticsuite": {
                 "Fix isInline method that cause filters in layered navigation to not expand":
-		"vendor/creativestyle/magento-patches/essential/fix-is-inline-elasticsuite-2-5.patch"
+                    "vendor/creativestyle/magento-patches/essential/fix-is-inline-elasticsuite-2-5.patch"
             },
             "smile/module-elasticsuite-cms-search": {
                 "Fix setOrder method that contains not imported class name":
-                "vendor/creativestyle/magento-patches/essential/cms-search-set-order.patch"
+                    "vendor/creativestyle/magento-patches/essential/cms-search-set-order.patch"
             },
             "magento/module-catalog-inventory": {
                 "Fix stock indexer to correctly reindex stock using materialized views":
-                  "vendor/creativestyle/magento-patches/essential/fix-stock-mview-indexing.patch"
+                    "vendor/creativestyle/magento-patches/essential/fix-stock-mview-indexing.patch"
             }
         }
     }

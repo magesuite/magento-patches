@@ -1,0 +1,20 @@
+Fixes the proble where magento returns "Dir XXX is not under storage root path" error when uploading a file.
+This is because we have this directory symlinked.
+
+This was introducent in magento 2.2.3 and should be fixed in a future version.
+
+See: https://github.com/magento/magento2/issues/13929
+
+<+>UTF-8
+===================================================================
+--- magento/vendor/magento/framework/App/Filesystem/DirectoryResolver.php	(date 1521531005000)
++++ magento/vendor/magento/framework/App/Filesystem/DirectoryResolver.php	(date 1521561205000)
+@@ -39,7 +39,7 @@
+     public function validatePath($path, $directoryConfig = DirectoryList::MEDIA)
+     {
+         $realPath = realpath($path);
+-        $root = $this->directoryList->getPath($directoryConfig);
++        $root = realpath($this->directoryList->getPath($directoryConfig));
+
+         return strpos($realPath, $root) === 0;
+     }
