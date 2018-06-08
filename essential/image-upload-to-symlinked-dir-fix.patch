@@ -5,9 +5,10 @@ This was introducent in magento 2.2.3 and should be fixed in a future version.
 
 See: https://github.com/magento/magento2/issues/13929
 
---- a/App/Filesystem/DirectoryResolver.php	(date 1521531005000)
-+++ b/App/Filesystem/DirectoryResolver.php	(date 1521561205000)
-@@ -39,7 +39,7 @@
+index 4b62476..19e45c0 100644
+--- a/App/Filesystem/DirectoryResolver.php
++++ b/App/Filesystem/DirectoryResolver.php
+@@ -39,7 +39,7 @@ class DirectoryResolver
      public function validatePath($path, $directoryConfig = DirectoryList::MEDIA)
      {
          $realPath = realpath($path);
