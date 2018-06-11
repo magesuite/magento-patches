@@ -1,0 +1,26 @@
+Fixes sorting related products in admin panel.
+See: https://github.com/magento/magento2/issues/13720
+
+--- a/Model/ProductLink/CollectionProvider.php
++++ b/Model/ProductLink/CollectionProvider.php
+@@ -53,13 +53,14 @@ class CollectionProvider
+             $output[$item->getId()] = $converter->convert($item);
+         }
+         foreach ($output as $item) {
+-            $itemPosition = $item['position'];
+-            if (!isset($sorterItems[$itemPosition])) {
+-                $sorterItems[$itemPosition] = $item;
+-            } else {
+-                $newPosition = $itemPosition + 1;
+-                $sorterItems[$newPosition] = $item;
++            $itemPosition = (int)$item['position'];
++            while(true) {
++                if (!isset($sorterItems[$itemPosition])) {
++                    break;
++                }
++                $itemPosition += 1;
+             }
++            $sorterItems[$itemPosition] = $item;
+         }
+         ksort($sorterItems);
+         return $sorterItems;
