@@ -39,6 +39,10 @@
             "magento/module-catalog-inventory": {
                 "Fix stock indexer to correctly reindex stock using materialized views":
                     "vendor/creativestyle/magento-patches/essential/fix-stock-mview-indexing.patch"
+            },
+            "magento/module-catalog": {
+                "Fixes sorting related products in admin panel.":
+                "vendor/creativestyle/magento-patches/essential/related-products-sorting.patch"
             }
         }
     }
