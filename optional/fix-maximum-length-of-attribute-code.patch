@@ -1,7 +1,7 @@
-diff --git a/Attribute.php b/Attribute.php
+diff --git a/Model/Entity/Attribute.php b/Model/Entity/Attribute.php
 index c986509..9d4cc62 100644
---- a/Attribute.php
-+++ b/Attribute.php
+--- a/Model/Entity/Attribute.php
++++ b/Model/Entity/Attribute.php
 @@ -24,7 +24,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      /**
       * Attribute code max length
