@@ -2,6 +2,9 @@
     "patches": {
         "magento/module-ui": {
           "Fix limited roles problem in admin panel": "vendor/creativestyle/magento-patches/optional/fix-for-limited-roles-in-admin-panel.patch"
+        },
+        "magento/module-eav": {
+          "Fix attribute code length from default 30 to 60 - fixed in magento 2.3": "vendor/creativestyle/magento-patches/optional/fix-maximum-length-of-attribute-code.patch"
         }
     }
 }
