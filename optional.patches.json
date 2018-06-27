@@ -5,6 +5,9 @@
         },
         "magento/module-eav": {
           "Fix attribute code length from default 30 to 60 - fixed in magento 2.3": "vendor/creativestyle/magento-patches/optional/fix-maximum-length-of-attribute-code.patch"
+        },
+        "magento/module-checkout": {
+          "Generate session ID only if connection is unsecure - fixed in magento 2.2.5": "vendor/creativestyle/magento-patches/optional/fix-checkout-session-regenerate.patch"
         }
     }
 }
