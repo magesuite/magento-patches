@@ -16,6 +16,10 @@
                 "Fix module loading order":
                     "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
             },
+            "amasty/base": {
+                "Fix module sequence":
+                "vendor/creativestyle/magento-patches/essential/amasty-base-sequence-fix.patch"
+            },
             "magento/magento2-base": {
                 "Make it possible to close fullscreen product gallery on iOS":
                     "vendor/creativestyle/magento-patches/essential/ios-fullscreen-gallery-close-fix.patch"

@@ -1,0 +1,15 @@
+diff --git a/etc/module.xml b/etc/module.xml
+index 39e940f..0f35d45 100644
+--- a/etc/module.xml
++++ b/etc/module.xml
+@@ -7,5 +7,9 @@
+  */
+ -->
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+-    <module name="Amasty_Base" setup_version="1.4.0" />
++    <module name="Amasty_Base" setup_version="1.4.0">
++	<sequence>
++            <module name="Magento_AdminNotification" />
++	</sequence>
++    </module>
+ </config>
