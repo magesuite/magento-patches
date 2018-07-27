@@ -1,0 +1,13 @@
+diff --git a/View/Layout/etc/elements.xsd b/View/Layout/etc/elements.xsd
+index ea80380..559c18f 100644
+--- a/View/Layout/etc/elements.xsd
++++ b/View/Layout/etc/elements.xsd
+@@ -112,7 +112,7 @@
+ 
+     <xs:simpleType name="htmlClassType">
+         <xs:restriction base="xs:string">
+-            <xs:pattern value="[a-zA-Z][a-zA-Z\d\-_]*(\s[a-zA-Z][a-zA-Z\d\-_]*)*"/>
++            <xs:pattern value="[\s]*[a-zA-Z][a-zA-Z\d\-_]*(\s(\|\s)*[a-zA-Z][a-zA-Z\d\-_]*)*"/>
+         </xs:restriction>
+     </xs:simpleType>
+ 
