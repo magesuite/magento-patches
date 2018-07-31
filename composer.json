@@ -10,7 +10,9 @@
                 "Fix customer grid EAV indexing":
                     "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch",
                 "Fix image upload error when target directory is symlinked":
-                    "vendor/creativestyle/magento-patches/essential/image-upload-to-symlinked-dir-fix.patch"
+                    "vendor/creativestyle/magento-patches/essential/image-upload-to-symlinked-dir-fix.patch",
+                "Allow CSS classes with BOM":
+                    "vendor/creativestyle/magento-patches/essential/allow-css-classes-with-bom.patch"
             },
             "amasty/module-advanced-permissions": {
                 "Fix module loading order":
