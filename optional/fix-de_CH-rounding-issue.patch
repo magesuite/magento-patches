@@ -1,0 +1,12 @@
+diff --git a/Locale/Format.php b/Locale/Format.php
+index 7bb4cb4..042ca4a 100644
+--- a/Locale/Format.php
++++ b/Locale/Format.php
+@@ -100,6 +100,7 @@ class Format implements \Magento\Framework\Locale\FormatInterface
+         }
+ 
+         $formatter = new \NumberFormatter($localeCode, \NumberFormatter::CURRENCY);
++        $formatter->setAttribute(\NumberFormatter::ROUNDING_INCREMENT, 0);
+         $format = $formatter->getPattern();
+         $decimalSymbol = $formatter->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
+         $groupSymbol = $formatter->getSymbol(\NumberFormatter::GROUPING_SEPARATOR_SYMBOL);

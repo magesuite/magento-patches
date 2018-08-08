@@ -8,6 +8,9 @@
         },
         "magento/module-checkout": {
           "Generate session ID only if connection is unsecure - fixed in magento 2.2.5": "vendor/creativestyle/magento-patches/optional/fix-checkout-session-regenerate.patch"
+        },
+        "magento/framework": {
+          "Fix rounding issue in locale de_CH": "vendor/creativestyle/magento-patches/optional/fix-de_CH-rounding-issue.patch"
         }
     }
 }
