@@ -49,6 +49,10 @@
             "magento/module-catalog": {
                 "Fixes sorting related products in admin panel.":
                 "vendor/creativestyle/magento-patches/essential/related-products-sorting.patch"
+            },
+            "magento/module-catalog-url-rewrite": {
+                "Fixes store switcher":
+                "vendor/creativestyle/magento-patches/essential/fix-language-switcher.patch"
             }
         }
     }
