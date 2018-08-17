@@ -1,0 +1,16 @@
+diff --git a/View/Model/Layout/Merge.php b/View/Model/Layout/Merge.php
+index 4d611c8..d89242a 100644
+--- a/View/Model/Layout/Merge.php
++++ b/View/Model/Layout/Merge.php
+@@ -431,7 +431,10 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
+         if ($result) {
+             $this->addUpdate($result);
+             $this->pageLayout = $this->_loadCache($cacheIdPageLayout);
+-            return $this;
++
++            if($this->pageLayout) {
++                return $this;
++            }
+         }
+ 
+         foreach ($this->getHandles() as $handle) {

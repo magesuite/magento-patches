@@ -11,6 +11,9 @@
         },
         "magento/framework": {
           "Fix rounding issue in locale de_CH": "vendor/creativestyle/magento-patches/optional/fix-de_CH-rounding-issue.patch"
+        },
+        "magento/framework": {
+          "Fix missing page layout (HAAR-1308)": "vendor/creativestyle/magento-patches/optional/fix-missing-page-layout.patch"
         }
     }
 }
