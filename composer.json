@@ -8,15 +8,15 @@
         "patches": {
             "magento/framework": {
                 "Fix customer grid EAV indexing":
-                    "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch",
+                "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch",
                 "Fix image upload error when target directory is symlinked":
-                    "vendor/creativestyle/magento-patches/essential/image-upload-to-symlinked-dir-fix.patch",
+                "vendor/creativestyle/magento-patches/essential/image-upload-to-symlinked-dir-fix.patch",
                 "Allow CSS classes with BOM":
-                    "vendor/creativestyle/magento-patches/essential/allow-css-classes-with-bom.patch"
+                "vendor/creativestyle/magento-patches/essential/allow-css-classes-with-bom.patch"
             },
             "amasty/module-advanced-permissions": {
                 "Fix module loading order":
-                    "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
+                "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
             },
             "amasty/base": {
                 "Fix module sequence":
@@ -24,27 +24,27 @@
             },
             "magento/magento2-base": {
                 "Make it possible to close fullscreen product gallery on iOS":
-                    "vendor/creativestyle/magento-patches/essential/ios-fullscreen-gallery-close-fix.patch"
+                "vendor/creativestyle/magento-patches/essential/ios-fullscreen-gallery-close-fix.patch"
             },
             "magento/module-search": {
                 "Fix focus being lost after in search input after JS init":
-                    "vendor/creativestyle/magento-patches/essential/mini-search-focus-fix.patch"
+                "vendor/creativestyle/magento-patches/essential/mini-search-focus-fix.patch"
             },
             "magento/module-config": {
                 "Fix module loading order":
-                    "vendor/creativestyle/magento-patches/essential/magento-config-load-order.patch"
+                "vendor/creativestyle/magento-patches/essential/magento-config-load-order.patch"
             },
             "smile/elasticsuite": {
                 "Fix isInline method that cause filters in layered navigation to not expand":
-                    "vendor/creativestyle/magento-patches/essential/fix-is-inline-elasticsuite-2-5.patch"
+                "vendor/creativestyle/magento-patches/essential/fix-is-inline-elasticsuite-2-5.patch"
             },
             "smile/module-elasticsuite-cms-search": {
                 "Fix setOrder method that contains not imported class name":
-                    "vendor/creativestyle/magento-patches/essential/cms-search-set-order.patch"
+                "vendor/creativestyle/magento-patches/essential/cms-search-set-order.patch"
             },
             "magento/module-catalog-inventory": {
                 "Fix stock indexer to correctly reindex stock using materialized views":
-                    "vendor/creativestyle/magento-patches/essential/fix-stock-mview-indexing.patch"
+                "vendor/creativestyle/magento-patches/essential/fix-stock-mview-indexing.patch"
             },
             "magento/module-catalog": {
                 "Fixes sorting related products in admin panel.":
@@ -53,6 +53,10 @@
             "magento/module-catalog-url-rewrite": {
                 "Fixes store switcher":
                 "vendor/creativestyle/magento-patches/essential/fix-language-switcher.patch"
+            },
+            "magento/module-catalog-import-export": {
+                "Fixes missing url_key after product import":
+                "vendor/creativestyle/magento-patches/essential/fix-missing-url-key-after-import.patch"
             }
         }
     }
