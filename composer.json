@@ -53,6 +53,10 @@
             "magento/module-catalog-url-rewrite": {
                 "Fixes store switcher":
                 "vendor/creativestyle/magento-patches/essential/fix-language-switcher.patch"
+            },
+            "magento/module-catalog-import-export": {
+                "Fixes missing url_key after product import":
+                "vendor/creativestyle/magento-patches/essential/fix-missing-url-key-after-import.patch"
             }
         }
     }
