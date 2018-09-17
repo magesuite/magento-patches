@@ -1,0 +1,18 @@
+diff --git a/Observer/Controller/Action/Predispatch.php b/Observer/Controller/Action/Predispatch.php
+index 329151b..927a372 100644
+--- a/Observer/Controller/Action/Predispatch.php
++++ b/Observer/Controller/Action/Predispatch.php
+@@ -42,11 +42,11 @@ class Predispatch implements \Magento\Framework\Event\ObserverInterface
+             $this->checkoutSession->setCoupon("");
+         }
+
+-        if ($coupon === null) {
++        if (empty($coupon)) {
+             $coupon = $this->checkoutSession->getCoupon();
+         }
+
+-        if ($coupon !== null) {
++        if (!empty($coupon)) {
+             if ($quote = $this->checkoutSession->getQuote()) {
+                 $this->checkoutSession->setCoupon($coupon);
+                 $quote->setCouponCode($coupon)
