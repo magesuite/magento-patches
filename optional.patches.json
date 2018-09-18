@@ -18,6 +18,9 @@
         },
         "amasty/module-xcoupon": {
             "Fix for adding the same coupon twice in the cart (HAAR-1333)": "vendor/creativestyle/magento-patches/optional/amasty-fix-adding-coupon-twice-in-cart.patch"
+        },
+        "magento/module-payment": {
+            "Fix groups issue in getPaymentMethodList method - fixed in magento 2.2.6": "vendor/creativestyle/magento-patches/optional/fix-getPaymentMethodList-method.patch"
         }
     }
 }

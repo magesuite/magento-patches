@@ -1,0 +1,15 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index f3565ea..5fd23c1 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -293,7 +293,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+             foreach ($methods as $code => $title) {
+                 if (isset($groups[$code])) {
+                     $labelValues[$code]['label'] = $title;
+-                    $labelValues[$code]['value'] = null;
++                    if (!isset($labelValues[$code]['value'])) {
++                        $labelValues[$code]['value'] = null;
++                    }
+                 } elseif (isset($groupRelations[$code])) {
+                     unset($labelValues[$code]);
+                     $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
