@@ -59,6 +59,10 @@
             "magento/module-catalog-import-export": {
                 "Fixes missing url_key after product import":
                 "vendor/creativestyle/magento-patches/essential/fix-missing-url-key-after-import.patch"
+            },
+            "aheadworks/module-product-question": {
+                "Fix incorrect definition for class IntlDateFormatter":
+                "vendor/creativestyle/magento-patches/essential/aheadworks-fix-incorrect-definition.patch"
             }
         }
     }
