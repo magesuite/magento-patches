@@ -65,8 +65,10 @@
                 "vendor/creativestyle/magento-patches/essential/aheadworks-fix-incorrect-definition.patch"
             },
             "repertus/packstation": {
-                "Fix 301 redirects that may cause checkout reloads":
-                "vendor/creativestyle/magento-patches/essential/packstation-fix-301.patch"
+                "Fix 301 redirects for JS files":
+                "vendor/creativestyle/magento-patches/essential/packstation-fix-301.patch",
+                "Fix button role that causes form to submit sometimes":
+                "vendor/creativestyle/magento-patches/essential/packstation-prevent-redirect.patch"
             }
         }
     }
