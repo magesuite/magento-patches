@@ -67,6 +67,10 @@
             "aheadworks/module-product-question": {
                 "Fix incorrect definition for class IntlDateFormatter":
                 "vendor/creativestyle/magento-patches/essential/aheadworks-fix-incorrect-definition.patch"
+            },
+            "repertus/packstation": {
+                "Fix extension to make it work with creativeshop":
+                "vendor/creativestyle/magento-patches/essential/repertus-packstation-fixes.patch"
             }
         }
     }

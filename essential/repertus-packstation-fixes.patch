@@ -1,0 +1,92 @@
+diff --git a/Plugin/Checkout/LayoutProcessorPlugin.php b/Plugin/Checkout/LayoutProcessorPlugin.php
+index 468e514..3833a6a 100644
+--- a/Plugin/Checkout/LayoutProcessorPlugin.php
++++ b/Plugin/Checkout/LayoutProcessorPlugin.php
+@@ -68,8 +68,8 @@ class LayoutProcessorPlugin
+             'componentType' => 'container',
+             'formElement' => 'container',
+             'component' => 'Magento_Ui/js/form/components/html',
+-            'additionalClasses' => 'repertus_packstation_search_button',
+-            'content' => '<div><button data-bind="afterRender: setModalElement, blockLoader: isLoading" id="repertus_find_packstation_button" href="#" data-modal-search-url="'. $this->urlBuilder->getUrl('repertus_packstation/packstation/search') .'">' . __('Search for Packstation') . '</button></div>',
++            'additionalClasses' => 'cs-form__field | repertus_packstation_search_button',
++            'content' => '<div><button type="button" data-bind="afterRender: setModalElement, blockLoader: isLoading" id="repertus_find_packstation_button" href="#" data-modal-search-url="'. $this->urlBuilder->getUrl('repertus_packstation/packstation/search') .'">' . __('Search for Packstation') . '</button></div>',
+             'sortOrder' => 1
+         ];
+ 
+diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
+index 28cfe75..5dafa1f 100644
+--- a/view/frontend/layout/checkout_index_index.xml
++++ b/view/frontend/layout/checkout_index_index.xml
+@@ -9,6 +9,6 @@
+     <head>
+         <css src="Repertus_Packstation/css/repertus_packstation_main.css" />
+         <css src="Repertus_Packstation/css/repertus_packstation_checkout.css" />
+-        <script src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0" src_type="url" />
++        <script src="https://www.bing.com/mapspreview/sdk/mapcontrol?v=7.0" src_type="url" />
+     </head>
+ </page>
+diff --git a/view/frontend/layout/customer_address_form.xml b/view/frontend/layout/customer_address_form.xml
+index 6b11f51..1e1d78a 100644
+--- a/view/frontend/layout/customer_address_form.xml
++++ b/view/frontend/layout/customer_address_form.xml
+@@ -9,7 +9,7 @@
+     <head>
+         <css src="Repertus_Packstation/css/repertus_packstation_main.css" />
+         <css src="Repertus_Packstation/css/repertus_packstation_account.css" />
+-        <script src="https://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0" src_type="url" />
++        <script src="https://www.bing.com/mapspreview/sdk/mapcontrol?v=7.0" src_type="url" />
+     </head>
+     <body>
+         <referenceContainer name="content">
+diff --git a/view/frontend/web/js/repertus-packstation.js b/view/frontend/web/js/repertus-packstation.js
+index 0e3ef74..f0491f8 100644
+--- a/view/frontend/web/js/repertus-packstation.js
++++ b/view/frontend/web/js/repertus-packstation.js
+@@ -88,7 +88,6 @@ require([
+ 
+         init: function () {
+             var me = this,
+-                btn = me.control.find(me.options.searchButtonCls),
+                 formIdentifier = 'form';
+ 
+             formIdentifier += me.options.formId.length > 0 ? me.options.formId : '';
+@@ -108,7 +107,7 @@ require([
+ 
+             numberInput.on('change', $.proxy(me.onNumberChange, me));
+             postNumberInput.on('change', $.proxy(me.onPostNumberChange, me));
+-            btn.on('click', $.proxy(me.onSearchButtonClick, me));
++            me.control.on('click', me.options.searchButtonCls, $.proxy(me.onSearchButtonClick, me));
+ 
+             me.addValidationRules();
+         },
+@@ -150,15 +149,15 @@ require([
+                 fieldSet = me.control.closest('fieldset.repertus_address_type_fieldset'),
+                 currentPostNumber = fieldSet ? fieldSet.data('repertus-post-number') : '',
+                 currentStationNumber = fieldSet ? fieldSet.data('repertus-station-number') : '',
+-                postNumberField = $('<div class="field field-repertus-postnumber">' +
+-                    '<label class="label" for="repertus_post_number"><span>' + $.mage.__('Post Number') + '</span></label>' +
+-                    '<div class="control">' +
++                postNumberField = $('<div class="cs-input | cs-form__field | field field-repertus-postnumber">' +
++                    '<label class="cs-input__label | label" for="repertus_post_number"><span>' + $.mage.__('Post Number') + '</span></label>' +
++                    '<div class="cs-input__control | control">' +
+                         '<input type="text" id="repertus_post_number" name="repertus_post_number" value="' + currentPostNumber + '" title="'+ $.mage.__('Post Number') + '" ' +
+                             'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
+                     '</div></div>'),
+-                numberField = $('<div class="field field-repertus-number">' +
+-                    '<label class="label" for="repertus_number"><span>' + $.mage.__('Packstation No.') + '</span></label>' +
+-                    '<div class="control">' +
++                numberField = $('<div class="cs-input | cs-form__field | field field-repertus-number">' +
++                    '<label class="cs-input__label | label" for="repertus_number"><span>' + $.mage.__('Packstation No.') + '</span></label>' +
++                    '<div class="cs-input__control | control">' +
+                     '<input type="text" id="repertus_number" name="repertus_number" value="' + currentStationNumber + '" title="' + $.mage.__('Packstation No.') + '" ' +
+                     'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
+                     '</div></div>');
+@@ -893,7 +892,7 @@ require([
+         var addressTypeField = $('.field.repertus_address_type');
+ 
+         addressTypeField.repertusPackstation({
+-            parentCls: '.column.main',
++            parentCls: '.cs-dashboard__main',
+             addAdditionalFields: addressTypeField.hasClass('repertus_address_type--add-fields'),
+             requiredCls: 'required'
+         });
