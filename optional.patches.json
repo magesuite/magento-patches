@@ -21,6 +21,9 @@
         },
         "magento/module-payment": {
             "Fix groups issue in getPaymentMethodList method - fixed in magento 2.2.6": "vendor/creativestyle/magento-patches/optional/fix-getPaymentMethodList-method.patch"
+        },
+        "amzn/amazon-pay-module": {
+            "Fix wrong type of amazon_order_reference_id": "vendor/creativestyle/magento-patches/optional/fix-amazon-pay-extension-attribute.patch"
         }
     }
 }
