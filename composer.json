@@ -70,7 +70,9 @@
             },
             "repertus/packstation": {
                 "Fix extension to make it work with creativeshop":
-                "vendor/creativestyle/magento-patches/essential/repertus-packstation-fixes.patch"
+                "vendor/creativestyle/magento-patches/essential/repertus-packstation-fixes.patch",
+                "Add support for situation when there is only one street field configured":
+                "vendor/creativestyle/magento-patches/essential/repertus-packstation-single-street-field.patch"
             }
         }
     }
