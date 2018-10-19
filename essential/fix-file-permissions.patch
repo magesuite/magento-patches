@@ -1,7 +1,7 @@
-diff --git a/FilePermissions.php b/FilePermissions.php.patched
+diff --git a/FilePermissions.php b/FilePermissions.php
 index 1ca91b5..4c5dfff 100644
 --- a/FilePermissions.php
-+++ b/FilePermissions.php.patched
++++ b/FilePermissions.php
 @@ -76,18 +76,7 @@ class FilePermissions
       */
      public function getInstallationWritableDirectories()
