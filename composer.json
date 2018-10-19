@@ -7,7 +7,9 @@
     "extra": {
         "patches": {
             "magento/framework": {
-                "Fix customer grid EAV indexing": "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch"
+                "Fix customer grid EAV indexing": "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch",
+                "Fix file permissions":
+                "vendor/creativestyle/magento-patches/essential/fix-file-permissions.patch"
             },
             "amasty/module-advanced-permissions": {
                 "Fix module loading order": "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
