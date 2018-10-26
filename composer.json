@@ -72,7 +72,9 @@
                 "Fix extension to make it work with creativeshop":
                 "vendor/creativestyle/magento-patches/essential/repertus-packstation-fixes.patch",
                 "Add support for situation when there is only one street field configured":
-                "vendor/creativestyle/magento-patches/essential/repertus-packstation-single-street-field.patch"
+                "vendor/creativestyle/magento-patches/essential/repertus-packstation-single-street-field.patch",
+                "Makes mailing address a preselected type in checkout and fixes one typo":
+                "vendor/creativestyle/magento-patches/essential/repertus-packstation-mailing-as-default.patch"
             }
         }
     }

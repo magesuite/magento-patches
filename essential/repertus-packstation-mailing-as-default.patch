@@ -1,0 +1,26 @@
+diff --git a/Plugin/Checkout/LayoutProcessorPlugin.php b/Plugin/Checkout/LayoutProcessorPlugin.php
+index 3833a6a..2d74e23 100644
+--- a/Plugin/Checkout/LayoutProcessorPlugin.php
++++ b/Plugin/Checkout/LayoutProcessorPlugin.php
+@@ -52,8 +52,7 @@ class LayoutProcessorPlugin
+                         'value' => '2',
+                         'label' => __('Packstation'),
+                     ]
+-                ],
+-                'caption' => __('Please select a address type')
++                ]
+             ],
+             'label' => __('Address Type'),
+             'dataScope' => 'shippingAddress.repertus_address_type',
+diff --git a/i18n/de_DE.csv b/i18n/de_DE.csv
+index 73d7600..a2517e9 100644
+--- a/i18n/de_DE.csv
++++ b/i18n/de_DE.csv
+@@ -15,4 +15,4 @@
+ "Accept as shipping address", "Als Adresse übernehmen"
+ "A valid Post Number is required when shipping to a Packstation", "Für den Versand an eine Packstation muss eine gültige Postnummer angegeben werden."
+ "Required when shipping to a Packstation or Post Office", "Bitte geben Sie eine gültige Packstations- oder Filialnummer an"
+-"Please select a address type", "Bitte wählen Sie einen Adresstyp aus"
+\ No newline at end of file
++"Please select an address type", "Bitte wählen Sie einen Adresstyp aus"
+\ No newline at end of file
