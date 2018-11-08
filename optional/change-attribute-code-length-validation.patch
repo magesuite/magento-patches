@@ -1,0 +1,13 @@
+diff --git a/Controller/Adminhtml/Product/Attribute/Save.php b/Controller/Adminhtml/Product/Attribute/Save.php
+index 98d5182..8fb0eb8 100644
+--- a/Controller/Adminhtml/Product/Attribute/Save.php
++++ b/Controller/Adminhtml/Product/Attribute/Save.php
+@@ -157,7 +157,7 @@ class Save extends Attribute
+             $attributeCode = $attributeCode ?: $this->generateCode($this->getRequest()->getParam('frontend_label')[0]);
+             if (strlen($attributeCode) > 0) {
+                 $validatorAttrCode = new \Zend_Validate_Regex(
+-                    ['pattern' => '/^[a-z\x{600}-\x{6FF}][a-z\x{600}-\x{6FF}_0-9]{0,30}$/u']
++                    ['pattern' => '/^[a-z\x{600}-\x{6FF}][a-z\x{600}-\x{6FF}_0-9]{0,60}$/u']
+                 );
+                 if (!$validatorAttrCode->isValid($attributeCode)) {
+                     $this->messageManager->addErrorMessage(
