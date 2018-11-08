@@ -1,0 +1,40 @@
+Fixes bug FAQ Article with id \"\" does not existException
+
+Original issue: https://jira.pluswerk.ag/browse/M2C-2525
+
+diff --git a/Controller/Article/Index.php b/Controller/Article/Index.php
+index 7e2855c..2e6ba7f 100644
+--- a/Controller/Article/Index.php
++++ b/Controller/Article/Index.php
+@@ -91,8 +91,8 @@ class Index extends AbstractAction
+         $articleId = $this->getRequest()->getParam('id');
+ 
+         /** @var Article $article */
+-        $article = $this->articleRepository->getById($articleId);
+-        if (!$article->getIsEnable()) {
++        $article = $this->getArticleById($articleId);
++        if (!$this->isValidArticle($article)) {
+             /** @var Forward $forward */
+             $forward = $this->resultForwardFactory->create();
+             return $forward->setModule('cms')->setController('noroute')->forward('index');
+@@ -141,4 +141,20 @@ class Index extends AbstractAction
+ 
+         return $resultPage;
+     }
++
++    private function getArticleById($articleId){
++        if(empty($articleId)){
++            return null;
++        }
++
++        return $this->articleRepository->getById($articleId);;
++    }
++
++    private function isValidArticle($article) {
++        if(! is_object($article) OR get_class($article) !== Article::class) {
++            return false;
++        }
++
++        return $article->getIsEnable();
++    }
+ }
