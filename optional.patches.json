@@ -19,7 +19,7 @@
         "amasty/module-xcoupon": {
             "Fix for adding the same coupon twice in the cart (HAAR-1333)": "vendor/creativestyle/magento-patches/optional/amasty-fix-adding-coupon-twice-in-cart.patch"
         },
-        "amasty/module-promo": {
+        "amasty/promo": {
             "Fix from temporary version released for haarshop": "vendor/creativestyle/magento-patches/optional/amasty-promo-fix-popup-js.patch"
         },
         "magento/module-payment": {
