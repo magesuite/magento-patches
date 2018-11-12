@@ -14,11 +14,17 @@
                 "Allow CSS classes with BOM":
                 "vendor/creativestyle/magento-patches/essential/allow-css-classes-with-bom.patch",
                 "Fix file permissions":
-                "vendor/creativestyle/magento-patches/essential/fix-file-permissions.patch"
+                "vendor/creativestyle/magento-patches/essential/fix-file-permissions.patch",
+                "Fix category no such entity with id":
+                "vendor/creativestyle/magento-patches/essential/magento-module-reviews-fix-category-no-such-entity-with-id-error.patch"
             },
             "amasty/module-advanced-permissions": {
                 "Fix module loading order":
                 "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
+            },
+            "amasty/module-faq": {
+                "Fixes bug FAQ Article with id \"\" does not exist Exception":
+                "vendor/creativestyle/magento-patches/essential/aheadworks-module-faq-fix-empty-article-id.patch"
             },
             "amasty/base": {
                 "Fix module sequence":

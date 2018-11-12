@@ -1,3 +1,7 @@
+Fix category no such entity with id
+
+Original issue: https://jira.pluswerk.ag/browse/M2C-2526
+
 diff --git a/Controller/Product.php b/Controller/Product.php
 index 80f8e93..4cdfef5 100644
 --- a/Controller/Product.php
