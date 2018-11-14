@@ -22,10 +22,6 @@
                 "Fix module loading order":
                 "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
             },
-            "amasty/module-faq": {
-                "Fixes bug FAQ Article with id \"\" does not exist Exception":
-                "vendor/creativestyle/magento-patches/essential/aheadworks-module-faq-fix-empty-article-id.patch"
-            },
             "amasty/base": {
                 "Fix module sequence":
                 "vendor/creativestyle/magento-patches/essential/amasty-base-sequence-fix.patch"
@@ -69,6 +65,10 @@
             "magento/module-review": {
                 "Fix ajax endpoint for review by a redirect to 404 instead of a thrown exception":
                 "vendor/creativestyle/magento-patches/essential/fix-review-ajax-for-disable-products.patch"
+            },
+            "aheadworks/module-faq": {
+                "Fixes bug FAQ Article with id \"\" does not exist Exception":
+                "vendor/creativestyle/magento-patches/essential/aheadworks-module-faq-fix-empty-article-id.patch"
             },
             "aheadworks/module-product-question": {
                 "Fix incorrect definition for class IntlDateFormatter":
