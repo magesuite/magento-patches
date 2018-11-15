@@ -1,23 +1,24 @@
 Fix category no such entity with id
-
 Original issue: https://jira.pluswerk.ag/browse/M2C-2526
 
 diff --git a/Controller/Product.php b/Controller/Product.php
-index 80f8e93..4cdfef5 100644
+index 80f8e93..60d99b8 100644
 --- a/Controller/Product.php
 +++ b/Controller/Product.php
-@@ -186,8 +186,12 @@ abstract class Product extends \Magento\Framework\App\Action\Action
+@@ -186,9 +186,13 @@ abstract class Product extends \Magento\Framework\App\Action\Action
          }
  
          if ($categoryId) {
 -            $category = $this->categoryRepository->get($categoryId);
 -            $this->coreRegistry->register('current_category', $category);
+-        }
 +            try {
 +                $category = $this->categoryRepository->get($categoryId);
 +                $this->coreRegistry->register('current_category', $category);
 +            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
 +                $this->logger->critical($e);
 +            }
-         }
++         }
  
          try {
+             $this->_eventManager->dispatch('review_controller_product_init', ['product' => $product]);
