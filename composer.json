@@ -52,6 +52,10 @@
                 "Fixes sorting related products in admin panel.":
                 "vendor/creativestyle/magento-patches/essential/related-products-sorting.patch"
             },
+            "magento/module-checkout": {
+                "Fixes undefined string being displayed when shipping method has no title.":
+                "vendor/creativestyle/magento-patches/essential/shipping-method-undefined-title.patch"
+            },
             "magento/module-catalog-url-rewrite": {
                 "Fixes store switcher":
                 "vendor/creativestyle/magento-patches/essential/fix-language-switcher.patch"
