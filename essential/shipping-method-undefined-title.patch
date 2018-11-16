@@ -22,7 +22,6 @@ index 3fda260..d62b3ba 100644
 +            }
 +
 +            return shippingMethod ? shippingMethod['carrier_title'] + shippingMethodTitle : '';
-+
          },
  
          /**
