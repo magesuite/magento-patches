@@ -14,9 +14,7 @@
                 "Allow CSS classes with BOM":
                 "vendor/creativestyle/magento-patches/essential/allow-css-classes-with-bom.patch",
                 "Fix file permissions":
-                "vendor/creativestyle/magento-patches/essential/fix-file-permissions.patch",
-                "Fix category no such entity with id":
-                "vendor/creativestyle/magento-patches/essential/magento-reviews-category-no-such-entity.patch"
+                "vendor/creativestyle/magento-patches/essential/fix-file-permissions.patch"
             },
             "amasty/module-advanced-permissions": {
                 "Fix module loading order":
@@ -64,7 +62,9 @@
             },
             "magento/module-review": {
                 "Fix ajax endpoint for review by a redirect to 404 instead of a thrown exception":
-                "vendor/creativestyle/magento-patches/essential/fix-review-ajax-for-disable-products.patch"
+                "vendor/creativestyle/magento-patches/essential/fix-review-ajax-for-disable-products.patch",
+                "Fix category no such entity with id":
+                "vendor/creativestyle/magento-patches/essential/magento-reviews-category-no-such-entity.patch"
             },
             "aheadworks/module-faq": {
                 "Fixes bug FAQ Article with id \"\" does not exist Exception":
