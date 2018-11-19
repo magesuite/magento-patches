@@ -85,6 +85,10 @@
                 "vendor/creativestyle/magento-patches/essential/repertus-packstation-single-street-field.patch",
                 "Makes mailing address a preselected type in checkout and fixes one typo":
                 "vendor/creativestyle/magento-patches/essential/repertus-packstation-mailing-as-default.patch"
+            },
+            "magento/module-quote": {
+                "Don't try removing items from quote if it's empty":
+                "vendor/creativestyle/magento-patches/essential/dont-remove-empty-quote-items.patch"
             }
         }
     }
