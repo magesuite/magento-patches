@@ -91,6 +91,9 @@
             "magento/module-quote": {
                 "Don't try removing items from quote if it's empty":
                 "vendor/creativestyle/magento-patches/essential/dont-remove-empty-quote-items.patch"
+            },
+            "magento/module-import-export": {
+                "Fix skip invalid rows functionality in import": "vendor/creativestyle/magento-patches/essential/fix-skip-import-validation-strategy.patch"
             }
         }
     }

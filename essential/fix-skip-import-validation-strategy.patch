@@ -1,0 +1,71 @@
+diff --git a/Model/Import.php b/Model/Import.php
+index 092b721..3beb0f8 100644
+--- a/Model/Import.php
++++ b/Model/Import.php
+@@ -278,7 +278,10 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
+     {
+         $messages = [];
+         if ($this->getProcessedRowsCount()) {
+-            if ($validationResult->getErrorsCount()) {
++            if (($validationResult->getErrorsCount() &&
++                    $validationResult->getValidationStrategy() === ProcessingErrorAggregatorInterface::VALIDATION_STRATEGY_STOP_ON_ERROR) ||
++                ($validationResult->getErrorsCount() > $validationResult->getAllowedErrorsCount() &&
++                    $validationResult->getValidationStrategy() === ProcessingErrorAggregatorInterface::VALIDATION_STRATEGY_SKIP_ERRORS)) {
+                 $messages[] = __('Data validation failed. Please fix the following errors and upload the file again.');
+ 
+                 // errors info
+@@ -574,7 +577,10 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
+         $messages = $this->getOperationResultMessages($errorAggregator);
+         $this->addLogComment($messages);
+ 
+-        $result = !$errorAggregator->getErrorsCount();
++        $result = ($errorAggregator->getValidationStrategy() === ProcessingErrorAggregatorInterface::VALIDATION_STRATEGY_STOP_ON_ERROR) ?
++            !$errorAggregator->getErrorsCount() :
++            $errorAggregator->getErrorsCount() <= $errorAggregator->getAllowedErrorsCount();
++
+         if ($result) {
+             $this->addLogComment(__('Import data validation is complete.'));
+         }
+diff --git a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
+index 079b2e6..d82f09c 100644
+--- a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
++++ b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
+@@ -177,6 +177,14 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
+         return $this;
+     }
+ 
++    /**
++     * @return string $validationStrategy
++     */
++    public function getValidationStrategy()
++    {
++        return $this->validationStrategy;
++    }
++
+     /**
+      * @return bool
+      */
+@@ -380,4 +388,5 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
+ 
+         return $this;
+     }
++
+ }
+diff --git a/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php b/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
+index 2055852..5c9f2d0 100644
+--- a/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
++++ b/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
+@@ -79,6 +79,13 @@ interface ProcessingErrorAggregatorInterface
+      */
+     public function initValidationStrategy($validationStrategy, $allowedErrorCount = 0);
+ 
++    /**
++     * Return the validation strategy
++     *
++     * @return string
++     */
++    public function getValidationStrategy();
++
+     /**
+      * Check if the further processing should be stopped
+      *
