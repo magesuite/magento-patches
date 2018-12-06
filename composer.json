@@ -86,7 +86,9 @@
                 "Add support for situation when there is only one street field configured":
                 "vendor/creativestyle/magento-patches/essential/repertus-packstation-single-street-field.patch",
                 "Makes mailing address a preselected type in checkout and fixes one typo":
-                "vendor/creativestyle/magento-patches/essential/repertus-packstation-mailing-as-default.patch"
+                "vendor/creativestyle/magento-patches/essential/repertus-packstation-mailing-as-default.patch",
+                "Automatically selects different billing address for packstation or post office shipping":
+                "vendor/creativestyle/magento-patches/essential/repertus-packstation-billing-address.patch"
             },
             "magento/module-quote": {
                 "Don't try removing items from quote if it's empty":
