@@ -52,7 +52,9 @@
                 "Fixes sorting related products in admin panel.":
                 "vendor/creativestyle/magento-patches/essential/related-products-sorting.patch",
                 "Fix tier price saving issue (M2C-2550)":
-                "vendor/creativestyle/magento-patches/essential/fix-tier-price-saving-issue.patch"
+                "vendor/creativestyle/magento-patches/essential/fix-tier-price-saving-issue.patch",
+                "Prevent from changing attribute type from int when saving in admin":
+                "vendor/creativestyle/magento-patches/essential/saving-int-attribute-type.patch"
             },
             "magento/module-checkout": {
                 "Fixes undefined string being displayed when shipping method has no title.":

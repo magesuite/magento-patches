@@ -1,0 +1,13 @@
+diff --git a/Controller/Adminhtml/Product/Attribute/Save.php b/Controller/Adminhtml/Product/Attribute/Save.php
+index b9f9b73..8db4444 100644
+--- a/Controller/Adminhtml/Product/Attribute/Save.php
++++ b/Controller/Adminhtml/Product/Attribute/Save.php
+@@ -226,7 +226,7 @@ class Save extends Attribute
+ 
+             $data += ['is_filterable' => 0, 'is_filterable_in_search' => 0];
+ 
+-            if ($model->getIsUserDefined() === null || $model->getIsUserDefined() != 0) {
++            if (($model->getIsUserDefined() === null || $model->getIsUserDefined() != 0) && !($model->getBackendType() === 'int' && !in_array($data['frontend_input'], ['select', 'boolean']))) {
+                 $data['backend_type'] = $model->getBackendTypeByInput($data['frontend_input']);
+             }
+ 
