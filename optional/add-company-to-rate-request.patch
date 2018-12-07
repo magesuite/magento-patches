@@ -1,0 +1,16 @@
+diff --git a/Model/Quote/Address.php b/Model/Quote/Address.php
+index 67393e3..3ff3b45 100644
+--- a/Model/Quote/Address.php
++++ b/Model/Quote/Address.php
+@@ -1005,6 +1005,11 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress implements
+ 
+         $request->setFreeMethodWeight($item ? 0 : $this->getFreeMethodWeight());
+ 
++        /**
++         * VatId for shipping methods
++         */
++        $request->setCompany($this->getCompany());
++
+         /**
+          * Store and website identifiers specified from StoreManager
+          */

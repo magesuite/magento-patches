@@ -16,6 +16,9 @@
         "magento/module-customer": {
             "Fix order of top navigation items so they can be sorted using sortOrder directive in XML update": "vendor/creativestyle/magento-patches/optional/fix-order-of-top-navigation-links.patch"
         },
+        "magento/module-quote": {
+            "Add company field to rate request in quote module": "vendor/creativestyle/magento-patches/optional/add-company-to-rate-request.patch"
+        },
         "amasty/module-xcoupon": {
             "Fix for adding the same coupon twice in the cart (HAAR-1333)": "vendor/creativestyle/magento-patches/optional/amasty-fix-adding-coupon-twice-in-cart.patch"
         },
