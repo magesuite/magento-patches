@@ -7,7 +7,7 @@ index ea80380..559c18f 100644
      <xs:simpleType name="htmlClassType">
          <xs:restriction base="xs:string">
 -            <xs:pattern value="[a-zA-Z][a-zA-Z\d\-_]*(\s[a-zA-Z][a-zA-Z\d\-_]*)*"/>
-+            <xs:pattern value="[\s]*[a-zA-Z][a-zA-Z\d\-_]*(\s(\|\s)*[a-zA-Z][a-zA-Z\d\-_]*)*"/>
++            <xs:pattern value="(([a-zA-Z][a-zA-Z\d\-_]*)|(\s+))*"/>
          </xs:restriction>
      </xs:simpleType>
  
