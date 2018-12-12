@@ -1,8 +1,18 @@
 diff --git a/Plugin/Checkout/LayoutProcessorPlugin.php b/Plugin/Checkout/LayoutProcessorPlugin.php
-index 468e514..3833a6a 100644
+index 468e514..2d74e23 100644
 --- a/Plugin/Checkout/LayoutProcessorPlugin.php
 +++ b/Plugin/Checkout/LayoutProcessorPlugin.php
-@@ -68,8 +68,8 @@ class LayoutProcessorPlugin
+@@ -52,8 +52,7 @@ class LayoutProcessorPlugin
+                         'value' => '2',
+                         'label' => __('Packstation'),
+                     ]
+-                ],
+-                'caption' => __('Please select a address type')
++                ]
+             ],
+             'label' => __('Address Type'),
+             'dataScope' => 'shippingAddress.repertus_address_type',
+@@ -68,8 +67,8 @@ class LayoutProcessorPlugin
              'componentType' => 'container',
              'formElement' => 'container',
              'component' => 'Magento_Ui/js/form/components/html',
@@ -13,6 +23,18 @@ index 468e514..3833a6a 100644
              'sortOrder' => 1
          ];
  
+diff --git a/i18n/de_DE.csv b/i18n/de_DE.csv
+index 73d7600..a2517e9 100644
+--- a/i18n/de_DE.csv
++++ b/i18n/de_DE.csv
+@@ -15,4 +15,4 @@
+ "Accept as shipping address", "Als Adresse übernehmen"
+ "A valid Post Number is required when shipping to a Packstation", "Für den Versand an eine Packstation muss eine gültige Postnummer angegeben werden."
+ "Required when shipping to a Packstation or Post Office", "Bitte geben Sie eine gültige Packstations- oder Filialnummer an"
+-"Please select a address type", "Bitte wählen Sie einen Adresstyp aus"
+\ No newline at end of file
++"Please select an address type", "Bitte wählen Sie einen Adresstyp aus"
+\ No newline at end of file
 diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
 index 28cfe75..5dafa1f 100644
 --- a/view/frontend/layout/checkout_index_index.xml
@@ -39,7 +61,7 @@ index 6b11f51..1e1d78a 100644
      <body>
          <referenceContainer name="content">
 diff --git a/view/frontend/web/js/repertus-packstation.js b/view/frontend/web/js/repertus-packstation.js
-index 0e3ef74..f0491f8 100644
+index 0e3ef74..110f63a 100644
 --- a/view/frontend/web/js/repertus-packstation.js
 +++ b/view/frontend/web/js/repertus-packstation.js
 @@ -88,7 +88,6 @@ require([
@@ -50,16 +72,26 @@ index 0e3ef74..f0491f8 100644
                  formIdentifier = 'form';
  
              formIdentifier += me.options.formId.length > 0 ? me.options.formId : '';
-@@ -108,7 +107,7 @@ require([
+@@ -100,15 +99,12 @@ require([
+                 me.initAdditionalFormFields();
+             }
  
-             numberInput.on('change', $.proxy(me.onNumberChange, me));
-             postNumberInput.on('change', $.proxy(me.onPostNumberChange, me));
+-            var numberInput = me.form.find('.field.field-repertus-number input'),
+-                postNumberInput = me.form.find('.field.field-repertus-postnumber input');
+-
+             me.initModal();
+             me.initSelector();
+ 
+-            numberInput.on('change', $.proxy(me.onNumberChange, me));
+-            postNumberInput.on('change', $.proxy(me.onPostNumberChange, me));
 -            btn.on('click', $.proxy(me.onSearchButtonClick, me));
++            me.form.on('change', '.field.field-repertus-number input', $.proxy(me.onNumberChange, me));
++            me.form.on('change', '.field.field-repertus-postnumber input', $.proxy(me.onPostNumberChange, me));
 +            me.control.on('click', me.options.searchButtonCls, $.proxy(me.onSearchButtonClick, me));
  
              me.addValidationRules();
          },
-@@ -150,15 +149,15 @@ require([
+@@ -150,15 +146,15 @@ require([
                  fieldSet = me.control.closest('fieldset.repertus_address_type_fieldset'),
                  currentPostNumber = fieldSet ? fieldSet.data('repertus-post-number') : '',
                  currentStationNumber = fieldSet ? fieldSet.data('repertus-station-number') : '',
@@ -81,7 +113,16 @@ index 0e3ef74..f0491f8 100644
                      '<input type="text" id="repertus_number" name="repertus_number" value="' + currentStationNumber + '" title="' + $.mage.__('Packstation No.') + '" ' +
                      'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
                      '</div></div>');
-@@ -893,7 +892,7 @@ require([
+@@ -237,7 +233,7 @@ require([
+                     } else {
+                         streetInput.first().val(addressTypeText + ' ' + numberValue);
+                         streetInput.first().trigger('change');
+-                        streetInput.last().val('');
++                        streetInput.not(":first").val('');
+                     }
+                 }
+             }
+@@ -893,7 +889,7 @@ require([
          var addressTypeField = $('.field.repertus_address_type');
  
          addressTypeField.repertusPackstation({
@@ -90,3 +131,45 @@ index 0e3ef74..f0491f8 100644
              addAdditionalFields: addressTypeField.hasClass('repertus_address_type--add-fields'),
              requiredCls: 'required'
          });
+diff --git a/view/frontend/web/js/view/payment/default-mixin.js b/view/frontend/web/js/view/payment/default-mixin.js
+index 55cfbe4..e2e8c62 100644
+--- a/view/frontend/web/js/view/payment/default-mixin.js
++++ b/view/frontend/web/js/view/payment/default-mixin.js
+@@ -3,8 +3,19 @@ define(
+         'ko',
+         'Magento_Checkout/js/model/quote',
+         'Magento_Ui/js/model/messageList',
+-        'mage/translate'
+-    ], function (ko, quote, messageList, $t) {
++        'Magento_Checkout/js/model/payment-service',
++        'Magento_Checkout/js/action/select-payment-method',
++        'Magento_Checkout/js/action/create-billing-address',
++        'mage/translate',
++    ], function (
++        ko,
++        quote,
++        messageList,
++        paymentService,
++        selectPaymentMethod,
++        createBillingAddress,
++        $t
++    ) {
+         'use strict';
+ 
+         function isAddressPackstationOrPostOffice(address) {
+@@ -42,6 +53,15 @@ define(
+                         messageList.addErrorMessage({
+                             message: $t('A Packstation or Post Office can not be selected as billing address.')
+                         });
++
++                        if (!quote.paymentMethod()) {
++                            var paymentMethods = paymentService.getAvailablePaymentMethods();
++                            if (paymentMethods.length) {
++                                var separateBillingAddress = createBillingAddress({});
++                                quote.billingAddress(separateBillingAddress);
++                                selectPaymentMethod(paymentMethods[0]);
++                            }
++                        }
+                     }
+                 }, me);
+ 
