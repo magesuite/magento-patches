@@ -7,7 +7,8 @@
           "Fix attribute code length from default 30 to 60 - fixed in magento 2.3": "vendor/creativestyle/magento-patches/optional/fix-maximum-length-of-attribute-code.patch"
         },
         "magento/module-checkout": {
-          "Generate session ID only if connection is unsecure - fixed in magento 2.2.5": "vendor/creativestyle/magento-patches/optional/fix-checkout-session-regenerate.patch"
+          "Generate session ID only if connection is unsecure - fixed in magento 2.2.5": "vendor/creativestyle/magento-patches/optional/fix-checkout-session-regenerate.patch",
+          "Fix for underscore in carrier code (LED-1814)": "vendor/creativestyle/magento-patches/optional/fix-carrier-underscore-issue.patch"
         },
         "magento/framework": {
           "Fix rounding issue in locale de_CH": "vendor/creativestyle/magento-patches/optional/fix-de_CH-rounding-issue.patch",
