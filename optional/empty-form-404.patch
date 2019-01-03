@@ -1,0 +1,19 @@
+diff --git a/Controller/Form/View.php b/Controller/Form/View.php
+index 8310121..ce6213f 100755
+--- a/Controller/Form/View.php
++++ b/Controller/Form/View.php
+@@ -105,8 +105,12 @@ class View extends \Magento\Framework\App\Action\Action
+ 
+     private function initForm()
+     {
+-        $this->form = $this->formRepository
+-            ->getById($this->getFormId());
++        try {
++            $this->form = $this->formRepository
++                ->getById($this->getFormId());
++        } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
++            throw new NotFoundException(__('Form with id "%1" does not exist.', $this->getFormId()));
++        }
+         return $this;
+     }
+ 
