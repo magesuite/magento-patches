@@ -92,6 +92,9 @@
             },
             "magento/module-import-export": {
                 "Fix skip invalid rows functionality in import": "vendor/creativestyle/magento-patches/essential/fix-skip-import-validation-strategy.patch"
+            },
+            "plugincompany/contactforms": {
+                "Show 404 page instead of throwing error when form is not found": "vendor/creativestyle/magento-patches/optional/empty-form-404.patch"
             }
         }
     }
