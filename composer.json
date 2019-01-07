@@ -52,7 +52,7 @@
                 {
                     "description": "Fix module sequence",
                     "filename": "essential/m22-amasty-base-sequence-fix.patch",
-                    "version-constraint": "*"
+                    "version-constraint": ">=1.4.0,<1.4.6"
                 }
             ],
             "magento/magento2-base": [
