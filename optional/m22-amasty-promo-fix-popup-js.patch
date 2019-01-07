@@ -1,5 +1,3 @@
-diff --git a/view/frontend/web/js/popup.js b/view/frontend/web/js/popup.js
-index 73e3954..c04f546 100644
 --- a/view/frontend/web/js/popup.js
 +++ b/view/frontend/web/js/popup.js
 @@ -267,7 +267,7 @@ define([

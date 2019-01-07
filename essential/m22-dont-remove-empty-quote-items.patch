@@ -1,5 +1,3 @@
-diff --git a/Model/ResourceModel/Quote/Item/Collection.php b/Model/ResourceModel/Quote/Item/Collection.php
-index 0487d7e..8139edb 100644
 --- a/Model/ResourceModel/Quote/Item/Collection.php
 +++ b/Model/ResourceModel/Quote/Item/Collection.php
 @@ -309,6 +309,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\VersionContro

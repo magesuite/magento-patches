@@ -1,5 +1,3 @@
-diff --git a/Locale/Format.php b/Locale/Format.php
-index 7bb4cb4..042ca4a 100644
 --- a/Locale/Format.php
 +++ b/Locale/Format.php
 @@ -100,6 +100,7 @@ class Format implements \Magento\Framework\Locale\FormatInterface

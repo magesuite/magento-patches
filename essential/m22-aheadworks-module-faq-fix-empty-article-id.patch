@@ -2,8 +2,6 @@ Fixes bug FAQ Article with id \"\" does not exist Exception
 
 Original issue: https://jira.pluswerk.ag/browse/M2C-2525
 
-diff --git a/Controller/Article/Index.php b/Controller/Article/Index.php
-index 7e2855c..2e6ba7f 100644
 --- a/Controller/Article/Index.php
 +++ b/Controller/Article/Index.php
 @@ -91,8 +91,8 @@ class Index extends AbstractAction

@@ -1,5 +1,3 @@
-diff --git a/Controller/Form/View.php b/Controller/Form/View.php
-index 8310121..ce6213f 100755
 --- a/Controller/Form/View.php
 +++ b/Controller/Form/View.php
 @@ -105,8 +105,12 @@ class View extends \Magento\Framework\App\Action\Action

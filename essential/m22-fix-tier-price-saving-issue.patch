@@ -1,5 +1,3 @@
-diff --git a/Model/Product/Attribute/Backend/TierPrice/UpdateHandler.php b/Model/Product/Attribute/Backend/TierPrice/UpdateHandler.php
-index b23dc6f..cd7650f 100644
 --- a/Model/Product/Attribute/Backend/TierPrice/UpdateHandler.php
 +++ b/Model/Product/Attribute/Backend/TierPrice/UpdateHandler.php
 @@ -82,14 +82,18 @@ class UpdateHandler implements ExtensionInterface

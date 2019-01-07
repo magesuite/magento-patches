@@ -1,5 +1,3 @@
-diff --git a/Model/ResourceModel/Indexer/Stock/DefaultStock.php b/Model/ResourceModel/Indexer/Stock/DefaultStock.php
-index 366cb1c..317d055 100644
 --- a/Model/ResourceModel/Indexer/Stock/DefaultStock.php
 +++ b/Model/ResourceModel/Indexer/Stock/DefaultStock.php
 @@ -288,6 +288,7 @@ class DefaultStock extends AbstractIndexer implements StockInterface

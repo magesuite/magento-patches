@@ -1,5 +1,3 @@
-diff --git a/Setup/FilePermissions.php b/Setup/FilePermissions.php
-index 1ca91b5..4c5dfff 100644
 --- a/Setup/FilePermissions.php
 +++ b/Setup/FilePermissions.php
 @@ -76,18 +76,7 @@ class FilePermissions

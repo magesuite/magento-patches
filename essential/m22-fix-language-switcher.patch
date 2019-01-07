@@ -1,5 +1,3 @@
-diff --git a/Plugin/Store/Block/Switcher.php b/Plugin/Store/Block/Switcher.php
-index 498521a..f0d6f31 100644
 --- a/Plugin/Store/Block/Switcher.php
 +++ b/Plugin/Store/Block/Switcher.php
 @@ -65,22 +65,7 @@ class Switcher

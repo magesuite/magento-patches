@@ -1,8 +1,6 @@
 Fix category no such entity with id
 Original issue: https://jira.pluswerk.ag/browse/M2C-2526
 
-diff --git a/Controller/Product.php b/Controller/Product.php
-index 80f8e93..60d99b8 100644
 --- a/Controller/Product.php
 +++ b/Controller/Product.php
 @@ -186,9 +186,13 @@ abstract class Product extends \Magento\Framework\App\Action\Action

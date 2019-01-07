@@ -4,8 +4,6 @@ Date:   Tue May 8 15:18:03 2018 +0200
 
     Patch for limited roles in admin panel
 
-diff --git a/Controller/Adminhtml/Index/Render.php b/Controller/Adminhtml/Index/Render.php
-index 7a1bbf9..a317d77 100644
 --- a/Controller/Adminhtml/Index/Render.php
 +++ b/Controller/Adminhtml/Index/Render.php
 @@ -54,7 +54,9 @@ class Render extends AbstractAction
@@ -19,8 +17,6 @@ index 7a1bbf9..a317d77 100644
                  return false;
              }
          }
-diff --git a/Test/Unit/Controller/Adminhtml/Index/RenderTest.php b/Test/Unit/Controller/Adminhtml/Index/RenderTest.php
-index 5ab08a8..26026c1 100644
 --- a/Test/Unit/Controller/Adminhtml/Index/RenderTest.php
 +++ b/Test/Unit/Controller/Adminhtml/Index/RenderTest.php
 @@ -192,6 +192,13 @@ class RenderTest extends \PHPUnit\Framework\TestCase

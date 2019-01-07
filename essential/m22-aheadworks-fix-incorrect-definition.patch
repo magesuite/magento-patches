@@ -1,5 +1,3 @@
-diff --git a/Block/Question/QList.php b/Block/Question/QList.php
-index d245d0a..24899ca 100644
 --- a/Block/Question/QList.php
 +++ b/Block/Question/QList.php
 @@ -498,7 +498,7 @@ class QList extends \Magento\Framework\View\Element\Template implements \Magento

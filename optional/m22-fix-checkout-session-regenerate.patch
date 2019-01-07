@@ -1,5 +1,3 @@
-diff --git a/Controller/Index/Index.php b/Controller/Index/Index.php
-index 0a5b7f1..5562c6c 100644
 --- a/Controller/Index/Index.php
 +++ b/Controller/Index/Index.php
 @@ -32,11 +32,32 @@ class Index extends \Magento\Checkout\Controller\Onepage

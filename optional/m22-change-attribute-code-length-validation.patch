@@ -1,5 +1,3 @@
-diff --git a/Controller/Adminhtml/Product/Attribute/Save.php b/Controller/Adminhtml/Product/Attribute/Save.php
-index 98d5182..8fb0eb8 100644
 --- a/Controller/Adminhtml/Product/Attribute/Save.php
 +++ b/Controller/Adminhtml/Product/Attribute/Save.php
 @@ -157,7 +157,7 @@ class Save extends Attribute

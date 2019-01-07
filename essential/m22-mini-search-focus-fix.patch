@@ -9,8 +9,6 @@ The focus of the input field is maintained, proper classes are added and autocom
  app/code/Magento/Search/view/frontend/web/form-mini.js | 4 +++-
  1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/view/frontend/web/form-mini.js b/view/frontend/web/form-mini.js
-index 7b2c700..3aa4186 100644
 --- a/view/frontend/web/form-mini.js
 +++ b/view/frontend/web/form-mini.js
 @@ -98,7 +98,9 @@ define([

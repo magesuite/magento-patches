@@ -1,5 +1,3 @@
-diff --git a/etc/extension_attributes.xml b/etc/extension_attributes.xml
-index 312ac27..5085d93 100755
 --- a/etc/extension_attributes.xml
 +++ b/etc/extension_attributes.xml
 @@ -1,7 +1,7 @@

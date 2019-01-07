@@ -9,8 +9,6 @@ Subject: [PATCH 1/2] MAGETWO-85708: Zoom the image can't be closed by iPhone
  lib/web/fotorama/fotorama.min.js | 3 +--
  2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/lib/web/fotorama/fotorama.js b/lib/web/fotorama/fotorama.js
-index 0947164e5b0f..d643e141e54e 100644
 --- a/lib/web/fotorama/fotorama.js
 +++ b/lib/web/fotorama/fotorama.js
 @@ -1218,6 +1218,14 @@ fotoramaVersion = '4.6.4';
@@ -28,8 +26,6 @@ index 0947164e5b0f..d643e141e54e 100644
          $el.on(eventType, function (e) {
              stopEvent(e, true);
  
-diff --git a/lib/web/fotorama/fotorama.min.js b/lib/web/fotorama/fotorama.min.js
-index 0139babea4bf..808ae6a60db9 100644
 --- a/lib/web/fotorama/fotorama.min.js
 +++ b/lib/web/fotorama/fotorama.min.js
 @@ -1,5 +1,4 @@
@@ -52,8 +48,6 @@ Subject: [PATCH 2/2] MAGETWO-85708: Zoom the image can't be closed by iPhone
  lib/web/fotorama/fotorama.js | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/web/fotorama/fotorama.js b/lib/web/fotorama/fotorama.js
-index d643e141e54e..e388ec0a2303 100644
 --- a/lib/web/fotorama/fotorama.js
 +++ b/lib/web/fotorama/fotorama.js
 @@ -1218,7 +1218,7 @@ fotoramaVersion = '4.6.4';

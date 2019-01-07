@@ -1,5 +1,3 @@
-diff --git a/Model/Import/Product.php b/Model/Import/Product.php
-index 2199936..540a412 100644
 --- a/Model/Import/Product.php
 +++ b/Model/Import/Product.php
 @@ -1560,7 +1560,10 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity

@@ -1,5 +1,3 @@
-diff --git a/Plugin/Checkout/LayoutProcessorPlugin.php b/Plugin/Checkout/LayoutProcessorPlugin.php
-index 468e514..2d74e23 100644
 --- a/Plugin/Checkout/LayoutProcessorPlugin.php
 +++ b/Plugin/Checkout/LayoutProcessorPlugin.php
 @@ -52,8 +52,7 @@ class LayoutProcessorPlugin
@@ -23,8 +21,6 @@ index 468e514..2d74e23 100644
              'sortOrder' => 1
          ];
  
-diff --git a/i18n/de_DE.csv b/i18n/de_DE.csv
-index 73d7600..a2517e9 100644
 --- a/i18n/de_DE.csv
 +++ b/i18n/de_DE.csv
 @@ -15,4 +15,4 @@
@@ -35,8 +31,6 @@ index 73d7600..a2517e9 100644
 \ No newline at end of file
 +"Please select an address type", "Bitte wählen Sie einen Adresstyp aus"
 \ No newline at end of file
-diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
-index 28cfe75..5dafa1f 100644
 --- a/view/frontend/layout/checkout_index_index.xml
 +++ b/view/frontend/layout/checkout_index_index.xml
 @@ -9,6 +9,6 @@
@@ -47,8 +41,6 @@ index 28cfe75..5dafa1f 100644
 +        <script src="https://www.bing.com/mapspreview/sdk/mapcontrol?v=7.0" src_type="url" />
      </head>
  </page>
-diff --git a/view/frontend/layout/customer_address_form.xml b/view/frontend/layout/customer_address_form.xml
-index 6b11f51..1e1d78a 100644
 --- a/view/frontend/layout/customer_address_form.xml
 +++ b/view/frontend/layout/customer_address_form.xml
 @@ -9,7 +9,7 @@
@@ -60,8 +52,6 @@ index 6b11f51..1e1d78a 100644
      </head>
      <body>
          <referenceContainer name="content">
-diff --git a/view/frontend/web/js/repertus-packstation.js b/view/frontend/web/js/repertus-packstation.js
-index 0e3ef74..110f63a 100644
 --- a/view/frontend/web/js/repertus-packstation.js
 +++ b/view/frontend/web/js/repertus-packstation.js
 @@ -88,7 +88,6 @@ require([
@@ -131,8 +121,6 @@ index 0e3ef74..110f63a 100644
              addAdditionalFields: addressTypeField.hasClass('repertus_address_type--add-fields'),
              requiredCls: 'required'
          });
-diff --git a/view/frontend/web/js/view/payment/default-mixin.js b/view/frontend/web/js/view/payment/default-mixin.js
-index 55cfbe4..e2e8c62 100644
 --- a/view/frontend/web/js/view/payment/default-mixin.js
 +++ b/view/frontend/web/js/view/payment/default-mixin.js
 @@ -3,8 +3,19 @@ define(

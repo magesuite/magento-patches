@@ -4,8 +4,6 @@ Date:   Mon Sep 10 14:13:52 2018 +0200
 
     Fix for ordering top navigation links with sortOrder directive
 
-diff --git a/Navigation.php b/Navigation.php
-index cb38d76..7c56e33 100644
 --- a/Navigation.php
 +++ b/Navigation.php
 @@ -46,6 +46,9 @@ class Navigation extends Links

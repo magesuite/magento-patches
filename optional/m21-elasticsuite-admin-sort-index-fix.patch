@@ -1,5 +1,3 @@
-diff --git a/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php b/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php
-index 2db3f1b..b74ef8d 100644
 --- a/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php
 +++ b/src/module-elasticsuite-catalog/Model/Layer/Filter/Attribute.php
 @@ -273,11 +273,27 @@ class Attribute extends \Magento\CatalogSearch\Model\Layer\Filter\Attribute impl

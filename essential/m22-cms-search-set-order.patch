@@ -1,5 +1,3 @@
-diff --git a/Model/ResourceModel/Page/Fulltext/Collection.php b/Model/ResourceModel/Page/Fulltext/Collection.php
-index 3e24309..53a6a86 100644
 --- a/Model/ResourceModel/Page/Fulltext/Collection.php
 +++ b/Model/ResourceModel/Page/Fulltext/Collection.php
 @@ -122,7 +122,7 @@ class Collection extends \Magento\Cms\Model\ResourceModel\Page\Collection

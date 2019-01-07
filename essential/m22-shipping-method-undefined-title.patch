@@ -1,8 +1,4 @@
-diff --git a/shipping-method-undefined-title.patch b/shipping-method-undefined-title.patch
 new file mode 100644
-index 0000000..e69de29
-diff --git a/view/frontend/web/js/view/summary/shipping.js b/view/frontend/web/js/view/summary/shipping.js
-index 3fda260..d62b3ba 100644
 --- a/view/frontend/web/js/view/summary/shipping.js
 +++ b/view/frontend/web/js/view/summary/shipping.js
 @@ -22,13 +22,19 @@ define([
