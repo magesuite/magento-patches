@@ -28,7 +28,7 @@
                 {
                     "description": "Fix image upload error when target directory is symlinked",
                     "filename": "essential/m22-image-upload-to-symlinked-dir-fix.patch",
-                    "version-constraint": "101.0.*"
+                    "version-constraint": "~101.0.3"
                 },
                 {
                     "description": "Allow CSS classes with BOM",
