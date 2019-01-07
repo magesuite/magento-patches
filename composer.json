@@ -185,7 +185,7 @@
             "plugincompany/contactforms": [
                 {
                     "description": "Show 404 page instead of throwing error when form is not found",
-                    "filename": "optional/empty-form-404.patch",
+                    "filename": "optional/m22-empty-form-404.patch",
                     "version-constraint": "*"
                 }
             ]
