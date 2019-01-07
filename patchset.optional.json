@@ -1,0 +1,91 @@
+{
+    "patchset": {
+        "smile/elasticsuite": [
+            {
+                "description": "Fix adminSortIndex bug",
+                "filename": "optional/m21-elasticsuite-admin-sort-index-fix.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "magento/module-ui": [
+            {
+                "description": "Fix limited roles problem in admin panel",
+                "filename": "optional/m22-fix-for-limited-roles-in-admin-panel.patch",
+                "version-constraint": "101.0.*"
+            }
+        ],
+        "magento/module-eav": [
+            {
+                "description": "Fix attribute code length from default 30 to 60 - fixed in magento 2.3",
+                "filename": "optional/m22-fix-maximum-length-of-attribute-code.patch",
+                "version-constraint": "101.0.*"
+            }
+        ],
+        "magento/module-checkout": [
+            {
+                "description": "Generate session ID only if connection is unsecure - fixed in magento 2.2.5",
+                "filename": "optional/m22-fix-checkout-session-regenerate.patch",
+                "version-constraint": "100.2.*"
+            },
+            {
+                "description": "Fix for underscore in carrier code (LED-1814)",
+                "filename": "optional/m22-fix-carrier-underscore-issue.patch",
+                "version-constraint": "100.2.*"
+            }
+        ],
+        "magento/framework": [
+            {
+                "description": "Fix rounding issue in locale de_CH",
+                "filename": "optional/m22-fix-de_CH-rounding-issue.patch",
+                "version-constraint": "101.0.*"
+            },
+            {
+                "description": "Fix missing page layout (HAAR-1308)",
+                "filename": "optional/m22-fix-missing-page-layout.patch",
+                "version-constraint": "101.0.*"
+            }
+        ],
+        "magento/module-customer": [
+            {
+                "description": "Fix order of top navigation items so they can be sorted using sortOrder directive in XML update",
+                "filename": "optional/m22-fix-order-of-top-navigation-links.patch",
+                "version-constraint": "101.0.*"
+            }
+        ],
+        "magento/module-quote": [
+            {
+                "description": "Add company field to rate request in quote module",
+                "filename": "optional/m22-add-company-to-rate-request.patch",
+                "version-constraint": "101.0.*"
+            }
+        ],
+        "amasty/module-xcoupon": [
+            {
+                "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",
+                "filename": "optional/m22-amasty-fix-adding-coupon-twice-in-cart.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "amasty/promo": [
+            {
+                "description": "Fix from temporary version released for haarshop",
+                "filename": "optional/m22-amasty-promo-fix-popup-js.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "magento/module-payment": [
+            {
+                "description": "Fix groups issue in getPaymentMethodList method - fixed in magento 2.2.6",
+                "filename": "optional/m22-fix-getPaymentMethodList-method.patch",
+                "version-constraint": "100.2.*"
+            }
+        ],
+        "amzn/amazon-pay-module": [
+            {
+                "description": "Fix wrong type of amazon_order_reference_id",
+                "filename": "optional/m22-fix-amazon-pay-extension-attribute.patch",
+                "version-constraint": "*"
+            }
+        ]
+    }
+}

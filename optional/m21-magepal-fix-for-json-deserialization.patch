@@ -1,0 +1,14 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index e870b24..5d7e8d1 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -58,7 +58,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+      */
+     public function getScripts()
+     {
+-        $json = $this->scopeConfig->getValue('magepal_checkout/misc_script/scripts', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
++        $json = json_encode(unserialize($this->scopeConfig->getValue('magepal_checkout/misc_script/scripts', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)));
+         return $this->jsonHelper->jsonDecode($json);
+     }
+ 
+

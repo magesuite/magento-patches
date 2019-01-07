@@ -1,101 +1,194 @@
 {
-    "name": "creativestyle/magento-patches",
-    "description": "patches for magento core",
+    "name": "creativestyle/magesuite-magento-patches",
+    "description": "MageSuite Patchset For Magento Core",
+    "homepage": "https://creativestyle.de",
+    "license": "OSL-3.0",
+    "type": "patchset",
     "require": {
-        "cweagans/composer-patches": "~1.0"
+        "creativestyle/composer-plugin-patchset": "^1.0"
     },
     "extra": {
-        "patches": {
-            "magento/framework": {
-                "Fix customer grid EAV indexing":
-                "vendor/creativestyle/magento-patches/essential/customer-grid-indexing-fix.patch",
-                "Fix image upload error when target directory is symlinked":
-                "vendor/creativestyle/magento-patches/essential/image-upload-to-symlinked-dir-fix.patch",
-                "Allow CSS classes with BOM":
-                "vendor/creativestyle/magento-patches/essential/allow-css-classes-with-bom.patch",
-                "Fix file permissions":
-                "vendor/creativestyle/magento-patches/essential/fix-file-permissions.patch"
-            },
-            "amasty/module-advanced-permissions": {
-                "Fix module loading order":
-                "vendor/creativestyle/magento-patches/essential/amasty-advanced-permission-load-order.patch"
-            },
-            "amasty/base": {
-                "Fix module sequence":
-                "vendor/creativestyle/magento-patches/essential/amasty-base-sequence-fix.patch"
-            },
-            "magento/magento2-base": {
-                "Make it possible to close fullscreen product gallery on iOS":
-                "vendor/creativestyle/magento-patches/essential/ios-fullscreen-gallery-close-fix.patch"
-            },
-            "magento/module-search": {
-                "Fix focus being lost after in search input after JS init":
-                "vendor/creativestyle/magento-patches/essential/mini-search-focus-fix.patch"
-            },
-            "magento/module-config": {
-                "Fix module loading order":
-                "vendor/creativestyle/magento-patches/essential/magento-config-load-order.patch"
-            },
-            "smile/elasticsuite": {
-                "Fix isInline method that cause filters in layered navigation to not expand":
-                "vendor/creativestyle/magento-patches/essential/fix-is-inline-elasticsuite-2-5.patch"
-            },
-            "smile/module-elasticsuite-cms-search": {
-                "Fix setOrder method that contains not imported class name":
-                "vendor/creativestyle/magento-patches/essential/cms-search-set-order.patch"
-            },
-            "magento/module-catalog-inventory": {
-                "Fix stock indexer to correctly reindex stock using materialized views":
-                "vendor/creativestyle/magento-patches/essential/fix-stock-mview-indexing.patch"
-            },
-            "magento/module-catalog": {
-                "Fixes sorting related products in admin panel.":
-                "vendor/creativestyle/magento-patches/essential/related-products-sorting.patch",
-                "Fix tier price saving issue (M2C-2550)":
-                "vendor/creativestyle/magento-patches/essential/fix-tier-price-saving-issue.patch",
-                "Prevent from changing attribute type from int when saving in admin":
-                "vendor/creativestyle/magento-patches/essential/saving-int-attribute-type.patch"
-            },
-            "magento/module-checkout": {
-                "Fixes undefined string being displayed when shipping method has no title.":
-                "vendor/creativestyle/magento-patches/essential/shipping-method-undefined-title.patch"
-            },
-            "magento/module-catalog-url-rewrite": {
-                "Fixes store switcher":
-                "vendor/creativestyle/magento-patches/essential/fix-language-switcher.patch"
-            },
-            "magento/module-catalog-import-export": {
-                "Fixes missing url_key after product import":
-                "vendor/creativestyle/magento-patches/essential/fix-missing-url-key-after-import.patch"
-            },
-            "magento/module-review": {
-                "Fix ajax endpoint for review by a redirect to 404 instead of a thrown exception":
-                "vendor/creativestyle/magento-patches/essential/fix-review-ajax-for-disable-products.patch",
-                "Fix category no such entity with id":
-                "vendor/creativestyle/magento-patches/essential/magento-reviews-category-no-such-entity.patch"
-            },
-            "aheadworks/module-faq": {
-                "Fixes bug FAQ Article with id \"\" does not exist Exception":
-                "vendor/creativestyle/magento-patches/essential/aheadworks-module-faq-fix-empty-article-id.patch"
-            },
-            "aheadworks/module-product-question": {
-                "Fix incorrect definition for class IntlDateFormatter":
-                "vendor/creativestyle/magento-patches/essential/aheadworks-fix-incorrect-definition.patch"
-            },
-            "repertus/packstation": {
-                "Fix extension to make it work with creativeshop":
-                "vendor/creativestyle/magento-patches/essential/repertus-packstation-fixes.patch"
-            },
-            "magento/module-quote": {
-                "Don't try removing items from quote if it's empty":
-                "vendor/creativestyle/magento-patches/essential/dont-remove-empty-quote-items.patch"
-            },
-            "magento/module-import-export": {
-                "Fix skip invalid rows functionality in import": "vendor/creativestyle/magento-patches/essential/fix-skip-import-validation-strategy.patch"
-            },
-            "plugincompany/contactforms": {
-                "Show 404 page instead of throwing error when form is not found": "vendor/creativestyle/magento-patches/optional/empty-form-404.patch"
-            }
+        "patchset": {
+            "magento/framework": [
+                {
+                    "description": "Fix customer grid EAV indexing",
+                    "filename": "essential/m21-customer-grid-indexing-fix.patch",
+                    "version-constraint": "100.1.*"
+                },
+                {
+                    "description": "Fix file permissions",
+                    "filename": "essential/m21-fix-file-permissions.patch",
+                    "version-constraint": "100.1.*"
+                },
+                {
+                    "description": "Fix customer grid EAV indexing",
+                    "filename": "essential/m22-customer-grid-indexing-fix.patch",
+                    "version-constraint": "101.0.*"
+                },
+                {
+                    "description": "Fix image upload error when target directory is symlinked",
+                    "filename": "essential/m22-image-upload-to-symlinked-dir-fix.patch",
+                    "version-constraint": "101.0.*"
+                },
+                {
+                    "description": "Allow CSS classes with BOM",
+                    "filename": "essential/m22-allow-css-classes-with-bom.patch",
+                    "version-constraint": "101.0.*"
+                },
+                {
+                    "description": "Fix file permissions",
+                    "filename": "essential/m22-fix-file-permissions.patch",
+                    "version-constraint": "101.0.*"
+                }
+            ],
+            "amasty/module-advanced-permissions": [
+                {
+                    "description": "Fix module loading order",
+                    "filename": "essential/m22-amasty-advanced-permission-load-order.patch",
+                    "version-constraint": "*"
+                }
+            ],
+            "amasty/base": [
+                {
+                    "description": "Fix module sequence",
+                    "filename": "essential/m22-amasty-base-sequence-fix.patch",
+                    "version-constraint": "*"
+                }
+            ],
+            "magento/magento2-base": [
+                {
+                    "description": "Make it possible to close fullscreen product gallery on iOS",
+                    "filename": "essential/m22-ios-fullscreen-gallery-close-fix.patch",
+                    "version-constraint": "~2.2.0"
+                }
+            ],
+            "magento/module-search": [
+                {
+                    "description": "Fix focus being lost after in search input after JS init",
+                    "filename": "essential/m22-mini-search-focus-fix.patch",
+                    "version-constraint": "100.2.*"
+                }
+            ],
+            "magento/module-config": [
+                {
+                    "description": "Fix module loading order",
+                    "filename": "essential/m22-magento-config-load-order.patch",
+                    "version-constraint": "101.0.*"
+                }
+            ],
+            "smile/elasticsuite": [
+                {
+                    "description": "Fix isInline method that cause filters in layered navigation to not expand",
+                    "filename": "essential/m22-fix-is-inline-elasticsuite-2-5.patch",
+                    "version-constraint": "*"
+                }
+            ],
+            "smile/module-elasticsuite-cms-search": [
+                {
+                    "description": "Fix setOrder method that contains not imported class name",
+                    "filename": "essential/m22-cms-search-set-order.patch",
+                    "version-constraint": "*"
+                }
+            ],
+            "magento/module-catalog-inventory": [
+                {
+                    "description": "Fix stock indexer to correctly reindex stock using materialized views",
+                    "filename": "essential/m22-fix-stock-mview-indexing.patch",
+                    "version-constraint": "100.2.*"
+                }
+            ],
+            "magento/module-catalog": [
+                {
+                    "description": "Fixes sorting related products in admin panel.",
+                    "filename": "essential/m22-related-products-sorting.patch",
+                    "version-constraint": "102.0.*"
+                },
+                {
+                    "description": "Fix tier price saving issue (M2C-2550)",
+                    "filename": "essential/m22-fix-tier-price-saving-issue.patch",
+                    "version-constraint": "102.0.*"
+                },
+                {
+                    "description": "Prevent from changing attribute type from int when saving in admin",
+                    "filename": "essential/m22-saving-int-attribute-type.patch",
+                    "version-constraint": "102.0.*"
+                }
+            ],
+            "magento/module-checkout": [
+                {
+                    "description": "Fixes undefined string being displayed when shipping method has no title.",
+                    "filename": "essential/m22-shipping-method-undefined-title.patch",
+                    "version-constraint": "102.0.*"
+                }
+            ],
+            "magento/module-catalog-url-rewrite": [
+                {
+                    "description": "Fixes store switcher",
+                    "filename": "essential/m22-fix-language-switcher.patch",
+                    "version-constraint": "100.2.*"
+                }
+            ],
+            "magento/module-catalog-import-export": [
+                {
+                    "description": "Fixes missing url_key after product import",
+                    "filename": "essential/m22-fix-missing-url-key-after-import.patch",
+                    "version-constraint": "100.2.*"
+                }
+            ],
+            "magento/module-review": [
+                {
+                    "description": "Fix ajax endpoint for review by a redirect to 404 instead of a thrown exception",
+                    "filename": "essential/m22-fix-review-ajax-for-disable-products.patch",
+                    "version-constraint": "100.2.*"
+                },
+                {
+                    "description": "Fix category no such entity with id",
+                    "filename": "essential/m22-magento-reviews-category-no-such-entity.patch",
+                    "version-constraint": "100.2.*"
+                }
+            ],
+            "aheadworks/module-faq": [
+                {
+                    "description": "Fixes bug FAQ Article with id \"\" does not exist Exception",
+                    "filename": "essential/m22-aheadworks-module-faq-fix-empty-article-id.patch",
+                    "version-constraint": "*"
+                }
+            ],
+            "aheadworks/module-product-question": [
+                {
+                    "description": "Fix incorrect definition for class IntlDateFormatter",
+                    "filename": "essential/m22-aheadworks-fix-incorrect-definition.patch",
+                    "version-constraint": "*"
+                }
+            ],
+            "repertus/packstation": [
+                {
+                    "description": "Fix extension to make it work with creativeshop",
+                    "filename": "essential/m22-repertus-packstation-fixes.patch",
+                    "version-constraint": "*"
+                }
+            ],
+            "magento/module-quote": [
+                {
+                    "description": "Don't try removing items from quote if it's empty",
+                    "filename": "essential/m22-dont-remove-empty-quote-items.patch",
+                    "version-constraint": "101.0.*"
+                }
+            ],
+            "magento/module-import-export": [
+                {
+                    "description": "Fix skip invalid rows functionality in import",
+                    "filename": "essential/m22-fix-skip-import-validation-strategy.patch",
+                    "version-constraint": "100.2.*"
+                }
+            ],
+            "plugincompany/contactforms": [
+                {
+                    "description": "Show 404 page instead of throwing error when form is not found",
+                    "filename": "optional/empty-form-404.patch",
+                    "version-constraint": "*"
+                }
+            ]
         }
     }
 }
