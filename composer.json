@@ -129,9 +129,9 @@
             ],
             "magento/module-catalog-url-rewrite": [
                 {
-                    "description": "Fixes store switcher",
+                    "description": "Fixes store switcher (only magento 2.2.5)",
                     "filename": "essential/m22-fix-language-switcher.patch",
-                    "version-constraint": "100.2.*"
+                    "version-constraint": "100.2.4"
                 }
             ],
             "magento/module-catalog-import-export": [
