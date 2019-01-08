@@ -98,9 +98,9 @@
             ],
             "magento/module-catalog-inventory": [
                 {
-                    "description": "Fix stock indexer to correctly reindex stock using materialized views",
+                    "description": "Fix stock indexer to correctly reindex stock using materialized views (Magento 2.2.0-2.2.4)",
                     "filename": "essential/m22-fix-stock-mview-indexing.patch",
-                    "version-constraint": "100.2.*"
+                    "version-constraint": "~100.2.0,<=100.2.3"
                 }
             ],
             "magento/module-catalog": [
