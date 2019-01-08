@@ -38,7 +38,7 @@
                 {
                     "description": "Fix file permissions",
                     "filename": "essential/m22-fix-file-permissions.patch",
-                    "version-constraint": "101.0.*"
+                    "version-constraint": "~101.0.0,<101.0.6"
                 }
             ],
             "amasty/module-advanced-permissions": [
