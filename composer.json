@@ -70,9 +70,9 @@
             ],
             "magento/module-search": [
                 {
-                    "description": "Fix focus being lost after in search input after JS init",
+                    "description": "Fix focus being lost after in search input after JS init (Magento 2.2.0-2.2.4)",
                     "filename": "essential/m22-mini-search-focus-fix.patch",
-                    "version-constraint": "100.2.*"
+                    "version-constraint": "~100.2.0,<=100.2.3"
                 }
             ],
             "magento/module-config": [
