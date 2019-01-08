@@ -77,9 +77,9 @@
             ],
             "magento/module-config": [
                 {
-                    "description": "Fix module loading order",
+                    "description": "Fix module loading order (Magento 2.2.0-2.2.4)",
                     "filename": "essential/m22-magento-config-load-order.patch",
-                    "version-constraint": "101.0.*"
+                    "version-constraint": "~101.0.0,<=101.0.4"
                 }
             ],
             "smile/elasticsuite": [
