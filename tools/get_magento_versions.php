@@ -82,7 +82,7 @@ $packageName = isset($argv[2]) ? $argv[2] : null;
 
 $magentoVersions = $repo->getPackageVersions(
     'magento/product-community-edition',
-    $requestedMagentoVersion ? '/^' . str_replace('.', '.', $requestedMagentoVersion) .'/' : null
+    $requestedMagentoVersion ? '/^' . str_replace('.', '\.', $requestedMagentoVersion) .'/' : null
 );
 
 
