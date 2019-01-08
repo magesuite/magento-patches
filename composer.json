@@ -65,7 +65,7 @@
                 {
                     "description": "Make it possible to close fullscreen product gallery on iOS",
                     "filename": "essential/m22-ios-fullscreen-gallery-close-fix.patch",
-                    "version-constraint": "~2.2.0"
+                    "version-constraint": "~2.2.0,<=2.2.3"
                 }
             ],
             "magento/module-search": [
