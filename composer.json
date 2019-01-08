@@ -176,9 +176,9 @@
             ],
             "magento/module-quote": [
                 {
-                    "description": "Don't try removing items from quote if it's empty",
+                    "description": "Don't try removing items from quote if it's empty (magento 2.2.2-2.2.4)",
                     "filename": "essential/m22-dont-remove-empty-quote-items.patch",
-                    "version-constraint": "101.0.*"
+                    "version-constraint": "~101.0.2,<=101.0.4"
                 }
             ],
             "magento/module-import-export": [
