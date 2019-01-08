@@ -1,3 +1,5 @@
+diff --git a/Model/Import.php b/Model/Import.php
+index 092b721..3beb0f8 100644
 --- a/Model/Import.php
 +++ b/Model/Import.php
 @@ -278,7 +278,10 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
@@ -24,9 +26,11 @@
          if ($result) {
              $this->addLogComment(__('Import data validation is complete.'));
          }
+diff --git a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
+index 079b2e6..7105ddc 100644
 --- a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
 +++ b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
-@@ -177,6 +177,14 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
+@@ -177,12 +177,20 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
          return $this;
      }
  
@@ -41,12 +45,21 @@
      /**
       * @return bool
       */
+     public function hasToBeTerminated()
+     {
+-        return $this->hasFatalExceptions() || $this->isErrorLimitExceeded();
++        return $this->isErrorLimitExceeded();
+     }
+ 
+     /**
 @@ -380,4 +388,5 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
  
          return $this;
      }
 +
  }
+diff --git a/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php b/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
+index 2055852..5c9f2d0 100644
 --- a/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
 +++ b/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
 @@ -79,6 +79,13 @@ interface ProcessingErrorAggregatorInterface
