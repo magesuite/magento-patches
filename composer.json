@@ -36,10 +36,16 @@
                     "version-constraint": "101.0.*"
                 },
                 {
-                    "description": "Fix file permissions",
-                    "filename": "essential/m22-fix-file-permissions.patch",
+                    "description": "Fix file permissions (Magento 2.2.0-2.2.5)",
+                    "filename": "essential/m226minus-fix-file-permissions.patch",
                     "version-constraint": "~101.0.0,<101.0.6"
+                },
+                {
+                    "description": "Fix file permissions (Magento 2.2.6+)",
+                    "filename": "essential/m226plus-fix-file-permissions.patch",
+                    "version-constraint": ">=101.0.6"
                 }
+
             ],
             "amasty/module-advanced-permissions": [
                 {

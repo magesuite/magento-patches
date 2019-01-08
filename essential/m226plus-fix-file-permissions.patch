@@ -1,0 +1,27 @@
+diff --git a/Setup/FilePermissions.php b/Setup/FilePermissions.php
+index af0db64..a9d0fde 100644
+--- a/Setup/FilePermissions.php
++++ b/Setup/FilePermissions.php
+@@ -89,21 +89,7 @@ class FilePermissions
+      */
+     public function getInstallationWritableDirectories()
+     {
+-        if (!$this->installationWritableDirectories) {
+-            $data = [
+-                DirectoryList::CONFIG,
+-                DirectoryList::VAR_DIR,
+-                DirectoryList::MEDIA,
+-                DirectoryList::STATIC_VIEW,
+-            ];
+-            if ($this->state->getMode() !== State::MODE_PRODUCTION) {
+-                $data[] = DirectoryList::GENERATED;
+-            }
+-            foreach ($data as $code) {
+-                $this->installationWritableDirectories[$code] = $this->directoryList->getPath($code);
+-            }
+-        }
+-        return array_values($this->installationWritableDirectories);
++        return [];
+     }
+ 
+     /**

@@ -71,10 +71,7 @@ class Repo {
     }
 }
 
-
-
 $repo = new Repo();
-
 
 $requestedMagentoVersion = isset($argv[1]) ? $argv[1] : null;
 $packageName = isset($argv[2]) ? $argv[2] : null;
