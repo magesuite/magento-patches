@@ -1,9 +1,9 @@
 --- a/Locale/Format.php
 +++ b/Locale/Format.php
-@@ -100,6 +100,7 @@ class Format implements \Magento\Framework\Locale\FormatInterface
-         }
- 
-         $formatter = new \NumberFormatter($localeCode, \NumberFormatter::CURRENCY);
+@@ -103,6 +103,7 @@ class Format implements \Magento\Framework\Locale\FormatInterface
+             $localeCode . '@currency=' . $currency->getCode(),
+             \NumberFormatter::CURRENCY
+         );
 +        $formatter->setAttribute(\NumberFormatter::ROUNDING_INCREMENT, 0);
          $format = $formatter->getPattern();
          $decimalSymbol = $formatter->getSymbol(\NumberFormatter::DECIMAL_SEPARATOR_SYMBOL);
