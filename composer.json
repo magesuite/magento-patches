@@ -115,9 +115,14 @@
                     "version-constraint": "^102.0.6"
                 },
                 {
-                    "description": "Prevent from changing attribute type from int when saving in admin",
-                    "filename": "essential/m22-saving-int-attribute-type.patch",
-                    "version-constraint": "102.0.*"
+                    "description": "Prevent from changing attribute type from int when saving in admin (Magento 2.2.4+)",
+                    "filename": "essential/m224plus-saving-int-attribute-type.patch",
+                    "version-constraint": ">=102.0.4"
+                },
+                {
+                    "description": "Prevent from changing attribute type from int when saving in admin (2.2.0-2.2.4)",
+                    "filename": "essential/m224minus-saving-int-attribute-type.patch",
+                    "version-constraint": "~102.0.0,<=102.0.3"
                 }
             ],
             "magento/module-checkout": [
