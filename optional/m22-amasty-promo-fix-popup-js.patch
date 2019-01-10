@@ -3,7 +3,7 @@
 @@ -267,7 +267,7 @@ define([
                      var event = new $.Event('reloaded');
                      widget.element.trigger(event, [itemsCount]);
-
+ 
 -                    if (widget.options.autoOpenPopup && widget.isOpen && container.children().length) {
 +                    if (widget.options.autoOpenPopup && container.children().length) {
                          $('a[data-role="ampromo-popup-show"]').click();
