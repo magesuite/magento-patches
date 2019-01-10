@@ -112,7 +112,7 @@
                 {
                     "description": "Fix tier price saving issue (M2C-2550)",
                     "filename": "essential/m22-fix-tier-price-saving-issue.patch",
-                    "version-constraint": "102.0.*"
+                    "version-constraint": ">=100.2.6"
                 },
                 {
                     "description": "Prevent from changing attribute type from int when saving in admin",
