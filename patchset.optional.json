@@ -70,7 +70,7 @@
             {
                 "description": "Fix from temporary version released for haarshop",
                 "filename": "optional/m22-amasty-promo-fix-popup-js.patch",
-                "version-constraint": "*"
+                "version-constraint": "^2.2.9"
             }
         ],
         "magento/module-payment": [
