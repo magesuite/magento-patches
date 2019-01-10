@@ -145,7 +145,7 @@
                 {
                     "description": "Fix ajax endpoint for review by a redirect to 404 instead of a thrown exception",
                     "filename": "essential/m22-fix-review-ajax-for-disable-products.patch",
-                    "version-constraint": "100.2.*"
+                    "version-constraint": "~100.2.0,<=100.2.6"
                 },
                 {
                     "description": "Fix category no such entity with id",
