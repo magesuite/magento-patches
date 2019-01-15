@@ -1,6 +1,6 @@
---- Model/SalesRule/Calculator.php
-+++ Model/SalesRule/Calculator.php
-@@ -45,6 +45,7 @@ class Calculator extends Validator
+--- a/Model/SalesRule/Calculator.php
++++ b/Model/SalesRule/Calculator.php
+@@ -49,6 +49,7 @@ class Calculator extends Validator
  
                  case Rule::FREE_SHIPPING_ADDRESS:
                      $address->setFreeShipping(true);
