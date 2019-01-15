@@ -1,0 +1,20 @@
+diff --git a/Model/ResourceModel/Question/Collection.php b/Model/ResourceModel/Question/Collection.php
+index 282569d..de19cb7 100644
+--- a/Model/ResourceModel/Question/Collection.php
++++ b/Model/ResourceModel/Question/Collection.php
+@@ -366,4 +366,15 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
+     {
+         return $this->setOrder('created_at', $sort);
+     }
++
++    public function removeItemByKey($key)
++    {
++        if (isset($this->_items[$key])) {
++            unset($this->_items[$key]);
++        }
++
++        $this->_totalRecords = count($this->_items);
++
++        return $this;
++    }
+ }
