@@ -170,6 +170,11 @@
                     "description": "Fix incorrect definition for class IntlDateFormatter",
                     "filename": "essential/m22-aheadworks-fix-incorrect-definition.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix incorrect collection size for shared questions (LED-1817)",
+                    "filename": "essential/m22-aheadworks-fix-pquestion-incorrect-collection-size.patch",
+                    "version-constraint": "1.1.0"
                 }
             ],
             "repertus/packstation": [
