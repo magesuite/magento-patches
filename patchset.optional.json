@@ -43,6 +43,11 @@
                 "description": "Fix missing page layout (HAAR-1308)",
                 "filename": "optional/m22-fix-missing-page-layout.patch",
                 "version-constraint": "101.0.*"
+            },
+            {
+                "description": "Patch for DataObjectHelper AddressExtension type error",
+                "filename": "patches/DataObjectHelper.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-customer": [
@@ -84,6 +89,13 @@
             {
                 "description": "Fix wrong type of amazon_order_reference_id",
                 "filename": "optional/m22-fix-amazon-pay-extension-attribute.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "magento/module-offline-shipping": [
+            {
+                "description": "Address based free shipping",
+                "filename": "patches/AddressBasedFreeShipping.patch",
                 "version-constraint": "*"
             }
         ]

@@ -1,0 +1,13 @@
+diff --git a/Api/DataObjectHelper.php b/Api/DataObjectHelper.php
+index 1426b8c..f284d43 100644
+--- a/Api/DataObjectHelper.php
++++ b/Api/DataObjectHelper.php
+@@ -119,7 +119,7 @@ class DataObjectHelper
+             } elseif ($methodNames = array_intersect($possibleMethods, $dataObjectMethods)) {
+                 $methodName = array_values($methodNames)[0];
+                 if (!is_array($value)) {
+-                    if ($methodName === 'setExtensionAttributes' && $value === null) {
++                    if ($methodName === 'setExtensionAttributes' && ($value === null || $value instanceof \Magento\Quote\Api\Data\AddressExtension)) {
+                         // Cannot pass a null value to a method with a typed parameter
+                     } else {
+                         $dataObject->$methodName($value);
