@@ -123,6 +123,11 @@
                     "description": "Prevent from changing attribute type from int when saving in admin (2.2.0-2.2.4)",
                     "filename": "essential/m224minus-saving-int-attribute-type.patch",
                     "version-constraint": "~102.0.0,<=102.0.3"
+                },
+                {
+                    "description": "Prevent localStorage from getting bigger and bigger (2.2.0-2.2.7)",
+                    "filename": "essential/m227minus-fix-huge-localstorage.patch",
+                    "version-constraint": "~102.0.0,<=102.0.6"
                 }
             ],
             "magento/module-checkout": [

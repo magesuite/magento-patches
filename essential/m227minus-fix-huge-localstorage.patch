@@ -1,0 +1,101 @@
+From 57a85b8cbe42a51381083daf4a3a1f2d97ccdd83 Mon Sep 17 00:00:00 2001
+From: Oleksandr Miroshnichenko <omiroshnichenko@magento.com>
+Date: Fri, 2 Nov 2018 13:34:59 +0200
+Subject: [PATCH] #17813 - Huge "product_data_storage" in localStorage hangs
+ the shop
+
+---
+ .../web/js/product/storage/data-storage.js    | 17 ++++++++++-
+ .../web/js/product/storage/ids-storage.js     | 21 +++++++++----
+ .../web/js/product/storage/storage-service.js |  2 +-
+ .../js/product/storage/data-storage.test.js   | 30 ++++++++++++-------
+ .../js/product/storage/ids-storage.test.js    | 22 +++++++-------
+ 5 files changed, 64 insertions(+), 28 deletions(-)
+
+diff --git a/view/frontend/web/js/product/storage/data-storage.js b/view/frontend/web/js/product/storage/data-storage.js
+index 00cb7d2db688..873f0b4e7a6f 100644
+--- a/view/frontend/web/js/product/storage/data-storage.js
++++ b/view/frontend/web/js/product/storage/data-storage.js
+@@ -34,6 +34,21 @@ define([
+         };
+     }
+ 
++    /**
++     * Set data to localStorage with support check.
++     *
++     * @param {String} namespace
++     * @param {Object} data
++     */
++    function setLocalStorageItem(namespace, data) {
++        try {
++            window.localStorage.setItem(namespace, JSON.stringify(data));
++        } catch (e) {
++            console.warn('localStorage is unavailable - skipping local caching of product data');
++            console.error(e);
++        }
++    }
++
+     return {
+ 
+         /**
+@@ -118,7 +133,7 @@ define([
+             if (_.isEmpty(data)) {
+                 this.localStorage.removeAll();
+             } else {
+-                this.localStorage.set(data);
++                setLocalStorageItem(this.namespace, data);
+             }
+         },
+ 
+diff --git a/view/frontend/web/js/product/storage/ids-storage.js b/view/frontend/web/js/product/storage/ids-storage.js
+index 7eafbad8299d..ec07c19a2c1b 100644
+--- a/view/frontend/web/js/product/storage/ids-storage.js
++++ b/view/frontend/web/js/product/storage/ids-storage.js
+@@ -11,6 +11,21 @@ define([
+ ], function ($, _, ko, utils) {
+     'use strict';
+ 
++    /**
++     * Set data to localStorage with support check.
++     *
++     * @param {String} namespace
++     * @param {Object} data
++     */
++    function setLocalStorageItem(namespace, data) {
++        try {
++            window.localStorage.setItem(namespace, JSON.stringify(data));
++        } catch (e) {
++            console.warn('localStorage is unavailable - skipping local caching of product data');
++            console.error(e);
++        }
++    }
++
+     return {
+ 
+         /**
+@@ -94,11 +109,7 @@ define([
+          * Initializes handler to "data" property update
+          */
+         internalDataHandler: function (data) {
+-            var localStorage = this.localStorage.get();
+-
+-            if (!utils.compare(data, localStorage).equal) {
+-                this.localStorage.set(data);
+-            }
++            setLocalStorageItem(this.namespace, data);
+         },
+ 
+         /**
+diff --git a/view/frontend/web/js/product/storage/storage-service.js b/view/frontend/web/js/product/storage/storage-service.js
+index e571baa23e49..b35ab867bb0e 100644
+--- a/view/frontend/web/js/product/storage/storage-service.js
++++ b/view/frontend/web/js/product/storage/storage-service.js
+@@ -50,7 +50,7 @@ define([
+                  * @param {*} data
+                  */
+                 add: function (data) {
+-                    if (!utils.compare(data, this.data()).equal) {
++                    if (!_.isEmpty(data)) {
+                         this.data(_.extend(utils.copy(this.data()), data));
+                     }
+                 },
