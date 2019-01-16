@@ -45,7 +45,6 @@
                     "filename": "essential/m226plus-fix-file-permissions.patch",
                     "version-constraint": ">=101.0.6"
                 }
-
             ],
             "amasty/module-advanced-permissions": [
                 {
@@ -125,9 +124,14 @@
                     "version-constraint": "~102.0.0,<=102.0.3"
                 },
                 {
-                    "description": "Prevent localStorage from getting bigger and bigger (2.2.0-2.2.7)",
-                    "filename": "essential/m227minus-fix-huge-localstorage.patch",
-                    "version-constraint": "~102.0.0,<=102.0.6"
+                    "description": "Prevent localStorage from getting bigger and bigger (2.2.0-2.2.5)",
+                    "filename": "essential/m225minus-fix-huge-localstorage.patch",
+                    "version-constraint": ">=102.0.0,<=102.0.5"
+                },
+                {
+                    "description": "Prevent localStorage from getting bigger and bigger (2.2.6-2.2.7)",
+                    "filename": "essential/m226plus-fix-huge-localstorage.patch",
+                    "version-constraint": ">=102.0.6,<=102.0.7"
                 }
             ],
             "magento/module-checkout": [
