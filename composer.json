@@ -211,7 +211,7 @@
                 {
                     "description": "Show 404 page instead of throwing error when form is not found",
                     "filename": "essential/m22-plugincompany-contactforms-fix-empty-form.patch",
-                    "version-constraint": "100.2.*"
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-cron": [
