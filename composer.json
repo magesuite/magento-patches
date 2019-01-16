@@ -213,6 +213,13 @@
                     "filename": "essential/m22-plugincompany-contactforms-fix-empty-form.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "magento/module-cron": [
+                {
+                    "description": "Fix cron schedule jobs duplication when standalone processes are enabled",
+                    "filename": "essential/m22-cron-duplicates-fix.patch",
+                    "version-constraint": "100.2.*"
+                }
             ]
         }
     }

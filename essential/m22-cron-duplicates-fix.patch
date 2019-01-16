@@ -1,0 +1,23 @@
+diff --git a/Observer/ProcessCronQueueObserver.php b/Observer/ProcessCronQueueObserver.php
+index 4766f45c0445..de88d1bee64b 100644
+--- a/Observer/ProcessCronQueueObserver.php
++++ b/Observer/ProcessCronQueueObserver.php
+@@ -199,8 +199,6 @@ public function execute(\Magento\Framework\Event\Observer $observer)
+         $phpPath = $this->phpExecutableFinder->find() ?: 'php';
+
+         foreach ($jobGroupsRoot as $groupId => $jobsRoot) {
+-            $this->_cleanup($groupId);
+-            $this->_generate($groupId);
+             if ($this->_request->getParam('group') !== null
+                 && $this->_request->getParam('group') !== '\'' . ($groupId) . '\''
+                 && $this->_request->getParam('group') !== $groupId
+@@ -234,6 +232,9 @@ public function execute(\Magento\Framework\Event\Observer $observer)
+                 continue;
+             }
+
++            $this->_cleanup($groupId);
++            $this->_generate($groupId);
++
+             /** @var \Magento\Cron\Model\Schedule $schedule */
+             foreach ($pendingJobs as $schedule) {
+                 $jobConfig = isset($jobsRoot[$schedule->getJobCode()]) ? $jobsRoot[$schedule->getJobCode()] : null;
