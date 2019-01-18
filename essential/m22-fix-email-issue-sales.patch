@@ -1,0 +1,53 @@
+Fix for missing FROM in order confirmation email.
+
+Issue confirmed on 2.2.7, patch will be applied only on this version at this moment.
+Patch created based on pull request.
+
+Github Magento issue: https://github.com/magento/magento2/issues/14952
+PR: https://github.com/magento/magento2/pull/18472
+
+diff --git a/Model/Order/Email/SenderBuilder.php b/Model/Order/Email/SenderBuilder.php
+index 7ec089b..e4dc75a 100644
+--- a/Model/Order/Email/SenderBuilder.php
++++ b/Model/Order/Email/SenderBuilder.php
+@@ -5,7 +5,6 @@
+  */
+ namespace Magento\Sales\Model\Order\Email;
+ 
+-use Magento\Framework\App\ObjectManager;
+ use Magento\Framework\Mail\Template\TransportBuilder;
+ use Magento\Framework\Mail\Template\TransportBuilderByStore;
+ use Magento\Sales\Model\Order\Email\Container\IdentityInterface;
+@@ -29,11 +28,8 @@ class SenderBuilder
+     protected $transportBuilder;
+ 
+     /**
+-     * @var TransportBuilderByStore
+-     */
+-    private $transportBuilderByStore;
+-
+-    /**
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     *
+      * @param Template $templateContainer
+      * @param IdentityInterface $identityContainer
+      * @param TransportBuilder $transportBuilder
+@@ -48,9 +44,6 @@ class SenderBuilder
+         $this->templateContainer = $templateContainer;
+         $this->identityContainer = $identityContainer;
+         $this->transportBuilder = $transportBuilder;
+-        $this->transportBuilderByStore = $transportBuilderByStore ?: ObjectManager::getInstance()->get(
+-            TransportBuilderByStore::class
+-        );
+     }
+ 
+     /**
+@@ -110,7 +103,7 @@ class SenderBuilder
+         $this->transportBuilder->setTemplateIdentifier($this->templateContainer->getTemplateId());
+         $this->transportBuilder->setTemplateOptions($this->templateContainer->getTemplateOptions());
+         $this->transportBuilder->setTemplateVars($this->templateContainer->getTemplateVars());
+-        $this->transportBuilderByStore->setFromByStore(
++        $this->transportBuilder->setFromByStore(
+             $this->identityContainer->getEmailIdentity(),
+             $this->identityContainer->getStore()->getId()
+         );
