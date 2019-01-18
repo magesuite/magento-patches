@@ -51,7 +51,7 @@
                     "version-constraint": "101.0.7"
                 }
             ],
-            "magento/sales": [
+            "magento/module-sales": [
                 {
                     "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
                     "filename": "essential/m22-fix-email-issue-sales.patch",
