@@ -1,0 +1,61 @@
+Fix for missing FROM in order confirmation email.
+
+Issue confirmed on 2.2.7, patch will be applied only on this version at this moment.
+Patch created based on pull request.
+
+Github Magento issue: https://github.com/magento/magento2/issues/14952
+PR: https://github.com/magento/magento2/pull/18472
+
+diff --git a/Mail/Template/TransportBuilder.php b/Mail/Template/TransportBuilder.php
+index a1c7333..35e1651 100644
+--- a/Mail/Template/TransportBuilder.php
++++ b/Mail/Template/TransportBuilder.php
+@@ -173,12 +173,29 @@ class TransportBuilder
+     /**
+      * Set mail from address
+      *
++     * @deprecated This function sets the from address for the first store only.
++     * new function setFromByStore introduced to allow setting of from address
++     * based on store.
++     * @see setFromByStore()
++     *
+      * @param string|array $from
+      * @return $this
+      */
+     public function setFrom($from)
+     {
+-        $result = $this->_senderResolver->resolve($from);
++        return $this->setFromByStore($from, null);
++    }
++
++    /**
++     * Set mail from address by store
++     *
++     * @param string|array $from
++     * @param string|int $store
++     * @return $this
++     */
++    public function setFromByStore($from, $store = null)
++    {
++        $result = $this->_senderResolver->resolve($from, $store);
+         $this->message->setFrom($result['email'], $result['name']);
+         return $this;
+     }
+diff --git a/Mail/Template/TransportBuilderByStore.php b/Mail/Template/TransportBuilderByStore.php
+index 95f17fe..c898f92 100644
+--- a/Mail/Template/TransportBuilderByStore.php
++++ b/Mail/Template/TransportBuilderByStore.php
+@@ -8,6 +8,13 @@ namespace Magento\Framework\Mail\Template;
+ 
+ use Magento\Framework\Mail\MessageInterface;
+ 
++/**
++ * Class TransportBuilderByStore
++ *
++ * @deprecated The ability to set From address based on store is now available
++ * in the \Magento\Framework\Mail\Template\TransportBuilder class
++ * @see \Magento\Framework\Mail\Template\TransportBuilder::setFromByStore
++ */
+ class TransportBuilderByStore
+ {
+     /**
