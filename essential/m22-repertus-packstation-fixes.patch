@@ -121,43 +121,52 @@
              addAdditionalFields: addressTypeField.hasClass('repertus_address_type--add-fields'),
              requiredCls: 'required'
          });
---- a/view/frontend/web/js/view/payment/default-mixin.js
-+++ b/view/frontend/web/js/view/payment/default-mixin.js
-@@ -3,8 +3,19 @@ define(
+diff --git a/packstation/view/frontend/web/js/view/payment/default-mixin.js b/packstation/view/frontend/web/js/view/payment/default-mixin.js
+index baa2c18..a4d945a 100644
+--- a/packstation/view/frontend/web/js/view/payment/default-mixin.js
++++ b/packstation/view/frontend/web/js/view/payment/default-mixin.js
+@@ -3,9 +3,17 @@ define(
          'ko',
          'Magento_Checkout/js/model/quote',
          'Magento_Ui/js/model/messageList',
--        'mage/translate'
--    ], function (ko, quote, messageList, $t) {
+-        'Magento_Checkout/js/view/billing-address'
 +        'Magento_Checkout/js/model/payment-service',
 +        'Magento_Checkout/js/action/select-payment-method',
-+        'Magento_Checkout/js/action/create-billing-address',
-+        'mage/translate',
+         'mage/translate'
+-    ], function (ko, quote, messageList, $t) {
 +    ], function (
 +        ko,
 +        quote,
 +        messageList,
 +        paymentService,
 +        selectPaymentMethod,
-+        createBillingAddress,
 +        $t
 +    ) {
          'use strict';
- 
+
          function isAddressPackstationOrPostOffice(address) {
-@@ -42,6 +53,15 @@ define(
-                         messageList.addErrorMessage({
-                             message: $t('A Packstation or Post Office can not be selected as billing address.')
-                         });
-+
-+                        if (!quote.paymentMethod()) {
-+                            var paymentMethods = paymentService.getAvailablePaymentMethods();
-+                            if (paymentMethods.length) {
-+                                var separateBillingAddress = createBillingAddress({});
-+                                quote.billingAddress(separateBillingAddress);
-+                                selectPaymentMethod(paymentMethods[0]);
-+                            }
+@@ -37,14 +45,17 @@ define(
+
+                 me._super();
+
+-                quote.billingAddress.subscribe(function (address) {
+-                    if (isAddressPackstationOrPostOffice(address)) {
+-                        me.isPlaceOrderActionAllowed(false);
+-                        messageList.addErrorMessage({
+-                            message: $t('A Packstation or Post Office can not be selected as billing address.')
+-                        });
++                if (isAddressPackstationOrPostOffice(quote.shippingAddress())) {
++                    messageList.addErrorMessage({
++                        message: $t('A Packstation or Post Office can not be selected as billing address.')
++                    });
++                    if (!quote.paymentMethod()) {
++                        var paymentMethods = paymentService.getAvailablePaymentMethods();
++                        if (paymentMethods.length) {
++                            selectPaymentMethod(paymentMethods[0]);
 +                        }
                      }
-                 }, me);
- 
+-                }, me);
++                }
+
+                 return me;
+             }
