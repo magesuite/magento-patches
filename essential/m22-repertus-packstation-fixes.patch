@@ -123,8 +123,8 @@
          });
 diff --git a/packstation/view/frontend/web/js/view/payment/default-mixin.js b/packstation/view/frontend/web/js/view/payment/default-mixin.js
 index baa2c18..a4d945a 100644
---- a/packstation/view/frontend/web/js/view/payment/default-mixin.js
-+++ b/packstation/view/frontend/web/js/view/payment/default-mixin.js
+--- a/view/frontend/web/js/view/payment/default-mixin.js
++++ b/view/frontend/web/js/view/payment/default-mixin.js
 @@ -3,9 +3,17 @@ define(
          'ko',
          'Magento_Checkout/js/model/quote',
