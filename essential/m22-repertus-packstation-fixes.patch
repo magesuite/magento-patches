@@ -1,3 +1,5 @@
+diff --git a/Plugin/Checkout/LayoutProcessorPlugin.php b/Plugin/Checkout/LayoutProcessorPlugin.php
+index 468e514..2d74e23 100644
 --- a/Plugin/Checkout/LayoutProcessorPlugin.php
 +++ b/Plugin/Checkout/LayoutProcessorPlugin.php
 @@ -52,8 +52,7 @@ class LayoutProcessorPlugin
@@ -21,6 +23,8 @@
              'sortOrder' => 1
          ];
  
+diff --git a/i18n/de_DE.csv b/i18n/de_DE.csv
+index 73d7600..a2517e9 100644
 --- a/i18n/de_DE.csv
 +++ b/i18n/de_DE.csv
 @@ -15,4 +15,4 @@
@@ -31,6 +35,8 @@
 \ No newline at end of file
 +"Please select an address type", "Bitte wählen Sie einen Adresstyp aus"
 \ No newline at end of file
+diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
+index 28cfe75..5dafa1f 100644
 --- a/view/frontend/layout/checkout_index_index.xml
 +++ b/view/frontend/layout/checkout_index_index.xml
 @@ -9,6 +9,6 @@
@@ -41,6 +47,8 @@
 +        <script src="https://www.bing.com/mapspreview/sdk/mapcontrol?v=7.0" src_type="url" />
      </head>
  </page>
+diff --git a/view/frontend/layout/customer_address_form.xml b/view/frontend/layout/customer_address_form.xml
+index 6b11f51..1e1d78a 100644
 --- a/view/frontend/layout/customer_address_form.xml
 +++ b/view/frontend/layout/customer_address_form.xml
 @@ -9,7 +9,7 @@
@@ -52,6 +60,8 @@
      </head>
      <body>
          <referenceContainer name="content">
+diff --git a/view/frontend/web/js/repertus-packstation.js b/view/frontend/web/js/repertus-packstation.js
+index 0e3ef74..110f63a 100644
 --- a/view/frontend/web/js/repertus-packstation.js
 +++ b/view/frontend/web/js/repertus-packstation.js
 @@ -88,7 +88,6 @@ require([
@@ -121,15 +131,14 @@
              addAdditionalFields: addressTypeField.hasClass('repertus_address_type--add-fields'),
              requiredCls: 'required'
          });
-diff --git a/packstation/view/frontend/web/js/view/payment/default-mixin.js b/packstation/view/frontend/web/js/view/payment/default-mixin.js
-index baa2c18..a4d945a 100644
+diff --git a/view/frontend/web/js/view/payment/default-mixin.js b/view/frontend/web/js/view/payment/default-mixin.js
+index 55cfbe4..0fe3726 100644
 --- a/view/frontend/web/js/view/payment/default-mixin.js
 +++ b/view/frontend/web/js/view/payment/default-mixin.js
-@@ -3,9 +3,17 @@ define(
+@@ -3,8 +3,17 @@ define(
          'ko',
          'Magento_Checkout/js/model/quote',
          'Magento_Ui/js/model/messageList',
--        'Magento_Checkout/js/view/billing-address'
 +        'Magento_Checkout/js/model/payment-service',
 +        'Magento_Checkout/js/action/select-payment-method',
          'mage/translate'
@@ -143,12 +152,12 @@ index baa2c18..a4d945a 100644
 +        $t
 +    ) {
          'use strict';
-
+ 
          function isAddressPackstationOrPostOffice(address) {
-@@ -37,14 +45,17 @@ define(
-
+@@ -36,14 +45,17 @@ define(
+ 
                  me._super();
-
+ 
 -                quote.billingAddress.subscribe(function (address) {
 -                    if (isAddressPackstationOrPostOffice(address)) {
 -                        me.isPlaceOrderActionAllowed(false);
@@ -167,6 +176,14 @@ index baa2c18..a4d945a 100644
                      }
 -                }, me);
 +                }
-
+ 
                  return me;
              }
+@@ -53,4 +65,5 @@ define(
+             return target.extend(mixin);
+         };
+     }
+-);
+\ No newline at end of file
++);
++
