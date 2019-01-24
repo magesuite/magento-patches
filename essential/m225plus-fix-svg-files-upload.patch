@@ -1,0 +1,14 @@
+--- a/File/Uploader.php
++++ b/File/Uploader.php
+@@ -420,6 +420,10 @@ class Uploader
+      */
+     public function checkMimeType($validTypes = [])
+     {
++        $validTypes = array_merge($validTypes, [
++            'text/html'
++        ]);
++
+         if (count($validTypes) > 0) {
+             if (!in_array($this->_getMimeType(), $validTypes)) {
+                 return false;
+
