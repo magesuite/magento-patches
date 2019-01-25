@@ -49,6 +49,11 @@
                     "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
                     "filename": "essential/m22-fix-email-issue-framework.patch",
                     "version-constraint": "101.0.7"
+                },
+                {
+                    "description": "Fix to upload svg files in category and CMS edit pages (Magento >= 2.2.5 and < 2.3.0)",
+                    "filename": "essential/m225plus-fix-svg-files-upload.patch",
+                    "version-constraint": ">=101.0.5,<=101.0.7"
                 }
             ],
             "magento/module-sales": [
