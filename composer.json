@@ -237,6 +237,13 @@
                     "filename": "essential/m22-cron-duplicates-fix.patch",
                     "version-constraint": ">=100.2.0,<=100.2.2"
                 }
+            ],
+            "magento/module-customer": [
+                {
+                    "description": "Fix issue Deleting address on frontend redirects to 404 Page (2.3.0)",
+                    "filename": "essential/m230-fix-deleting-address-returns-404-page",
+                    "version-constraint": "102.0.0"
+                }
             ]
         }
     }

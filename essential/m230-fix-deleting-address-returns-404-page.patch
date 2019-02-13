@@ -1,0 +1,16 @@
+diff --git a/Controller/Address/Delete.php b/Controller/Address/Delete.php
+index a4a0944..9444c11 100644
+--- a/Controller/Address/Delete.php
++++ b/Controller/Address/Delete.php
+@@ -6,9 +6,10 @@
+  */
+ namespace Magento\Customer\Controller\Address;
+ 
++use Magento\Framework\App\Action\HttpGetActionInterface;
+ use Magento\Framework\App\Action\HttpPostActionInterface;
+ 
+-class Delete extends \Magento\Customer\Controller\Address implements HttpPostActionInterface
++class Delete extends \Magento\Customer\Controller\Address implements HttpPostActionInterface, HttpGetActionInterface
+ {
+     /**
+      * @return \Magento\Framework\Controller\Result\Redirect
