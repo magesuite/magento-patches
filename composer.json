@@ -244,6 +244,13 @@
                     "filename": "essential/m230-fix-deleting-address-returns-404-page.patch",
                     "version-constraint": "102.0.0"
                 }
+            ],
+            "magento/module-inventory-sales-frontend-ui": [
+                {
+                    "description": "Check if product qty is bigger than 0 for Only X left (2.3.0)",
+                    "filename": "essential/m230-check-product-qty-greater-than-0.patch",
+                    "version-constraint": ">=1.0.3"
+                }
             ]
         }
     }
