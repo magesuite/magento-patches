@@ -221,7 +221,7 @@
                 {
                     "description": "Fix skip invalid rows functionality in import",
                     "filename": "essential/m22-fix-skip-import-validation-strategy.patch",
-                    "version-constraint": "100.2.*,100.3.*"
+                    "version-constraint": "100.2.*,>=100.3.0"
                 }
             ],
             "plugincompany/contactforms": [
