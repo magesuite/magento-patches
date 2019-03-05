@@ -109,7 +109,7 @@
                 {
                     "description": "Fix setOrder method that contains not imported class name",
                     "filename": "essential/m22-cms-search-set-order.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<2.2.3"
                 }
             ],
             "magento/module-catalog-inventory": [
