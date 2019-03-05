@@ -1,0 +1,13 @@
+--- a/etc/module.xml
++++ b/etc/module.xml
+@@ -5,5 +5,9 @@
+  */
+ -->
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
+-    <module name="CleverReach_CleverReachIntegration" setup_version="2.1.0" />
++    <module name="CleverReach_CleverReachIntegration" setup_version="2.1.0" >
++        <sequence>
++            <module name="Magento_Config" />
++        </sequence>
++    </module>
+ </config>

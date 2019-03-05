@@ -251,6 +251,13 @@
                     "filename": "essential/m230-check-product-qty-greater-than-0.patch",
                     "version-constraint": ">=1.0.3"
                 }
+            ],
+            "clever/magento2": [
+                {
+                    "description": "Fix module sequence",
+                    "filename": "essential/m22-cleverreach-sequence-fix.patch",
+                    "version-constraint": "~2.1.0"
+                }
             ]
         }
     }
