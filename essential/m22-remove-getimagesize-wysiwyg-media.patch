@@ -1,0 +1,18 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index 2297815..95163a1 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -327,13 +327,6 @@ class Storage extends \Magento\Framework\DataObject
+                 if (!$thumbUrl) {
+                     $thumbUrl = $this->_backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
+                 }
+-
+-                $size = @getimagesize($item->getFilename());
+-
+-                if (is_array($size)) {
+-                    $item->setWidth($size[0]);
+-                    $item->setHeight($size[1]);
+-                }
+             } else {
+                 $thumbUrl = $this->_assetRepo->getUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
+             }

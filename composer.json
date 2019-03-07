@@ -258,6 +258,13 @@
                     "filename": "essential/m22-cleverreach-sequence-fix.patch",
                     "version-constraint": "~2.1.0"
                 }
+            ],
+            "magento/module-cms": [
+                {
+                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance",
+                    "filename": "essential/m22-remove-getimagesize-wysiwyg-media.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
