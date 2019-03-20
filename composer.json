@@ -265,7 +265,14 @@
                     "filename": "essential/m22-remove-getimagesize-wysiwyg-media.patch",
                     "version-constraint": "*"
                 }
-            ]
+            ],
+            "magento/module-sales-sequence": [
+                {
+                    "description": "Fix module sequence",
+                    "filename": "essential/m23-fix-sales-sequence-meta-field-length.patch",
+                    "version-constraint": "100.3.0"
+                }
+            ],
         }
     }
 }
