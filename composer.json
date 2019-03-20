@@ -268,11 +268,11 @@
             ],
             "magento/module-sales-sequence": [
                 {
-                    "description": "Fix module sequence",
+                    "description": "Change length for sequence_table in db_schema",
                     "filename": "essential/m23-fix-sales-sequence-meta-field-length.patch",
                     "version-constraint": "100.3.0"
                 }
-            ],
+            ]
         }
     }
 }
