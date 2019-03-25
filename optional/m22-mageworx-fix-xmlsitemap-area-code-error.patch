@@ -1,0 +1,16 @@
+diff --git a/XmlSitemap/Model/Observer/GenerateSitemap.php b/XmlSitemap/Model/Observer/GenerateSitemap.php
+index d9192bb..869230a 100644
+--- a/XmlSitemap/Model/Observer/GenerateSitemap.php
++++ b/XmlSitemap/Model/Observer/GenerateSitemap.php
+@@ -57,7 +57,10 @@ class GenerateSitemap implements \Magento\Framework\Event\ObserverInterface
+         $this->sitemapCollectionFactory = $sitemapCollectionFactory;
+         $this->helperMagentoSitemap = $helperMagentoSitemap;
+         $this->transportBuilder = $transportBuilder;
+-        $state->setAreaCode('frontend');
++
++        if (!$state->getAreaCode()) {
++            $state->setAreaCode('frontend');
++        }
+     }
+ 
+     /**

@@ -98,6 +98,13 @@
                 "filename": "patches/AddressBasedFreeShipping.patch",
                 "version-constraint": "*"
             }
+        ],
+        "mageworx/seo-suite-ultimate": [
+            {
+                "description": "Fix area code is already set error (LED-1901)",
+                "filename": "optional/m22-mageworx-fix-xmlsitemap-area-code-error.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }
