@@ -1,0 +1,15 @@
+MAGETWO-91701: Newsletter subscription is not correctly updated when user is registered on multiple storeviews.
+
+PR: https://github.com/magento/magento2/commit/c77a32396fa3c7943ecd58452ac41de0ec15e57b
+
+--- a/Block/Account/Dashboard/Info.php
++++ b/Block/Account/Dashboard/Info.php
+@@ -102,7 +102,7 @@ class Info extends \Magento\Framework\View\Element\Template
+             $this->_subscription = $this->_createSubscriber();
+             $customer = $this->getCustomer();
+             if ($customer) {
+-                $this->_subscription->loadByEmail($customer->getEmail());
++                $this->_subscription->loadByCustomerId($customer->getId());
+             }
+         }
+         return $this->_subscription;

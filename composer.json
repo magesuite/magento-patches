@@ -243,6 +243,11 @@
                     "description": "Fix issue Deleting address on frontend redirects to 404 Page (2.3.0)",
                     "filename": "essential/m230-fix-deleting-address-returns-404-page.patch",
                     "version-constraint": "102.0.0"
+                },
+                {
+                    "description": "Newsletter subscription is not correctly updated when user is registered on multiple stores (2.2.7-)",
+                    "filename": "essential/m227minus-fix-newsletter-subscription-for-multiple-storeviews.patch",
+                    "version-constraint": "<101.0.7"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
