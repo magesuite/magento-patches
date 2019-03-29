@@ -1,8 +1,8 @@
 Index: lib/internal/Magento/Framework/DB/Adapter/Pdo/Mysql.php
 <+>UTF-8
 ===================================================================
---- vendor/magento/framework/DB/Adapter/Pdo/Mysql.php
-+++ vendor/magento/framework/DB/Adapter/Pdo/Mysql.php
+--- DB/Adapter/Pdo/Mysql.php
++++ DB/Adapter/Pdo/Mysql.php
 @@ -2796,7 +2796,7 @@
                  if (isset($condition['to'])) {
                      $query .= empty($query) ? '' : ' AND ';
