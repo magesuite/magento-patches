@@ -58,7 +58,8 @@
                 {
                     "description": "Fix critical SQL injection bug [PRODSECBUG-2198] (<=2.2.8, <=2.3.1)",
                     "filename": "essential/PRODSECBUG-2198-2.1-CE-2019-03-25-08-33-53.patch",
-                    "version-constraint": "<101.0.8 || >=102.0.0,<102.0.1"
+                    "version-constraint": "<101.0.8 || >=102.0.0,<102.0.1",
+                    "strip-path-components": 0
                 }
             ],
             "magento/module-sales": [
