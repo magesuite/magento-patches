@@ -1,0 +1,20 @@
+Temporary patch prepared by Computop to fix their wallee payment module (1.0.36).
+
+--- a/Model/Sales/Totals/Invoice.php
++++ b/Model/Sales/Totals/Invoice.php
+@@ -81,11 +81,14 @@ class Invoice extends AbstractTotal
+             $toInvoiceGiftcards = [];
+             /** @var GiftcardOrderInterface $orderGiftcard */
+             foreach ($orderGiftcards as $orderGiftcard) {
++                $orderGiftcardData = $orderGiftcard->getData();
++                unset($orderGiftcardData[\Magento\Framework\Api\ExtensibleDataInterface::EXTENSION_ATTRIBUTES_KEY]);
++
+                 /** @var GiftcardInvoiceInterface $toInvoiceGiftcard */
+                 $toInvoiceGiftcard = $this->giftcardInvoiceFactory->create();
+                 $this->dataObjectHelper->populateWithArray(
+                     $toInvoiceGiftcard,
+-                    $orderGiftcard->getData(),
++                    $orderGiftcardData,
+                     GiftcardInvoiceInterface::class
+                 );
+                 $toInvoiceGiftcard->setId(null);
