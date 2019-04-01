@@ -283,6 +283,13 @@
                     "filename": "essential/m23-fix-sales-sequence-meta-field-length.patch",
                     "version-constraint": "100.3.0"
                 }
+            ],
+            "temando/module-shipping-m2": [
+                {
+                    "description": "Fix missing required argument in one class in module Temando Shipping (1.3.10)",
+                    "filename": "essential/m22-temando-shipping-missing-required-argument.patch",
+                    "version-constraint": "1.3.10"
+                }
             ]
         }
     }
