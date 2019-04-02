@@ -105,20 +105,6 @@
                 "filename": "optional/m22-mageworx-fix-xmlsitemap-area-code-error.patch",
                 "version-constraint": "*"
             }
-        ],
-        "wallee/magento-2-2": [
-            {
-                "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
-                "filename": "optional/m22-wallee-payment.patch",
-                "version-optional": "1.0.36"
-            }
-        ],
-        "aheadworks/module-giftcard": [
-            {
-                "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
-                "filename": "optional/m22-wallee-aw-giftcard.patch",
-                "version-constraint": "1.2.3"
-            }
         ]
     }
 }
