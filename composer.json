@@ -231,7 +231,7 @@
                 },
                 {
                     "description": "Fix skip invalid rows functionality in import in Magento 2.3.1+",
-                    "filename": "essential/m22-fix-skip-import-validation-strategy.patch",
+                    "filename": "essential/m231-fix-skip-import-validation-strategy.patch",
                     "version-constraint": ">=100.3.1"
                 }
             ],
