@@ -213,7 +213,7 @@
                 {
                     "description": "Fix extension to make it work with creativeshop",
                     "filename": "essential/m22-repertus-packstation-fixes.patch",
-                    "version-constraint": "<=1.0.0"
+                    "version-constraint": ">=1.0.0"
                 }
             ],
             "magento/module-quote": [

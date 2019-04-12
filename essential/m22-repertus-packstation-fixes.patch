@@ -1,18 +1,8 @@
 diff --git a/Plugin/Checkout/LayoutProcessorPlugin.php b/Plugin/Checkout/LayoutProcessorPlugin.php
-index 468e514..2d74e23 100644
+index 37107bf..2fe8a8b 100644
 --- a/Plugin/Checkout/LayoutProcessorPlugin.php
 +++ b/Plugin/Checkout/LayoutProcessorPlugin.php
-@@ -52,8 +52,7 @@ class LayoutProcessorPlugin
-                         'value' => '2',
-                         'label' => __('Packstation'),
-                     ]
--                ],
--                'caption' => __('Please select a address type')
-+                ]
-             ],
-             'label' => __('Address Type'),
-             'dataScope' => 'shippingAddress.repertus_address_type',
-@@ -68,8 +67,8 @@ class LayoutProcessorPlugin
+@@ -68,8 +68,8 @@ class LayoutProcessorPlugin
              'componentType' => 'container',
              'formElement' => 'container',
              'component' => 'Magento_Ui/js/form/components/html',
@@ -24,16 +14,17 @@ index 468e514..2d74e23 100644
          ];
  
 diff --git a/i18n/de_DE.csv b/i18n/de_DE.csv
-index 73d7600..a2517e9 100644
+index 73d7600..51d5096 100644
 --- a/i18n/de_DE.csv
 +++ b/i18n/de_DE.csv
-@@ -15,4 +15,4 @@
+@@ -15,4 +15,5 @@
  "Accept as shipping address", "Als Adresse übernehmen"
  "A valid Post Number is required when shipping to a Packstation", "Für den Versand an eine Packstation muss eine gültige Postnummer angegeben werden."
  "Required when shipping to a Packstation or Post Office", "Bitte geben Sie eine gültige Packstations- oder Filialnummer an"
 -"Please select a address type", "Bitte wählen Sie einen Adresstyp aus"
 \ No newline at end of file
 +"Please select an address type", "Bitte wählen Sie einen Adresstyp aus"
++"A Packstation or Post Office can not be selected as billing address.","Eine Packstation oder ein Postamt kann nicht als Rechnungsadresse ausgewählt werden."
 \ No newline at end of file
 diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
 index 28cfe75..5dafa1f 100644
@@ -61,7 +52,7 @@ index 6b11f51..1e1d78a 100644
      <body>
          <referenceContainer name="content">
 diff --git a/view/frontend/web/js/repertus-packstation.js b/view/frontend/web/js/repertus-packstation.js
-index 0e3ef74..110f63a 100644
+index 4e2e7d6..c7664ad 100644
 --- a/view/frontend/web/js/repertus-packstation.js
 +++ b/view/frontend/web/js/repertus-packstation.js
 @@ -88,7 +88,6 @@ require([
@@ -91,7 +82,7 @@ index 0e3ef74..110f63a 100644
  
              me.addValidationRules();
          },
-@@ -150,15 +146,15 @@ require([
+@@ -151,17 +147,17 @@ require([
                  fieldSet = me.control.closest('fieldset.repertus_address_type_fieldset'),
                  currentPostNumber = fieldSet ? fieldSet.data('repertus-post-number') : '',
                  currentStationNumber = fieldSet ? fieldSet.data('repertus-station-number') : '',
@@ -102,7 +93,8 @@ index 0e3ef74..110f63a 100644
 +                    '<label class="cs-input__label | label" for="repertus_post_number"><span>' + $.mage.__('Post Number') + '</span></label>' +
 +                    '<div class="cs-input__control | control">' +
                          '<input type="text" id="repertus_post_number" name="repertus_post_number" value="' + currentPostNumber + '" title="'+ $.mage.__('Post Number') + '" ' +
-                             'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
+-                            'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
++                            'class="cs-input__input required-entry" data-validate="{required:false}" aria-required="false">' +
                      '</div></div>'),
 -                numberField = $('<div class="field field-repertus-number">' +
 -                    '<label class="label" for="repertus_number"><span>' + $.mage.__('Packstation No.') + '</span></label>' +
@@ -111,9 +103,12 @@ index 0e3ef74..110f63a 100644
 +                    '<label class="cs-input__label | label" for="repertus_number"><span>' + $.mage.__('Packstation No.') + '</span></label>' +
 +                    '<div class="cs-input__control | control">' +
                      '<input type="text" id="repertus_number" name="repertus_number" value="' + currentStationNumber + '" title="' + $.mage.__('Packstation No.') + '" ' +
-                     'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
+-                    'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
++                    'class="cs-input__input required-entry" data-validate="{required:false}" aria-required="false">' +
                      '</div></div>');
-@@ -237,7 +233,7 @@ require([
+ 
+             me.form.find('.field.company').after(postNumberField);
+@@ -238,7 +234,7 @@ require([
                      } else {
                          streetInput.first().val(addressTypeText + ' ' + numberValue);
                          streetInput.first().trigger('change');
@@ -122,7 +117,7 @@ index 0e3ef74..110f63a 100644
                      }
                  }
              }
-@@ -893,7 +889,7 @@ require([
+@@ -892,7 +888,7 @@ require([
          var addressTypeField = $('.field.repertus_address_type');
  
          addressTypeField.repertusPackstation({
@@ -132,7 +127,7 @@ index 0e3ef74..110f63a 100644
              requiredCls: 'required'
          });
 diff --git a/view/frontend/web/js/view/payment/default-mixin.js b/view/frontend/web/js/view/payment/default-mixin.js
-index 55cfbe4..0fe3726 100644
+index 55cfbe4..b7f82f3 100644
 --- a/view/frontend/web/js/view/payment/default-mixin.js
 +++ b/view/frontend/web/js/view/payment/default-mixin.js
 @@ -3,8 +3,17 @@ define(
@@ -144,8 +139,8 @@ index 55cfbe4..0fe3726 100644
          'mage/translate'
 -    ], function (ko, quote, messageList, $t) {
 +    ], function (
-+        ko,
-+        quote,
++        ko, 
++        quote, 
 +        messageList,
 +        paymentService,
 +        selectPaymentMethod,
@@ -179,11 +174,3 @@ index 55cfbe4..0fe3726 100644
  
                  return me;
              }
-@@ -53,4 +65,5 @@ define(
-             return target.extend(mixin);
-         };
-     }
--);
-\ No newline at end of file
-+);
-+
