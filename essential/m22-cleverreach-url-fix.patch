@@ -1,0 +1,12 @@
+--- a/Services/Infrastructure/AsyncProcessStarterService.php
++++ b/Services/Infrastructure/AsyncProcessStarterService.php
+@@ -96,7 +96,8 @@ class AsyncProcessStarterService implements AsyncProcessStarter
+             . 'cleverreach/async/process/guid/'
+             . $guid;
+         
+-        return str_replace('https:', 'http:', $url);
++        //return str_replace('https:', 'http:', $url);
++        return $url;
+     }
+ 
+     private function getHttpClient()
