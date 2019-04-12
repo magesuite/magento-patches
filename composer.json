@@ -268,6 +268,11 @@
                     "description": "Fix module sequence",
                     "filename": "essential/m22-cleverreach-sequence-fix.patch",
                     "version-constraint": "~2.1.0"
+                },
+                {
+                    "description": "Fix wrong url (remove change https to http)",
+                    "filename": "essential/m22-cleverreach-url-fix.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-cms": [
