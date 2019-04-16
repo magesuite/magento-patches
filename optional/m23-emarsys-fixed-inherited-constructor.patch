@@ -1,0 +1,45 @@
+diff --git a/Model/ResourceModel/Api/Category.php b/Model/ResourceModel/Api/Category.php
+index 8d1291e..3f9ecf4 100644
+--- a/Model/ResourceModel/Api/Category.php
++++ b/Model/ResourceModel/Api/Category.php
+@@ -15,6 +15,7 @@ use Magento\Store\Model\StoreManagerInterface;
+ use Magento\Catalog\Model\Factory;
+ use Magento\Framework\Event\ManagerInterface;
+ use Magento\Catalog\Model\Category as CategoryModel;
++use Magento\Catalog\Model\Indexer\Category\Product\Processor;
+ 
+ /**
+  * Class Category
+@@ -47,8 +48,9 @@ class Category extends CategoryResourceModel
+      * @param ManagerInterface      $eventManager
+      * @param TreeFactory           $categoryTreeFactory
+      * @param CollectionFactory     $categoryCollectionFactory
+-     * @param Iterator              $iterator
++     * @param Processor             $indexerProcessor
+      * @param array                 $data
++     * @param array                 $serializer
+      */
+     public function __construct(
+         Context $context,
+@@ -57,10 +59,10 @@ class Category extends CategoryResourceModel
+         ManagerInterface $eventManager,
+         TreeFactory $categoryTreeFactory,
+         CollectionFactory $categoryCollectionFactory,
+-        Iterator $iterator,
+-        array $data = []
++        Processor $indexerProcessor,
++        array $data = [],
++        $serializer = null
+     ) {
+-        $this->iterator = $iterator;
+ 
+         parent::__construct(
+             $context,
+@@ -69,6 +71,7 @@ class Category extends CategoryResourceModel
+             $eventManager,
+             $categoryTreeFactory,
+             $categoryCollectionFactory,
++            $indexerProcessor,
+             $data
+         );
+     }

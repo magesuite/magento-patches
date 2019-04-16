@@ -119,6 +119,13 @@
                 "filename": "optional/m22-wallee-aw-giftcard.patch",
                 "version-constraint": "1.2.3"
             }
+        ],
+        "emartech/emarsys-magento2-extension": [
+            {
+                "description": "Patch to fix constructor which was causing di:compile method failure",
+                "filename": "optional/m23-emarsys-fixed-inherited-constructor.patch",
+                "version-constraint": "1.3.0"
+            }
         ]
     }
 }
