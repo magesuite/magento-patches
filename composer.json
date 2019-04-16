@@ -88,6 +88,11 @@
                     "description": "Make it possible to close fullscreen product gallery on iOS",
                     "filename": "essential/m22-ios-fullscreen-gallery-close-fix.patch",
                     "version-constraint": "~2.2.0,<=2.2.3"
+                },
+                {
+                    "description": "Add OOM Debugger (M2C-3352)",
+                    "filename": "essential/oom-debugger.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-search": [
