@@ -1,0 +1,82 @@
+diff --git a/pub/index.php b/pub/index.php
+index 612e190..9231719 100644
+--- a/pub/index.php
++++ b/pub/index.php
+@@ -6,6 +6,77 @@
+  * See COPYING.txt for license details.
+  */
+ 
++class OOMDebugger
++{
++    /**
++     * @var string
++     */
++    private $reserved;
++
++    /**
++     * @var string
++     */
++    private $logFname;
++
++    /**
++     * @var resource
++     */
++    private $logFile;
++
++    public function __construct(string $logPath = '.', int $reserveSz = 1024)
++    {
++        $this->reserved = str_repeat('☠', $reserveSz * 1024);
++        $this->logFname = rtrim($logPath, '/') . '/oom-report-' . date('d-m-Y.H-i-s.') . uniqid() . '.log';
++
++        register_shutdown_function([$this, 'onShutdown']);
++    }
++
++    private function log(string $message)
++    {
++        if (!$this->logFile) {
++            $this->logFile = fopen($this->logFname, 'w');
++        }
++
++        fwrite($this->logFile, $message . "\n");
++        fflush($this->logFile);
++    }
++
++    public function __destruct()
++    {
++        if ($this->logFile) {
++            fclose($this->logFile);
++        }
++    }
++
++    public function onShutdown()
++    {
++        unset($this->reserved);
++
++        $error = error_get_last();
++
++        if ($error['type'] !== E_ERROR || strpos($error['message'], 'Allowed memory size of') !== 0) {
++            /* Catch only fatal memory limit errors */
++            return;
++        }
++
++        $this->log(sprintf('Caught OOM, peak mem usage %.2fMiB: %s', memory_get_peak_usage(true)  / 0x100000, $error['message']));
++
++        if (function_exists('xdebug_time_index')) {
++            $this->log(sprintf('Script crashed after %.2f sec', xdebug_time_index()));
++        }
++
++        $this->log(sprintf("> _SERVER\n\n%s\n\n", json_encode($_SERVER, JSON_PRETTY_PRINT)));
++        $this->log(sprintf("> _GET\n\n%s\n\n", json_encode($_GET, JSON_PRETTY_PRINT)));
++        $this->log(sprintf("> _POST\n\n%s\n\n", json_encode($_POST, JSON_PRETTY_PRINT)));
++
++        if (function_exists('xdebug_get_function_stack')) {
++            $this->log(sprintf("> Stack Trace\n\n%s\n\n", json_encode(xdebug_get_function_stack(), JSON_PRETTY_PRINT)));
++        }
++    }
++}
++
++$debugger = new OOMDebugger(realpath(getcwd().'/../var/log'));
++
+ use Magento\Framework\App\Bootstrap;
+ use Magento\Framework\App\Filesystem\DirectoryList;
+ 
