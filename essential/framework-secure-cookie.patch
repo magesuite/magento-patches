@@ -1,0 +1,16 @@
+diff --git a/View/Element/Js/Cookie.php b/View/Element/Js/Cookie.php
+index 2edb878..1b77d0c 100644
+--- a/View/Element/Js/Cookie.php
++++ b/View/Element/Js/Cookie.php
+@@ -82,4 +82,11 @@ class Cookie extends Template
+     {
+         return $this->sessionConfig->getCookieLifetime();
+     }
++
++    /**
++     * @return bool
++     */
++    public function isSecure() {
++        return $this->sessionConfig->getCookieSecure();
++    }
+ }
