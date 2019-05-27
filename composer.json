@@ -322,6 +322,13 @@
                     "filename": "essential/m22-temando-shipping-missing-required-argument.patch",
                     "version-constraint": "1.3.10"
                 }
+            ],
+            "magento/module-media-storage": [
+                {
+                    "description": "Fix watermark processing in media application (Magento 2.3.0+, fixed in Magento 2.3.2)",
+                    "filename": "essential/m230-fix-product-image-watermark-processing.patch",
+                    "version-constraint": ">=100.3.0,<100.3.2"
+                }
             ]
         }
     }
