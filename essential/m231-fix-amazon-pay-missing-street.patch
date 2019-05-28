@@ -1,0 +1,12 @@
+diff --git a/Domain/AmazonAddressDecoratorDe.php b/Domain/AmazonAddressDecoratorDe.php
+index cafcbbd..f9e18b2 100644
+--- a/Domain/AmazonAddressDecoratorDe.php
++++ b/Domain/AmazonAddressDecoratorDe.php
+@@ -178,6 +178,6 @@ class AmazonAddressDecoratorDe implements AmazonAddressInterface
+      */
+     public function getLine($lineNumber)
+     {
+-        $this->amazonAddress->getLine($lineNumber);
++        return $this->amazonAddress->getLine($lineNumber);
+     }
+ }

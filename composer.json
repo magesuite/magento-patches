@@ -9,6 +9,13 @@
     },
     "extra": {
         "patchset": {
+            "amzn/amazon-pay-and-login-magento-2-module": [
+                {
+                    "description": "Fix for missing street issue (P2G-632)",
+                    "filename": "essential/m231-fix-amazon-pay-missing-street.patch",
+                    "version-constraint": "3.1.4"
+                }
+            ],            
             "magento/framework": [
                 {
                     "description": "Fix customer grid EAV indexing",
