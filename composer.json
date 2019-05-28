@@ -9,13 +9,6 @@
     },
     "extra": {
         "patchset": {
-            "amzn/amazon-pay-and-login-magento-2-module": [
-                {
-                    "description": "Fix for missing street issue (P2G-632)",
-                    "filename": "essential/m231-fix-amazon-pay-missing-street.patch",
-                    "version-constraint": "3.1.4"
-                }
-            ],            
             "magento/framework": [
                 {
                     "description": "Fix customer grid EAV indexing",
@@ -335,6 +328,13 @@
                     "description": "Fix watermark processing in media application (Magento 2.3.0+, fixed in Magento 2.3.2)",
                     "filename": "essential/m230-fix-product-image-watermark-processing.patch",
                     "version-constraint": ">=100.3.0,<100.3.2"
+                }
+            ],
+            "amzn/amazon-pay-and-login-magento-2-module": [
+                {
+                    "description": "Fix for missing street issue (P2G-632)",
+                    "filename": "essential/m231-fix-amazon-pay-missing-street.patch",
+                    "version-constraint": "3.1.4"
                 }
             ]
         }
