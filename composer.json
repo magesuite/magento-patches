@@ -330,7 +330,7 @@
                     "version-constraint": ">=100.3.0,<100.3.2"
                 }
             ],
-            "amzn/amazon-pay-and-login-magento-2-module": [
+            "amzn/amazon-pay-and-login-with-amazon-core-module": [
                 {
                     "description": "Fix for missing street issue (P2G-632)",
                     "filename": "essential/m231-fix-amazon-pay-missing-street.patch",
