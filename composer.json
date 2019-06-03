@@ -336,7 +336,14 @@
                     "filename": "essential/m231-fix-amazon-pay-missing-street.patch",
                     "version-constraint": "3.1.4"
                 }
-            ]
+            ],
+            "msp/cashondelivery": [
+                {
+                    "description": "Remove not defined method from webapi.xml which crashed API",
+                    "filename": "essential/m23-msp-cashondelivery-fix-webapi.patch",
+                    "version-constraint": "*"
+                }
+            ],
         }
     }
 }
