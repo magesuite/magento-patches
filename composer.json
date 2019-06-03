@@ -343,7 +343,7 @@
                     "filename": "essential/m23-msp-cashondelivery-fix-webapi.patch",
                     "version-constraint": "*"
                 }
-            ],
+            ]
         }
     }
 }
