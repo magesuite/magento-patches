@@ -1,0 +1,15 @@
+diff --git a/etc/webapi.xml b/etc/webapi.xml
+index 81af953..2cd3f15 100644
+--- a/etc/webapi.xml
++++ b/etc/webapi.xml
+@@ -29,10 +29,4 @@
+         </resources>
+     </route>
+ 
+-    <route url="/V1/carts/mine/msp-cashondelivery-change-payment-method" method="GET">
+-        <service class="MSP\CashOnDelivery\Api\CashondeliveryCartInterface" method="savePaymentMethod"/>
+-        <resources>
+-            <resource ref="anonymous" />
+-        </resources>
+-    </route>
+ </routes>
