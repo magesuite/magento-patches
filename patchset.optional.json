@@ -126,6 +126,13 @@
                 "filename": "optional/m23-emarsys-fixed-inherited-constructor.patch",
                 "version-constraint": "1.3.0"
             }
-        ]
+        ],
+        "aheadworks/module-blog": [
+            {
+                "description": "Fix problem with index on HAAR",
+                "filename": "optional/m22-aheadworks-module-blog-fix-indexer-haar.patch",
+                "version-constraint": "^2.4.0"
+            }
+        ],
     }
 }
