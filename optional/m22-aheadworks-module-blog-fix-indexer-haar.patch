@@ -1,18 +1,9 @@
 Fix problem with index which was always invalid and caused a lot of error in logs. Issue reported by HaarShop, patch prepared by Aheadworks.
 
 diff --git a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
-index 0492fea..6af1c02 100644
+index 0492fea..70bace8 100644
 --- a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
 +++ b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
-@@ -61,7 +61,7 @@ class DataCollector
-     public function prepareProductPostData($entityIds = null)
-     {
-         if ($entityIds) {
--            $this->searchCriteriaBuilder->addFilter(PostInterface::ID, $entityIds, 'in');
-+            $this->searchCriteriaBuilder->addFilter(PostInterface::ID, ['in' => $entityIds]);
-         }
-         $postList = $this->postRepository
-             ->getList($this->searchCriteriaBuilder->create())
 @@ -70,28 +70,37 @@ class DataCollector
          $data = [];
          foreach ($postList as $post) {
