@@ -226,6 +226,13 @@
                     "version-constraint": "1.1.0"
                 }
             ],
+            "aheadworks/module-blog": [
+                {
+                    "description": "Fix problem with index",
+                    "filename": "essential/m22-aheadworks-module-blog-fix-indexer.patch",
+                    "version-constraint": "^2.4.0"
+                },
+            ],
             "repertus/packstation": [
                 {
                     "description": "Fix extension to make it work with creativeshop",

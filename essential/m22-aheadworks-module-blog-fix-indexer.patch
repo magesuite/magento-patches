@@ -1,0 +1,62 @@
+Fix problem with index which was always invalid and caused a lot of error in logs. Issue reported by HaarShop, patch prepared by Aheadworks.
+
+diff --git a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
+index 0492fea..6af1c02 100644
+--- a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
++++ b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
+@@ -61,7 +61,7 @@ class DataCollector
+     public function prepareProductPostData($entityIds = null)
+     {
+         if ($entityIds) {
+-            $this->searchCriteriaBuilder->addFilter(PostInterface::ID, $entityIds, 'in');
++            $this->searchCriteriaBuilder->addFilter(PostInterface::ID, ['in' => $entityIds]);
+         }
+         $postList = $this->postRepository
+             ->getList($this->searchCriteriaBuilder->create())
+@@ -70,28 +70,37 @@ class DataCollector
+         $data = [];
+         foreach ($postList as $post) {
+             if ($post->getProductRule()->getConditions()->getConditions()) {
+-                $websiteIds = $this->getWebsiteIdsByStoreIds($post->getStoreIds());
++                $websiteIds = [];
++                foreach ($post->getStoreIds() as $storeId) {
++                    $websiteIds[] = $this->storeManager->getStore($storeId)->getWebsiteId();
++                }
++
+                 $productIds = $post->getProductRule()->setWebsiteIds($websiteIds)->getProductIds();
+ 
++                /*$productIds = [];
++                foreach ($websiteIds as $websiteId) {
++                    $productIds = array_merge($productIds, $post->getProductRule()->setWebsiteIds($websiteIds)->getMatchingProductIds($websiteId));
++                }*/
++
+                 foreach ($productIds as $productId => $validationByWebsite) {
+                     foreach ($websiteIds as $websiteId) {
+                         if ($stores = $this->getWebsiteStores($websiteId)) {
+-                            if (empty($validationByWebsite[$websiteId])) {
+-                                continue;
+-                            }
+                             /** @var Store $store */
+                             foreach ($stores as $store) {
+-                                $data[] = [
+-                                    'product_id' => $productId,
+-                                    'post_id' => $post->getId(),
+-                                    'store_id' => $store->getId()
+-                                ];
++                                if($validationByWebsite[1]) {
++                                    $data[] = [
++                                        'product_id' => $productId,
++                                        'post_id' => $post->getId(),
++                                        'store_id' => $store->getId()
++                                    ];
++                                }
+                             }
+                         }
+                     }
+                 }
+             }
+         }
++
+         return $data;
+     }
+ 
