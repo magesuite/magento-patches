@@ -235,7 +235,7 @@
                 {
                     "description": "Fix extension to make it work with magesuite",
                     "filename": "essential/repertus-packstation-fixes.patch",
-                    "version-constraint": "<=1.0.3"
+                    "version-constraint": ">=1.0.3"
                 }
             ],
             "magento/module-quote": [
