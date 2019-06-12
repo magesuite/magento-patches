@@ -1,53 +1,37 @@
 Fix problem with index which was always invalid and caused a lot of error in logs. Issue reported by HaarShop, patch prepared by Aheadworks.
 
 diff --git a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
-index 0492fea..70bace8 100644
+index 0492fea..431d9f0 100644
 --- a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
 +++ b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
-@@ -70,28 +70,37 @@ class DataCollector
+@@ -70,8 +70,28 @@ class DataCollector
          $data = [];
          foreach ($postList as $post) {
              if ($post->getProductRule()->getConditions()->getConditions()) {
 -                $websiteIds = $this->getWebsiteIdsByStoreIds($post->getStoreIds());
+-                $productIds = $post->getProductRule()->setWebsiteIds($websiteIds)->getProductIds();
++                //$websiteIds = $this->getWebsiteIdsByStoreIds($post->getStoreIds());
++
 +                $websiteIds = [];
 +                foreach ($post->getStoreIds() as $storeId) {
-+                    $websiteIds[] = $this->storeManager->getStore($storeId)->getWebsiteId();
++                    if ($storeId != 0){
++                        $websiteIds[] = $this->storeManager->getStore($storeId)->getWebsiteId();
++                    } else {
++                        $websiteIdsObj = $this->storeManager->getWebsites();
++                        foreach ($websiteIdsObj as $webSite) {
++                            $websiteIds[] = $webSite->getId();
++                        }
++                    }
 +                }
 +
-                 $productIds = $post->getProductRule()->setWebsiteIds($websiteIds)->getProductIds();
++                try{
++                    $productIds = $post->getProductRule()->setWebsiteIds($websiteIds)->getProductIds();
++                }catch(\Exception $e){
++                    $productIds = [];
++                    foreach ($websiteIds as $websiteId) {
++                        $productIds = array_merge($productIds, $post->getProductRule()->setWebsiteIds($websiteIds)->getMatchingProductIds($websiteId));
++                    }
++                }
  
-+                /*$productIds = [];
-+                foreach ($websiteIds as $websiteId) {
-+                    $productIds = array_merge($productIds, $post->getProductRule()->setWebsiteIds($websiteIds)->getMatchingProductIds($websiteId));
-+                }*/
-+
                  foreach ($productIds as $productId => $validationByWebsite) {
                      foreach ($websiteIds as $websiteId) {
-                         if ($stores = $this->getWebsiteStores($websiteId)) {
--                            if (empty($validationByWebsite[$websiteId])) {
--                                continue;
--                            }
-                             /** @var Store $store */
-                             foreach ($stores as $store) {
--                                $data[] = [
--                                    'product_id' => $productId,
--                                    'post_id' => $post->getId(),
--                                    'store_id' => $store->getId()
--                                ];
-+                                if($validationByWebsite[1]) {
-+                                    $data[] = [
-+                                        'product_id' => $productId,
-+                                        'post_id' => $post->getId(),
-+                                        'store_id' => $store->getId()
-+                                    ];
-+                                }
-                             }
-                         }
-                     }
-                 }
-             }
-         }
-+
-         return $data;
-     }
- 
