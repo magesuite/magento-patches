@@ -1,0 +1,36 @@
+diff --git a/amazon-pay-update-billing-address.patch b/amazon-pay-update-billing-address.patch
+new file mode 100644
+index 0000000..cfbe8e2
+--- /dev/null
++++ b/amazon-pay-update-billing-address.patch
+@@ -0,0 +1,15 @@
++diff --git a/view/frontend/web/js/view/shipping.js b/view/frontend/web/js/view/shipping.js
++index c7d8897..3561db9 100644
++--- a/view/frontend/web/js/view/shipping.js
+++++ b/view/frontend/web/js/view/shipping.js
++@@ -72,8 +72,8 @@ define(
++                         setShippingInformationAmazon();
++                     }
++                     //if using guest checkout or guest checkout with amazon pay we need to use the main validation
++-                } else if (this.validateShippingInformation()) {
++-                    setShippingInformationAmazon();
+++                } else {
+++                    this._super();
++                 }
++             }
++         });
+diff --git a/view/frontend/web/js/view/shipping.js b/view/frontend/web/js/view/shipping.js
+index c7d8897..3561db9 100644
+--- a/view/frontend/web/js/view/shipping.js
++++ b/view/frontend/web/js/view/shipping.js
+@@ -72,8 +72,8 @@ define(
+                         setShippingInformationAmazon();
+                     }
+                     //if using guest checkout or guest checkout with amazon pay we need to use the main validation
+-                } else if (this.validateShippingInformation()) {
+-                    setShippingInformationAmazon();
++                } else {
++                    this._super();
+                 }
+             }
+         });
