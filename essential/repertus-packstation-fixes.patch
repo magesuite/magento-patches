@@ -1,7 +1,7 @@
-diff --git a/packstation/Plugin/Checkout/LayoutProcessorPlugin.php b/packstation/Plugin/Checkout/LayoutProcessorPlugin.php
-index 37107bf..3fb87f3 100644
---- a/packstation/Plugin/Checkout/LayoutProcessorPlugin.php
-+++ b/packstation/Plugin/Checkout/LayoutProcessorPlugin.php
+diff --git a/Plugin/Checkout/LayoutProcessorPlugin.php b/Plugin/Checkout/LayoutProcessorPlugin.php
+index 37107bf..2fe8a8b 100644
+--- a/Plugin/Checkout/LayoutProcessorPlugin.php
++++ b/Plugin/Checkout/LayoutProcessorPlugin.php
 @@ -68,8 +68,8 @@ class LayoutProcessorPlugin
              'componentType' => 'container',
              'formElement' => 'container',
@@ -9,14 +9,14 @@ index 37107bf..3fb87f3 100644
 -            'additionalClasses' => 'repertus_packstation_search_button',
 -            'content' => '<div><button data-bind="afterRender: setModalElement, blockLoader: isLoading" id="repertus_find_packstation_button" href="#" data-modal-search-url="'. $this->urlBuilder->getUrl('repertus_packstation/packstation/search') .'">' . __('Search for Packstation') . '</button></div>',
 +            'additionalClasses' => 'cs-form__field | repertus_packstation_search_button',
-++           'content' => '<div><button type="button" data-bind="afterRender: setModalElement, blockLoader: isLoading" id="repertus_find_packstation_button" href="#" data-modal-search-url="'. $this->urlBuilder->getUrl('repertus_packstation/packstation/search') .'">' . __('Search for Packstation') . '</button></div>',
++            'content' => '<div><button type="button" data-bind="afterRender: setModalElement, blockLoader: isLoading" id="repertus_find_packstation_button" href="#" data-modal-search-url="'. $this->urlBuilder->getUrl('repertus_packstation/packstation/search') .'">' . __('Search for Packstation') . '</button></div>',
              'sortOrder' => 1
          ];
  
-diff --git a/packstation/i18n/de_DE.csv b/packstation/i18n/de_DE.csv
+diff --git a/i18n/de_DE.csv b/i18n/de_DE.csv
 index 1dae1d4..d03d3ba 100644
---- a/packstation/i18n/de_DE.csv
-+++ b/packstation/i18n/de_DE.csv
+--- a/i18n/de_DE.csv
++++ b/i18n/de_DE.csv
 @@ -16,7 +16,8 @@ Searching for Packstation(s) and Post office(s), Suche nach Packstationen und Po
  "Accept as shipping address", "Als Adresse übernehmen"
  "A valid Post Number is required when shipping to a Packstation", "Für den Versand an eine Packstation muss eine gültige Postnummer angegeben werden."
@@ -27,10 +27,10 @@ index 1dae1d4..d03d3ba 100644
  City, Stadt
  Packstation, Packstation
  Zipcode, PLZ
-diff --git a/packstation/view/frontend/layout/checkout_index_index.xml b/packstation/view/frontend/layout/checkout_index_index.xml
+diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
 index 28cfe75..5dafa1f 100644
---- a/packstation/view/frontend/layout/checkout_index_index.xml
-+++ b/packstation/view/frontend/layout/checkout_index_index.xml
+--- a/view/frontend/layout/checkout_index_index.xml
++++ b/view/frontend/layout/checkout_index_index.xml
 @@ -9,6 +9,6 @@
      <head>
          <css src="Repertus_Packstation/css/repertus_packstation_main.css" />
@@ -39,10 +39,10 @@ index 28cfe75..5dafa1f 100644
 +        <script src="https://www.bing.com/mapspreview/sdk/mapcontrol?v=7.0" src_type="url" />
      </head>
  </page>
-diff --git a/packstation/view/frontend/layout/customer_address_form.xml b/packstation/view/frontend/layout/customer_address_form.xml
+diff --git a/view/frontend/layout/customer_address_form.xml b/view/frontend/layout/customer_address_form.xml
 index 6b11f51..1e1d78a 100644
---- a/packstation/view/frontend/layout/customer_address_form.xml
-+++ b/packstation/view/frontend/layout/customer_address_form.xml
+--- a/view/frontend/layout/customer_address_form.xml
++++ b/view/frontend/layout/customer_address_form.xml
 @@ -9,7 +9,7 @@
      <head>
          <css src="Repertus_Packstation/css/repertus_packstation_main.css" />
@@ -52,10 +52,10 @@ index 6b11f51..1e1d78a 100644
      </head>
      <body>
          <referenceContainer name="content">
-diff --git a/packstation/view/frontend/web/js/repertus-packstation.js b/packstation/view/frontend/web/js/repertus-packstation.js
-index cf2bd64..30ab15e 100644
---- a/packstation/view/frontend/web/js/repertus-packstation.js
-+++ b/packstation/view/frontend/web/js/repertus-packstation.js
+diff --git a/view/frontend/web/js/repertus-packstation.js b/view/frontend/web/js/repertus-packstation.js
+index cf2bd64..c3bbbf9 100644
+--- a/view/frontend/web/js/repertus-packstation.js
++++ b/view/frontend/web/js/repertus-packstation.js
 @@ -88,7 +88,6 @@ require([
  
          init: function () {
@@ -95,7 +95,7 @@ index cf2bd64..30ab15e 100644
 +                    '<div class="cs-input__control | control">' +
                          '<input type="text" id="repertus_post_number" name="repertus_post_number" value="' + currentPostNumber + '" title="'+ $.mage.__('Post Number') + '" ' +
 -                            'class="input-text required-entry" data-validate="{required:false}" aria-required="false">' +
-+                        'class="cs-input__input required-entry" data-validate="{required:false}" aria-required="false">' +
++                            'class="cs-input__input required-entry" data-validate="{required:false}" aria-required="false">' +
                      '</div></div>'),
 -                numberField = $('<div class="field field-repertus-number">' +
 -                    '<label class="label" for="repertus_number"><span>' + $.mage.__('Packstation No.') + '</span></label>' +
@@ -127,10 +127,10 @@ index cf2bd64..30ab15e 100644
              addAdditionalFields: addressTypeField.hasClass('repertus_address_type--add-fields'),
              requiredCls: 'required'
          });
-diff --git a/packstation/view/frontend/web/js/view/payment/default-mixin.js b/packstation/view/frontend/web/js/view/payment/default-mixin.js
-index 55cfbe4..4174b00 100644
---- a/packstation/view/frontend/web/js/view/payment/default-mixin.js
-+++ b/packstation/view/frontend/web/js/view/payment/default-mixin.js
+diff --git a/view/frontend/web/js/view/payment/default-mixin.js b/view/frontend/web/js/view/payment/default-mixin.js
+index 55cfbe4..b7f82f3 100644
+--- a/view/frontend/web/js/view/payment/default-mixin.js
++++ b/view/frontend/web/js/view/payment/default-mixin.js
 @@ -3,8 +3,17 @@ define(
          'ko',
          'Magento_Checkout/js/model/quote',
@@ -139,14 +139,14 @@ index 55cfbe4..4174b00 100644
 +        'Magento_Checkout/js/action/select-payment-method',
          'mage/translate'
 -    ], function (ko, quote, messageList, $t) {
-+        ], function (
-+            ko, 
-+            quote, 
-+            messageList,
-+            paymentService,
-+            selectPaymentMethod,
-+            $t
-+        ) {
++    ], function (
++        ko, 
++        quote, 
++        messageList,
++        paymentService,
++        selectPaymentMethod,
++        $t
++    ) {
          'use strict';
  
          function isAddressPackstationOrPostOffice(address) {
