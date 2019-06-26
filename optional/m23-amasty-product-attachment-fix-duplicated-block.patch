@@ -1,0 +1,25 @@
+Fix for issue with duplicated block on Magento 2.3
+Issue reported on HaarShop.
+Error log: "main.CRITICAL: An element with a "amfile.attachment" ID already exists."
+
+diff --git a/Plugin/TabPosition.php b/Plugin/TabPosition.php
+index 58cd83e..8ad9f18 100644
+--- a/Plugin/TabPosition.php
++++ b/Plugin/TabPosition.php
+@@ -34,16 +34,6 @@ class TabPosition
+         $key = array_search('amfile.attachment', $result);
+         if ($key !== false) {
+             unset($result[$key]);
+-        } else {
+-            $tabBlock = $block->getLayout()->createBlock(
+-                \Amasty\ProductAttachment\Block\Product\AttachmentsTab::class,
+-                'amfile.attachment',
+-                [
+-                    'group' => 'detailed_info'
+-                ]
+-            );
+-
+-            $block->setChild('amfile.attachment', $tabBlock);
+         }
+ 
+         return array_merge(

@@ -133,6 +133,13 @@
                 "filename": "optional/m22-aheadworks-module-blog-fix-indexer-haar.patch",
                 "version-constraint": "^2.4.0"
             }
+        ],
+        "amasty/product-attachment": [
+            {
+                "description": "Fix for duplicated block (amfile.attachment ID already exists)",
+                "filename": "optional/m23-amasty-product-attachment-fix-duplicated-block.patch",
+                "version-constraint": "^2.2.0"
+            }
         ]
     }
 }
