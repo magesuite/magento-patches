@@ -287,7 +287,7 @@
                 {
                     "description": "Check if product qty is bigger than 0 for Only X left (2.3.0)",
                     "filename": "essential/m230-check-product-qty-greater-than-0.patch",
-                    "version-constraint": ">=1.0.3"
+                    "version-constraint": "1.0.3"
                 }
             ],
             "clever/magento2": [
