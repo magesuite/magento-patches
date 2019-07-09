@@ -65,6 +65,11 @@
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/framework-secure-cookie.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix for Magento Framework Escaper - Critical log with special symbols",
+                    "filename": "essential/m227minus-fix-escaper-with-special-symbols.patch",
+                    "version-constraint": "101.0.7"
                 }
             ],
             "magento/module-theme": [
