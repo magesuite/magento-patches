@@ -75,7 +75,7 @@ index 612e190..9231719 100644
 +    }
 +}
 +
-+$debugger = new OOMDebugger(realpath(getcwd().'/../var/log'));
++$debugger = new OOMDebugger(realpath(getcwd().'/../var/report'));
 +
  use Magento\Framework\App\Bootstrap;
  use Magento\Framework\App\Filesystem\DirectoryList;
