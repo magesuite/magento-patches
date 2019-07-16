@@ -1,0 +1,13 @@
+diff --git a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
+index 028bf2c..14e6c08 100644
+--- a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
++++ b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
+@@ -198,7 +198,7 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
+      */
+     public function hasToBeTerminated()
+     {
+-        return $this->hasFatalExceptions() || $this->isErrorLimitExceeded();
++        return $this->isErrorLimitExceeded();
+     }
+ 
+     /**

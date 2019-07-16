@@ -252,9 +252,14 @@
                     "version-constraint": "100.2.*||100.3.0"
                 },
                 {
-                    "description": "Fix skip invalid rows functionality in import in Magento 2.3.1+",
+                    "description": "Fix skip invalid rows functionality in import in Magento 2.3.1",
                     "filename": "essential/m231-fix-skip-import-validation-strategy.patch",
                     "version-constraint": "100.3.1"
+                },
+                {
+                    "description": "Fix skip invalid rows functionality in import in Magento 2.3.2+",
+                    "filename": "essential/m232-fix-skip-import-validation-strategy.patch",
+                    "version-constraint": ">=100.3.2"
                 }
             ],
             "plugincompany/contactforms": [
@@ -316,7 +321,12 @@
                 {
                     "description": "Remove getimagesize from wysiwyg media listing logic to improve performance",
                     "filename": "essential/m22-remove-getimagesize-wysiwyg-media.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<=103.0.1"
+                },
+                {
+                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance in Magento 2.3.2+",
+                    "filename": "essential/m232-remove-getimagesize-wysiwyg-media.patch",
+                    "version-constraint": ">=103.0.2"
                 }
             ],
             "magento/module-sales-sequence": [
