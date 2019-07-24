@@ -131,6 +131,11 @@
                     "description": "Fix isInline method that cause filters in layered navigation to not expand",
                     "filename": "essential/m22-fix-is-inline-elasticsuite-2-5.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Adjust filter range",
+                    "filename": "essential/m23-smile-adjust-filter-range.patch",
+                    "version-constraint": ">=2.6.0"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [

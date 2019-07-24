@@ -1,0 +1,13 @@
+diff --git a/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php b/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php
+index 5f2bdfb..b22e1ed 100644
+--- a/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php
++++ b/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php
+@@ -50,7 +50,7 @@ trait DecimalFilterTrait
+                 list($fromValue, $toValue) = $filter;
+                 $this->setCurrentValue(['from' => $fromValue, 'to' => $toValue]);
+ 
+-                $bounds = array_filter(['gte' => $fromValue, 'lt' => $toValue]);
++                $bounds = array_filter(['gte' => $fromValue, 'lte' => $toValue]);
+ 
+                 $this->getLayer()->getProductCollection()->addFieldToFilter(
+                     $this->getAttributeModel()->getAttributeCode(),
