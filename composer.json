@@ -355,6 +355,13 @@
                     "version-constraint": ">=100.3.0,<100.3.2"
                 }
             ],
+            "magento/framework-amqp": [
+                {
+                    "description": "Fix RabbitMQ dropping connections (and creating lots of unacked msgs) due to TCP buffer overflow when consumer is processing job for a long time",
+                    "filename": "m23-fix-rmq-prefetch-count.patch",
+                    "version-constraint": ">=100.3.0"
+                }
+            ],
             "amzn/amazon-pay-and-login-with-amazon-core-module": [
                 {
                     "description": "Fix for missing street issue (P2G-632)",

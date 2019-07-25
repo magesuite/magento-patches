@@ -1,0 +1,10 @@
+--- a/Config.php
++++ b/Config.php
+@@ -169,6 +169,7 @@ class Config
+             $this->connection = $this->createConnection();
+
+             $this->channel = $this->connection->channel();
++            $this->channel->basic_qos(null, 1, null);
+         }
+         return $this->channel;
+     }
