@@ -1,0 +1,17 @@
+diff --git a/Block/Page.php b/Block/Page.php
+index 3eca0bb..0394583 100644
+--- a/Block/Page.php
++++ b/Block/Page.php
+@@ -167,7 +167,11 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements
+      */
+     protected function _toHtml()
+     {
+-        $html = $this->_filterProvider->getPageFilter()->filter($this->getPage()->getContent());
++        if ($content = $this->getPage()->getContent() === null) {
++            $content = '';
++        }
++
++        $html = $this->_filterProvider->getPageFilter()->filter($content);
+         return $html;
+     }
+ 
