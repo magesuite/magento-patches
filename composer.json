@@ -334,6 +334,13 @@
                     "version-constraint": ">=103.0.2"
                 }
             ],
+            "magento/module-payment": [
+                {
+                    "description": "Fix payment method filter in order grid",
+                    "filename": "essential/m23-fix-payment-method-filter-in-order-grid.patch",
+                    "version-constraint": ">=100.3.0"
+                }
+            ],
             "magento/module-sales-sequence": [
                 {
                     "description": "Change length for sequence_table in db_schema",
