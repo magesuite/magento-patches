@@ -1,0 +1,21 @@
+Drop validation rule that telephone number of the customer in admin panel is always required <= 2.2.7
+
+Bug confirmed present in 2.2.7(BRH)
+
+Discussion: https://community.magento.com/t5/Magento-2-x-Feature-Requests-and/Telephone-number-on-customer-address-shouldn-t-be-required/idi-p/44897/page/2
+Fixed in https://github.com/magento/magento2/commit/194efb28b304614dfb1b77a34d04772924bbd84a#diff-e1e5618f4c35ce5a63c570138855ce80
+
+diff --git a/view/base/ui_component/customer_form.xml b/view/base/ui_component/customer_form.xml
+index 4de6644..d2a9b3f 100644
+--- a/view/base/ui_component/customer_form.xml
++++ b/view/base/ui_component/customer_form.xml
+@@ -486,9 +486,6 @@
+                 </item>
+             </argument>
+             <settings>
+-                <validation>
+-                    <rule name="required-entry" xsi:type="boolean">true</rule>
+-                </validation>
+                 <dataType>text</dataType>
+             </settings>
+         </field>
