@@ -1,0 +1,22 @@
+Backport fix for "Duplicate Order Confirmation Emails for PayPal Express checkout order" for Magento <= 2.2.5
+
+Bug confirmed in 2.2.5(ROT)
+
+Original issue: https://github.com/magento/magento2/issues/18838
+PR: https://github.com/magento/magento2/pull/15094
+
+diff --git a/Model/Express/Checkout.php b/Model/Express/Checkout.php
+index e9f2c1b..2559ec7 100644
+--- a/Model/Express/Checkout.php
++++ b/Model/Express/Checkout.php
+@@ -809,7 +809,9 @@ class Checkout
+             case \Magento\Sales\Model\Order::STATE_PROCESSING:
+             case \Magento\Sales\Model\Order::STATE_COMPLETE:
+             case \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW:
+-                $this->orderSender->send($order);
++                if (!$order->getEmailSent()) {
++                    $this->orderSender->send($order);
++                }
+                 $this->_checkoutSession->start();
+                 break;
+             default:

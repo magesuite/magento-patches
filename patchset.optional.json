@@ -99,6 +99,13 @@
                 "version-constraint": "*"
             }
         ],
+        "magento/module-paypal": [
+            {
+                "description": "Fix for duplicate Order Confirmation Emails for PayPal Express checkout order (<=2.2.5)",
+                "filename": "optional/m225minus-fix-paypal-duplicated-confirmation",
+                "version-constraint": "~100.2.0,<=100.2.5"
+            }
+        ],
         "mageworx/seo-suite-ultimate": [
             {
                 "description": "Fix area code is already set error (LED-1901)",
