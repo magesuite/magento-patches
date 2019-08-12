@@ -1,0 +1,13 @@
+diff --git a/Ui/DataProvider/Product/Form/Modifier/BundlePrice.php b/Ui/DataProvider/Product/Form/Modifier/BundlePrice.php
+index f431012..6ddb539 100644
+--- a/Ui/DataProvider/Product/Form/Modifier/BundlePrice.php
++++ b/Ui/DataProvider/Product/Form/Modifier/BundlePrice.php
+@@ -64,7 +64,7 @@ class BundlePrice extends AbstractModifier
+             $this->arrayManager->findPath(
+                 ProductAttributeInterface::CODE_PRICE,
+                 $meta,
+-                null,
++                'product-details/children',
+                 'children'
+             ) . static::META_CONFIG_PATH,
+             $meta,
