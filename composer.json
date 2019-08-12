@@ -305,7 +305,7 @@
                 {
                     "description": "Drop validation rule that telephone number of the customer in admin panel is always required",
                     "filename": "essential/m227minus-telephone-not-required.patch",
-                    "version-constraint": "101.0.7"
+                    "version-constraint": "<=101.0.7"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
