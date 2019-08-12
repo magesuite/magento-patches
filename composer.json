@@ -369,6 +369,13 @@
                     "version-constraint": ">=100.3.0"
                 }
             ],
+            "magento/module-bundle": [
+                {
+                    "description": "Fix bundle disabled price(when alert are enabled)",
+                    "filename": "essential/m22plus-fix-bundle-disabled-price.patch",
+                    "version-constraint": ">=100.2.0"
+                }
+            ],
             "amzn/amazon-pay-and-login-with-amazon-core-module": [
                 {
                     "description": "Fix for missing street issue (P2G-632)",
