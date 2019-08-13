@@ -1,6 +1,6 @@
 Drop validation rule that telephone number of the customer in admin panel is always required <= 2.2.7
 
-Bug confirmed present in 2.2.7(BRH)
+Bug confirmed in 2.2.7(HAAR) and 2.2.2(BRH)
 
 Discussion: https://community.magento.com/t5/Magento-2-x-Feature-Requests-and/Telephone-number-on-customer-address-shouldn-t-be-required/idi-p/44897/page/2
 Fixed in https://github.com/magento/magento2/commit/194efb28b304614dfb1b77a34d04772924bbd84a#diff-e1e5618f4c35ce5a63c570138855ce80
