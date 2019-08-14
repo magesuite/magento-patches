@@ -1,37 +1,32 @@
 Fix problem with index which was always invalid and caused a lot of error in logs. Issue reported by HaarShop, patch prepared by Aheadworks.
+Fix issue for missing product links on blog post(HAAR-1708)
 
 diff --git a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
-index 0492fea..431d9f0 100644
+index 0492fea..97d2866 100644
 --- a/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
 +++ b/Model/ResourceModel/Indexer/ProductPost/DataCollector.php
-@@ -70,8 +70,28 @@ class DataCollector
+@@ -70,12 +70,19 @@ class DataCollector
          $data = [];
          foreach ($postList as $post) {
              if ($post->getProductRule()->getConditions()->getConditions()) {
 -                $websiteIds = $this->getWebsiteIdsByStoreIds($post->getStoreIds());
 -                $productIds = $post->getProductRule()->setWebsiteIds($websiteIds)->getProductIds();
-+                //$websiteIds = $this->getWebsiteIdsByStoreIds($post->getStoreIds());
-+
 +                $websiteIds = [];
 +                foreach ($post->getStoreIds() as $storeId) {
-+                    if ($storeId != 0){
-+                        $websiteIds[] = $this->storeManager->getStore($storeId)->getWebsiteId();
-+                    } else {
-+                        $websiteIdsObj = $this->storeManager->getWebsites();
-+                        foreach ($websiteIdsObj as $webSite) {
-+                            $websiteIds[] = $webSite->getId();
-+                        }
-+                    }
++                    $websiteIds[] = $this->storeManager->getStore($storeId)->getWebsiteId();
 +                }
 +
-+                try{
-+                    $productIds = $post->getProductRule()->setWebsiteIds($websiteIds)->getProductIds();
-+                }catch(\Exception $e){
-+                    $productIds = [];
-+                    foreach ($websiteIds as $websiteId) {
-+                        $productIds = array_merge($productIds, $post->getProductRule()->setWebsiteIds($websiteIds)->getMatchingProductIds($websiteId));
-+                    }
++                $productIds = [];
++                foreach ($websiteIds as $websiteId) {
++                    $productIds[$websiteId] = $post->getProductRule()->setWebsiteIds($websiteIds)->getMatchingProductIds($websiteId);
 +                }
  
-                 foreach ($productIds as $productId => $validationByWebsite) {
-                     foreach ($websiteIds as $websiteId) {
+-                foreach ($productIds as $productId => $validationByWebsite) {
+-                    foreach ($websiteIds as $websiteId) {
+-                        if ($stores = $this->getWebsiteStores($websiteId)) {
++                foreach ($productIds as $websiteId => $products) {
++                    if ($stores = $this->getWebsiteStores($websiteId)) {
++                        foreach ($products as $productId => $validationByWebsite) {
+                             if (empty($validationByWebsite[$websiteId])) {
+                                 continue;
+                             }
