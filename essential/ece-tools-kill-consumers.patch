@@ -1,0 +1,13 @@
+diff --git a/src/Process/Deploy/CronProcessKill.php b/src/Process/Deploy/CronProcessKill.php
+index 54e9658..3804f25 100644
+--- a/src/Process/Deploy/CronProcessKill.php
++++ b/src/Process/Deploy/CronProcessKill.php
+@@ -46,7 +46,7 @@ class CronProcessKill implements ProcessInterface
+         try {
+             $this->logger->info('Trying to kill running cron jobs');
+ 
+-            $process = $this->shell->execute('pgrep -U "$(id -u)" -f "bin/magento cron:run"');
++            $process = $this->shell->execute('pgrep -U "$(id -u)" -f "bin/magento +(cron:run|queue:consumers:start)"');
+ 
+             $cronPids = array_filter(explode(PHP_EOL, $process->getOutput()));
+             foreach ($cronPids as $pid) {
