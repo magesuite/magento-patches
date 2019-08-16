@@ -276,7 +276,7 @@
                 {
                     "description": "Fix incorrect pragma syntax preventing advanced bundling",
                     "filename": "essential/m22-contact-forms-incorrect-pragma-syntax.patch",
-                    "version-constraint": "<=100.2.0"
+                    "version-constraint": "<=100.9.0"
                 }
             ],
             "magento/module-cron": [
