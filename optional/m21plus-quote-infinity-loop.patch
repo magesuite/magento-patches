@@ -1,0 +1,16 @@
+diff --git a/Model/Quote.php b/Model/Quote.php
+index 6ac6e77..faf890f 100644
+--- a/Model/Quote.php
++++ b/Model/Quote.php
+@@ -2426,9 +2426,8 @@ class Quote extends AbstractExtensibleModel implements \Magento\Quote\Api\Data\C
+     {
+         // collect totals and save me, if required
+         if (1 == $this->getTriggerRecollect()) {
+-            $this->collectTotals()
+-                ->setTriggerRecollect(0)
+-                ->save();
++            $this->setTriggerRecollect(0)->save();
++            $this->collectTotals()->save();
+         }
+         return parent::_afterLoad();
+     }
