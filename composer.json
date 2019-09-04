@@ -251,7 +251,7 @@
                 },
                 {
                     "description": "Fixes quote infinity loop when using MSP/CashOnDelivery module",
-                    "filename": "vendor/creativestyle/magento-patches/optional/m21plus-quote-infinity-loop.patch",
+                    "filename": "essential/m21plus-quote-infinity-loop.patch",
                     "version-constraint": "101.1.*"
                 }
             ],
