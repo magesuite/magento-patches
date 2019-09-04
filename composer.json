@@ -248,6 +248,11 @@
                     "description": "Don't try removing items from quote if it's empty (magento 2.2.2-2.2.4)",
                     "filename": "essential/m22-dont-remove-empty-quote-items.patch",
                     "version-constraint": "~101.0.2,<=101.0.4"
+                },
+                {
+                    "description": "Fixes quote infinity loop when using MSP/CashOnDelivery module",
+                    "filename": "vendor/creativestyle/magento-patches/optional/m21plus-quote-infinity-loop.patch",
+                    "version-constraint": "101.1.*"
                 }
             ],
             "magento/module-import-export": [
