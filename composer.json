@@ -411,7 +411,7 @@
                 {
                     "description": "Ensure that running consumers are killed pre-deploy to prevent infinite wait on deploy",
                     "filename": "essential/ece-tools-kill-consumers.patch",
-                    "version-constraint": ">=2002.0.20"
+                    "version-constraint": "=2002.0.20"
                 }
             ]
         }
