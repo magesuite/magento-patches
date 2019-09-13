@@ -76,6 +76,11 @@
                 "description": "Fix from temporary version released for haarshop",
                 "filename": "optional/m22-amasty-promo-fix-popup-js.patch",
                 "version-constraint": "2.2.*"
+            },
+            {
+                "description": "Temporary fix for Amasty/Promo 2.6.* regarding slicker issue",
+                "filename": "optional/amasty-promo-popup-slicker-fix.patch",
+                "version-constraint": "2.6.*"
             }
         ],
         "magento/module-payment": [

@@ -1,0 +1,13 @@
+diff --git a/view/frontend/web/js/popup.js b/view/frontend/web/js/popup.js
+index 2c047e1..ebe4458 100644
+--- a/view/frontend/web/js/popup.js
++++ b/view/frontend/web/js/popup.js
+@@ -207,6 +207,8 @@ define([
+             }
+ 
+             $(this.element).fadeIn();
++
++            $('[data-role=ampromo-gallery]').slick("refresh");
+         },
+ 
+         /**
