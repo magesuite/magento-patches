@@ -13,20 +13,6 @@ index 37107bf..2fe8a8b 100644
              'sortOrder' => 1
          ];
  
-diff --git a/i18n/de_DE.csv b/i18n/de_DE.csv
-index 1dae1d4..d03d3ba 100644
---- a/i18n/de_DE.csv
-+++ b/i18n/de_DE.csv
-@@ -16,7 +16,8 @@ Searching for Packstation(s) and Post office(s), Suche nach Packstationen und Po
- "Accept as shipping address", "Als Adresse übernehmen"
- "A valid Post Number is required when shipping to a Packstation", "Für den Versand an eine Packstation muss eine gültige Postnummer angegeben werden."
- "Required when shipping to a Packstation or Post Office", "Bitte geben Sie eine gültige Packstations- oder Filialnummer an"
--"Please select a address type", "Bitte wählen Sie einen Adresstyp aus"
-+"Please select an address type", "Bitte wählen Sie einen Adresstyp aus"
-+"A Packstation or Post Office can not be selected as billing address.","Eine Packstation oder ein Postamt kann nicht als Rechnungsadresse ausgewählt werden."
- City, Stadt
- Packstation, Packstation
- Zipcode, PLZ
 diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
 index 28cfe75..5dafa1f 100644
 --- a/view/frontend/layout/checkout_index_index.xml
@@ -162,7 +148,7 @@ index 55cfbe4..b7f82f3 100644
 -                        });
 +                if (isAddressPackstationOrPostOffice(quote.shippingAddress())) {
 +                    messageList.addErrorMessage({
-+                        message: $t('A Packstation or Post Office can not be selected as billing address.')
++                        message: $t('Packstation or Post office can not be selected as billing address. Please select a different address.')
 +                    });
 +                    if (!quote.paymentMethod()) {
 +                        var paymentMethods = paymentService.getAvailablePaymentMethods();
