@@ -311,6 +311,11 @@
                     "description": "Drop validation rule that telephone number of the customer in admin panel is always required",
                     "filename": "essential/m227minus-telephone-not-required.patch",
                     "version-constraint": "<=101.0.7"
+                },
+                {
+                    "description": "Added additional condition in getRegion() method to prevent Magento from throwing error in VatValidator::validate method.",
+                    "filename": "essential/m23plus-fix-VatValidator-validate-returns-error-if-region-in-quoteAddress-is-not-set.patch",
+                    "version-constraint": ">=102.0.0,<=102.0.2"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
