@@ -152,6 +152,13 @@
                 "filename": "optional/m23-amasty-product-attachment-fix-duplicated-block.patch",
                 "version-constraint": "^2.2.0"
             }
+        ],
+        "magento/module-catalog": [
+            {
+                "description": "Fix for NKD bulk api store view scope products update",
+                "filename": "optional/m23commerce-nkd-patch-for-api-product-update.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }

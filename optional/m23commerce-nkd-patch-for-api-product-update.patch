@@ -1,0 +1,30 @@
+diff --git a/Model/ProductRepository.php b/Model/ProductRepository.php
+index edd8b5d..e3bb66a 100644
+--- a/Model/ProductRepository.php
++++ b/Model/ProductRepository.php
+@@ -541,6 +541,13 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
+             $productLinks = $product->getProductLinks();
+         }
+         $productDataArray['store_id'] = (int)$this->storeManager->getStore()->getId();
++
++        $extensionAttributes = $product->getExtensionAttributes();
++        $storeId = $extensionAttributes->getStoreId();
++        if($storeId !== null){
++            $productDataArray['store_id'] = $extensionAttributes->getStoreId();
++        }
++
+         $product = $this->initializeProductData($productDataArray, empty($existingProduct));
+ 
+         $this->processLinks($product, $productLinks);
+diff --git a/etc/extension_attributes.xml b/etc/extension_attributes.xml
+index f06f523..4a56b3c 100644
+--- a/etc/extension_attributes.xml
++++ b/etc/extension_attributes.xml
+@@ -12,6 +12,7 @@
+     </extension_attributes>
+     <extension_attributes for="Magento\Catalog\Api\Data\ProductInterface">
+         <attribute code="website_ids" type="int[]"/>
++        <attribute code="store_id" type="int"/>
+     </extension_attributes>
+     <extension_attributes for="Magento\Catalog\Api\Data\ProductOptionInterface">
+         <attribute code="custom_options" type="Magento\Catalog\Api\Data\CustomOptionInterface[]" />
