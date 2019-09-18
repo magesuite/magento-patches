@@ -12,6 +12,7 @@ index edd8b5d..e3bb66a 100644
 +        if($storeId !== null){
 +            $productDataArray['store_id'] = $extensionAttributes->getStoreId();
 +        }
++        $productDataArray['store_id'] = 0;
 +
          $product = $this->initializeProductData($productDataArray, empty($existingProduct));
  
