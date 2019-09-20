@@ -303,11 +303,6 @@
                     "version-constraint": "<101.0.6"
                 },
                 {
-                    "description": "Newsletter subscription is not correctly updated when user is registered on multiple stores (2.2.6-)",
-                    "filename": "essential/m231-fix-save-shipping-address-without-region.patch",
-                    "version-constraint": "102.0.1"
-                },
-                {
                     "description": "Drop validation rule that telephone number of the customer in admin panel is always required",
                     "filename": "essential/m227minus-telephone-not-required.patch",
                     "version-constraint": "<=101.0.7"
