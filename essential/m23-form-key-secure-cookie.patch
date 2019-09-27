@@ -1,0 +1,12 @@
+diff --git a/Plugin/RegisterFormKeyFromCookie.php b/Plugin/RegisterFormKeyFromCookie.php
+index 6cdc500..70c5fe3 100644
+--- a/Plugin/RegisterFormKeyFromCookie.php
++++ b/Plugin/RegisterFormKeyFromCookie.php
+@@ -94,6 +94,7 @@ class RegisterFormKeyFromCookie
+             ->createPublicCookieMetadata();
+         $cookieMetadata->setDomain($this->sessionConfig->getCookieDomain());
+         $cookieMetadata->setPath($this->sessionConfig->getCookiePath());
++        $cookieMetadata->setSecure($this->sessionConfig->getCookieSecure());
+         $lifetime = $this->sessionConfig->getCookieLifetime();
+         if ($lifetime !== 0) {
+             $cookieMetadata->setDuration($lifetime);

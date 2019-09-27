@@ -79,6 +79,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "magento/module-page-cache": [
+                {
+                    "description": "Set secure cookie flag for FormKey cookie based on HTTPS presence",
+                    "filename": "essential/m23-form-key-secure-cookie.patch",
+                    "version-constraint": ">=100.3.0"
+                }
+            ],
             "magento/module-sales": [
                 {
                     "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
