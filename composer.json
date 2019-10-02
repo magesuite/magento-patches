@@ -318,6 +318,11 @@
                     "description": "Added additional condition in getRegion() method to prevent Magento from throwing error in VatValidator::validate method.",
                     "filename": "essential/m23plus-fix-VatValidator-validate-returns-error-if-region-in-quoteAddress-is-not-set.patch",
                     "version-constraint": ">=102.0.0,<=102.0.2"
+                },
+                {
+                    "description": "Add autocomplete to user area inputs",
+                    "filename": "essential/autocomplete-user-area.patch",
+                    "version-constraint": ">=100.3.0"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
