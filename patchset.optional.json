@@ -159,6 +159,13 @@
                 "filename": "optional/m23commerce-nkd-patch-for-api-product-update.patch",
                 "version-constraint": "*"
             }
+        ],
+        "magento/module-sales-rule": [
+            {
+                "description": "Restore apply discount for shipping amount when discount is for whole cart",
+                "filename": "optional/m23-restore-shipping-amount-discount-for-whole-cart.patch",
+                "version-constraint": ">=101.1.2"
+            }
         ]
     }
 }

@@ -1,0 +1,43 @@
+Temporary restore possibility removed in Magento 2.2.9 and 2.3.2 because of "MAGETWO-98028: Shipping tax rounding issue"
+
+Related Issue: https://github.com/magento/magento2/issues/24422
+Related commit: https://github.com/magento/magento2/commit/1b6d64c316251604228c32667235b1df9467e0b8
+
+diff --git a/Model/Validator.php b/Model/Validator.php
+index ea0221d..54bf379 100644
+--- a/Model/Validator.php
++++ b/Model/Validator.php
+@@ -329,6 +329,20 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+                     $baseDiscountAmount = $rule->getDiscountAmount();
+                     break;
+                 case \Magento\SalesRule\Model\Rule::CART_FIXED_ACTION:
++                    $cartRules = $address->getCartFixedRules();
++                    if (!isset($cartRules[$rule->getId()])) {
++                        $cartRules[$rule->getId()] = $rule->getDiscountAmount();
++                    }
++                    if ($cartRules[$rule->getId()] > 0) {
++                        $quoteAmount = $this->priceCurrency->convert($cartRules[$rule->getId()], $quote->getStore());
++                        $discountAmount = min($shippingAmount - $address->getShippingDiscountAmount(), $quoteAmount);
++                        $baseDiscountAmount = min(
++                            $baseShippingAmount - $address->getBaseShippingDiscountAmount(),
++                            $cartRules[$rule->getId()]
++                        );
++                        $cartRules[$rule->getId()] -= $baseDiscountAmount;
++                    }
++                    $address->setCartFixedRules($cartRules);
+                     // Shouldn't be proceed according to MAGETWO-96403
+                     break;
+             }
+diff --git a/view/adminhtml/ui_component/sales_rule_form.xml b/view/adminhtml/ui_component/sales_rule_form.xml
+index 570eb0b..9b579f4 100644
+--- a/view/adminhtml/ui_component/sales_rule_form.xml
++++ b/view/adminhtml/ui_component/sales_rule_form.xml
+@@ -452,7 +452,7 @@
+                 <dataScope>discount_step</dataScope>
+             </settings>
+         </field>
+-        <field name="apply_to_shipping" component="Magento_SalesRule/js/form/element/apply_to_shipping" formElement="checkbox">
++        <field name="apply_to_shipping" component="Magento_Ui/js/form/element/single-checkbox-toggle-notice" formElement="checkbox">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+                     <item name="source" xsi:type="string">sales_rule</item>
