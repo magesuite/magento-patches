@@ -76,7 +76,7 @@
                 {
                     "description": "Add autocomplete to checkout inputs - setup",
                     "filename": "essential/autocomplete-checkout-inputs-setup.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=101.1.1"
                 }
             ],
             "magento/module-theme": [
@@ -207,7 +207,7 @@
                 {
                     "description": "Add autocomplete to checkout inputs - xml config",
                     "filename": "essential/autocomplete-checkout-inputs-xml.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=101.1.1"
                 }
             ],
             "magento/module-catalog-url-rewrite": [
@@ -334,7 +334,7 @@
                 {
                     "description": "Add autocomplete to user area inputs",
                     "filename": "essential/autocomplete-user-area.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=101.1.1"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
