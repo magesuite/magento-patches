@@ -72,6 +72,13 @@
                     "version-constraint": "101.0.7"
                 }
             ],
+            "magento/module-ui": [
+                {
+                    "description": "Add autocomplete to checkout inputs - setup",
+                    "filename": "essential/autocomplete-checkout-inputs-setup.patch",
+                    "version-constraint": ">=100.3.0"
+                }
+            ],
             "magento/module-theme": [
                 {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
@@ -196,6 +203,11 @@
                     "description": "Fixes undefined string being displayed when shipping method has no title.",
                     "filename": "essential/m22-shipping-method-undefined-title.patch",
                     "version-constraint": "102.0.*"
+                },
+                {
+                    "description": "Add autocomplete to checkout inputs - xml config",
+                    "filename": "essential/autocomplete-checkout-inputs-xml.patch",
+                    "version-constraint": ">=100.3.0"
                 }
             ],
             "magento/module-catalog-url-rewrite": [
