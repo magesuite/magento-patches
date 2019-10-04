@@ -1,0 +1,203 @@
+diff --git a/view/frontend/templates/address/edit.phtml b/view/frontend/templates/address/edit.phtml
+index df3f000..269ea6e 100644
+--- a/view/frontend/templates/address/edit.phtml
++++ b/view/frontend/templates/address/edit.phtml
+@@ -50,7 +50,7 @@
+                        value="<?= $block->escapeHtmlAttr($block->getStreetLine(1)) ?>"
+                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?>"
+                        id="street_1"
+-                       class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>"/>
++                       class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>" autocomplete="address-line1"/>
+                 <div class="nested">
+                     <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+                     <?php for ($_i = 1, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i < $_n; $_i++): ?>
+@@ -63,7 +63,8 @@
+                                        value="<?= $block->escapeHtmlAttr($block->getStreetLine($_i + 1)) ?>"
+                                        title="<?= $block->escapeHtmlAttr(__('Street Address %1', $_i + 1)) ?>"
+                                        id="street_<?= /* @noEscape */ $_i + 1 ?>"
+-                                       class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>">
++                                       class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>"
++                                       autocomplete="address-line<?= $_i + 1?>">
+                             </div>
+                         </div>
+                     <?php endfor; ?>
+@@ -94,7 +95,8 @@
+                        value="<?= $block->escapeHtmlAttr($block->getAddress()->getCity()) ?>"
+                        title="<?= $block->escapeHtmlAttr(__('City')) ?>"
+                        class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>"
+-                       id="city">
++                       id="city"
++                       autocomplete="address-level2">
+             </div>
+         </div>
+         <div class="field region required">
+@@ -112,7 +114,7 @@
+                        name="region"
+                        value="<?= $block->escapeHtmlAttr($block->getRegion()) ?>"
+                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
+-                       class="input-text validate-not-number-first <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region')) ?>"<?= !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>/>
++                       class="input-text validate-not-number-first <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region')) ?>"<?= !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?> autocomplete="address-level1"/>
+             </div>
+         </div>
+         <div class="field zip required">
+@@ -125,7 +127,7 @@
+                        value="<?= $block->escapeHtmlAttr($block->getAddress()->getPostcode()) ?>"
+                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?>"
+                        id="zip"
+-                       class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode')) ?>">
++                       class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode')) ?>" autocomplete="postal-code">
+                 <div role="alert" class="message warning" style="display:none">
+                     <span></span>
+                 </div>
+diff --git a/view/frontend/templates/form/forgotpassword.phtml b/view/frontend/templates/form/forgotpassword.phtml
+index f8eb0bd..e510572 100644
+--- a/view/frontend/templates/form/forgotpassword.phtml
++++ b/view/frontend/templates/form/forgotpassword.phtml
+@@ -20,7 +20,7 @@
+         <div class="field email required">
+             <label for="email_address" class="label"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+             <div class="control">
+-                <input type="email" name="email" alt="email" id="email_address" class="input-text" value="<?= $block->escapeHtmlAttr($block->getEmailValue()) ?>" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
++                <input type="email" name="email" alt="email" id="email_address" autocomplete="email" class="input-text" value="<?= $block->escapeHtmlAttr($block->getEmailValue()) ?>" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
+             </div>
+         </div>
+         <?= $block->getChildHtml('form_additional_info') ?>
+diff --git a/view/frontend/templates/form/login.phtml b/view/frontend/templates/form/login.phtml
+index d85e76e..4b228a1 100644
+--- a/view/frontend/templates/form/login.phtml
++++ b/view/frontend/templates/form/login.phtml
+@@ -24,7 +24,7 @@
+                 <div class="field email required">
+                     <label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?></span></label>
+                     <div class="control">
+-                        <input name="login[username]" value="<?= $block->escapeHtmlAttr($block->getUsername()) ?>" <?php if ($block->isAutocompleteDisabled()): ?> autocomplete="off"<?php endif; ?> id="email" type="email" class="input-text" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
++                        <input name="login[username]" value="<?= $block->escapeHtmlAttr($block->getUsername()) ?>" <?php if ($block->isAutocompleteDisabled()): ?> autocomplete="off" <?php else : ?> autocomplete="email" <?php endif; ?> id="email" type="email" class="input-text" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
+                     </div>
+                 </div>
+                 <div class="field password required">
+diff --git a/view/frontend/templates/form/register.phtml b/view/frontend/templates/form/register.phtml
+index f11177a..60222cc 100644
+--- a/view/frontend/templates/form/register.phtml
++++ b/view/frontend/templates/form/register.phtml
+@@ -67,7 +67,7 @@
+             <div class="field street required">
+                 <label for="street_1" class="label"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?></span></label>
+                 <div class="control">
+-                    <input type="text" name="street[]" value="<?= $block->escapeHtmlAttr($block->getFormData()->getStreet(0)) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?>" id="street_1" class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>">
++                    <input type="text" name="street[]" value="<?= $block->escapeHtmlAttr($block->getFormData()->getStreet(0)) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?>" id="street_1" class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>"  autocomplete="address-line1">
+                     <div class="nested">
+                         <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+                         <?php for ($_i = 2, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i <= $_n; $_i++): ?>
+@@ -76,7 +76,7 @@
+                                     <span><?= $block->escapeHtml(__('Address')) ?></span>
+                                 </label>
+                                 <div class="control">
+-                                    <input type="text" name="street[]" value="<?= $block->escapeHtml($block->getFormData()->getStreetLine($_i - 1)) ?>" title="<?= $block->escapeHtmlAttr(__('Street Address %1', $_i)) ?>" id="street_<?= /* @noEscape */ $_i ?>" class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>">
++                                    <input type="text" name="street[]" value="<?= $block->escapeHtml($block->getFormData()->getStreetLine($_i - 1)) ?>" title="<?= $block->escapeHtmlAttr(__('Street Address %1', $_i)) ?>" id="street_<?= /* @noEscape */ $_i ?>" class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>" autocomplete="address-line<?= $_i ?>">
+                                 </div>
+                             </div>
+                         <?php endfor; ?>
+@@ -87,7 +87,7 @@
+             <div class="field required">
+                 <label for="city" class="label"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?></span></label>
+                 <div class="control">
+-                    <input type="text" name="city" value="<?= $block->escapeHtmlAttr($block->getFormData()->getCity()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>" id="city">
++                    <input type="text" name="city" value="<?= $block->escapeHtmlAttr($block->getFormData()->getCity()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('city') ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>" id="city"  autocomplete="address-level2">
+                 </div>
+             </div>
+ 
+@@ -97,14 +97,14 @@
+                     <select id="region_id" name="region_id" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>" class="validate-select region_id" style="display:none;">
+                         <option value=""><?= $block->escapeHtml(__('Please select a region, state or province.')) ?></option>
+                     </select>
+-                    <input type="text" id="region" name="region" value="<?= $block->escapeHtml($block->getRegion()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region')) ?>" style="display:none;">
++                    <input type="text" id="region" name="region" value="<?= $block->escapeHtml($block->getRegion()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>" class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('region')) ?>" style="display:none;"  autocomplete="address-level1">
+                 </div>
+             </div>
+ 
+             <div class="field zip required">
+                 <label for="zip" class="label"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?></span></label>
+                 <div class="control">
+-                    <input type="text" name="postcode" value="<?= $block->escapeHtmlAttr($block->getFormData()->getPostcode()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?>" id="zip" class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode')) ?>">
++                    <input type="text" name="postcode" value="<?= $block->escapeHtmlAttr($block->getFormData()->getPostcode()) ?>" title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?>" id="zip" class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('postcode')) ?>"  autocomplete="postal-code">
+                 </div>
+             </div>
+ 
+diff --git a/view/frontend/templates/widget/company.phtml b/view/frontend/templates/widget/company.phtml
+index 001a410..bc95c6e 100644
+--- a/view/frontend/templates/widget/company.phtml
++++ b/view/frontend/templates/widget/company.phtml
+@@ -27,6 +27,7 @@
+                value="<?= $block->escapeHtmlAttr($block->getCompany()) ?>"
+                title="<?= $block->escapeHtmlAttr(__('Company')) ?>"
+                class="input-text <?= $_validationClass ?: '' ?>"
++               autocomplete="organization"
+          >
+     </div>
+ </div>
+diff --git a/view/frontend/templates/widget/name.phtml b/view/frontend/templates/widget/name.phtml
+index 223e43c..8a1e535 100644
+--- a/view/frontend/templates/widget/name.phtml
++++ b/view/frontend/templates/widget/name.phtml
+@@ -43,7 +43,8 @@ $suffix = $block->showSuffix();
+                            name="<?= $block->escapeHtmlAttr($block->getFieldName('prefix')) ?>"
+                            value="<?= $block->escapeHtmlAttr($block->getObject()->getPrefix()) ?>"
+                            title="<?= $block->escapeHtmlAttr($block->getStoreLabel('prefix')) ?>"
+-                           class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('prefix')) ?>" <?php if ($block->isPrefixRequired()) echo ' data-validate="{required:true}"' ?>>
++                           class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('prefix')) ?>" <?php if ($block->isPrefixRequired()) echo ' data-validate="{required:true}"' ?>
++                           autocomplete="honorific-prefix">
+                 <?php else: ?>
+                     <select id="<?= $block->escapeHtmlAttr($block->getFieldId('prefix')) ?>"
+                             name="<?= $block->escapeHtmlAttr($block->getFieldName('prefix')) ?>"
+@@ -66,7 +67,8 @@ $suffix = $block->showSuffix();
+                        name="<?= $block->escapeHtmlAttr($block->getFieldName('firstname')) ?>"
+                        value="<?= $block->escapeHtmlAttr($block->getObject()->getFirstname()) ?>"
+                        title="<?= $block->escapeHtmlAttr($block->getStoreLabel('firstname')) ?>"
+-                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('firstname')) ?>" <?php if ($block->getAttributeValidationClass('firstname') == 'required-entry') echo ' data-validate="{required:true}"' ?>>
++                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('firstname')) ?>" <?php if ($block->getAttributeValidationClass('firstname') == 'required-entry') echo ' data-validate="{required:true}"' ?>
++                       autocomplete="given-name">
+             </div>
+         </div>
+     <?php if ($middle): ?>
+@@ -78,7 +80,8 @@ $suffix = $block->showSuffix();
+                        name="<?= $block->escapeHtmlAttr($block->getFieldName('middlename')) ?>"
+                        value="<?= $block->escapeHtmlAttr($block->getObject()->getMiddlename()) ?>"
+                        title="<?= $block->escapeHtmlAttr($block->getStoreLabel('middlename')) ?>"
+-                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('middlename')) ?>" <?= $isMiddlenameRequired ? ' data-validate="{required:true}"' : '' ?>>
++                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('middlename')) ?>" <?= $isMiddlenameRequired ? ' data-validate="{required:true}"' : '' ?>
++                       autocomplete="additional-name">
+             </div>
+         </div>
+     <?php endif; ?>
+@@ -89,7 +92,8 @@ $suffix = $block->showSuffix();
+                        name="<?= $block->escapeHtmlAttr($block->getFieldName('lastname')) ?>"
+                        value="<?= $block->escapeHtmlAttr($block->getObject()->getLastname()) ?>"
+                        title="<?= $block->escapeHtmlAttr($block->getStoreLabel('lastname')) ?>"
+-                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('lastname')) ?>" <?php if ($block->getAttributeValidationClass('lastname') == 'required-entry') echo ' data-validate="{required:true}"' ?>>
++                       class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('lastname')) ?>" <?php if ($block->getAttributeValidationClass('lastname') == 'required-entry') echo ' data-validate="{required:true}"' ?>
++                       autocomplete="family-name">
+             </div>
+         </div>
+     <?php if ($suffix): ?>
+@@ -101,7 +105,8 @@ $suffix = $block->showSuffix();
+                            name="<?= $block->escapeHtmlAttr($block->getFieldName('suffix')) ?>"
+                            value="<?= $block->escapeHtmlAttr($block->getObject()->getSuffix()) ?>"
+                            title="<?= $block->escapeHtmlAttr($block->getStoreLabel('suffix')) ?>"
+-                           class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('suffix')) ?>" <?php if ($block->isSuffixRequired()) echo ' data-validate="{required:true}"' ?>>
++                           class="input-text <?= $block->escapeHtmlAttr($block->getAttributeValidationClass('suffix')) ?>" <?php if ($block->isSuffixRequired()) echo ' data-validate="{required:true}"' ?>
++                           autocomplete="honorific-suffix">
+                 <?php else: ?>
+                     <select id="<?= $block->escapeHtmlAttr($block->getFieldId('suffix')) ?>"
+                             name="<?= $block->escapeHtmlAttr($block->getFieldName('suffix')) ?>"
+diff --git a/view/frontend/templates/widget/telephone.phtml b/view/frontend/templates/widget/telephone.phtml
+index 6367bf1..247cb97 100644
+--- a/view/frontend/templates/widget/telephone.phtml
++++ b/view/frontend/templates/widget/telephone.phtml
+@@ -28,6 +28,7 @@
+                value="<?= $block->escapeHtmlAttr($block->getTelephone()) ?>"
+                title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
+                class="input-text <?= $_validationClass ?: '' ?>"
++               autocomplete="tel"
+         >
+     </div>
+ </div>
