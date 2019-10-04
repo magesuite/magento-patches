@@ -207,7 +207,7 @@
                 {
                     "description": "Add autocomplete to checkout inputs - xml config",
                     "filename": "essential/autocomplete-checkout-inputs-xml.patch",
-                    "version-constraint": ">=101.1.2"
+                    "version-constraint": ">=102.0.2"
                 }
             ],
             "magento/module-catalog-url-rewrite": [
