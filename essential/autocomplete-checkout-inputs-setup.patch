@@ -1,0 +1,29 @@
+diff --git a/view/base/web/js/form/element/abstract.js b/view/base/web/js/form/element/abstract.js
+index ca3d383..e964c49 100644
+--- a/view/base/web/js/form/element/abstract.js
++++ b/view/base/web/js/form/element/abstract.js
+@@ -42,6 +42,9 @@ define([
+             isUseDefault: '',
+             serviceDisabled: false,
+             valueUpdate: false, // ko binding valueUpdate
++            autocomplete: '',
++            type: 'text', //input type
++            pattern: '',
+ 
+             switcherConfig: {
+                 component: 'Magento_Ui/js/form/switcher',
+diff --git a/view/frontend/web/templates/form/element/input.html b/view/frontend/web/templates/form/element/input.html
+index 0423d45..c308334 100644
+--- a/view/frontend/web/templates/form/element/input.html
++++ b/view/frontend/web/templates/form/element/input.html
+@@ -18,6 +18,9 @@
+         'aria-required': required,
+         'aria-invalid': error() ? true : 'false',
+         id: uid,
+-        disabled: disabled
++        disabled: disabled,
++        type: type,
++        autocomplete: autocomplete,
++        pattern: pattern
+     }"
+ />
