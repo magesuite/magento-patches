@@ -67,8 +67,31 @@ index a305413..bcb48a2 100644
                                                                          </item>
                                                                      </item>
                                                                  </item>
+diff --git a/view/frontend/web/template/authentication.html b/view/frontend/web/template/authentication.html
+index 4afaf3c..2b43b1a 100644
+--- a/view/frontend/web/template/authentication.html
++++ b/view/frontend/web/template/authentication.html
+@@ -53,7 +53,8 @@
+                                        id="login-email"
+                                        name="username"
+                                        data-bind="attr: {autocomplete: autocomplete}"
+-                                       data-validate="{required:true, 'validate-email':true}" />
++                                       data-validate="{required:true, 'validate-email':true}"
++                                       autocomplete="email" />
+                             </div>
+                         </div>
+                         <div class="field field-password required">
+@@ -65,7 +66,7 @@
+                                        name="password"
+                                        data-bind="attr: {autocomplete: autocomplete}"
+                                        data-validate="{required:true}"
+-                                       autocomplete="off"/>
++                                       autocomplete="current-password"/>
+                             </div>
+                         </div>
+                         <!-- ko foreach: getRegion('additional-login-form-fields') -->
 diff --git a/view/frontend/web/template/form/element/email.html b/view/frontend/web/template/form/element/email.html
-index 8d6142e..4e21378 100644
+index 8d6142e..30ddd4e 100644
 --- a/view/frontend/web/template/form/element/email.html
 +++ b/view/frontend/web/template/form/element/email.html
 @@ -26,7 +26,8 @@
@@ -81,3 +104,12 @@ index 8d6142e..4e21378 100644
                  <!-- ko template: 'ui/form/element/helper/tooltip' --><!-- /ko -->
                  <span class="note" data-bind="fadeVisible: isPasswordVisible() == false"><!-- ko i18n: 'You can create an account after checkout.'--><!-- /ko --></span>
              </div>
+@@ -47,7 +48,7 @@
+                            type="password"
+                            name="password"
+                            id="customer-password"
+-                           data-validate="{required:true}" autocomplete="off"/>
++                           data-validate="{required:true}" autocomplete="current-password"/>
+                     <span class="note" data-bind="i18n: 'You already have an account with us. Sign in or continue as guest.'"></span>
+                 </div>
+ 
