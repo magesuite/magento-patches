@@ -1,0 +1,89 @@
+diff --git a/Model/Service/InvoiceService.php b/Model/Service/InvoiceService.php
+index 18efeba..c0a4a3d 100644
+--- a/Model/Service/InvoiceService.php
++++ b/Model/Service/InvoiceService.php
+@@ -158,8 +158,8 @@ class InvoiceService implements InvoiceManagementInterface
+                 continue;
+             }
+             $item = $this->orderConverter->itemToInvoiceItem($orderItem);
+-            if (isset($qtys[$orderItem->getId()])) {
+-                $qty = (double) $qtys[$orderItem->getId()];
++            if (isset($qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()])) {
++                $qty = (double) $qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()];
+             } elseif ($orderItem->isDummy()) {
+                 $qty = $orderItem->getQtyOrdered() ? $orderItem->getQtyOrdered() : 1;
+             } elseif ($isQtysEmpty) {
+@@ -187,14 +187,14 @@ class InvoiceService implements InvoiceManagementInterface
+     private function prepareItemsQty(Order $order, array $qtys = [])
+     {
+         foreach ($order->getAllItems() as $orderItem) {
+-            if (empty($qtys[$orderItem->getId()])) {
++            if (empty($qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()])) {
+                 if ($orderItem->getProductType() == Type::TYPE_BUNDLE && !$orderItem->isShipSeparately()) {
+-                    $qtys[$orderItem->getId()] = $orderItem->getQtyOrdered() - $orderItem->getQtyInvoiced();
++                    $qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()] = $orderItem->getQtyOrdered() - $orderItem->getQtyInvoiced();
+                 } else {
+                     $parentItem = $orderItem->getParentItem();
+-                    $parentItemId = $parentItem ? $parentItem->getId() : null;
++                    $parentItemId = $parentItem ? $parentItem->getId() ?: -$parentItem->getQuoteItemId() : null;
+                     if ($parentItemId && isset($qtys[$parentItemId])) {
+-                        $qtys[$orderItem->getId()] = $qtys[$parentItemId];
++                        $qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()] = $qtys[$parentItemId];
+                     }
+                     continue;
+                 }
+@@ -219,20 +219,21 @@ class InvoiceService implements InvoiceManagementInterface
+         if ($orderItem->isDummy()) {
+             if ($orderItem->getHasChildren()) {
+                 foreach ($orderItem->getChildrenItems() as $child) {
+-                    if (!isset($qtys[$child->getId()])) {
+-                        $qtys[$child->getId()] = $child->getQtyToInvoice();
++                    if (!isset($qtys[$child->getId() ?: -$child->getQuoteItemId()])) {
++                        $qtys[$child->getId() ?: -$child->getQuoteItemId()] = $child->getQtyToInvoice();
+                     }
+-                    $parentId = $orderItem->getParentItemId();
++                    $parent= $orderItem->getParentItem();
++                    $parentId = $parentItem ? $parentItem->getId() ?: -$parentItem->getQuoteItemId() : null;
+                     if ($parentId && array_key_exists($parentId, $qtys)) {
+-                        $qtys[$orderItem->getId()] = $qtys[$parentId];
++                        $qtys[$orderItem->getId() ?: -$orderItem->getQuoteId()] = $qtys[$parentId];
+                     } else {
+                         continue;
+                     }
+                 }
+             } elseif ($orderItem->getParentItem()) {
+                 $parent = $orderItem->getParentItem();
+-                if (!isset($qtys[$parent->getId()])) {
+-                    $qtys[$parent->getId()] = $parent->getQtyToInvoice();
++                if (!isset($qtys[$parent->getId() ?: -$parent->getQuoteItemId()])) {
++                    $qtys[$parent->getId() ?: -$parent->getQuoteItemId()] = $parent->getQtyToInvoice();
+                 }
+             }
+         }
+@@ -253,7 +254,7 @@ class InvoiceService implements InvoiceManagementInterface
+                     $bundleSelectionAttributes = $this->serializer->unserialize($bundleSelectionAttributes);
+                 }
+ 
+-                $qtys[$childItem->getId()] = $qtys[$orderItem->getId()] * $bundleSelectionAttributes['qty'];
++                $qtys[$childItem->getId() ?: -$childItem->getQuoteItemId()] = $qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()] * $bundleSelectionAttributes['qty'];
+             }
+         }
+     }
+@@ -279,7 +280,7 @@ class InvoiceService implements InvoiceManagementInterface
+                             return true;
+                         }
+                     } else {
+-                        if (isset($qtys[$child->getId()]) && $qtys[$child->getId()] > 0) {
++                        if (isset($qtys[$child->getId() ?: -$child->getQuoteItemId()]) && $qtys[$child->getId() ?: -$child->getQuoteItemId()] > 0) {
+                             return true;
+                         }
+                     }
+@@ -290,7 +291,7 @@ class InvoiceService implements InvoiceManagementInterface
+                 if (empty($qtys)) {
+                     return $parent->getQtyToInvoice() > 0;
+                 } else {
+-                    return isset($qtys[$parent->getId()]) && $qtys[$parent->getId()] > 0;
++                    return isset($qtys[$parent->getId() ?: -$parent->getQuoteItemId()]) && $qtys[$parent->getId() ?: -$parent->getQuoteItemId()] > 0;
+                 }
+             }
+         } else {
