@@ -11,7 +11,7 @@ index df3f000..b88bdb7 100644
                  <div class="nested">
                      <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
                      <?php for ($_i = 1, $_n = $this->helper('Magento\Customer\Helper\Address')->getStreetLines(); $_i < $_n; $_i++): ?>
-@@ -63,7 +64,8 @@
+@@ -63,7 +63,8 @@
                                         value="<?= $block->escapeHtmlAttr($block->getStreetLine($_i + 1)) ?>"
                                         title="<?= $block->escapeHtmlAttr(__('Street Address %1', $_i + 1)) ?>"
                                         id="street_<?= /* @noEscape */ $_i + 1 ?>"
@@ -21,7 +21,7 @@ index df3f000..b88bdb7 100644
                              </div>
                          </div>
                      <?php endfor; ?>
-@@ -94,7 +96,8 @@
+@@ -94,7 +95,8 @@
                         value="<?= $block->escapeHtmlAttr($block->getAddress()->getCity()) ?>"
                         title="<?= $block->escapeHtmlAttr(__('City')) ?>"
                         class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>"
@@ -31,7 +31,7 @@ index df3f000..b88bdb7 100644
              </div>
          </div>
          <div class="field region required">
-@@ -112,7 +115,8 @@
+@@ -112,7 +114,7 @@
                         name="region"
                         value="<?= $block->escapeHtmlAttr($block->getRegion()) ?>"
                         title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
@@ -40,7 +40,7 @@ index df3f000..b88bdb7 100644
              </div>
          </div>
          <div class="field zip required">
-@@ -125,7 +129,8 @@
+@@ -125,7 +127,7 @@
                         value="<?= $block->escapeHtmlAttr($block->getAddress()->getPostcode()) ?>"
                         title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?>"
                         id="zip"
