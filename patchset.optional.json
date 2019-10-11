@@ -64,6 +64,13 @@
                 "version-constraint": "101.0.*"
             }
         ],
+        "magento/module-sales": [
+            {
+                "description": "Fix invalid invoice qty when bundle products are present in the order",
+                "filename": "optional/m23-fix-invalid-invoice-qty-for-bundles.patch",
+                "version-constraint": "102.0.2"
+            }
+        ],
         "amasty/module-xcoupon": [
             {
                 "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",
