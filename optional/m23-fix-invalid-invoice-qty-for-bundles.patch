@@ -42,8 +42,8 @@ index 18efeba..c0a4a3d 100644
 +                        $qtys[$child->getId() ?: -$child->getQuoteItemId()] = $child->getQtyToInvoice();
                      }
 -                    $parentId = $orderItem->getParentItemId();
-+                    $parent= $orderItem->getParentItem();
-+                    $parentId = $parentItem ? $parentItem->getId() ?: -$parentItem->getQuoteItemId() : null;
++                    $parent = $orderItem->getParentItem();
++                    $parentId = $parent ? $parent->getId() ?: -$parent->getQuoteItemId() : null;
                      if ($parentId && array_key_exists($parentId, $qtys)) {
 -                        $qtys[$orderItem->getId()] = $qtys[$parentId];
 +                        $qtys[$orderItem->getId() ?: -$orderItem->getQuoteId()] = $qtys[$parentId];
