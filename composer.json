@@ -442,6 +442,13 @@
                     "filename": "essential/ece-tools-kill-consumers.patch",
                     "version-constraint": "=2002.0.20"
                 }
+            ],
+            "magento/module-advanced-sales-rule": [
+                {
+                    "description": "Reduces fetching of product entity when passed attribute code is not a product attribute",
+                    "filename": "essential/m23-advanced-rule-condition-product-fetching-performance-fix.patch",
+                    "version-constraint": ">=100.3.0"
+                }
             ]
         }
     }

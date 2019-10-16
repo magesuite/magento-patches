@@ -1,0 +1,38 @@
+diff --git a/Model/Rule/Condition/FilterTextGenerator/Product/Attribute.php b/Model/Rule/Condition/FilterTextGenerator/Product/Attribute.php
+index 4e90156..76e27e8 100644
+--- a/Model/Rule/Condition/FilterTextGenerator/Product/Attribute.php
++++ b/Model/Rule/Condition/FilterTextGenerator/Product/Attribute.php
+@@ -15,6 +15,8 @@ class Attribute implements FilterTextGeneratorInterface
+      */
+     protected $attributeCode;
+ 
++    protected static $attributesCodesCache = null;
++
+     /**
+      * @param array $data
+      */
+@@ -34,6 +36,11 @@ class Attribute implements FilterTextGeneratorInterface
+             $items = $quoteAddress->getAllItems();
+             foreach ($items as $item) {
+                 $product = $item->getProduct();
++
++                if(!$this->productHasAttribute($product, $this->attributeCode)) {
++                    continue;
++                }
++
+                 if (!$product->hasData($this->attributeCode)) {
+                     $product->load($product->getId());
+                 }
+@@ -48,4 +55,12 @@ class Attribute implements FilterTextGeneratorInterface
+         }
+         return $filterText;
+     }
++
++    public function productHasAttribute($product, $attributeCode) {
++        if(self::$attributesCodesCache == null) {
++            self::$attributesCodesCache = array_keys($product->getAttributes());
++        }
++
++        return isset(self::$attributesCodesCache[$attributeCode]);
++    }
+ }
