@@ -449,6 +449,13 @@
                     "filename": "essential/m23-advanced-rule-condition-product-fetching-performance-fix.patch",
                     "version-constraint": ">=100.3.0"
                 }
+            ],
+            "magento/module-inventory-configurable-product-indexer": [
+                {
+                    "description": "Fixes indexing process for configurable products in commerce version of Magento",
+                    "filename": "essential/m23-fix-inventory-indexing-for-configurable-products.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }

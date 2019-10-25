@@ -1,0 +1,13 @@
+diff --git a/Indexer/SourceItem/SiblingSkuListInStockProvider.php b/Indexer/SourceItem/SiblingSkuListInStockProvider.php
+index 4d45205..8d65965 100644
+--- a/Indexer/SourceItem/SiblingSkuListInStockProvider.php
++++ b/Indexer/SourceItem/SiblingSkuListInStockProvider.php
+@@ -90,7 +90,7 @@ class SiblingSkuListInStockProvider
+         $sourceItemTable = $this->resourceConnection->getTableName($this->tableNameSourceItem);
+ 
+         $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
+-        $linkField = $metadata->getLinkField();
++        $linkField = $metadata->getIdentifierField();
+ 
+         $select = $connection
+             ->select()
