@@ -1,0 +1,20 @@
+--- a/view/frontend/web/js/view/payment/method-renderer/santander_hire.js
++++ b/view/frontend/web/js/view/payment/method-renderer/santander_hire.js
+@@ -85,11 +85,13 @@ define(
+                     }
+                     catch (err) {
+                     }
+-
+-                    if (!window.santanderPlanChoosingWindow.finished) {
+-                        if (window.santanderPlanChoosingWindow.closed) {
+-                            window.santanderHireFinishedPaymentPlan(false);
++                    try {
++                        if (!window.santanderPlanChoosingWindow.finished) {
++                            if (window.santanderPlanChoosingWindow.closed) {
++                                window.santanderHireFinishedPaymentPlan(false);
++                            }
+                         }
++                    } catch (err) {
+                     }
+                 }, 200);
+                 loader.startLoader();

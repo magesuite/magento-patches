@@ -173,6 +173,13 @@
                 "filename": "optional/m23-restore-shipping-amount-discount-for-whole-cart.patch",
                 "version-constraint": ">=101.1.2"
             }
-        ]
+        ],
+        "patworx/santander-magento-2": [
+            {
+                "description": "Update santander_hire.js to santander-magento-2 v.1.2.1",
+                "filename": "optional/patworx_santander_hire_version_update.patch",
+                "version-constraint": "1.2.0"
+            }
+        ]
     }
 }
