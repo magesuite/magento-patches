@@ -1,0 +1,20 @@
+diff --git a/Model/Api/Invoice.php b/Model/Api/Invoice.php
+index a3d7c15..a6c666b 100644
+--- a/Model/Api/Invoice.php
++++ b/Model/Api/Invoice.php
+@@ -162,11 +162,12 @@ class Invoice
+                 $dItemAmount = $aPositions[$sPositionKey]; // use amount from single-invoice
+             }
+             $iAmount = $this->convertItemAmount($dItemAmount);
+-            $dPrice = $oItem->getBasePriceInclTax();
++            $dPrice = $oItem->getBaseRowTotalInclTax();
+             if ($this->toolkitHelper->getConfigParam('currency') == 'display') {
+-                $dPrice = $oItem->getPriceInclTax();
++                $dPrice = $oItem->getRowTotalInclTax();
+             }
+-            $this->addInvoicePosition($oItem->getSku(), $dPrice, 'goods', $iAmount, $oItem->getName(), $oItem->getTaxPercent()); // add invoice params to request
++            $dName = $oItem->getName() . ($iAmount > 1 ? sprintf(' (Menge: %s)', $iAmount) : '');
++            $this->addInvoicePosition($oItem->getSku(), $dPrice, 'goods', 1, $dName, $oItem->getTaxPercent()); // add invoice params to request
+             if ($this->dTax === false) { // is dTax not set yet?
+                 $this->dTax = $oItem->getTaxPercent(); // set the tax for following entities which dont have the vat attached to it
+             }
