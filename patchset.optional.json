@@ -180,6 +180,13 @@
                 "filename": "optional/patworx_santander_hire_version_update.patch",
                 "version-constraint": "1.2.0"
             }
-        ]
+        ],
+        "payone-gmbh/magento-2": [
+            {
+                "description": "Fix for mismatch of order total amount and sum of the items amount (due to differences in tax handling)",
+                "filename": "optional/payone-invoice-items-tax.patch",
+                "version-constraint": "^2.5.0"
+            }
+        ]
     }
 }
