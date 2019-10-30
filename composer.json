@@ -116,6 +116,11 @@
             ],
             "magento/magento2-base": [
                 {
+                    "description": "Fix fullscreen product gallery touch swiping",
+                    "filename": "essential/m232-fix-fullscreen-gallery-touch-swiping.patch",
+                    "version-constraint": ">=100.3.2"
+                },
+                {
                     "description": "Make it possible to close fullscreen product gallery on iOS",
                     "filename": "essential/m22-ios-fullscreen-gallery-close-fix.patch",
                     "version-constraint": "~2.2.0,<=2.2.3"
@@ -207,6 +212,11 @@
                 {
                     "description": "Add autocomplete to checkout inputs - xml config",
                     "filename": "essential/autocomplete-checkout-inputs-xml.patch",
+                    "version-constraint": ">=100.3.2"
+                },
+                {
+                    "description": "Fix incorrect store ID check which reloads customer data all the time.",
+                    "filename": "essential/m232-store-id-check-fix.patch",
                     "version-constraint": ">=100.3.2"
                 }
             ],
