@@ -85,9 +85,9 @@
                 "version-constraint": "2.2.*"
             },
             {
-                "description": "Temporary fix for Amasty/Promo 2.6.* regarding slicker issue",
+                "description": "Temporary fix for Amasty/Promo ^2.6.0 regarding slicker issue",
                 "filename": "optional/amasty-promo-popup-slicker-fix.patch",
-                "version-constraint": "2.6.*"
+                "version-constraint": "^2.6.0"
             }
         ],
         "magento/module-payment": [
@@ -174,14 +174,14 @@
                 "version-constraint": ">=101.1.2"
             }
         ],
-        "patworx/santander-magento-2": [
-            {
-                "description": "Update santander_hire.js to santander-magento-2 v.1.2.1",
-                "filename": "optional/patworx_santander_hire_version_update.patch",
-                "version-constraint": "1.2.0"
-            }
-        ],
-        "payone-gmbh/magento-2": [
+        "patworx/santander-magento-2": [
+            {
+                "description": "Update santander_hire.js to santander-magento-2 v.1.2.1",
+                "filename": "optional/patworx_santander_hire_version_update.patch",
+                "version-constraint": "1.2.0"
+            }
+        ],
+                "payone-gmbh/magento-2": [
             {
                 "description": "Fix for mismatch of order total amount and sum of the items amount (due to differences in tax handling)",
                 "filename": "optional/payone-invoice-items-tax.patch",
