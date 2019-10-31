@@ -42,6 +42,234 @@ index c1c7c40..510af92 100644
      /**
       * @return string|null
       */
+diff --git a/Block/Banner.php b/Block/Banner.php
+deleted file mode 100644
+index faba2b2..0000000
+--- a/Block/Banner.php
++++ /dev/null
+@@ -1,222 +0,0 @@
+-<?php
+-/**
+- * @author Amasty Team
+- * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+- * @package Amasty_Promo
+- */
+-
+-
+-namespace Amasty\Promo\Block;
+-
+-use Amasty\BannersLite\Model\ConfigProvider as BannerConfigProvider;
+-use Amasty\BannersLite\Model\ProductBannerProvider;
+-use Amasty\Promo\Model\Config;
+-use Magento\Catalog\Helper\Image;
+-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+-use Magento\Framework\View\Element\Template;
+-use Amasty\Promo\Model\ResourceModel\Rule\CollectionFactory as RuleCollectionFactory;
+-
+-/**
+- * @SuppressWarnings(PHPMD.LongVariable)
+- *
+- * @method string getPosition()
+- */
+-class Banner extends Template
+-{
+-    /**
+-     * @var \Magento\SalesRule\Model\Rule[]
+-     */
+-    private static $validRules = [];
+-
+-    /**
+-     * @var Config
+-     */
+-    private $config;
+-
+-    /**
+-     * @var BannerConfigProvider
+-     */
+-    private $bannerConfig;
+-
+-    /**
+-     * @var RuleCollectionFactory
+-     */
+-    private $ruleCollectionFactory;
+-
+-    /**
+-     * @var ProductCollectionFactory
+-     */
+-    private $productCollectionFactory;
+-
+-    /**
+-     * @var ProductBannerProvider
+-     */
+-    private $bannerProvider;
+-
+-    /**
+-     * @var Image
+-     */
+-    private $image;
+-
+-    public function __construct(
+-        Template\Context $context,
+-        Config $config,
+-        BannerConfigProvider $bannerConfig,
+-        RuleCollectionFactory $ruleCollectionFactory,
+-        ProductCollectionFactory $productCollectionFactory,
+-        ProductBannerProvider $bannerProvider,
+-        Image $image,
+-        array $data = []
+-    ) {
+-        parent::__construct($context, $data);
+-
+-        $this->config = $config;
+-        $this->bannerConfig = $bannerConfig;
+-        $this->ruleCollectionFactory = $ruleCollectionFactory;
+-        $this->productCollectionFactory = $productCollectionFactory;
+-        $this->bannerProvider = $bannerProvider;
+-        $this->image = $image;
+-    }
+-
+-    /**
+-     * @return \Magento\SalesRule\Model\Rule[]
+-     */
+-    public function getValidRules()
+-    {
+-        if (empty(self::$validRules)) {
+-            $validRulesIds = $this->bannerProvider->getValidRulesIds($this->getProductId());
+-
+-            if ($this->bannerConfig->isOneBannerEnabled() && $validRulesIds) {
+-                $validRulesIds = array_slice($validRulesIds, 0, 1);
+-            }
+-
+-            self::$validRules = $this->ruleCollectionFactory->create()
+-                ->addFieldToFilter(\Amasty\Promo\Api\Data\GiftRuleInterface::SALESRULE_ID, ['in' => $validRulesIds])
+-                ->getItems();
+-        }
+-
+-        return self::$validRules;
+-    }
+-
+-    /**
+-     * @param \Amasty\Promo\Model\Rule $rule
+-     *
+-     * @return bool
+-     */
+-    public function isShowGiftImages(\Amasty\Promo\Model\Rule $rule)
+-    {
+-        return boolval($rule->getData($this->getPosition() . '_banner_show_gift_images'));
+-    }
+-
+-    /**
+-     * @param \Amasty\Promo\Model\Rule $rule
+-     *
+-     * @return $this|array
+-     */
+-    public function getProducts(\Amasty\Promo\Model\Rule $rule)
+-    {
+-        $products = [];
+-
+-        if ($promoSku = $rule->getSku()) {
+-            $products = $this->productCollectionFactory->create()
+-                ->addFieldToFilter('sku', ['in' => explode(",", $promoSku)])
+-                ->addUrlRewrite()
+-                ->addAttributeToSelect(
+-                    [
+-                        'name',
+-                        'thumbnail',
+-                        $this->getAttributeHeader(),
+-                        $this->getAttributeDescription()
+-                    ]
+-                );
+-        }
+-
+-        return $products;
+-    }
+-
+-    /**
+-     * @return int
+-     */
+-    public function getProductId()
+-    {
+-        if (!$this->hasData('product_id')) {
+-            if (!empty($this->_request->getParam('product_id'))) {
+-                $this->setData('product_id', $this->_request->getParam('product_id'));
+-            } else {
+-                $this->setData('product_id', $this->_request->getParam('id'));
+-            }
+-        }
+-
+-        return $this->_getData('product_id');
+-    }
+-
+-    /**
+-     * @return string
+-     */
+-    public function getAttributeHeader()
+-    {
+-        return $this->config->getAttrForHeader();
+-    }
+-
+-    /**
+-     * @return string
+-     */
+-    public function getAttributeDescription()
+-    {
+-        return $this->config->getAttrForDescription();
+-    }
+-
+-    /**
+-     * @return float
+-     */
+-    public function getWidth()
+-    {
+-        return $this->config->getImageWidth();
+-    }
+-
+-    /**
+-     * @return float
+-     */
+-    public function getHeight()
+-    {
+-        return $this->config->getImageHeight();
+-    }
+-
+-    /**
+-     * @param \Magento\Catalog\Model\Product $product
+-     *
+-     * @return string
+-     */
+-    public function getImageForProduct($product)
+-    {
+-        return $this->image
+-            ->init($product, 'mini_cart_product_thumbnail')
+-            ->keepFrame(false)
+-            ->constrainOnly(true)
+-            ->resize($this->getWidth())
+-            ->getUrl();
+-    }
+-
+-    /**
+-     * @param \Magento\Catalog\Model\Product $product
+-     *
+-     * @return string
+-     */
+-    public function getNameForProduct($product)
+-    {
+-        return $product->getResource()->getAttribute($this->getAttributeHeader())->getFrontend()->getValue($product);
+-    }
+-
+-    /**
+-     * @param \Magento\Catalog\Model\Product $product
+-     *
+-     * @return string
+-     */
+-    public function getDescriptionForProduct($product)
+-    {
+-        return $product->getResource()
+-            ->getAttribute($this->getAttributeDescription())
+-            ->getFrontend()
+-            ->getValue($product);
+-    }
+-}
 diff --git a/Model/ImageMigrate.php b/Model/ImageMigrate.php
 index 7306d82..868af95 100644
 --- a/Model/ImageMigrate.php
@@ -362,17 +590,20 @@ index 8a8aa3b..9b6472d 100644
      /**
       * @inheritdoc
       */
-+diff a/composer.json b/composer.json	(rejected hunks)
-+@@ -5,7 +5,6 @@
-+         "php": "7.0.2|7.0.4|~7.0.6|^7.1.0",
-+         "amasty/base": ">=1.4.5",
-+         "amasty/module-advanced-conditions": ">=1.3.6",
-+-        "amasty/module-banners-lite": ">=1.0.5",
-+         "amasty/module-salesrulewizard": "*",
-+         "amasty/rgrid": "*"
-+     },
+diff --git a/composer.json b/composer.json
+index dbb5b3c..44d4c2a 100644
+--- a/composer.json
++++ b/composer.json
+@@ -5,7 +5,6 @@
+         "php": "7.0.2|7.0.4|~7.0.6|^7.1.0",
+         "amasty/base": ">=1.9.4",
+         "amasty/module-advanced-conditions": ">=1.3.14",
+-        "amasty/module-banners-lite": ">=1.0.8",
+         "amasty/module-salesrulewizard": ">=1.0.0",
+         "amasty/rgrid": ">=1.0.7"
+     },
 diff --git a/etc/di.xml b/etc/di.xml
-index 3967db6..61a32a7 100644
+index 72eb831..76e53d4 100644
 --- a/etc/di.xml
 +++ b/etc/di.xml
 @@ -98,11 +98,6 @@
@@ -509,6 +740,88 @@ index 09a37d1..26381e4 100644
 +
  </form>
 \ No newline at end of file
+diff --git a/view/frontend/layout/catalog_product_view.xml b/view/frontend/layout/catalog_product_view.xml
+deleted file mode 100644
+index 0a90a12..0000000
+--- a/view/frontend/layout/catalog_product_view.xml
++++ /dev/null
+@@ -1,29 +0,0 @@
+-<?xml version="1.0"?>
+-<!--
+-/**
+- * @author Amasty Team
+- * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+- * @package Amasty_Promo
+- */
+--->
+-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+-    <head>
+-        <css src="Amasty_Promo::css/banner.css"/>
+-    </head>
+-    <body>
+-        <referenceBlock name="amasty.banners.lite.top">
+-            <block class="Amasty\Promo\Block\Banner" as="after_banners" template="banner.phtml" >
+-                <action method="setPosition">
+-                    <argument name="position" xsi:type="string">top</argument>
+-                </action>
+-            </block>
+-        </referenceBlock>
+-        <referenceBlock name="amasty.banners.lite.after_description">
+-            <block class="Amasty\Promo\Block\Banner" as="after_banners" template="banner.phtml" >
+-                <action method="setPosition">
+-                    <argument name="position" xsi:type="string">after_product</argument>
+-                </action>
+-            </block>
+-        </referenceBlock>
+-    </body>
+-</page>
+\ No newline at end of file
+diff --git a/view/frontend/templates/banner.phtml b/view/frontend/templates/banner.phtml
+deleted file mode 100644
+index cc4a5f5..0000000
+--- a/view/frontend/templates/banner.phtml
++++ /dev/null
+@@ -1,40 +0,0 @@
+-<?php
+-/**
+- * @author Amasty Team
+- * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+- * @package Amasty_Promo
+- */
+-?>
+-<?php /** @var \Amasty\Promo\Block\Banner $block */?>
+-<?php /** @var \Amasty\Promo\Model\Rule $rule */?>
+-<?php foreach ($block->getValidRules() as $rule) :?>
+-    <?php if ($block->isShowGiftImages($rule)) :?>
+-        <ul class="ampromo-gift">
+-            <?php /** @var \Magento\Catalog\Model\Product $product */?>
+-            <?php foreach ($block->getProducts($rule) as $product) : ?>
+-                <?php
+-                $product->getAttributeRawValue($product->getId(), $block->getAttributeHeader(), 1);
+-                $id = uniqid("ampromo-gift-img-");
+-                ?>
+-                <li>
+-                    <a class="product-image" href="<?= $block->escapeUrl($product->getProductUrl())?>">
+-                        <img class="ampromo-banner-<?= $block->escapeHtml($block->getPosition())?>-img"
+-                             id="<?= /**@no-escape*/$id;?>"
+-                             alt="<?= $block->escapeHtml('Product Image') ?>"
+-                             width="<?= (float)$block->getWidth();?>"
+-                             height="<?= (float)$block->getHeight();?>"
+-                             src="<?= $block->escapeUrl($block->getImageForProduct($product));?>"/>
+-                        <div id="<?= /**@no-escape*/$id;?>-data" style="display: none;">
+-                            <div class="ampromo-product-name">
+-                                <?= $block->escapeHtml($block->getNameForProduct($product));?>
+-                            </div>
+-                            <div class="ampromo-short-description">
+-                                <?= $block->escapeHtml($block->getDescriptionForProduct($product));?>
+-                            </div>
+-                        </div>
+-                    </a>
+-                </li>
+-            <?php endforeach; ?>
+-        </ul>
+-    <?php endif; ?>
+-<?php endforeach; ?>
 diff --git a/view/frontend/web/css/banner.css b/view/frontend/web/css/banner.css
 deleted file mode 100644
 index 5b71b98..0000000
