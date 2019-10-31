@@ -187,6 +187,13 @@
                 "filename": "optional/payone-invoice-items-tax.patch",
                 "version-constraint": "^2.5.0"
             }
+        ],
+        "amasty/module-banners-lite": [
+            {
+                "description": "Remove clecning product cache in Amasty_BannersLite",
+                "filename": "optional/amasty-banners-lite-remove-clean-product-cache.patch",
+                "version-constraint": "^1.0.8"
+            }
         ]
     }
 }

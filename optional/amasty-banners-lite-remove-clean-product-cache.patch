@@ -1,0 +1,13 @@
+Skipping cache cleaning in Amasty_bannersLite because it's triggered purge cache for all products always when sales rules was edited or used in the checkout - big performance impact.
+
+index 3129042..bd4c859 100644
+--- a/Model/Cache.php
++++ b/Model/Cache.php
+@@ -76,6 +76,7 @@ class Cache extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
+      */
+     public function cleanProductCache($bannerRule)
+     {
++        return; # Skip cleaning cache because purging cache for all products has performance impact
+         $cacheTags = array_unique($this->getCacheTags($bannerRule));
+
+         if ($cacheTags) {
