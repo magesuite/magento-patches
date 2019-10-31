@@ -190,7 +190,7 @@
         ],
         "amasty/module-banners-lite": [
             {
-                "description": "Remove clecning product cache in Amasty_BannersLite",
+                "description": "Remove cleaning product cache in Amasty_BannersLite",
                 "filename": "optional/amasty-banners-lite-remove-clean-product-cache.patch",
                 "version-constraint": "^1.0.8"
             }
