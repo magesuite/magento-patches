@@ -1,0 +1,845 @@
+diff --git a/Api/Data/GiftRuleInterface.php b/Api/Data/GiftRuleInterface.php
+index 8a2ee512fa243357eec6c28a17b2a17dc0db35fe..15172a923449c5d83e316db11d46f3c71de96588 100644
+--- a/Api/Data/GiftRuleInterface.php
++++ b/Api/Data/GiftRuleInterface.php
+@@ -26,8 +26,6 @@ interface GiftRuleInterface extends ExtensibleDataInterface
+     const SALESRULE_ID = 'salesrule_id';
+     const SKU = 'sku';
+     const TYPE = 'type';
+-    const TOP_BANNER_SHOW_GIFT_IMAGES = 'top_banner_show_gift_images';
+-    const AFTER_PRODUCT_BANNER_SHOW_GIFT_IMAGES = 'after_product_banner_show_gift_images';
+     const ITEMS_DISCOUNT = 'items_discount';
+     const MINIMAL_ITEMS_PRICE = 'minimal_items_price';
+     const APPLY_TAX = 'apply_tax';
+@@ -58,30 +56,6 @@ interface GiftRuleInterface extends ExtensibleDataInterface
+      */
+     public function setType($type);
+ 
+-    /**
+-     * @return int
+-     */
+-    public function getAfterProductBannerShowGiftImages();
+-
+-    /**
+-     * @param int $afterProductBannerShowGiftImages
+-     *
+-     * @return \Amasty\Promo\Api\Data\GiftRuleInterface
+-     */
+-    public function setAfterProductBannerShowGiftImages($afterProductBannerShowGiftImages);
+-
+-    /**
+-     * @return int
+-     */
+-    public function getTopBannerShowGiftImages();
+-
+-    /**
+-     * @param int $topBannerShowGiftImages
+-     *
+-     * @return \Amasty\Promo\Api\Data\GiftRuleInterface
+-     */
+-    public function setTopBannerShowGiftImages($topBannerShowGiftImages);
+-
+     /**
+      * @return string|null
+      */
+diff --git a/Block/Banner.php b/Block/Banner.php
+deleted file mode 100644
+index 0da2189c3344fedcec8621e2d86c9d0cd1509860..0000000000000000000000000000000000000000
+--- a/Block/Banner.php
++++ /dev/null
+@@ -1,216 +0,0 @@
+-<?php
+-
+-namespace Amasty\Promo\Block;
+-
+-use Amasty\BannersLite\Model\ConfigProvider as BannerConfigProvider;
+-use Amasty\BannersLite\Model\ProductBannerProvider;
+-use Amasty\Promo\Model\Config;
+-use Magento\Catalog\Helper\Image;
+-use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory as ProductCollectionFactory;
+-use Magento\Framework\View\Element\Template;
+-use Amasty\Promo\Model\ResourceModel\Rule\CollectionFactory as RuleCollectionFactory;
+-
+-/**
+- * @SuppressWarnings(PHPMD.LongVariable)
+- *
+- * @method string getPosition()
+- */
+-class Banner extends Template
+-{
+-    /**
+-     * @var \Magento\SalesRule\Model\Rule[]
+-     */
+-    private static $validRules = [];
+-
+-    /**
+-     * @var Config
+-     */
+-    private $config;
+-
+-    /**
+-     * @var BannerConfigProvider
+-     */
+-    private $bannerConfig;
+-
+-    /**
+-     * @var RuleCollectionFactory
+-     */
+-    private $ruleCollectionFactory;
+-
+-    /**
+-     * @var ProductCollectionFactory
+-     */
+-    private $productCollectionFactory;
+-
+-    /**
+-     * @var ProductBannerProvider
+-     */
+-    private $bannerProvider;
+-
+-    /**
+-     * @var Image
+-     */
+-    private $image;
+-
+-    public function __construct(
+-        Template\Context $context,
+-        Config $config,
+-        BannerConfigProvider $bannerConfig,
+-        RuleCollectionFactory $ruleCollectionFactory,
+-        ProductCollectionFactory $productCollectionFactory,
+-        ProductBannerProvider $bannerProvider,
+-        Image $image,
+-        array $data = []
+-    ) {
+-        parent::__construct($context, $data);
+-
+-        $this->config = $config;
+-        $this->bannerConfig = $bannerConfig;
+-        $this->ruleCollectionFactory = $ruleCollectionFactory;
+-        $this->productCollectionFactory = $productCollectionFactory;
+-        $this->bannerProvider = $bannerProvider;
+-        $this->image = $image;
+-    }
+-
+-    /**
+-     * @return \Magento\SalesRule\Model\Rule[]
+-     */
+-    public function getValidRules()
+-    {
+-        if (empty(self::$validRules)) {
+-            $validRulesIds = $this->bannerProvider->getValidRulesIds($this->getProductId());
+-
+-            if ($this->bannerConfig->isOneBannerEnabled() && $validRulesIds) {
+-                $validRulesIds = array_slice($validRulesIds, 0, 1);
+-            }
+-
+-            self::$validRules = $this->ruleCollectionFactory->create()
+-                ->addFieldToFilter(\Amasty\Promo\Api\Data\GiftRuleInterface::SALESRULE_ID, ['in' => $validRulesIds])
+-                ->getItems();
+-        }
+-
+-        return self::$validRules;
+-    }
+-
+-    /**
+-     * @param \Amasty\Promo\Model\Rule $rule
+-     *
+-     * @return bool
+-     */
+-    public function isShowGiftImages(\Amasty\Promo\Model\Rule $rule)
+-    {
+-        return boolval($rule->getData($this->getPosition() . '_banner_show_gift_images'));
+-    }
+-
+-    /**
+-     * @param \Amasty\Promo\Model\Rule $rule
+-     *
+-     * @return $this|array
+-     */
+-    public function getProducts(\Amasty\Promo\Model\Rule $rule)
+-    {
+-        $products = [];
+-
+-        if ($promoSku = $rule->getSku()) {
+-            $products = $this->productCollectionFactory->create()
+-                ->addFieldToFilter('sku', ['in' => explode(",", $promoSku)])
+-                ->addUrlRewrite()
+-                ->addAttributeToSelect(
+-                    [
+-                        'name',
+-                        'thumbnail',
+-                        $this->getAttributeHeader(),
+-                        $this->getAttributeDescription()
+-                    ]
+-                );
+-        }
+-
+-        return $products;
+-    }
+-
+-    /**
+-     * @return int
+-     */
+-    public function getProductId()
+-    {
+-        if (!$this->hasData('product_id')) {
+-            if (!empty($this->_request->getParam('product_id'))) {
+-                $this->setData('product_id', $this->_request->getParam('product_id'));
+-            } else {
+-                $this->setData('product_id', $this->_request->getParam('id'));
+-            }
+-        }
+-
+-        return $this->_getData('product_id');
+-    }
+-
+-    /**
+-     * @return string
+-     */
+-    public function getAttributeHeader()
+-    {
+-        return $this->config->getAttrForHeader();
+-    }
+-
+-    /**
+-     * @return string
+-     */
+-    public function getAttributeDescription()
+-    {
+-        return $this->config->getAttrForDescription();
+-    }
+-
+-    /**
+-     * @return float
+-     */
+-    public function getWidth()
+-    {
+-        return $this->config->getImageWidth();
+-    }
+-
+-    /**
+-     * @return float
+-     */
+-    public function getHeight()
+-    {
+-        return $this->config->getImageHeight();
+-    }
+-
+-    /**
+-     * @param \Magento\Catalog\Model\Product $product
+-     *
+-     * @return string
+-     */
+-    public function getImageForProduct($product)
+-    {
+-        return $this->image
+-            ->init($product, 'mini_cart_product_thumbnail')
+-            ->keepFrame(false)
+-            ->constrainOnly(true)
+-            ->resize($this->getWidth())
+-            ->getUrl();
+-    }
+-
+-    /**
+-     * @param \Magento\Catalog\Model\Product $product
+-     *
+-     * @return string
+-     */
+-    public function getNameForProduct($product)
+-    {
+-        return $product->getResource()->getAttribute($this->getAttributeHeader())->getFrontend()->getValue($product);
+-    }
+-
+-    /**
+-     * @param \Magento\Catalog\Model\Product $product
+-     *
+-     * @return string
+-     */
+-    public function getDescriptionForProduct($product)
+-    {
+-        return $product->getResource()
+-            ->getAttribute($this->getAttributeDescription())
+-            ->getFrontend()
+-            ->getValue($product);
+-    }
+-}
+diff --git a/Model/ImageMigrate.php b/Model/ImageMigrate.php
+index 7c5c4248bbdba23ac763b75c59b8e5394695eefe..d2f863fdda43a5d164069270c6faf96282804942 100644
+--- a/Model/ImageMigrate.php
++++ b/Model/ImageMigrate.php
+@@ -2,13 +2,6 @@
+ 
+ namespace Amasty\Promo\Model;
+ 
+-use Amasty\BannersLite\Api\BannerRepositoryInterface;
+-use Amasty\BannersLite\Api\BannerRuleRepositoryInterface;
+-use Amasty\BannersLite\Api\Data\BannerInterface;
+-use Amasty\BannersLite\Model\Banner;
+-use Amasty\BannersLite\Model\BannerImageUpload;
+-use Amasty\BannersLite\Model\BannerRule;
+-use Amasty\BannersLite\Model\ImageProcessor;
+ use Amasty\Base\Model\Serializer;
+ use Exception;
+ use Magento\Framework\App\Filesystem\DirectoryList;
+@@ -33,22 +26,12 @@ class ImageMigrate
+      */
+     private $mediaPath = '';
+ 
+-    /**
+-     * Loaded banners model grouped by sales rule id.
+-     *
+-     * @var Banner[]
+-     */
+-    private $loadedBanners = [];
+ 
+     /**
+      * @var LoggerInterface
+      */
+     private $logger;
+ 
+-    /**
+-     * @var BannerImageUpload
+-     */
+-    private $bannerImageUpload;
+ 
+     /**
+      * @var Serializer
+@@ -65,38 +48,25 @@ class ImageMigrate
+      */
+     private $storeManager;
+ 
+-    /**
+-     * @var BannerRepositoryInterface
+-     */
+-    private $bannerRepository;
+ 
+     /**
+      * @var ResourceModel\Rule\CollectionFactory
+      */
+     private $collectionFactory;
+ 
+-    /**
+-     * @var BannerRuleRepositoryInterface
+-     */
+-    private $bannerRuleRepository;
+ 
+     public function __construct(
+         LoggerInterface $logger,
+-        BannerImageUpload $bannerImageUpload,
+         Serializer $serializer,
+         Filesystem $filesystem,
+         StoreManagerInterface $storeManager,
+-        BannerRepositoryInterface $bannerRepository,
+-        BannerRuleRepositoryInterface $bannerRuleRepository,
+         ResourceModel\Rule\CollectionFactory $collectionFactory
+-    ) {
++    )
++    {
+         $this->logger = $logger;
+-        $this->bannerImageUpload = $bannerImageUpload;
+         $this->serializer = $serializer;
+         $this->filesystem = $filesystem;
+         $this->storeManager = $storeManager;
+-        $this->bannerRepository = $bannerRepository;
+-        $this->bannerRuleRepository = $bannerRuleRepository;
+         $this->collectionFactory = $collectionFactory;
+     }
+ 
+@@ -104,189 +74,12 @@ class ImageMigrate
+     {
+         /** @var Rule[] $rules */
+         $rules = $this->collectionFactory->create()->getItems();
+-        $this->bannerImageUpload->setBaseTmpPath(static::BASE_TMP_DIRECTORY);
+         $this->mediaPath = $this->storeManager->getStore()
+                 ->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . $this->bannerImageUpload->getBasePath();
+ 
+-        foreach ($rules as $rule) {
+-            $this->saveBannerData(
+-                BannerInterface::TOP_BANNER,
+-                $rule->getData('top_banner_image'),
+-                $rule->getData('top_banner_alt'),
+-                $rule->getData('top_banner_on_hover_text'),
+-                $rule->getData('top_banner_link'),
+-                $rule->getSalesruleId()
+-            );
+-            $this->saveBannerData(
+-                BannerInterface::AFTER_BANNER,
+-                $rule->getData('after_product_banner_image'),
+-                $rule->getData('after_product_banner_alt'),
+-                $rule->getData('after_product_banner_on_hover_text'),
+-                $rule->getData('after_product_banner_link'),
+-                $rule->getSalesruleId()
+-            );
+-            $this->saveBannerData(
+-                BannerInterface::PRODUCT_LABEL,
+-                $rule->getData('label_image'),
+-                $rule->getData('label_image_alt'),
+-                null,
+-                null,
+-                $rule->getSalesruleId()
+-            );
+-        }
+-    }
+-
+-    /**
+-     * @param int $type
+-     * @param string $image
+-     * @param string $alt
+-     * @param string $hover
+-     * @param string $link
+-     * @param int $salesRuleId
+-     *
+-     * @return bool
+-     * @throws LocalizedException
+-     */
+-    private function saveBannerData($type, $image, $alt, $hover, $link, $salesRuleId)
+-    {
+-        if (!($image || $alt || $hover || $link)) {
+-            return false;
+-        }
+-
+-        if (!($bannerImage = $this->moveImage($image))) {
+-            return false;
+-        }
+-
+-        try {
+-            /** @var BannerRule $bannerRuleModel */
+-            $bannerRuleModel = $this->bannerRuleRepository->getBySalesruleId($salesRuleId);
+-        } catch (NoSuchEntityException $exception) {
+-            /** @var BannerRule $bannerRuleModel */
+-            $bannerRuleModel = $this->bannerRuleRepository->getEmptyModel();
+-        }
+-
+-        $bannerRuleModel->setSalesruleId($salesRuleId);
+-        $bannerRuleModel->setShowBannerFor(0);
+-
+-        $bannerModel = $this->getBannerBySalesRule($salesRuleId, $type);
+-
+-        $bannerModel
+-            ->setBannerType($type)
+-            ->setBannerImage($bannerImage)
+-            ->setBannerAlt($alt)
+-            ->setBannerHoverText($hover)
+-            ->setBannerLink($link)
+-            ->setSalesruleId($salesRuleId);
+-
+-        try {
+-            $this->bannerRuleRepository->save($bannerRuleModel);
+-            $this->bannerRepository->save($bannerModel);
+-        } catch (CouldNotSaveException $exception) {
+-            $this->logger->critical($exception);
+-
+-            throw new LocalizedException(
+-                __(
+-                    'Could not migrate banners data. Exception message: %1. For details see exception log.',
+-                    $exception->getMessage()
+-                )
+-            );
+-        }
+-
+-        return true;
+     }
++}
+ 
+-    /**
+-     * @param int $ruleId
+-     * @param int $bannerType
+-     *
+-     * @return Banner
+-     */
+-    private function getBannerBySalesRule($ruleId, $bannerType)
+-    {
+-        $bannerModel = false;
+-
+-        try {
+-            if (!isset($this->loadedBanners[$ruleId])) {
+-                $this->loadedBanners[$ruleId] = $this->bannerRepository->getBySalesruleId($ruleId);
+-            }
+-
+-            foreach ($this->loadedBanners[$ruleId] as $promoBanner) {
+-                if ($promoBanner->getBannerType() == $bannerType) {
+-                    $bannerModel = $promoBanner;
+-                    break;
+-                }
+-            }
+-        } catch (NoSuchEntityException $exception) {
+-            $bannerModel = false;
+-        }
+-        if (!$bannerModel) {
+-            $bannerModel = $this->bannerRepository->getEmptyModel();
+-            $this->loadedBanners[$ruleId][] = $bannerModel;
+-        }
+-
+-        return $bannerModel;
+-    }
+-
+-    /**
+-     * Move image to Banners Lite folder.
+-     * If exception is caught continue without image data.
+-     *
+-     * @param string $imageSerialized
+-     *
+-     * @return string|false
+-     */
+-    private function moveImage($imageSerialized)
+-    {
+-        $imageData = $this->serializer->unserialize($imageSerialized);
+-
+-        if (!$imageData) {
+-            return false;
+-        }
+-
+-        if (is_array(current($imageData))) {
+-            $imageData = current($imageData);
+-        }
+-
+-        try {
+-            if ($this->whetherToMoveFile($imageData['name'])) {
+-                $this->bannerImageUpload->moveFileFromTmp($imageData['name']);
+-            }
+-            $imageData['cookie']['upload'] = true;
+-            $imageData['url'] = $this->mediaPath . DIRECTORY_SEPARATOR . $imageData['name'];
+-        } catch (Exception $exception) {
+-            $this->logger->critical($exception);
+-
+-            return false;
+-        }
+ 
+-        $imageSerialized = $this->serializer->serialize([$imageData]);
+ 
+-        return $imageSerialized;
+-    }
+ 
+-    /**
+-     * @param string $filename
+-     *
+-     * @return bool
+-     *
+-     * @throws FileNotFoundException
+-     */
+-    private function whetherToMoveFile($filename)
+-    {
+-        //check file exist in Amasty_Promo banners folder
+-        $isExist = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA)->isExist(
+-            $this->bannerImageUpload->getFilePath(self::BASE_TMP_DIRECTORY, $filename)
+-        );
+-
+-        //check file exists in Amasty_BannersLite folder
+-        $haveSameFile = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA)->isExist(
+-            $this->bannerImageUpload->getFilePath(ImageProcessor::BANNERS_MEDIA_PATH, $filename)
+-        );
+-
+-        if (!($isExist || $haveSameFile)) {
+-            throw new FileNotFoundException('Could not find original banner file to migrate');
+-        }
+-
+-        return $isExist && !$haveSameFile;
+-    }
+-}
+diff --git a/Model/Rule.php b/Model/Rule.php
+index b3add6e253fab8f321829f2ce2b7ca2d039ae5f1..d8b70a42245fdecf44b2ab10898ed42d335c64d8 100644
+--- a/Model/Rule.php
++++ b/Model/Rule.php
+@@ -99,42 +99,6 @@ class Rule extends \Magento\Framework\Model\AbstractModel implements GiftRuleInt
+         return $this;
+     }
+ 
+-    /**
+-     * @inheritdoc
+-     */
+-    public function getAfterProductBannerShowGiftImages()
+-    {
+-        return $this->_getData(GiftRuleInterface::AFTER_PRODUCT_BANNER_SHOW_GIFT_IMAGES);
+-    }
+-
+-    /**
+-     * @inheritdoc
+-     */
+-    public function setAfterProductBannerShowGiftImages($afterProductBannerShowGiftImages)
+-    {
+-        $this->setData(GiftRuleInterface::AFTER_PRODUCT_BANNER_SHOW_GIFT_IMAGES, $afterProductBannerShowGiftImages);
+-
+-        return $this;
+-    }
+-
+-    /**
+-     * @inheritdoc
+-     */
+-    public function getTopBannerShowGiftImages()
+-    {
+-        return $this->_getData(GiftRuleInterface::TOP_BANNER_SHOW_GIFT_IMAGES);
+-    }
+-
+-    /**
+-     * @inheritdoc
+-     */
+-    public function setTopBannerShowGiftImages($topBannerShowGiftImages)
+-    {
+-        $this->setData(GiftRuleInterface::TOP_BANNER_SHOW_GIFT_IMAGES, $topBannerShowGiftImages);
+-
+-        return $this;
+-    }
+-
+     /**
+      * @inheritdoc
+      */
+diff --git a/composer.json b/composer.json
+index 66756bb5d722f19a282253e06e31165ab352a323..91ffc564b0985d0e1a7e599c77d36054eea336a1 100644
+--- a/composer.json
++++ b/composer.json
+@@ -5,7 +5,6 @@
+         "php": "7.0.2|7.0.4|~7.0.6|^7.1.0",
+         "amasty/base": ">=1.4.5",
+         "amasty/module-advanced-conditions": ">=1.3.6",
+-        "amasty/module-banners-lite": ">=1.0.5",
+         "amasty/module-salesrulewizard": "*",
+         "amasty/rgrid": "*"
+     },
+diff --git a/etc/di.xml b/etc/di.xml
+index ac09a60c35715529116892f24bf66bfc9787908c..37e1fb3b257cc0dbfe8463d67108bfc6ad755c09 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -91,11 +91,6 @@
+         <plugin name="AmastyRules::PreviewQuotaFix" type="Amasty\Promo\Plugin\CheckoutStaging\Model\ResourceModel\PreviewQuotaPlugin"/>
+     </type>
+     <!--finish magneto ee bug fixes-->
+-    <type name="Amasty\Promo\Block\Banner">
+-        <arguments>
+-            <argument name="bannerProvider" xsi:type="object">Amasty\BannersLite\Model\ProductBannerProvider\Proxy</argument>
+-        </arguments>
+-    </type>
+     <type name="Magento\Quote\Api\ShipmentEstimationInterface">
+         <plugin name="AmastyPromo::restrictAutoAddOnShippingEstimate" type="Amasty\Promo\Plugin\Quote\Model\ShippingMethodManagementPlugin"/>
+     </type>
+diff --git a/etc/module.xml b/etc/module.xml
+index 7c6a6448df67f08e3d65b872743c28917050793a..15fcd4fc555344d59d65b74c86e51c00759284ba 100644
+--- a/etc/module.xml
++++ b/etc/module.xml
+@@ -7,7 +7,6 @@
+             <module name="Magento_Checkout" />
+             <module name="Magento_ConfigurableProduct" />
+             <module name="Amasty_Conditions"/>
+-            <module name="Amasty_BannersLite"/>
+         </sequence>
+     </module>
+ </config>
+diff --git a/view/adminhtml/ui_component/sales_rule_form.xml b/view/adminhtml/ui_component/sales_rule_form.xml
+index 00c013d83528dd67126e2fb3dfcb427dbde2e35f..4a8bb4e5fbd5a36d9ff90f1dae6e7c4fe528a5e5 100644
+--- a/view/adminhtml/ui_component/sales_rule_form.xml
++++ b/view/adminhtml/ui_component/sales_rule_form.xml
+@@ -121,48 +121,5 @@
+             </argument>
+         </field>
+     </fieldset>
+-    <fieldset name="promo_banners_highlights">
+-        <fieldset name="top_banner">
+-            <field name="top_banner_show_gift_images">
+-                <argument name="data" xsi:type="array">
+-                    <item name="config" xsi:type="array">
+-                        <item name="dataType" xsi:type="string">boolean</item>
+-                        <item name="formElement" xsi:type="string">checkbox</item>
+-                        <item name="component" xsi:type="string">Amasty_Promo/js/form/element/gift-image-toggle</item>
+-                        <item name="prefer" xsi:type="string">toggle</item>
+-                        <item name="valueMap" xsi:type="array">
+-                            <item name="true" xsi:type="number">1</item>
+-                            <item name="false" xsi:type="number">0</item>
+-                        </item>
+-                        <item name="default" xsi:type="number">0</item>
+-                        <item name="label" xsi:type="string" translate="true">Show Gift images</item>
+-                        <item name="source" xsi:type="string">sales_rule</item>
+-                        <item name="dataScope" xsi:type="string">extension_attributes.ampromo_rule.top_banner_show_gift_images</item>
+-                        <item name="sortOrder" xsi:type="number">50</item>
+-                    </item>
+-                </argument>
+-            </field>
+-        </fieldset>
+-        <fieldset name="after_description_banner">
+-            <field name="after_product_banner_show_gift_images">
+-                <argument name="data" xsi:type="array">
+-                    <item name="config" xsi:type="array">
+-                        <item name="dataType" xsi:type="string">boolean</item>
+-                        <item name="formElement" xsi:type="string">checkbox</item>
+-                        <item name="component" xsi:type="string">Amasty_Promo/js/form/element/gift-image-toggle</item>
+-                        <item name="prefer" xsi:type="string">toggle</item>
+-                        <item name="valueMap" xsi:type="array">
+-                            <item name="true" xsi:type="number">1</item>
+-                            <item name="false" xsi:type="number">0</item>
+-                        </item>
+-                        <item name="default" xsi:type="number">0</item>
+-                        <item name="label" xsi:type="string" translate="true">Show Gift images</item>
+-                        <item name="source" xsi:type="string">sales_rule</item>
+-                        <item name="dataScope" xsi:type="string">extension_attributes.ampromo_rule.after_product_banner_show_gift_images</item>
+-                        <item name="sortOrder" xsi:type="number">50</item>
+-                    </item>
+-                </argument>
+-            </field>
+-        </fieldset>
+-    </fieldset>
++
+ </form>
+\ No newline at end of file
+diff --git a/view/adminhtml/ui_component/salesrulestaging_update_form.xml b/view/adminhtml/ui_component/salesrulestaging_update_form.xml
+index aa527835c1014031d874ee195cdbc50477209699..56fb39b60f873c5ffa19e99fba274c497748766f 100644
+--- a/view/adminhtml/ui_component/salesrulestaging_update_form.xml
++++ b/view/adminhtml/ui_component/salesrulestaging_update_form.xml
+@@ -119,48 +119,5 @@
+             </argument>
+         </field>
+     </fieldset>
+-    <fieldset name="promo_banners_highlights">
+-        <fieldset name="top_banner">
+-            <field name="top_banner_show_gift_images">
+-                <argument name="data" xsi:type="array">
+-                    <item name="config" xsi:type="array">
+-                        <item name="dataType" xsi:type="string">boolean</item>
+-                        <item name="formElement" xsi:type="string">checkbox</item>
+-                        <item name="component" xsi:type="string">Amasty_Promo/js/form/element/gift-image-toggle</item>
+-                        <item name="prefer" xsi:type="string">toggle</item>
+-                        <item name="valueMap" xsi:type="array">
+-                            <item name="true" xsi:type="number">1</item>
+-                            <item name="false" xsi:type="number">0</item>
+-                        </item>
+-                        <item name="default" xsi:type="number">0</item>
+-                        <item name="label" xsi:type="string" translate="true">Show Gift images</item>
+-                        <item name="source" xsi:type="string">sales_rule</item>
+-                        <item name="dataScope" xsi:type="string">extension_attributes.ampromo_rule.top_banner_show_gift_images</item>
+-                        <item name="sortOrder" xsi:type="number">50</item>
+-                    </item>
+-                </argument>
+-            </field>
+-        </fieldset>
+-        <fieldset name="after_description_banner">
+-            <field name="after_product_banner_show_gift_images">
+-                <argument name="data" xsi:type="array">
+-                    <item name="config" xsi:type="array">
+-                        <item name="dataType" xsi:type="string">boolean</item>
+-                        <item name="formElement" xsi:type="string">checkbox</item>
+-                        <item name="component" xsi:type="string">Amasty_Promo/js/form/element/gift-image-toggle</item>
+-                        <item name="prefer" xsi:type="string">toggle</item>
+-                        <item name="valueMap" xsi:type="array">
+-                            <item name="true" xsi:type="number">1</item>
+-                            <item name="false" xsi:type="number">0</item>
+-                        </item>
+-                        <item name="default" xsi:type="number">0</item>
+-                        <item name="label" xsi:type="string" translate="true">Show Gift images</item>
+-                        <item name="source" xsi:type="string">sales_rule</item>
+-                        <item name="dataScope" xsi:type="string">extension_attributes.ampromo_rule.after_product_banner_show_gift_images</item>
+-                        <item name="sortOrder" xsi:type="number">50</item>
+-                    </item>
+-                </argument>
+-            </field>
+-        </fieldset>
+-    </fieldset>
++
+ </form>
+\ No newline at end of file
+diff --git a/view/frontend/layout/catalog_product_view.xml b/view/frontend/layout/catalog_product_view.xml
+deleted file mode 100644
+index 1826ac097fe77f03dd9218bb0594ded4b2bc9ec7..0000000000000000000000000000000000000000
+--- a/view/frontend/layout/catalog_product_view.xml
++++ /dev/null
+@@ -1,22 +0,0 @@
+-<?xml version="1.0"?>
+-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+-    <head>
+-        <css src="Amasty_Promo::css/banner.css"/>
+-    </head>
+-    <body>
+-        <referenceBlock name="amasty.banners.lite.top">
+-            <block class="Amasty\Promo\Block\Banner" as="after_banners" template="banner.phtml" >
+-                <action method="setPosition">
+-                    <argument name="position" xsi:type="string">top</argument>
+-                </action>
+-            </block>
+-        </referenceBlock>
+-        <referenceBlock name="amasty.banners.lite.after_description">
+-            <block class="Amasty\Promo\Block\Banner" as="after_banners" template="banner.phtml" >
+-                <action method="setPosition">
+-                    <argument name="position" xsi:type="string">after_product</argument>
+-                </action>
+-            </block>
+-        </referenceBlock>
+-    </body>
+-</page>
+\ No newline at end of file
+diff --git a/view/frontend/templates/banner.phtml b/view/frontend/templates/banner.phtml
+deleted file mode 100644
+index 0783a0adcd7d5d91f37c88df7dc31e9ee9d97368..0000000000000000000000000000000000000000
+--- a/view/frontend/templates/banner.phtml
++++ /dev/null
+@@ -1,33 +0,0 @@
+-<?php /** @var \Amasty\Promo\Block\Banner $block */?>
+-<?php /** @var \Amasty\Promo\Model\Rule $rule */?>
+-<?php foreach ($block->getValidRules() as $rule) :?>
+-    <?php if ($block->isShowGiftImages($rule)) :?>
+-        <ul class="ampromo-gift">
+-            <?php /** @var \Magento\Catalog\Model\Product $product */?>
+-            <?php foreach ($block->getProducts($rule) as $product) : ?>
+-                <?php
+-                $product->getAttributeRawValue($product->getId(), $block->getAttributeHeader(), 1);
+-                $id = uniqid("ampromo-gift-img-");
+-                ?>
+-                <li>
+-                    <a class="product-image" href="<?= $block->escapeUrl($product->getProductUrl())?>">
+-                        <img class="ampromo-banner-<?= $block->escapeHtml($block->getPosition())?>-img"
+-                             id="<?= /**@no-escape*/$id;?>"
+-                             alt="<?= $block->escapeHtml('Product Image') ?>"
+-                             width="<?= (float)$block->getWidth();?>"
+-                             height="<?= (float)$block->getHeight();?>"
+-                             src="<?= $block->escapeUrl($block->getImageForProduct($product));?>"/>
+-                        <div id="<?= /**@no-escape*/$id;?>-data" style="display: none;">
+-                            <div class="ampromo-product-name">
+-                                <?= $block->escapeHtml($block->getNameForProduct($product));?>
+-                            </div>
+-                            <div class="ampromo-short-description">
+-                                <?= $block->escapeHtml($block->getDescriptionForProduct($product));?>
+-                            </div>
+-                        </div>
+-                    </a>
+-                </li>
+-            <?php endforeach; ?>
+-        </ul>
+-    <?php endif; ?>
+-<?php endforeach; ?>
+diff --git a/view/frontend/web/css/banner.css b/view/frontend/web/css/banner.css
+deleted file mode 100644
+index 5b71b980a360120f5aedf78bed37ae0796a63039..0000000000000000000000000000000000000000
+--- a/view/frontend/web/css/banner.css
++++ /dev/null
+@@ -1,34 +0,0 @@
+-.ampromo-gift a.product-image{
+-    text-decoration: none;
+-}
+-
+-ul.ampromo-gift {
+-    padding: 0;
+-    list-style-type: none;
+-}
+-
+-.ampromo-gift li{
+-    margin: 10px 10px;
+-    display: inline;
+-}
+-
+-.ampromo-banner-tooltip{
+-    padding:2px 5px;
+-    background:#FEC;
+-    border:1px solid #FAA819;
+-    color:#1F5070;
+-    text-align:left;
+-    width:300px;
+-}
+-
+-.ampromo-product-name{
+-    font-weight: bold;
+-}
+-
+-.ampromo-short-description{
+-}
+-
+-.ampromo-label {
+-    position: absolute;
+-    z-index: 1000;
+-}
+\ No newline at end of file

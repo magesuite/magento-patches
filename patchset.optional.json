@@ -88,6 +88,18 @@
                 "description": "Temporary fix for Amasty/Promo ^2.6.0 regarding slicker issue",
                 "filename": "optional/amasty-promo-popup-slicker-fix.patch",
                 "version-constraint": "^2.6.0"
+            },
+            {
+                "description": "Remove Amasty_BannersLite from dependency (patch from Amasty)",
+                "filename": "optional/amasty-promo-remove-banners-lite.patch",
+                "version-constraint": "^2.6.0"
+            }
+        ],
+        "amasty/module-banners-lite": [
+            {
+                "description": "Remove cleaning product cache in Amasty_BannersLite",
+                "filename": "optional/amasty-banners-lite-remove-clean-product-cache.patch",
+                "version-constraint": "^1.0.8"
             }
         ],
         "magento/module-payment": [
@@ -186,13 +198,6 @@
                 "description": "Fix for mismatch of order total amount and sum of the items amount (due to differences in tax handling)",
                 "filename": "optional/payone-invoice-items-tax.patch",
                 "version-constraint": "^2.5.0"
-            }
-        ],
-        "amasty/module-banners-lite": [
-            {
-                "description": "Remove cleaning product cache in Amasty_BannersLite",
-                "filename": "optional/amasty-banners-lite-remove-clean-product-cache.patch",
-                "version-constraint": "^1.0.8"
             }
         ]
     }
