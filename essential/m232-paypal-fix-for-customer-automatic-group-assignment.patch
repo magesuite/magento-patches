@@ -1,0 +1,22 @@
+This patch fixes inability to place PayPal guest order triggered by "Checkout with PayPal" button in the cart
+when automatic assignment to customer group is enabled
+
+The issue was confirmed in Magento CE 2.3.2, but most likely it's the case for the previous versions as well
+
+Github issue: https://github.com/magento/magento2/issues/25399
+Github PR: https://github.com/magento/magento2/pull/25405
+
+diff --git a/Model/Express/Checkout.php b/Model/Express/Checkout.php
+index 72f166e..0df91f3 100644
+--- a/Model/Express/Checkout.php
++++ b/Model/Express/Checkout.php
+@@ -1158,6 +1158,9 @@ class Checkout
+             ->setCustomerEmail($quote->getBillingAddress()->getEmail())
+             ->setCustomerIsGuest(true)
+             ->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
++        if ($quote->getCustomer()->getEmail() === null) {
++            $quote->getCustomer()->setEmail($quote->getBillingAddress()->getEmail());
++        }
+         return $this;
+     }
+ }
