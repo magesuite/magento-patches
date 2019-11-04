@@ -215,6 +215,11 @@
                     "version-constraint": ">=100.3.2"
                 },
                 {
+                    "description": "Fix to prevent throwing exception with missing customerId after placing order",
+                    "filename": "essential/m232-checkout-customer-id-exception.patch",
+                    "version-constraint": "<=100.3.2"
+                },
+                {
                     "description": "Fix incorrect store ID check which reloads customer data all the time.",
                     "filename": "essential/m232-store-id-check-fix.patch",
                     "version-constraint": ">=100.3.2"
