@@ -1,0 +1,112 @@
+diff --git a/Model/Session.php b/Model/Session.php
+index 332ce08..9097353 100644
+--- a/Model/Session.php
++++ b/Model/Session.php
+@@ -6,7 +6,12 @@
+ namespace Magento\Checkout\Model;
+ 
+ use Magento\Customer\Api\Data\CustomerInterface;
++use Magento\Framework\Api\SearchCriteriaBuilder;
++use Magento\Framework\Api\SortOrderBuilder;
+ use Magento\Framework\App\ObjectManager;
++use Magento\Framework\Exception\InputException;
++use Magento\Framework\Exception\NoSuchEntityException;
++use Magento\Quote\Api\Data\CartInterface;
+ use Magento\Quote\Model\Quote;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
+ use Psr\Log\LoggerInterface;
+@@ -17,7 +22,7 @@ use Psr\Log\LoggerInterface;
+  * @api
+  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+  * @SuppressWarnings(PHPMD.CookieAndSessionMisuse)
+- * @since 100.0.2
++ * @SuppressWarnings(PHPMD.TooManyFields)
+  */
+ class Session extends \Magento\Framework\Session\SessionManager
+ {
+@@ -46,7 +51,14 @@ class Session extends \Magento\Framework\Session\SessionManager
+      * @var bool
+      */
+     protected $_loadInactive = false;
+-
++    /**
++     * A flag to track when the quote is being loaded and attached to the session object.
++     *
++     * Used in trigger_recollect infinite loop detection.
++     *
++     * @var bool
++     */
++    private $isLoading = false;
+     /**
+      * Loaded order instance
+      *
+@@ -228,6 +240,10 @@ class Session extends \Magento\Framework\Session\SessionManager
+         $this->_eventManager->dispatch('custom_quote_process', ['checkout_session' => $this]);
+ 
+         if ($this->_quote === null) {
++            if ($this->isLoading) {
++                throw new \LogicException("Infinite loop detected, review the trace for the looping path");
++            }
++            $this->isLoading = true;
+             $quote = $this->quoteFactory->create();
+             if ($this->getQuoteId()) {
+                 try {
+@@ -267,14 +283,10 @@ class Session extends \Magento\Framework\Session\SessionManager
+ 
+             if (!$this->getQuoteId()) {
+                 if ($this->_customerSession->isLoggedIn() || $this->_customer) {
+-                    $customerId = $this->_customer
+-                        ? $this->_customer->getId()
+-                        : $this->_customerSession->getCustomerId();
+-                    try {
+-                        $quote = $this->quoteRepository->getActiveForCustomer($customerId);
+-                        $this->setQuoteId($quote->getId());
+-                    } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+-                        $this->logger->critical($e);
++                    $quoteByCustomer = $this->getQuoteByCustomer();
++                    if ($quoteByCustomer !== null) {
++                        $this->setQuoteId($quoteByCustomer->getId());
++                        $quote = $quoteByCustomer;
+                     }
+                 } else {
+                     $quote->setIsCheckoutCart(true);
+@@ -290,6 +302,7 @@ class Session extends \Magento\Framework\Session\SessionManager
+ 
+             $quote->setStore($this->_storeManager->getStore());
+             $this->_quote = $quote;
++            $this->isLoading = false;
+         }
+ 
+         if (!$this->isQuoteMasked() && !$this->_customerSession->isLoggedIn() && $this->getQuoteId()) {
+@@ -371,6 +384,11 @@ class Session extends \Magento\Framework\Session\SessionManager
+                 $this->quoteRepository->save(
+                     $customerQuote->merge($this->getQuote())->collectTotals()
+                 );
++                $newQuote = $this->quoteRepository->get($customerQuote->getId());
++                $this->quoteRepository->save(
++                    $newQuote->collectTotals()
++                );
++                $customerQuote = $newQuote;
+             }
+ 
+             $this->setQuoteId($customerQuote->getId());
+@@ -569,4 +587,19 @@ class Session extends \Magento\Framework\Session\SessionManager
+     {
+         return $this->isQuoteMasked;
+     }
++    /**
++     * Returns quote for customer if there is any
++     */
++    private function getQuoteByCustomer(): ?CartInterface
++    {
++        $customerId = $this->_customer
++            ? $this->_customer->getId()
++            : $this->_customerSession->getCustomerId();
++        try {
++            $quote = $this->quoteRepository->getActiveForCustomer($customerId);
++        } catch (NoSuchEntityException $e) {
++            $quote = null;
++        }
++        return $quote;
++    }
+ }
