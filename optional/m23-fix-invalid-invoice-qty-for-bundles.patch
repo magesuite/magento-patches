@@ -1,5 +1,5 @@
 diff --git a/Model/Service/InvoiceService.php b/Model/Service/InvoiceService.php
-index 18efeba..c0a4a3d 100644
+index 88bd145..6c81a05 100644
 --- a/Model/Service/InvoiceService.php
 +++ b/Model/Service/InvoiceService.php
 @@ -158,8 +158,8 @@ class InvoiceService implements InvoiceManagementInterface
@@ -13,7 +13,7 @@ index 18efeba..c0a4a3d 100644
              } elseif ($orderItem->isDummy()) {
                  $qty = $orderItem->getQtyOrdered() ? $orderItem->getQtyOrdered() : 1;
              } elseif ($isQtysEmpty) {
-@@ -187,14 +187,14 @@ class InvoiceService implements InvoiceManagementInterface
+@@ -187,16 +187,17 @@ class InvoiceService implements InvoiceManagementInterface
      private function prepareItemsQty(Order $order, array $qtys = [])
      {
          foreach ($order->getAllItems() as $orderItem) {
@@ -29,10 +29,14 @@ index 18efeba..c0a4a3d 100644
                      if ($parentItemId && isset($qtys[$parentItemId])) {
 -                        $qtys[$orderItem->getId()] = $qtys[$parentItemId];
 +                        $qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()] = $qtys[$parentItemId];
++                    } else {
++                        $qtys[$orderItem->getId() ?: -$orderItem->getQuoteItemId()] = $orderItem->getQtyOrdered() - $orderItem->getQtyInvoiced();
                      }
-                     continue;
+-                    continue;
                  }
-@@ -219,20 +219,21 @@ class InvoiceService implements InvoiceManagementInterface
+             }
+ 
+@@ -219,20 +220,21 @@ class InvoiceService implements InvoiceManagementInterface
          if ($orderItem->isDummy()) {
              if ($orderItem->getHasChildren()) {
                  foreach ($orderItem->getChildrenItems() as $child) {
@@ -60,7 +64,7 @@ index 18efeba..c0a4a3d 100644
                  }
              }
          }
-@@ -253,7 +254,7 @@ class InvoiceService implements InvoiceManagementInterface
+@@ -253,7 +255,7 @@ class InvoiceService implements InvoiceManagementInterface
                      $bundleSelectionAttributes = $this->serializer->unserialize($bundleSelectionAttributes);
                  }
  
@@ -69,7 +73,7 @@ index 18efeba..c0a4a3d 100644
              }
          }
      }
-@@ -279,7 +280,7 @@ class InvoiceService implements InvoiceManagementInterface
+@@ -279,7 +281,7 @@ class InvoiceService implements InvoiceManagementInterface
                              return true;
                          }
                      } else {
@@ -78,7 +82,7 @@ index 18efeba..c0a4a3d 100644
                              return true;
                          }
                      }
-@@ -290,7 +291,7 @@ class InvoiceService implements InvoiceManagementInterface
+@@ -290,7 +292,7 @@ class InvoiceService implements InvoiceManagementInterface
                  if (empty($qtys)) {
                      return $parent->getQtyToInvoice() > 0;
                  } else {
@@ -87,3 +91,10 @@ index 18efeba..c0a4a3d 100644
                  }
              }
          } else {
+@@ -326,4 +328,4 @@ class InvoiceService implements InvoiceManagementInterface
+ 
+         return $this;
+     }
+-}
+\ No newline at end of file
++}
