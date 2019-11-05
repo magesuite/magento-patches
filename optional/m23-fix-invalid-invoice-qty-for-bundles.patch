@@ -1,5 +1,5 @@
 diff --git a/Model/Service/InvoiceService.php b/Model/Service/InvoiceService.php
-index 88bd145..6c81a05 100644
+index 18efeba..e5fae01 100644
 --- a/Model/Service/InvoiceService.php
 +++ b/Model/Service/InvoiceService.php
 @@ -158,8 +158,8 @@ class InvoiceService implements InvoiceManagementInterface
@@ -96,5 +96,5 @@ index 88bd145..6c81a05 100644
          return $this;
      }
 -}
-\ No newline at end of file
 +}
+\ No newline at end of file
