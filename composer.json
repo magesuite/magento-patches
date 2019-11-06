@@ -155,6 +155,11 @@
                     "description": "Adjust filter range",
                     "filename": "essential/m23-smile-adjust-filter-range.patch",
                     "version-constraint": ">=2.6.0"
+                },
+                {
+                    "description": "Fix to not reindex whole category if manual sort of products has not change",
+                    "filename": "essential/m232-elasticsuite-save-category-fix.patch",
+                    "version-constraint": "2.8.*"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
