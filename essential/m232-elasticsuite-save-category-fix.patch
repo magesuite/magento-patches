@@ -1,0 +1,32 @@
+diff --git a/src/module-elasticsuite-virtual-category/Plugin/Catalog/Category/SaveProductsPositions.php b/src/module-elasticsuite-virtual-category/Plugin/Catalog/Category/SaveProductsPositions.php
+index 23ec01e..3e94957 100644
+--- a/src/module-elasticsuite-virtual-category/Plugin/Catalog/Category/SaveProductsPositions.php
++++ b/src/module-elasticsuite-virtual-category/Plugin/Catalog/Category/SaveProductsPositions.php
+@@ -100,9 +100,17 @@ class SaveProductsPositions extends AbstractIndexerPlugin
+      */
+     private function getAffectedProductIds($category)
+     {
+-        $oldPositionProductIds     = array_keys($this->saveHandler->getProductPositionsByCategory($category));
++        $oldSortOfProducts = $this->saveHandler->getProductPositionsByCategory($category);
++        $newSortOfProducts = $this->unserializeProductPositions($category);
++
+         $defaultPositionProductIds = [];
+-        $newPositionProductIds     = array_keys($category->getSortedProducts());
++        $oldPositionProductIds     = [];
++        $newPositionProductIds     = [];
++
++        if($oldSortOfProducts !== $newSortOfProducts){
++            $oldPositionProductIds     = array_keys($oldSortOfProducts);
++            $newPositionProductIds     = array_keys($category->getSortedProducts());
++        }
+
+         $oldBlacklistedProductIds     = array_values($this->saveHandler->getProductBlacklistByCategory($category));
+         $defaultBlacklistedProductIds = [];
+@@ -161,6 +169,6 @@ class SaveProductsPositions extends AbstractIndexerPlugin
+ 
+         $category->setSortedProducts($productPositions);
+ 
+-        return $this;
++        return $productPositions;
+     }
+ }
