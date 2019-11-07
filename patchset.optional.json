@@ -199,6 +199,13 @@
                 "filename": "optional/payone-invoice-items-tax.patch",
                 "version-constraint": "^2.5.0"
             }
+        ],
+        "magento/module-cms": [
+            {
+                "description": "Fixed page preview error by returning empty string instead of null",
+                "filename": "optional/m23-null-to-empty-string.patch",
+                "version-constraint": "103.0.*"
+            }
         ]
     }
 }
