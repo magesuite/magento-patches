@@ -1,0 +1,16 @@
+Disables getFinalPrice to save resources.
+
+diff --git a/Block/CatalogLayer.php b/Block/CatalogLayer.php
+index 5d2d11e..cec02c9 100644
+--- a/Block/CatalogLayer.php
++++ b/Block/CatalogLayer.php
+@@ -285,7 +285,7 @@ class CatalogLayer extends DataLayer
+                 $item = [
+                     'name' => $product->getName(),
+                     'id' => $product->getSku(),
+-                    'price' => $this->formatPrice($product->getFinalPrice()),
++                    // DISABLED BECAUSE OF PERFORMANCE OVERKILL 'price' => $this->formatPrice($product->getFinalPrice()),
+                     //'brand' => 'Google',
+                     //'variant' => 'Gray',
+                     'list' => $this->getListType(),
+
