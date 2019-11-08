@@ -1,0 +1,19 @@
+Fixes free shipping cart rule bug.
+Source: https://github.com/magento/magento2/issues/16388
+
+diff --git a/Model/Quote/Address.php b/Model/Quote/Address.php
+index e8a4049..4e9654d 100644
+--- a/Model/Quote/Address.php
++++ b/Model/Quote/Address.php
+@@ -1033,6 +1033,10 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress implements
+                     $this->addShippingRate($rate);
+                 }
+ 
++                if ($rate->getPrice() && $request->getFreeShipping()) {
++                    $rate->setPrice(0);
++                }
++
+                 if ($this->getShippingMethod() == $rate->getCode()) {
+                     if ($item) {
+                         $item->setBaseShippingAmount($rate->getPrice());
+
