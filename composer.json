@@ -296,7 +296,7 @@
                 {
                     "description": "Fixes free shipping cart rule bug.",
                     "filename": "essential/m23plus-fix-free-shipping-cart-rule.patch",
-                    "version-constraint": ">=102.0.2"
+                    "version-constraint": ">=101.0.0"
                 }
             ],
             "magento/module-import-export": [
