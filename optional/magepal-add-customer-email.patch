@@ -1,0 +1,12 @@
+diff --git a/Model/Customer.php b/Model/Customer.php
+index 4e20522..09aea02 100644
+--- a/Model/Customer.php
++++ b/Model/Customer.php
+@@ -50,6 +50,7 @@ class Customer extends DataObject
+         if ($isLoggedIn) {
+             $data['id'] = $this->customerSession->getCustomerId();
+             $data['groupId'] = $this->customerSession->getCustomerGroupId();
++            $data['email'] = $this->customerSession->getCustomerDataObject()->getEmail();
+         }
+ 
+         return $data;
