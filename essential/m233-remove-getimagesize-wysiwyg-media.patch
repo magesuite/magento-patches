@@ -1,0 +1,22 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index 953b4d4..1f2fe74 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -367,17 +367,6 @@ class Storage extends \Magento\Framework\DataObject
+                 if (!$thumbUrl) {
+                     $thumbUrl = $this->_backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
+                 }
+-
+-                try {
+-                    $size = getimagesize($item->getFilename());
+-
+-                    if (is_array($size)) {
+-                        $item->setWidth($size[0]);
+-                        $item->setHeight($size[1]);
+-                    }
+-                } catch (\Error $e) {
+-                    $this->logger->notice(sprintf("GetImageSize caused error: %s", $e->getMessage()));
+-                }
+             } else {
+                 $thumbUrl = $this->_assetRepo->getUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
+             }
