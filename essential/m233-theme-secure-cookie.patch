@@ -1,0 +1,13 @@
+diff --git a/view/frontend/templates/js/cookie.phtml b/view/frontend/templates/js/cookie.phtml
+index 7ecfd18..0010d68 100644
+--- a/view/frontend/templates/js/cookie.phtml
++++ b/view/frontend/templates/js/cookie.phtml
+@@ -18,7 +18,7 @@
+                 "expires": null,
+                 "path": "<?= $block->escapeJs($block->getPath()) ?>",
+                 "domain": "<?= $block->escapeJs($block->getDomain()) ?>",
+-                "secure": false,
++                "secure": "<?= $block->escapeJs($block->isSecure() ? 'true' : 'false') ?>",
+                 "lifetime": "<?= $block->escapeJs($block->getLifetime()) ?>"
+             }
+         }

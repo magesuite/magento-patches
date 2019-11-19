@@ -83,7 +83,12 @@
                 {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/theme-secure-cookie.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<101.0.3"
+                },
+                {
+                    "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
+                    "filename": "essential/m233-theme-secure-cookie.patch",
+                    "version-constraint": ">=101.0.3"
                 }
             ],
             "magento/module-page-cache": [
