@@ -232,7 +232,12 @@
                 {
                     "description": "Fix incorrect store ID check which reloads customer data all the time.",
                     "filename": "essential/m232-store-id-check-fix.patch",
-                    "version-constraint": ">=100.3.2"
+                    "version-constraint": "100.3.2"
+                },
+                {
+                    "description": "Fix incorrect store ID check which reloads customer data all the time.",
+                    "filename": "essential/m233-store-id-check-fix.patch",
+                    "version-constraint": "100.3.3"
                 }
             ],
             "magento/module-catalog-url-rewrite": [
