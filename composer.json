@@ -369,7 +369,7 @@
                 {
                     "description": "Add autocomplete to user area inputs",
                     "filename": "essential/autocomplete-user-area.patch",
-                    "version-constraint": ">=102.0.2"
+                    "version-constraint": "102.0.2"
                 },
                 {
                     "description": "Fix customer data initialization race condition",
