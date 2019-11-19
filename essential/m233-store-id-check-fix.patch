@@ -1,13 +1,15 @@
 diff --git a/view/frontend/web/js/view/minicart.js b/view/frontend/web/js/view/minicart.js
-index 6be8f25..5e29fa2 100644
+index d152f94..4adc1cd 100644
 --- a/view/frontend/web/js/view/minicart.js
 +++ b/view/frontend/web/js/view/minicart.js
-@@ -103,7 +103,7 @@ define([
+@@ -103,8 +103,8 @@ define([
              });
  
-             if (cartData().website_id !== window.checkout.websiteId ||
--                cartData().storeId !== window.checkout.storeId
-+                cartData().store_id !== window.checkout.storeId
+             if (
+-                cartData().website_id !== window.checkout.websiteId &&
+-                cartData().website_id !== undefined
++                cartData().website_id !== window.checkout.websiteId && cartData().website_id !== undefined ||
++                cartData().storeId !== window.checkout.storeId && cartData().storeId !== undefined
              ) {
                  customerData.reload(['cart'], false);
              }
