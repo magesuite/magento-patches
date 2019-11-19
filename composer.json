@@ -422,7 +422,7 @@
                 {
                     "description": "Fix payment method filter in order grid",
                     "filename": "essential/m23-fix-payment-method-filter-in-order-grid.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=100.3.0,<100.3.3"
                 }
             ],
             "magento/module-sales-sequence": [
