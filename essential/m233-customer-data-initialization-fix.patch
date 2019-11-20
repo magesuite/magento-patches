@@ -30,10 +30,10 @@ index 0373b7b..9d46f0c 100644
 +    });
  </script>
 diff --git a/view/frontend/templates/js/section-config.phtml b/view/frontend/templates/js/section-config.phtml
-index 94ab475..bb0b51f 100644
+index 94ab475..0c49af6 100644
 --- a/view/frontend/templates/js/section-config.phtml
 +++ b/view/frontend/templates/js/section-config.phtml
-@@ -6,16 +6,18 @@
+@@ -6,16 +6,17 @@
  
  /** @var \Magento\Customer\Block\SectionConfig $block */
  ?>
