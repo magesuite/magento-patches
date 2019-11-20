@@ -58,8 +58,7 @@ index 94ab475..bb0b51f 100644
 +                        'baseUrls' => array_unique([
 +                            $block->getUrl(null, ['_secure' => true]),
 +                            $block->getUrl(null, ['_secure' => false]),
-+                        ]),
-+                        'sectionNames' => $block->getData('sectionNamesProvider')->getSectionNames()
++                        ])
 +                    ]
 +                ]); ?>
 +    });
