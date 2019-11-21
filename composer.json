@@ -375,6 +375,11 @@
                     "description": "Fix customer data initialization race condition",
                     "filename": "essential/m232-customer-data-initialization-fix.patch",
                     "version-constraint": "102.0.2"
+                },
+                {
+                    "description": "Fix adding autocomplete to user area inputs",
+                    "filename": "essential/m233-autocomplete-user-area.patch",
+                    "version-constraint": ">=102.0.3"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
