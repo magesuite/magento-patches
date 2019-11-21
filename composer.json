@@ -285,13 +285,6 @@
                     "version-constraint": "1.1.0"
                 }
             ],
-            "repertus/packstation": [
-                {
-                    "description": "Fix extension to make it work with magesuite",
-                    "filename": "essential/repertus-packstation-fixes.patch",
-                    "version-constraint": "<=1.0.4"
-                }
-            ],
             "magento/module-quote": [
                 {
                     "description": "Don't try removing items from quote if it's empty (magento 2.2.2-2.2.4)",
