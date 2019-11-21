@@ -23,7 +23,7 @@ index 09dd850..537df75 100644
 @@ -92,7 +92,8 @@
                         value="<?= $block->escapeHtmlAttr($block->getAddress()->getCity()) ?>"
                         title="<?= $block->escapeHtmlAttr(__('City')) ?>"
-                        class="input-text <?= $block->escapeHtmlAttr($this->helper('Magento\Customer\Helper\Address')->getAttributeValidationClass('city')) ?>"
+                        class="input-text <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('city')) ?>"
 -                       id="city">
 +                       id="city"
 +                       autocomplete="address-level2">
@@ -33,7 +33,7 @@ index 09dd850..537df75 100644
 @@ -110,7 +111,7 @@
                         name="region"
                         value="<?= $block->escapeHtmlAttr($block->getRegion()) ?>"
-                        title="<?r= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
+                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
 -                       class="input-text validate-not-number-first <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('region')) ?>"<?= !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>/>
 +                       class="input-text validate-not-number-first <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('region')) ?>"<?= !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>  autocomplete="address-level1"/>
              </div>
