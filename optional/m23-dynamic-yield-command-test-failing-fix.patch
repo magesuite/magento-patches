@@ -1,0 +1,13 @@
+diff --git a/etc/di.xml b/etc/di.xml
+index cd7c3ed..f3f8a4d 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -3,7 +3,7 @@
+     <type name="Magento\Framework\Console\CommandList">
+         <arguments>
+             <argument name="commands" xsi:type="array">
+-                <item name="productExport" xsi:type="object">DynamicYield\Integration\Console\Export</item>
++<!--                <item name="productExport" xsi:type="object">DynamicYield\Integration\Console\Export</item>-->
+                 <item name="heartBeat" xsi:type="object">DynamicYield\Integration\Console\HeartBeat</item>
+             </argument>
+         </arguments>
