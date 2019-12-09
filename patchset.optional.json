@@ -31,6 +31,11 @@
                 "description": "Fix for underscore in carrier code (LED-1814)",
                 "filename": "optional/m22-fix-carrier-underscore-issue.patch",
                 "version-constraint": "100.2.*"
+            },
+            {
+                "description": "Fix redirect to home after removing a product from cart (HAAR-1812)",
+                "filename": "optional/m22-fix-home-redirect-after-remove-from-cart.patch",
+                "version-constraint": ">=100.2.2"
             }
         ],
         "magento/framework": [
