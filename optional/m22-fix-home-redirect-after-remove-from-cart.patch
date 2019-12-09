@@ -1,0 +1,20 @@
+Fix for bug when after removing product from cart you are redirect to homepage.
+Reason:
+This specific situations appear when you have disabled store code in url and store code was added to base link url.
+Then method "getCurrentBase64Url()" returned checkout url without store code and after remove product in Magento\Store\Api\StoreResolverInterface\Redirect it is not recognized as a internal url, so it's redirected to homepage.
+
+--- a/Helper/Cart.php
++++ b/Helper/Cart.php
+@@ -130,10 +130,11 @@ class Cart extends \Magento\Framework\Url\Helper\Data
+     public function getDeletePostJson($item)
+     {
+         $url = $this->_getUrl(self::DELETE_URL);
++        $cartUrl = $this->_getUrl('checkout/cart');
+ 
+         $data = ['id' => $item->getId()];
+         if (!$this->_request->isAjax()) {
+-            $data[\Magento\Framework\App\ActionInterface::PARAM_NAME_URL_ENCODED] = $this->getCurrentBase64Url();
++            $data[\Magento\Framework\App\ActionInterface::PARAM_NAME_URL_ENCODED] = $this->getEncodedUrl($cartUrl);
+         }
+         return json_encode(['action' => $url, 'data' => $data]);
+     }
