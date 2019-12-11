@@ -1,0 +1,17 @@
+diff --git a/etc/crontab.xml b/etc/crontab.xml
+index 273da3e..a67cb52 100644
+--- a/etc/crontab.xml
++++ b/etc/crontab.xml
+@@ -1,10 +1,10 @@
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+     <group id="default">
+         <job name="product_feed_export" instance="DynamicYield\Integration\Cron\Export" method="execute">
+-            <config_path>dyi_integration/feed/cron_expr</config_path>
++            <schedule>0 */2 */1 */1 *</schedule>
+         </job>
+         <job name="heartbeat_update" instance="DynamicYield\Integration\Cron\HeartBeat" method="execute">
+-            <config_path>dyi_integration/feed/heartbeat_expr</config_path>
++            <schedule>*/5 * * * *</schedule>
+         </job>
+     </group>
+ </config>

@@ -217,6 +217,11 @@
                 "description": "Fixed CLI command causing build to fail",
                 "filename": "optional/m23-dynamic-yield-command-test-failing-fix.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fixed crontab file with fixed schedule",
+                "filename": "optional/m23-dynamicyield-fix-crontab-file.patch",
+                "version-constraint": "*"
             }
         ]
     }
