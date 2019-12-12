@@ -1,0 +1,17 @@
+Fix for bug when after adding amasty free gift to the cart you are redirect to homepage.
+Reason:
+This specific situations appear when you have disabled store code in url and store code was added to base link url.
+
+--- a/Controller/Cart/Add.php
++++ b/Controller/Cart/Add.php
+@@ -134,7 +134,9 @@ class Add extends \Magento\Framework\App\Action\Action
+         }
+ 
+         $resultRedirect = $this->resultRedirectFactory->create();
+-        $resultRedirect->setRefererOrBaseUrl();
++        
++        $url = $this->_url->getUrl('checkout/cart');
++        $resultRedirect->setUrl($url);
+ 
+         return $resultRedirect;
+     }
