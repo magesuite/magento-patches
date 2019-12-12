@@ -98,6 +98,11 @@
                 "description": "Remove Amasty_BannersLite from dependency (patch from Amasty)",
                 "filename": "optional/amasty-promo-remove-banners-lite.patch",
                 "version-constraint": "^2.6.0"
+            },
+            {
+                "description": "Fix redirect to home after adding amasty free gift (HAAR-1837)",
+                "filename": "optional/m22-fix-home-redirect-after-adding-amasty-gift.patch",
+                "version-constraint": "^2.7.0"
             }
         ],
         "amasty/module-banners-lite": [
