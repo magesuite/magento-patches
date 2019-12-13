@@ -1,0 +1,137 @@
+diff --git a/view/frontend/templates/js/customer-data.phtml b/view/frontend/templates/js/customer-data.phtml
+index 0373b7b..5f79720 100644
+--- a/view/frontend/templates/js/customer-data.phtml
++++ b/view/frontend/templates/js/customer-data.phtml
+@@ -6,15 +6,14 @@
+ 
+ /** @var \Magento\Customer\Block\CustomerData $block */
+ ?>
+-<script type="text/x-magento-init">
+-<?= /* @noEscape */ $this->helper(\Magento\Framework\Json\Helper\Data::class)->jsonEncode([
+-        '*' => ['Magento_Customer/js/customer-data' => [
+-            'sectionLoadUrl' => $block->getCustomerDataUrl('customer/section/load'),
+-            'expirableSectionLifetime' => $block->getExpirableSectionLifetime(),
+-            'expirableSectionNames' => $block->getExpirableSectionNames(),
+-            'cookieLifeTime' => $block->getCookieLifeTime(),
+-            'updateSessionUrl' => $block->getCustomerDataUrl('customer/account/updateSession'),
+-        ]],
+-    ]);
+-?>
++<script>
++    requirejs.config({
++        config: <?= /* @noEscape */ $this->helper(\Magento\Framework\Json\Helper\Data::class)->jsonEncode(['Magento_Customer/js/customer-data' => [
++                    'sectionLoadUrl' => $block->getCustomerDataUrl('customer/section/load'),
++                    'expirableSectionLifetime' => $block->getExpirableSectionLifetime(),
++                    'expirableSectionNames' => $block->getExpirableSectionNames(),
++                    'cookieLifeTime' => $block->getCookieLifeTime(),
++                    'updateSessionUrl' => $block->getCustomerDataUrl('customer/account/updateSession'),
++                ]]); ?>
++    });
+ </script>
+diff --git a/view/frontend/templates/js/section-config.phtml b/view/frontend/templates/js/section-config.phtml
+index 94ab475..0c49af6 100644
+--- a/view/frontend/templates/js/section-config.phtml
++++ b/view/frontend/templates/js/section-config.phtml
+@@ -6,16 +6,17 @@
+ 
+ /** @var \Magento\Customer\Block\SectionConfig $block */
+ ?>
+-<script type="text/x-magento-init">
+-<?= /* @noEscape */ $this->helper(\Magento\Framework\Json\Helper\Data::class)->jsonEncode([
+-        '*' => ['Magento_Customer/js/section-config' => [
+-            'sections' => $block->getSections(),
+-            'clientSideSections' => $block->getClientSideSections(),
+-            'baseUrls' => array_unique([
+-                $block->getUrl(null, ['_secure' => true]),
+-                $block->getUrl(null, ['_secure' => false]),
+-            ]),
+-        ]],
+-    ]);
+-?>
++<script>
++    requirejs.config({
++        config: <?= /* @noEscape */ $this->helper(\Magento\Framework\Json\Helper\Data::class)->jsonEncode([
++                    'Magento_Customer/js/section-config' => [
++                        'sections' => $block->getSections(),
++                        'clientSideSections' => $block->getClientSideSections(),
++                        'baseUrls' => array_unique([
++                            $block->getUrl(null, ['_secure' => true]),
++                            $block->getUrl(null, ['_secure' => false]),
++                        ])
++                    ]
++                ]); ?>
++    });
+ </script>
+diff --git a/view/frontend/web/js/customer-data.js b/view/frontend/web/js/customer-data.js
+index 66d37cb..041b509 100644
+--- a/view/frontend/web/js/customer-data.js
++++ b/view/frontend/web/js/customer-data.js
+@@ -11,12 +11,13 @@ define([
+     'underscore',
+     'ko',
+     'Magento_Customer/js/section-config',
++    'module',
+     'mage/storage',
+     'jquery/jquery-storageapi'
+-], function ($, _, ko, sectionConfig) {
++], function ($, _, ko, sectionConfig, module) {
+     'use strict';
+ 
+-    var options,
++    var options = module.config(),
+         storage,
+         storageInvalidation,
+         invalidateCacheBySessionTimeOut,
+@@ -364,14 +365,13 @@ define([
+          * @param {Object} settings
+          * @constructor
+          */
+-        'Magento_Customer/js/customer-data': function (settings) {
+-            options = settings;
+-            invalidateCacheBySessionTimeOut(settings);
+-            invalidateCacheByCloseCookieSession();
+-            customerData.init();
+-        }
++        'Magento_Customer/js/customer-data': function () {}
+     };
+ 
++    invalidateCacheBySessionTimeOut(options);
++    invalidateCacheByCloseCookieSession();
++    customerData.init();
++
+     /**
+      * Events listener
+      */
+diff --git a/view/frontend/web/js/section-config.js b/view/frontend/web/js/section-config.js
+index 76fe7f2..b638153 100644
+--- a/view/frontend/web/js/section-config.js
++++ b/view/frontend/web/js/section-config.js
+@@ -3,10 +3,14 @@
+  * See COPYING.txt for license details.
+  */
+ 
+-define(['underscore'], function (_) {
++define(['underscore', 'module'], function (_, module) {
+     'use strict';
+ 
+-    var baseUrls, sections, clientSideSections, canonize;
++    var options = module.config(),
++        baseUrls = options.baseUrls,
++        sections = options.sections,
++        clientSideSections = options.clientSideSections,
++        canonize;
+ 
+     /**
+      * @param {String} url
+@@ -74,10 +78,6 @@ define(['underscore'], function (_) {
+          * @param {Object} options
+          * @constructor
+          */
+-        'Magento_Customer/js/section-config': function (options) {
+-            baseUrls = options.baseUrls;
+-            sections = options.sections;
+-            clientSideSections = options.clientSideSections;
+-        }
++        'Magento_Customer/js/section-config': function () {}
+     };
+ });
