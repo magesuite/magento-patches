@@ -1,0 +1,16 @@
+diff --git a/view/frontend/web/js/section-config.js b/view/frontend/web/js/section-config.js
+index 76fe7f2..c779573 100644
+--- a/view/frontend/web/js/section-config.js
++++ b/view/frontend/web/js/section-config.js
+@@ -6,7 +6,10 @@
+ define(['underscore'], function (_) {
+     'use strict';
+ 
+-    var baseUrls, sections, clientSideSections, canonize;
++    var baseUrls = [],
++        sections = [],
++        clientSideSections = [],
++        canonize;
+ 
+     /**
+      * @param {String} url
