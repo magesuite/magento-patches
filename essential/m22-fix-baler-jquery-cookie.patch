@@ -1,0 +1,14 @@
+diff --git a/view/base/requirejs-config.js b/view/base/requirejs-config.js
+index 3b5be20..be51d09 100644
+--- a/view/base/requirejs-config.js
++++ b/view/base/requirejs-config.js
+@@ -50,7 +50,8 @@ var config = {
+         'tinymce': 'tiny_mce/tiny_mce_src'
+     },
+     'deps': [
+-        'jquery/jquery-migrate'
++        'jquery/jquery-migrate',
++        'jquery/jquery.cookie'
+     ],
+     'config': {
+         'mixins': {
