@@ -89,16 +89,6 @@
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/m233-theme-secure-cookie.patch",
                     "version-constraint": ">=101.0.3"
-                },
-                {
-                    "description": "Fix for baler - add jquery cookie (Magento 2.2.x)",
-                    "filename": "essential/m22-fix-baler-jquery-cookie.patch",
-                    "version-constraint": ">=100.2.2,<101.0.0"
-                },
-                {
-                    "description": "Fix for baler - add jquery cookie  (Magento 2.3.x)",
-                    "filename": "essential/m23-fix-baler-jquery-cookie.patch",
-                    "version-constraint": ">=101.0.0,<=101.0.3"
                 }
             ],
             "magento/module-page-cache": [
@@ -144,11 +134,6 @@
                     "description": "Add OOM Debugger (M2C-3352)",
                     "filename": "essential/oom-debugger.patch",
                     "version-constraint": "*"
-                },
-                {
-                    "description": "Refactor JavaScript mixins module",
-                    "filename": "essential/refactor-mixins-js-module.patch",
-                    "version-constraint": ">=2.2.2"
                 }
             ],
             "magento/module-search": [
@@ -380,14 +365,14 @@
                     "version-constraint": "102.0.2"
                 },
                 {
+                    "description": "Fix customer data initialization race condition",
+                    "filename": "essential/m232-customer-data-initialization-fix.patch",
+                    "version-constraint": "102.0.2"
+                },
+                {
                     "description": "Fix adding autocomplete to user area inputs",
                     "filename": "essential/m233-autocomplete-user-area.patch",
                     "version-constraint": ">=102.0.3"
-                },
-                {
-                    "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
-                    "filename": "essential/fix-section-config.patch",
-                    "version-constraint": ">=101.0.2,<=102.0.2"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
