@@ -488,13 +488,6 @@
                     "version-constraint": ">=100.3.0"
                 }
             ],
-            "magento/module-inventory-configurable-product-indexer": [
-                {
-                    "description": "Fixes indexing process for configurable products in commerce version of Magento",
-                    "filename": "essential/m23-fix-inventory-indexing-for-configurable-products.patch",
-                    "version-constraint": "*"
-                }
-            ],
             "magento/module-paypal": [
                 {
                     "description": "Fix inability to place PayPal guest order when Automatic Assignment to Customer Group is enabled",
