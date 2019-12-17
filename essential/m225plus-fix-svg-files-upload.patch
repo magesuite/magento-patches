@@ -5,7 +5,7 @@
      public function checkMimeType($validTypes = [])
      {
 +        $validTypes = array_merge($validTypes, [
-+            'text/html'
++            'text/html', 'image/svg+xml'
 +        ]);
 +
          if (count($validTypes) > 0) {
