@@ -1,0 +1,13 @@
+diff --git a/Helper/Customer.php b/Helper/Customer.php
+index 50fea00..1127591 100644
+--- a/Helper/Customer.php
++++ b/Helper/Customer.php
+@@ -188,7 +188,7 @@ class Customer extends AbstractHelper
+     public function getOneCustomer($customerId, $websiteId, $toArray = false)
+     {
+         $this
+-            ->initCollection($websiteId)
++            ->initCollection(0)
+             ->setWhere('entity_id', $customerId, $customerId)
+             ->joinSubscriptionStatus()
+             ->getCustomersAttributeData(
