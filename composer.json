@@ -122,6 +122,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "amasty/adminactionslog": [
+                {
+                    "description": "Handle exception raised with m2epro module",
+                    "filename": "essential/m22-amasty-adminactionslog-exception-fix.patch",
+                    "version-constraint": "1.0.13"
+                }
+            ],
             "amasty/base": [
                 {
                     "description": "Fix module sequence",

@@ -1,0 +1,21 @@
+index 13b5491..c4a532b 100644
+--- a/Observer/handleModelDeleteBefore.php
++++ b/Observer/handleModelDeleteBefore.php
+@@ -27,10 +27,12 @@ class handleModelDeleteBefore implements ObserverInterface
+
+     public function execute(\Magento\Framework\Event\Observer $observer)
+     {
+-        $object = $observer->getObject();
+-        $id = $object->getEntityId();
+-        $class = get_class($object);
+-        $entity = $this->_objectManager->get($class)->load($id);
+-        $this->_registryManager->register('amaudit_entity_before_delete', $entity, true);
++        try {
++            $object = $observer->getObject();
++            $id = $object->getEntityId();
++            $class = get_class($object);
++            $entity = $this->_objectManager->get($class)->load($id);
++            $this->_registryManager->register('amaudit_entity_before_delete', $entity, true);
++        } catch (\Exception $e) {}
+     }
+ }
