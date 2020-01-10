@@ -1,8 +1,23 @@
 diff --git a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
-index 028bf2c..14e6c08 100644
+index 40fbe9d..15b5bb1 100644
 --- a/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
 +++ b/Model/Import/ErrorProcessing/ProcessingErrorAggregator.php
-@@ -198,7 +198,7 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
+@@ -191,6 +191,14 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
+         return $this;
+     }
+ 
++    /**
++     * @return string $validationStrategy
++     */
++    public function getValidationStrategy()
++    {
++        return $this->validationStrategy;
++    }
++
+     /**
+      * Check if import has to be terminated
+      *
+@@ -198,7 +206,7 @@ class ProcessingErrorAggregator implements ProcessingErrorAggregatorInterface
       */
      public function hasToBeTerminated()
      {
@@ -11,3 +26,21 @@ index 028bf2c..14e6c08 100644
      }
  
      /**
+diff --git a/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php b/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
+index 2055852..5c9f2d0 100644
+--- a/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
++++ b/Model/Import/ErrorProcessing/ProcessingErrorAggregatorInterface.php
+@@ -79,6 +79,13 @@ interface ProcessingErrorAggregatorInterface
+      */
+     public function initValidationStrategy($validationStrategy, $allowedErrorCount = 0);
+ 
++    /**
++     * Return the validation strategy
++     *
++     * @return string
++     */
++    public function getValidationStrategy();
++
+     /**
+      * Check if the further processing should be stopped
+      *
