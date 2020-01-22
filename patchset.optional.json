@@ -235,6 +235,13 @@
                 "filename": "optional/refactor-mixins-js-module.patch",
                 "version-constraint": ">=2.2.2"
             }
+        ],
+        "magepal/magento2-enhanced-ecommerce": [
+            {
+                "description": "Disables price calculations on category page",
+                "filename": "optional/magepal-eec-disables-expensive-price-calculations.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }
