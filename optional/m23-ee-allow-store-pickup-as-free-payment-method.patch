@@ -1,0 +1,13 @@
+diff --git a/Observer/TogglePaymentMethods.php b/Observer/TogglePaymentMethods.php
+index 02652b5..b8bf799 100644
+--- a/Observer/TogglePaymentMethods.php
++++ b/Observer/TogglePaymentMethods.php
+@@ -30,7 +30,7 @@ class TogglePaymentMethods implements ObserverInterface
+             $paymentMethod = $observer->getEvent()->getMethodInstance()->getCode();
+             /** @var \Magento\Framework\DataObject $result */
+             $result = $observer->getEvent()->getResult();
+-            $result->setData('is_available', $paymentMethod === 'free');
++            $result->setData('is_available', ($paymentMethod === 'free' || $paymentMethod === 'instorepickuppayment'));
+         }
+     }
+ }
