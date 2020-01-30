@@ -221,6 +221,11 @@
                 "description": "Fixed page preview error by returning empty string instead of null",
                 "filename": "optional/m23-null-to-empty-string.patch",
                 "version-constraint": "103.0.*"
+            },
+            {
+                "description": "Fixing .thumbs directory structure in pub/media/",
+                "filename": "optional/m23-fix-thumbs-directories-structure.patch",
+                "version-constraint": ">=103.0.2"
             }
         ],
         "dynamic-yield/integration": [
@@ -263,6 +268,5 @@
                 "version-constraint": "^220.0"
             }
         ]
-
     }
 }

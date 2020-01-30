@@ -1,0 +1,22 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index 1f2fe74..3d972bb 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -583,7 +583,7 @@ class Storage extends \Magento\Framework\DataObject
+         $mediaRootDir = $this->_cmsWysiwygImages->getStorageRoot();
+ 
+         if (strpos($filePath, (string) $mediaRootDir) === 0) {
+-            $thumbSuffix = self::THUMBS_DIRECTORY_NAME . substr($filePath, strlen($mediaRootDir));
++            $thumbSuffix = self::THUMBS_DIRECTORY_NAME . '/' . substr($filePath, strlen($mediaRootDir));
+             if (!$checkFile || $this->_directory->isExist(
+                 $this->_directory->getRelativePath($mediaRootDir . '/' . $thumbSuffix)
+             )
+@@ -697,7 +697,7 @@ class Storage extends \Magento\Framework\DataObject
+      */
+     public function getThumbnailRoot()
+     {
+-        return $this->_cmsWysiwygImages->getStorageRoot() . '/' . self::THUMBS_DIRECTORY_NAME;
++        return $this->_cmsWysiwygImages->getStorageRoot() . self::THUMBS_DIRECTORY_NAME . '/';
+     }
+ 
+     /**
