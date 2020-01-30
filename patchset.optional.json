@@ -225,7 +225,7 @@
             {
                 "description": "Fixing .thumbs directory structure in pub/media/",
                 "filename": "optional/m23-fix-thumbs-directories-structure.patch",
-                "version-constraint": ">=103.0.2"
+                "version-constraint": "103.0.2"
             }
         ],
         "dynamic-yield/integration": [
