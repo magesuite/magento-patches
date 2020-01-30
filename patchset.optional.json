@@ -249,11 +249,18 @@
                 "version-constraint": "*"
             }
         ],
-	"magento/module-gift-card-account": [
+	    "magento/module-gift-card-account": [
             {
                 "description": "Allows storepickup to be used with 0.00 orders (Giftacrd+Magento EE)",
                 "filename": "optional/m23-ee-allow-store-pickup-as-free-payment-method.patch",
                 "version-constraint": "*"
+            }
+        ],
+        "wagento/zendesk": [
+            {
+                "description": "Fix redirect url encoding for auth methods",
+                "filename": "optional/zendesk-fix-auth-url-encoding.patch",
+                "version-constraint": "^220.0"
             }
         ]
 

@@ -1,0 +1,13 @@
+diff --git a/Helper/Api/Connector.php b/Helper/Api/Connector.php
+index 27d3cc8..4ef68eb 100644
+--- a/Helper/Api/Connector.php
++++ b/Helper/Api/Connector.php
+@@ -42,7 +42,7 @@ class Connector extends \Wagento\Zendesk\Helper\Api\AbstractApi
+         ];
+ 
+         $oAuthUrl = $this->zendeskHelper->buildUri(self::OAUTH_NEW) . '?';
+-        $oAuthUrl .= http_build_query(array_filter($options));
++        $oAuthUrl .= urldecode(http_build_query(array_filter($options)));
+ 
+         return $oAuthUrl;
+     }
