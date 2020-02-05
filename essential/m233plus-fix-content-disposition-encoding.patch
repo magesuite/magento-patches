@@ -1,0 +1,13 @@
+diff --git a/src/Headers.php b/src/Headers.php
+index b8058b9..5dd6549 100644
+--- a/src/Headers.php
++++ b/src/Headers.php
+@@ -512,7 +512,7 @@ class Headers implements Countable, Iterator
+         }
+ 
+         $current = $headers;
+-        $current->setEncoding($encoding);
++        $current->setEncoding($key === 'contentdisposition' && $current->getFieldValue(false) === 'inline' ? 'ASCII' : $encoding);
+         $this->headers[$index] = $current;
+         return $current;
+     }
