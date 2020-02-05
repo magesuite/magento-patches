@@ -1,0 +1,13 @@
+diff --git a/lib/web/mage/collapsible.js b/lib/web/mage/collapsible.js
+index 46b50f5..6ed315a 100644
+--- a/lib/web/mage/collapsible.js
++++ b/lib/web/mage/collapsible.js
+@@ -571,7 +571,7 @@ define([
+          * @private
+          */
+         _scrollToTopIfVisible: function (elem) {
+-            if (!this._isElementOutOfViewport(elem)) {
++            if (this._isElementOutOfViewport(elem)) {
+                 elem.scrollIntoView();
+             }
+         },
