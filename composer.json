@@ -288,6 +288,13 @@
                     "version-constraint": "100.2.*"
                 }
             ],
+            "aheadworks/module-blog": [
+                {
+                    "description": "Fix for cleaning cache for all products after update blog post",
+                    "filename": "essential/aheadworks-module-blog-fix-cleaning-products-cache.patch",
+                    "version-constraint": ">=2.5.0"
+                }
+            ],
             "aheadworks/module-faq": [
                 {
                     "description": "Fixes bug FAQ Article with id \"\" does not exist Exception",
