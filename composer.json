@@ -151,11 +151,6 @@
                     "description": "Add OOM Debugger (M2C-3352)",
                     "filename": "essential/oom-debugger.patch",
                     "version-constraint": "*"
-                },
-                {
-                    "description": "Fixes collapsible issue with scrollin to the content even if it is visible",
-                    "filename": "essential/m233-collapsible-scroll-fix.patch",
-                    "version-constraint": "2.3.3"
                 }
             ],
             "magento/module-search": [
