@@ -523,6 +523,13 @@
                     "filename": "essential/m232-paypal-fix-for-customer-automatic-group-assignment.patch",
                     "version-constraint": "100.3.2"
                 }
+            ],
+            "zendframework/zend-mail": [
+                {
+                    "description": "Fix incorrect content-disposition header encoding that prevented emails to be sent using SES",
+                    "filename": "essential/m233plus-fix-content-disposition-encoding.patch",
+                    "version-constraint": ">=2.10.0"
+                }
             ]
         }
     }
