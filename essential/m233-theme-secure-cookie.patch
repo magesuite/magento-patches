@@ -7,7 +7,7 @@ index 7ecfd18..0010d68 100644
                  "path": "<?= $block->escapeJs($block->getPath()) ?>",
                  "domain": "<?= $block->escapeJs($block->getDomain()) ?>",
 -                "secure": false,
-+                "secure": "<?= $block->escapeJs($block->isSecure() ? 'true' : 'false') ?>",
++                "secure": "<?= /* @noEscape */ $block->isSecure() ? 'true' : 'false' ?>",
                  "lifetime": "<?= $block->escapeJs($block->getLifetime()) ?>"
              }
          }
