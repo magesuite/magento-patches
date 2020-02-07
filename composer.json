@@ -156,6 +156,11 @@
                     "description": "Fixes collapsible issue with scrollin to the content even if it is visible",
                     "filename": "essential/m233-collapsible-scrolling-fix.patch",
                     "version-constraint": "2.3.3"
+                },
+                {
+                    "description": "Improve domReady performance for faster load times",
+                    "filename": "essential/m23-improve-domready-performance.patch",
+                    "version-constraint": ">=2.3.2,<2.3.5"
                 }
             ],
             "magento/module-search": [
