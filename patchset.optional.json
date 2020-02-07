@@ -267,6 +267,13 @@
                 "filename": "optional/zendesk-fix-auth-url-encoding.patch",
                 "version-constraint": "^220.0"
             }
+        ],
+        "msp/cashondelivery": [
+            {
+                "description": "Fix infinite loop when product from cart has been disabled before removed from quote",
+                "filename": "optional/cash_on_delivery_infinite_loop_fix.patch",
+                "version_constraint": "^1.2"
+            }
         ]
     }
 }
