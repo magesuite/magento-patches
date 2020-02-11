@@ -1,4 +1,4 @@
-Fixing issue with cleaning product cache for all product after update blog post.
+Fixing issue with cleaning product cache for all product after update and reindex blog posts.
 Now only cache for related products will be cleaned.
 
 --- a/Model/Post.php
@@ -13,6 +13,27 @@ Now only cache for related products will be cleaned.
 +        if (is_array($relatedProductIds) && count($relatedProductIds)) {
 +            foreach ($relatedProductIds as $relatedProductId) {
 +                $identities[] = \Magento\Catalog\Model\Product::CACHE_TAG . '_' . $relatedProductId;
++            }
+         }
+         return $identities;
+     }
+--- a/Model/ResourceModel/Indexer/ProductPost.php
++++ b/Model/ResourceModel/Indexer/ProductPost.php
+@@ -176,12 +176,16 @@ class ProductPost extends AbstractResource implements IdentityInterface
+      */
+     public function getIdentities()
+     {
+-        $identities = [Product::CACHE_TAG];
++        $identities = [];
+         foreach ($this->entities as $entity) {
+             $postTag = Post::CACHE_TAG . '_' . $entity['post_id'];
+-            if (false === array_search($postTag, $identities)) {
++            if (!in_array($postTag, $identities)) {
+                 $identities[] = $postTag;
+             }
++            $productTag = \Magento\Catalog\Model\Product::CACHE_TAG . '_' . $entity['product_id'];
++            if (!in_array($productTag, $identities)) {
++                $identities[] = $productTag;
 +            }
          }
          return $identities;

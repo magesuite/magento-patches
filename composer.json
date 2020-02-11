@@ -300,7 +300,7 @@
             ],
             "aheadworks/module-blog": [
                 {
-                    "description": "Fix for cleaning cache for all products after update blog post",
+                    "description": "Fix for cleaning cache for all products after update and reindex blog posts",
                     "filename": "essential/aheadworks-module-blog-fix-cleaning-products-cache.patch",
                     "version-constraint": ">=2.5.0"
                 }
