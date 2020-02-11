@@ -240,13 +240,6 @@
                 "version-constraint": "*"
             }
         ],
-        "magento/magento2-base": [
-            {
-                "description": "Refactor JavaScript mixins module",
-                "filename": "optional/refactor-mixins-js-module.patch",
-                "version-constraint": ">=2.2.2"
-            }
-        ],
         "magepal/magento2-enhanced-ecommerce": [
             {
                 "description": "Disables price calculations on category page",

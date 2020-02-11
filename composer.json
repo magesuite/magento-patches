@@ -161,6 +161,11 @@
                     "description": "Improve domReady performance for faster load times",
                     "filename": "essential/m23-improve-domready-performance.patch",
                     "version-constraint": ">=2.3.2,<2.3.5"
+                },
+                {
+                    "description": "Refactor JavaScript mixins module",
+                    "filename": "essential/refactor-mixins-js-module.patch",
+                    "version-constraint": ">=2.3.2"
                 }
             ],
             "magento/module-search": [
