@@ -451,7 +451,7 @@
                 },
                 {
                     "description": "Fixing .thumbs directory structure in pub/media/",
-                    "filename": "vendor/creativestyle/magento-patches/optional/m23-fix-thumbs-directories-structure.patch",
+                    "filename": "essential/m23-fix-thumbs-directories-structure.patch",
                     "version-constraint": "103.0.*"
                 }
             ],
