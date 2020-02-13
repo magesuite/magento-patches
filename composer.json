@@ -448,11 +448,6 @@
                     "description": "Remove getimagesize from wysiwyg media listing logic to improve performance in Magento 2.3.3+",
                     "filename": "essential/m233-remove-getimagesize-wysiwyg-media.patch",
                     "version-constraint": ">=103.0.3"
-                },
-                {
-                    "description": "Fixing .thumbs directory structure in pub/media/",
-                    "filename": "essential/m23-fix-thumbs-directories-structure.patch",
-                    "version-constraint": "103.0.*"
                 }
             ],
             "magento/module-payment": [
