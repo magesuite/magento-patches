@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/model/error-processor.js b/view/frontend/web/js/model/error-processor.js
+index 42b692f..bf16976 100644
+--- a/view/frontend/web/js/model/error-processor.js
++++ b/view/frontend/web/js/model/error-processor.js
+@@ -29,7 +29,9 @@ define([
+                 try {
+                     error = JSON.parse(response.responseText);
+                 } catch (exception) {
+-                    error = $t('Something went wrong with your request. Please try again later.');
++                    error = {
++                        message: $t('Something went wrong with your request. Please try again later.')
++                    };
+                 }
+                 messageContainer.addErrorMessage(error);
+             }

@@ -267,6 +267,11 @@
                     "version-constraint": "100.3.2"
                 },
                 {
+                    "description": "Fix empty error message for network connection failure.",
+                    "filename": "essential/m232-empty-network-falure-error-fix.patch",
+                    "version-constraint": "100.3.2"
+                },
+                {
                     "description": "Fix incorrect store ID check which reloads customer data all the time.",
                     "filename": "essential/m233-store-id-check-fix.patch",
                     "version-constraint": "100.3.3"
