@@ -79,6 +79,13 @@
                     "version-constraint": ">=101.1.2"
                 }
             ],
+            "magento/module-persistent": [
+                {
+                    "description": "Fix 'The shipping information was unable to be saved.' error",
+                    "filename": "essential/m232-the-shipping-information-was-unable-to-be-saved.patch",
+                    "version-constraint": ">=100.3.2,<=100.3.3"
+                }
+            ],
             "magento/module-theme": [
                 {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
