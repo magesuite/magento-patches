@@ -502,6 +502,11 @@
                     "description": "Fix bundle disabled price(when alert are enabled)",
                     "filename": "essential/m22plus-fix-bundle-disabled-price.patch",
                     "version-constraint": ">=100.2.0"
+                },
+                {
+                    "description": "Fix getIdentities for bundle products",
+                    "filename": "essential/m23-fix-getidentities-for-bundle.patch",
+                    "version-constraint": ">=100.3.1"
                 }
             ],
             "amzn/amazon-pay-and-login-with-amazon-core-module": [
