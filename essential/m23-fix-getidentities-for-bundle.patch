@@ -1,0 +1,15 @@
+Return empty array for non bundle products to improve performance.
+
+--- a/Model/Plugin/Frontend/Product.php
++++ b/Model/Plugin/Frontend/Product.php
+@@ -37,6 +37,10 @@ class Product
+      */
+     public function afterGetIdentities(CatalogProduct $product, array $identities): array
+     {
++        if ($product->getTypeId() != \Magento\Bundle\Model\Product\Type::TYPE_CODE) {
++            return [];
++        }
++
+         foreach ($this->type->getChildrenIds($product->getEntityId()) as $childIds) {
+             foreach ($childIds as $childId) {
+                 $identities[] = CatalogProduct::CACHE_TAG . '_' . $childId;
