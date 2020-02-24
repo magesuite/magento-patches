@@ -557,6 +557,13 @@
                     "filename": "essential/m233plus-fix-content-disposition-encoding.patch",
                     "version-constraint": ">=2.10.0"
                 }
+            ],
+            "taxjar/module-taxjar": [
+                {
+                    "description": "Fix command initialization that broke integration tests",
+                    "filename": "essential/m22plus-fix-taxjar-command-initialization-that-breaks-integration-tests.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
