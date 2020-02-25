@@ -3,38 +3,6 @@ Patch prepared by aheadworks.
 
 --- a/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php
 +++ b/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php
-@@ -25,6 +25,11 @@ class SaveHandlerPlugin
-      */
-     private $entityManager;
- 
-+    /**
-+     * @var bool
-+     */
-+    protected $executedFlag;
-+
-     /**
-      * @param EntityManager $entityManager
-      */
-@@ -32,6 +37,7 @@ class SaveHandlerPlugin
-         EntityManager $entityManager
-     ) {
-         $this->entityManager = $entityManager;
-+        $this->executedFlag = false;
-     }
- 
-     /**
-@@ -45,7 +51,10 @@ class SaveHandlerPlugin
-      */
-     public function afterSave($subject, $quote)
-     {
--        return $this->processQuoteGiftcards($quote);
-+        if (!$this->executedFlag) {
-+            $this->executedFlag = true;
-+            return $this->processQuoteGiftcards($quote);
-+        }
-     }
- 
-     /**
 @@ -60,7 +69,10 @@ class SaveHandlerPlugin
          if ($quote->getExtensionAttributes() && $quote->getExtensionAttributes()->getAwGiftcardCodes()) {
              $giftcards = $quote->getExtensionAttributes()->getAwGiftcardCodes();
