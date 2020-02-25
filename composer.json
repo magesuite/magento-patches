@@ -457,8 +457,8 @@
                     "version-constraint": "103.0.2"
                 },
                 {
-                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance in Magento 2.3.3+",
-                    "filename": "essential/m233-remove-getimagesize-wysiwyg-media.patch",
+                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.3.3+",
+                    "filename": "essential/m233-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
                     "version-constraint": ">=103.0.3"
                 }
             ],
