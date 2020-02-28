@@ -229,12 +229,12 @@
                 {
                     "description": "Fixes sorting related products in admin panel.",
                     "filename": "essential/m22-related-products-sorting.patch",
-                    "version-constraint": ">=102.0.0,<=102.0.9"
+                    "version-constraint": ">=102.0.0,<102.0.8"
                 },
                 {
                     "description": "Fix tier price saving issue (M2C-2550)",
                     "filename": "essential/m22-fix-tier-price-saving-issue.patch",
-                    "version-constraint": "~102.0.6"
+                    "version-constraint": ">=102.0.6,<102.0.8"
                 },
                 {
                     "description": "Prevent from changing attribute type from int when saving in admin (Magento 2.2.4+, fixed in Magento 2.3.1)",
