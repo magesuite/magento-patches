@@ -90,12 +90,12 @@
                 {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/theme-secure-cookie.patch",
-                    "version-constraint": "<101.0.3"
+                    "version-constraint": "<=100.2.9 || >=101.0.0,<101.0.3"
                 },
                 {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/m233-theme-secure-cookie.patch",
-                    "version-constraint": ">=101.0.3"
+                    "version-constraint": ">=100.2.10,<101.0.0 || 101.0.3"
                 },
                 {
                     "description": "Fix for baler - add jquery cookie (Magento 2.2.x)",
