@@ -300,7 +300,7 @@
                 {
                     "description": "Fixes missing url_key after product import",
                     "filename": "essential/m22-fix-missing-url-key-after-import.patch",
-                    "version-constraint": "100.2.*"
+                    "version-constraint": ">=102.0.0,<102.0.8"
                 }
             ],
             "magento/module-review": [
