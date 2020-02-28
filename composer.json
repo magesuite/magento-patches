@@ -229,7 +229,7 @@
                 {
                     "description": "Fixes sorting related products in admin panel.",
                     "filename": "essential/m22-related-products-sorting.patch",
-                    "version-constraint": "102.0.*"
+                    "version-constraint": ">=102.0.0,<=102.0.9"
                 },
                 {
                     "description": "Fix tier price saving issue (M2C-2550)",
