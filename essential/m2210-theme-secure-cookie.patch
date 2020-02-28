@@ -1,0 +1,16 @@
+diff --git a/m2210-theme-secure-cookie.patch b/m2210-theme-secure-cookie.patch
+new file mode 100644
+index 0000000..e69de29
+diff --git a/view/frontend/templates/js/cookie.phtml b/view/frontend/templates/js/cookie.phtml
+index d04fb80..b85db31 100644
+--- a/view/frontend/templates/js/cookie.phtml
++++ b/view/frontend/templates/js/cookie.phtml
+@@ -18,7 +18,7 @@
+                 "expires": null,
+                 "path": "<?= /* @noEscape */ $block->getPath() ?>",
+                 "domain": "<?= /* @noEscape */ $block->getDomain() ?>",
+-                "secure": false,
++                "secure": <?= /* @noEscape */ $block->isSecure() ? 'true' : 'false' ?>,
+                 "lifetime": "<?= /* @noEscape */ $block->getLifetime() ?>"
+             }
+         }
