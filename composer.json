@@ -239,7 +239,7 @@
                 {
                     "description": "Prevent from changing attribute type from int when saving in admin (Magento 2.2.4+, fixed in Magento 2.3.1)",
                     "filename": "essential/m224plus-saving-int-attribute-type.patch",
-                    "version-constraint": ">=102.0.4,<=103.0.0"
+                    "version-constraint": ">=102.0.4,<102.0.8 || 103.0.0"
                 },
                 {
                     "description": "Prevent from changing attribute type from int when saving in admin (2.2.0-2.2.4)",
