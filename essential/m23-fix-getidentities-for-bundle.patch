@@ -7,7 +7,7 @@ Return empty array for non bundle products to improve performance.
      public function afterGetIdentities(CatalogProduct $product, array $identities): array
      {
 +        if ($product->getTypeId() != \Magento\Bundle\Model\Product\Type::TYPE_CODE) {
-+            return [];
++            return $identities;
 +        }
 +
          foreach ($this->type->getChildrenIds($product->getEntityId()) as $childIds) {
