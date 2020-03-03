@@ -125,6 +125,11 @@
                     "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
                     "filename": "essential/m22-fix-email-issue-sales.patch",
                     "version-constraint": "101.0.6"
+                },
+                {
+                    "description": "Fix for cleaning old shopping carts when lifetime expired. (Magento <= 2.3.3)",
+                    "filename": "essential/m233minus-magento-sales-fix-quote-lifetime.patch",
+                    "version-constraint": "<=102.0.3"
                 }
             ],
             "amasty/module-advanced-permissions": [
