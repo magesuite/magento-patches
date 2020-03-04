@@ -1,0 +1,34 @@
+diff --git a/lib/web/mage/apply/main.js b/lib/web/mage/apply/main.js
+index 21255fb..5a65d12 100644
+--- a/lib/web/mage/apply/main.js
++++ b/lib/web/mage/apply/main.js
+@@ -27,11 +27,13 @@ define([
+                 fn = fn[component].bind(fn);
+             }
+ 
+-            if (_.isFunction(fn)) {
+-                fn(config, el);
+-            } else if ($(el)[component]) {
+-                $(el)[component](config);
+-            }
++            require.nextTick(function () {
++                if (_.isFunction(fn)) {
++                    fn(config, el);
++                } else if ($(el)[component]) {
++                    $(el)[component](config);
++                }
++            });
+         }, function (error) {
+             if ('console' in window && typeof window.console.error === 'function') {
+                 console.error(error);
+diff --git a/lib/web/mage/bootstrap.js b/lib/web/mage/bootstrap.js
+index f7b2cfa..2579110 100644
+--- a/lib/web/mage/bootstrap.js
++++ b/lib/web/mage/bootstrap.js
+@@ -17,5 +17,5 @@ define([
+     /**
+      * Init all components defined via data-mage-init attribute.
+      */
+-    $(mage.apply);
++    require.nextTick(mage.apply);
+ });

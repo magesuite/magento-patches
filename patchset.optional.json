@@ -21,6 +21,13 @@
                 "version-constraint": "101.0.*"
             }
         ],
+        "magento/magento2-base": [
+            {
+                "description": "Lower main thread clogging during frontent initialization",
+                "filename": "optional/lower-main-thread-clogging.patch",
+                "version-constraint": ">=2.2.0"
+            }
+        ],
         "magento/module-checkout": [
             {
                 "description": "Generate session ID only if connection is unsecure - fixed in magento 2.2.5",
