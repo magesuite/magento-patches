@@ -1,0 +1,17 @@
+Fix for issue "Gift Card code XXX is not valid anymore and has been canceled".
+Patch prepared by aheadworks.
+
+--- a/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php
++++ b/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php
+@@ -60,7 +69,10 @@ class SaveHandlerPlugin
+         if ($quote->getExtensionAttributes() && $quote->getExtensionAttributes()->getAwGiftcardCodes()) {
+             $giftcards = $quote->getExtensionAttributes()->getAwGiftcardCodes();
+             $this->saveGiftcards($giftcards);
+-            $this->notifyAboutInvalidGiftcard($giftcards);
++            if ($quote->getData('aw_giftcard_flag_notified') !== null) {
++                $quote->setData('aw_giftcard_flag_notified', true);
++                $this->notifyAboutInvalidGiftcard($giftcards);
++            }
+         }
+         return $quote;
+     }

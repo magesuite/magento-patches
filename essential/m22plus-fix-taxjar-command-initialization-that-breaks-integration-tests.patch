@@ -1,0 +1,37 @@
+diff --git a/Console/Command/SyncTransactionsCommand.php b/Console/Command/SyncTransactionsCommand.php
+index 7ee8e61..2b123c4 100644
+--- a/Console/Command/SyncTransactionsCommand.php
++++ b/Console/Command/SyncTransactionsCommand.php
+@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
+ use Symfony\Component\Console\Output\OutputInterface;
+ use Symfony\Component\Console\Input\InputArgument;
+ use Taxjar\SalesTax\Model\Logger;
+-use Taxjar\SalesTax\Model\Transaction\Backfill;
++use Taxjar\SalesTax\Model\Transaction\BackfillFactory;
+ 
+ class SyncTransactionsCommand extends Command
+ {
+@@ -40,13 +40,13 @@ class SyncTransactionsCommand extends Command
+      * @param State $state
+      * @param ManagerInterface $eventManager
+      * @param Logger $logger
+-     * @param Backfill $backfill
++     * @param BackfillFactory $backfill
+      */
+     public function __construct(
+         State $state,
+         Manager $eventManager,
+         Logger $logger,
+-        Backfill $backfill
++        BackfillFactory $backfill
+     ) {
+         $this->state = $state;
+         $this->eventManager = $eventManager;
+@@ -79,6 +79,7 @@ class SyncTransactionsCommand extends Command
+         try {
+             $this->state->setAreaCode('adminhtml');
+             $this->logger->console($output);
++            $this->backfill = $this->backfill->create();
+             $this->backfill->start([
+                 'from_date' => $input->getArgument(self::FROM_ARGUMENT),
+                 'to_date' => $input->getArgument(self::TO_ARGUMENT)

@@ -84,16 +84,28 @@
                     "version-constraint": ">=101.1.2"
                 }
             ],
+            "magento/module-persistent": [
+                {
+                    "description": "Fix 'The shipping information was unable to be saved.' error",
+                    "filename": "essential/m232-the-shipping-information-was-unable-to-be-saved.patch",
+                    "version-constraint": ">=100.3.2,<=100.3.3"
+                }
+            ],
             "magento/module-theme": [
                 {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/theme-secure-cookie.patch",
-                    "version-constraint": "<101.0.3"
+                    "version-constraint": "<=100.2.9 || >=101.0.0,<101.0.3"
+                },
+                {
+                    "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
+                    "filename": "essential/m2210-theme-secure-cookie.patch",
+                    "version-constraint": ">=100.2.10,<101.0.0"
                 },
                 {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/m233-theme-secure-cookie.patch",
-                    "version-constraint": ">=101.0.3"
+                    "version-constraint": "101.0.3"
                 },
                 {
                     "description": "Fix for baler - add jquery cookie (Magento 2.2.x)",
@@ -118,6 +130,11 @@
                     "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
                     "filename": "essential/m22-fix-email-issue-sales.patch",
                     "version-constraint": "101.0.6"
+                },
+                {
+                    "description": "Fix for cleaning old shopping carts when lifetime expired. (Magento <= 2.3.3)",
+                    "filename": "essential/m233minus-magento-sales-fix-quote-lifetime.patch",
+                    "version-constraint": "<=102.0.3"
                 }
             ],
             "amasty/module-advanced-permissions": [
@@ -166,6 +183,11 @@
                     "description": "Improve domReady performance for faster load times",
                     "filename": "essential/m23-improve-domready-performance.patch",
                     "version-constraint": ">=2.3.2,<2.3.5"
+                },
+                {
+                    "description": "Refactor JavaScript mixins module",
+                    "filename": "essential/refactor-mixins-js-module.patch",
+                    "version-constraint": ">=2.3.2"
                 }
             ],
             "magento/module-search": [
@@ -217,17 +239,17 @@
                 {
                     "description": "Fixes sorting related products in admin panel.",
                     "filename": "essential/m22-related-products-sorting.patch",
-                    "version-constraint": "102.0.*"
+                    "version-constraint": ">=102.0.0,<102.0.8"
                 },
                 {
                     "description": "Fix tier price saving issue (M2C-2550)",
                     "filename": "essential/m22-fix-tier-price-saving-issue.patch",
-                    "version-constraint": "~102.0.6"
+                    "version-constraint": ">=102.0.6,<102.0.8"
                 },
                 {
                     "description": "Prevent from changing attribute type from int when saving in admin (Magento 2.2.4+, fixed in Magento 2.3.1)",
                     "filename": "essential/m224plus-saving-int-attribute-type.patch",
-                    "version-constraint": ">=102.0.4,<=103.0.0"
+                    "version-constraint": ">=102.0.4,<102.0.8 || 103.0.0"
                 },
                 {
                     "description": "Prevent from changing attribute type from int when saving in admin (2.2.0-2.2.4)",
@@ -267,6 +289,11 @@
                     "version-constraint": "100.3.2"
                 },
                 {
+                    "description": "Fix empty error message for network connection failure.",
+                    "filename": "essential/m232-empty-network-falure-error-fix.patch",
+                    "version-constraint": "100.3.2"
+                },
+                {
                     "description": "Fix incorrect store ID check which reloads customer data all the time.",
                     "filename": "essential/m233-store-id-check-fix.patch",
                     "version-constraint": "100.3.3"
@@ -283,7 +310,7 @@
                 {
                     "description": "Fixes missing url_key after product import",
                     "filename": "essential/m22-fix-missing-url-key-after-import.patch",
-                    "version-constraint": "100.2.*"
+                    "version-constraint": ">=102.0.0,<102.0.8"
                 }
             ],
             "magento/module-review": [
@@ -300,7 +327,7 @@
             ],
             "aheadworks/module-blog": [
                 {
-                    "description": "Fix for cleaning cache for all products after update blog post",
+                    "description": "Fix for cleaning cache for all products after update and reindex blog posts",
                     "filename": "essential/aheadworks-module-blog-fix-cleaning-products-cache.patch",
                     "version-constraint": ">=2.5.0"
                 }
@@ -345,7 +372,7 @@
                 {
                     "description": "Fix skip invalid rows functionality in import",
                     "filename": "essential/m22-fix-skip-import-validation-strategy.patch",
-                    "version-constraint": "100.2.*||100.3.0"
+                    "version-constraint": ">=100.2.0,<100.2.8||100.3.0"
                 },
                 {
                     "description": "Fix skip invalid rows functionality in import in Magento 2.3.1",
@@ -445,8 +472,8 @@
                     "version-constraint": "103.0.2"
                 },
                 {
-                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance in Magento 2.3.3+",
-                    "filename": "essential/m233-remove-getimagesize-wysiwyg-media.patch",
+                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.3.3+",
+                    "filename": "essential/m233-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
                     "version-constraint": ">=103.0.3"
                 }
             ],
@@ -490,6 +517,11 @@
                     "description": "Fix bundle disabled price(when alert are enabled)",
                     "filename": "essential/m22plus-fix-bundle-disabled-price.patch",
                     "version-constraint": ">=100.2.0"
+                },
+                {
+                    "description": "Fix getIdentities for bundle products",
+                    "filename": "essential/m23-fix-getidentities-for-bundle.patch",
+                    "version-constraint": ">=100.3.1"
                 }
             ],
             "amzn/amazon-pay-and-login-with-amazon-core-module": [
@@ -539,6 +571,13 @@
                     "description": "Fix incorrect content-disposition header encoding that prevented emails to be sent using SES",
                     "filename": "essential/m233plus-fix-content-disposition-encoding.patch",
                     "version-constraint": ">=2.10.0"
+                }
+            ],
+            "taxjar/module-taxjar": [
+                {
+                    "description": "Fix command initialization that broke integration tests",
+                    "filename": "essential/m22plus-fix-taxjar-command-initialization-that-breaks-integration-tests.patch",
+                    "version-constraint": "*"
                 }
             ]
         }

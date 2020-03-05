@@ -1,0 +1,18 @@
+Fix 'The shipping information was unable to be saved.' error.
+Bug confirmed present in 2.3.2 and 2.3.3. The fix should be officialy released with 2.3.4.
+
+Original issue: https://github.com/magento/magento2/issues/23908
+Commit: https://github.com/magento/magento2/commit/6f0623f3f0f95ecdb960f5de89371fb8c8d51abc
+
+diff --git a/Model/QuoteManager.php b/Model/QuoteManager.php
+index 8ae22e4..a295d2b 100644
+--- a/Model/QuoteManager.php
++++ b/Model/QuoteManager.php
+@@ -89,7 +89,6 @@ class QuoteManager
+                 ->setCustomerLastname(null)
+                 ->setCustomerGroupId(\Magento\Customer\Api\Data\GroupInterface::NOT_LOGGED_IN_ID)
+                 ->setIsPersistent(false)
+-                ->setCustomerIsGuest(true)
+                 ->removeAllAddresses();
+             //Create guest addresses
+             $quote->getShippingAddress();

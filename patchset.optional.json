@@ -21,6 +21,13 @@
                 "version-constraint": "101.0.*"
             }
         ],
+        "magento/magento2-base": [
+            {
+                "description": "Lower main thread clogging during frontent initialization",
+                "filename": "optional/lower-main-thread-clogging.patch",
+                "version-constraint": ">=2.2.0"
+            }
+        ],
         "magento/module-checkout": [
             {
                 "description": "Generate session ID only if connection is unsecure - fixed in magento 2.2.5",
@@ -165,6 +172,11 @@
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
                 "filename": "optional/m22-wallee-aw-giftcard.patch",
                 "version-constraint": "1.2.3"
+            },
+            {
+                "description": "Fix for issue with notification about invalid giftcards. (prepared by aheadworks)",
+                "filename": "optional/aheadworks-fix-invalid-giftcard-notification.patch",
+                "version-constraint": "^1.2.9"
             }
         ],
         "emartech/emarsys-magento2-extension": [
@@ -240,13 +252,6 @@
                 "version-constraint": "*"
             }
         ],
-        "magento/magento2-base": [
-            {
-                "description": "Refactor JavaScript mixins module",
-                "filename": "optional/refactor-mixins-js-module.patch",
-                "version-constraint": ">=2.2.2"
-            }
-        ],
         "magepal/magento2-enhanced-ecommerce": [
             {
                 "description": "Disables price calculations on category page",
@@ -254,7 +259,7 @@
                 "version-constraint": "*"
             }
         ],
-	    "magento/module-gift-card-account": [
+        "magento/module-gift-card-account": [
             {
                 "description": "Allows storepickup to be used with 0.00 orders (Giftacrd+Magento EE)",
                 "filename": "optional/m23-ee-allow-store-pickup-as-free-payment-method.patch",
