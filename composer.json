@@ -70,6 +70,11 @@
                     "description": "Fix for Magento Framework Escaper - Critical log with special symbols",
                     "filename": "essential/m227minus-fix-escaper-with-special-symbols.patch",
                     "version-constraint": "101.0.7"
+                },
+                {
+                    "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
+                    "filename": "essential/m233-fix-special-chars-in-email.patch",
+                    "version-constraint": ">=102.0.4"
                 }
             ],
             "magento/module-ui": [

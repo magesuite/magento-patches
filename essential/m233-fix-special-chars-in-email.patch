@@ -1,0 +1,12 @@
+diff --git a/Mail/EmailMessage.php b/Mail/EmailMessage.php
+index aaef975..94dfcd5 100644
+--- a/Mail/EmailMessage.php
++++ b/Mail/EmailMessage.php
+@@ -214,6 +214,7 @@ class EmailMessage implements EmailMessageInterface
+      */
+     public function toString(): string
+     {
++        $this->message->setEncoding('utf-8');
+         return $this->message->toString();
+     }
+ 
