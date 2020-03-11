@@ -116,6 +116,11 @@
                     "description": "Fix for baler - add jquery cookie  (Magento 2.3.x)",
                     "filename": "essential/m23-fix-baler-jquery-cookie.patch",
                     "version-constraint": ">=101.0.0,<=101.0.3"
+                },
+                {
+                    "description": "Fix an stropos error that occurs when client is logging out from his account",
+                    "filename": "essential/m23-fix-strpos-error-on-logout.patch",
+                    "version-constraint": ">=101.0.3"
                 }
             ],
             "magento/module-page-cache": [

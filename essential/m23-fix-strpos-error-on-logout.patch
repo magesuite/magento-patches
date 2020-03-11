@@ -1,0 +1,13 @@
+diff --git a/Controller/Result/JsFooterPlugin.php b/Controller/Result/JsFooterPlugin.php
+index 317ab39..ae47d22 100644
+--- a/Controller/Result/JsFooterPlugin.php
++++ b/Controller/Result/JsFooterPlugin.php
+@@ -39,7 +39,7 @@ class JsFooterPlugin
+      */
+     public function beforeSendResponse(Http $subject)
+     {
+-        $content = $subject->getContent();
++        $content = $subject->getContent() ?: '';
+         $script = [];
+         if (strpos($content, '</body') !== false) {
+             if ($this->scopeConfig->isSetFlag(
