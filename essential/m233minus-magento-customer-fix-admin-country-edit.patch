@@ -1,0 +1,23 @@
+Fix editing customer country in admin panel when countries are restricted.
+
+Bug confirmed present in versions 2.3.1 - 2.3.3, fixed in 2.3.4
+
+Issue: https://github.com/magento/magento2/issues/25218
+PR: https://github.com/magento/magento2/commit/7211d50998f786dce0628346439649ac8d196c46
+
+--- a/view/adminhtml/ui_component/customer_address_form.xml
++++ b/view/adminhtml/ui_component/customer_address_form.xml
+@@ -191,13 +191,6 @@
+                 </validation>
+                 <dataType>text</dataType>
+             </settings>
+-            <formElements>
+-                <select>
+-                    <settings>
+-                        <options class="Magento\Directory\Model\ResourceModel\Country\Collection"/>
+-                    </settings>
+-                </select>
+-            </formElements>
+         </field>
+         <field name="region_id" component="Magento_Customer/js/form/element/region" formElement="select">
+             <settings>
