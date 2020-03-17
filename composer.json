@@ -473,6 +473,11 @@
                     "description": "Fix wrong url (remove change https to http)",
                     "filename": "essential/m22-cleverreach-url-fix.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix cleverreach initial auth issue (CSRF validation)",
+                    "filename": "essential/m23-cleverreach-csrf-validation-issue.patch",
+                    "version-constraint": ">=2.2.1"
                 }
             ],
             "magento/module-cms": [
