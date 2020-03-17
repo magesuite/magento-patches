@@ -200,6 +200,13 @@
                 "version-constraint": "^2.2.0"
             }
         ],
+        "magento/module-catalog-import-export": [
+            {
+                "description": "Fix products import issue with categories paths default store.",
+                "filename": "optional/m222-catalog-import-export-fix-import-categories-store.patch",
+                "version-constraint": "100.2.2"
+            }
+        ],
         "magento/module-catalog": [
             {
                 "description": "Fix for NKD bulk api store view scope products update",
