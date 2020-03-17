@@ -1,0 +1,28 @@
+diff --git a/Controller/Async/Process.php b/Controller/Async/Process.php
+index b573628..ccad541 100644
+--- a/Controller/Async/Process.php
++++ b/Controller/Async/Process.php
+@@ -9,7 +9,7 @@ namespace CleverReach\CleverReachIntegration\Controller\Async;
+ 
+ use CleverReach\CleverReachIntegration\IntegrationCore\Infrastructure\Logger\Logger;
+ 
+-class Process extends \Magento\Framework\App\Action\Action
++class Process extends \Magento\Framework\App\Action\Action implements \Magento\Framework\App\CsrfAwareActionInterface
+ {
+ 
+     /**
+@@ -51,4 +51,14 @@ class Process extends \Magento\Framework\App\Action\Action
+             Logger::logError($e->getMessage(), 'Integration');
+         }
+     }
++
++    public function validateForCsrf(\Magento\Framework\App\RequestInterface $request): ?bool
++    {
++        return true;
++    }
++
++    public function createCsrfValidationException(\Magento\Framework\App\RequestInterface $request): ?\Magento\Framework\App\Request\InvalidRequestException
++    {
++        return null;
++    }
+ }
