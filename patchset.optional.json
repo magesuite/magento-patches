@@ -286,6 +286,13 @@
                 "filename": "optional/cash_on_delivery_infinite_loop_fix.patch",
                 "version_constraint": "^1.2"
             }
+        ],
+        "seven-senders/shipments-module": [
+            {
+                "description": "Fix wrong shipment data when tracking id is added",
+                "filename": "optional/seven-senders-sendwise-wrong-shipment-data-issue.patch",
+                "version_constraint": "*"
+            }
         ]
     }
 }
