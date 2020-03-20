@@ -334,7 +334,7 @@
                 {
                     "description": "Fix for cleaning cache for all products after update and reindex blog posts",
                     "filename": "essential/aheadworks-module-blog-fix-cleaning-products-cache.patch",
-                    "version-constraint": ">=2.5.0"
+                    "version-constraint": ">=2.5.0,<=2.7.0"
                 }
             ],
             "aheadworks/module-faq": [
@@ -342,6 +342,11 @@
                     "description": "Fixes bug FAQ Article with id \"\" does not exist Exception",
                     "filename": "essential/m22-aheadworks-module-faq-fix-empty-article-id.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fixes Call to a member function addCrumb() on boolean Exception",
+                    "filename": "essential/m22-aheadworks-module-faq-fix-call-to-a-addCrumb-function-on-boolean.patch",
+                    "version-constraint": "1.0.3"
                 }
             ],
             "aheadworks/module-product-question": [
@@ -444,6 +449,11 @@
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
                     "filename": "essential/fix-section-config.patch",
                     "version-constraint": ">=101.0.2,<=102.0.2"
+                },
+                {
+                    "description": "Fix editing customer address in admin panel (2.3.1-2.3.3)",
+                    "filename": "essential/m233minus-magento-customer-fix-admin-country-edit.patch",
+                    "version-constraint": ">=102.0.1,<=102.0.3"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
@@ -470,6 +480,11 @@
                     "description": "Fix wrong url (remove change https to http)",
                     "filename": "essential/m22-cleverreach-url-fix.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix cleverreach initial auth issue (CSRF validation)",
+                    "filename": "essential/m23-cleverreach-csrf-validation-issue.patch",
+                    "version-constraint": ">=2.2.1"
                 }
             ],
             "magento/module-cms": [

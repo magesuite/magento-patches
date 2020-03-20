@@ -200,6 +200,13 @@
                 "version-constraint": "^2.2.0"
             }
         ],
+        "magento/module-catalog-import-export": [
+            {
+                "description": "Fix products import issue with categories paths default store.",
+                "filename": "optional/m222-catalog-import-export-fix-import-categories-store.patch",
+                "version-constraint": "100.2.2"
+            }
+        ],
         "magento/module-catalog": [
             {
                 "description": "Fix for NKD bulk api store view scope products update",
@@ -278,6 +285,13 @@
                 "description": "Fix infinite loop when product from cart has been disabled before removed from quote",
                 "filename": "optional/cash_on_delivery_infinite_loop_fix.patch",
                 "version_constraint": "^1.2"
+            }
+        ],
+        "seven-senders/shipments-module": [
+            {
+                "description": "Fix wrong shipment data when tracking id is added",
+                "filename": "optional/seven-senders-sendwise-wrong-shipment-data-issue.patch",
+                "version_constraint": "*"
             }
         ]
     }

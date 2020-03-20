@@ -1,0 +1,60 @@
+diff --git a/Observer/ShipmentTrackSaveAfter.php b/Observer/ShipmentTrackSaveAfter.php
+index 5627d5f..d5adde0 100644
+--- a/Observer/ShipmentTrackSaveAfter.php
++++ b/Observer/ShipmentTrackSaveAfter.php
+@@ -8,7 +8,7 @@ namespace SevenSenders\Shipments\Observer;
+ use Magento\Framework\Event\ObserverInterface;
+ use Magento\Framework\Registry;
+ use Magento\Sales\Model\Order;
+-use Magento\Sales\Model\Order\Shipment;
++use Magento\Sales\Model\Order\ShipmentRepository;
+ use Psr\Log\LoggerInterface;
+ use SevenSenders\Shipments\Helper\Data;
+ 
+@@ -27,10 +27,10 @@ class ShipmentTrackSaveAfter implements ObserverInterface
+     protected $registry;
+ 
+     /**
+-     * ShipmentModel
+-     * @var Shipment
++     * ShipmentRepository
++     * @var ShipmentRepository
+      */
+-    protected $shipment;
++    protected $shipmentRepository;
+ 
+     /**
+      * OrderModel
+@@ -49,20 +49,20 @@ class ShipmentTrackSaveAfter implements ObserverInterface
+      * @param Data $helperData
+      * @param Registry $registry
+      * @param Order $order
+-     * @param Shipment $shipment
++     * @param ShipmentRepository $shipmentRepository
+      * @param LoggerInterface $logger
+      */
+     public function __construct(
+         Data $helperData,
+         Registry $registry,
+         Order $order,
+-        Shipment $shipment,
++        ShipmentRepository $shipmentRepository,
+         LoggerInterface $logger
+     ) {
+         $this->helperData = $helperData;
+         $this->registry = $registry;
+         $this->order = $order;
+-        $this->shipment = $shipment;
++        $this->shipmentRepository = $shipmentRepository;
+         $this->logger = $logger;
+     }
+ 
+@@ -99,7 +99,7 @@ class ShipmentTrackSaveAfter implements ObserverInterface
+             || $sender->getOptions('allowed_to_track_all_shipments')) {
+             if ($orderSeven = $this->helperData->createOrder($order)) {
+ 
+-                $shipment = $this->shipment->load($object->getParentId());
++                $shipment = $this->shipmentRepository->get($object->getParentId());
+                 if (!$shipment->getId()) {
+                     return;
+                 }

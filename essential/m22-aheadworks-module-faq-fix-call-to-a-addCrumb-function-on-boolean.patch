@@ -1,0 +1,44 @@
+diff --git a/Controller/Index/Index.php b/Controller/Index/Index.php
+index 15e230e..872468d 100755
+--- a/Controller/Index/Index.php
++++ b/Controller/Index/Index.php
+@@ -80,20 +80,25 @@ class Index extends AbstractAction
+         $pageConfig->getTitle()->set($this->config->getFaqMetaTitle());
+         $pageConfig->setDescription($this->config->getFaqMetaDescription());
+         $pageConfig->addBodyClass('aw-columns-' . $this->config->getDefaultNumberOfColumnsToDisplay());
+-        $resultPage->getLayout()->getBlock('breadcrumbs')
+-            ->addCrumb(
+-                'home',
+-                [
+-                    'label' => 'Home',
+-                    'title'=>__('Go to store homepage'),
+-                    'link'=> $this->url->getBaseUrl()
+-                ]
+-            )->addCrumb(
+-                'faq',
+-                [
+-                    'label' => $this->config->getFaqName()
+-                ]
+-            );
++
++        $breadcrumbsBlock = $resultPage->getLayout()->getBlock('breadcrumbs');
++        if ($breadcrumbsBlock) {
++            $breadcrumbsBlock
++                ->addCrumb(
++                    'home',
++                    [
++                        'label' => 'Home',
++                        'title'=>__('Go to store homepage'),
++                        'link'=> $this->url->getBaseUrl()
++                    ]
++                )->addCrumb(
++                    'faq',
++                    [
++                        'label' => $this->config->getFaqName()
++                    ]
++                );
++        }
++
+         return $resultPage;
+     }
+ }
