@@ -453,6 +453,13 @@
                     "version-constraint": "1.0.3"
                 }
             ],
+            "magento/module-inventory-source-selection": [
+                {
+                    "description": "Set default value for 'items' property to prevent fatal error",
+                    "filename": "essential/m23-msi-source-selection-request-fix.patch",
+                    "version-constraint": ">=1.1.5"
+                }
+            ],
             "clever/magento2": [
                 {
                     "description": "Fix module sequence",

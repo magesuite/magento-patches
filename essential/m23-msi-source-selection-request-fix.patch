@@ -1,0 +1,12 @@
+diff --git a/Model/Request/InventoryRequest.php b/Model/Request/InventoryRequest.php
+index 88e4246..2cac453 100644
+--- a/Model/Request/InventoryRequest.php
++++ b/Model/Request/InventoryRequest.php
+@@ -72,6 +72,7 @@ class InventoryRequest extends AbstractExtensibleModel implements InventoryReque
+ 
+         $this->itemRequestFactory = $itemRequestFactory;
+         $this->stockId = $stockId;
++        $this->items = [];
+ 
+         //TODO: Temporary fix for resolving issue with webApi (https://github.com/magento-engcom/msi/issues/1524)
+         foreach ($items as $item) {
