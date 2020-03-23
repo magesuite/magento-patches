@@ -361,6 +361,11 @@
                     "version-constraint": "1.1.0"
                 }
             ],
+            "customweb/module-computopcw": {
+                "description": "Module Computop Error on transaction getOrderContext() on null (UEFA-455)",
+                "filename": "essential/m22-computopcw-fix-error-on-transaction.patch",
+                "version-constraint": "4.0.*"
+            },
             "magento/module-quote": [
                 {
                     "description": "Don't try removing items from quote if it's empty (magento 2.2.2-2.2.4)",
