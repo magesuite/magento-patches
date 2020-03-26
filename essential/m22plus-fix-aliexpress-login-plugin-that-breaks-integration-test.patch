@@ -1,0 +1,34 @@
+diff --git a/Plugin/Auth.php b/Plugin/Auth.php
+index 7d609b8..5ff829f 100644
+--- a/Plugin/Auth.php
++++ b/Plugin/Auth.php
+@@ -21,15 +21,17 @@ class Auth
+ 
+     public function afterLogin()
+     {
+-        $expiresNow = $this->helper->areCredentialsExpired();
+-        if ($expiresNow) {
+-            $this->notificationManager->addExpiresNow();
+-            return;
+-        }
++        if (php_sapi_name() !== 'cli') {
++            $expiresNow = $this->helper->areCredentialsExpired();
++            if ($expiresNow) {
++                $this->notificationManager->addExpiresNow();
++                return;
++            }
+ 
+-        $expiresInOneWeek = $this->helper->doCredentialsExpireInONeWeek();
+-        if ($expiresInOneWeek) {
+-            $this->notificationManager->addExpiresInOneWeek();
++            $expiresInOneWeek = $this->helper->doCredentialsExpireInONeWeek();
++            if ($expiresInOneWeek) {
++                $this->notificationManager->addExpiresInOneWeek();
++            }
+         }
+     }
+ }
+\ No newline at end of file
+diff --git a/aliexpress-fix-login-plugin.patch b/aliexpress-fix-login-plugin.patch
+new file mode 100644
+index 0000000..e69de29

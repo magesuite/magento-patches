@@ -605,6 +605,13 @@
                     "version-constraint": ">=2.10.0"
                 }
             ],
+            "vdshop/aliexpress": [
+                {
+                    "description": "Fix plugin for login method that broke integration tests",
+                    "filename": "essential/m22plus-fix-aliexpress-login-plugin-that-breaks-integration-test.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "taxjar/module-taxjar": [
                 {
                     "description": "Fix command initialization that broke integration tests",
