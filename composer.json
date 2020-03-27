@@ -167,7 +167,7 @@
                 {
                     "description": "Fix fullscreen product gallery touch swiping",
                     "filename": "essential/m232-fix-fullscreen-gallery-touch-swiping.patch",
-                    "version-constraint": ">=2.3.2"
+                    "version-constraint": ">=2.3.2,<2.3.4"
                 },
                 {
                     "description": "Make it possible to close fullscreen product gallery on iOS",
