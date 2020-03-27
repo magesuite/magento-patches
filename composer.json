@@ -127,7 +127,7 @@
                 {
                     "description": "Set secure cookie flag for FormKey cookie based on HTTPS presence",
                     "filename": "essential/m23-form-key-secure-cookie.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=100.3.0,<100.3.4"
                 }
             ],
             "magento/module-sales": [
