@@ -74,7 +74,7 @@
                 {
                     "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
                     "filename": "essential/m233-fix-special-chars-in-email.patch",
-                    "version-constraint": ">=102.0.3"
+                    "version-constraint": ">=102.0.3,<102.0.4"
                 }
             ],
             "magento/module-ui": [
@@ -127,7 +127,7 @@
                 {
                     "description": "Set secure cookie flag for FormKey cookie based on HTTPS presence",
                     "filename": "essential/m23-form-key-secure-cookie.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=100.3.0,<100.3.4"
                 }
             ],
             "magento/module-sales": [
@@ -167,7 +167,7 @@
                 {
                     "description": "Fix fullscreen product gallery touch swiping",
                     "filename": "essential/m232-fix-fullscreen-gallery-touch-swiping.patch",
-                    "version-constraint": ">=2.3.2"
+                    "version-constraint": ">=2.3.2,<2.3.4"
                 },
                 {
                     "description": "Make it possible to close fullscreen product gallery on iOS",
@@ -286,7 +286,7 @@
                 {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
                     "filename": "essential/m232-checkout-customer-id-exception.patch",
-                    "version-constraint": ">=100.3.2"
+                    "version-constraint": ">=100.3.2,<100.3.4"
                 },
                 {
                     "description": "Fix incorrect store ID check which reloads customer data all the time.",
@@ -361,6 +361,11 @@
                     "version-constraint": "1.1.0"
                 }
             ],
+            "customweb/module-computopcw": [{
+                "description": "Module Computop Error on transaction getOrderContext() on null (UEFA-455)",
+                "filename": "essential/m22-computopcw-fix-error-on-transaction.patch",
+                "version-constraint": "4.0.*"
+            }],
             "magento/module-quote": [
                 {
                     "description": "Don't try removing items from quote if it's empty (magento 2.2.2-2.2.4)",
@@ -443,7 +448,7 @@
                 {
                     "description": "Fix adding autocomplete to user area inputs",
                     "filename": "essential/m233-autocomplete-user-area.patch",
-                    "version-constraint": ">=102.0.3"
+                    "version-constraint": ">=102.0.3,<102.0.4"
                 },
                 {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
@@ -603,6 +608,13 @@
                     "description": "Fix incorrect content-disposition header encoding that prevented emails to be sent using SES",
                     "filename": "essential/m233plus-fix-content-disposition-encoding.patch",
                     "version-constraint": ">=2.10.0"
+                }
+            ],
+            "vdshop/aliexpress": [
+                {
+                    "description": "Fix plugin for login method that broke integration tests",
+                    "filename": "essential/m22plus-fix-aliexpress-login-plugin-that-breaks-integration-test.patch",
+                    "version-constraint": "*"
                 }
             ],
             "taxjar/module-taxjar": [

@@ -1,0 +1,19 @@
+diff --git a/Model/Authorization/Method/Context/Transaction.php b/Model/Authorization/Method/Context/Transaction.php
+index 93fbc00..f0b9bb2 100755
+--- a/Model/Authorization/Method/Context/Transaction.php
++++ b/Model/Authorization/Method/Context/Transaction.php
+@@ -85,7 +85,13 @@ class Transaction extends AbstractContext
+ 
+ 	public function getOrderContext()
+ 	{
+-		return $this->getTransaction()->getTransactionObject()->getTransactionContext()->getOrderContext();
++        $transactionObject = $this->getTransaction()->getTransactionObject();
++
++        if(is_null($transactionObject)) {
++            throw new \Magento\Framework\Exception\NoSuchEntityException();
++        }
++
++        return $transactionObject->getTransactionContext()->getOrderContext();
+ 	}
+ 
+ 	public function getTransaction()

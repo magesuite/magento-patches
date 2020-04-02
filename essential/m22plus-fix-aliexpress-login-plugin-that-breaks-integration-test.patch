@@ -1,0 +1,43 @@
+diff --git a/Controller/Adminhtml/Settings/Init.php b/Controller/Adminhtml/Settings/Init.php
+index e08ecfe..0ec6555 100644
+--- a/Controller/Adminhtml/Settings/Init.php
++++ b/Controller/Adminhtml/Settings/Init.php
+@@ -3,7 +3,7 @@ namespace Vdshop\Aliexpress\Controller\Adminhtml\Settings;
+ class Init extends \Magento\Backend\App\Action
+ {
+
+-    const ADMIN_RESOURCE = 'Index';
++    const ADMIN_RESOURCE = 'Vdshop_Aliexpress::menu_items';
+
+     protected $resultPageFactory;
+     public function __construct(
+diff --git a/Plugin/Auth.php b/Plugin/Auth.php
+index 7d609b8..402d46b 100644
+--- a/Plugin/Auth.php
++++ b/Plugin/Auth.php
+@@ -21,15 +21,17 @@ class Auth
+
+     public function afterLogin()
+     {
+-        $expiresNow = $this->helper->areCredentialsExpired();
+-        if ($expiresNow) {
+-            $this->notificationManager->addExpiresNow();
+-            return;
+-        }
++        if (php_sapi_name() !== 'cli') {
++            $expiresNow = $this->helper->areCredentialsExpired();
++            if ($expiresNow) {
++                $this->notificationManager->addExpiresNow();
++                return;
++            }
+
+-        $expiresInOneWeek = $this->helper->doCredentialsExpireInONeWeek();
+-        if ($expiresInOneWeek) {
+-            $this->notificationManager->addExpiresInOneWeek();
++            $expiresInOneWeek = $this->helper->doCredentialsExpireInONeWeek();
++            if ($expiresInOneWeek) {
++                $this->notificationManager->addExpiresInOneWeek();
++            }
+         }
+     }
+}
