@@ -485,6 +485,11 @@
                     "description": "Fix cleverreach initial auth issue (CSRF validation)",
                     "filename": "essential/m23-cleverreach-csrf-validation-issue.patch",
                     "version-constraint": ">=2.2.1"
+                },
+                {
+                    "description": "Fix the way website param is acquired to solve the error that occurs in tests",
+                    "filename": "essential/m23-cleverreach-website-param-in-test.patch",
+                    "version-constraint": ">=2.2.1"
                 }
             ],
             "magento/module-cms": [

@@ -1,0 +1,27 @@
+diff --git a/Observer/WebsiteSavedObserver.php b/Observer/WebsiteSavedObserver.php
+index ae945cf..9074700 100644
+--- a/Observer/WebsiteSavedObserver.php
++++ b/Observer/WebsiteSavedObserver.php
+@@ -45,7 +45,7 @@ class WebsiteSavedObserver extends BaseObserver
+         $event = $observer->getData()['event'];
+         /** @var \Magento\Store\Model\Website $website */
+         $website = $observer->getData()['website'];
+-        $params = $this->request->getParams()['website'];
++        $params = isset($this->request->getParams()['website']) ? $this->request->getParams()['website'] : $this->getWebsiteParam($website);
+ 
+         /** @var RecipientService $recipientService */
+         $recipientService = ServiceRegister::getService(Recipients::CLASS_NAME);
+@@ -94,4 +94,13 @@ class WebsiteSavedObserver extends BaseObserver
+             );
+         }
+     }
++
++    protected function getWebsiteParam(\Magento\Store\Model\Website $website)
++    {
++        return [
++            'name' => $website->getName(),
++            'code' => $website->getCode(),
++            'sort_order' => $website->getSortOrder()
++        ];
++    }
+ }
