@@ -603,6 +603,13 @@
                     "version-constraint": "100.3.2"
                 }
             ],
+            "seven-senders/shipments-module": [
+                {
+                    "description": "Fix shipment data parsing and shipment view in admin panel",
+                    "filename": "essential/m23-fix-shipment-view.patch",
+                    "version-constraint": ">=1.0.16"
+                }
+            ],
             "zendframework/zend-mail": [
                 {
                     "description": "Fix incorrect content-disposition header encoding that prevented emails to be sent using SES",

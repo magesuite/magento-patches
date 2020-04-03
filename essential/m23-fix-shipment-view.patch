@@ -1,0 +1,13 @@
+diff --git a/Block/Adminhtml/Shipping/View/History.php b/Block/Adminhtml/Shipping/View/History.php
+index 13513df..bbef3ea 100755
+--- a/Block/Adminhtml/Shipping/View/History.php
++++ b/Block/Adminhtml/Shipping/View/History.php
+@@ -74,7 +74,7 @@ class History extends Form
+                 ) {
+                     $this->history = $order['states_history'];
+                     foreach ($this->history as $key => $item) {
+-                        $date = \DateTime::createFromFormat('Y-m-d\TH:i:s\+u', $item['datetime']);
++                        $date = \DateTime::createFromFormat('Y-m-d\TH:i:sP', $item['datetime']);
+                         $this->history[$key]['datetime'] = $date->format('Y-m-d H:i:s');
+                     }
+                 }
