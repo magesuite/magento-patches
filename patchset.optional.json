@@ -294,7 +294,7 @@
                 "version_constraint": "*"
             }
         ],
- 	"PostNl/Ecs": [
+ 	"Postnl/Ecs": [
             {
                 "description": "Fix wrong shipment name in exported order",
                 "filename": "optional/postnl-ecs-shipping-name.patch",
