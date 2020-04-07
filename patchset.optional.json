@@ -293,6 +293,14 @@
                 "filename": "optional/seven-senders-sendwise-wrong-shipment-data-issue.patch",
                 "version_constraint": "*"
             }
+        ],
+ 	"PostNl/Ecs": [
+            {
+                "description": "Fix wrong shipment name in exported order",
+                "filename": "optional/postnl-ecs-shipping-name.patch",
+                "version_constraint": "*"
+            }
         ]
+
     }
 }
