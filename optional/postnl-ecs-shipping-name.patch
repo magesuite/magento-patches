@@ -1,14 +1,12 @@
 diff --git a/Model/Processor/Order.php b/Model/Processor/Order.php
-index 15555a0..5540711 100644
+index 15555a0..cfdc89d 100644
 --- a/Model/Processor/Order.php
 +++ b/Model/Processor/Order.php
-@@ -353,8 +353,8 @@ class Order extends Common {
-         ));
+@@ -354,7 +354,7 @@ class Order extends Common {
          
          $carrier = $order->getShippingCarrier();
--        $node->appendChild($xml->createElementNS('http://www.toppak.nl/deliveryorder_new','shippingAgentCode', 
+         $node->appendChild($xml->createElementNS('http://www.toppak.nl/deliveryorder_new','shippingAgentCode', 
 -            $carrier ? $carrier->getConfigData('title') : $order->getShippingMethod()
-+        $node->appendChild($xml->createElementNS('http://www.toppak.nl/deliveryorder_new','shippingAgentCode',
 +            $order->getShippingDescription()
          ));
  		
