@@ -299,6 +299,11 @@
                 "description": "Fix wrong shipment name in exported order",
                 "filename": "optional/postnl-ecs-shipping-name.patch",
                 "version_constraint": "*"
+            },
+	    {
+                "description": "Fix wrong depth/height code",
+                "filename": "optional/external-postnl-change-depth-code.patch",
+                "version_constraint": "*"
             }
         ]
 
