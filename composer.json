@@ -195,11 +195,6 @@
                     "version-constraint": ">=2.3.2"
                 },
                 {
-                    "description": "Fix gallery jumping based on https://github.com/magento/magento2/pull/27871",
-                    "filename": "essential/m23-fix-gallery-jumping.patch",
-                    "version-constraint": ">=2.3.4"
-                },
-                {
                     "description": "Lower main thread clogging during frontent initialization based on https://github.com/magento/magento2/pull/27360",
                     "filename": "essential/m23-fix-main-thread-blocking.patch",
                     "version-constraint": ">=2.3.0"
