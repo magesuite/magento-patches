@@ -1,0 +1,112 @@
+diff --git a/fix-gallery-jumping.patch b/fix-gallery-jumping.patch
+new file mode 100644
+index 0000000..e69de29
+diff --git a/lib/web/mage/gallery/gallery.js b/lib/web/mage/gallery/gallery.js
+index be78856..ae85de5 100644
+--- a/lib/web/mage/gallery/gallery.js
++++ b/lib/web/mage/gallery/gallery.js
+@@ -270,7 +270,10 @@ define([
+                     next: $t('Next'),
+                     previous: $t('Previous')
+                 }),
+-                mainImageIndex;
++                mainImageIndex,
++                $element = settings.$element,
++                $placeholderImage = $element.find('.gallery-placeholder__image'),
++                $fotoramaElement;
+ 
+             if (settings.breakpoints) {
+                 _.each(_.values(settings.breakpoints), function (breakpoint) {
+@@ -285,17 +288,38 @@ define([
+                 settings.breakpoints = breakpoints;
+             }
+ 
+-            _.extend(config, config.options);
+-            config.options = undefined;
+-
+-            config.click = false;
+-            config.breakpoints = null;
++            _.extend(config, config.options,
++                {
++                    options: undefined,
++                    click: false,
++                    breakpoints: null
++                }
++            );
+             settings.currentConfig = config;
+-            settings.$element.html(tpl);
+-            settings.$element.removeClass('_block-content-loading');
+-            settings.$elementF = $(settings.$element.children()[0]);
+-            settings.$elementF.fotorama(config);
+-            settings.fotoramaApi = settings.$elementF.data('fotorama');
++
++            // Adjust wrapper and placeholder styling just before initializing the gallery.
++            $placeholderImage.css({
++                position: 'absolute',
++                left: '50%',
++                transform: 'translateX(-50%)'
++            });
++            $element
++                .css('min-height', settings.$element.height())
++                .append(tpl);
++
++            $fotoramaElement = $element.find('[data-gallery-role="gallery"]');
++            $fotoramaElement.fotorama(config);
++            $fotoramaElement.find('.fotorama__stage__frame.fotorama__active')
++                    .one('f:load', function () {
++                        // Remove placeholder when main gallery image loads.
++                        $placeholderImage.remove();
++                        $element
++                            .removeClass('_block-content-loading')
++                            .css('min-height', '');
++                    });
++            settings.$elementF = $fotoramaElement;
++            settings.fotoramaApi = $fotoramaElement.data('fotorama');
++
+             $.extend(true, config, this.startConfig);
+ 
+             mainImageIndex = getMainImageIndex(config.data);
+@@ -478,7 +502,7 @@ define([
+                             settings.fotoramaApi.load(data);
+                             mainImageIndex = getMainImageIndex(data);
+ 
+-                            if (mainImageIndex) {
++                            if (settings.fotoramaApi.activeIndex !== mainImageIndex) {
+                                 settings.fotoramaApi.show({
+                                     index: mainImageIndex,
+                                     time: 0
+diff --git a/lib/web/mage/gallery/gallery.less b/lib/web/mage/gallery/gallery.less
+index 14056ea..86ccdb8 100644
+--- a/lib/web/mage/gallery/gallery.less
++++ b/lib/web/mage/gallery/gallery.less
+@@ -395,6 +395,11 @@
+     position: absolute;
+     top: 0;
+     width: @fotorama-arw-size;
++
++    ._block-content-loading & {
++        opacity: 0;
++    }
++
+     .fotorama__arr__arr {
+         &:extend(.fotorama-sprite);
+         .fotorama-abs-center();
+@@ -418,9 +423,8 @@
+ }
+ 
+ .fotorama__arr--disabled {
+-    *display: none;
+     cursor: default;
+-    opacity: 0.1;
++    opacity: 0;
+     pointer-events: none;
+ }
+ 
+@@ -762,6 +766,7 @@
+     img {
+         left: 0;
+         max-width: inherit;
++        max-height: inherit;
+         position: absolute;
+         top: 0;
+         object-fit: scale-down;
