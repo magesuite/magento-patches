@@ -193,6 +193,11 @@
                     "description": "Refactor JavaScript mixins module",
                     "filename": "essential/refactor-mixins-js-module.patch",
                     "version-constraint": ">=2.3.2"
+                },
+                {
+                    "description": "Lower main thread clogging during frontent initialization based on https://github.com/magento/magento2/pull/27360",
+                    "filename": "essential/m23-fix-main-thread-blocking.patch",
+                    "version-constraint": ">=2.3.0"
                 }
             ],
             "magento/module-search": [
@@ -600,7 +605,14 @@
                 {
                     "description": "Fix inability to place PayPal guest order when Automatic Assignment to Customer Group is enabled",
                     "filename": "essential/m232-paypal-fix-for-customer-automatic-group-assignment.patch",
-                    "version-constraint": "100.3.2"
+                    "version-constraint": ">=100.3.2"
+                }
+            ],
+            "seven-senders/shipments-module": [
+                {
+                    "description": "Fix shipment data parsing and shipment view in admin panel",
+                    "filename": "essential/m23-fix-shipment-view.patch",
+                    "version-constraint": ">=1.0.16"
                 }
             ],
             "zendframework/zend-mail": [

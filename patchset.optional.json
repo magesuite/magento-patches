@@ -21,13 +21,6 @@
                 "version-constraint": "101.0.*"
             }
         ],
-        "magento/magento2-base": [
-            {
-                "description": "Lower main thread clogging during frontent initialization",
-                "filename": "optional/lower-main-thread-clogging.patch",
-                "version-constraint": ">=2.2.0"
-            }
-        ],
         "magento/module-checkout": [
             {
                 "description": "Generate session ID only if connection is unsecure - fixed in magento 2.2.5",
@@ -66,7 +59,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/m22-data-object-helper.patch",
                 "version-constraint": "*"
             }
-
+        ],
+        "magento/magento2-base": [
+            {
+                "description": "Fix gallery jumping based on https://github.com/magento/magento2/pull/27871",
+                "filename": "essential/m23-fix-gallery-jumping.patch",
+                "version-constraint": ">=2.3.0"
+            }
         ],
         "magento/module-customer": [
             {
@@ -293,6 +292,19 @@
                 "filename": "optional/seven-senders-sendwise-wrong-shipment-data-issue.patch",
                 "version_constraint": "*"
             }
+        ],
+ 	"Postnl/Ecs": [
+            {
+                "description": "Fix wrong shipment name in exported order",
+                "filename": "optional/postnl-ecs-shipping-name.patch",
+                "version_constraint": "*"
+            },
+	    {
+                "description": "Fix wrong depth/height code",
+                "filename": "optional/external-postnl-change-depth-code.patch",
+                "version_constraint": "*"
+            }
         ]
+
     }
 }
