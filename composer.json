@@ -459,6 +459,11 @@
                     "description": "Fix editing customer address in admin panel (2.3.1-2.3.3)",
                     "filename": "essential/m233minus-magento-customer-fix-admin-country-edit.patch",
                     "version-constraint": ">=102.0.1,<=102.0.3"
+                },
+                {
+                    "description": "Update URL to VAT number validation service",
+                    "filename": "essential/vat-number-validation-service-url-update.patch",
+                    "version-constraint": "<=102.0.4"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [

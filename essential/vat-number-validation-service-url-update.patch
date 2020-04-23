@@ -1,0 +1,13 @@
+diff --git a/Model/Vat.php b/Model/Vat.php
+index 123a9ee..d1144c2 100644
+--- a/Model/Vat.php
++++ b/Model/Vat.php
+@@ -44,7 +44,7 @@ class Vat
+      * WSDL of VAT validation service
+      *
+      */
+-    const VAT_VALIDATION_WSDL_URL = 'http://ec.europa.eu/taxation_customs/vies/services/checkVatService?wsdl';
++    const VAT_VALIDATION_WSDL_URL = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
+ 
+     /**
+      * Config path to option that enables/disables automatic group assignment based on VAT
