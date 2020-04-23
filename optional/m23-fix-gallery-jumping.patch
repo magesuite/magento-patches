@@ -2,7 +2,7 @@ diff --git a/fix-gallery-jumping.patch b/fix-gallery-jumping.patch
 new file mode 100644
 index 0000000..e69de29
 diff --git a/lib/web/mage/gallery/gallery.js b/lib/web/mage/gallery/gallery.js
-index be78856..ae85de5 100644
+index 02ba72f..6309fa2 100644
 --- a/lib/web/mage/gallery/gallery.js
 +++ b/lib/web/mage/gallery/gallery.js
 @@ -270,7 +270,10 @@ define([
@@ -12,12 +12,12 @@ index be78856..ae85de5 100644
 -                mainImageIndex;
 +                mainImageIndex,
 +                $element = settings.$element,
-+                $placeholderImage = $element.find('.gallery-placeholder__image'),
-+                $fotoramaElement;
++                $fotoramaElement,
++                $fotoramaStage;
  
              if (settings.breakpoints) {
                  _.each(_.values(settings.breakpoints), function (breakpoint) {
-@@ -285,17 +288,38 @@ define([
+@@ -285,19 +288,38 @@ define([
                  settings.breakpoints = breakpoints;
              }
  
@@ -34,31 +34,33 @@ index be78856..ae85de5 100644
 +                }
 +            );
              settings.currentConfig = config;
+-            settings.$element.css('min-height', settings.$element.height());
 -            settings.$element.html(tpl);
 -            settings.$element.removeClass('_block-content-loading');
 -            settings.$elementF = $(settings.$element.children()[0]);
 -            settings.$elementF.fotorama(config);
+-            settings.$element.css('min-height', '');
 -            settings.fotoramaApi = settings.$elementF.data('fotorama');
 +
-+            // Adjust wrapper and placeholder styling just before initializing the gallery.
-+            $placeholderImage.css({
-+                position: 'absolute',
-+                left: '50%',
-+                transform: 'translateX(-50%)'
-+            });
 +            $element
 +                .css('min-height', settings.$element.height())
 +                .append(tpl);
 +
 +            $fotoramaElement = $element.find('[data-gallery-role="gallery"]');
++
++            $fotoramaStage = $fotoramaElement.find('.fotorama__stage');
++            $fotoramaStage.css('position', 'absolute');
++
 +            $fotoramaElement.fotorama(config);
 +            $fotoramaElement.find('.fotorama__stage__frame.fotorama__active')
 +                    .one('f:load', function () {
 +                        // Remove placeholder when main gallery image loads.
-+                        $placeholderImage.remove();
++                        $element.find('.gallery-placeholder__image').remove();
 +                        $element
 +                            .removeClass('_block-content-loading')
 +                            .css('min-height', '');
++
++                        $fotoramaStage.css('position', '');
 +                    });
 +            settings.$elementF = $fotoramaElement;
 +            settings.fotoramaApi = $fotoramaElement.data('fotorama');
