@@ -63,7 +63,7 @@
         "magento/magento2-base": [
             {
                 "description": "Fix gallery jumping based on https://github.com/magento/magento2/pull/27871",
-                "filename": "essential/m23-fix-gallery-jumping.patch",
+                "filename": "optional/m23-fix-gallery-jumping.patch",
                 "version-constraint": ">=2.3.0"
             }
         ],
