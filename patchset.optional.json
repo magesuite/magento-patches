@@ -115,6 +115,11 @@
                 "description": "Fix redirect to home after adding amasty free gift (HAAR-1837)",
                 "filename": "optional/m22-fix-home-redirect-after-adding-amasty-gift.patch",
                 "version-constraint": "^2.7.0"
+            },
+            {
+                "description": "Fix endless loop when quote is being saved on client login (HAAR-2003)",
+                "filename": "optional/amasty-fix-loop-on-quote-save.patch",
+                "version-constraint": "^2.8.0"
             }
         ],
         "amasty/module-banners-lite": [

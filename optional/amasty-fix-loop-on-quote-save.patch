@@ -1,0 +1,13 @@
+diff --git a/Plugin/Quote/Model/QuotePlugin.php b/Plugin/Quote/Model/QuotePlugin.php
+index dd455c3..e040bad 100644
+--- a/Plugin/Quote/Model/QuotePlugin.php
++++ b/Plugin/Quote/Model/QuotePlugin.php
+@@ -50,7 +50,7 @@ class QuotePlugin
+             && $this->storage->isQuoteSaveRequired()
+         ) {
+             $this->storage->setIsQuoteSaveRequired(false);
+-            $this->quoteRepository->save($subject);
++            $subject->save();
+         }
+ 
+         return $result;
