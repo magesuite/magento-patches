@@ -275,6 +275,11 @@
                     "description": "Prevent localStorage from getting bigger and bigger (2.2.6-2.2.7)",
                     "filename": "essential/m226plus-fix-huge-localstorage.patch",
                     "version-constraint": ">=102.0.6,<=102.0.7"
+                },
+                {
+                    "description": "Category image deletes after initial upload and category save v2.3.3",
+                    "filename": "essential/m233-fix-category-image-missing-after-save.patch",
+                    "version-constraint": "103.0.3"
                 }
             ],
             "magento/module-checkout": [
