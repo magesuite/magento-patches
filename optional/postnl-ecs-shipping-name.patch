@@ -7,6 +7,7 @@ index 15555a0..cfdc89d 100644
          $carrier = $order->getShippingCarrier();
          $node->appendChild($xml->createElementNS('http://www.toppak.nl/deliveryorder_new','shippingAgentCode',
 -            $carrier ? $carrier->getConfigData('title') : $order->getShippingMethod()
-+            $order->getDaat('shipping_code_erp)
++            $order->getShippingDescription()
          ));
+
 
