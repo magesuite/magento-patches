@@ -1,0 +1,18 @@
+Do not try to send vary in HttpPlugin if headers are already sent. This will be included in 2.4 core:
+https://github.com/magento/magento2/commit/1e6f8bc6a811074fe8b504fc60ea3f05fce94e24#diff-acb0b242bd6c2cf5c7d752508ce8cb3b
+Core plugin sometimes causes generation of reports with "headers already sent errors" in situations when response is directly outputted, like
+frontend pdf invoice print (example related issue: https://creativestyle.atlassian.net/browse/HAAR-1988).
+
+diff --git a/Model/App/Response/HttpPlugin.php b/Model/App/Response/HttpPlugin.php
+index bf95870..cdfd7d8 100644
+--- a/Model/App/Response/HttpPlugin.php
++++ b/Model/App/Response/HttpPlugin.php
+@@ -19,7 +19,7 @@ class HttpPlugin
+      */
+     public function beforeSendResponse(\Magento\Framework\App\Response\Http $subject)
+     {
+-        if ($subject instanceof \Magento\Framework\App\PageCache\NotCacheableInterface) {
++        if ($subject instanceof \Magento\Framework\App\PageCache\NotCacheableInterface || $subject->headersSent()) {
+             return;
+         }
+         $subject->sendVary();
