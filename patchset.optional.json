@@ -298,18 +298,24 @@
                 "version_constraint": "*"
             }
         ],
- 	"Postnl/Ecs": [
+        "Postnl/Ecs": [
             {
                 "description": "Fix wrong shipment name in exported order",
                 "filename": "optional/postnl-ecs-shipping-name.patch",
                 "version_constraint": "*"
             },
-	    {
+            {
                 "description": "Fix wrong depth/height code",
                 "filename": "optional/external-postnl-change-depth-code.patch",
                 "version_constraint": "*"
             }
+        ],
+        "magento/module-url-rewrite": [
+            {
+                "description": "Fix for not working layered navigation when there is trailing slash in url",
+                "filename": "optional/m233-url-rewrite-trailing-slash-fix.patch",
+                "version-constraint": "*"
+            }
         ]
-
     }
 }

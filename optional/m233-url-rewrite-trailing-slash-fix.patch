@@ -1,0 +1,13 @@
+diff --git a/Controller/Router.php b/Controller/Router.php
+index 47718ba..c2d8964 100644
+--- a/Controller/Router.php
++++ b/Controller/Router.php
+@@ -77,7 +77,7 @@ class Router implements \Magento\Framework\App\RouterInterface
+     public function match(RequestInterface $request)
+     {
+         $rewrite = $this->getRewrite(
+-            $this->getNormalizedPathInfo($request),
++            $request->getPathInfo(),
+             $this->storeManager->getStore()->getId()
+         );
+ 
