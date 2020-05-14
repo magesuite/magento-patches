@@ -211,6 +211,13 @@
                 "version-constraint": "100.2.2"
             }
         ],
+        "magento/module-configurable-import-export" : [
+            {
+                "description": "Fix configurable products relation to simples with qty = 0 during import.",
+                "filename": "optional/m23-attach-simples-with-qty0-to-configurable-during-import.patch",
+                "version-constraint": ">=100.3.2"
+            }
+        ],
         "magento/module-catalog": [
             {
                 "description": "Fix for NKD bulk api store view scope products update",
