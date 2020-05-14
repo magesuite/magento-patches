@@ -1,0 +1,19 @@
+When configurable products are imported, if simple products that should be attached to configurables have qty 0
+they won't get attached because below collection gets products from db with stock filter enabled. Then those simples
+get orphaned without configurable product assigned. This patch sets 'has_stock_status_filter' flag to collection,
+to cheat Stock helper addIsInStockFilterToCollection method, and get all products from db, also those with qty = 0.
+Related issue: https://creativestyle.atlassian.net/browse/KRG-1026
+
+diff --git a/Model/Import/Product/Type/Configurable.php b/Model/Import/Product/Type/Configurable.php
+index 3f45657..ecf2619 100644
+--- a/Model/Import/Product/Type/Configurable.php
++++ b/Model/Import/Product/Type/Configurable.php
+@@ -423,7 +423,7 @@ class Configurable extends \Magento\CatalogImportExport\Model\Import\Product\Typ
+                 ['in' => $productIds]
+             )->addAttributeToSelect(
+                 array_keys($this->_superAttributes)
+-            ) as $product) {
++            )->setFlag('has_stock_status_filter', 1) as $product) {
+                 $attrSetName = $attrSetIdToName[$product->getAttributeSetId()];
+ 
+                 $data = array_intersect_key($product->getData(), $this->_superAttributes);
