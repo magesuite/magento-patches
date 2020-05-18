@@ -1,8 +1,5 @@
-diff --git a/fix-gallery-jumping.patch b/fix-gallery-jumping.patch
-new file mode 100644
-index 0000000..e69de29
 diff --git a/lib/web/mage/gallery/gallery.js b/lib/web/mage/gallery/gallery.js
-index 02ba72f..6309fa2 100644
+index be78856..6309fa2 100644
 --- a/lib/web/mage/gallery/gallery.js
 +++ b/lib/web/mage/gallery/gallery.js
 @@ -270,7 +270,10 @@ define([
@@ -17,7 +14,7 @@ index 02ba72f..6309fa2 100644
  
              if (settings.breakpoints) {
                  _.each(_.values(settings.breakpoints), function (breakpoint) {
-@@ -285,19 +288,38 @@ define([
+@@ -285,17 +288,38 @@ define([
                  settings.breakpoints = breakpoints;
              }
  
@@ -34,12 +31,10 @@ index 02ba72f..6309fa2 100644
 +                }
 +            );
              settings.currentConfig = config;
--            settings.$element.css('min-height', settings.$element.height());
 -            settings.$element.html(tpl);
 -            settings.$element.removeClass('_block-content-loading');
 -            settings.$elementF = $(settings.$element.children()[0]);
 -            settings.$elementF.fotorama(config);
--            settings.$element.css('min-height', '');
 -            settings.fotoramaApi = settings.$elementF.data('fotorama');
 +
 +            $element
@@ -78,7 +73,7 @@ index 02ba72f..6309fa2 100644
                                      index: mainImageIndex,
                                      time: 0
 diff --git a/lib/web/mage/gallery/gallery.less b/lib/web/mage/gallery/gallery.less
-index 14056ea..86ccdb8 100644
+index 14056ea..00a0357 100644
 --- a/lib/web/mage/gallery/gallery.less
 +++ b/lib/web/mage/gallery/gallery.less
 @@ -395,6 +395,11 @@
@@ -93,22 +88,3 @@ index 14056ea..86ccdb8 100644
      .fotorama__arr__arr {
          &:extend(.fotorama-sprite);
          .fotorama-abs-center();
-@@ -418,9 +423,8 @@
- }
- 
- .fotorama__arr--disabled {
--    *display: none;
-     cursor: default;
--    opacity: 0.1;
-+    opacity: 0;
-     pointer-events: none;
- }
- 
-@@ -762,6 +766,7 @@
-     img {
-         left: 0;
-         max-width: inherit;
-+        max-height: inherit;
-         position: absolute;
-         top: 0;
-         object-fit: scale-down;
