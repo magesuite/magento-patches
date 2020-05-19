@@ -1,0 +1,31 @@
+diff --git a/View/TemplateEngine/Xhtml/Template.php b/View/TemplateEngine/Xhtml/Template.php
+index e75c807..160dda4 100644
+--- a/View/TemplateEngine/Xhtml/Template.php
++++ b/View/TemplateEngine/Xhtml/Template.php
+@@ -34,7 +34,7 @@ class Template
+     ) {
+         $this->logger = $logger;
+         $document = new \DOMDocument(static::XML_VERSION, static::XML_ENCODING);
+-        $document->loadXML($content);
++        $document->loadXML($content, LIBXML_PARSEHUGE);
+         $this->templateNode = $document->documentElement;
+     }
+ 
+@@ -56,9 +56,14 @@ class Template
+      */
+     public function append($content)
+     {
+-        $newFragment = $this->templateNode->ownerDocument->createDocumentFragment();
+-        $newFragment->appendXML($content);
+-        $this->templateNode->appendChild($newFragment);
++        $target=$this->templateNode->ownerDocument;
++
++        $source = new \DOMDocument();
++        $source->loadXml($content, LIBXML_PARSEHUGE);
++
++        $this->templateNode->appendChild(
++            $target->importNode($source->documentElement, TRUE)
++        );
+     }
+ 
+     /**

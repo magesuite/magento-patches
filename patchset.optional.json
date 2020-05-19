@@ -58,6 +58,11 @@
                 "description": "Patch for DataObjectHelper AddressExtension type error",
                 "filename": "vendor/creativestyle/magento-patches/optional/m22-data-object-helper.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Patch to allow add huge xml elements without throwing error",
+                "filename": "optional/m233-fix-for-huge-xml-elements.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/magento2-base": [
