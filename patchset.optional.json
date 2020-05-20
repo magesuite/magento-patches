@@ -320,6 +320,11 @@
                 "description": "Fix wrong depth/height code",
                 "filename": "optional/external-postnl-change-depth-code.patch",
                 "version_constraint": "*"
+            },
+	    {
+                "description": "Limits order processing to 1 per file",
+                "filename": "optional/external-limit-order-export-to-one-per-file.patch",
+                "version_constraint": "*"
             }
         ],
         "magento/module-url-rewrite": [
