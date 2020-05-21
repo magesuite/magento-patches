@@ -234,6 +234,11 @@
                     "description": "Fix to not reindex whole category if manual sort of products has not change",
                     "filename": "essential/m232-elasticsuite-save-category-fix.patch",
                     "version-constraint": "2.8.*"
+                },
+                {
+                    "description": "Fix segfault error introduced with sorting issue fix (commit 47a0ad6)",
+                    "filename": "essential/smile-elasticsuite-sorting-update-segfault-fix.patch",
+                    "version-constraint": ">=2.8.7"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
