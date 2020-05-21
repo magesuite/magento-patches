@@ -249,7 +249,12 @@
                 "description": "Fix for mismatch of order total amount and sum of the items amount (due to differences in tax handling)",
                 "filename": "optional/payone-invoice-items-tax.patch",
                 "version-constraint": "^2.5.0"
-            }
+            },
+            {
+                "description": "Fix Payone refund tax issues",
+                "filename": "optional/payone-refund-tax.patch",
+                "version-constraint": "^2.5.0"
+            },
         ],
         "magento/module-cms": [
             {
