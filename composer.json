@@ -290,6 +290,11 @@
                     "description": "Category image deletes after initial upload and category save v2.3.3",
                     "filename": "essential/m233-fix-category-image-missing-after-save.patch",
                     "version-constraint": "103.0.3"
+                },
+                {
+                    "description": "Catalog product flat table is not updated when attribute is null",
+                    "filename": "essential/m23plus-fix-flat-table-indexer-on-null.patch",
+                    "version-constraint": ">103.0.0"
                 }
             ],
             "magento/module-checkout": [

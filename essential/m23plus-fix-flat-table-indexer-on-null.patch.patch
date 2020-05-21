@@ -1,0 +1,28 @@
+diff --git a/Model/Indexer/Product/Flat/Action/Indexer.php b/Model/Indexer/Product/Flat/Action/Indexer.php
+index c14bc0d..47e9282 100644
+--- a/Model/Indexer/Product/Flat/Action/Indexer.php
++++ b/Model/Indexer/Product/Flat/Action/Indexer.php
+@@ -108,10 +108,12 @@ class Indexer
+                     )->where(
+                         'e.entity_id = ' . $productId
+                     )->order('t.store_id ASC');
++                    $unusedIds = $ids;
+                     $cursor = $this->_connection->query($select);
+                     while ($row = $cursor->fetch(\Zend_Db::FETCH_ASSOC)) {
+                         $updateData[$ids[$row['attribute_id']]] = $row['value'];
+                         $valueColumnName = $ids[$row['attribute_id']] . $valueFieldSuffix;
++                        unset($unusedIds[$row['attribute_id']]);
+                         if (isset($describe[$valueColumnName])) {
+                             $valueColumns[$row['attribute_id']] = [
+                                 'value' => $row['value'],
+@@ -120,6 +122,10 @@ class Indexer
+                         }
+                     }
+ 
++                    foreach ($unusedIds as $attributeId => $columnName) {
++                        $updateData[$columnName] = null;
++                    }
++
+                     //Update not simple attributes (eg. dropdown)
+                     if (!empty($valueColumns)) {
+                         $valueIds = array_column($valueColumns, 'value');
