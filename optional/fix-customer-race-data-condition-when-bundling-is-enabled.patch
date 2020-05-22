@@ -1,0 +1,30 @@
+diff --git a/app/code/Magento/Customer/view/frontend/web/js/customer-data.js b/app/code/Magento/Customer/view/frontend/web/js/customer-data.js
+index 66d37cb84e9c..f6774c396461 100644
+--- a/view/frontend/web/js/customer-data.js
++++ b/view/frontend/web/js/customer-data.js
+@@ -11,12 +11,13 @@ define([
+     'underscore',
+     'ko',
+     'Magento_Customer/js/section-config',
++    'mage/url',
+     'mage/storage',
+     'jquery/jquery-storageapi'
+-], function ($, _, ko, sectionConfig) {
++], function ($, _, ko, sectionConfig, url) {
+     'use strict';
+ 
+-    var options,
++    var options = {},
+         storage,
+         storageInvalidation,
+         invalidateCacheBySessionTimeOut,
+@@ -25,6 +26,9 @@ define([
+         buffer,
+         customerData;
+ 
++    url.setBaseUrl(window.BASE_URL);
++    options.sectionLoadUrl = url.build('customer/section/load');
++
+     //TODO: remove global change, in this case made for initNamespaceStorage
+     $.cookieStorage.setConf({
+         path: '/',
