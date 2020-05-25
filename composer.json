@@ -75,6 +75,11 @@
                     "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
                     "filename": "essential/m233-fix-special-chars-in-email.patch",
                     "version-constraint": ">=102.0.3,<102.0.4"
+                },
+                {
+                    "description": "Fix autoloader registry that breaks integration tests",
+                    "filename": "essential/m235-fix-autoloader-registry.patch",
+                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-ui": [
@@ -541,7 +546,12 @@
                 {
                     "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.3.3+",
                     "filename": "essential/m233-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
-                    "version-constraint": ">=103.0.3"
+                    "version-constraint": ">=103.0.3,<103.0.5"
+                },
+                {
+                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.3.5+",
+                    "filename": "essential/m235-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
+                    "version-constraint": ">=103.0.5"
                 }
             ],
             "magento/module-payment": [
