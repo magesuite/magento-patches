@@ -1,0 +1,16 @@
+diff --git a/etc/di.xml b/etc/di.xml
+index 1d6c2d8..8549fc0 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -69,11 +69,6 @@
+             <argument name="date" xsi:type="object">dotdigitalgroupZendDate</argument>
+         </arguments>
+     </type>
+-    <virtualType name="dotdigitalgroupZendMailTransportSendmail" type="Zend_Mail_Transport_Sendmail">
+-        <arguments>
+-            <argument name="parameters" xsi:type="null"/>
+-        </arguments>
+-    </virtualType>
+     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+         <arguments>
+             <argument name="collections" xsi:type="array">
