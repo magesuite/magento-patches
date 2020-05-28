@@ -1,0 +1,17 @@
+For tracking purposes Lensplaza would like to identify Shipping as Step 2 and Payment as Step 3 during Checkout.
+Even though you can add different value in extension's config.xml, logic still pushes step index from Magento's stepNavigator.
+Therefore by increasing index by 1, we will have desired result.
+
+diff --git a/view/frontend/web/js/checkout-datalayer.js b/view/frontend/web/js/checkout-datalayer.js
+index 864fb6b..b316fd8 100644
+--- a/view/frontend/web/js/checkout-datalayer.js
++++ b/view/frontend/web/js/checkout-datalayer.js
+@@ -126,7 +126,7 @@ define([
+ 
+                 if (_.isObject(step) && _.has(step, 'code')) {
+                     notifyCheckoutStep(
+-                        index + 1,
++                        index + 2,
+                         step.title ? step.title : step.code,
+                         !hasProducts,
+                         step.code
