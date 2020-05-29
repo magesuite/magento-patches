@@ -216,7 +216,7 @@
                 "version-constraint": "100.2.2"
             }
         ],
-        "magento/module-configurable-import-export" : [
+        "magento/module-configurable-import-export": [
             {
                 "description": "Fix configurable products relation to simples with qty = 0 during import.",
                 "filename": "optional/m23-attach-simples-with-qty0-to-configurable-during-import.patch",
@@ -254,7 +254,7 @@
                 "description": "Fix Payone refund tax issues",
                 "filename": "optional/payone-refund-tax.patch",
                 "version-constraint": "^2.5.0"
-            },
+            }
         ],
         "magento/module-cms": [
             {
@@ -336,7 +336,7 @@
                 "filename": "optional/external-postnl-change-depth-code.patch",
                 "version_constraint": "*"
             },
-	    {
+            {
                 "description": "Limits order processing to 1 per file",
                 "filename": "optional/external-limit-order-export-to-one-per-file.patch",
                 "version_constraint": "*"
@@ -349,12 +349,19 @@
                 "version-constraint": "*"
             }
         ],
-	"sendinblue/module-sendinblue": [
-	    {
+        "sendinblue/module-sendinblue": [
+            {
                 "description": "Fix for not not set transport object (breaking transactional email)",
                 "filename": "optional/external-sendinblue-set-default-transport.patch",
                 "version-constraint": "*"
             }
-	]
+        ],
+        "wyomind/datafeedmanager" : [
+            {
+                "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI.",
+                "filename": "optional/add-msi-support-for-wyomind-datafeed-product-filtering-qty.patch",
+                "version-constraint": "^11.13.12"
+            }
+        ]
     }
 }
