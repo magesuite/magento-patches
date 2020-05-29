@@ -1,3 +1,5 @@
+Temporary patch to fix wyomind data feed module, to correctly filter products by qty, if store has msi enabled.
+
 diff --git a/Model/ResourceModel/Product/Collection.php b/Model/ResourceModel/Product/Collection.php
 index 8f651ea..957cbf6 100644
 --- a/Model/ResourceModel/Product/Collection.php
