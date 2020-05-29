@@ -338,6 +338,13 @@
                 "filename": "optional/m233-url-rewrite-trailing-slash-fix.patch",
                 "version-constraint": "*"
             }
-        ]
+        ],
+	"sendinblue/module-sendinblue": [
+	    {
+                "description": "Fix for not not set transport object (breaking transactional email)",
+                "filename": "optional/external-sendinblue-set-default-transport.patch",
+                "version-constraint": "*"
+            }
+	]
     }
 }

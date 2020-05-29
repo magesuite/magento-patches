@@ -1,0 +1,13 @@
+diff --git a/Model/Transport.php b/Model/Transport.php
+index d8b12da..9ea7ffb 100644
+--- a/Model/Transport.php
++++ b/Model/Transport.php
+@@ -76,7 +76,7 @@ class Transport implements TransportInterface
+ 
+     public function __construct($message = null, ScopeConfigInterface $scopeConfig, $parameters = null ){
+ 
+-        
++        $this->transport = new \Zend\Mail\Transport\Sendmail($parameters);
+ 
+         $magVersion = $scopeConfig->getValue('sendinblue/mag_version_sib', 'default');
+ 
