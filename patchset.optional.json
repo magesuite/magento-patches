@@ -285,6 +285,16 @@
                 "description": "Disables price calculations on category page",
                 "filename": "optional/magepal-eec-disables-expensive-price-calculations.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Increases index of Checkout steps by 1",
+                "filename": "optional/magepal-lp-increase-checkout-step-index-by-1.patch",
+                "version-constraint": "^1.2.0"
+            },
+            {
+                "description": "Include grouped product addtocart url",
+                "filename": "optional/magepal-lp-include-grouped-product-addtocart-url.patch",
+                "version-constraint": "^1.2.0"
             }
         ],
         "magento/module-gift-card-account": [
