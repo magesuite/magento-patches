@@ -1,5 +1,5 @@
 diff --git a/Block/Info/Basic.php b/Block/Info/Basic.php
-index e2b95d5..d8d3efc 100644
+index e2b95d5..ae12219 100644
 --- a/Block/Info/Basic.php
 +++ b/Block/Info/Basic.php
 @@ -26,8 +26,34 @@
@@ -49,7 +49,7 @@ index e2b95d5..d8d3efc 100644
              $data[(string)__('Payment has not been processed yet.')] = '';
          } else {
              $oOrder = $this->getInfo()->getOrder();
-+            $this->emulation->startEnvironmentEmulation($oOrder->getStoreId(), 'frontend');
++            $this->emulation->startEnvironmentEmulation($oOrder->getStoreId(), 'frontend', true);
              if ($oOrder && $oOrder->getPayoneClearingBankcode()) {
                  $data[(string)__('Please transfer the order amount to this bank account')] = '';
                  $data[(string)__('Accountholder')] = $oOrder->getPayoneClearingBankaccountholder();
