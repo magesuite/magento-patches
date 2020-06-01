@@ -254,7 +254,13 @@
                 "description": "Fix Payone refund tax issues",
                 "filename": "optional/payone-refund-tax.patch",
                 "version-constraint": "^2.5.0"
+            },
+	    {
+                "description": "Fix Payone issue when missing translation for order emails sent via admin panel",
+                "filename": "optional/external-payone-email-translation-patch.patch",
+                "version-constraint": "^2.5.0"
             }
+
         ],
         "magento/module-cms": [
             {
