@@ -1,13 +1,24 @@
 diff --git a/Model/Transport.php b/Model/Transport.php
-index d8b12da..9ea7ffb 100644
+index 3327185..3df9445 100644
 --- a/Model/Transport.php
 +++ b/Model/Transport.php
 @@ -76,7 +76,7 @@ class Transport implements TransportInterface
  
      public function __construct($message = null, ScopeConfigInterface $scopeConfig, $parameters = null ){
  
--        
+-
 +        $this->transport = new \Zend\Mail\Transport\Sendmail($parameters);
  
          $magVersion = $scopeConfig->getValue('sendinblue/mag_version_sib', 'default');
  
+@@ -248,8 +248,8 @@ class Transport implements TransportInterface
+ 
+                 } elseif ((version_compare($this->_magVersion, "2.2.10", "==") || version_compare($this->_magVersion, "2.2.11", "==") || version_compare($this->_magVersion, "2.3.0", "==") || version_compare($this->_magVersion, "2.3.1", "==") || version_compare($this->_magVersion, "2.3.2", "==")) && $this->_message instanceof MessageInterface) {
+ 
+-                    $zend_mail = Message::fromString($this->_message->getRawMessage());
+-
++                    $zend_mail = \Zend\Mail\Message::fromString($this->_message->getRawMessage());
++                    $zend_mail->setEncoding('UTF-8');
+                     $subject = $zend_mail->getSubject();
+ 
+                     $zend_mail->setSubject(htmlspecialchars_decode((string)$subject, ENT_QUOTES));
