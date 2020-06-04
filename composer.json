@@ -152,6 +152,13 @@
                     "version-constraint": "<=102.0.3"
                 }
             ],
+            "magento/module-store": [
+                {
+                    "description": "Change current store to fix URL building in store switcher",
+                    "filename": "essential/m23-store-switcher-fix.patch",
+                    "version-constraint": "101.0.*"
+                }
+            ],
             "amasty/module-advanced-permissions": [
                 {
                     "description": "Fix module loading order",
