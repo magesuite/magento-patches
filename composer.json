@@ -250,7 +250,7 @@
                 {
                     "description": "Fix segfault error introduced with sorting issue fix (commit 47a0ad6)",
                     "filename": "essential/smile-elasticsuite-sorting-update-segfault-fix.patch",
-                    "version-constraint": ">=2.8.7"
+                    "version-constraint": ">=2.8.7,<2.8.8"
                 },
                 {
                     "description": "Filter by price doesn't work properly on store view (KRG-857)",
