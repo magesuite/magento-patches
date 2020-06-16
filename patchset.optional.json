@@ -63,6 +63,11 @@
                 "description": "Patch to allow add huge xml elements without throwing error",
                 "filename": "optional/m233-fix-for-huge-xml-elements.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Patch to fix product image cache generating wrong hashes",
+                "filename": "optional/m233-fix-product-image-cache-hash-1.patch",
+                "version-constraint": "102.0.3"
             }
         ],
         "magento/magento2-base": [
@@ -228,6 +233,11 @@
                 "description": "Fix for NKD bulk api store view scope products update",
                 "filename": "optional/m23commerce-nkd-patch-for-api-product-update.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Patch to fix product image cache generating wrong hashes",
+                "filename": "optional/m233-fix-product-image-cache-hash-2.patch",
+                "version-constraint": "103.0.3"
             }
         ],
         "magento/module-sales-rule": [
@@ -367,6 +377,13 @@
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI.",
                 "filename": "optional/add-msi-support-for-wyomind-datafeed-product-filtering-qty.patch",
                 "version-constraint": "^11.13.12"
+            }
+        ],
+        "magento/module-media-storage": [
+            {
+                "description": "Patch to fix product image cache generating wrong hashes",
+                "filename": "optional/m233-fix-product-image-cache-hash-3.patch",
+                "version-constraint": "100.3.3"
             }
         ]
     }
