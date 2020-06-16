@@ -1,0 +1,47 @@
+Fixes issue with wrong product image hash generation for multistores with watermarks enabled.
+Original CS issue: https://creativestyle.atlassian.net/browse/P2G-1263
+Magento issue & patch: https://github.com/magento/magento2/issues/19710#issuecomment-579270288
+Must be applied along with m233-fix-product-image-cache-hash-2 and m233-fix-product-image-cache-hash-3, for module-catalog and module-media-storage.
+
+diff --git a/Image/Adapter/Gd2.php b/Image/Adapter/Gd2.php
+index 7e92b33..04d4c53 100644
+--- a/Image/Adapter/Gd2.php
++++ b/Image/Adapter/Gd2.php
+@@ -822,8 +822,9 @@ class Gd2 extends \Magento\Framework\Image\Adapter\AbstractAdapter
+      * @param int $src_w
+      * @param int $src_h
+      * @param int $pct
+-     *
+      * @return bool
++     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
++     * @SuppressWarnings(PHPMD.NPathComplexity)
+      */
+     private function imagecopymergeWithAlphaFix(
+         $dst_im,
+@@ -859,12 +860,24 @@ class Gd2 extends \Magento\Framework\Image\Adapter\AbstractAdapter
+             return false;
+         }
+ 
++        if (false === imagesavealpha($tmpImg, true)) {
++            return false;
++        }
++
+         if (false === imagecopy($tmpImg, $src_im, 0, 0, 0, 0, $sizeX, $sizeY)) {
+             return false;
+         }
+ 
+-        $transparancy = 127 - (($pct*127)/100);
+-        if (false === imagefilter($tmpImg, IMG_FILTER_COLORIZE, 0, 0, 0, $transparancy)) {
++        $transparency = 127 - (($pct*127)/100);
++        if (false === imagefilter($tmpImg, IMG_FILTER_COLORIZE, 0, 0, 0, $transparency)) {
++            return false;
++        }
++
++        if (false === imagealphablending($dst_im, true)) {
++            return false;
++        }
++
++        if (false === imagesavealpha($dst_im, true)) {
+             return false;
+         }
+ 
