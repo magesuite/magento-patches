@@ -238,6 +238,11 @@
                 "description": "Patch to fix product image cache generating wrong hashes",
                 "filename": "optional/m233-fix-product-image-cache-hash-2.patch",
                 "version-constraint": "103.0.3"
+            },
+            {
+                "description": "Keep regular price in the tier prices listing",
+                "filename": "optional/m23-keep-regular-price-in-tier-listing.patch",
+                "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-sales-rule": [
