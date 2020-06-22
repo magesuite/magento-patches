@@ -346,6 +346,13 @@
                     "version-constraint": "100.3.3"
                 }
             ],
+            "magento/module-checkout-agreements": [
+                {
+                    "description": "Allow to use HTML in checkboxText in Terms and Conditions",
+                    "filename": "essential/m23-allow-to-use-html-in-toc.patch",
+                    "version-constraint": ">=100.3.1"
+                }
+            ],
             "magento/module-catalog-url-rewrite": [
                 {
                     "description": "Fixes store switcher (only magento 2.2.5)",
