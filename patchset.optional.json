@@ -361,6 +361,11 @@
                 "description": "Limits order processing to 1 per file",
                 "filename": "optional/external-limit-order-export-to-one-per-file.patch",
                 "version_constraint": "*"
+            },
+            {
+                "description": "Changed limit for product export descriptions fields",
+                "filename": "optional/external-changed-limit-of-product-export-description-fields.patch",
+                "version_constraint": "*"
             }
         ],
         "magento/module-url-rewrite": [
