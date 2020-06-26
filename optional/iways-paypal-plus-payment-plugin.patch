@@ -1,0 +1,25 @@
+diff --git a/Plugin/Sales/Model/Order/PaymentPlugin.php b/Plugin/Sales/Model/Order/PaymentPlugin.php
+index 8e840b6..2d49641 100644
+--- a/Plugin/Sales/Model/Order/PaymentPlugin.php
++++ b/Plugin/Sales/Model/Order/PaymentPlugin.php
+@@ -27,17 +27,17 @@ class PaymentPlugin
+     /**
+      * Protected $orderPaymentExtensionFactory
+      *
+-     * @var \Magento\Sales\Api\Data\OrderPaymentExtensionInterface
++     * @var \Magento\Sales\Api\Data\OrderPaymentExtensionInterfaceFactory
+      */
+     protected $orderPaymentExtensionFactory;
+ 
+     /**
+      * PaymentPlugin constructor
+      *
+-     * @param \Magento\Sales\Api\Data\OrderPaymentExtensionInterface $orderPaymentExtensionFactory
++     * @param \Magento\Sales\Api\Data\OrderPaymentExtensionInterfaceFactory $orderPaymentExtensionFactory
+      */
+     public function __construct(
+-        \Magento\Sales\Api\Data\OrderPaymentExtensionInterface $orderPaymentExtensionFactory
++        \Magento\Sales\Api\Data\OrderPaymentExtensionInterfaceFactory $orderPaymentExtensionFactory
+     ) {
+         $this->orderPaymentExtensionFactory = $orderPaymentExtensionFactory;
+     }
