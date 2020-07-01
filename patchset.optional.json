@@ -373,6 +373,11 @@
                 "description": "Changed limit for product export descriptions fields",
                 "filename": "optional/external-changed-limit-of-product-export-description-fields.patch",
                 "version_constraint": "*"
+            },
+            {
+                "description": "Changed limit for order export street fields",
+                "filename": "optional/external-postnl-order-street-fields-limit.patch",
+                "version_constraint": "*"
             }
         ],
         "magento/module-url-rewrite": [
