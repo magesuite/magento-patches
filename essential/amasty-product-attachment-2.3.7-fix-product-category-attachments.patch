@@ -1,0 +1,13 @@
+diff --git a/Model/File/FileScope/DataProviders/ProductCategories.php b/Model/File/FileScope/DataProviders/ProductCategories.php
+index 3f7f345..20dccc6 100644
+--- a/Model/File/FileScope/DataProviders/ProductCategories.php
++++ b/Model/File/FileScope/DataProviders/ProductCategories.php
+@@ -41,7 +41,7 @@ class ProductCategories implements FileScopeDataInterface
+         $productCategories = $params[RegistryConstants::PRODUCT_CATEGORIES];
+ 
+         if (!empty($productCategories)) {
+-            $this->processProductCategories($productCategories, $params);
++            return $this->processProductCategories($productCategories, $params);
+         }
+ 
+         return [];
