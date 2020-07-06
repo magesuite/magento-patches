@@ -1,0 +1,96 @@
+Removes unnecessary <br> in favor of <p> tags. 
+Fixes greeting message in order to use customer.name and removes duplicated footer text.
+Fixed in 2.4.0.
+
+Original issue: https://github.com/magento/magento2/issues/28433
+PR: https://github.com/magento/magento2/pull/27356
+
+diff --git a/view/frontend/email/change_email.html b/view/frontend/email/change_email.html
+index f343433..2ed407b 100644
+--- a/view/frontend/email/change_email.html
++++ b/view/frontend/email/change_email.html
+@@ -5,18 +5,18 @@
+  */
+ -->
+ <!--@subject {{trans "Your %store_name email has been changed" store_name=$store.getFrontendName()}} @-->
+-<!--@vars {} @-->
++<!--@vars {
++"var store.frontend_name":"Store Name",
++"var store_email":"Store Email",
++"var store_phone":"Store Phone",
++"var customer.name":"Customer Name"
++} @-->
+ {{template config_path="design/email/header_template"}}
+ 
+-<p class="greeting">{{trans "Hello,"}}</p>
+-<br>
+-
++<p class="greeting">{{trans "%name," name=$customer.name}}</p>
+ <p>
+     {{trans "We have received a request to change the following information associated with your account at %store_name: email." store_name=$store.getFrontendName()}}
+     {{trans 'If you have not authorized this action, please contact us immediately at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}} {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.
+ </p>
+-<br>
+-
+-<p>{{trans "Thanks,<br>%store_name" store_name=$store.getFrontendName() |raw}}</p>
+ 
+ {{template config_path="design/email/footer_template"}}
+diff --git a/view/frontend/email/change_email_and_password.html b/view/frontend/email/change_email_and_password.html
+index 0876e75..b06ef91 100644
+--- a/view/frontend/email/change_email_and_password.html
++++ b/view/frontend/email/change_email_and_password.html
+@@ -5,18 +5,18 @@
+  */
+ -->
+ <!--@subject {{trans "Your %store_name email and password has been changed" store_name=$store.getFrontendName()}} @-->
+-<!--@vars {} @-->
++<!--@vars {
++"var store.frontend_name":"Store Name",
++"var store_email":"Store Email",
++"var store_phone":"Store Phone",
++"var customer.name":"Customer Name"
++} @-->
+ {{template config_path="design/email/header_template"}}
+ 
+-<p class="greeting">{{trans "Hello,"}}</p>
+-<br>
+-
++<p class="greeting">{{trans "%name," name=$customer.name}}</p>
+ <p>
+     {{trans "We have received a request to change the following information associated with your account at %store_name: email, password." store_name=$store.getFrontendName()}}
+     {{trans 'If you have not authorized this action, please contact us immediately at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}} {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.
+ </p>
+-<br>
+-
+-<p>{{trans "Thanks,<br>%store_name" store_name=$store.getFrontendName() |raw}}</p>
+ 
+ {{template config_path="design/email/footer_template"}}
+diff --git a/view/frontend/email/password_reset.html b/view/frontend/email/password_reset.html
+index bfa5330..68578cd 100644
+--- a/view/frontend/email/password_reset.html
++++ b/view/frontend/email/password_reset.html
+@@ -6,19 +6,17 @@
+ -->
+ <!--@subject {{trans "Your %store_name password has been changed" store_name=$store.getFrontendName()}} @-->
+ <!--@vars {
+-"var customer.name":"Customer Name"
++"var customer.name":"Customer Name",
++"var store.frontend_name":"Store Name",
++"var store_email":"Store Email",
++"var store_phone":"Store Phone"
+ } @-->
+ {{template config_path="design/email/header_template"}}
+ 
+-<p class="greeting">{{trans "Hello,"}}</p>
+-<br>
+-
++<p class="greeting">{{trans "%name," name=$customer.name}}</p>
+ <p>
+     {{trans "We have received a request to change the following information associated with your account at %store_name: password." store_name=$store.getFrontendName()}}
+     {{trans 'If you have not authorized this action, please contact us immediately at <a href="mailto:%store_email">%store_email</a>' store_email=$store_email |raw}}{{depend store_phone}} {{trans 'or call us at <a href="tel:%store_phone">%store_phone</a>' store_phone=$store_phone |raw}}{{/depend}}.
+ </p>
+-<br>
+-
+-<p>{{trans "Thanks,<br>%store_name" store_name=$store.getFrontendName() |raw}}</p>
+ 
+ {{template config_path="design/email/footer_template"}}
