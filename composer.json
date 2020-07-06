@@ -268,6 +268,11 @@
                     "description": "Filter by price doesn't work properly on store view (KRG-857)",
                     "filename": "essential/smile-elasticsuite-fix-regex-on-filter-by-price.patch",
                     "version-constraint": ">=2.8.5"
+                },
+                {
+                    "description": "Fix for 404 after changing products per page settings in pager on last page",
+                    "filename": "essential/smile-elasticsuite-fix-last-page-404-after-changing-per-page.patch",
+                    "version-constraint": ">=2.9.1"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
