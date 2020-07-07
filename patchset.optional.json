@@ -407,6 +407,13 @@
                 "filename": "optional/m233-fix-product-image-cache-hash-3.patch",
                 "version-constraint": "100.3.3"
             }
+        ],
+        "magento/module-inventory-source-deduction-api": [
+            {
+                "description": "Patch to allow create shipment for items which are not in stock",
+                "filename": "optional/msi-allow-create-shipment-for-not-available-products.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }

@@ -1,0 +1,21 @@
+diff --git a/Model/SourceDeductionService.php b/Model/SourceDeductionService.php
+index 948be9a..b973328 100644
+--- a/Model/SourceDeductionService.php
++++ b/Model/SourceDeductionService.php
+@@ -80,14 +80,8 @@ class SourceDeductionService implements SourceDeductionServiceInterface
+ 
+             $sourceItem = $this->getSourceItemBySourceCodeAndSku->execute($sourceCode, $itemSku);
+ 
+-            if (($sourceItem->getQuantity() - $qty) >= 0) {
+-                $sourceItem->setQuantity($sourceItem->getQuantity() - $qty);
+-                $sourceItems[] = $sourceItem;
+-            } else {
+-                throw new LocalizedException(
+-                    __('Not all of your products are available in the requested quantity.oijoijoijoij')
+-                );
+-            }
++            $sourceItem->setQuantity($sourceItem->getQuantity() - $qty);
++            $sourceItems[] = $sourceItem;
+         }
+ 
+         if (!empty($sourceItems)) {
