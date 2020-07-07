@@ -1,11 +1,11 @@
 diff --git a/Model/SourceDeductionService.php b/Model/SourceDeductionService.php
-index 948be9a..b973328 100644
+index 142e569..b973328 100644
 --- a/Model/SourceDeductionService.php
 +++ b/Model/SourceDeductionService.php
-@@ -80,14 +80,8 @@ class SourceDeductionService implements SourceDeductionServiceInterface
- 
+@@ -79,14 +79,9 @@ class SourceDeductionService implements SourceDeductionServiceInterface
+             }
+
              $sourceItem = $this->getSourceItemBySourceCodeAndSku->execute($sourceCode, $itemSku);
- 
 -            if (($sourceItem->getQuantity() - $qty) >= 0) {
 -                $sourceItem->setQuantity($sourceItem->getQuantity() - $qty);
 -                $sourceItems[] = $sourceItem;
@@ -14,6 +14,7 @@ index 948be9a..b973328 100644
 -                    __('Not all of your products are available in the requested quantity.')
 -                );
 -            }
++
 +            $sourceItem->setQuantity($sourceItem->getQuantity() - $qty);
 +            $sourceItems[] = $sourceItem;
          }
