@@ -189,7 +189,7 @@
                 {
                     "description": "Fix product category attachments",
                     "filename": "essential/amasty-product-attachment-2.3.7-fix-product-category-attachments.patch",
-                    "version-constraint": "2.3.7"
+                    "version-constraint": ">=2.3.7"
                 }
             ],
             "magento/magento2-base": [
