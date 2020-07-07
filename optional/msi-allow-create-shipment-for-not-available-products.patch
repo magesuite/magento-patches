@@ -11,7 +11,7 @@ index 948be9a..b973328 100644
 -                $sourceItems[] = $sourceItem;
 -            } else {
 -                throw new LocalizedException(
--                    __('Not all of your products are available in the requested quantity.oijoijoijoij')
+-                    __('Not all of your products are available in the requested quantity.')
 -                );
 -            }
 +            $sourceItem->setQuantity($sourceItem->getQuantity() - $qty);
