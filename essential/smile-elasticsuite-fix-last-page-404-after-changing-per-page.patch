@@ -1,0 +1,18 @@
+Fix for 404 after changing products per page settings in pager on last page
+
+https://github.com/Smile-SA/elasticsuite/issues/280
+https://github.com/Smile-SA/elasticsuite/pull/370
+
+diff --git a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+index dce43f7..e950db9 100644
+--- a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
++++ b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+@@ -557,7 +557,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+ 
+         // Pagination params.
+         $size = ($this->_pageSize !== false) ? $this->_pageSize : $this->getSize();
+-        $from = $size * (max(1, $this->_curPage) - 1);
++        $from = $size * (max(1, $this->getCurPage()) - 1);
+ 
+         // Setup sort orders.
+         $sortOrders = $this->prepareSortOrders();
