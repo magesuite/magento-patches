@@ -532,9 +532,14 @@
                     "version-constraint": "<=102.0.4"
                 },
                 {
-                    "description": "Fix duplicated footer in transactional emails template",
-                    "filename": "essential/m23-fix-customer-transaction-emails.patch",
+                    "description": "Fix duplicated footer in transactional emails template (2.3.3)",
+                    "filename": "essential/m233-fix-customer-transaction-emails.patch",
                     "version-constraint": "102.0.3"
+                },
+                {
+                    "description": "Fix duplicated footer in transactional emails template (2.3.4-2.3.5)",
+                    "filename": "essential/m234plus-fix-customer-transaction-emails.patch",
+                    "version-constraint": ">=102.0.4,<=102.0.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
@@ -723,7 +728,7 @@
                 {
                     "description": "Fix missing paragraph tags in subscription email templates",
                     "filename": "essential/m23-fix-newsletter-subscription-emails.patch",
-                    "version-constraint": "100.3.3"
+                    "version-constraint": ">=100.3.3,<=100.3.5"
                 }
             ]
         }
