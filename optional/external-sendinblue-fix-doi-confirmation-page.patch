@@ -1,0 +1,27 @@
+diff --git a/Controller/Index/Index.php b/Controller/Index/Index.php
+index 8b4ea10..129b9be 100644
+--- a/Controller/Index/Index.php
++++ b/Controller/Index/Index.php
+@@ -40,7 +40,7 @@ class Index extends \Magento\Framework\App\Action\Action
+     public function dubleoptinProcess($userEmail)
+     {
+         $nlStatus = $this->_model->checkNlStatus($userEmail);
+-        if (!empty($userEmail) && $nlStatus = 1) {
++        if (!empty($userEmail) && $nlStatus == 1) {
+             $apiKey = $this->_model->getDbData('api_key');
+             $optinListId = $this->_model->getDbData('optin_list_id');
+             $listId = $this->_model->getDbData('selected_list_data');
+@@ -65,11 +65,11 @@ class Index extends \Magento\Framework\App\Action\Action
+         $optinUrlCheck = $this->_model->getDbData('optin_url_check');
+         if ($optinUrlCheck === 'yes' && !empty($doubleoptinRedirect)) {
+             header("Location: ".$doubleoptinRedirect);
+-            ob_flush_end();
++            ob_end_flush();
+         } else {
+             $shopName = $_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'];
+             header("Location: ".$shopName);
+-            ob_flush_end();
++            ob_end_flush();
+         }
+     }
+     

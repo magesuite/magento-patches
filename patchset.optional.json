@@ -392,6 +392,11 @@
                 "description": "Fix for not not set transport object (breaking transactional email)",
                 "filename": "optional/external-sendinblue-set-default-transport.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix for error on Sendniblue doi confirmation page",
+                "filename": "optional/external-sendinblue-fix-doi-confirmation-page.patch",
+                "version-constraint": "*"
             }
         ],
         "wyomind/datafeedmanager" : [
