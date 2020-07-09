@@ -378,6 +378,11 @@
                 "description": "Changed limit for order export street fields",
                 "filename": "optional/external-postnl-order-street-fields-limit.patch",
                 "version_constraint": "*"
+            },
+            {
+                "description": "Removed not needed order complete before shipment creation process",
+                "filename": "optional/external-postnl-remove-complete-order-before-shipment-process.patch",
+                "version_constraint": "*"
             }
         ],
         "magento/module-url-rewrite": [
