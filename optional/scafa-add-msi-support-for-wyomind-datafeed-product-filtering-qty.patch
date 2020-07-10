@@ -1,0 +1,54 @@
+Temporary patch to fix wyomind data feed module, to correctly filter products by qty, if store has msi enabled.
+Ported from KRG for newer DataFeedManager version.
+
+diff --git a/Model/ResourceModel/Product/Collection.php b/Model/ResourceModel/Product/Collection.php
+index ec2a748..4c38196 100644
+--- a/Model/ResourceModel/Product/Collection.php
++++ b/Model/ResourceModel/Product/Collection.php
+@@ -221,7 +221,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+         $tableCpsl = $connection->getTableName('catalog_product_super_link');
+         $tableCpe = $connection->getTableName("catalog_product_entity");
+         $tableCce = $connection->getTableName("catalog_category_entity");
+-        $tableCsi = $connection->getTableName('cataloginventory_stock_item');
++        $tableCsi = $connection->getTableName('inventory_stock_4');
+         $tableCur = $connection->getTableName('url_rewrite');
+         $tableCcpi = $connection->getTableName('catalog_category_product_index');
+         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+@@ -280,26 +280,14 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+                         if ($a > 0) {
+                             $where .= ' ' . $attributeFilter->statement . ' ';
+                         }
+-                        $where .= ' qty ' . sprintf($condition[$attributeFilter->condition], $attributeFilter->value);
++                        $where.=' quantity ' . sprintf($condition[$attributeFilter->condition], $attributeFilter->value);
+                         $a++;
+                         break;
+                     case 'is_in_stock':
+                         if ($a > 0) {
+                             $where .= ' ' . $attributeFilter->statement . ' ';
+                         }
+-                        $where .= "(IF(";
+-                        // use_config_manage_stock=1 && default_manage_stock=0
+-                        $where .= "(use_config_manage_stock=1 AND {$manageStock}=0)";
+-                        // use_config_manage_stock=0 && manage_stock=0
+-                        $where .= " OR ";
+-                        $where .= "(use_config_manage_stock=0 AND manage_stock=0)";
+-                        // use_config_manage_stock=1 && default_manage_stock=1 && in_stock=1
+-                        $where .= " OR ";
+-                        $where .= "(use_config_manage_stock=1 AND {$manageStock}=1 AND is_in_stock=1 )";
+-                        // use_config_manage_stock=0 && manage_stock=1 && in_stock=1
+-                        $where .= " OR ";
+-                        $where .= "(use_config_manage_stock=0 AND manage_stock=1 AND is_in_stock=1 )";
+-                        $where .= ",'1','0')" . sprintf($condition[$attributeFilter->condition], $attributeFilter->value) . ")";
++                        $where.=' is_salable=1 ';
+                         $a++;
+                         break;
+                     default:
+@@ -335,7 +323,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+         if (count($tempFilter)) {
+             $this->addFieldToFilter($tempFilter);
+         }
+-        $this->getSelect()->joinLeft(['stock' => $tableCsi], "stock.product_id=e.entity_id", ["qty" => "qty", "is_in_stock" => "is_in_stock", "manage_stock" => "manage_stock", "use_config_manage_stock" => "use_config_manage_stock", "backorders" => "backorders", "use_config_backorders" => "use_config_backorders"]);
++        $this->getSelect()->joinLeft(['stock'=>$tableCsi], "stock.sku=e.sku", ["quantity"=>"quantity", "is_salable"=>"is_salable"]);
+         $this->getSelect()->joinLeft(['url' => $tableCur], "url.entity_id=e.entity_id " . $notLike . " AND url.entity_type ='product' AND url.store_id=" . $storeId, ["request_path" => $concat . "(DISTINCT request_path)"]);
+         $this->getSelect()->joinLeft(["curpc" => $tableCurpc], "url.url_rewrite_id=curpc.url_rewrite_id ");
+         if ($categoriesFilterList[0] != "*") {
