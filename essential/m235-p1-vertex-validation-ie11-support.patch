@@ -1,0 +1,22 @@
+diff --git a/view/frontend/web/js/view/validation-message.js b/view/frontend/web/js/view/validation-message.js
+index 67006b2..d4bb979 100644
+--- a/view/frontend/web/js/view/validation-message.js
++++ b/view/frontend/web/js/view/validation-message.js
+@@ -23,7 +23,7 @@ define([
+          */
+         initObservable: function () {
+             this.hasMessage = ko.pureComputed(function() {
+-                return Object.entries(this.message).length !== 0;
++                return Object.keys(this.message).length !== 0;
+             }.bind(this));
+ 
+             return this._super();
+@@ -75,7 +75,7 @@ define([
+             var message = this.message;
+ 
+             return ko.computed(function () {
+-                return Object.entries(message).length !== 0
++                return Object.keys(message).length !== 0
+             });
+         },
+ 
