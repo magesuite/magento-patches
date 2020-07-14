@@ -730,6 +730,13 @@
                     "filename": "essential/m23-fix-newsletter-subscription-emails.patch",
                     "version-constraint": ">=100.3.3,<=100.3.5"
                 }
+            ],
+            "vertex/module-address-validation": [
+                {
+                    "description": "Replace Object.entries with Object.keys to support IE11 (DOG-486)",
+                    "filename": "essential/m235-p1-vertex-validation-ie11-support.patch",
+                    "version-constraint": "1.1.0"
+                }
             ]
         }
     }
