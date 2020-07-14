@@ -1,0 +1,37 @@
+Based on: https://github.com/cogensoft-uk/magento-category-image-fix/blob/master/Cogensoft/Catalog/Model/Category/Attribute/Backend/Image.php
+Original issue: https://github.com/magento/magento2/issues/25099
+
+diff --git a/Model/Category/Attribute/Backend/Image.php b/Model/Category/Attribute/Backend/Image.php
+index ae5727a..dbddfe4 100644
+--- a/Model/Category/Attribute/Backend/Image.php
++++ b/Model/Category/Attribute/Backend/Image.php
+@@ -136,6 +136,10 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+     public function beforeSave($object)
+     {
+         $attributeName = $this->getAttribute()->getName();
++
++        $previousImage = $object->getData($attributeName);
++        $previousImageName = $this->getUploadedImageName($previousImage);
++
+         $value = $object->getData($attributeName);
+ 
+         if ($this->isTmpFileAvailable($value) && $imageName = $this->getUploadedImageName($value)) {
+@@ -166,7 +170,17 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+             $object->setData($attributeName, null);
+         }
+ 
+-        return parent::beforeSave($object);
++        $result = parent::beforeSave($object);
++
++        //Workaround for category image rename on save - https://github.com/magento/magento2/issues/25099
++        $newImage = $object->getData('_additional_data_' . $attributeName);
++        $newImageName = $object->getData($attributeName);
++
++        if($newImageName != $previousImageName && $newImage == $previousImage) {
++            $object->setData($attributeName, $previousImageName);
++        }
++
++        return $result;
+     }
+ 
+     /**

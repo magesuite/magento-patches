@@ -326,6 +326,11 @@
                     "version-constraint": "103.0.3"
                 },
                 {
+                    "description": "Category image deletes after initial upload and category save v2.3.5",
+                    "filename": "essential/m235-fix-category-image-missing-after-save.patch",
+                    "version-constraint": ">=103.0.5"
+                },
+                {
                     "description": "Catalog product flat table is not updated when attribute is null",
                     "filename": "essential/m23plus-fix-flat-table-indexer-on-null.patch",
                     "version-constraint": ">103.0.0"
