@@ -1,0 +1,18 @@
+diff --git a/Model/Rewrite/Product/Type/Configurable/Price.php b/Model/Rewrite/Product/Type/Configurable/Price.php
+index 9dcb128..37fb36e 100644
+--- a/Model/Rewrite/Product/Type/Configurable/Price.php
++++ b/Model/Rewrite/Product/Type/Configurable/Price.php
+@@ -272,11 +272,9 @@ class Price extends \Magento\ConfigurableProduct\Model\Product\Type\Configurable
+      */
+     protected function _getTotalQty($product)
+     {
+-        $action   = $this->request->getActionName();
+         $totalQty = null;
+-        if($action){
+-            $this->items = $this->_getAllItems();
+-        }
++        $this->items = $this->_getAllItems();
++
+         if ($items = $this->items) {
+             $pQtys = [];
+ 

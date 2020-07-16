@@ -429,6 +429,13 @@
                 "filename": "optional/msi-allow-create-shipment-for-not-available-products.patch",
                 "version-constraint": "*"
             }
+        ],
+        "best4mage/cptp": [
+            {
+                "description": "Patch to remove check for action when tier prices are applied in cart summary",
+                "filename": "optional/external-best4mage-remove-action-check.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }
