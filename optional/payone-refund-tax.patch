@@ -1,13 +1,15 @@
 diff --git a/Observer/Transactionstatus/Appointed.php b/Observer/Transactionstatus/Appointed.php
-index cdcb2b1..aa2d6fc 100644
+index c1cfc07..7bd8001 100644
 --- a/Observer/Transactionstatus/Appointed.php
 +++ b/Observer/Transactionstatus/Appointed.php
-@@ -137,6 +137,8 @@ class Appointed implements ObserverInterface
+@@ -137,6 +137,10 @@ class Appointed implements ObserverInterface
          $oInvoice->register();
          $oInvoice->save();
  
-+        $oOrder->setTaxInvoiced($oInvoice->getTaxAmount());
-+        $oOrder->setBaseTaxInvoiced($oInvoice->getBaseTaxAmount());
++        if($oInvoice->getItems()->count() > 0) {
++            $oOrder->setTaxInvoiced($oInvoice->getTaxAmount());
++            $oOrder->setBaseTaxInvoiced($oInvoice->getBaseTaxAmount());
++        }
          $oOrder->save();
  
          if ($this->baseHelper->getConfigParam('send_invoice_email', 'emails')) {
