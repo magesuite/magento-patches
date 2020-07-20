@@ -6,8 +6,8 @@ index cdcb2b1..aa2d6fc 100644
          $oInvoice->register();
          $oInvoice->save();
  
-+        $oOrder->setTaxInvoiced($oOrder->getTaxInvoiced() + $oInvoice->getTaxAmount());
-+        $oOrder->setBaseTaxInvoiced($oOrder->getBaseTaxInvoiced() + $oInvoice->getBaseTaxAmount());
++        $oOrder->setTaxInvoiced($oInvoice->getTaxAmount());
++        $oOrder->setBaseTaxInvoiced($oInvoice->getBaseTaxAmount());
          $oOrder->save();
  
          if ($this->baseHelper->getConfigParam('send_invoice_email', 'emails')) {
