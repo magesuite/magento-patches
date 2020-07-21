@@ -383,6 +383,11 @@
                 "description": "Removed not needed order complete before shipment creation process",
                 "filename": "optional/external-postnl-remove-complete-order-before-shipment-process.patch",
                 "version_constraint": "*"
+            },
+            {
+                "description": "Change product export ean field",
+                "filename": "optional/external-postnl-change-ean-export-field.patch",
+                "version_constraint": "*"
             }
         ],
         "magento/module-url-rewrite": [
