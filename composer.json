@@ -701,6 +701,18 @@
                     "version-constraint": ">=1.0.16"
                 }
             ],
+            "sendinblue/module-sendinblue": [
+                {
+                    "description": "Fix for not not set transport object (breaking transactional email)",
+                    "filename": "essential/external-sendinblue-set-default-transport.patch",
+                    "version-constraint": "*"
+                },
+                {
+                    "description": "Fix for error on Sendniblue doi confirmation page",
+                    "filename": "essential/external-sendinblue-fix-doi-confirmation-page.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "zendframework/zend-mail": [
                 {
                     "description": "Fix incorrect content-disposition header encoding that prevented emails to be sent using SES",
