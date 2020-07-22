@@ -69,7 +69,7 @@
             {
                 "description": "Patch to allow add huge xml elements without throwing error",
                 "filename": "optional/m233-fix-for-huge-xml-elements.patch",
-                "version-constraint": "*"
+                "version-constraint": "<=102.0.4"
             },
             {
                 "description": "Patch to fix product image cache generating wrong hashes",
@@ -382,6 +382,11 @@
             {
                 "description": "Removed not needed order complete before shipment creation process",
                 "filename": "optional/external-postnl-remove-complete-order-before-shipment-process.patch",
+                "version_constraint": "*"
+            },
+            {
+                "description": "Change product export ean field",
+                "filename": "optional/external-postnl-change-ean-export-field.patch",
                 "version_constraint": "*"
             }
         ],
