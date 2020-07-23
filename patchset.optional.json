@@ -420,7 +420,12 @@
             {
                 "description": "Patch to allow create shipment for items which are not in stock",
                 "filename": "optional/msi-allow-create-shipment-for-not-available-products.patch",
-                "version-constraint": "*"
+                "version-constraint": "1.0.6"
+            },
+            {
+                "description": "Patch to allow create shipment for items which are not in stock - Magento 2.3.5",
+                "filename": "optional/msi-allow-create-shipment-for-not-available-products-m235.patch",
+                "version-constraint": ">1.0.6"
             }
         ],
         "best4mage/cptp": [
