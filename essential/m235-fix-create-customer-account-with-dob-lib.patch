@@ -1,0 +1,32 @@
+Fixes Date of Birth validation if DOB is enabled in Customer Configuration.
+
+Bug confirmed present in 2.3.5. The fix should be officially released with 2.4.0. Fixed by Magento internal team.
+ 
+Commit: https://github.com/magento/magento2/commit/4ecae3093cfc04c0a7d66045e0b54b30c73112b3
+
+diff --git a/lib/web/mage/validation.js b/lib/web/mage/validation.js
+index 51c23a9..4b7b2b3 100644
+--- a/lib/web/mage/validation.js
++++ b/lib/web/mage/validation.js
+@@ -6,10 +6,11 @@
+ define([
+     'jquery',
+     'moment',
++    'mageUtils',
+     'jquery-ui-modules/widget',
+     'jquery/validate',
+     'mage/translate'
+-], function ($, moment) {
++], function ($, moment, utils) {
+     'use strict';
+ 
+     var creditCartTypes, rules, showLabel, originValidateDelegate;
+@@ -1032,7 +1033,7 @@ define([
+         ],
+         'validate-date': [
+             function (value, params, additionalParams) {
+-                var test = moment(value, additionalParams.dateFormat);
++                var test = moment(value, utils.convertToMomentFormat(additionalParams.dateFormat));
+ 
+                 return $.mage.isEmptyNoTrim(value) || test.isValid();
+             },
