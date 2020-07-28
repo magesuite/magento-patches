@@ -227,6 +227,11 @@
                     "description": "Lower main thread clogging during frontent initialization based on https://github.com/magento/magento2/pull/27360",
                     "filename": "essential/m23-fix-main-thread-blocking.patch",
                     "version-constraint": ">=2.3.0"
+                },
+                {
+                    "description": "Fixes Date of Birth validation if DOB is enabled in Customer Configuration",
+                    "filename": "essential/m235-fix-create-customer-account-with-dob-lib.patch",
+                    "version-constraint": "2.3.5"
                 }
             ],
             "magento/module-search": [
@@ -545,6 +550,11 @@
                     "description": "Fix duplicated footer in transactional emails template (2.3.4-2.3.5)",
                     "filename": "essential/m234plus-fix-customer-transaction-emails.patch",
                     "version-constraint": ">=102.0.4,<=102.0.5"
+                },
+                {
+                    "description": "Fixes Date of Birth validation if DOB is enabled in Customer Configuration",
+                    "filename": "essential/m235-fix-create-customer-account-with-dob.patch",
+                    "version-constraint": "102.0.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [

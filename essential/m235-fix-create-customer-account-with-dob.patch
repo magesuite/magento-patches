@@ -1,0 +1,60 @@
+Fixes Date of Birth validation if DOB is enabled in Customer Configuration.
+
+Bug confirmed present in 2.3.5. The fix should be officially released with 2.4.0. Fixed by Magento internal team.
+ 
+Commit: https://github.com/magento/magento2/commit/4ecae3093cfc04c0a7d66045e0b54b30c73112b3
+
+diff --git a/Block/Widget/Dob.php b/Block/Widget/Dob.php
+index e020de7..25db8fe 100644
+--- a/Block/Widget/Dob.php
++++ b/Block/Widget/Dob.php
+@@ -9,7 +9,7 @@ use Magento\Customer\Api\CustomerMetadataInterface;
+ use Magento\Framework\Api\ArrayObjectSearch;
+
+ /**
+- * Class Dob
++ * Customer date of birth attribute blocks
+  *
+  * @SuppressWarnings(PHPMD.DepthOfInheritance)
+  */
+@@ -267,7 +267,9 @@ class Dob extends AbstractWidget
+         $validators['validate-date'] = [
+             'dateFormat' => $this->getDateFormat()
+         ];
+-        $validators['validate-dob'] = true;
++        $validators['validate-dob'] = [
++            'dateFormat' => $this->getDateFormat()
++        ];
+
+         return 'data-validate="' . $this->_escaper->escapeHtml(json_encode($validators)) . '"';
+     }
+diff --git a/view/frontend/web/js/validation.js b/view/frontend/web/js/validation.js
+index 67a7142..181b0f6 100644
+--- a/view/frontend/web/js/validation.js
++++ b/view/frontend/web/js/validation.js
+@@ -1,19 +1,22 @@
+ define([
+     'jquery',
+     'moment',
++    'mageUtils',
+     'jquery/validate',
+     'mage/translate'
+-], function ($, moment) {
++], function ($, moment, utils) {
+     'use strict';
+
+     $.validator.addMethod(
+         'validate-dob',
+-        function (value) {
++        function (value, element, params) {
++            var dateFormat = utils.convertToMomentFormat(params.dateFormat);
++
+             if (value === '') {
+                 return true;
+             }
+
+-            return moment(value).isBefore(moment());
++            return moment(value, dateFormat).isBefore(moment());
+         },
+         $.mage.__('The Date of Birth should not be greater than today.')
+     );
