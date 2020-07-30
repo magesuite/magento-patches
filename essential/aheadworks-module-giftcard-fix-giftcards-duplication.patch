@@ -1,0 +1,34 @@
+diff --git a/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php b/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php
+index 9b60353..1a23a63 100644
+--- a/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php
++++ b/Plugin/Model/Quote/QuoteRepository/SaveHandlerPlugin.php
+@@ -59,6 +59,7 @@ class SaveHandlerPlugin
+     {
+         if ($quote->getExtensionAttributes() && $quote->getExtensionAttributes()->getAwGiftcardCodes()) {
+             $giftcards = $quote->getExtensionAttributes()->getAwGiftcardCodes();
++            $this->removeDuplicatedGiftcard($giftcards);
+             $this->saveGiftcards($giftcards);
+             if ($quote->getData('aw_giftcard_flag_notified') !== null) {
+                 $quote->setData('aw_giftcard_flag_notified', true);
+@@ -102,4 +103,21 @@ class SaveHandlerPlugin
+             }
+         }
+     }
++
++    /**
++     * @param GiftcardQuoteInterface[] $giftcards
++     * @return void
++     */
++    protected function removeDuplicatedGiftcard($giftcards)
++    {
++        $giftcardIds = [];
++
++        foreach ($giftcards as $giftcard) {
++            if (in_array($giftcard->getGiftcardId(), $giftcardIds)) {
++                $giftcard->setIsRemove(true);
++            } else {
++                $giftcardIds[] = $giftcard->getGiftcardId();
++            }
++        }
++    }
+ }
