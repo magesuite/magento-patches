@@ -110,6 +110,11 @@
                 "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",
                 "filename": "optional/m22-amasty-fix-adding-coupon-twice-in-cart.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fixes issue with not applying coupon correctly after visiting empty cart (HAAR-2127)",
+                "filename": "optional/amasty-xcoupon-fix-for-empty-cart.patch",
+                "version-constraint": "^1.1.0"
             }
         ],
         "amasty/promo": [
