@@ -26,6 +26,11 @@
                 "description": "Fix attribute code length from default 30 to 60 - fixed in magento 2.3",
                 "filename": "optional/m22-fix-maximum-length-of-attribute-code.patch",
                 "version-constraint": "101.0.*"
+            },
+            {
+                "description": "Change destination folder for customer attribute pet_image - Dogma",
+                "filename": "optional/dogma-customer-pet-image-change-destination-module-eav.patch",
+                "version-constraint": ">=102.0.5"
             }
         ],
         "magento/module-checkout": [
@@ -89,6 +94,11 @@
                 "description": "Fix order of top navigation items so they can be sorted using sortOrder directive in XML update",
                 "filename": "optional/m22-fix-order-of-top-navigation-links.patch",
                 "version-constraint": "101.0.*"
+            },
+            {
+                "description": "Change destination folder for customer attribute pet_image - Dogma",
+                "filename": "optional/dogma-customer-pet-image-change-destination-module-customer.patch",
+                "version-constraint": ">=102.0.5"
             }
         ],
         "magento/module-quote": [
