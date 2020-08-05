@@ -765,6 +765,13 @@
                     "version-constraint": ">=100.3.3,<=100.3.5"
                 }
             ],
+            "magento/module-gift-card": [
+                {
+                    "description": "Fixing issue with multiple giftcard codes generated when invoice is updated (DOG-530)",
+                    "filename": "essential/m23c-fix-duplicated-giftcard-codes-after-edit-invoice.patch",
+                    "version-constraint": ">=101.2.5"
+                }
+            ],
             "vertex/module-address-validation": [
                 {
                     "description": "Replace Object.entries with Object.keys to support IE11 (DOG-486)",
