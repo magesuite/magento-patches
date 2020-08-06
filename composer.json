@@ -251,7 +251,7 @@
                 {
                     "description": "Lower main thread clogging during frontent initialization based on https://github.com/magento/magento2/pull/27360",
                     "filename": "essential/m23-fix-main-thread-blocking.patch",
-                    "version-constraint": ">=2.3.0"
+                    "version-constraint": ">=2.3.0,<2.4.0"
                 },
                 {
                     "description": "Fixes Date of Birth validation if DOB is enabled in Customer Configuration",
