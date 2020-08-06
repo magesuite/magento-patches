@@ -1,0 +1,35 @@
+Change variable name from p_id to ID in order to fix product click event
+
+diff --git a/view/frontend/web/js/product-click-datalayer.js b/view/frontend/web/js/product-click-datalayer.js
+index c49de22..61ba509 100644
+--- a/view/frontend/web/js/product-click-datalayer.js
++++ b/view/frontend/web/js/product-click-datalayer.js
+@@ -28,10 +28,10 @@ define([
+         if (dataLayerArray.length) {
+             _.each(dataLayerArray, function (productObj) {
+
+-                if (_.has(productObj, 'p_id')) {
++                if (_.has(productObj, 'ID')) {
+                     var product = {
+                         'name': productObj.name,
+-                        'id': productObj.id,
++                        'id': productObj.ID,
+                         'price': productObj.price,
+                         //'brand': productObj.brand,
+                         //'variant': productObj.variant,
+@@ -42,7 +42,7 @@ define([
+                         product['category'] =  productObj.category;
+                     }
+
+-                    products[productObj.p_id] = [product];
++                    products[productObj.ID] = [product];
+                 }
+             });
+         }
+@@ -120,4 +120,4 @@ define([
+         productCollection = getItemImpression(dataLayer);
+
+     }
+-});
+\ No newline at end of file
++});

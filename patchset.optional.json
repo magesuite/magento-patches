@@ -338,6 +338,11 @@
                 "description": "Include grouped product addtocart url",
                 "filename": "optional/magepal-lp-include-grouped-product-addtocart-url.patch",
                 "version-constraint": "^1.2.0"
+            },
+            {
+                "description": "Fix product id variable in product click event (from p_id to ID)",
+                "filename": "optional/magepal-lp-fix-product-id-variable-in-product-click.patch",
+                "version-constraint": "^1.2.0"
             }
         ],
         "magento/module-gift-card-account": [
