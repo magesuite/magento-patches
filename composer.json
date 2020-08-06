@@ -167,7 +167,7 @@
                 {
                     "description": "Do not try to send vary if headers already sent",
                     "filename": "essential/m23-do-not-send-vary-if-headers-already-sent.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=100.3.0,<100.4.0"
                 }
             ],
             "magento/module-sales": [
