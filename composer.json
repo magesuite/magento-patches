@@ -84,7 +84,7 @@
                 {
                     "description": "Fix autoloader registry that breaks integration tests",
                     "filename": "essential/m235-fix-autoloader-registry.patch",
-                    "version-constraint": ">=102.0.5"
+                    "version-constraint": ">=102.0.5,<103.0.0"
                 },
                 {
                     "description": "Add product metadata version caching for older than 2.3.3",
