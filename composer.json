@@ -395,7 +395,7 @@
                 {
                     "description": "Add autocomplete to checkout inputs - xml config",
                     "filename": "essential/autocomplete-checkout-inputs-xml.patch",
-                    "version-constraint": ">=100.3.2"
+                    "version-constraint": ">=100.3.2,<100.4.0"
                 },
                 {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
