@@ -92,6 +92,11 @@
                     "description": "Add autocomplete to checkout inputs - setup",
                     "filename": "essential/autocomplete-checkout-inputs-setup.patch",
                     "version-constraint": ">=101.1.2"
+                },
+                {
+                    "description": "Fix block-loader image url",
+                    "filename": "essential/m24-fix-block-loader-image-url.patch",
+                    "version-constraint": ">=101.1.2, <101.2.0"
                 }
             ],
             "magento/module-persistent": [
