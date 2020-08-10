@@ -1,0 +1,16 @@
+Fixing issue with multiple giftcard codes generated when invoice is updated.
+Logic based on condition from Magento\GiftCard\Observer\GenerateGiftCardAccountsOrder.
+
+index 76d0283..b0ee76d 100644
+--- a/Observer/GenerateGiftCardAccountsInvoice.php
++++ b/Observer/GenerateGiftCardAccountsInvoice.php
+@@ -97,6 +97,9 @@ class GenerateGiftCardAccountsInvoice implements ObserverInterface
+             }
+ 
+             $options = $orderItem->getProductOptions();
++            if (isset($options['giftcard_created_codes'])) {
++                $qty -= count($options['giftcard_created_codes']);
++            }
+             if ($qty > 0) {
+                 $options['giftcard_paid_invoice_items'][] = $orderItem->getItemId();
+             }
