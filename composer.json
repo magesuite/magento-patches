@@ -285,9 +285,9 @@
                     "version-constraint": "2.9.1"
                 },
                 {
-                    "description": "Fix pageSize issue introduced in 2.9.1 and 2.8.9",
+                    "description": "Fix pageSize issue introduced in 2.9.2 and 2.8.9",
                     "filename": "essential/smile-elasticsuite-292-page-size-issue.patch",
-                    "version-constraint": "2.9.1,2.8.9"
+                    "version-constraint": "2.9.2,2.8.9"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
