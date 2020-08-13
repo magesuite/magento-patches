@@ -1,4 +1,3 @@
-https://github.com/Smile-SA/elasticsuite/pull/1914/files
 diff --git a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
 index 076210b..7e793d9 100644
 --- a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
