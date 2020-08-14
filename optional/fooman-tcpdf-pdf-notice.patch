@@ -1,0 +1,22 @@
+diff --git a/tcpdf.php b/tcpdf.php
+index 7400196..4b0c43d 100644
+--- a/tcpdf.php
++++ b/tcpdf.php
+@@ -16539,7 +16539,7 @@ class TCPDF {
+ 						$dom[($dom[$key]['parent'])]['content'] = str_replace('</thead>', '', $dom[($dom[$key]['parent'])]['content']);
+ 					}
+ 					// store header rows on a new table
+-					if (($dom[$key]['value'] == 'tr') AND ($dom[($dom[$key]['parent'])]['thead'] === true)) {
++					if (($dom[$key]['value'] == 'tr') AND isset($dom[($dom[$key]['parent'])]['thead']) AND ($dom[($dom[$key]['parent'])]['thead'] === true)) {
+ 						if (TCPDF_STATIC::empty_string($dom[($dom[($dom[$key]['parent'])]['parent'])]['thead'])) {
+ 							$dom[($dom[($dom[$key]['parent'])]['parent'])]['thead'] = $csstagarray.$a[$dom[($dom[($dom[$key]['parent'])]['parent'])]['elkey']];
+ 						}
+@@ -16552,7 +16552,7 @@ class TCPDF {
+ 						// header elements must be always contained in a single page
+ 						$dom[($dom[$key]['parent'])]['attribute']['nobr'] = 'true';
+ 					}
+-					if (($dom[$key]['value'] == 'table') AND (!TCPDF_STATIC::empty_string($dom[($dom[$key]['parent'])]['thead']))) {
++					if (($dom[$key]['value'] == 'table') AND isset($dom[($dom[$key]['parent'])]['thead']) AND (!TCPDF_STATIC::empty_string($dom[($dom[$key]['parent'])]['thead']))) {
+ 						// remove the nobr attributes from the table header
+ 						$dom[($dom[$key]['parent'])]['thead'] = str_replace(' nobr="true"', '', $dom[($dom[$key]['parent'])]['thead']);
+ 						$dom[($dom[$key]['parent'])]['thead'] .= '</tablehead>';

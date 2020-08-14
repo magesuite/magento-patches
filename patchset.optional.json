@@ -454,6 +454,13 @@
                 "filename": "optional/external-best4mage-remove-action-check.patch",
                 "version-constraint": "*"
             }
+        ],
+        "fooman/tcpdf": [
+            {
+                "description": "Fix notice while generating PDF",
+                "filename": "optional/fooman-tcpdf-pdf-notice.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }
