@@ -1,0 +1,12 @@
+diff --git a/Observer/SendOrderToEkomi.php b/Observer/SendOrderToEkomi.php
+index 174a38a..2cc2243 100644
+--- a/Observer/SendOrderToEkomi.php
++++ b/Observer/SendOrderToEkomi.php
+@@ -11,7 +11,6 @@
+ namespace Ekomi\EkomiIntegration\Observer;
+ 
+ use Magento\Framework\Event\ObserverInterface;
+-use Magento\Framework\DataObject as Object;
+ use Magento\Framework\HTTP\Client\Curl;
+ use Ekomi\EkomiIntegration\Helper\Data;
+ use Psr\Log\LoggerInterface;

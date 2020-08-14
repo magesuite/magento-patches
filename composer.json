@@ -783,6 +783,13 @@
                     "filename": "essential/m235-p1-vertex-validation-ie11-support.patch",
                     "version-constraint": "1.1.0"
                 }
+            ],
+            "ekomiltd/ekomiintegration": [
+                {
+                    "description": "Removed not needed DataObject usage",
+                    "filename": "essential/ekomi-remove-wrong-class-usage.patch",
+                    "version-constraint": "^1.3.0"
+                }
             ]
         }
     }
