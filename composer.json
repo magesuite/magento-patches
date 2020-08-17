@@ -283,6 +283,16 @@
                     "description": "Fix for 404 after changing products per page settings in pager on last page",
                     "filename": "essential/smile-elasticsuite-fix-last-page-404-after-changing-per-page.patch",
                     "version-constraint": "2.9.1"
+                },
+                {
+                    "description": "Fix pageSize issue introduced in 2.9.2",
+                    "filename": "essential/smile-elasticsuite-292-page-size-issue.patch",
+                    "version-constraint": "2.9.2"
+                },
+                {
+                    "description": "Fix pageSize issue introduced in 2.8.9",
+                    "filename": "essential/smile-elasticsuite-289-page-size-issue.patch",
+                    "version-constraint": "2.8.9"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [

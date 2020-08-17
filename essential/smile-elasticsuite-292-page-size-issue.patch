@@ -1,0 +1,40 @@
+diff --git a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+index 076210b..7e793d9 100644
+--- a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
++++ b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+@@ -407,6 +407,24 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+         return $this;
+     }
+
++    /**
++     * Get actual page size if is defined or return all results.
++     *
++     * @return integer|false
++     */
++    public function getPageSize()
++    {
++        if ($this->_pageSize !== false) {
++            return $this->_pageSize;
++        }
++
++        if ($this->originalPageSize !== false) {
++            return $this->originalPageSize;
++        }
++
++        return $this->getSize();
++    }
++
+     /**
+      * @SuppressWarnings(PHPMD.CamelCaseMethodName)
+      *
+@@ -573,8 +591,8 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+         $searchRequestName = $this->searchRequestName;
+
+         // Pagination params.
+-        $size = ($this->_pageSize !== false) ? $this->_pageSize : $this->getSize();
+-        $from = $size * (max(1, $this->getCurPage()) - 1);
++        $size = $this->getPageSize();
++        $from = $size * (max(1, $this->_curPage) - 1);
+
+         // Setup sort orders.
+         $sortOrders = $this->prepareSortOrders();
