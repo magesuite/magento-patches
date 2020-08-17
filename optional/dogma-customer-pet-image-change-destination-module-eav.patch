@@ -1,10 +1,10 @@
 Two patches added to change destination directory for custom customer attribute pet_image from default `pub/media/customer` to `pub/media/pet_image` to allow displaying this image on the frontend.
 Patches: dogma-customer-pet-image-change-destination-module-customer.patch, dogma-customer-pet-image-change-destination-module-eav.patch
 
-index a52c882..f8061fd 100644
+index bf5e03b..7f0585d 100644
 --- a/Model/Attribute/Data/File.php
 +++ b/Model/Attribute/Data/File.php
-@@ -176,7 +176,12 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
+@@ -192,7 +192,12 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
          $fileData = $value;
  
          if (is_string($value) && !empty($value)) {
@@ -15,6 +15,6 @@ index a52c882..f8061fd 100644
 +                $dir = $this->_directory->getAbsolutePath($this->getAttribute()->getEntityType()->getEntityTypeCode());
 +            }
 +
+             $stat = $this->_directory->getDriver()->stat($dir . $value);
              $fileData = [
-                 'size' => filesize($dir . $value),
-                 'name' => $value,
+                 'size' => $stat['size'],
