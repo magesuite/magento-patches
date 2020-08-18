@@ -173,6 +173,11 @@
                 "description": "Fix wrong type of amazon_order_reference_id",
                 "filename": "optional/m22-fix-amazon-pay-extension-attribute.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix missing extension attribute amazonOrderReferenceId",
+                "filename": "optional/fix-amazon-pay-missing-extension-attribute.patch",
+                "version-constraint": "<3.6.0"
             }
         ],
         "magento/module-offline-shipping": [

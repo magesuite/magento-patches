@@ -1,0 +1,16 @@
+Original PR: https://github.com/amzn/amazon-payments-magento-2-plugin/pull/735
+
+index ba1a383..9cbcb5d 100644
+--- a/Plugin/ShippingInformationManagement.php
++++ b/Plugin/ShippingInformationManagement.php
+@@ -80,6 +80,10 @@ class ShippingInformationManagement
+             return $return;
+         }
+ 
++        if (!$quote->getExtensionAttributes()->getAmazonOrderReferenceId()) {
++            return $return;
++        }
++
+         $amazonOrderReferenceId = $quote->getExtensionAttributes()
+             ->getAmazonOrderReferenceId()
+             ->getAmazonOrderReferenceId();
