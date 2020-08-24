@@ -307,6 +307,11 @@
                     "description": "Fix stock indexer to correctly reindex stock using materialized views (Magento 2.2.0-2.2.4)",
                     "filename": "essential/m22-fix-stock-mview-indexing.patch",
                     "version-constraint": "~100.2.0,<=100.2.3"
+                },
+                {
+                    "description": "Forward port changes that were introduced in 2.2.5, but was not included in Magento 2.3",
+                    "filename": "essential/fix-stock-inventory-reindex-bug.patch",
+                    "version-constraint": ">100.2.4,<100.3.5"
                 }
             ],
             "magento/module-catalog": [
