@@ -790,8 +790,8 @@
             "vertex/module-address-validation": [
                 {
                     "description": "Replace Object.entries with Object.keys to support IE11 (DOG-486)",
-                    "filename": "essential/m235-p1-vertex-validation-ie11-support.patch",
-                    "version-constraint": "1.1.0"
+                    "filename": "essential/m235-vertex-validation-ie11-support.patch",
+                    "version-constraint": ">=1.1.0,<=1.1.1"
                 }
             ]
         }
