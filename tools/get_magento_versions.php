@@ -8,105 +8,131 @@
 
 class Repo {
 
-    const REPO_URL = 'https://f52fd8699d9ce4d436289cdad01b256a:f8f11de4a4c6b95223b2566789586f9b@repo.magento.com/packages.json';
-    const REPO_FILE = './tmp.repo.magento.com.json';
+    const REPO_USERNAME = 'f52fd8699d9ce4d436289cdad01b256a';
 
-    private $repoData;
+    const REPO_PASSWORD = 'f8f11de4a4c6b95223b2566789586f9b';
+
+    const REPO_URL = 'https://repo.magento.com/';
+
+    const REPO_PACKAGES_FILENAME = 'packages.json';
+
+    protected $providersUrl;
+
+    protected $modules = [];
 
     public function __construct()
     {
-        $this->repoData = $this->getRepoData();
+        $this->modules = $this->getPackageVersionProviders();
     }
 
-    private function getRepoData()
+    public function getRequiredPackagesVersions($requestedMagentoVersion = null, $packageName = null)
     {
-        if (!file_exists(self::REPO_FILE)) {
-            file_put_contents(self::REPO_FILE, file_get_contents(self::REPO_URL));
+        $magentoPackages = $this->getPackageInformation(
+            'magento/product-community-edition',
+            $requestedMagentoVersion ? '/^' . str_replace('.', '\.', $requestedMagentoVersion) .'/' : null
+        );
+
+        $result = [];
+        ksort($magentoPackages);
+        foreach ($magentoPackages as $magentoPackage) {
+            $magentoVersion = $magentoPackage['version'];
+            $result[$magentoVersion] = $packageName ?
+                $this->getMagentoRequiredPackage($magentoPackage['require'], $packageName) :
+                $this->getMagentoRequiredPackages($magentoPackage['require']);
         }
 
-        return json_decode(file_get_contents(self::REPO_FILE), true);
+        return $result;
     }
 
-    public function getPackageData($packageName)
+    protected function getMagentoRequiredPackage($require, $packageName)
     {
-        if (!isset($this->repoData['packages'][$packageName])) {
-            return null;
+        if(! isset($require[$packageName])) {
+            throw new \Exception('Module not found.');
         }
 
-        return $this->repoData['packages'][$packageName];
+        $result[$packageName] = $require[$packageName];
+        return $result;
     }
 
-    public function getPackageVersions($packageName, $match = null)
+    protected function getMagentoRequiredPackages($require)
     {
-        if (null === $package = $this->getPackageData($packageName)) {
-            return null;
+        $result = [];
+
+
+        ksort($require);
+        foreach ($require as $name => $version) {
+            $result[$name] = $version;
         }
 
-        $versions = array_keys($package);
+        return $result;
+    }
 
-        if (null !== $match) {
-            $versions = array_filter($versions, function($verString) use ($match) {
-                return preg_match($match, $verString);
-            });
+    public function getPackageInformation($packageName, $versionMatch = null)
+    {
+        $module = $this->modules[$packageName];
+        if (empty($module)) {
+            throw new \Exception('Module not found.');
+        }
+
+        $sha256 = $module['sha256'];
+        $url = str_replace('%package%', $packageName, $this->providersUrl);
+        $url = str_replace('%hash%', $sha256, $url);
+
+        $data = $this->getJsonDataFromRepo($url, true);
+        $versions = $data['packages'][$packageName];
+
+        if($versionMatch) {
+            $versions = array_filter($versions, function ($version) use ($versionMatch) {
+                return preg_match($versionMatch, $version);
+            }, ARRAY_FILTER_USE_KEY);
         }
 
         return $versions;
     }
 
-    public function getPackageRequires($packageName, $packageVersion, $match = null)
+    protected function getPackageVersionProviders($providerType = 'provider-ce')
     {
-        if (!isset($this->repoData['packages'][$packageName][$packageVersion]['require'])) {
-            return null;
+        $packages = $this->getJsonDataFromRepo(self::REPO_PACKAGES_FILENAME);
+        $this->providersUrl = trim($packages['providers-url'], '/');
+
+        $modules = [];
+        foreach ($packages['provider-includes'] as $urlScheme => $provider) {
+            $url = str_replace('%hash%', $provider['sha256'], $urlScheme);
+            $providers = $this->getJsonDataFromRepo($url);
+            $modules = array_merge($modules, $providers['providers']);
         }
 
-        $require = $this->repoData['packages'][$packageName][$packageVersion]['require'];
+        return $modules;
+    }
 
-        if (null !== $match) {
-            $require = array_filter($require, function($version, $name) use ($match) {
-                return preg_match($match, $name);
-            }, ARRAY_FILTER_USE_BOTH);
+    protected function getJsonDataFromRepo($path, $isGziped = false)
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, self::REPO_URL.$path);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_USERPWD, self::REPO_USERNAME . ':' . self::REPO_PASSWORD);
+        curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/json'));
+
+        if($isGziped) {
+            curl_setopt($ch,CURLOPT_ENCODING , "gzip");
         }
 
-        return $require;
+        $output = curl_exec($ch);
+        curl_close($ch);
+
+        return json_decode($output, true);
     }
 }
-
-$repo = new Repo();
 
 $requestedMagentoVersion = isset($argv[1]) ? $argv[1] : null;
 $packageName = isset($argv[2]) ? $argv[2] : null;
 
+$repo = new Repo();
+$result = $repo->getRequiredPackagesVersions($requestedMagentoVersion, $packageName);
 
-$magentoVersions = $repo->getPackageVersions(
-    'magento/product-community-edition',
-    $requestedMagentoVersion ? '/^' . str_replace('.', '\.', $requestedMagentoVersion) .'/' : null
-);
-
-
-sort($magentoVersions);
-
-foreach ($magentoVersions as $foundMagentoVersion) {
-    if (!$packageName) {
-        echo "--- magento/product-community-edition [$foundMagentoVersion] ---\n";
-    }
-
-    $requires = $repo->getPackageRequires(
-        'magento/product-community-edition',
-        $foundMagentoVersion,
-        $packageName ? '~^' . $packageName . '$~' : '~^magento/~'
-    );
-
-    ksort($requires);
-
-    foreach ($requires as $name => $version) {
-        echo "$name [$version]";
-
-        if ($packageName) {
-            echo "  (from magento/product-community-edition [$foundMagentoVersion])";
-        }
-
-        echo "\n";
+foreach ($result as $magentoVersion => $packages) {
+    echo "--- magento/product-community-edition [$magentoVersion] ---\n";
+    foreach ($packages as $name => $version) {
+        echo "$name [$version]\n";
     }
 }
-
-
