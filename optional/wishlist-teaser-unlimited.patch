@@ -1,0 +1,13 @@
+diff --git a/CustomerData/Wishlist.php b/CustomerData/Wishlist.php
+index ae54289..0f73113 100644
+--- a/CustomerData/Wishlist.php
++++ b/CustomerData/Wishlist.php
+@@ -17,7 +17,7 @@ class Wishlist implements SectionSourceInterface
+     /**
+      * @var string
+      */
+-    const SIDEBAR_ITEMS_NUMBER = 3;
++    const SIDEBAR_ITEMS_NUMBER = 999;
+ 
+     /**
+      * @var \Magento\Wishlist\Helper\Data
