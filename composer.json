@@ -85,6 +85,11 @@
                     "description": "Add product metadata version caching for older than 2.3.3",
                     "filename": "essential/m232minus-product-metadata-cache.patch",
                     "version-constraint": "<102.0.3"
+                },
+                {
+                    "description": "Fix dates in invoice PDF files",
+                    "filename": "essential/fix-invalid-date-in-invoice-pdf.patch",
+                    "version-constraint": ">=102.0.4,<103.0.0"
                 }
             ],
             "magento/module-ui": [
