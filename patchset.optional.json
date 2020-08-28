@@ -113,6 +113,11 @@
                 "description": "Fix invalid invoice qty when bundle products are present in the order",
                 "filename": "optional/m23-fix-invalid-invoice-qty-for-bundles.patch",
                 "version-constraint": "102.0.2"
+            },
+            {
+                "description": "Save address in address book opt-in while creating order from admin panel",
+                "filename": "optional/save-address-admin-opt-in.patch",
+                "version-constraint": "^102.0.2"
             }
         ],
         "amasty/module-xcoupon": [
