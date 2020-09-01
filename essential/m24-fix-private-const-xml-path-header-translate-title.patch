@@ -1,0 +1,13 @@
+diff --git a/Block/Html/Title.php b/Block/Html/Title.php
+index 9059afe..b16b314 100644
+--- a/Block/Html/Title.php
++++ b/Block/Html/Title.php
+@@ -24,7 +24,7 @@ class Title extends Template
+     /**
+      * Config path to 'Translate Title' header settings
+      */
+-    private const XML_PATH_HEADER_TRANSLATE_TITLE = 'design/header/translate_title';
++    public const XML_PATH_HEADER_TRANSLATE_TITLE = 'design/header/translate_title';
+ 
+     /**
+      * @var ScopeConfigInterface
