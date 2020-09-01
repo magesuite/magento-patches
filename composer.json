@@ -825,6 +825,13 @@
                     "version-constraint": ">=4.6.0"
                 }
             ],
+            "dotmailer/dotmailer-magento2-extension-chat": [
+                {
+                    "description": "Fix dotmailer-chat setUp and tearDown declarations in integration tests",
+                    "filename": "essential/m24-dotmailer-chat-fix-tests-setup-teardown.patch",
+                    "version-constraint": ">=1.1.0"
+                }
+            ],
             "magento/module-newsletter": [
                 {
                     "description": "Fix missing paragraph tags in subscription email templates",
