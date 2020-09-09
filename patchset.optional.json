@@ -471,6 +471,13 @@
                 "filename": "optional/external-best4mage-remove-action-check.patch",
                 "version-constraint": "*"
             }
+        ],
+        "aheadworks/module-reviewreminder": [
+            {
+                "description": "Disable adding old orders to custom table during install of the module",
+                "filename": "optional/aheadworks-review-reminder-disabling-adding-old-orders-during-install.patch",
+                "version-constraint": "^1.0.4"
+            }
         ]
     }
 }

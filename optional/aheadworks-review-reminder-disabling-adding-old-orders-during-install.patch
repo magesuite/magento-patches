@@ -1,0 +1,20 @@
+diff --git a/Setup/InstallData.php b/Setup/InstallData.php
+index ef9ff54..8d13cbd 100644
+--- a/Setup/InstallData.php
++++ b/Setup/InstallData.php
+@@ -107,10 +107,11 @@ class InstallData implements InstallDataInterface
+             }
+         }
+ 
+-        $this->state->emulateAreaCode(
+-            Area::AREA_FRONTEND,
+-            [$this->reminderHistoryManagement, 'addAllOrders']
+-        );
++//        Removed below code to disable adding
++//        $this->state->emulateAreaCode(
++//            Area::AREA_FRONTEND,
++//            [$this->reminderHistoryManagement, 'addAllOrders']
++//        );
+ 
+         $setup->endSetup();
+     }
