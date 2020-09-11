@@ -267,6 +267,11 @@
                     "description": "Fix gallery jumping based on https://github.com/magento/magento2/pull/27871",
                     "filename": "essential/m23-fix-gallery-jumping.patch",
                     "version-constraint": ">=2.3.0"
+                },
+                {
+                    "description": "Fix Module.php file that contains incorrect comma",
+                    "filename": "essential/m24-fix-setup-module-php-comma-for-php-73.patch",
+                    "version-constraint": ">=2.4.0"
                 }
             ],
             "magento/module-search": [
