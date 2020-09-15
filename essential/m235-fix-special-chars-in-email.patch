@@ -1,0 +1,12 @@
+diff --git a/Mail/EmailMessage.php b/Mail/EmailMessage.php
+index 02c7597..65e8119 100644
+--- a/Mail/EmailMessage.php
++++ b/Mail/EmailMessage.php
+@@ -189,6 +189,7 @@ class EmailMessage extends Message implements EmailMessageInterface
+      */
+     public function toString(): string
+     {
++        $this->zendMessage->setEncoding('utf-8');
+         return $this->zendMessage->toString();
+     }
+ 
