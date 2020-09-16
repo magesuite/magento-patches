@@ -36,7 +36,7 @@ index 612e190..f8c0fe8 100644
 +        $logDirectoryPath = dirname($this->logFname);
 +
 +        if (!is_dir($logDirectoryPath)) {
-+            mkdir($logDirectoryPath, 0777, true); 
++            mkdir($logDirectoryPath, 0755, true); 
 +        }
 +
 +        if (!$this->logFile) {
