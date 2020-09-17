@@ -1,8 +1,8 @@
 diff --git a/pub/index.php b/pub/index.php
-index 612e190..9231719 100644
+index 612e190..f8c0fe8 100644
 --- a/pub/index.php
 +++ b/pub/index.php
-@@ -6,6 +6,77 @@
+@@ -6,6 +6,83 @@
   * See COPYING.txt for license details.
   */
  
@@ -33,6 +33,12 @@ index 612e190..9231719 100644
 +
 +    private function log(string $message)
 +    {
++        $logDirectoryPath = dirname($this->logFname);
++
++        if (!is_dir($logDirectoryPath)) {
++            mkdir($logDirectoryPath, 0755, true); 
++        }
++
 +        if (!$this->logFile) {
 +            $this->logFile = fopen($this->logFname, 'w');
 +        }
@@ -75,7 +81,7 @@ index 612e190..9231719 100644
 +    }
 +}
 +
-+$debugger = new OOMDebugger(realpath(getcwd().'/../var/report'));
++$debugger = new OOMDebugger(getcwd().'/../var/report');
 +
  use Magento\Framework\App\Bootstrap;
  use Magento\Framework\App\Filesystem\DirectoryList;

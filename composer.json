@@ -77,6 +77,11 @@
                     "version-constraint": ">=102.0.3,<102.0.4"
                 },
                 {
+                    "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
+                    "filename": "essential/m235-fix-special-chars-in-email.patch",
+                    "version-constraint": ">=102.0.5"
+                },
+                {
                     "description": "Fix autoloader registry that breaks integration tests",
                     "filename": "essential/m235-fix-autoloader-registry.patch",
                     "version-constraint": ">=102.0.5"

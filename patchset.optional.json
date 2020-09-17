@@ -113,6 +113,11 @@
                 "description": "Fix invalid invoice qty when bundle products are present in the order",
                 "filename": "optional/m23-fix-invalid-invoice-qty-for-bundles.patch",
                 "version-constraint": "102.0.2"
+            },
+            {
+                "description": "Save address in address book opt-in while creating order from admin panel",
+                "filename": "optional/save-address-admin-opt-in.patch",
+                "version-constraint": "^102.0.2"
             }
         ],
         "amasty/module-xcoupon": [
@@ -465,6 +470,13 @@
                 "description": "Patch to remove check for action when tier prices are applied in cart summary",
                 "filename": "optional/external-best4mage-remove-action-check.patch",
                 "version-constraint": "*"
+            }
+        ],
+        "aheadworks/module-reviewreminder": [
+            {
+                "description": "Disable adding old orders to custom table during install of the module",
+                "filename": "optional/aheadworks-review-reminder-disabling-adding-old-orders-during-install.patch",
+                "version-constraint": "^1.0.4"
             }
         ]
     }
