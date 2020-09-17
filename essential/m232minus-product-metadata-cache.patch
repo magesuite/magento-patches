@@ -2,24 +2,24 @@ Introduces caching to product metadata getVersion method for older versions. Ori
 Commit: https://github.com/magento/magento2/commit/09ec6714cc137b411d8facb3025164d94429e910
 
 diff --git a/App/ProductMetadata.php b/App/ProductMetadata.php
-index c9fde94..3683d7e 100644
+index c9fde94..560f2e6 100644
 --- a/App/ProductMetadata.php
 +++ b/App/ProductMetadata.php
-@@ -28,6 +28,11 @@ class ProductMetadata implements ProductMetadataInterface
-      */
+@@ -29,6 +29,11 @@ class ProductMetadata implements ProductMetadataInterface
      const PRODUCT_NAME  = 'Magento';
- 
-+    /**
+
+     /**
 +     * Magento version cache prefix
 +     */
 +    const CACHE_PREFIX = 'mage-version';
 +
-     /**
++    /**
       * Product version
       *
+      * @var string
 @@ -47,11 +52,21 @@ class ProductMetadata implements ProductMetadataInterface
      private $composerInformation;
- 
+
      /**
 +     * @var CacheInterface
 +     */
@@ -39,7 +39,7 @@ index c9fde94..3683d7e 100644
          $this->composerJsonFinder = $composerJsonFinder;
 +        $this->cache = $cache ?? ObjectManager::getInstance()->get(CacheInterface::class);
      }
- 
+
      /**
 @@ -61,6 +76,8 @@ class ProductMetadata implements ProductMetadataInterface
       */
@@ -50,11 +50,11 @@ index c9fde94..3683d7e 100644
          if (!$this->version) {
              if (!($this->version = $this->getSystemPackageVersion())) {
                  if ($this->getComposerInformation()->isMagentoRoot()) {
-@@ -68,6 +85,7 @@ class ProductMetadata implements ProductMetadataInterface
-                 } else {
+@@ -69,6 +86,7 @@ class ProductMetadata implements ProductMetadataInterface
                      $this->version = 'UNKNOWN';
                  }
-+                $this->cache->save($this->version, self::CACHE_PREFIX, [Config::CACHE_TAG]);
              }
++            $this->cache->save($this->version, self::CACHE_PREFIX, [Config::CACHE_TAG]);
          }
          return $this->version;
+     }
