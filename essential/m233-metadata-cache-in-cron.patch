@@ -1,0 +1,14 @@
+diff --git a/App/ProductMetadata.php b/App/ProductMetadata.php
+index 5836388..0e22df6 100644
+--- a/App/ProductMetadata.php
++++ b/App/ProductMetadata.php
+@@ -86,8 +86,8 @@ class ProductMetadata implements ProductMetadataInterface
+                 } else {
+                     $this->version = 'UNKNOWN';
+                 }
+-                $this->cache->save($this->version, self::VERSION_CACHE_KEY, [Config::CACHE_TAG]);
+             }
++            $this->cache->save($this->version, self::VERSION_CACHE_KEY, [Config::CACHE_TAG]);
+         }
+         return $this->version;
+     }
