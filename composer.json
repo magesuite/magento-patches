@@ -251,7 +251,7 @@
                 {
                     "description": "Fixes Date of Birth validation if DOB is enabled in Customer Configuration",
                     "filename": "essential/m235-fix-create-customer-account-with-dob-lib.patch",
-                    "version-constraint": "2.3.5"
+                    "version-constraint": ">=2.3.5,<2.4.0"
                 }
             ],
             "magento/module-search": [
