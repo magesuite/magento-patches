@@ -478,6 +478,13 @@
                 "filename": "optional/aheadworks-review-reminder-disabling-adding-old-orders-during-install.patch",
                 "version-constraint": "^1.0.4"
             }
+        ],
+        "tig/persistent-shopping-cart-magento2": [
+            {
+                "description": "Adding a dedicated admin field for persistant guest cart cookie lifetime",
+                "filename": "optional/tig-persistent-shopping-cart-guest-cookie-lifetime.patch",
+                "version-constraint": "^1.0.4"
+            }
         ]
     }
 }
