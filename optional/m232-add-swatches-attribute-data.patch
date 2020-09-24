@@ -1,0 +1,16 @@
+diff --git a/Block/Product/Renderer/Configurable.php b/Block/Product/Renderer/Configurable.php
+index c982938..d99ba3c 100644
+--- a/Block/Product/Renderer/Configurable.php
++++ b/Block/Product/Renderer/Configurable.php
+@@ -184,6 +184,11 @@ class Configurable extends \Magento\ConfigurableProduct\Block\Product\View\Type\
+             }
+         }
+ 
++        if (isset($attributeDataArray['additional_data'])) {
++            $config[$attributeId]['additional_data'] = $attributeDataArray['additional_data'];
++        }
++
++
+         return $this->jsonEncoder->encode($config);
+     }
+ 
