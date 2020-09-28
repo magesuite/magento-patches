@@ -1,81 +1,52 @@
-diff --git a/Helper/Configuration/GuestCookieCartLifetime.php b/Helper/Configuration/GuestCookieCartLifetime.php
-new file mode 100644
-index 0000000..cf0fecc
---- /dev/null
-+++ b/Helper/Configuration/GuestCookieCartLifetime.php
-@@ -0,0 +1,30 @@
-+<?php
-+
-+namespace TIG\PersistentShoppingCart\Helper\Configuration;
-+
-+class GuestCookieCartLifetime extends \Magento\Framework\App\Helper\AbstractHelper
-+{
-+    const XPATH_CART_COOKIE_LIFETIME = 'tig_persistentshoppingcart/general/guest_cookie_lifetime';
-+
-+    /**
-+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-+     */
-+    protected $scopeConfig;
-+
-+    public function __construct(
-+        \Magento\Framework\App\Helper\Context $context,
-+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigInterface
-+    ) {
-+        parent::__construct($context);
-+
-+        $this->scopeConfig = $scopeConfigInterface;
-+    }
-+
-+    public function getGuestCookieLifetimeConfig()
-+    {
-+        return $this->scopeConfig->getValue(
-+            self::XPATH_CART_COOKIE_LIFETIME,
-+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-+        );
-+    }
-+}
-\ No newline at end of file
 diff --git a/Model/AbstractModel.php b/Model/AbstractModel.php
-index ba4aac5..38f695a 100644
+index ba4aac5..5a3a91d 100644
 --- a/Model/AbstractModel.php
 +++ b/Model/AbstractModel.php
-@@ -65,6 +65,11 @@ abstract class AbstractModel extends FrameworkAbstractModel
+@@ -40,6 +40,7 @@ use TIG\PersistentShoppingCart\Helper\Data as Helper;
+ 
+ abstract class AbstractModel extends FrameworkAbstractModel
+ {
++    const XPATH_CART_COOKIE_LIFETIME = 'tig_persistentshoppingcart/general/guest_cookie_lifetime';
+     /**
+      * @var string
       */
-     private $helper;
+@@ -50,6 +51,11 @@ abstract class AbstractModel extends FrameworkAbstractModel
+      */
+     private $sessionConfig;
  
 +    /**
-+     * @var \TIG\PersistentShoppingCart\Helper\Configuration\GuestCookieCartLifetime
++     * @var \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
 +     */
-+    protected $guestCartCookieConfiguration;
++    private $scopeConfig;
 +
      /**
+      * @var \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
+      */
+@@ -69,6 +75,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
       * AbstractModel constructor.
       *
-@@ -72,6 +77,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
+      * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
++     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigInterface
       * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
       * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadata
       * @param \TIG\PersistentShoppingCart\Helper\Data $helper
-+     * @param \TIG\PersistentShoppingCart\Helper\Configuration\GuestCookieCartLifetime $guestCartCookieConfiguration
-      * @param \Magento\Framework\Model\Context $context
-      * @param \Magento\Framework\Registry $registry
-      * @param \Magento\Framework\Model\ResourceModel\AbstractResource|null $resource
-@@ -82,6 +88,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
+@@ -79,6 +86,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
+      */
+     public function __construct(
+         ConfigInterface $sessionConfig,
++        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
          CookieManagerInterface $cookieManager,
          CookieMetadataFactory $cookieMetadata,
          Helper $helper,
-+        \TIG\PersistentShoppingCart\Helper\Configuration\GuestCookieCartLifetime $guestCartCookieConfiguration,
-         \Magento\Framework\Model\Context $context,
-         \Magento\Framework\Registry $registry,
-         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-@@ -91,6 +98,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
+@@ -88,6 +96,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
+         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null
+     ) {
+         $this->sessionConfig  = $sessionConfig;
++        $this->scopeConfig = $scopeConfig;
          $this->cookieManager  = $cookieManager;
          $this->cookieMetadata = $cookieMetadata;
          $this->helper         = $helper;
-+        $this->guestCartCookieConfiguration = $guestCartCookieConfiguration;
- 
-         parent::__construct(
-             $context,
-@@ -182,7 +190,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
+@@ -182,7 +191,7 @@ abstract class AbstractModel extends FrameworkAbstractModel
      private function processClientCookie($value)
      {
          $metadata = $this->cookieMetadata->createPublicCookieMetadata();
@@ -84,50 +55,40 @@ index ba4aac5..38f695a 100644
          $metadata->setPath($this->sessionConfig->getCookiePath());
          $metadata->setDomain($this->sessionConfig->getCookieDomain());
  
-@@ -194,4 +202,13 @@ abstract class AbstractModel extends FrameworkAbstractModel
+@@ -194,4 +203,21 @@ abstract class AbstractModel extends FrameworkAbstractModel
  
          $this->cookieManager->deleteCookie($this->cookieName);
      }
 +
++    private function getGuestCookieLifetimeConfig()
++    {
++        return $this->scopeConfig->getValue(
++            self::XPATH_CART_COOKIE_LIFETIME,
++            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
++        );
++    }
++
 +    private function getCookieDuration()
 +    {
-+        if($this->guestCartCookieConfiguration->getGuestCookieLifetimeConfig() > 0) {
-+            return intval($this->guestCartCookieConfiguration->getGuestCookieLifetimeConfig());
++        if($this->getGuestCookieLifetimeConfig() > 0) {
++            return intval($this->getGuestCookieLifetimeConfig());
 +        }
 +
 +        return $this->sessionConfig->getCookieLifetime();
 +    }
  }
 diff --git a/Model/QuoteCookie.php b/Model/QuoteCookie.php
-index db3ddc9..49426aa 100644
+index db3ddc9..c8509d9 100644
 --- a/Model/QuoteCookie.php
 +++ b/Model/QuoteCookie.php
-@@ -47,6 +47,9 @@ class QuoteCookie extends AbstractToken
-     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
-     private $scopeConfig;
+@@ -86,6 +86,7 @@ class QuoteCookie extends AbstractToken
  
-+    /** @var \TIG\PersistentShoppingCart\Helper\Configuration\GuestCookieCartLifetime */
-+    protected $guestCartCookieConfiguration;
-+
-     /**
-      * Config path to module status
-      */
-@@ -75,6 +78,7 @@ class QuoteCookie extends AbstractToken
-         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
-         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadata,
-         \TIG\PersistentShoppingCart\Helper\Data $helper,
-+        \TIG\PersistentShoppingCart\Helper\Configuration\GuestCookieCartLifetime $guestCartCookieConfiguration,
-         \Magento\Framework\Model\Context $context,
-         \Magento\Framework\Registry $registry,
-         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
-@@ -89,6 +93,7 @@ class QuoteCookie extends AbstractToken
+         parent::__construct(
+             $sessionConfig,
++            $scopeConfig,
              $cookieManager,
              $cookieMetadata,
              $helper,
-+            $guestCartCookieConfiguration,
-             $context,
-             $registry,
-             $resource,
 diff --git a/etc/adminhtml/system.xml b/etc/adminhtml/system.xml
 index c83d6fb..d908f0f 100644
 --- a/etc/adminhtml/system.xml
