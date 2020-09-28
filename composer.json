@@ -326,7 +326,7 @@
                 {
                     "description": "Forward port changes that were introduced in 2.2.5, but was not included in Magento 2.3",
                     "filename": "essential/fix-stock-inventory-reindex-bug.patch",
-                    "version-constraint": ">100.2.4,<100.2.10 || >100.3.0,<100.3.5"
+                    "version-constraint": ">100.2.4,<100.2.9 || >100.3.0,<100.3.5"
                 }
             ],
             "magento/module-catalog": [
