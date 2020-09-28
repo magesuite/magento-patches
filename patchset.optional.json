@@ -485,6 +485,13 @@
                 "filename": "optional/tig-persistent-shopping-cart-guest-cookie-lifetime.patch",
                 "version-constraint": "^1.0.4"
             }
-        ]
+        ],
+	    "magento/swatches": [
+	        {
+                "description": "Restores functionality to change image on swatch click when SSS are installed",
+                "filename": "optional/m232-add-swatches-attribute-data.patch",
+                "version-constraint": "*"
+            }
+	    ]
     }
 }
