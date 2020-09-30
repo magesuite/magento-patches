@@ -1,0 +1,19 @@
+diff --git a/Controller/Subscriber/Confirm.php b/Controller/Subscriber/Confirm.php
+index 6f56676..c735861 100644
+--- a/Controller/Subscriber/Confirm.php
++++ b/Controller/Subscriber/Confirm.php
+@@ -29,6 +29,14 @@ class Confirm extends \Magento\Newsletter\Controller\Subscriber implements HttpG
+             /** @var \Magento\Newsletter\Model\Subscriber $subscriber */
+             $subscriber = $this->_subscriberFactory->create()->load($id);
+ 
++            // Patching multiple sending email for this request
++            if($subscriber->getSubscriberStatus()==\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED){
++                $this->messageManager->addSuccessMessage(__('This address is already confirmed.'));
++                $redirect = $this->resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_REDIRECT);
++                $redirectUrl = $this->_storeManager->getStore()->getBaseUrl();
++                return $redirect->setUrl($redirectUrl);
++            }
++
+             if ($subscriber->getId() && $subscriber->getCode()) {
+                 if ($subscriber->confirm($code)) {
+                     $this->messageManager->addSuccessMessage(__('Your subscription has been confirmed.'));
