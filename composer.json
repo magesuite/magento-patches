@@ -79,7 +79,7 @@
                 {
                     "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
                     "filename": "essential/m235-fix-special-chars-in-email.patch",
-                    "version-constraint": ">=102.0.5"
+                    "version-constraint": ">=102.0.4"
                 },
                 {
                     "description": "Fix autoloader registry that breaks integration tests",
