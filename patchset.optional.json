@@ -199,6 +199,13 @@
                 "version-constraint": "~100.2.0,<=100.2.5"
             }
         ],
+	"magento/module-newsletter": [
+            {
+                "description": "Prevents multiple emails sending when accessing confirmation url.",
+                "filename": "optional/prevent-multiple-success-emails-sending.patch",
+                "version-constraint": "*"
+            }
+        ],
         "mageworx/seo-suite-ultimate": [
             {
                 "description": "Fix area code is already set error (LED-1901)",
