@@ -74,7 +74,7 @@
                 {
                     "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
                     "filename": "essential/m233-fix-special-chars-in-email.patch",
-                    "version-constraint": ">=102.0.3,<103.0.0"
+                    "version-constraint": ">=102.0.3,<102.0.4"
                 },
                 {
                     "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
