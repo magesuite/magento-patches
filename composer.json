@@ -94,7 +94,7 @@
                 {
                     "description": "Add product metadata version caching in cron",
                     "filename": "essential/m233-metadata-cache-in-cron.patch",
-                    "version-constraint": ">=102.0.3,<=102.0.4"
+                    "version-constraint": ">=102.0.3,<103.0.0"
                 },
                 {
                     "description": "Fix dates in invoice PDF files",
