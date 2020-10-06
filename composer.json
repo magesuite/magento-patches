@@ -813,6 +813,13 @@
                     "filename": "essential/m235-vertex-validation-ie11-support.patch",
                     "version-constraint": ">=1.1.0,<=1.1.1"
                 }
+            ],
+            "magento/module-company": [
+                {
+                    "description": "Enable Tree Data translations in User Area",
+                    "filename": "essential/m234plus-enable-ua-tree-data-translations.patch",
+                    "version-constraint": ">=100.1.4-p2"
+                }
             ]
         }
     }
