@@ -1,0 +1,15 @@
+Enable Tree Data translations in User Area
+
+diff --git a/Block/Company/Role/Edit.php b/Block/Company/Role/Edit.php
+index ecef043..0d54fa5 100644
+--- a/Block/Company/Role/Edit.php
++++ b/Block/Company/Role/Edit.php
+@@ -118,7 +118,7 @@ class Edit extends \Magento\Framework\View\Element\Template
+     private function prepareTreeData(array &$resources, array $permissions, $level = 0)
+     {
+         for ($counter = 0, $counterMax = count($resources); $counter < $counterMax; $counter++) {
+-            $resources[$counter]['text'] = $resources[$counter]['title'];
++            $resources[$counter]['text'] = __($resources[$counter]['title']);
+             unset($resources[$counter]['title'], $resources[$counter]['sort_order']);
+             $resources[$counter]['state'] = [];
+             if (!empty($resources[$counter]['children'])) {
