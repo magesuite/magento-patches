@@ -1,0 +1,21 @@
+Fix issue with undefined index during remove banned payment methods. It's appears because array indexes are not always counted from zero. Values provided to function can have different indexes.
+
+index b55a9a5..a40966c 100644
+--- a/Model/Plugins/MethodList.php
++++ b/Model/Plugins/MethodList.php
+@@ -205,12 +205,12 @@ class MethodList
+     protected function removeBannedPaymentMethods($aPaymentMethods, Quote $oQuote)
+     {
+         $aBannedMethos = $this->getBannedPaymentMethods($oQuote);
+-        for($i = 0; $i < count($aPaymentMethods); $i++) {
+-            $sCode = $aPaymentMethods[$i]->getCode();
++        foreach ($aPaymentMethods as $index => $aPaymentMethod) {
++            $sCode = $aPaymentMethod->getCode();
+             if (array_key_exists($sCode, $aBannedMethos) !== false) {
+                 $iBannedUntil = strtotime($aBannedMethos[$sCode]);
+                 if ($iBannedUntil > time()) {
+-                    unset($aPaymentMethods[$i]);
++                    unset($aPaymentMethods[$index]);
+                 }
+             }
+         }

@@ -309,10 +309,15 @@
                 "filename": "optional/payone-refund-tax.patch",
                 "version-constraint": "^2.5.0"
             },
-	    {
+	          {
                 "description": "Fix Payone issue when missing translation for order emails sent via admin panel",
                 "filename": "optional/external-payone-email-translation-patch.patch",
                 "version-constraint": "^2.5.0"
+            },
+            {
+                "description": "Fix issue with undefined index during remove banned payment methods.",
+                "filename": "optional/payone-fix-undefined-index.patch",
+                "version-constraint": "^3.0.0"
             }
 
         ],
