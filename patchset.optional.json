@@ -158,6 +158,13 @@
                 "filename": "optional/amasty-banners-lite-remove-clean-product-cache.patch",
                 "version-constraint": "^1.0.8"
             }
+        ],,
+        "amasty/pgrid": [
+            {
+                "description": "Fix an error with duplicated insert to amasty_pgrid_qty_sold after product save",
+                "filename": "optional/amasty-pgrid-fix-error-with-duplicated-insert",
+                "version-constraint": "^1.9.2"
+            }
         ],
         "magento/module-payment": [
             {

@@ -1,0 +1,42 @@
+diff --git a/Model/Indexer/QtySold.php b/Model/Indexer/QtySold.php
+index fc36be7..7cd99f2 100644
+--- a/Model/Indexer/QtySold.php
++++ b/Model/Indexer/QtySold.php
+@@ -129,14 +129,29 @@ class QtySold implements IndexerActionInterface
+      */
+     public function addEmptyIndexByProductIds($ids)
+     {
+-        $rows = array_map(function ($productId) {
+-            return [
+-                'product_id' => $productId,
+-                'qty_sold' => 0
+-            ];
+-        }, is_array($ids) ? $ids : [$ids]);
+-
+-        $this->defaultConnection->insertMultiple($this->getTable(CreateQtySoldTable::TABLE_NAME), $rows);
++        $ids = is_array($ids) ? $ids : [$ids];
++        $tableName = $this->getTable(CreateQtySoldTable::TABLE_NAME);
++
++        $select = $this->defaultConnection->select()
++            ->from($tableName, 'product_id')
++            ->where(
++                $this->defaultConnection->prepareSqlCondition(
++                    'product_id', ['in' => $ids]
++                )
++            );
++        $alreadyExistingIds = $this->defaultConnection->fetchCol($select);
++        $idsToInsert = array_diff($ids, $alreadyExistingIds);
++
++        if(! empty($idsToInsert)){
++            $rowsToInsert = array_map(function ($productId) {
++                return [
++                    'product_id' => $productId,
++                    'qty_sold' => 0
++                ];
++            }, $idsToInsert);
++            $this->defaultConnection->insertMultiple($tableName, $rowsToInsert);
++        }
++
+         return $this;
+     }
+ 
