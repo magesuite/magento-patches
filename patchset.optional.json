@@ -158,7 +158,7 @@
                 "filename": "optional/amasty-banners-lite-remove-clean-product-cache.patch",
                 "version-constraint": "^1.0.8"
             }
-        ],,
+        ],
         "amasty/pgrid": [
             {
                 "description": "Fix an error with duplicated insert to amasty_pgrid_qty_sold after product save",
