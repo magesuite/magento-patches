@@ -162,7 +162,7 @@
         "amasty/pgrid": [
             {
                 "description": "Fix an error with duplicated insert to amasty_pgrid_qty_sold after product save",
-                "filename": "optional/amasty-pgrid-fix-error-with-duplicated-insert",
+                "filename": "optional/amasty-pgrid-fix-error-with-duplicated-insert.patch",
                 "version-constraint": "^1.9.2"
             }
         ],
