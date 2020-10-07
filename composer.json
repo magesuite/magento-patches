@@ -252,6 +252,11 @@
                     "description": "Fixes Date of Birth validation if DOB is enabled in Customer Configuration",
                     "filename": "essential/m235-fix-create-customer-account-with-dob-lib.patch",
                     "version-constraint": ">=2.3.5,<2.4.0"
+                },
+                {
+                    "description": "Fix gallery jumping based on https://github.com/magento/magento2/pull/27871",
+                    "filename": "optional/m23-fix-gallery-jumping.patch",
+                    "version-constraint": ">=2.3.0"
                 }
             ],
             "magento/module-search": [

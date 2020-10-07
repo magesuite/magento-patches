@@ -82,13 +82,6 @@
                 "version-constraint": "102.0.3"
             }
         ],
-        "magento/magento2-base": [
-            {
-                "description": "Fix gallery jumping based on https://github.com/magento/magento2/pull/27871",
-                "filename": "optional/m23-fix-gallery-jumping.patch",
-                "version-constraint": ">=2.3.0"
-            }
-        ],
         "magento/module-customer": [
             {
                 "description": "Fix order of top navigation items so they can be sorted using sortOrder directive in XML update",
