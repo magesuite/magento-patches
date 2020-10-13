@@ -1,0 +1,13 @@
+diff --git a/Observer/ReduceSaleableQuantity.php b/Observer/ReduceSaleableQuantity.php
+index 35b9271..904847a 100644
+--- a/Observer/ReduceSaleableQuantity.php
++++ b/Observer/ReduceSaleableQuantity.php
+@@ -21,6 +21,8 @@ class ReduceSaleableQuantity implements \Magento\Framework\Event\ObserverInterfa
+             return;
+         }
+ 
++        // Patch for NKD - disable stock deduction
++        return $observer;
+         $this->sourceDeductionManager->process($order);
+     }
+ 
