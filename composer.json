@@ -328,6 +328,11 @@
                     "description": "Fix pageSize issue introduced in 2.8.9",
                     "filename": "essential/smile-elasticsuite-289-page-size-issue.patch",
                     "version-constraint": "2.8.9"
+                },
+                {
+                    "description": "Fix catalog-graph-ql di:compile error",
+                    "filename": "essential/m241-fix-elasicsuite-catalog-graph-ql-di-compile.patch",
+                    "version-constraint": ">=2.10.1"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
