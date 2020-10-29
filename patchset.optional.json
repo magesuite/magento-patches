@@ -305,6 +305,11 @@
                 "version-constraint": "^2.5.0"
             },
             {
+                "description": "Fix for mismatch of order total amount and sum of the items amount (for Payone 3.2+)",
+                "filename": "optional/payone32-invoice-items-tax.patch",
+                "version-constraint": "^3.2.0"
+            },
+            {
                 "description": "Fix Payone refund tax issues",
                 "filename": "optional/payone-refund-tax.patch",
                 "version-constraint": "^2.5.0"
