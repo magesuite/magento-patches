@@ -832,7 +832,7 @@
                 {
                     "description": "Fix dotmailer setUp and tearDown declarations in integration tests",
                     "filename": "essential/m24-dotmailer-fix-tests-setup-teardown.patch",
-                    "version-constraint": ">=4.6.0"
+                    "version-constraint": ">=4.6.0,<4.8.0"
                 }
             ],
             "magento/module-newsletter": [
