@@ -509,6 +509,13 @@
                 "filename": "optional/m232-add-swatches-attribute-data.patch",
                 "version-constraint": "*"
             }
-	    ]
+	    ],
+        "edrone/magento2module": [
+            {
+                "description": "Fix newsletter controller CSRF validation",
+                "filename": "optional/m23-fix-edrone-controller-newsletter-csrf.patch",
+                "version-constraint": "*"
+            }
+        ]
     }
 }

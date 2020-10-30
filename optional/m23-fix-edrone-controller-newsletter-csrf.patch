@@ -1,0 +1,32 @@
+diff --git a/Controller/Newsletter/Update.php b/Controller/Newsletter/Update.php
+index 613ea33..dd17331 100755
+--- a/Controller/Newsletter/Update.php
++++ b/Controller/Newsletter/Update.php
+@@ -16,8 +16,11 @@ use Edrone\Magento2module\Helper\Data;
+ use Magento\Framework\App\Action\Action;
+ use Magento\Newsletter\Model\Subscriber;
+ use Magento\Framework\App\Action\Context;
++use Magento\Framework\App\CsrfAwareActionInterface;
++use Magento\Framework\App\RequestInterface;
++use Magento\Framework\App\Request\InvalidRequestException;
+
+-class Update extends Action {
++class Update extends Action implements CsrfAwareActionInterface {
+
+     protected $dataHelper;
+     protected $configHelper;
+@@ -61,4 +64,14 @@ class Update extends Action {
+             return;
+         }
+     }
++
++    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
++    {
++        return null;
++    }
++
++    public function validateForCsrf(RequestInterface $request): ?bool
++    {
++        return true;
++    }
+ }
