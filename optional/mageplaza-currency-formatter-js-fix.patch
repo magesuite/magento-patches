@@ -1,0 +1,76 @@
+diff --git a/Plugin/Locale/Format.php b/Plugin/Locale/Format.php
+index 4238f90..a0aba1e 100644
+--- a/Plugin/Locale/Format.php
++++ b/Plugin/Locale/Format.php
+@@ -47,6 +47,7 @@ class Format extends AbstractFormat
+         $code = $this->getCurrencyCode();
+         $config = $this->getFormatByCurrency($code);
+ 
++        $result['currencyFormatterEnabled'] = true;
+         $result['pattern'] = $this->_helperData->getLocaleShowSymbol($code, $config['show_symbol'], $config['symbol']);
+         $result['precision'] = $config['decimal_number'];
+         $result['requiredPrecision'] = $config['decimal_number'];
+diff --git a/view/frontend/web/js/view/summary/abstract-total.js b/view/frontend/web/js/view/summary/abstract-total.js
+index aab57e1..4384823 100644
+--- a/view/frontend/web/js/view/summary/abstract-total.js
++++ b/view/frontend/web/js/view/summary/abstract-total.js
+@@ -23,7 +23,7 @@ define([
+     'Magento_Catalog/js/price-utils'
+ ], function($, quote, priceUtils){
+     'use strict';
+-    
++
+     var content = '%s',
+         newFormat = {
+         decimalSymbol: '',
+@@ -34,17 +34,17 @@ define([
+         precision: '',
+         requiredPrecision: ''
+     };
+-    
++
+     var mixins = {
+         getFormattedPrice: function (price) {
+             var format = quote.getPriceFormat(),
+                 newPattern = null,
+                 newPrice = null;
+-            
+-            if (price > 0) {
++
++            if (!format.currencyFormatterEnabled || price > 0) {
+                 return this._super(price);
+             }
+-            
++
+             if (price < 0 && format.showMinus && format.minusSign && format.symbol) {
+                 newPrice = price * -1;
+                 switch (format.showMinus) {
+@@ -64,11 +64,11 @@ define([
+                         newPattern = format.pattern;
+                         break;
+                 }
+-                
++
+                 if (format.pattern.indexOf(format.symbol) === -1) {
+                     newPattern = format.minusSign + format.pattern;
+                 }
+-                
++
+                 $.each(newFormat, function (key) {
+                     if (key === 'pattern') {
+                         newFormat['pattern'] = newPattern;
+@@ -76,12 +76,12 @@ define([
+                         newFormat[key] = format[key];
+                     }
+                 });
+-                
++
+                 return priceUtils.formatPrice(newPrice, newFormat);
+             }
+         }
+     };
+-    
++
+     return function (AbstractTotal) {
+         return AbstractTotal.extend(mixins);
+     };

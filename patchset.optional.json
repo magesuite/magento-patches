@@ -291,6 +291,13 @@
                 "version-constraint": ">=101.1.2"
             }
         ],
+        "mageplaza/module-currency-formatter": [
+            {
+                "description": "Prevents triggering JS logic when extension is disabled",
+                "filename": "optional/mageplaza-currency-formatter-js-fix.patch",
+                "version-constraint": "^1.0"
+            }
+        ],
         "patworx/santander-magento-2": [
             {
                 "description": "Update santander_hire.js to santander-magento-2 v.1.2.1",
