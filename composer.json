@@ -812,13 +812,6 @@
                     "version-constraint": ">=101.2.5"
                 }
             ],
-            "magento/module-gift-card-account": [
-                {
-                    "description": "Fixing issue with multiple collect call on Magento\\GiftCardAccount\\Model\\Total\\Quote\\Giftcardaccount which removes giftcard from an order (DOG-715)",
-                    "filename": "essential/m23c-module-gift-card-account-fix-multiple-collect-call.patch",
-                    "version-constraint": ">=101.1.2"
-                }
-            ],
             "vertex/module-address-validation": [
                 {
                     "description": "Replace Object.entries with Object.keys to support IE11 (DOG-486)",
