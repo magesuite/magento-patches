@@ -523,6 +523,13 @@
                 "filename": "optional/m23-fix-edrone-controller-newsletter-csrf.patch",
                 "version-constraint": "*"
             }
+        ],
+        "klarna/module-kp": [
+            {
+                "description": "Fix klarna.js syntax to support ie11",
+                "filename": "optional/klarna-fix-ie11.patch",
+                "version-constraint": "6.5.1"
+            }
         ]
     }
 }

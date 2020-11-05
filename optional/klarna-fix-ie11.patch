@@ -1,0 +1,26 @@
+Fix for klarna.js in order to support Internet Explorer 11 syntax.
+Setting default values for arguments is not supported by Internet Explorer.
+No logic changes.
+
+diff --git a/view/frontend/web/js/model/klarna.js b/view/frontend/web/js/model/klarna.js
+index 71684bd..452f3c7 100644
+--- a/view/frontend/web/js/model/klarna.js
++++ b/view/frontend/web/js/model/klarna.js
+@@ -20,7 +20,7 @@ define(
+     'use strict';
+     return {
+       b2b_enabled: config.b2b_enabled,
+-      buildAddress: function (address, email, isShipping = false) {
++      buildAddress: function (address, email, isShipping) {
+         var addr = {
+           'organization_name': '',
+           'given_name': '',
+@@ -104,7 +104,7 @@ define(
+         if (quote.isVirtual()) {
+           shippingAddress = quote.billingAddress();
+         }
+-        data.billing_address = this.buildAddress(quote.billingAddress(), email);
++        data.billing_address = this.buildAddress(quote.billingAddress(), email, false);
+         data.shipping_address = this.buildAddress(shippingAddress, email, true);
+         data.customer = this.buildCustomer(quote.billingAddress());
+         debug.log(data);
