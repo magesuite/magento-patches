@@ -825,13 +825,6 @@
                     "filename": "essential/m234plus-enable-ua-tree-data-translations.patch",
                     "version-constraint": ">=100.1.4-p2"
                 }
-            ],
-            "payone-gmbh/magento-2": [
-                {
-                    "description": "Fix incorrect amount of order with giftcard and cart price rule combintation",
-                    "filename": "payone-gmbh-gift-card-incorrect-amount-fix.patch",
-                    "version-constraint": ">=3.2.0"
-                }
             ]
         }
     }

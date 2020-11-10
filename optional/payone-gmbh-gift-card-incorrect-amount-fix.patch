@@ -1,15 +1,14 @@
 diff --git a/Model/Api/Invoice.php b/Model/Api/Invoice.php
-index 9bbcbfb..5a4d4a6 100644
+index 9bbcbfb..dd059b0 100644
 --- a/Model/Api/Invoice.php
 +++ b/Model/Api/Invoice.php
-@@ -162,9 +162,9 @@ class Invoice
- 
+@@ -162,8 +162,8 @@ class Invoice
+
          if ($aPositions === false || $blFirstCapture === true || $blDebit === true) {
              $this->addShippingItem($oOrder, $aPositions, $blDebit, $dShippingCosts); // add shipping invoice params to request
 -            $this->addDiscountItem($oOrder, $aPositions, $blDebit); // add discount invoice params to request
              $this->addGiftCardItem($oOrder);  // add gift card invoice params to request
-             $this->addAmastyGiftcards($oOrder, $aPositions, $blDebit); // add amasty giftcard invoice params to request
 +            $this->addDiscountItem($oOrder, $aPositions, $blDebit); // add discount invoice params to request
+             $this->addAmastyGiftcards($oOrder, $aPositions, $blDebit); // add amasty giftcard invoice params to request
          }
          return $this->dAmount;
-     }
