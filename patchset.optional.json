@@ -530,6 +530,13 @@
                 "filename": "optional/klarna-fix-ie11.patch",
                 "version-constraint": "6.5.1"
             }
+        ],
+        "dotmailer/dotmailer-magento2-extension": [
+            {
+                "description": "Update return type in CouponAttributeInterface for a coupon expiration date getter",
+                "filename": "optional/dotmailer440-fix-return-type-in-coupon-attribute-interface.patch",
+                "version-constraint": "4.4.0"
+            }
         ]
     }
 }

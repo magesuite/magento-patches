@@ -1,0 +1,13 @@
+diff --git a/Api/Data/CouponAttributeInterface.php b/Api/Data/CouponAttributeInterface.php
+index 1d64a4f..14efa0b 100644
+--- a/Api/Data/CouponAttributeInterface.php
++++ b/Api/Data/CouponAttributeInterface.php
+@@ -25,7 +25,7 @@ interface CouponAttributeInterface extends \Magento\Framework\Api\ExtensionAttri
+     public function setEmail($email);
+ 
+     /**
+-     * @return \DateTime|null
++     * @return string|null
+      */
+     public function getExpiresAt();
+ 
