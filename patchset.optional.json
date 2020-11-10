@@ -513,6 +513,7 @@
                 "version-constraint": "*"
             }
         ],
+<<<<<<< HEAD
         "aheadworks/module-reviewreminder": [
             {
                 "description": "Disable adding old orders to custom table during install of the module",
@@ -560,6 +561,13 @@
                 "description": "Fix issue with redirecting to login page after paypal express click by guest with persistent cart enabled",
                 "filename": "optional/m23-persistent-fix-paypal-express-redirect-to-login.patch",
                 "version-constraint": ">=100.3.1,<100.3.6"
+            }
+        ],
+        "customweb/module-datatranscw": [
+            {
+                "description": "Patch to cache XML files instead of parsing",
+                "filename": "optional/external-customweb-datatranscw-cache-xml.patch",
+                "version-constraint": "*"
             }
         ]
     }
