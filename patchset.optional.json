@@ -330,6 +330,11 @@
                 "description": "Fix issue with undefined index during remove banned payment methods.",
                 "filename": "optional/payone-fix-undefined-index.patch",
                 "version-constraint": "^3.0.0"
+            },
+            {
+                "description": "Fix incorrect amount of order with giftcard and cart price rule combintation",
+                "filename": "optional/payone-gmbh-gift-card-incorrect-amount-fix.patch",
+                "version-constraint": ">=3.2.0"
             }
 
         ],
@@ -355,11 +360,6 @@
                 "description": "Fixed crontab file with fixed schedule",
                 "filename": "optional/m23-dynamicyield-fix-crontab-file.patch",
                 "version-constraint": "*"
-            },
-            {
-                "description": "Fix incorrect amount of order with giftcard and cart price rule combintation",
-                "filename": "optional/payone-gmbh-gift-card-incorrect-amount-fix.patch",
-                "version-constraint": ">=3.2.0"
             }
         ],
         "magepal/magento2-enhanced-ecommerce": [
