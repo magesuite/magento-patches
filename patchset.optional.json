@@ -338,7 +338,7 @@
             },
             {
                 "description": "Fixes problem with multiple invoices being generated when appointed status arrived more than once",
-                "filename": "optional/payone32-fix-double-invoice",
+                "filename": "optional/payone32-fix-double-invoice.patch",
                 "version-constraint": "<=3.2.0"
             }
 
