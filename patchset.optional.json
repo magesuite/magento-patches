@@ -335,6 +335,11 @@
                 "description": "Fix incorrect amount of order with giftcard and cart price rule combintation",
                 "filename": "optional/payone-gmbh-gift-card-incorrect-amount-fix.patch",
                 "version-constraint": ">=3.2.0"
+            },
+            {
+                "description": "Fixes problem with multiple invoices being generated when appointed status arrived more than once",
+                "filename": "optional/payone32-fix-double-invoice.patch",
+                "version-constraint": "<=3.2.0"
             }
 
         ],
