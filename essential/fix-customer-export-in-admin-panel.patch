@@ -1,0 +1,28 @@
+diff --git a/Ui/Component/DataProvider/Document.php b/Ui/Component/DataProvider/Document.php
+index 468a9e7..709b822 100644
+--- a/Ui/Component/DataProvider/Document.php
++++ b/Ui/Component/DataProvider/Document.php
+@@ -127,7 +127,7 @@ class Document extends \Magento\Framework\View\Element\UiComponent\DataProvider\
+     private function setGenderValue()
+     {
+         $value = $this->getData(self::$genderAttributeCode);
+-        
++
+         if (!$value) {
+             $this->setCustomAttribute(self::$genderAttributeCode, 'N/A');
+             return;
+@@ -135,8 +135,12 @@ class Document extends \Magento\Framework\View\Element\UiComponent\DataProvider\
+ 
+         try {
+             $attributeMetadata = $this->customerMetadata->getAttributeMetadata(self::$genderAttributeCode);
+-            $option = $attributeMetadata->getOptions()[$value];
+-            $this->setCustomAttribute(self::$genderAttributeCode, $option->getLabel());
++            foreach($attributeMetadata->getOptions() as $option) {
++                if($option->getValue() == $value) {
++                    $this->setCustomAttribute(self::$genderAttributeCode, $option->getLabel());
++                    break;
++                }
++            }
+         } catch (NoSuchEntityException $e) {
+             $this->setCustomAttribute(self::$genderAttributeCode, 'N/A');
+         }
