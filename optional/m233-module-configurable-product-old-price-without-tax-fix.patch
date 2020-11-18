@@ -1,0 +1,21 @@
+Fix for display old price without tax on product listing.
+
+Bug confirmed present in 2.3 and 2.4.1 The fix should be officialy released with 2.4.2
+
+Pull request: https://github.com/magento/magento2/pull/27832
+Related issue: https://github.com/magento/magento2/issues/11998
+
+diff --git a/Block/Product/View/Type/Configurable.php b/Block/Product/View/Type/Configurable.php
+index 0a64c89..dee988c 100644
+--- a/Block/Product/View/Type/Configurable.php
++++ b/Block/Product/View/Type/Configurable.php
+@@ -302,6 +302,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
+ 
+             $prices[$product->getId()] =
+                 [
++                    'baseOldPrice' => [
++                        'amount' => $this->localeFormat->getNumber($priceInfo->getPrice('regular_price')->getAmount()->getBaseAmount()),
++                    ],
+                     'oldPrice' => [
+                         'amount' => $this->localeFormat->getNumber(
+                             $priceInfo->getPrice('regular_price')->getAmount()->getValue()
