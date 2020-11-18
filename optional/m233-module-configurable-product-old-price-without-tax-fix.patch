@@ -14,7 +14,7 @@ index 0a64c89..dee988c 100644
              $prices[$product->getId()] =
                  [
 +                    'baseOldPrice' => [
-+                        'amount' => $this->localeFormat->getNumber($regularPrice->getAmount()->getBaseAmount()),
++                        'amount' => $this->localeFormat->getNumber($priceInfo->getPrice('regular_price')->getAmount()->getBaseAmount()),
 +                    ],
                      'oldPrice' => [
                          'amount' => $this->localeFormat->getNumber(
