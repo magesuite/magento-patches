@@ -260,14 +260,14 @@
                 "version-constraint": "100.2.2"
             }
         ],
-        "magento/module-configurable-import-export": [
+        "magento/module-configurable-product": [
             {
                 "description": "Fix for display old price without tax on product listing.",
                 "filename": "optional/m233-module-configurable-product-old-price-without-tax-fix.patch",
                 "version-constraint": ">=100.3.2"
             }
         ],
-        "magento/module-configurable-product": [
+        "magento/module-configurable-import-export": [
             {
                 "description": "Fix configurable products relation to simples with qty = 0 during import.",
                 "filename": "optional/m23-attach-simples-with-qty0-to-configurable-during-import.patch",
