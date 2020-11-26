@@ -1,0 +1,85 @@
+diff --git a/Model/ResourceModel/Product/ProductPermissionsBaseSelectProcessor.php b/Model/ResourceModel/Product/ProductPermissionsBaseSelectProcessor.php
+index bce938d..305ef53 100644
+--- a/Model/ResourceModel/Product/ProductPermissionsBaseSelectProcessor.php
++++ b/Model/ResourceModel/Product/ProductPermissionsBaseSelectProcessor.php
+@@ -5,6 +5,7 @@ use Magento\Catalog\Model\ResourceModel\Product\BaseSelectProcessorInterface;
+ use Aheadworks\CustGroupCatPermissions\Model\ResourceModel\ProductPermission as ProductPermissionResource;
+ use Aheadworks\CustGroupCatPermissions\Model\ProductPermission\Resolver;
+ use Magento\Framework\DB\Select;
++use Magento\Framework\Exception\InputException;
+ 
+ /**
+  * Class ProductPermissionsBaseSelectProcessor
+@@ -12,6 +13,15 @@ use Magento\Framework\DB\Select;
+  */
+ class ProductPermissionsBaseSelectProcessor implements BaseSelectProcessorInterface
+ {
++    /**
++     * @var BaseSelectProcessorInterface[]
++     */
++    private $baseSelectProcessors;
++
++    /**
++     * @var \Aheadworks\CustGroupCatPermissions\Model\Config
++     */
++    protected $config;
+     /**
+      * @var ProductPermissionResource
+      */
+@@ -28,10 +38,21 @@ class ProductPermissionsBaseSelectProcessor implements BaseSelectProcessorInterf
+      */
+     public function __construct(
+         ProductPermissionResource $resource,
+-        Resolver $resolver
++        Resolver $resolver,
++        \Aheadworks\CustGroupCatPermissions\Model\Config $config,
++        array $baseSelectProcessors = []
+     ) {
+         $this->resource = $resource;
+         $this->permissionResolver = $resolver;
++        $this->config = $config;
++        foreach ($baseSelectProcessors as $baseSelectProcessor) {
++            if (!$baseSelectProcessor instanceof BaseSelectProcessorInterface) {
++                throw new InputException(
++                    __('Processor %1 doesn\'t implement BaseSelectProcessorInterface', get_class($baseSelectProcessor))
++                );
++            }
++        }
++        $this->baseSelectProcessors = $baseSelectProcessors;
+     }
+ 
+     /**
+@@ -42,18 +63,22 @@ class ProductPermissionsBaseSelectProcessor implements BaseSelectProcessorInterf
+      */
+     public function process(Select $select)
+     {
+-        list($storeId, $customerGroupId, $defaultViewMode) = $this->permissionResolver->getRequiredFilterValues();
+-        $permissionsSelect = $this->resource->getProductsFilter(
+-            $storeId,
+-            $customerGroupId,
+-            $defaultViewMode,
+-            true)
+-        ;
+-        if(key($permissionsSelect) == 'nin') {
+-            $select->where('child.entity_id NOT IN (?)', $permissionsSelect);
++        foreach ($this->baseSelectProcessors as $baseSelectProcessor) {
++            $select = $baseSelectProcessor->process($select);
+         }
+-        else {
+-            $select->where('child.entity_id IN (?)', $permissionsSelect);
++
++        if ($this->config->isEnabled()) {
++            list($storeId, $customerGroupId, $defaultViewMode) = $this->permissionResolver->getRequiredFilterValues();
++            $permissionsSelect = $this->resource->getProductsFilter(
++                $storeId,
++                $customerGroupId,
++                $defaultViewMode,
++                true);
++            if (key($permissionsSelect) == 'nin') {
++                $select->where('child.entity_id NOT IN (?)', $permissionsSelect);
++            } else {
++                $select->where('child.entity_id IN (?)', $permissionsSelect);
++            }
+         }
+ 
+         return $select;
