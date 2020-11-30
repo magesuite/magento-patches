@@ -771,8 +771,13 @@
                 },
                 {
                     "description": "Fix for error on Sendniblue doi confirmation page",
+                    "filename": "essential/external-sendinblue-210-fix-doi-confirmation-page.patch",
+                    "version-constraint": "<=2.1.0"
+                },
+                {
+                    "description": "Fix for error on Sendniblue doi confirmation page",
                     "filename": "essential/external-sendinblue-fix-doi-confirmation-page.patch",
-                    "version-constraint": "*"
+                    "version-constraint": ">2.1.0"
                 }
             ],
             "zendframework/zend-mail": [
