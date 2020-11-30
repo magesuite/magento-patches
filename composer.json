@@ -484,6 +484,13 @@
                     "version-constraint": "1.1.0"
                 }
             ],
+            "aheadworks/module-customer-group-catalog-permissions": [
+                {
+                    "description": "Fix for breaking collection of products when module is disabled",
+                    "filename": "essential/aheadworks-fix-product-collection-when-module-disabled.patch",
+                    "version-constraint": ">=1.0.4"
+                }
+            ],
             "customweb/module-computopcw": [{
                 "description": "Module Computop Error on transaction getOrderContext() on null (UEFA-455)",
                 "filename": "essential/m22-computopcw-fix-error-on-transaction.patch",
@@ -820,13 +827,6 @@
                     "description": "Fixing issue with multiple giftcard codes generated when invoice is updated (DOG-530)",
                     "filename": "essential/m23c-fix-duplicated-giftcard-codes-after-edit-invoice.patch",
                     "version-constraint": ">=101.2.5"
-                }
-            ],
-            "magento/module-gift-card-account": [
-                {
-                    "description": "Fixing issue with multiple collect call on Magento\\GiftCardAccount\\Model\\Total\\Quote\\Giftcardaccount which removes giftcard from an order (DOG-715)",
-                    "filename": "essential/m23c-module-gift-card-account-fix-multiple-collect-call.patch",
-                    "version-constraint": ">=101.1.2"
                 }
             ],
             "vertex/module-address-validation": [

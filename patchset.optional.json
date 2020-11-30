@@ -260,6 +260,13 @@
                 "version-constraint": "100.2.2"
             }
         ],
+        "magento/module-configurable-product": [
+            {
+                "description": "Fix for display old price without tax on product listing.",
+                "filename": "optional/m233-module-configurable-product-old-price-without-tax-fix.patch",
+                "version-constraint": ">=100.3.2"
+            }
+        ],
         "magento/module-configurable-import-export": [
             {
                 "description": "Fix configurable products relation to simples with qty = 0 during import.",
@@ -330,6 +337,16 @@
                 "description": "Fix issue with undefined index during remove banned payment methods.",
                 "filename": "optional/payone-fix-undefined-index.patch",
                 "version-constraint": "^3.0.0"
+            },
+            {
+                "description": "Fix incorrect amount of order with giftcard and cart price rule combintation",
+                "filename": "optional/payone-gmbh-gift-card-incorrect-amount-fix.patch",
+                "version-constraint": ">=3.2.0"
+            },
+            {
+                "description": "Fixes problem with multiple invoices being generated when appointed status arrived more than once",
+                "filename": "optional/payone32-fix-double-invoice.patch",
+                "version-constraint": "<=3.2.0"
             }
 
         ],
@@ -522,6 +539,20 @@
                 "description": "Fix newsletter controller CSRF validation",
                 "filename": "optional/m23-fix-edrone-controller-newsletter-csrf.patch",
                 "version-constraint": "*"
+            }
+        ],
+        "klarna/module-kp": [
+            {
+                "description": "Fix klarna.js syntax to support ie11",
+                "filename": "optional/klarna-fix-ie11.patch",
+                "version-constraint": "6.5.1"
+            }
+        ],
+        "dotmailer/dotmailer-magento2-extension": [
+            {
+                "description": "Update return type in CouponAttributeInterface for a coupon expiration date getter",
+                "filename": "optional/dotmailer440-fix-return-type-in-coupon-attribute-interface.patch",
+                "version-constraint": "4.4.0"
             }
         ]
     }
