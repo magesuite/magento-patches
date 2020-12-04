@@ -1,0 +1,29 @@
+Fixes issue with redirecting guest user to login page after clicking express checkout, when persistent shopping cart is enabled
+Original JIRA ticket: https://creativestyle.atlassian.net/browse/HAAR-2284
+Github commit: https://github.com/magento/magento2/commit/5e9a12bc4ad70cccbf86b68bd239922320c1b490
+
+diff --git a/Model/Checkout/GuestPaymentInformationManagementPlugin.php b/Model/Checkout/GuestPaymentInformationManagementPlugin.php
+index 2641102..a9772e9 100644
+--- a/Model/Checkout/GuestPaymentInformationManagementPlugin.php
++++ b/Model/Checkout/GuestPaymentInformationManagementPlugin.php
+@@ -93,7 +93,7 @@ class GuestPaymentInformationManagementPlugin
+      * @return void
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
+-    public function beforeSavePaymentInformationAndPlaceOrder(
++    public function beforeSavePaymentInformation(
+         GuestPaymentInformationManagement $subject,
+         $cartId,
+         $email,
+diff --git a/etc/frontend/events.xml b/etc/frontend/events.xml
+index 7972069..840297b 100644
+--- a/etc/frontend/events.xml
++++ b/etc/frontend/events.xml
+@@ -34,7 +34,6 @@
+         <observer name="persistent_session" instance="Magento\Persistent\Observer\RenewCookieObserver" />
+         <observer name="persistent_quote" instance="Magento\Persistent\Observer\CheckExpirePersistentQuoteObserver" />
+         <observer name="persistent_customer" instance="Magento\Persistent\Observer\EmulateCustomerObserver" />
+-        <observer name="persistent_checkout" instance="Magento\Persistent\Observer\PreventExpressCheckoutObserver" />
+     </event>
+     <event name="customer_customer_authenticated">
+         <observer name="persistent" instance="Magento\Persistent\Observer\CustomerAuthenticatedEventObserver" />

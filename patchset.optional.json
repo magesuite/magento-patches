@@ -554,6 +554,13 @@
                 "filename": "optional/dotmailer440-fix-return-type-in-coupon-attribute-interface.patch",
                 "version-constraint": "4.4.0"
             }
+        ],
+        "magento/module-persistent": [
+            {
+                "description": "Fix issue with redirecting to login page after paypal express click by guest with persistent cart enabled",
+                "filename": "optional/m23-persistent-fix-paypal-express-redirect-to-login.patch",
+                "version-constraint": ">=100.3.1,<100.3.6"
+            }
         ]
     }
 }
