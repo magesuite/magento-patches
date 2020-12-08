@@ -100,6 +100,11 @@
                     "description": "Fix dates in invoice PDF files",
                     "filename": "essential/fix-invalid-date-in-invoice-pdf.patch",
                     "version-constraint": ">=102.0.4,<103.0.0"
+                },
+                {
+                    "description": "Store maintenance lockfiles in var/global",
+                    "filename": "essential/m2x-custom-maintenance-lock-location.patch",
+                    "version-constraint": ">=101.0.0"
                 }
             ],
             "magento/module-ui": [
