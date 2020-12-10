@@ -513,7 +513,6 @@
                 "version-constraint": "*"
             }
         ],
-<<<<<<< HEAD
         "aheadworks/module-reviewreminder": [
             {
                 "description": "Disable adding old orders to custom table during install of the module",
