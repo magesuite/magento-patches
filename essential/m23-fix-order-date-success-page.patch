@@ -1,0 +1,11 @@
+diff --git a/view/frontend/templates/order/order_date.phtml b/view/frontend/templates/order/order_date.phtml
+index 80a0ea0..0e2014f 100644
+--- a/view/frontend/templates/order/order_date.phtml
++++ b/view/frontend/templates/order/order_date.phtml
+@@ -5,5 +5,5 @@
+  */
+ ?>
+ <div class="order-date">
+-    <?= $block->escapeHtml(__('<span class="label">Order Date:</span> %1', '<date>' . $block->formatDate($block->getOrder()->getCreatedAt(), \IntlDateFormatter::LONG) . '</date>'), ['span', 'date']) ?>
++    <?= $block->escapeHtml(__('<span class="label">Order Date:</span> %1', '<span>' . $block->formatDate($block->getOrder()->getCreatedAt(), \IntlDateFormatter::LONG) . '</span>'), ['span', 'date']) ?>
+ </div>
