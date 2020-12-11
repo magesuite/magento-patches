@@ -60,7 +60,7 @@ index 612e190..f8c0fe8 100644
 +
 +        $error = error_get_last();
 +
-+        if ($error['type'] !== E_ERROR || strpos($error['message'], 'Allowed memory size of') !== 0) {
++        if (!$error || $error['type'] !== E_ERROR || strpos($error['message'], 'Allowed memory size of') !== 0) {
 +            /* Catch only fatal memory limit errors */
 +            return;
 +        }

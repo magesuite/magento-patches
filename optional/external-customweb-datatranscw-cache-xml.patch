@@ -1,0 +1,88 @@
+diff --git a/Model/Configuration.php b/Model/Configuration.php
+index 57554c6..5432ecb
+--- a/Model/Configuration.php
++++ b/Model/Configuration.php
+@@ -74,17 +74,31 @@ class Configuration
+     	'instance'
+     ];
+
++    /**
++     * @var \Magento\Framework\App\CacheInterface
++     */
++    protected $cache;
++
++    /**
++     * @var \Magento\Framework\Serialize\SerializerInterface
++     */
++    protected $serializer;
++
+ 	public function __construct(
+ 			\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+ 			\Magento\Store\Model\StoreManagerInterface $storeManager,
+ 			\Magento\Framework\Module\Dir\Reader $moduleReader,
+ 			\Magento\Framework\Xml\Parser $xmlParser,
+-			\Magento\Sales\Model\Order\Config $orderConfig
++			\Magento\Sales\Model\Order\Config $orderConfig,
++            \Magento\Framework\App\CacheInterface $cache,
++            \Magento\Framework\Serialize\SerializerInterface $serializer
+ 	) {
+ 		$this->_scopeConfig = $scopeConfig;
+ 		$this->_storeManager = $storeManager;
+ 		$this->_moduleReader = $moduleReader;
+ 		$this->_xmlParser = $xmlParser;
++        $this->cache = $cache;
++        $this->serializer = $serializer;
+
+ 		$this->initDefaultValues();
+ 		$this->initTypes();
+@@ -140,9 +154,18 @@ class Configuration
+
+ 	private function initDefaultValues()
+ 	{
+-		$modulesDirectory = $this->_moduleReader->getModuleDir(\Magento\Framework\Module\Dir::MODULE_ETC_DIR, 'Customweb_DatatransCw');
+-		$this->_xmlParser->load($modulesDirectory . '/config.xml');
+-		$xmlArray = $this->_xmlParser->xmlToArray();
++        $identifier = 'customweb_datatranscw_default_values';
++        $xmlArray = $this->cache->load($identifier);
++
++        if ($xmlArray === false) {
++            $modulesDirectory = $this->_moduleReader->getModuleDir(\Magento\Framework\Module\Dir::MODULE_ETC_DIR, 'Customweb_DatatransCw');
++            $this->_xmlParser->load($modulesDirectory . '/config.xml');
++            $xmlArray = $this->_xmlParser->xmlToArray();
++            $this->cache->save($this->serializer->serialize($xmlArray), $identifier);
++        } else {
++            $xmlArray = $this->serializer->unserialize($xmlArray);
++        }
++
+ 		foreach ($xmlArray['config']['_value']['default']['datatranscw']['general'] as $key => $value) {
+ 			if (is_array($value)) {
+ 				$value = $value['_value'];
+@@ -171,9 +194,18 @@ class Configuration
+
+ 	private function initTypes()
+ 	{
+-		$modulesDirectory = $this->_moduleReader->getModuleDir(\Magento\Framework\Module\Dir::MODULE_ETC_DIR, 'Customweb_DatatransCw');
+-		$this->_xmlParser->load($modulesDirectory . '/adminhtml/system.xml');
+-		$xmlArray = $this->_xmlParser->xmlToArray();
++        $identifier = 'customweb_datatranscw_types_system';
++        $xmlArray = $this->cache->load($identifier);
++
++        if ($xmlArray === false) {
++            $modulesDirectory = $this->_moduleReader->getModuleDir(\Magento\Framework\Module\Dir::MODULE_ETC_DIR, 'Customweb_DatatransCw');
++            $this->_xmlParser->load($modulesDirectory . '/adminhtml/system.xml');
++            $xmlArray = $this->_xmlParser->xmlToArray();
++            $this->cache->save($this->serializer->serialize($xmlArray), $identifier);
++        } else {
++            $xmlArray = $this->serializer->unserialize($xmlArray);
++        }
++
+ 		foreach ($xmlArray['config']['_value']['system']['section'] as $section) {
+ 			if (isset($section['_value']['group']['_value'])) {
+ 				$section['_value']['group'] = [$section['_value']['group']];
+@@ -239,4 +271,4 @@ class Configuration
+ 		]);
+ 	}
+
+-}
+\ No newline at end of file
++}
