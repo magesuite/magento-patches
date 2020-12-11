@@ -747,7 +747,7 @@
                 {
                     "description": "Fix for country in billing address not updating when shipping address is updated (P2G-632)",
                     "filename": "essential/m23-amazon-pay-update-billing-address.patch",
-                    "version-constraint": ">=3.0.0,<4.0.2"
+                    "version-constraint": ">=3.0.0,<=3.4.1"
                 }
             ],
             "msp/cashondelivery": [
