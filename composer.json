@@ -180,6 +180,11 @@
                     "description": "Fix for cleaning old shopping carts when lifetime expired. (Magento <= 2.3.3)",
                     "filename": "essential/m233minus-magento-sales-fix-quote-lifetime.patch",
                     "version-constraint": "<=102.0.3"
+                },
+                {
+                    "description": "Fix error on order success page with date html tag",
+                    "filename": "essential/m23-fix-order-date-success-page.patch",
+                    "version-constraint": ">=102.0.3,<102.0.6"
                 }
             ],
             "magento/module-store": [
