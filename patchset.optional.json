@@ -213,6 +213,13 @@
                 "version-constraint": "*"
             }
         ],
+        "mageworx/module-xmlsitemap": [
+            {
+                "description": "Fix fatal error during sitemap generation process (LEDS)",
+                "filename": "optional/mageworx-xmlsitemap-fix-generation.patch",
+                "version-constraint": ">=3.3.0"
+            }
+        ],
         "wallee/magento-2-2": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
