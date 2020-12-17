@@ -220,6 +220,13 @@
                 "version-constraint": ">=3.3.0"
             }
         ],
+        "mageworx/module-seomarkup": [
+            {
+                "description": "Fix product reviews on category page (LEDS)",
+                "filename": "optional/mageworx-seomarkup-fix-product-review.patch",
+                "version-constraint": ">=2.6.1"
+            }
+        ],
         "wallee/magento-2-2": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
