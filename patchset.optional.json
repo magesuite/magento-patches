@@ -252,6 +252,14 @@
                 "version-constraint": "^1.2.9"
             }
         ],
+	"aheadworks/module-customer-group-catalog-permissions" : [
+            {
+                "description": "Add support for elasticsuite",
+                "filename": "optional/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
+                "version-constraint": "*"
+            }
+        ],
+
         "emartech/emarsys-magento2-extension": [
             {
                 "description": "Patch to fix constructor which was causing di:compile method failure",

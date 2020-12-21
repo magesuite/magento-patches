@@ -1,0 +1,14 @@
+diff --git a/Model/ProductPermission/Applier.php b/Model/ProductPermission/Applier.php
+index 3443ca1..11425f8 100644
+--- a/Model/ProductPermission/Applier.php
++++ b/Model/ProductPermission/Applier.php
+@@ -105,7 +105,8 @@ class Applier
+     {
+         if (!$collection->getFlag(self::PERMISSION_APPLIED)
+             && !$this->registry->registry(self::SKIP_PERMISSION_APPLY)) {
+-            $isCatalogSearchCollection = $collection instanceof CatalogSearchCollection;
++            $isCatalogSearchCollection = $collection instanceof CatalogSearchCollection
++                || strpos(get_class($collection), 'Smile\ElasticsuiteCatalog\Model\ResourceModel\Product\Fulltext\Collection') !== false;
+ 
+             if ($isCatalogSearchCollection) {
+                 $this->applyForCatalogSearchCollection($collection);
