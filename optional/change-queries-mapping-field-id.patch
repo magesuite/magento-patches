@@ -1,7 +1,7 @@
-diff --git a/Search/Request/Query/Filter/QueryBuilder.php b/Search/Request/Query/Filter/QueryBuilder.php
+diff --git a/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php b/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php
 index b371f20..6f8ee8f 100644
---- a/Search/Request/Query/Filter/QueryBuilder.php
-+++ b/Search/Request/Query/Filter/QueryBuilder.php
+--- a/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php
++++ b/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php
 @@ -95,8 +95,13 @@ class QueryBuilder
              if ($condition instanceof QueryInterface) {
                  $queries[] = $condition;
