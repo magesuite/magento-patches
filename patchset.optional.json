@@ -12,7 +12,13 @@
                 "description": "Fix adminSortIndex bug",
                 "filename": "optional/m21-elasticsuite-admin-sort-index-fix.patch",
                 "version-constraint": "*"
+            },
+	    {
+                "description": "Patches queries mapping issue when used together with AheadWorks Customer Groups",
+                "filename": "optional/change-queries-mapping-field-id.patch",
+                "version-constraint": "*"
             }
+
         ],
         "magento/module-ui": [
             {
