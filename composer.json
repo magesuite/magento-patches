@@ -291,6 +291,11 @@
                     "description": "Fix module loading order (Magento 2.2.0-2.2.4)",
                     "filename": "essential/m22-magento-config-load-order.patch",
                     "version-constraint": "~101.0.0,<=101.0.4"
+                },
+                {
+                    "description": "Fix module template to use valid (CSS3) selector for handling list items actions",
+                    "filename": "essential/m241-config-array-selector.patch",
+                    "version-constraint": "101.2.1"
                 }
             ],
             "smile/elasticsuite": [

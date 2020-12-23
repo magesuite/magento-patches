@@ -1,0 +1,16 @@
+Fix for not valid CSS3 selector used for handling list items actions in some configuration pages in Admin. (Bug in v. 2.4.1)
+Bug not reported on Magento so far. Fix will be pushed to Magento core soon and should be added in next release.
+
+diff --git a/view/adminhtml/templates/system/config/form/field/array.phtml b/view/adminhtml/templates/system/config/form/field/array.phtml
+index f08cc77..405b9ad 100644
+--- a/view/adminhtml/templates/system/config/form/field/array.phtml
++++ b/view/adminhtml/templates/system/config/form/field/array.phtml
+@@ -80,7 +80,7 @@ script;
+     $scriptString1 = /* $noEscape */ $secureRenderer->renderEventListenerAsTag(
+         'onclick',
+         "arrayRow" . $block->escapeJs($_htmlId) . ".del('<%- _id %>')",
+-        "tr#<%- _id %> button.action-delete"
++        "tr[id='<%- _id %>'] button.action-delete"
+     );
+
+     $scriptString .= " + '" . $block->escapeJs($scriptString1) . "'" . PHP_EOL;
