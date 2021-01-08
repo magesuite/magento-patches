@@ -1,0 +1,15 @@
+diff --git a/Helper/DataProvider/Product.php b/Helper/DataProvider/Product.php
+index 3298285..99ff1ff 100644
+--- a/Helper/DataProvider/Product.php
++++ b/Helper/DataProvider/Product.php
+@@ -319,6 +319,10 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
+         $reviewCount  = $reviewData['reviews_count'];
+         $reviewRating = $reviewData['rating_summary'];
+
++        if (is_object($reviewRating)) {
++            $reviewRating = $reviewRating->getRatingSummary();
++        }
++
+         $data = [];
+
+         if ($this->helperData->getBestRating() && !$useMagentoBestRating) {

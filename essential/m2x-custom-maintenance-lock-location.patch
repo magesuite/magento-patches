@@ -1,0 +1,20 @@
+Move maintenance flag lockfiles to a subdirectory so it can easily be shared
+between nodes via a networked filesystem without sharing whole `var/` dir.
+
+--- a/App/MaintenanceMode.php
++++ b/App/MaintenanceMode.php
+@@ -20,12 +20,12 @@ class MaintenanceMode
+      * DO NOT consolidate this file and the IP white list into one.
+      * It is going to work much faster in 99% of cases: the isOn() will return false whenever file doesn't exist.
+      */
+-    const FLAG_FILENAME = '.maintenance.flag';
++    const FLAG_FILENAME = 'global/.maintenance.flag';
+ 
+     /**
+      * IP-addresses file name
+      */
+-    const IP_FILENAME = '.maintenance.ip';
++    const IP_FILENAME = 'global/.maintenance.ip';
+ 
+     /**
+      * Maintenance flag dir

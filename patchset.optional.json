@@ -12,7 +12,13 @@
                 "description": "Fix adminSortIndex bug",
                 "filename": "optional/m21-elasticsuite-admin-sort-index-fix.patch",
                 "version-constraint": "*"
+            },
+	    {
+                "description": "Patches queries mapping issue when used together with AheadWorks Customer Groups",
+                "filename": "optional/change-queries-mapping-field-id.patch",
+                "version-constraint": "*"
             }
+
         ],
         "magento/module-ui": [
             {
@@ -213,6 +219,20 @@
                 "version-constraint": "*"
             }
         ],
+        "mageworx/module-xmlsitemap": [
+            {
+                "description": "Fix fatal error during sitemap generation process (LEDS)",
+                "filename": "optional/mageworx-xmlsitemap-fix-generation.patch",
+                "version-constraint": ">=3.3.0"
+            }
+        ],
+        "mageworx/module-seomarkup": [
+            {
+                "description": "Fix product reviews on category page (LEDS)",
+                "filename": "optional/mageworx-seomarkup-fix-product-review.patch",
+                "version-constraint": ">=2.6.1"
+            }
+        ],
         "wallee/magento-2-2": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
@@ -232,6 +252,14 @@
                 "version-constraint": "^1.2.9"
             }
         ],
+	"aheadworks/module-customer-group-catalog-permissions" : [
+            {
+                "description": "Add support for elasticsuite",
+                "filename": "optional/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
+                "version-constraint": "*"
+            }
+        ],
+
         "emartech/emarsys-magento2-extension": [
             {
                 "description": "Patch to fix constructor which was causing di:compile method failure",
@@ -258,13 +286,6 @@
                 "description": "Fix products import issue with categories paths default store.",
                 "filename": "optional/m222-catalog-import-export-fix-import-categories-store.patch",
                 "version-constraint": "100.2.2"
-            }
-        ],
-        "magento/module-configurable-product": [
-            {
-                "description": "Fix for display old price without tax on product listing.",
-                "filename": "optional/m233-module-configurable-product-old-price-without-tax-fix.patch",
-                "version-constraint": ">=100.3.2"
             }
         ],
         "magento/module-configurable-import-export": [
@@ -337,16 +358,6 @@
                 "description": "Fix issue with undefined index during remove banned payment methods.",
                 "filename": "optional/payone-fix-undefined-index.patch",
                 "version-constraint": "^3.0.0"
-            },
-            {
-                "description": "Fix incorrect amount of order with giftcard and cart price rule combintation",
-                "filename": "optional/payone-gmbh-gift-card-incorrect-amount-fix.patch",
-                "version-constraint": ">=3.2.0"
-            },
-            {
-                "description": "Fixes problem with multiple invoices being generated when appointed status arrived more than once",
-                "filename": "optional/payone32-fix-double-invoice.patch",
-                "version-constraint": "<=3.2.0"
             }
 
         ],
@@ -560,6 +571,13 @@
                 "description": "Fix issue with redirecting to login page after paypal express click by guest with persistent cart enabled",
                 "filename": "optional/m23-persistent-fix-paypal-express-redirect-to-login.patch",
                 "version-constraint": ">=100.3.1,<100.3.6"
+            }
+        ],
+        "customweb/module-datatranscw": [
+            {
+                "description": "Patch to cache XML files instead of parsing",
+                "filename": "optional/external-customweb-datatranscw-cache-xml.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-cms-url-rewrite": [

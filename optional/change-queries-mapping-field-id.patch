@@ -1,0 +1,29 @@
+diff --git a/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php b/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php
+index b371f20..6f8ee8f 100644
+--- a/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php
++++ b/src/module-elasticsuite-core/Search/Request/Query/Filter/QueryBuilder.php
+@@ -95,8 +95,13 @@ class QueryBuilder
+             if ($condition instanceof QueryInterface) {
+                 $queries[] = $condition;
+             } else {
+-                $mappingField = $mapping->getField($fieldName);
+-                $queries[]    = $this->prepareFieldCondition($mappingField, $condition, $currentPath);
++                if ($fieldName == 'nin_entity_id') {
++                    $mappingField = $mapping->getField('entity_id');
++                    $queries[] = $this->prepareFieldCondition($mappingField, array('nin' => implode($condition, ',')), $currentPath);
++                } else {
++                    $mappingField = $mapping->getField($fieldName);
++                    $queries[]    = $this->prepareFieldCondition($mappingField, $condition, $currentPath);
++                }
+             }
+         }
+ 
+@@ -173,7 +178,7 @@ class QueryBuilder
+                 throw new \LogicException("Can not filter nested field {$field->getName()} with nested path $currentPath");
+             }
+             if (!$field->isNested()) {
+-                 throw new \LogicException("Can not filter non nested field {$field->getName()} in nested context ($currentPath)");
++                throw new \LogicException("Can not filter non nested field {$field->getName()} in nested context ($currentPath)");
+             }
+ 
+             $isNested = false;

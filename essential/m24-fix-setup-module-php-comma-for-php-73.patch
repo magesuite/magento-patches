@@ -1,0 +1,13 @@
+diff --git a/setup/src/Magento/Setup/Module.php b/setup/src/Magento/Setup/Module.php
+index f1fde43..88c8323 100644
+--- a/setup/src/Magento/Setup/Module.php
++++ b/setup/src/Magento/Setup/Module.php
+@@ -78,7 +78,7 @@ class Module implements
+             include __DIR__ . '/../../../config/router.config.php',
+             include __DIR__ . '/../../../config/di.config.php',
+             include __DIR__ . '/../../../config/states.install.config.php',
+-            include __DIR__ . '/../../../config/languages.config.php',
++            include __DIR__ . '/../../../config/languages.config.php'
+         );
+         // phpcs:enable
+         return $result;

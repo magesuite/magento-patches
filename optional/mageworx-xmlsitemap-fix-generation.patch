@@ -1,0 +1,12 @@
+diff --git a/Model/OtherSitemapItemsAdapter.php b/Model/OtherSitemapItemsAdapter.php
+index 1f8176a..958377d 100644
+--- a/Model/OtherSitemapItemsAdapter.php
++++ b/Model/OtherSitemapItemsAdapter.php
+@@ -17,6 +17,7 @@ class OtherSitemapItemsAdapter extends \Magento\Sitemap\Model\Sitemap
+     public function getItems(int $storeId): array
+     {
+         $this->setStoreId($storeId);
++        $this->_sitemapItems = [];
+         $this->_initSitemapItems();
+
+         return $this->_sitemapItems;

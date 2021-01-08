@@ -1,0 +1,28 @@
+diff --git a/Model/FlexField/Cache/ProcessorKeyManager.php b/Model/FlexField/Cache/ProcessorKeyManager.php
+index 9ab90e6..da2b695 100644
+--- a/Model/FlexField/Cache/ProcessorKeyManager.php
++++ b/Model/FlexField/Cache/ProcessorKeyManager.php
+@@ -22,6 +22,7 @@ class ProcessorKeyManager
+
+     /**
+      * @param StorageInterface $storage
++     * @param Serializer $serializer
+      */
+     public function __construct(
+         StorageInterface $storage,
+diff --git a/Model/TaxRegistry/CacheStorage.php b/Model/TaxRegistry/CacheStorage.php
+index 02b6f55..21e18ec 100644
+--- a/Model/TaxRegistry/CacheStorage.php
++++ b/Model/TaxRegistry/CacheStorage.php
+@@ -30,6 +30,8 @@ class CacheStorage extends GenericStorage
+
+     /**
+      * @param FrontendInterface $cache
++     * @param StateInterface $cacheState
++     * @param Serializer $serializer
+      */
+     public function __construct(
+         FrontendInterface $cache,
+--
+2.21.0 (Apple Git-122)
+

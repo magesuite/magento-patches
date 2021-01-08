@@ -1,0 +1,12 @@
+diff --git a/Test/Integration/Controller/Ajax/EmailcaptureUpdateTest.php b-chat/Test/Integration/Controller/Ajax/EmailcaptureUpdateTest.php
+index bceb5d3ebc..c9b6b0dd40 100644
+--- a/Test/Integration/Controller/Ajax/EmailcaptureUpdateTest.php
++++ b/Test/Integration/Controller/Ajax/EmailcaptureUpdateTest.php
+@@ -14,7 +14,7 @@ class EmailcaptureUpdateTest extends AbstractController
+      */
+     private $updateChatProfileMock;
+
+-    public function setUp()
++    public function setUp(): void
+     {
+         parent::setUp();
