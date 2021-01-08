@@ -579,6 +579,13 @@
                 "filename": "optional/external-customweb-datatranscw-cache-xml.patch",
                 "version-constraint": "*"
             }
+        ],
+        "magento/module-cms-url-rewrite": [
+            {
+                "description": "Fix for not being able to create store view if cms pages exist with same url key for different storeviews",
+                "filename": "optional/fix-creating-store-view-with-cms-pages-with-same-url-key.patch",
+                "version-constraint": "100.3.4"
+            }
         ]
     }
 }
