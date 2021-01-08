@@ -1,0 +1,57 @@
+When two CMS pages exist for different store views with same url key, an error will be thrown while creating new store view.
+This happens because Magento creates rewrites for new store view based on url keys from all store views and not only default store view.
+Original issue: https://github.com/magento/magento2/issues/28357
+Pull request: https://github.com/magento/magento2/commit/035aaf08f8a5e5253a09bf5a7e618acf9d3e32f7#diff-d63b9a22d60a433f321a612879cd73ca150cbe265db7d86713a5e44aa8727a4d
+
+diff --git a/Plugin/Cms/Model/Store/View.php b/Plugin/Cms/Model/Store/View.php
+index e56225c..31c04d9 100644
+--- a/Plugin/Cms/Model/Store/View.php
++++ b/Plugin/Cms/Model/Store/View.php
+@@ -7,6 +7,7 @@ declare(strict_types=1);
+
+ namespace Magento\CmsUrlRewrite\Plugin\Cms\Model\Store;
+
++use Magento\Cms\Api\Data\PageInterface;
+ use Magento\Cms\Api\PageRepositoryInterface;
+ use Magento\CmsUrlRewrite\Model\CmsPageUrlRewriteGenerator;
+ use Magento\Framework\Api\SearchCriteriaBuilder;
+@@ -21,6 +22,8 @@ use Magento\UrlRewrite\Model\UrlPersistInterface;
+  */
+ class View
+ {
++    private const ALL_STORE_VIEWS = '0';
++
+     /**
+      * @var UrlPersistInterface
+      */
+@@ -89,9 +92,8 @@ class View
+     {
+         $rewrites = [];
+         $urls = [];
+-        $searchCriteria = $this->searchCriteriaBuilder->create();
+-        $cmsPagesCollection = $this->pageRepository->getList($searchCriteria)->getItems();
+-        foreach ($cmsPagesCollection as $page) {
++
++        foreach ($this->getCmsPageItems() as $page) {
+             $page->setStoreId($storeId);
+             $rewrites[] = $this->cmsPageUrlRewriteGenerator->generate($page);
+         }
+@@ -99,4 +101,18 @@ class View
+
+         return $urls;
+     }
++
++    /**
++     * Return cms page items for all store view
++     *
++     * @return PageInterface[]
++     */
++    private function getCmsPageItems(): array
++    {
++        $searchCriteria = $this->searchCriteriaBuilder->addFilter('store_id', self::ALL_STORE_VIEWS)
++            ->create();
++        $list = $this->pageRepository->getList($searchCriteria);
++
++        return $list->getItems();
++    }
+ }

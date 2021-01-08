@@ -561,6 +561,13 @@
                 "filename": "optional/m23-persistent-fix-paypal-express-redirect-to-login.patch",
                 "version-constraint": ">=100.3.1,<100.3.6"
             }
+        ],
+        "magento/module-cms-url-rewrite": [
+            {
+                "description": "Fix for not being able to create store view if cms pages exist with same url key for different storeviews",
+                "filename": "optional/fix-creating-store-view-with-cms-pages-with-same-url-key.patch",
+                "version-constraint": "100.3.4"
+            }
         ]
     }
 }
