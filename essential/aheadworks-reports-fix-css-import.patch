@@ -1,0 +1,22 @@
+diff --git a/view/adminhtml/web/css/source/_module.less b/view/adminhtml/web/css/source/_module.less
+index 1ea3630..00757d6 100644
+--- a/view/adminhtml/web/css/source/_module.less
++++ b/view/adminhtml/web/css/source/_module.less
+@@ -3,5 +3,5 @@
+ @import 'module/_page-menu.less';
+ @import 'module/_components.less';
+ @import 'module/_dashboard.less';
+-@import 'calendar/timeframe.css';
+-@import 'calendar/view.css';
+\ No newline at end of file
++@import 'calendar/timeframe.less';
++@import 'calendar/view.less';
+\ No newline at end of file
+diff --git a/view/adminhtml/web/css/source/calendar/timeframe.css b/view/adminhtml/web/css/source/calendar/timeframe.less
+similarity index 100%
+rename from view/adminhtml/web/css/source/calendar/timeframe.css
+rename to view/adminhtml/web/css/source/calendar/timeframe.less
+diff --git a/view/adminhtml/web/css/source/calendar/view.css b/view/adminhtml/web/css/source/calendar/view.less
+similarity index 100%
+rename from view/adminhtml/web/css/source/calendar/view.css
+rename to view/adminhtml/web/css/source/calendar/view.less
