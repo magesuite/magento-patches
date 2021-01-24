@@ -471,6 +471,13 @@
                     "version-constraint": "100.2.*"
                 }
             ],
+            "aheadworks/module-advanced-reports":[
+                {
+                    "description": "Fixes missing timeframe.css and view.css files issue for admin reports overview when css merging is enabled",
+                    "filename": "essential/aheadworks-reports-fix-css-import.patch",
+                    "version-constraint": "^2.0.0"
+                }
+            ],
             "aheadworks/module-blog": [
                 {
                     "description": "Fix for cleaning cache for all products after update and reindex blog posts",
