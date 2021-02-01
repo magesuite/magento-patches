@@ -256,7 +256,7 @@
                 {
                     "description": "Refactor JavaScript mixins module",
                     "filename": "essential/refactor-mixins-js-module.patch",
-                    "version-constraint": ">=2.3.2,<2.4.0"
+                    "version-constraint": ">=2.3.2,<2.3.6"
                 },
                 {
                     "description": "Lower main thread clogging during frontent initialization based on https://github.com/magento/magento2/pull/27360",
