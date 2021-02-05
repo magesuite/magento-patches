@@ -470,6 +470,11 @@
                 "description": "Change product export ean field",
                 "filename": "optional/external-postnl-change-ean-export-field.patch",
                 "version_constraint": "*"
+            },
+            {
+                "description": "Fix cleanup method when called with max length argument",
+                "filename": "optional/external-postnl-fix-cleanup-methods-to-substr-cleaned-string-instead-of-original.patch",
+                "version_constraint": "*"
             }
         ],
         "magento/module-url-rewrite": [
