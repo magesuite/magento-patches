@@ -30,4 +30,3 @@ index d9b5ac8..88f6696 100644
 +            $trimmed = mb_substr($trimmed, 0, $maxLength, 'UTF-8');
          return $trimmed;
      }
- 
