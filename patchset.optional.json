@@ -489,6 +489,11 @@
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI. Ported to SCAF from KRG for newer version of DFM.",
                 "filename": "optional/scaf-add-msi-support-for-wyomind-datafeed-product-filtering-qty.patch",
                 "version-constraint": "^11.14.1"
+            },
+            {
+                "description": "Fix for Wyomind Data Feed Manager to enable parsing of custom functions.",
+                "filename": "optional/wyomind-datafeedmanager-fix-custom-functions-execute.patch",
+                "version-constraint": "11.15.1"
             }
         ],
         "magento/module-media-storage": [
