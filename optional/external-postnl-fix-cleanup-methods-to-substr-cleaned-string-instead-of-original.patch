@@ -15,7 +15,7 @@ index 594cf29..52b91c9 100644
 +            $trimmed = mb_substr($trimmed, 0, $maxLength, 'UTF-8');
          return $trimmed;
      }
- 
+
 diff --git a/Model/Processor/Order.php b/Model/Processor/Order.php
 index d9b5ac8..88f6696 100644
 --- a/Model/Processor/Order.php
