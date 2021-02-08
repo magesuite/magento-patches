@@ -880,6 +880,13 @@
                     "version-constraint": ">=100.1.4-p2"
                 }
             ],
+            "magento/module-target-rule": [
+                {
+                    "description": "Use row_id field to get related cross sell products in checkout",
+                    "filename": "essential/fix-missing-crosssell-products-in-checkout.patch",
+                    "version-constraint": "101.1.5"
+                }
+            ],
             "vertex/module-tax": [
                 {
                     "description": "Fix missing constructor argument",
