@@ -1,0 +1,13 @@
+diff --git a/Block/Checkout/Cart/Crosssell.php b/Block/Checkout/Cart/Crosssell.php
+index 657a59e..fbbc75a 100644
+--- a/Block/Checkout/Cart/Crosssell.php
++++ b/Block/Checkout/Cart/Crosssell.php
+@@ -208,7 +208,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
+             foreach ($this->getQuote()->getAllItems() as $quoteItem) {
+                 /* @var $quoteItem \Magento\Quote\Model\Quote\Item */
+                 $product = $quoteItem->getProduct();
+-                $this->_products[$product->getEntityId()] = $product;
++                $this->_products[$product->getRowId()] = $product;
+             }
+         }
+ 
