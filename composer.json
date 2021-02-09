@@ -625,7 +625,7 @@
                 {
                     "description": "Update URL to VAT number validation service",
                     "filename": "essential/vat-number-validation-service-url-update.patch",
-                    "version-constraint": "<103.0.0"
+                    "version-constraint": "<102.0.6"
                 },
                 {
                     "description": "Fix duplicated footer in transactional emails template (2.3.3)",
