@@ -1,0 +1,46 @@
+diff --git a/Model/Calculator/Spending.php b/Model/Calculator/Spending.php
+index d3f3b2a..227c71d 100644
+--- a/Model/Calculator/Spending.php
++++ b/Model/Calculator/Spending.php
+@@ -15,6 +15,11 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
+  */
+ class Spending
+ {
++    protected $roundingDelta = [
++        'aw_reward_points_amount' => 0.0000001,
++        'base_aw_reward_points_amount' => 0.0000001
++    ];
++
+     /**
+      * @var Config
+      */
+@@ -87,7 +92,6 @@ class Spending
+      */
+     public function distributeRewardPoints(AbstractItem $item, $customerId, $websiteId)
+     {
+-        $roundingDelta = [];
+         $keys = [
+             'aw_reward_points_amount',
+             'base_aw_reward_points_amount'
+@@ -103,10 +107,6 @@ class Spending
+             $parentBaseRowTotal = $this->quoteItemCalculator->getItemBasePrice($item) * $item->getTotalQty();
+         }
+         $parentAwRewardPoints = $item->getAwRewardPoints();
+-        foreach ($keys as $key) {
+-            // Initialize the rounding delta to a tiny number to avoid floating point precision problem
+-            $roundingDelta[$key] = 0.0000001;
+-        }
+         foreach ($item->getChildren() as $child) {
+             $ratio = ($this->quoteItemCalculator->getItemBasePrice($child) * $child->getTotalQty() - $child->getBaseDiscountAmount())
+                 / $parentBaseRowTotal;
+@@ -115,8 +115,8 @@ class Spending
+                     continue;
+                 }
+                 $value = $item->getData($key) * $ratio;
+-                $roundedValue = $this->priceCurrency->round($value + $roundingDelta[$key]);
+-                $roundingDelta[$key] += $value - $roundedValue;
++                $roundedValue = $this->priceCurrency->round($value + $this->roundingDelta[$key]);
++                $this->roundingDelta[$key] += $value - $roundedValue;
+                 $child->setData($key, $roundedValue);
+             }
+             $rewardPoints = $this->rateCalculator->calculateSpendPoints(
