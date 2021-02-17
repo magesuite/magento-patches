@@ -1,0 +1,34 @@
+diff --git a/Model/Calculator/Spending.php b/Model/Calculator/Spending.php
+index d3f3b2a..b84cf4e 100644
+--- a/Model/Calculator/Spending.php
++++ b/Model/Calculator/Spending.php
+@@ -87,7 +87,6 @@ class Spending
+      */
+     public function distributeRewardPoints(AbstractItem $item, $customerId, $websiteId)
+     {
+-        $roundingDelta = [];
+         $keys = [
+             'aw_reward_points_amount',
+             'base_aw_reward_points_amount'
+@@ -103,10 +102,6 @@ class Spending
+             $parentBaseRowTotal = $this->quoteItemCalculator->getItemBasePrice($item) * $item->getTotalQty();
+         }
+         $parentAwRewardPoints = $item->getAwRewardPoints();
+-        foreach ($keys as $key) {
+-            // Initialize the rounding delta to a tiny number to avoid floating point precision problem
+-            $roundingDelta[$key] = 0.0000001;
+-        }
+         foreach ($item->getChildren() as $child) {
+             $ratio = ($this->quoteItemCalculator->getItemBasePrice($child) * $child->getTotalQty() - $child->getBaseDiscountAmount())
+                 / $parentBaseRowTotal;
+@@ -115,9 +110,7 @@ class Spending
+                     continue;
+                 }
+                 $value = $item->getData($key) * $ratio;
+-                $roundedValue = $this->priceCurrency->round($value + $roundingDelta[$key]);
+-                $roundingDelta[$key] += $value - $roundedValue;
+-                $child->setData($key, $roundedValue);
++                $child->setData($key, $value);
+             }
+             $rewardPoints = $this->rateCalculator->calculateSpendPoints(
+                 $customerId,

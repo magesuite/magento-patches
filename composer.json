@@ -516,6 +516,13 @@
                     "version-constraint": "1.1.0"
                 }
             ],
+            "aheadworks/module-reward-points": [
+                {
+                    "description": "Fix reward points amount calculation for bundle products",
+                    "filename": "essential/aheadworks-fix-reward-points-amount-for-bundles.patch",
+                    "version-constraint": "1.8.0"
+                }
+            ],
             "aheadworks/module-customer-group-catalog-permissions": [
                 {
                     "description": "Fix for breaking collection of products when module is disabled",
