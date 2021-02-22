@@ -866,6 +866,13 @@
                     "version-constraint": ">=101.2.5"
                 }
             ],
+            "payone-gmbh/magento-2": [
+                {
+                    "description": "Fixing issue with duplicated invoices generation",
+                    "filename": "essential/payone-duplicated-invoice-fix.patch",
+                    "version-constraint": "3.2.0"
+                }
+            ],
             "vertex/module-address-validation": [
                 {
                     "description": "Replace Object.entries with Object.keys to support IE11 (DOG-486)",

@@ -1,0 +1,43 @@
+diff --git a/Observer/Transactionstatus/Appointed.php b/Observer/Transactionstatus/Appointed.php
+index f70c43d..b9ad00f 100644
+--- a/Observer/Transactionstatus/Appointed.php
++++ b/Observer/Transactionstatus/Appointed.php
+@@ -127,7 +127,7 @@ class Appointed implements ObserverInterface
+         }
+ 
+         // preauthorization-orders and advance payment should not create an invoice
+-        if ($oOrder->getPayoneAuthmode() !== 'authorization' || $oOrder->getPayment()->getMethodInstance()->getCode() === PayoneConfig::METHOD_ADVANCE_PAYMENT){
++        if ($oOrder->getPayoneAuthmode() !== 'authorization' || $oOrder->getPayment()->getMethodInstance()->getCode() === PayoneConfig::METHOD_ADVANCE_PAYMENT || !$oOrder->canInvoice()){
+             return;
+         }
+ 
+diff --git a/Test/Unit/Observer/Transactionstatus/AppointedTest.php b/Test/Unit/Observer/Transactionstatus/AppointedTest.php
+index e7c6b0b..61c6f5c 100644
+--- a/Test/Unit/Observer/Transactionstatus/AppointedTest.php
++++ b/Test/Unit/Observer/Transactionstatus/AppointedTest.php
+@@ -89,10 +89,11 @@ class AppointedTest extends BaseTestCase
+ 
+         $order = $this->getMockBuilder(Order::class)
+             ->disableOriginalConstructor()
+-            ->setMethods(['getPayment', 'getEmailSent', 'getPayoneAuthmode', 'save'])
++            ->setMethods(['getPayment', 'getEmailSent', 'getPayoneAuthmode', 'save', 'canInvoice'])
+             ->getMock();
+         $order->method('getPayment')->willReturn($payment);
+         $order->method('getPayoneAuthmode')->willReturn('authorization');
++        $order->method('canInvoice')->willReturn(true);
+ 
+         $observer = $this->getMockBuilder(Observer::class)->disableOriginalConstructor()->setMethods(['getOrder'])->getMock();
+         $observer->method('getOrder')->willReturn($order);
+@@ -115,10 +116,11 @@ class AppointedTest extends BaseTestCase
+ 
+         $order = $this->getMockBuilder(Order::class)
+             ->disableOriginalConstructor()
+-            ->setMethods(['getPayment', 'getEmailSent', 'getPayoneAuthmode', 'save'])
++            ->setMethods(['getPayment', 'getEmailSent', 'getPayoneAuthmode', 'save', 'canInvoice'])
+             ->getMock();
+         $order->method('getPayment')->willReturn($payment);
+         $order->method('getPayoneAuthmode')->willReturn('authorization');
++        $order->method('canInvoice')->willReturn(true);
+ 
+         $observer = $this->getMockBuilder(Observer::class)->disableOriginalConstructor()->setMethods(['getOrder'])->getMock();
+         $observer->method('getOrder')->willReturn($order);
