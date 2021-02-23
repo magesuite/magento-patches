@@ -223,7 +223,7 @@
             {
                 "description": "Fix fatal error during sitemap generation process (LEDS)",
                 "filename": "optional/mageworx-xmlsitemap-fix-generation.patch",
-                "version-constraint": ">=3.3.0"
+                "version-constraint": ">=3.3.0,<3.3.2"
             }
         ],
         "mageworx/module-seomarkup": [
