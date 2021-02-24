@@ -1,0 +1,37 @@
+Fix for MC-39776: JS error on Create New Customer Account page
+https://github.com/magento/magento2/commit/69c26af51b38754144eedf1ad73b44e479f4f29a
+
+diff --git a/view/frontend/templates/shopping-assistance.phtml b/view/frontend/templates/shopping-assistance.phtml
+index 7765975..5551ea1 100644
+--- a/view/frontend/templates/shopping-assistance.phtml
++++ b/view/frontend/templates/shopping-assistance.phtml
+@@ -11,20 +11,18 @@ use Magento\LoginAsCustomerAssistance\ViewModel\ShoppingAssistanceViewModel;
+ /** @var Escaper $escaper */
+ /** @var ShoppingAssistanceViewModel $viewModel */
+ $viewModel = $block->getViewModel();
+-?>
+
+-<script type="text/x-magento-init">
+-{
+-    ".form-create-account, .form-edit-account": {
+-        "Magento_LoginAsCustomerAssistance/js/opt-in": {
+-            "allowAccess": "<?= /* @noEscape */ IsAssistanceEnabledInterface::ALLOWED ?>",
+-            "denyAccess": "<?= /* @noEscape */ IsAssistanceEnabledInterface::DENIED ?>"
++if ($viewModel->isLoginAsCustomerEnabled()): ?>
++    <script type="text/x-magento-init">
++    {
++        ".form-create-account, .form-edit-account": {
++            "Magento_LoginAsCustomerAssistance/js/opt-in": {
++                "allowAccess": "<?= /* @noEscape */ IsAssistanceEnabledInterface::ALLOWED ?>",
++                "denyAccess": "<?= /* @noEscape */ IsAssistanceEnabledInterface::DENIED ?>"
++            }
+         }
+     }
+-}
+-</script>
+-
+-<?php if ($viewModel->isLoginAsCustomerEnabled()): ?>
++    </script>
+     <div class="field choice">
+         <input type="checkbox"
+                name="assistance_allowed_checkbox"
