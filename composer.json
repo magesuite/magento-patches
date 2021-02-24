@@ -907,6 +907,13 @@
                     "filename": "essential/m241-fix-vertex-constructor-missing-argument.patch",
                     "version-constraint": "4.1.0"
                 }
+            ],
+            "magento/module-login-as-customer-assistance": [
+                {
+                    "description": "Fix JS error on Create New Customer Account page",
+                    "filename": "essential/m24-login-as-customer-js-error-register.patch",
+                    "version-constraint": "100.4.0"
+                }
             ]
         }
     }
