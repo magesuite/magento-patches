@@ -588,6 +588,11 @@
                 "description": "Patch to cache XML files instead of parsing",
                 "filename": "optional/external-customweb-datatranscw-cache-xml.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Clear quote on success page",
+                "filename": "optional/external-customweb-datatranscw-clear-quote-on-success-page.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-cms-url-rewrite": [

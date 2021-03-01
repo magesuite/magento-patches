@@ -1,0 +1,13 @@
+diff --git a/Controller/Checkout.php b/Controller/Checkout.php
+index 2e5cdbd..cf6a03d 100755
+--- a/Controller/Checkout.php
++++ b/Controller/Checkout.php
+@@ -99,6 +99,8 @@ abstract class Checkout extends \Magento\Framework\App\Action\Action
+ 		$quote = $transaction->getQuote();
+ 		$quote->setIsActive(false);
+ 		$this->_quoteRepository->save($quote);
++
++		$this->_checkoutSession->clearQuote();
+ 	}
+ 
+ 	/**
