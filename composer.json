@@ -767,7 +767,7 @@
                 {
                     "description": "Fix getIdentities for bundle products",
                     "filename": "essential/m23-fix-getidentities-for-bundle.patch",
-                    "version-constraint": ">=100.3.1"
+                    "version-constraint": ">=100.3.1, <101.0.2"
                 }
             ],
             "amzn/amazon-pay-and-login-with-amazon-core-module": [
