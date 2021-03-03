@@ -343,6 +343,11 @@
                     "description": "Fix pageSize issue introduced in 2.8.9",
                     "filename": "essential/smile-elasticsuite-289-page-size-issue.patch",
                     "version-constraint": "2.8.9"
+                },
+                {
+                    "description": "Fix notice in swatches block",
+                    "filename": "essential/smile-elasticsuite-fix-notice-in-swatches.patch",
+                    "version-constraint": "<2.10.4"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [

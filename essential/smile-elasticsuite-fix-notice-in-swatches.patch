@@ -1,0 +1,18 @@
+Notice: Trying to access array offset on value of type int in vendor/smile/elasticsuite/src/module-elasticsuite-swatches/Block/Navigation/Renderer/Swatches/RenderLayered.php on line 70
+Github: https://github.com/Smile-SA/elasticsuite/issues/1931
+
+diff --git a/src/module-elasticsuite-swatches/Block/Navigation/Renderer/Swatches/RenderLayered.php b/src/module-elasticsuite-swatches/Block/Navigation/Renderer/Swatches/RenderLayered.php
+index 43f501a..7242778 100644
+--- a/src/module-elasticsuite-swatches/Block/Navigation/Renderer/Swatches/RenderLayered.php
++++ b/src/module-elasticsuite-swatches/Block/Navigation/Renderer/Swatches/RenderLayered.php
+@@ -67,7 +67,9 @@ class RenderLayered extends \Magento\Swatches\Block\LayeredNavigation\RenderLaye
+         }
+
+         foreach (array_merge(array_flip($sortingArr), $attributeOptions) as $item) {
+-            $attributeOptionsSort[$item['id']] = $item;
++            if (is_array($item) && array_key_exists('id', $item)) {
++                $attributeOptionsSort[$item['id']] = $item;
++            }
+         }
+
+         $attributeOptionIds = array_keys($attributeOptionsSort);
