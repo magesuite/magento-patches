@@ -880,7 +880,7 @@
                 {
                     "description": "Fixing issue with multiple giftcard codes generated when invoice is updated (DOG-530)",
                     "filename": "essential/m23c-fix-duplicated-giftcard-codes-after-edit-invoice.patch",
-                    "version-constraint": ">=101.2.5"
+                    "version-constraint": ">=101.2.5,<101.3.2"
                 }
             ],
             "payone-gmbh/magento-2": [
