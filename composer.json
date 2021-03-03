@@ -720,7 +720,7 @@
                 {
                     "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.3.5+",
                     "filename": "essential/m235-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
-                    "version-constraint": ">=103.0.5"
+                    "version-constraint": ">=103.0.5,<104.0.2"
                 }
             ],
             "magento/module-payment": [
