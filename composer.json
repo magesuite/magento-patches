@@ -121,7 +121,7 @@
                 {
                     "description": "Fix: Region field visible for Country when 'Allow to Choose State if It is Optional for Country' is disabled",
                     "filename": "essential/m24-fix-region-field.patch",
-                    "version-constraint": ">=101.2.1, <101.3.0"
+                    "version-constraint": ">=101.2.1, <101.2.2"
                 }
             ],
             "magento/module-persistent": [
