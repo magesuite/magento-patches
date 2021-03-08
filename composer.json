@@ -107,6 +107,13 @@
                     "version-constraint": ">=101.0.0"
                 }
             ],
+            "magento/module-asynchronous-operations": [
+                {
+                    "description": "Fix asynchronius asynchronous bulk operations",
+                    "filename": "essential/m24-fix-asynchronous-operations.patch",
+                    "version-constraint": ">=100.4.0, <100.4.2"
+                }
+            ],
             "magento/module-ui": [
                 {
                     "description": "Add autocomplete to checkout inputs - setup",
