@@ -288,6 +288,13 @@
                 "version-constraint": "100.2.2"
             }
         ],
+        "magento/module-configurable-product": [
+            {
+                "description": "Disables displaying of simple products attached to configurable in admin panel.",
+                "filename": "optional/m242-remove-simples-attached-to-configurable-calculation-in-admin-product-edit-page.patch",
+                "version-constraint": "*"
+            }
+        ],
         "magento/module-configurable-import-export": [
             {
                 "description": "Fix configurable products relation to simples with qty = 0 during import.",
