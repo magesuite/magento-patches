@@ -453,11 +453,6 @@
                     "description": "Fix incorrect store ID check which reloads customer data all the time.",
                     "filename": "essential/m233-store-id-check-fix.patch",
                     "version-constraint": "100.3.3"
-                },
-                {
-                    "description": "Fix recaptcha in checkout (MC-38072).",
-                    "filename": "essential/m241-captcha-checkout.patch",
-                    "version-constraint": "100.4.1"
                 }
             ],
             "magento/module-checkout-agreements": [
@@ -572,13 +567,6 @@
                     "description": "Fixes free shipping cart rule bug.",
                     "filename": "essential/m23plus-fix-free-shipping-cart-rule.patch",
                     "version-constraint": ">=101.0.0"
-                }
-            ],
-            "magento/module-quote-graph-ql": [
-                {
-                    "description": "Fix recaptcha in checkout (MC-38072).",
-                    "filename": "essential/m241-captcha-checkout-quote-graph-ql.patch",
-                    "version-constraint": "100.4.1"
                 }
             ],
             "magento/module-import-export": [
@@ -768,13 +756,6 @@
                     "description": "Fix watermark processing in media application (Magento 2.3.0+, fixed in Magento 2.3.2)",
                     "filename": "essential/m230-fix-product-image-watermark-processing.patch",
                     "version-constraint": ">=100.3.0,<100.3.2"
-                }
-            ],
-            "magento/module-multishipping": [
-                {
-                    "description": "Fix recaptcha in checkout (MC-38072).",
-                    "filename": "essential/m241-captcha-checkout-multishipping.patch",
-                    "version-constraint": "100.4.1"
                 }
             ],
             "magento/framework-amqp": [
