@@ -1,0 +1,54 @@
+diff --git a/Model/Algorithms/Result/GetDefaultSortedSourcesResult.php b/Model/Algorithms/Result/GetDefaultSortedSourcesResult.php
+index 3db5501..e92ad93 100644
+--- a/Model/Algorithms/Result/GetDefaultSortedSourcesResult.php
++++ b/Model/Algorithms/Result/GetDefaultSortedSourcesResult.php
+@@ -95,7 +95,8 @@ class GetDefaultSortedSourcesResult
+ 
+         $itemsTdDeliver = [];
+         foreach ($inventoryRequest->getItems() as $item) {
+-            $itemsTdDeliver[$item->getSku()] = $item->getQty();
++            $normalizedSku = $this->normalizeSku($item->getSku());
++            $itemsTdDeliver[$normalizedSku] = $item->getQty();
+         }
+ 
+         $sortedSourceCodes = [];
+@@ -110,17 +111,20 @@ class GetDefaultSortedSourcesResult
+             );
+ 
+         foreach ($sourceItems as $sourceItem) {
++            $normalizedSku = $this->normalizeSku($sourceItem->getSku());
+             $sourceItemQtyAvailable = $this->getSourceItemQtyAvailable->execute($sourceItem);
+-            $qtyToDeduct = min($sourceItemQtyAvailable, $itemsTdDeliver[$sourceItem->getSku()] ?? 0.0);
+-
+-            $sourceItemSelections[] = $this->sourceSelectionItemFactory->create([
+-                'sourceCode' => $sourceItem->getSourceCode(),
+-                'sku' => $sourceItem->getSku(),
+-                'qtyToDeduct' => $qtyToDeduct,
+-                'qtyAvailable' => $sourceItemQtyAvailable
+-            ]);
++            $qtyToDeduct = min($sourceItemQtyAvailable, $itemsTdDeliver[$normalizedSku] ?? 0.0);
++
++            $sourceItemSelections[] = $this->sourceSelectionItemFactory->create(
++                [
++                    'sourceCode' => $sourceItem->getSourceCode(),
++                    'sku' => $sourceItem->getSku(),
++                    'qtyToDeduct' => $qtyToDeduct,
++                    'qtyAvailable' => $sourceItemQtyAvailable
++                ]
++            );
+ 
+-            $itemsTdDeliver[$sourceItem->getSku()] -= $qtyToDeduct;
++            $itemsTdDeliver[$normalizedSku] -= $qtyToDeduct;
+         }
+ 
+         $isShippable = true;
+@@ -138,4 +142,9 @@ class GetDefaultSortedSourcesResult
+             ]
+         );
+     }
++    
++    private function normalizeSku(string $sku): string
++    {
++        return mb_convert_case($sku, MB_CASE_LOWER, 'UTF-8');
++    }
+ }
