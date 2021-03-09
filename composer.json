@@ -924,7 +924,7 @@
                 {
                     "description": "Fix error on source selection deduction (all quantity changes)",
                     "filename": "essential/normalize-sku-in-source-selection-api.patch",
-                    "version-constraint": ">= 1.2.0, <1.2.2"
+                    "version-constraint": ">=1.2.0,<1.2.2"
                 }
             ]
         },
