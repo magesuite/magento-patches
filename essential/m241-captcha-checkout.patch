@@ -1,0 +1,748 @@
+https://support.magento.com/hc/en-us/articles/360051235772-Magento-Commerce-v2-3-6-2-4-1-CAPTCHA-in-checkout-not-working
+
+diff --git a/Api/Exception/PaymentProcessingRateLimitExceededException.php b/Api/Exception/PaymentProcessingRateLimitExceededException.php
+index e398bf4..018c181 100644
+--- a/Api/Exception/PaymentProcessingRateLimitExceededException.php
++++ b/Api/Exception/PaymentProcessingRateLimitExceededException.php
+@@ -11,7 +11,7 @@ namespace Magento\Checkout\Api\Exception;
+ use Magento\Framework\Exception\LocalizedException;
+
+ /**
+- * Thrown when too many payment processing requests have been initiated by a user.
++ * Thrown when too many payment processing/saving requests have been initiated by a user.
+  */
+ class PaymentProcessingRateLimitExceededException extends LocalizedException
+ {
+diff --git a/Api/PaymentSavingRateLimiterInterface.php b/Api/PaymentSavingRateLimiterInterface.php
+new file mode 100644
+index 0000000..c964029
+--- /dev/null
++++ b/Api/PaymentSavingRateLimiterInterface.php
+@@ -0,0 +1,25 @@
++<?php
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++
++declare(strict_types=1);
++
++namespace Magento\Checkout\Api;
++
++use Magento\Checkout\Api\Exception\PaymentProcessingRateLimitExceededException;
++
++/**
++ * Limits number of times a user can store payment method info.
++ */
++interface PaymentSavingRateLimiterInterface
++{
++    /**
++     * Limit an attempt.
++     *
++     * @return void
++     * @throws PaymentProcessingRateLimitExceededException
++     */
++    public function limit(): void;
++}
+diff --git a/Model/CaptchaPaymentProcessingRateLimiter.php b/Model/CaptchaPaymentProcessingRateLimiter.php
+index 6f71423..68860b6 100644
+--- a/Model/CaptchaPaymentProcessingRateLimiter.php
++++ b/Model/CaptchaPaymentProcessingRateLimiter.php
+@@ -12,42 +12,23 @@ use Magento\Authorization\Model\UserContextInterface;
+ use Magento\Checkout\Api\Exception\PaymentProcessingRateLimitExceededException;
+ use Magento\Checkout\Api\PaymentProcessingRateLimiterInterface;
+ use Magento\Customer\Api\CustomerRepositoryInterface;
+-use Magento\Captcha\Model\DefaultModel as Captcha;
+ use Magento\Captcha\Helper\Data as CaptchaHelper;
+ use Magento\Captcha\Observer\CaptchaStringResolver as CaptchaResolver;
++use Magento\Framework\App\ObjectManager;
+ use Magento\Framework\App\RequestInterface;
++use Magento\Framework\Exception\LocalizedException;
+
+ /**
+- * Utilize CAPTCHA as a rate-limiting mechanism.
++ * Utilize CAPTCHA to limit payment processing requests.
+  */
+ class CaptchaPaymentProcessingRateLimiter implements PaymentProcessingRateLimiterInterface
+ {
+     public const CAPTCHA_FORM = 'payment_processing_request';
+
+     /**
+-     * @var UserContextInterface
++     * @var CaptchaRateLimiter
+      */
+-    private $userContext;
+-
+-    /**
+-     * @var CustomerRepositoryInterface
+-     */
+-    private $customerRepo;
+-
+-    /**
+-     * @var CaptchaHelper
+-     */
+-    private $captchaHelper;
+-
+-    /**
+-     * @var RequestInterface
+-     */
+-    private $request;
+-
+-    /**
+-     * @var CaptchaResolver
+-     */
+-    private $captchaResolver;
++    private $limiter;
+
+     /**
+      * CaptchaPaymentProcessingRateLimiter constructor.
+@@ -57,19 +38,25 @@ class CaptchaPaymentProcessingRateLimiter implements PaymentProcessingRateLimite
+      * @param CaptchaHelper $captchaHelper
+      * @param RequestInterface $request
+      * @param CaptchaResolver $captchaResolver
++     * @param CaptchaRateLimiterFactory|null $limiterFactory
+      */
+     public function __construct(
+         UserContextInterface $userContext,
+         CustomerRepositoryInterface $customerRepo,
+         CaptchaHelper $captchaHelper,
+         RequestInterface $request,
+-        CaptchaResolver $captchaResolver
++        CaptchaResolver $captchaResolver,
++        ?CaptchaRateLimiterFactory $limiterFactory
+     ) {
+-        $this->userContext = $userContext;
+-        $this->customerRepo = $customerRepo;
+-        $this->captchaHelper = $captchaHelper;
+-        $this->request = $request;
+-        $this->captchaResolver = $captchaResolver;
++        $limiterFactory = $limiterFactory ?? ObjectManager::getInstance()->get(CaptchaRateLimiterFactory::class);
++        $this->limiter = $limiterFactory->create([
++            'userContext' => $userContext,
++            'customerRepo' => $customerRepo,
++            'captchaHelper' => $captchaHelper,
++            'captchaResolver' => $captchaResolver,
++            'request' => $request,
++            'captchaId' => self::CAPTCHA_FORM
++        ]);
+     }
+
+     /**
+@@ -77,47 +64,10 @@ class CaptchaPaymentProcessingRateLimiter implements PaymentProcessingRateLimite
+      */
+     public function limit(): void
+     {
+-        if ($this->userContext->getUserType() !== UserContextInterface::USER_TYPE_GUEST
+-            && $this->userContext->getUserType() !== UserContextInterface::USER_TYPE_CUSTOMER
+-            && $this->userContext->getUserType() !== null
+-        ) {
+-            return;
++        try {
++            $this->limiter->limit();
++        } catch (LocalizedException $exception) {
++            throw new PaymentProcessingRateLimitExceededException(__($exception->getMessage()), $exception);
+         }
+-
+-        $login = $this->retrieveLogin();
+-        /** @var Captcha $captcha */
+-        $captcha = $this->captchaHelper->getCaptcha(self::CAPTCHA_FORM);
+-        /** @var PaymentProcessingRateLimitExceededException|null $exception */
+-        $exception = null;
+-        if ($captcha->isRequired($login)) {
+-            $value = $this->captchaResolver->resolve($this->request, self::CAPTCHA_FORM);
+-            if ($value && !$captcha->isCorrect($value)) {
+-                $exception = new PaymentProcessingRateLimitExceededException(__('Incorrect CAPTCHA'));
+-            } elseif (!$value) {
+-                $exception = new PaymentProcessingRateLimitExceededException(
+-                    __('Please provide CAPTCHA code and try again')
+-                );
+-            }
+-        }
+-
+-        $captcha->logAttempt($login);
+-        if ($exception) {
+-            throw $exception;
+-        }
+-    }
+-
+-    /**
+-     * Retrieve current user login.
+-     *
+-     * @return string|null
+-     */
+-    private function retrieveLogin(): ?string
+-    {
+-        $login = null;
+-        if ($this->userContext->getUserId()) {
+-            $login = $this->customerRepo->getById($this->userContext->getUserId())->getEmail();
+-        }
+-
+-        return $login;
+     }
+ }
+diff --git a/Model/CaptchaPaymentSavingRateLimiter.php b/Model/CaptchaPaymentSavingRateLimiter.php
+new file mode 100644
+index 0000000..7d52a1a
+--- /dev/null
++++ b/Model/CaptchaPaymentSavingRateLimiter.php
+@@ -0,0 +1,55 @@
++<?php
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++
++declare(strict_types=1);
++
++namespace Magento\Checkout\Model;
++
++use Magento\Checkout\Api\Exception\PaymentProcessingRateLimitExceededException;
++use Magento\Checkout\Api\PaymentSavingRateLimiterInterface;
++use Magento\Framework\Exception\LocalizedException;
++
++/**
++ * Utilize CAPTCHA to limit save payment requests.
++ */
++class CaptchaPaymentSavingRateLimiter implements PaymentSavingRateLimiterInterface
++{
++    public const CAPTCHA_FORM = 'payment_saving_request';
++
++    /**
++     * @var CaptchaRateLimiter
++     */
++    private $limiter;
++
++    /**
++     * CaptchaPaymentProcessingRateLimiter constructor.
++     *
++     * @param CaptchaRateLimiterFactory $limiterFactory
++     */
++    public function __construct(
++        CaptchaRateLimiterFactory $limiterFactory
++    ) {
++        $this->limiter = $limiterFactory->create(['captchaId' => self::CAPTCHA_FORM]);
++    }
++
++    /**
++     * @inheritDoc
++     */
++    public function limit(): void
++    {
++        try {
++            $this->limiter->limit();
++        } catch (LocalizedException $exception) {
++            throw new PaymentProcessingRateLimitExceededException(
++                __(
++                    'Could not store billing/shipping information at the moment'
++                    .' but you can proceed with the checkout'
++                ),
++                $exception
++            );
++        }
++    }
++}
+diff --git a/Model/CaptchaRateLimiter.php b/Model/CaptchaRateLimiter.php
+new file mode 100644
+index 0000000..e643d61
+--- /dev/null
++++ b/Model/CaptchaRateLimiter.php
+@@ -0,0 +1,129 @@
++<?php
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++
++declare(strict_types=1);
++
++namespace Magento\Checkout\Model;
++
++use Magento\Authorization\Model\UserContextInterface;
++use Magento\Customer\Api\CustomerRepositoryInterface;
++use Magento\Captcha\Model\DefaultModel as Captcha;
++use Magento\Captcha\Helper\Data as CaptchaHelper;
++use Magento\Captcha\Observer\CaptchaStringResolver as CaptchaResolver;
++use Magento\Framework\App\RequestInterface;
++use Magento\Framework\Exception\LocalizedException;
++
++/**
++ * Utilize CAPTCHA as a rate-limiting mechanism.
++ */
++class CaptchaRateLimiter
++{
++    /**
++     * @var string
++     */
++    private $captchaId;
++
++    /**
++     * @var UserContextInterface
++     */
++    private $userContext;
++
++    /**
++     * @var CustomerRepositoryInterface
++     */
++    private $customerRepo;
++
++    /**
++     * @var CaptchaHelper
++     */
++    private $captchaHelper;
++
++    /**
++     * @var RequestInterface
++     */
++    private $request;
++
++    /**
++     * @var CaptchaResolver
++     */
++    private $captchaResolver;
++
++    /**
++     * @param UserContextInterface $userContext
++     * @param CustomerRepositoryInterface $customerRepo
++     * @param CaptchaHelper $captchaHelper
++     * @param RequestInterface $request
++     * @param CaptchaResolver $captchaResolver
++     * @param string $captchaId
++     */
++    public function __construct(
++        UserContextInterface $userContext,
++        CustomerRepositoryInterface $customerRepo,
++        CaptchaHelper $captchaHelper,
++        RequestInterface $request,
++        CaptchaResolver $captchaResolver,
++        string $captchaId
++    ) {
++        $this->userContext = $userContext;
++        $this->customerRepo = $customerRepo;
++        $this->captchaHelper = $captchaHelper;
++        $this->request = $request;
++        $this->captchaResolver = $captchaResolver;
++        $this->captchaId = $captchaId;
++    }
++
++    /**
++     * Validate CAPTCHA if necessary.
++     *
++     * @return void
++     * @throws LocalizedException
++     */
++    public function limit(): void
++    {
++        if ($this->userContext->getUserType() !== UserContextInterface::USER_TYPE_GUEST
++            && $this->userContext->getUserType() !== UserContextInterface::USER_TYPE_CUSTOMER
++            && $this->userContext->getUserType() !== null
++        ) {
++            return;
++        }
++
++        $login = $this->retrieveLogin();
++        /** @var Captcha $captcha */
++        $captcha = $this->captchaHelper->getCaptcha($this->captchaId);
++        /** @var LocalizedException|null $exception */
++        $exception = null;
++        if ($captcha->isRequired($login)) {
++            $value = $this->captchaResolver->resolve($this->request, $this->captchaId);
++            if ($value && !$captcha->isCorrect($value)) {
++                $exception = new LocalizedException(__('Incorrect CAPTCHA'));
++            } elseif (!$value) {
++                $exception = new LocalizedException(
++                    __('Please provide CAPTCHA code and try again')
++                );
++            }
++        }
++
++        $captcha->logAttempt($login);
++        if ($exception) {
++            throw $exception;
++        }
++    }
++
++    /**
++     * Retrieve current user login.
++     *
++     * @return string|null
++     */
++    private function retrieveLogin(): ?string
++    {
++        $login = null;
++        if ($this->userContext->getUserId()) {
++            $login = $this->customerRepo->getById($this->userContext->getUserId())->getEmail();
++        }
++
++        return $login;
++    }
++}
+diff --git a/Model/GuestPaymentInformationManagement.php b/Model/GuestPaymentInformationManagement.php
+index 2b28242..0ca398b 100644
+--- a/Model/GuestPaymentInformationManagement.php
++++ b/Model/GuestPaymentInformationManagement.php
+@@ -7,7 +7,9 @@ declare(strict_types=1);
+
+ namespace Magento\Checkout\Model;
+
++use Magento\Checkout\Api\Exception\PaymentProcessingRateLimitExceededException;
+ use Magento\Checkout\Api\PaymentProcessingRateLimiterInterface;
++use Magento\Checkout\Api\PaymentSavingRateLimiterInterface;
+ use Magento\Framework\App\ObjectManager;
+ use Magento\Quote\Api\CartRepositoryInterface;
+ use Magento\Framework\Exception\CouldNotSaveException;
+@@ -61,6 +63,16 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+      */
+     private $paymentsRateLimiter;
+
++    /**
++     * @var PaymentSavingRateLimiterInterface
++     */
++    private $savingRateLimiter;
++
++    /**
++     * @var bool
++     */
++    private $saveRateLimitDisabled = false;
++
+     /**
+      * @param \Magento\Quote\Api\GuestBillingAddressManagementInterface $billingAddressManagement
+      * @param \Magento\Quote\Api\GuestPaymentMethodManagementInterface $paymentMethodManagement
+@@ -69,6 +81,7 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+      * @param \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
+      * @param CartRepositoryInterface $cartRepository
+      * @param PaymentProcessingRateLimiterInterface|null $paymentsRateLimiter
++     * @param PaymentSavingRateLimiterInterface|null $savingRateLimiter
+      * @codeCoverageIgnore
+      */
+     public function __construct(
+@@ -78,7 +91,8 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+         \Magento\Checkout\Api\PaymentInformationManagementInterface $paymentInformationManagement,
+         \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
+         CartRepositoryInterface $cartRepository,
+-        ?PaymentProcessingRateLimiterInterface $paymentsRateLimiter = null
++        ?PaymentProcessingRateLimiterInterface $paymentsRateLimiter = null,
++        ?PaymentSavingRateLimiterInterface $savingRateLimiter = null
+     ) {
+         $this->billingAddressManagement = $billingAddressManagement;
+         $this->paymentMethodManagement = $paymentMethodManagement;
+@@ -88,6 +102,8 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+         $this->cartRepository = $cartRepository;
+         $this->paymentsRateLimiter = $paymentsRateLimiter
+             ?? ObjectManager::getInstance()->get(PaymentProcessingRateLimiterInterface::class);
++        $this->savingRateLimiter = $savingRateLimiter
++            ?? ObjectManager::getInstance()->get(PaymentSavingRateLimiterInterface::class);
+     }
+
+     /**
+@@ -99,7 +115,14 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
+         \Magento\Quote\Api\Data\AddressInterface $billingAddress = null
+     ) {
+-        $this->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
++        $this->paymentsRateLimiter->limit();
++        try {
++            //Have to do this hack because of savePaymentInformation() plugins.
++            $this->saveRateLimitDisabled = true;
++            $this->savePaymentInformation($cartId, $email, $paymentMethod, $billingAddress);
++        } finally {
++            $this->saveRateLimitDisabled = false;
++        }
+         try {
+             $orderId = $this->cartManagement->placeOrder($cartId);
+         } catch (\Magento\Framework\Exception\LocalizedException $e) {
+@@ -130,7 +153,14 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
+         \Magento\Quote\Api\Data\AddressInterface $billingAddress = null
+     ) {
+-        $this->paymentsRateLimiter->limit();
++        if (!$this->saveRateLimitDisabled) {
++            try {
++                $this->savingRateLimiter->limit();
++            } catch (PaymentProcessingRateLimitExceededException $ex) {
++                //Limit reached
++                return false;
++            }
++        }
+
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
+         /** @var Quote $quote */
+diff --git a/Model/PaymentInformationManagement.php b/Model/PaymentInformationManagement.php
+index a6e448e..3b36391 100644
+--- a/Model/PaymentInformationManagement.php
++++ b/Model/PaymentInformationManagement.php
+@@ -6,7 +6,9 @@
+
+ namespace Magento\Checkout\Model;
+
++use Magento\Checkout\Api\Exception\PaymentProcessingRateLimitExceededException;
+ use Magento\Checkout\Api\PaymentProcessingRateLimiterInterface;
++use Magento\Checkout\Api\PaymentSavingRateLimiterInterface;
+ use Magento\Framework\App\ObjectManager;
+ use Magento\Framework\Exception\CouldNotSaveException;
+
+@@ -58,6 +60,16 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
+      */
+     private $paymentRateLimiter;
+
++    /**
++     * @var PaymentSavingRateLimiterInterface
++     */
++    private $saveRateLimiter;
++
++    /**
++     * @var bool
++     */
++    private $saveRateLimiterDisabled = false;
++
+     /**
+      * @param \Magento\Quote\Api\BillingAddressManagementInterface $billingAddressManagement
+      * @param \Magento\Quote\Api\PaymentMethodManagementInterface $paymentMethodManagement
+@@ -65,6 +77,7 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
+      * @param PaymentDetailsFactory $paymentDetailsFactory
+      * @param \Magento\Quote\Api\CartTotalRepositoryInterface $cartTotalsRepository
+      * @param PaymentProcessingRateLimiterInterface|null $paymentRateLimiter
++     * @param PaymentSavingRateLimiterInterface|null $saveRateLimiter
+      * @codeCoverageIgnore
+      */
+     public function __construct(
+@@ -73,7 +86,8 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
+         \Magento\Quote\Api\CartManagementInterface $cartManagement,
+         \Magento\Checkout\Model\PaymentDetailsFactory $paymentDetailsFactory,
+         \Magento\Quote\Api\CartTotalRepositoryInterface $cartTotalsRepository,
+-        ?PaymentProcessingRateLimiterInterface $paymentRateLimiter = null
++        ?PaymentProcessingRateLimiterInterface $paymentRateLimiter = null,
++        ?PaymentSavingRateLimiterInterface $saveRateLimiter = null
+     ) {
+         $this->billingAddressManagement = $billingAddressManagement;
+         $this->paymentMethodManagement = $paymentMethodManagement;
+@@ -82,6 +96,8 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
+         $this->cartTotalsRepository = $cartTotalsRepository;
+         $this->paymentRateLimiter = $paymentRateLimiter
+             ?? ObjectManager::getInstance()->get(PaymentProcessingRateLimiterInterface::class);
++        $this->saveRateLimiter = $saveRateLimiter
++            ?? ObjectManager::getInstance()->get(PaymentSavingRateLimiterInterface::class);
+     }
+
+     /**
+@@ -92,7 +108,14 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
+         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
+         \Magento\Quote\Api\Data\AddressInterface $billingAddress = null
+     ) {
+-        $this->savePaymentInformation($cartId, $paymentMethod, $billingAddress);
++        $this->paymentRateLimiter->limit();
++        try {
++            //Have to do this hack because of plugins for savePaymentInformation()
++            $this->saveRateLimiterDisabled = true;
++            $this->savePaymentInformation($cartId, $paymentMethod, $billingAddress);
++        } finally {
++            $this->saveRateLimiterDisabled = false;
++        }
+         try {
+             $orderId = $this->cartManagement->placeOrder($cartId);
+         } catch (\Magento\Framework\Exception\LocalizedException $e) {
+@@ -121,7 +144,14 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
+         \Magento\Quote\Api\Data\PaymentInterface $paymentMethod,
+         \Magento\Quote\Api\Data\AddressInterface $billingAddress = null
+     ) {
+-        $this->paymentRateLimiter->limit();
++        if (!$this->saveRateLimiterDisabled) {
++            try {
++                $this->saveRateLimiter->limit();
++            } catch (PaymentProcessingRateLimitExceededException $ex) {
++                //Limit reached
++                return false;
++            }
++        }
+
+         if ($billingAddress) {
+             /** @var \Magento\Quote\Api\CartRepositoryInterface $quoteRepository */
+diff --git a/Test/Unit/Model/GuestPaymentInformationManagementTest.php b/Test/Unit/Model/GuestPaymentInformationManagementTest.php
+index 4a89443..5310fd1 100644
+--- a/Test/Unit/Model/GuestPaymentInformationManagementTest.php
++++ b/Test/Unit/Model/GuestPaymentInformationManagementTest.php
+@@ -9,6 +9,7 @@ namespace Magento\Checkout\Test\Unit\Model;
+
+ use Magento\Checkout\Api\Exception\PaymentProcessingRateLimitExceededException;
+ use Magento\Checkout\Api\PaymentProcessingRateLimiterInterface;
++use Magento\Checkout\Api\PaymentSavingRateLimiterInterface;
+ use Magento\Checkout\Model\GuestPaymentInformationManagement;
+ use Magento\Framework\Exception\CouldNotSaveException;
+ use Magento\Framework\Exception\LocalizedException;
+@@ -74,6 +75,11 @@ class GuestPaymentInformationManagementTest extends TestCase
+      */
+     private $limiterMock;
+
++    /**
++     * @var PaymentSavingRateLimiterInterface|MockObject
++     */
++    private $saveLimiterMock;
++
+     protected function setUp(): void
+     {
+         $objectManager = new ObjectManager($this);
+@@ -92,6 +98,7 @@ class GuestPaymentInformationManagementTest extends TestCase
+         );
+         $this->loggerMock = $this->getMockForAbstractClass(LoggerInterface::class);
+         $this->limiterMock = $this->getMockForAbstractClass(PaymentProcessingRateLimiterInterface::class);
++        $this->saveLimiterMock = $this->getMockForAbstractClass(PaymentSavingRateLimiterInterface::class);
+         $this->model = $objectManager->getObject(
+             GuestPaymentInformationManagement::class,
+             [
+@@ -100,7 +107,8 @@ class GuestPaymentInformationManagementTest extends TestCase
+                 'cartManagement' => $this->cartManagementMock,
+                 'cartRepository' => $this->cartRepositoryMock,
+                 'quoteIdMaskFactory' => $this->quoteIdMaskFactoryMock,
+-                'paymentsRateLimiter' => $this->limiterMock
++                'paymentsRateLimiter' => $this->limiterMock,
++                'savingRateLimiter' => $this->saveLimiterMock
+             ]
+         );
+         $objectManager->setBackwardCompatibleProperty($this->model, 'logger', $this->loggerMock);
+@@ -160,7 +168,7 @@ class GuestPaymentInformationManagementTest extends TestCase
+     public function testSavePaymentInformationLimited(): void
+     {
+         $this->expectException(PaymentProcessingRateLimitExceededException::class);
+-        $this->limiterMock->method('limit')
++        $this->saveLimiterMock->method('limit')
+             ->willThrowException(new PaymentProcessingRateLimitExceededException(__('Error')));
+
+         $this->savePayment();
+diff --git a/Test/Unit/Model/PaymentInformationManagementTest.php b/Test/Unit/Model/PaymentInformationManagementTest.php
+index 2948577..2eafc7c 100644
+--- a/Test/Unit/Model/PaymentInformationManagementTest.php
++++ b/Test/Unit/Model/PaymentInformationManagementTest.php
+@@ -9,6 +9,7 @@ namespace Magento\Checkout\Test\Unit\Model;
+
+ use Magento\Checkout\Api\Exception\PaymentProcessingRateLimitExceededException;
+ use Magento\Checkout\Api\PaymentProcessingRateLimiterInterface;
++use Magento\Checkout\Api\PaymentSavingRateLimiterInterface;
+ use Magento\Checkout\Model\PaymentInformationManagement;
+ use Magento\Framework\Exception\LocalizedException;
+ use Magento\Framework\Phrase;
+@@ -66,6 +67,11 @@ class PaymentInformationManagementTest extends TestCase
+      */
+     private $rateLimiterMock;
+
++    /**
++     * @var PaymentSavingRateLimiterInterface|MockObject
++     */
++    private $saveLimiterMock;
++
+     protected function setUp(): void
+     {
+         $objectManager = new ObjectManager($this);
+@@ -81,13 +87,15 @@ class PaymentInformationManagementTest extends TestCase
+         $this->cartRepositoryMock = $this->getMockBuilder(CartRepositoryInterface::class)
+             ->getMock();
+         $this->rateLimiterMock = $this->getMockForAbstractClass(PaymentProcessingRateLimiterInterface::class);
++        $this->saveLimiterMock = $this->getMockForAbstractClass(PaymentSavingRateLimiterInterface::class);
+         $this->model = $objectManager->getObject(
+             PaymentInformationManagement::class,
+             [
+                 'billingAddressManagement' => $this->billingAddressManagementMock,
+                 'paymentMethodManagement' => $this->paymentMethodManagementMock,
+                 'cartManagement' => $this->cartManagementMock,
+-                'paymentRateLimiter' => $this->rateLimiterMock
++                'paymentRateLimiter' => $this->rateLimiterMock,
++                'saveRateLimiter' => $this->saveLimiterMock
+             ]
+         );
+         $objectManager->setBackwardCompatibleProperty($this->model, 'logger', $this->loggerMock);
+@@ -164,7 +172,7 @@ class PaymentInformationManagementTest extends TestCase
+      */
+     public function testSavePaymentInformationLimited(): void
+     {
+-        $this->rateLimiterMock->method('limit')
++        $this->saveLimiterMock->method('limit')
+             ->willThrowException(new PaymentProcessingRateLimitExceededException(__('Error')));
+         $this->expectException(PaymentProcessingRateLimitExceededException::class);
+
+diff --git a/view/frontend/web/js/action/set-payment-information-extended.js b/view/frontend/web/js/action/set-payment-information-extended.js
+index ae5b091..46b2756 100644
+--- a/view/frontend/web/js/action/set-payment-information-extended.js
++++ b/view/frontend/web/js/action/set-payment-information-extended.js
+@@ -15,7 +15,7 @@ define([
+     'Magento_Checkout/js/action/get-totals',
+     'Magento_Checkout/js/model/full-screen-loader',
+     'underscore',
+-    'Magento_Checkout/js/model/payment/set-payment-hooks'
++    'Magento_Checkout/js/model/payment/place-order-hooks'
+ ], function (quote, urlBuilder, storage, errorProcessor, customer, getTotalsAction, fullScreenLoader, _, hooks) {
+     'use strict';
+
+diff --git a/view/frontend/web/js/model/payment/set-payment-hooks.js b/view/frontend/web/js/model/payment/set-payment-hooks.js
+deleted file mode 100644
+index 5cd31d8..0000000
+--- a/view/frontend/web/js/model/payment/set-payment-hooks.js
++++ /dev/null
+@@ -1,13 +0,0 @@
+-/**
+- * Copyright © Magento, Inc. All rights reserved.
+- * See COPYING.txt for license details.
+- */
+-
+-define([], function () {
+-    'use strict';
+-
+-    return {
+-        requestModifiers: [],
+-        afterRequestListeners: []
+-    };
+-});
+diff --git a/view/frontend/web/js/view/checkout/placeOrderCaptcha.js b/view/frontend/web/js/view/checkout/placeOrderCaptcha.js
+index d0e27ad..fcbf3e2 100644
+--- a/view/frontend/web/js/view/checkout/placeOrderCaptcha.js
++++ b/view/frontend/web/js/view/checkout/placeOrderCaptcha.js
+@@ -30,7 +30,7 @@ function (defaultCaptcha, captchaList, _, placeOrderHooks) {
+                     }
+                 });
+                 placeOrderHooks.afterRequestListeners.push(function () {
+-                    self.refresh();
++                    //self.refresh();
+                 });
+             }
+         }
+diff --git a/view/frontend/web/js/view/checkout/setPaymentCaptcha.js b/view/frontend/web/js/view/checkout/setPaymentCaptcha.js
+deleted file mode 100644
+index 93f3bb8..0000000
+--- a/view/frontend/web/js/view/checkout/setPaymentCaptcha.js
++++ /dev/null
+@@ -1,38 +0,0 @@
+-/**
+- * Copyright © Magento, Inc. All rights reserved.
+- * See COPYING.txt for license details.
+- */
+-
+-define([
+-    'Magento_Captcha/js/view/checkout/defaultCaptcha',
+-    'Magento_Captcha/js/model/captchaList',
+-    'underscore',
+-    'Magento_Checkout/js/model/payment/set-payment-hooks'
+-],
+-function (defaultCaptcha, captchaList, _, setPaymentHooks) {
+-    'use strict';
+-
+-    return defaultCaptcha.extend({
+-        /** @inheritdoc */
+-        initialize: function () {
+-            var self = this,
+-                currentCaptcha;
+-
+-            this._super();
+-            currentCaptcha = captchaList.getCaptchaByFormId(this.formId);
+-
+-            if (currentCaptcha != null) {
+-                currentCaptcha.setIsVisible(true);
+-                this.setCurrentCaptcha(currentCaptcha);
+-                setPaymentHooks.requestModifiers.push(function (headers) {
+-                    if (self.isRequired()) {
+-                        headers['X-Captcha'] = self.captchaValue()();
+-                    }
+-                });
+-                setPaymentHooks.afterRequestListeners.push(function () {
+-                    self.refresh();
+-                });
+-            }
+-        }
+-    });
+-});
