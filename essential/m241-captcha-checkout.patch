@@ -16,7 +16,7 @@ index e398bf4..018c181 100644
 diff --git a/Api/PaymentSavingRateLimiterInterface.php b/Api/PaymentSavingRateLimiterInterface.php
 new file mode 100644
 index 0000000..c964029
---- /dev/null
+--- a/Api/PaymentSavingRateLimiterInterface.php
 +++ b/Api/PaymentSavingRateLimiterInterface.php
 @@ -0,0 +1,25 @@
 +<?php
@@ -183,7 +183,7 @@ index 6f71423..68860b6 100644
 diff --git a/Model/CaptchaPaymentSavingRateLimiter.php b/Model/CaptchaPaymentSavingRateLimiter.php
 new file mode 100644
 index 0000000..7d52a1a
---- /dev/null
+--- a/Model/CaptchaPaymentSavingRateLimiter.php
 +++ b/Model/CaptchaPaymentSavingRateLimiter.php
 @@ -0,0 +1,55 @@
 +<?php
@@ -244,7 +244,7 @@ index 0000000..7d52a1a
 diff --git a/Model/CaptchaRateLimiter.php b/Model/CaptchaRateLimiter.php
 new file mode 100644
 index 0000000..e643d61
---- /dev/null
+--- a/Model/CaptchaRateLimiter.php
 +++ b/Model/CaptchaRateLimiter.php
 @@ -0,0 +1,129 @@
 +<?php
