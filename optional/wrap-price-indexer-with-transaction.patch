@@ -1,0 +1,67 @@
+diff --git a/Model/Indexer/Product/Price/AbstractAction.php b/Model/Indexer/Product/Price/AbstractAction.php
+index edf400b..c7fe532 100644
+--- a/Model/Indexer/Product/Price/AbstractAction.php
++++ b/Model/Indexer/Product/Price/AbstractAction.php
+@@ -371,30 +371,40 @@ abstract class AbstractAction
+         $changedIds = array_merge($changedIds, ...array_values($parentProductsTypes));
+         $productsTypes = array_merge_recursive($productsTypes, $parentProductsTypes);
+ 
+-        if ($changedIds) {
+-            $this->deleteIndexData($changedIds);
+-        }
+-        foreach ($productsTypes as $productType => $entityIds) {
+-            $indexer = $this->_getIndexer($productType);
+-            if ($indexer instanceof DimensionalIndexerInterface) {
+-                foreach ($this->dimensionCollectionFactory->create() as $dimensions) {
+-                    $this->tableMaintainer->createMainTmpTable($dimensions);
+-                    $temporaryTable = $this->tableMaintainer->getMainTmpTable($dimensions);
+-                    $this->_emptyTable($temporaryTable);
+-                    $indexer->executeByDimensions($dimensions, \SplFixedArray::fromArray($entityIds, false));
+-                    // copy to index
+-                    $this->_insertFromTable(
+-                        $temporaryTable,
+-                        $this->tableMaintainer->getMainTable($dimensions)
+-                    );
++        try {
++            $this->getConnection()->beginTransaction();
++
++            if ($changedIds) {
++                $this->deleteIndexData($changedIds);
++            }
++            foreach ($productsTypes as $productType => $entityIds) {
++                $indexer = $this->_getIndexer($productType);
++                if ($indexer instanceof DimensionalIndexerInterface) {
++                    foreach ($this->dimensionCollectionFactory->create() as $dimensions) {
++                        $this->tableMaintainer->createMainTmpTable($dimensions);
++                        $temporaryTable = $this->tableMaintainer->getMainTmpTable($dimensions);
++                        $this->_emptyTable($temporaryTable);
++                        $indexer->executeByDimensions($dimensions, \SplFixedArray::fromArray($entityIds, false));
++                        // copy to index
++                        $this->_insertFromTable(
++                            $temporaryTable,
++                            $this->tableMaintainer->getMainTable($dimensions)
++                        );
++                    }
++                } else {
++                    // handle 3d-party indexers for backward compatibility
++                    $this->_emptyTable($this->_defaultIndexerResource->getIdxTable());
++                    $this->_copyRelationIndexData($entityIds);
++                    $indexer->reindexEntity($entityIds);
++                    $this->_syncData($entityIds);
+                 }
+-            } else {
+-                // handle 3d-party indexers for backward compatibility
+-                $this->_emptyTable($this->_defaultIndexerResource->getIdxTable());
+-                $this->_copyRelationIndexData($entityIds);
+-                $indexer->reindexEntity($entityIds);
+-                $this->_syncData($entityIds);
+             }
++
++            $this->getConnection()->commit();
++        }
++        catch (\Exception $e) {
++            $this->getConnection()->rollBack();
++            throw $e;
+         }
+ 
+         return $changedIds;
