@@ -1,0 +1,59 @@
+Lensplaza project uses configurables with several thousands of simple products attached. It causes very high
+memory usage in product edit page. In order to allow customer editing those products we are disabling listing of
+linked simple products in admin panel.
+
+It was not possible to do this change using plugins, only by patch.
+
+diff --git a/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php b/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php
+index 7815408..8f0a4d9 100644
+--- a/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php
++++ b/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php
+@@ -291,27 +291,27 @@ class AssociatedProducts
+                         $attributes[$attribute->getAttributeId()]['chosen'][$optionId] = $variationOption;
+                     }
+
+-                    $productMatrix[] = [
+-                        'id' => $product->getId(),
+-                        'product_link' => '<a href="' . $this->urlBuilder->getUrl(
+-                            'catalog/product/edit',
+-                            ['id' => $product->getId()]
+-                        ) . '" target="_blank">' . $this->escaper->escapeHtml($product->getName()) . '</a>',
+-                        'sku' => $product->getSku(),
+-                        'name' => $this->escaper->escapeHtml($product->getName()),
+-                        'qty' => $this->getProductStockQty($product),
+-                        'price' => $price,
+-                        'price_string' => $currency->toCurrency(sprintf("%f", $price)),
+-                        'price_currency' => $this->locator->getStore()->getBaseCurrency()->getCurrencySymbol(),
+-                        'configurable_attribute' => $this->getJsonConfigurableAttributes($variationOptions),
+-                        'weight' => $product->getWeight(),
+-                        'status' => $product->getStatus(),
+-                        'variationKey' => $this->getVariationKey($variationOptions),
+-                        'canEdit' => 0,
+-                        'newProduct' => 0,
+-                        'attributes' => $this->getTextAttributes($variationOptions),
+-                        'thumbnail_image' => $this->imageHelper->init($product, 'product_thumbnail_image')->getUrl(),
+-                    ];
++//                    $productMatrix[] = [
++//                        'id' => $product->getId(),
++//                        'product_link' => '<a href="' . $this->urlBuilder->getUrl(
++//                            'catalog/product/edit',
++//                            ['id' => $product->getId()]
++//                        ) . '" target="_blank">' . $this->escaper->escapeHtml($product->getName()) . '</a>',
++//                        'sku' => $product->getSku(),
++//                        'name' => $this->escaper->escapeHtml($product->getName()),
++//                        'qty' => $this->getProductStockQty($product),
++//                        'price' => $price,
++//                        'price_string' => $currency->toCurrency(sprintf("%f", $price)),
++//                        'price_currency' => $this->locator->getStore()->getBaseCurrency()->getCurrencySymbol(),
++//                        'configurable_attribute' => $this->getJsonConfigurableAttributes($variationOptions),
++//                        'weight' => $product->getWeight(),
++//                        'status' => $product->getStatus(),
++//                        'variationKey' => $this->getVariationKey($variationOptions),
++//                        'canEdit' => 0,
++//                        'newProduct' => 0,
++//                        'attributes' => $this->getTextAttributes($variationOptions),
++//                        'thumbnail_image' => $this->imageHelper->init($product, 'product_thumbnail_image')->getUrl(),
++//                    ];
+                     $productIds[] = $product->getId();
+                 }
+             }
