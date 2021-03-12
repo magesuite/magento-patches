@@ -639,7 +639,7 @@
                 {
                     "description": "Fix adding autocomplete to user area inputs",
                     "filename": "essential/m233-autocomplete-user-area.patch",
-                    "version-constraint": ">=102.0.3,<102.0.6"
+                    "version-constraint": ">=102.0.3,<102.0.4"
                 },
                 {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
