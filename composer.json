@@ -642,6 +642,11 @@
                     "version-constraint": ">=102.0.3,<102.0.4"
                 },
                 {
+                    "description": "Fix adding autocomplete to user area inputs",
+                    "filename": "essential/m235-autocomplete-user-area.patch",
+                    "version-constraint": ">=102.0.4,<102.0.6"
+                },
+                {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
                     "filename": "essential/fix-section-config.patch",
                     "version-constraint": ">=101.0.2,<=102.0.2"
