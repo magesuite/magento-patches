@@ -2,15 +2,15 @@ In order to track addtocart event for grouped products in Lensplaza project we h
 Regexp is adjusted.
 
 diff --git a/view/frontend/web/js/add-to-cart-datalayer.js b/view/frontend/web/js/add-to-cart-datalayer.js
-index d6c48e2..64e843a 100644
+index 6c043ea..d3390e5 100644
 --- a/view/frontend/web/js/add-to-cart-datalayer.js
 +++ b/view/frontend/web/js/add-to-cart-datalayer.js
-@@ -24,7 +24,7 @@ define([
- 
+@@ -18,7 +18,7 @@ define([
+          * Add to cart tracking
+          */
          $(document).on('ajaxComplete', function (event, xhr, settings) {
- 
--            if (settings.url.match(/\/checkout\/cart\/add/i)) {
-+            if (settings.url.match(/\/checkout|lensplaza\/cart\/add/i)) {
-                 if (_.isObject(xhr.responseJSON)
-                     && !_.has(xhr.responseJSON, 'backUrl')
-                     && !_.isEmpty(_.pick(xhr.responseJSON, ['enhancedecommerce']))
+-            if (settings.url.match(/\/checkout\/cart\/add/i) || settings.url.match(/\/amasty_cart\/cart\/add/i)) {
++            if (settings.url.match(/\/checkout|lensplaza\/cart\/add/i) || settings.url.match(/\/amasty_cart\/cart\/add/i)) {
+                 if (_.isObject(xhr.responseJSON) && !_.has(xhr.responseJSON, 'backUrl')) {
+                     shareComponent.processAddToCart();
+                 }
