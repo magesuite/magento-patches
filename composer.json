@@ -827,6 +827,11 @@
                     "description": "Fix inability to place PayPal guest order when Automatic Assignment to Customer Group is enabled",
                     "filename": "essential/m232-paypal-fix-for-customer-automatic-group-assignment.patch",
                     "version-constraint": ">=100.3.2"
+                },
+                {
+                    "description": "Fix customer name for Paypal Express orders",
+                    "filename": "essential/paypal-express-fix-customer-name.patch",
+                    "version-constraint": ">=100.3.4"
                 }
             ],
             "seven-senders/shipments-module": [

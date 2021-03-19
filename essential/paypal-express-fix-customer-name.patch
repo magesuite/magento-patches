@@ -1,0 +1,13 @@
+diff --git a/Model/Express/Checkout.php b/Model/Express/Checkout.php
+index 2b82908..a97db31 100644
+--- a/Model/Express/Checkout.php
++++ b/Model/Express/Checkout.php
+@@ -684,6 +684,8 @@ class Checkout
+         $billingAddress->setCustomerNote($exportedBillingAddress->getData('note'));
+         $quote->setBillingAddress($billingAddress);
+         $quote->setCheckoutMethod($this->getCheckoutMethod());
++        $quote->setCustomerFirstname($billingAddress->getFirstname());
++        $quote->setCustomerLastname($billingAddress->getLastname());
+
+         // import payment info
+         $payment = $quote->getPayment();
