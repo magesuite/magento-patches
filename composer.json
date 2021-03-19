@@ -886,6 +886,13 @@
                     "version-constraint": ">=4.6.0,<4.8.0"
                 }
             ],
+            "dotmailer/dotmailer-magento2-extension-sms": [
+                {
+                    "description": "Fix issue with not returning extended widget, which breaks any other extend",
+                    "filename": "essential/dotmailer-sms-address-validator-widget-fix.patch",
+                    "version-constraint": "1.0.0"
+                }
+            ],
             "magento/module-newsletter": [
                 {
                     "description": "Fix missing paragraph tags in subscription email templates",
