@@ -888,8 +888,8 @@
             ],
             "dotmailer/dotmailer-magento2-extension-sms": [
                 {
-                    "description": "Fix issue with not returning extended widget, which breaks any other extend",
-                    "filename": "essential/dotmailer-sms-address-validator-widget-fix.patch",
+                    "description": "Fix issues with not returning extended components and parent methods",
+                    "filename": "essential/dotmailer-sms-js-mixins-issues-fix.patch",
                     "version-constraint": "1.0.0"
                 }
             ],
