@@ -1,0 +1,16 @@
+Ticked checkbox Email Copy of Shipment while creating shpiment manually
+
+diff --git a/view/adminhtml/templates/create/items.phtml b/view/adminhtml/templates/create/items.phtml
+index 9b55d2b..12f5eaa 100644
+--- a/view/adminhtml/templates/create/items.phtml
++++ b/view/adminhtml/templates/create/items.phtml
+@@ -105,7 +105,8 @@
+                            class="admin__control-checkbox"
+                            name="shipment[send_email]"
+                            value="1"
+-                           type="checkbox"/>
++                           type="checkbox"
++                           checked="checked"/>
+                     <label class="admin__field-label"
+                            for="send_email">
+                         <span><?= $block->escapeHtml(__('Email Copy of Shipment')) ?></span></label>
