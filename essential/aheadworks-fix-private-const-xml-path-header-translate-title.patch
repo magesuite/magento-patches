@@ -1,0 +1,11 @@
+diff --git a/Block/Theme/Html/Title.php b/Block/Theme/Html/Title.php
+index e698539..cbc2430 100644
+--- a/Block/Theme/Html/Title.php
++++ b/Block/Theme/Html/Title.php
+@@ -27,5 +27,5 @@ class Title extends MagentoTitle
+     /**
+      * Config path to 'Translate Title' header settings
+      */
+-    protected const XML_PATH_HEADER_TRANSLATE_TITLE = 'design/header/translate_title';
++    public const XML_PATH_HEADER_TRANSLATE_TITLE = 'design/header/translate_title';
+ }
