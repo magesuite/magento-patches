@@ -960,6 +960,13 @@
                     "filename": "essential/normalize-sku-in-source-selection-api.patch",
                     "version-constraint": ">=1.2.0,<1.2.2"
                 }
+            ],
+            "magento/module-security-package": [
+                {
+                    "description": "Fix copying ReCaptcha key during migration",
+                    "filename": "essential/m24-re-captcha-migration.patch",
+                    "version-constraint": "<=1.1.1"
+                }
             ]
         }
     }
