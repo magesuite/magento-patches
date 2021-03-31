@@ -1,0 +1,13 @@
+diff --git a/Helper/Variable/Formatted.php b/Helper/Variable/Formatted.php
+index 40c8128..babd14b 100644
+--- a/Helper/Variable/Formatted.php
++++ b/Helper/Variable/Formatted.php
+@@ -161,7 +161,7 @@ class Formatted extends AbstractHelper
+                 continue;
+             }
+ 
+-            $numberFields = ['tax_amount_div_qty', 'discount_refunded', 'tax_refunded', 'tax_canceled', 'row_total', 'row_total_incl_tax', 'tax_before_discount', 'row_invoiced', 'row_total', 'amount_refunded', 'discount_invoiced', 'discount_amount', 'cost'];
++            $numberFields = ['tax_amount_div_qty', 'discount_refunded', 'tax_refunded', 'tax_canceled', 'row_total', 'row_total_incl_tax', 'tax_before_discount', 'row_invoiced', 'row_total', 'amount_refunded', 'discount_invoiced', 'discount_amount', 'cost', 'shipping_incl_tax'];
+             $isNumberField = in_array(str_replace('base_', '', $key), $numberFields);
+             if ((is_numeric($value) && !is_infinite($value)) || $isNumberField) {
+                 if (preg_match('/^base_/', $key)) {
