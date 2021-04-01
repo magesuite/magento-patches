@@ -465,6 +465,11 @@
                     "description": "Allow to use HTML in checkboxText in Terms and Conditions",
                     "filename": "essential/m23-allow-to-use-html-in-toc.patch",
                     "version-constraint": ">=100.3.1"
+                },
+                {
+                    "description": "Remove checking agreements when customer is not placing order",
+                    "filename": "essential/m24-remove-agreements-check-when-not-placing-order.patch",
+                    "version-constraint": "100.4.1"
                 }
             ],
             "magento/module-catalog-url-rewrite": [
