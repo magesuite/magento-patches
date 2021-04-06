@@ -458,6 +458,11 @@
                     "description": "Fix incorrect store ID check which reloads customer data all the time.",
                     "filename": "essential/m233-store-id-check-fix.patch",
                     "version-constraint": "100.3.3"
+                },
+                {
+                    "description": "Fix incorrect customer name prefix data (gender select)",
+                    "filename": "essential/m242-prefix-element-array-issue.patch",
+                    "version-constraint": ">=100.4.2"
                 }
             ],
             "magento/module-checkout-agreements": [
