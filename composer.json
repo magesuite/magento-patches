@@ -461,7 +461,7 @@
                 },
                 {
                     "description": "Fix incorrect customer name prefix data (gender select)",
-                    "filename": "essential/m242-prefix-element-array-issue.patch",
+                    "filename": "essential/m242-fix-prefix-array-element-index.patch",
                     "version-constraint": ">=100.4.2"
                 }
             ],
