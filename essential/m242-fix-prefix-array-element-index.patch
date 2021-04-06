@@ -1,0 +1,17 @@
+Subject: [PATCH] prefix array element index issue bugfix
+Bug (regression) reported on Magento 2.4.2, causes faulty customer prefix data. Not fixed so far (status for 06/04/2021)
+
+
+diff --git a/Block/Checkout/LayoutProcessor.php b/Block/Checkout/LayoutProcessor.php
+index 16450ec..08c3022 100644
+--- a/Block/Checkout/LayoutProcessor.php
++++ b/Block/Checkout/LayoutProcessor.php
+@@ -134,7 +134,7 @@ class LayoutProcessor implements LayoutProcessorInterface
+
+             foreach ($options as $key => $value) {
+                 $elements[$code]['options'][] = [
+-                    'value' => $key,
++                    'value' => $value,
+                     'label' => $value,
+                 ];
+             }
