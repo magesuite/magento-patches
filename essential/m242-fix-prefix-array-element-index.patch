@@ -1,6 +1,8 @@
 Subject: [PATCH] prefix array element index issue bugfix
 Bug (regression) reported on Magento 2.4.2, causes faulty customer prefix data. Not fixed so far (status for 06/04/2021)
 
+Original issue: https://github.com/magento/magento2/issues/32066
+
 
 diff --git a/Block/Checkout/LayoutProcessor.php b/Block/Checkout/LayoutProcessor.php
 index 16450ec..08c3022 100644
