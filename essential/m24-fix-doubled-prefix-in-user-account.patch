@@ -1,3 +1,6 @@
+Issue on GitHub: https://github.com/magento/magento2/issues/32177
+Here is MR that caused the problem: https://github.com/magento/magento2/pull/28238
+
 diff --git a/Block/Widget/Name.php b/Block/Widget/Name.php
 index 6f1b051..cc8047e 100644
 --- a/Block/Widget/Name.php
