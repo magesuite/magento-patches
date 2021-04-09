@@ -1,0 +1,28 @@
+diff --git a/Block/Widget/Name.php b/Block/Widget/Name.php
+index 6f1b051..cc8047e 100644
+--- a/Block/Widget/Name.php
++++ b/Block/Widget/Name.php
+@@ -108,8 +108,9 @@ class Name extends AbstractWidget
+         if ($this->getObject() && !empty($prefixOptions)) {
+             $prefixOption = $this->getObject()->getPrefix();
+             $oldPrefix = $this->escapeHtml(trim($prefixOption));
+-            if ($prefixOption !== null && !isset($prefixOptions[$oldPrefix]) && !isset($prefixOptions[$prefixOption])) {
+-                $prefixOptions[$oldPrefix] = $oldPrefix;
++
++            if ($prefixOption !== null && array_search($oldPrefix, $prefixOptions) === false) {
++                $prefixOptions[] = $oldPrefix;
+             }
+         }
+         return $prefixOptions;
+@@ -166,8 +167,9 @@ class Name extends AbstractWidget
+         if ($this->getObject() && !empty($suffixOptions)) {
+             $suffixOption = $this->getObject()->getSuffix();
+             $oldSuffix = $this->escapeHtml(trim($suffixOption));
+-            if ($suffixOption !== null && !isset($suffixOptions[$oldSuffix]) && !isset($suffixOptions[$suffixOption])) {
+-                $suffixOptions[$oldSuffix] = $oldSuffix;
++
++            if ($suffixOption !== null && array_search($oldSuffix, $suffixOptions) === false) {
++                $suffixOptions[] = $oldSuffix;
+             }
+         }
+         return $suffixOptions;

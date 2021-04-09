@@ -695,6 +695,11 @@
                     "description": "Fixes customer export through admin panel",
                     "filename": "essential/fix-customer-export-in-admin-panel.patch",
                     "version-constraint": ">=102.0.0, <=103.0.1"
+                },
+                {
+                    "description": "Removes doubled prefix from customer address edit area",
+                    "filename": "essential/m24-fix-doubled-prefix-in-user-account.patch",
+                    "version-constraint": ">=103.0.0, <=103.0.2"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
