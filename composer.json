@@ -432,7 +432,12 @@
                 {
                     "description": "Fixes undefined string being displayed when shipping method has no title.",
                     "filename": "essential/m22-shipping-method-undefined-title.patch",
-                    "version-constraint": "102.0.*"
+                    "version-constraint": "<=100.0.6"
+                },
+                {
+                    "description": "Fixes undefined string being displayed when shipping method has no title - patch version for >=2.3.5",
+                    "filename": "essential/m235plus-shipping-method-undefined-title.patch",
+                    "version-constraint": ">=100.3.5"
                 },
                 {
                     "description": "Add autocomplete to checkout inputs - xml config",

@@ -1,0 +1,17 @@
+diff --git a/view/frontend/web/js/view/summary/shipping.js b/view/frontend/web/js/view/summary/shipping.js
+index a0bbc9d..653ad80 100644
+--- a/view/frontend/web/js/view/summary/shipping.js
++++ b/view/frontend/web/js/view/summary/shipping.js
+@@ -35,7 +35,11 @@ define([
+                 return '';
+             }
+ 
+-            if (typeof shippingMethod['method_title'] !== 'undefined') {
++            if (typeof shippingMethod['carrier_title'] === 'undefined') {
++                shippingMethod['carrier_title'] = '';
++            }
++
++            if (shippingMethod['method_title'] && shippingMethod['method_title'] !== '') {
+                 shippingMethodTitle = ' - ' + shippingMethod['method_title'];
+             }
+ 
