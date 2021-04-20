@@ -1,0 +1,65 @@
+Skipping bundle validator for source items during import because it has a huge impact on performance.
+It's problematic because in this validator for each item there is a request for loading all related bundle products and check if has "Ship Together".
+It's not useful as long as we not shipping bundle products from multiple sources.
+
+diff --git a/Model/SourceItem/Validator/ShipmentTypeValidator.php b/Model/SourceItem/Validator/ShipmentTypeValidator.php
+index 9a67254..0c441ac 100644
+--- a/Model/SourceItem/Validator/ShipmentTypeValidator.php
++++ b/Model/SourceItem/Validator/ShipmentTypeValidator.php
+@@ -78,29 +78,33 @@ class ShipmentTypeValidator implements SourceItemValidatorInterface
+     public function validate(SourceItemInterface $sourceItem): ValidationResult
+     {
+         $errors = [];
+-        if ($this->isSingleSourceMode->execute()) {
+-            return $this->validationResultFactory->create(['errors' => $errors]);
+-        }
+-        $products = $this->bundleProductsByChildSku->execute((string)$sourceItem->getSku());
+-        if (!$products) {
+-            return $this->validationResultFactory->create(['errors' => $errors]);
+-        }
+-        foreach ($products as $bundleProduct) {
+-            $sourceCodes = $this->getBundleProductSourceCodes($bundleProduct);
+-            if ($sourceCodes && !in_array($sourceItem->getSourceCode(), $sourceCodes)) {
+-                $url = $this->url->getUrl('catalog/product/edit', ['id' => $bundleProduct->getId()]);
+-                $errors[] = __(
+-                    'Not able to assign "%1" to product "%2", as it is part of bundle product'
+-                    . ' <a href="%3">"%4"</a> with shipment type "Ship Together" and has multiple sources '
+-                    . 'or different source as other bundle selections.',
+-                    $sourceItem->getSourceCode(),
+-                    $sourceItem->getSku(),
+-                    $url,
+-                    $bundleProduct->getSku()
+-                );
+-                break;
+-            }
+-        }
++//        [PATCH] Skipping bundle validator for source items during import because it has a huge impact on performance.
++//        It's problematic because in this validator for each item there is a request for loading all related bundle products and check if has "Ship Together".
++//        It's not useful as long as we not shipping bundle products from multiple sources.
++//
++//        if ($this->isSingleSourceMode->execute()) {
++//            return $this->validationResultFactory->create(['errors' => $errors]);
++//        }
++//        $products = $this->bundleProductsByChildSku->execute((string)$sourceItem->getSku());
++//        if (!$products) {
++//            return $this->validationResultFactory->create(['errors' => $errors]);
++//        }
++//        foreach ($products as $bundleProduct) {
++//            $sourceCodes = $this->getBundleProductSourceCodes($bundleProduct);
++//            if ($sourceCodes && !in_array($sourceItem->getSourceCode(), $sourceCodes)) {
++//                $url = $this->url->getUrl('catalog/product/edit', ['id' => $bundleProduct->getId()]);
++//                $errors[] = __(
++//                    'Not able to assign "%1" to product "%2", as it is part of bundle product'
++//                    . ' <a href="%3">"%4"</a> with shipment type "Ship Together" and has multiple sources '
++//                    . 'or different source as other bundle selections.',
++//                    $sourceItem->getSourceCode(),
++//                    $sourceItem->getSku(),
++//                    $url,
++//                    $bundleProduct->getSku()
++//                );
++//                break;
++//            }
++//        }
+ 
+         return $this->validationResultFactory->create(['errors' => $errors]);
+     }
