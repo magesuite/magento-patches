@@ -105,6 +105,11 @@
                     "description": "Store maintenance lockfiles in var/global",
                     "filename": "essential/m2x-custom-maintenance-lock-location.patch",
                     "version-constraint": ">=101.0.0"
+                },
+                {
+                    "description": "Return 500 HTTP code error when fatal error occurs so monitoring treats it as shop down",
+                    "filename": "essential/m23-return-500-http-code-on-fatal-error.patch",
+                    "version-constraint": ">=102.0.0"
                 }
             ],
             "magento/module-asynchronous-operations": [

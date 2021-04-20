@@ -1,0 +1,21 @@
+diff --git a/App/Bootstrap.php b/App/Bootstrap.php
+index 93d5535..e3c9af3 100644
+--- a/App/Bootstrap.php
++++ b/App/Bootstrap.php
+@@ -386,7 +386,7 @@ class Bootstrap
+         $handler = new ErrorHandler();
+         set_error_handler([$handler, 'handler']);
+     }
+-    
++
+     /**
+      * Getter for error code
+      *
+@@ -441,6 +441,7 @@ class Bootstrap
+             } catch (\Exception $e) {
+                 $message .= "Could not write error message to log. Please use developer mode to see the message.\n";
+             }
++            http_response_code(500);
+             echo $message;
+         }
+         exit(1);
