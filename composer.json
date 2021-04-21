@@ -996,6 +996,13 @@
                     "version-constraint": ">=1.2.0,<1.2.2"
                 }
             ],
+            "magento/module-inventory-bundle-product": [
+                {
+                    "description": "Skip MSI bundle validator for source items import",
+                    "filename": "essential/skip-msi-bundle-item-validator.patch",
+                    "version-constraint": ">=1.2.0"
+                }
+            ],
             "magento/module-re-captcha-migration": [
                 {
                     "description": "Fix copying ReCaptcha key during migration",
