@@ -999,7 +999,7 @@
             "magento/module-inventory-bundle-product": [
                 {
                     "description": "Skip MSI bundle validator for source items import",
-                    "filename": "essential/skip-msi-bundle-item-validator.patch",
+                    "filename": "essential/skip-msi-bundle-sourceitem-validator.patch",
                     "version-constraint": ">=1.2.0"
                 }
             ],
