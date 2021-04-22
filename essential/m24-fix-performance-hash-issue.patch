@@ -1,0 +1,46 @@
+Skipping generate hash because of performance issue which appeared during generate hash based on file content.
+This is not needed for us because we are checking if image exists in \MageSuite\Importer\Model\Import\Magento\Product::uploadMediaFiles
+
+diff --git a/Model/Import/Product.php b/Model/Import/Product.php
+index 425d130..3324639 100644
+--- a/Model/Import/Product.php
++++ b/Model/Import/Product.php
+@@ -1962,6 +1962,10 @@ class Product extends AbstractEntity
+      */
+     private function getAlreadyExistedImage(array $imageRow, string $columnImage, string $importDir): string
+     {
++        /*
++        Skipping generate hash because of performance issue which appeared during generate hash based on file content.
++        This is not needed for us because we are checking if image exists in \MageSuite\Importer\Model\Import\Magento\Product::uploadMediaFiles
++
+         if (filter_var($columnImage, FILTER_VALIDATE_URL)) {
+             $hash = $this->getFileHash($columnImage);
+         } else {
+@@ -1980,6 +1984,8 @@ class Product extends AbstractEntity
+             },
+             ''
+         );
++        */
++        return '';
+     }
+ 
+     /**
+@@ -1990,6 +1996,10 @@ class Product extends AbstractEntity
+      */
+     private function addImageHashes(array &$images): void
+     {
++        /*
++        Skipping generate hash because of performance issue which appeared during generate hash based on file content.
++        This is not needed for us because we are checking if image exists in \MageSuite\Importer\Model\Import\Magento\Product::uploadMediaFiles
++
+         $productMediaPath = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA)
+             ->getAbsolutePath(DIRECTORY_SEPARATOR . 'catalog' . DIRECTORY_SEPARATOR . 'product');
+ 
+@@ -2003,6 +2013,7 @@ class Product extends AbstractEntity
+                 }
+             }
+         }
++        */
+     }
+ 
+     /**

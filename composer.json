@@ -498,7 +498,12 @@
                 {
                     "description": "Fixes missing url_key after product import",
                     "filename": "essential/m22-fix-missing-url-key-after-import.patch",
-                    "version-constraint": ">=102.0.0,<102.0.8"
+                    "version-constraint": ">=100.2.0,<100.2.8"
+                },
+                {
+                    "description": "Fixes performance issue caused by generate file hash",
+                    "filename": "essential/m24-fix-performance-hash-issue.patch",
+                    "version-constraint": ">=101.1.2"
                 }
             ],
             "magento/module-review": [
