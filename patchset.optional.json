@@ -385,11 +385,6 @@
                 "description": "Fixing .thumbs directory structure in pub/media/",
                 "filename": "optional/m23-fix-thumbs-directories-structure.patch",
                 "version-constraint": "103.0.*"
-            },
-            {
-                "description": "Hotfix for performance issue while generating images tree (Amazon S3)",
-                "filename": "optional/m241-cms-wysiwyg-images-tree.patch",
-                "version-constraint": "104.0.1"
             }
         ],
         "dynamic-yield/integration": [
