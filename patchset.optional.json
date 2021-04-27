@@ -416,9 +416,14 @@
                 "version-constraint": "^1.2.0"
             },
             {
-                "description": "Fix product id variable in product click event (from p_id to ID)",
+                "description": "Fix product id variable in product click event (from p_id to ID) for Magepal version <1.6.1",
                 "filename": "optional/magepal-lp-fix-product-id-variable-in-product-click.patch",
-                "version-constraint": "^1.2.0"
+                "version-constraint": ">=1.2.0,<1.6.1"
+            },
+            {
+              "description": "Fix product id variable in setting up product collection (from p_id to ID) for Magepal version >=1.6.1",
+              "filename": "optional/magepal-161-lp-fix-product-id-variable-in-product-collection-set.patch",
+              "version-constraint": ">=1.6.1"
             }
         ],
         "magento/module-gift-card-account": [
