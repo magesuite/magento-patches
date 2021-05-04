@@ -359,7 +359,7 @@
                 {
                     "description": "Fix notice in swatches block",
                     "filename": "essential/smile-elasticsuite-fix-notice-in-swatches.patch",
-                    "version-constraint": "<2.10.4"
+                    "version-constraint": "<=2.9.4"
                 },
                 {
                     "description": "Fix wrong category instance in layered navigation",
