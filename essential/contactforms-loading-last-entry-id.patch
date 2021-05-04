@@ -1,0 +1,13 @@
+diff --git a/Model/EntryRepository.php b/Model/EntryRepository.php
+index 2b29ff5..6edae89 100755
+--- a/Model/EntryRepository.php
++++ b/Model/EntryRepository.php
+@@ -207,7 +207,7 @@ class EntryRepository implements EntryRepositoryInterface
+     {
+         /** @var \PluginCompany\ContactForms\Model\ResourceModel\Entry\Collection $collection */
+         $collection = $this->entryCollectionFactory->create();
+-        $lastItem = $collection->addOrder('entity_id')->getFirstItem();
++        $lastItem = $collection->addOrder('entity_id')->setPageSize(1)->getFirstItem();
+         if(!$lastItem || !$lastItem->getId()) {
+             return 0;
+         }

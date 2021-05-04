@@ -623,6 +623,11 @@
             ],
             "plugincompany/contactforms": [
                 {
+                    "description": "Prevent from loading whole table while getting last insert id",
+                    "filename": "essential/contactforms-loading-last-entry-id.patch",
+                    "version-constraint": "100.14.2"
+                },
+                {
                     "description": "Show 404 page instead of throwing error when form is not found",
                     "filename": "essential/m22-plugincompany-contactforms-fix-empty-form.patch",
                     "version-constraint": "*"
