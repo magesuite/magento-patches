@@ -364,7 +364,7 @@
                 {
                     "description": "Fix wrong category instance in layered navigation",
                     "filename": "essential/smile-elasticsuite-fix-wrong-category-instance.patch",
-                    "version-constraint": "<2.10.4"
+                    "version-constraint": ">2.8.3"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
