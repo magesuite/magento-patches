@@ -1,0 +1,31 @@
+This patch fixes regression introduced by Magento in 2.4.2 with this change:
+https://github.com/magento/magento2/commit/61a12b01a3fdc80a4147a36c744f59da778539ee#diff-23b28d4173f835cf3cb286cad7fde85854179a0758ef78dc4c2a239a87e29478
+from PR https://github.com/magento/magento2/pull/28238 which fixed issue with empty option not being selected when field was required, but since $result
+is indexed without values, then values like 0/1/2 are saved in DB instead of labels Mrs., Mr, etc.
+Issue: https://github.com/magento/magento2/issues/32177#
+
+diff --git a/Model/Options.php b/Model/Options.php
+index 4c9b9f9..3d1fb66 100644
+--- a/Model/Options.php
++++ b/Model/Options.php
+@@ -101,11 +101,18 @@ class Options
+         $result = [];
+         $options = explode(';', $options);
+         foreach ($options as $value) {
+-            $result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
++            //$result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
++            $value = $this->escaper->escapeHtml(trim($value));
++            if (empty($value)) {
++                $result[] = ' ';
++            } else {
++                $result[$value] = $value;
++            }
+         }
+ 
+         if ($isOptional && trim(current($options))) {
+-            $result = array_merge([' '], $result);
++            //$result = array_merge([' '], $result);
++            $result = array_merge(['' => ' '], $result);
+         }
+ 
+         return $result;
