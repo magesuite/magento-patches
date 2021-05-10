@@ -715,6 +715,11 @@
                     "description": "Removes doubled prefix from customer address edit area",
                     "filename": "essential/m24-fix-doubled-prefix-in-user-account.patch",
                     "version-constraint": ">=103.0.0, <=103.0.2"
+                },
+                {
+                    "description": "Fix incorrect customer prefix data (gender select)",
+                    "filename": "essential/m242-fix-prefix-options-select.patch",
+                    "version-constraint": ">=103.0.2"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
