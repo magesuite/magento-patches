@@ -1,0 +1,27 @@
+diff --git a/View/Asset/MergeStrategy/Direct.php b/View/Asset/MergeStrategy/Direct.php
+index 315c3ee..df1bae5 100644
+--- a/View/Asset/MergeStrategy/Direct.php
++++ b/View/Asset/MergeStrategy/Direct.php
+@@ -61,9 +61,19 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
+         $filePath = $resultAsset->getPath();
+         $tmpFilePath = $filePath . $this->mathRandom->getUniqueHash('_');
+         $staticDir = $this->filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW);
+-        $tmpDir = $this->filesystem->getDirectoryWrite(DirectoryList::TMP);
+-        $tmpDir->writeFile($tmpFilePath, $mergedContent);
+-        $tmpDir->renameFile($tmpFilePath, $filePath, $staticDir);
++        // BEGIN of patch
++        // Changing temporary file directory to same filesystem as merged file directory
++        // see more: https://github.com/magento/magento2/pull/29173/files
++        // BEGIN OF REMOVED CODE
++
++        // $tmpDir = $this->filesystem->getDirectoryWrite(DirectoryList::TMP);
++        // $tmpDir->writeFile($tmpFilePath, $mergedContent);
++        // $tmpDir->renameFile($tmpFilePath, $filePath, $staticDir);
++
++        // END OF REMOVED CODE
++        $staticDir->writeFile($tmpFilePath, $mergedContent);
++        $staticDir->renameFile($tmpFilePath, $filePath, $staticDir);
++        // END of patch
+     }
+ 
+     /**

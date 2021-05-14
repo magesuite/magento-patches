@@ -110,6 +110,11 @@
                     "description": "Return 500 HTTP code error when fatal error occurs so monitoring treats it as shop down",
                     "filename": "essential/m23-return-500-http-code-on-fatal-error.patch",
                     "version-constraint": ">=102.0.0"
+                },
+                {
+                    "description": "Fix merged assets generation to avoid broken CSS and JS",
+                    "filename": "essential/fix-merged-assets-generation-to-avoid-broken-css-and-js.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-asynchronous-operations": [
