@@ -183,6 +183,11 @@
                     "description": "Fix XML_PATH_HEADER_TRANSLATE_TITLE private const introduced in Magento 2.4",
                     "filename": "essential/m24-fix-private-const-xml-path-header-translate-title.patch",
                     "version-constraint": ">=101.1.0"
+                },
+                {
+                  "description": "Fix for missing messages caused by multiple mage-message cookies for store view",
+                  "filename": "essential/frontend/m241-fix-missing-messages.patch",
+                  "version-constraint": ">=103.0.0,<=100.0.1-p1"
                 }
             ],
             "magento/module-page-cache": [
