@@ -1,0 +1,12 @@
+diff --git a/view/frontend/requirejs-config.js b/view/frontend/requirejs-config.js
+index b5351b9..cb1088e 100644
+--- a/view/frontend/requirejs-config.js
++++ b/view/frontend/requirejs-config.js
+@@ -13,7 +13,6 @@ var config = {
+         }
+     },
+     deps: [
+-        'mage/translate-inline',
+         'mageTranslationDictionary'
+     ]
+ };

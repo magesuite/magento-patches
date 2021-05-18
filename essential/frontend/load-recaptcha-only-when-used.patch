@@ -1,0 +1,16 @@
+diff --git a/view/frontend/web/js/reCaptcha.js b/view/frontend/web/js/reCaptcha.js
+index d7fa7d9..4731668 100644
+--- a/view/frontend/web/js/reCaptcha.js
++++ b/view/frontend/web/js/reCaptcha.js
+@@ -36,7 +36,10 @@ define(
+ 
+             initialize: function () {
+               this._super();
+-              this._loadApi();
++
++              if (this.getIsVisible()) {
++                  this._loadApi();
++              }
+             },
+ 
+             /**

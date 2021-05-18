@@ -1,0 +1,13 @@
+diff --git a/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js b/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js
+index e00532f..95d58ae 100644
+--- a/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js
++++ b/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js
+@@ -15,7 +15,7 @@
+ /*jshint browser:true jquery:true*/
+ /*global alert*/
+ 
+-define(['jquery', 'Magento_Catalog/js/price-utils', 'mage/template', 'jquery/ui', 'Magento_Ui/js/modal/modal'],
++define(['jquery', 'Magento_Catalog/js/price-utils', 'mage/template', 'jquery-ui-modules/widget', 'jquery-ui-modules/slider', 'Magento_Ui/js/modal/modal'],
+     function ($, priceUtil, mageTemplate) {
+ 
+     "use strict";

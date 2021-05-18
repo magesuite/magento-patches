@@ -13,18 +13,27 @@
                 "filename": "optional/m21-elasticsuite-admin-sort-index-fix.patch",
                 "version-constraint": "*"
             },
-	    {
+            {
                 "description": "Patches queries mapping issue when used together with AheadWorks Customer Groups",
                 "filename": "optional/change-queries-mapping-field-id.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Remove dependency to whole jquery-ui",
+                "filename": "optional/frontend/remove-whole-jquery-ui-dependency.patch",
+                "version-constraint": "<=2.10.3"
             }
-
         ],
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
                 "filename": "optional/m22-fix-for-limited-roles-in-admin-panel.patch",
                 "version-constraint": "101.0.*"
+            },
+            {                    
+                "description": "Use jquery slideUp instead of jquery-ui blind effect. Patch cannot be essential because theme-cs > 11.2.0 is needed",
+                "filename": "optional/frontend/remove-jquery-ui-blind-effect.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-eav": [

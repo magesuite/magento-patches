@@ -1,0 +1,28 @@
+diff --git a/view/frontend/web/js/action/select-payment-method-mixin.js b/view/frontend/web/js/action/select-payment-method-mixin.js
+index 50d54d4..7fdf405 100644
+--- a/view/frontend/web/js/action/select-payment-method-mixin.js
++++ b/view/frontend/web/js/action/select-payment-method-mixin.js
+@@ -9,8 +9,9 @@ define([
+     'Magento_SalesRule/js/model/payment/discount-messages',
+     'Magento_Checkout/js/action/set-payment-information',
+     'Magento_Checkout/js/action/get-totals',
+-    'Magento_SalesRule/js/model/coupon'
+-], function ($, wrapper, quote, messageContainer, setPaymentInformationAction, getTotalsAction, coupon) {
++    'Magento_SalesRule/js/model/coupon',
++    'Magento_Ui/js/model/messageList',
++], function ($, wrapper, quote, messageContainer, setPaymentInformationAction, getTotalsAction, coupon, globalMessageList) {
+     'use strict';
+ 
+     return function (selectPaymentMethodAction) {
+@@ -21,9 +22,9 @@ define([
+ 
+             $.when(
+                 setPaymentInformationAction(
+-                    messageContainer,
++                    paymentMethod && paymentMethod.method ? messageContainer : globalMessageList,
+                     {
+-                        method: paymentMethod.method
++                        method: paymentMethod && paymentMethod.method ? paymentMethod.method : null
+                     }
+                 )
+             ).done(
