@@ -1,0 +1,45 @@
+diff --git a/web/jquery/ui-modules/dialog.js b/web/jquery/ui-modules/dialog.js
+index 430ec90..ffd4f67 100644
+--- a/lib/web/jquery/ui-modules/dialog.js
++++ b/lib/web/jquery/ui-modules/dialog.js
+@@ -12,9 +12,7 @@
+ define([
+     'jquery',
+     'jquery-ui-modules/button',
+-    'jquery-ui-modules/draggable',
+-    'jquery-ui-modules/position',
+-    'jquery-ui-modules/resizable'
++    'jquery-ui-modules/position'
+ ], function ($, undefined) {
+ 
+     var sizeRelatedOptions = {
+@@ -107,11 +105,25 @@ define([
+             this._createTitlebar();
+             this._createButtonPane();
+ 
+-            if (this.options.draggable && $.fn.draggable) {
+-                this._makeDraggable();
++            var makeDraggable = this._makeDraggable;
++            var makeResizable = this._makeResizable;
++
++            var widget = this;
++
++            if (this.options.draggable) {
++                require(['jquery-ui-modules/draggable'], function () {
++                    if($.fn.draggable) {
++                        makeDraggable.bind(widget);
++                    }
++                });
+             }
+-            if (this.options.resizable && $.fn.resizable) {
+-                this._makeResizable();
++            if (this.options.resizable) {
++                console.log('get resizable');
++                require(['jquery-ui-modules/resizable'], function () {
++                    if($.fn.resizable) {
++                        makeResizable.bind(widget);
++                    }
++                });
+             }
+ 
+             this._isOpen = false;
