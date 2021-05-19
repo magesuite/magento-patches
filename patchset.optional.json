@@ -20,6 +20,13 @@
             }
 
         ],
+        "smile/module-elasticsuite-shared-catalog": [
+            {
+                "description": "Fix sharedCatalog magento method that changed name",
+                "filename": "optional/m24-fix-elasticsuite-shared-catalog-collection-plugin.patch",
+                "version-constraint": "2.10.1"
+            }
+        ],
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
