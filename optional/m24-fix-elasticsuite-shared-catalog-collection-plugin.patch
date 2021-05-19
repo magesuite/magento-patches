@@ -1,0 +1,13 @@
+diff --git a/Plugin/Catalog/Model/ResourceModel/Product/Fulltext/CollectionPlugin.php b/Plugin/Catalog/Model/ResourceModel/Product/Fulltext/CollectionPlugin.php
+index b03e3fa..c435663 100644
+--- a/Plugin/Catalog/Model/ResourceModel/Product/Fulltext/CollectionPlugin.php
++++ b/Plugin/Catalog/Model/ResourceModel/Product/Fulltext/CollectionPlugin.php
+@@ -133,7 +133,7 @@ class CollectionPlugin
+         if (!isset($this->sharedCatalogStatusByGroup[$customerGroupId])) {
+             $websiteId                = $this->storeManager->getWebsite()->getId();
+             $isActive                 = $this->config->isActive(ScopeInterface::SCOPE_WEBSITE, $websiteId);
+-            $isMasterCatalogAvailable = $this->customerGroupManagement->isMasterCatalogAvailable($customerGroupId);
++            $isMasterCatalogAvailable = $this->customerGroupManagement->isPrimaryCatalogAvailable($customerGroupId);
+ 
+             $this->sharedCatalogStatusByGroup[$customerGroupId] = $isActive && !$isMasterCatalogAvailable;
+         }
