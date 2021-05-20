@@ -217,7 +217,7 @@
                 {
                     "description": "Fix for missing messages caused by multiple mage-message cookies for store view",
                     "filename": "essential/frontend/m241-fix-missing-messages.patch",
-                    "version-constraint": "<=103.0.0,>=101.1.1"
+                    "version-constraint": "<101.1.2,>=101.1.0"
                 },
                 {
                     "description": "Inlines date format to not use the whole datepicker module",
