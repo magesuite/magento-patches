@@ -115,6 +115,11 @@
                     "description": "Fix merged assets generation to avoid broken CSS and JS",
                     "filename": "essential/fix-merged-assets-generation-to-avoid-broken-css-and-js.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix file uploader, filename is too long exception",
+                    "filename": "essential/m236-fix-filename-is-too-long-exception.patch",
+                    "version-constraint": "102.0.6"
                 }
             ],
             "magento/module-asynchronous-operations": [
@@ -165,7 +170,7 @@
                     "filename": "essential/frontend/massaction-data-prepare.patch",
                     "version-constraint": ">=101.1.3"
                 },
-                {                    
+                {
                     "description": "Load dependency for resizable knockout binding only on init",
                     "filename": "essential/frontend/load-resizable-widget-only-on-init.patch",
                     "version-constraint": ">=101.2.2"
