@@ -794,6 +794,11 @@
                     "description": "Fix incorrect customer prefix data (gender select)",
                     "filename": "essential/m242-fix-prefix-options-select.patch",
                     "version-constraint": ">=103.0.2"
+                },
+                {
+                    "description": "Prevent create account form button from staying disabled after incorrect data submission",
+                    "filename": "essential/frontend/prevent-create-account-form-button-from-staying-disabled-after-incorrect-data-submission.patch",
+                    "version-constraint": "<=103.0.1"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
