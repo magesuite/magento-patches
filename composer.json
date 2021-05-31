@@ -1119,6 +1119,13 @@
                     "filename": "essential/frontend/load-recaptcha-only-when-used.patch",
                     "version-constraint": ">=2.0.0"
                 }
+            ],
+            "magento/module-contact": [
+                {
+                    "description": "Remove empty spaces from comment input in contact form",
+                    "filename": "essential/frontend/fix-empty-spaces-in-contact-form-comment-input.patch",
+                    "version-constraint": "100.4.1"
+                }
             ]
         }
     }
