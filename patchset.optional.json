@@ -37,7 +37,7 @@
                 "filename": "optional/m22-fix-for-limited-roles-in-admin-panel.patch",
                 "version-constraint": "101.0.*"
             },
-            {                    
+            {
                 "description": "Use jquery slideUp instead of jquery-ui blind effect. Patch cannot be essential because theme-cs > 11.2.0 is needed",
                 "filename": "optional/frontend/remove-jquery-ui-blind-effect.patch",
                 "version-constraint": "*"
@@ -621,6 +621,13 @@
                 "description": "Fix issue with redirecting to login page after paypal express click by guest with persistent cart enabled",
                 "filename": "optional/m23-persistent-fix-paypal-express-redirect-to-login.patch",
                 "version-constraint": ">=100.3.1,<100.3.6"
+            }
+        ],
+        "customweb/lib-titolo": [
+            {
+                "description": "Patch to add password autorization in refund request",
+                "filename": "optional/external-customweb-datatranscw-password-authorization-refund-request.patch",
+                "version-constraint": "*"
             }
         ],
         "customweb/module-datatranscw": [
