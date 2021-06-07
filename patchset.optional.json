@@ -640,6 +640,11 @@
                 "description": "Clear quote on success page",
                 "filename": "optional/external-customweb-datatranscw-clear-quote-on-success-page.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Disable cancel payment observer",
+                "filename": "optional/external-customweb-datatranscw-disable-cancel-payment-observer.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-cms-url-rewrite": [
