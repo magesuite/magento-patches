@@ -1,0 +1,58 @@
+diff --git a/Observer/CancelPayment.php b/Observer/CancelPayment.php
+index 6f6d27d..a0ba727 100644
+--- a/Observer/CancelPayment.php
++++ b/Observer/CancelPayment.php
+@@ -30,6 +30,8 @@ use Customweb\DatatransCw\Model\Payment\Method\AbstractMethod;
+ 
+ class CancelPayment implements ObserverInterface
+ {
++    const XML_PATH_DISABLE_CANCEL_PAYMENT_OBSERVER = 'datatranscw/general/should_disable_cancel_payment_observer';
++
+ 	/**
+ 	 * @var \Magento\Sales\Api\OrderRepositoryInterface
+ 	 */
+@@ -45,6 +47,11 @@ class CancelPayment implements ObserverInterface
+ 	 */
+ 	protected $_transactionFactory;
+ 
++    /**
++     * @var \Magento\Framework\App\Config\ScopeConfigInterface
++     */
++    protected $scopeConfig;
++
+ 	/**
+ 	 * @param \Magento\Sales\Api\OrderRepositoryInterface $orderRepository
+ 	 * @param \Magento\Checkout\Model\Session $checkoutSession
+@@ -53,15 +60,23 @@ class CancelPayment implements ObserverInterface
+ 	public function __construct(
+ 			\Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+ 			\Magento\Checkout\Model\Session $checkoutSession,
+-			\Customweb\DatatransCw\Model\Authorization\TransactionFactory $transactionFactory
++			\Customweb\DatatransCw\Model\Authorization\TransactionFactory $transactionFactory,
++            \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+ 	) {
+ 		$this->_orderRepository = $orderRepository;
+ 		$this->_checkoutSession = $checkoutSession;
+ 		$this->_transactionFactory = $transactionFactory;
++		$this->scopeConfig = $scopeConfig;
+ 	}
+ 
+ 	public function execute(\Magento\Framework\Event\Observer $observer)
+ 	{
++        $shouldDisableCancelPaymentObserver = $this->scopeConfig->isSetFlag(self::XML_PATH_DISABLE_CANCEL_PAYMENT_OBSERVER);
++
++        if ($shouldDisableCancelPaymentObserver) {
++            return true;
++        }
++
+ 		$order = $this->_checkoutSession->getLastRealOrder();
+ 		if ($order instanceof Order && $order->getId()) {
+ 			if ($order->getState() === Order::STATE_PENDING_PAYMENT) {
+@@ -72,5 +87,7 @@ class CancelPayment implements ObserverInterface
+ 				}
+ 			}
+ 		}
++
++		//empty line only to catch changes moment when execute() method has changed
+ 	}
+ }
