@@ -1,0 +1,13 @@
+diff --git a/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php b/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php
+index d4b0d4f..5c06b66 100644
+--- a/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php
++++ b/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php
+@@ -96,7 +96,7 @@ class StockStatusBaseSelectProcessor implements BaseSelectProcessorInterface
+      */
+     public function process(Select $select)
+     {
+-        if (!$this->stockConfig->isShowOutOfStock()) {
++        if ($this->stockConfig->isShowOutOfStock()) {
+             return $select;
+         }
+ 
