@@ -1,0 +1,19 @@
+Fixes checkout when there is free gift promo.
+Adds extra check if given key exists in array
+Free gift promos do not have element with given key
+
+diff --git a/Model/DefaultConfigProvider.php b/Model/DefaultConfigProvider.php
+index fdf49d6..c05887c 100644
+--- a/Model/DefaultConfigProvider.php
++++ b/Model/DefaultConfigProvider.php
+@@ -779,7 +779,9 @@ class DefaultConfigProvider implements ConfigProviderInterface
+         $quoteItemsMessages = [];
+         if ($quoteItemData) {
+             foreach ($quoteItemData as $item) {
+-                $quoteItemsMessages[$item['item_id']] = $item['message'];
++                if(array_key_exists('item_id', $item)) {
++                    $quoteItemsMessages[$item['item_id']] = $item['message'];
++                }
+             }
+         }
+

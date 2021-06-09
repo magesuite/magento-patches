@@ -542,6 +542,41 @@
                     "description": "Replace jquery-ui fade effect with jquery fadeIn/fadeOut",
                     "filename": "essential/frontend/replace-jquery-ui-fade.patch",
                     "version-constraint": ">=100.4.2"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m228_m229-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.2.8,100.2.9"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m2210_m2211-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.2.10,100.2.11"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m231-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.1"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m232-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.2,100.3.2-p2"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m233-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.3,100.3.3-p1"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m234_m241-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": ">=100.3.4,<=100.3.6-p1 || >=100.4.0,<=100.4.1"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m237_m242-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.7 || >=100.4.1-p1"
                 }
             ],
             "magento/module-checkout-agreements": [
