@@ -799,6 +799,11 @@
                     "description": "Prevent create account form button from staying disabled after incorrect data submission",
                     "filename": "essential/frontend/prevent-create-account-form-button-from-staying-disabled-after-incorrect-data-submission.patch",
                     "version-constraint": "103.0.1"
+                },
+                {
+                    "description": "Fix js errors in customer data when component not initialized",
+                    "filename": "essential/frontend/customer-data-initialization-fix.patch",
+                    "version-constraint": ">=103.0.1"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
