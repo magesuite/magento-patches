@@ -450,6 +450,13 @@
                     "version-constraint": ">100.2.4,<100.2.9 || >100.3.0,<100.3.5"
                 }
             ],
+            "magento/module-inventory-configurable-product": [
+                {
+                    "description": "Prevent from adding stock filter to query for configurable products when show out of stock configuration is enabled",
+                    "filename": "essential/fix-stock-select-query-for-out-of-stock-configurable-products.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "magento/module-catalog": [
                 {
                     "description": "Fixes sorting related products in admin panel.",
