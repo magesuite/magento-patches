@@ -1,13 +1,20 @@
 diff --git a/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php b/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php
-index d4b0d4f..5c06b66 100644
+index d4b0d4f..0bb022d 100644
 --- a/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php
 +++ b/Pricing/Price/LowestPriceOptionsProvider/StockStatusBaseSelectProcessor.php
-@@ -96,7 +96,7 @@ class StockStatusBaseSelectProcessor implements BaseSelectProcessorInterface
+@@ -96,9 +96,14 @@ class StockStatusBaseSelectProcessor implements BaseSelectProcessorInterface
       */
      public function process(Select $select)
      {
 -        if (!$this->stockConfig->isShowOutOfStock()) {
++        // BEGIN OF PATCH
++        //if (!$this->stockConfig->isShowOutOfStock()) {
++        // BEGIN OF PATCHED CODE
 +        if ($this->stockConfig->isShowOutOfStock()) {
++        // END OF PATCHED CODE
              return $select;
          }
- 
++        // END OF PATCH
+
+         $websiteCode = $this->storeManager->getWebsite()
+             ->getCode();
