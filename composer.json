@@ -843,7 +843,7 @@
                 {
                     "description": "Fix js errors in customer data when component not initialized",
                     "filename": "essential/frontend/customer-data-initialization-fix.patch",
-                    "version-constraint": ">=103.0.1"
+                    "version-constraint": ">=103.0.2"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
