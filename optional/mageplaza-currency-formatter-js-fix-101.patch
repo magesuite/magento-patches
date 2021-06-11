@@ -1,0 +1,26 @@
+diff --git a/Plugin/Locale/Format.php b/Plugin/Locale/Format.php
+index 6412dd0..9884ca2 100644
+--- a/Plugin/Locale/Format.php
++++ b/Plugin/Locale/Format.php
+@@ -121,6 +121,8 @@ class Format extends AbstractFormat
+             }
+         }
+         $config                      = $this->getFormatByCurrency($code);
++
++        $result['currencyFormatterEnabled'] = true;
+         $result['pattern']           = $this->_helperData->getLocaleShowSymbol($code, $config['show_symbol'],
+             $config['symbol']);
+         $result['precision']         = $config['decimal_number'];
+diff --git a/view/frontend/web/js/view/summary/abstract-total.js b/view/frontend/web/js/view/summary/abstract-total.js
+index c279d75..5324628 100644
+--- a/view/frontend/web/js/view/summary/abstract-total.js
++++ b/view/frontend/web/js/view/summary/abstract-total.js
+@@ -41,7 +41,7 @@ define([
+                 newPattern = null,
+                 newPrice   = null;
+ 
+-            if (price >= 0) {
++            if (!format.currencyFormatterEnabled || price > 0) {
+                 return this._super(price);
+             }
+ 
