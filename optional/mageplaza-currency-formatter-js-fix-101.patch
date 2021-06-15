@@ -20,7 +20,7 @@ index c279d75..5324628 100644
                  newPrice   = null;
  
 -            if (price >= 0) {
-+            if (!format.currencyFormatterEnabled || price > 0) {
++            if (!format.currencyFormatterEnabled || price >= 0) {
                  return this._super(price);
              }
  
