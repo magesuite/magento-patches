@@ -1,0 +1,30 @@
+diff --git a/lib/web/mage/validation.js b/lib/web/mage/validation.js
+index ae8dad5..4463f35 100644
+--- a/lib/web/mage/validation.js
++++ b/lib/web/mage/validation.js
+@@ -5,12 +5,11 @@
+ 
+ define([
+     'jquery',
+-    'moment',
+     'mageUtils',
+     'jquery-ui-modules/widget',
+     'jquery/validate',
+     'mage/translate'
+-], function ($, moment, utils) {
++], function ($, utils) {
+     'use strict';
+ 
+     var creditCartTypes, rules, showLabel, originValidateDelegate;
+@@ -1045,9 +1044,8 @@ define([
+         ],
+         'validate-date': [
+             function (value, params, additionalParams) {
+-                var test = moment(value, utils.convertToMomentFormat(additionalParams.dateFormat));
+-
+-                return $.mage.isEmptyNoTrim(value) || test.isValid();
++                // Remove date validation to avoid loading whole moment library.
++                return $.mage.isEmptyNoTrim(value);
+             },
+             $.mage.__('Please enter a valid date.')
+ 
