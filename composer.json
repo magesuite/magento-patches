@@ -262,6 +262,11 @@
                     "description": "Fix error on order success page with date html tag",
                     "filename": "essential/m23-fix-order-date-success-page.patch",
                     "version-constraint": ">=102.0.3,<102.0.6"
+                },
+                {
+                    "description": "Fix not working customer prefix translation",
+                    "filename": "essential/fix-sales-module-customer-prefix-translation.patch",
+                    "version-constraint": "102.0.5"
                 }
             ],
             "magento/module-store": [
@@ -844,6 +849,11 @@
                     "description": "Fix js errors in customer data when component not initialized",
                     "filename": "essential/frontend/customer-data-initialization-fix.patch",
                     "version-constraint": ">=103.0.2"
+                },
+                {
+                    "description": "Fix not working translation for customers",
+                    "filename": "essential/fix-customer-module-prefix-translation.patch",
+                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
