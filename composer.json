@@ -841,6 +841,11 @@
                     "version-constraint": ">=103.0.2"
                 },
                 {
+                    "description": "Fix not working translation for customer prefix in options",
+                    "filename": "essential/fix-customer-prefix-options-translation.patch",
+                    "version-constraint": ">=102.0.5, <103.0.2"
+                },
+                {
                     "description": "Prevent create account form button from staying disabled after incorrect data submission",
                     "filename": "essential/frontend/prevent-create-account-form-button-from-staying-disabled-after-incorrect-data-submission.patch",
                     "version-constraint": "103.0.1"

@@ -1,0 +1,16 @@
+diff --git a/Model/Options.php b/Model/Options.php
+index 4c9b9f9..a612cb1 100644
+--- a/Model/Options.php
++++ b/Model/Options.php
+@@ -101,7 +101,10 @@ class Options
+         $result = [];
+         $options = explode(';', $options);
+         foreach ($options as $value) {
+-            $result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
++            // BEGINNING OF PATCH
++//            $result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
++            $result[] = $this->escaper->escapeHtml(trim(__($value))) ?: ' ';
++            // END OF PATCH
+         }
+
+         if ($isOptional && trim(current($options))) {
