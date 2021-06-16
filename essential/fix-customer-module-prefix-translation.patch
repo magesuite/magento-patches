@@ -72,18 +72,18 @@ index 8421fc9..5ddf80a 100644
          return $name;
      }
 diff --git a/Model/Options.php b/Model/Options.php
-index 3d1fb66..bc6604e 100644
+index 4c9b9f9..a612cb1 100644
 --- a/Model/Options.php
 +++ b/Model/Options.php
-@@ -102,7 +102,10 @@ class Options
+@@ -101,7 +101,10 @@ class Options
+         $result = [];
          $options = explode(';', $options);
          foreach ($options as $value) {
-             //$result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
--            $value = $this->escaper->escapeHtml(trim($value));
+-            $result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
 +            // BEGINNING OF PATCH
-+//            $value = $this->escaper->escapeHtml(trim($value));
-+            $value = $this->escaper->escapeHtml(trim(__($value)));
++//            $result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
++            $result[] = $this->escaper->escapeHtml(trim(__($value))) ?: ' ';
 +            // END OF PATCH
-             if (empty($value)) {
-                 $result[] = ' ';
-             } else {
+         }
+
+         if ($isOptional && trim(current($options))) {

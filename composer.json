@@ -836,6 +836,11 @@
                     "version-constraint": ">=103.0.0, <=103.0.2"
                 },
                 {
+                    "description": "Fix incorrect customer prefix data (gender select)",
+                    "filename": "essential/m242-fix-prefix-options-select.patch",
+                    "version-constraint": ">=103.0.2"
+                },
+                {
                     "description": "Prevent create account form button from staying disabled after incorrect data submission",
                     "filename": "essential/frontend/prevent-create-account-form-button-from-staying-disabled-after-incorrect-data-submission.patch",
                     "version-constraint": "103.0.1"
@@ -844,6 +849,11 @@
                     "description": "Fix js errors in customer data when component not initialized",
                     "filename": "essential/frontend/customer-data-initialization-fix.patch",
                     "version-constraint": ">=103.0.2"
+                },
+                {
+                    "description": "Fix not working translation for customers",
+                    "filename": "essential/fix-customer-module-prefix-translation.patch",
+                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
