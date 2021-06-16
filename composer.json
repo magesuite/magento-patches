@@ -120,6 +120,11 @@
                     "description": "Fix file uploader, filename is too long exception",
                     "filename": "essential/m236-fix-filename-is-too-long-exception.patch",
                     "version-constraint": "102.0.6"
+                },
+                {
+                    "description": "Fixes custom changelog batchsize set in di.xml is used as string and throws an exception in Magento v2.3.3 running on PHP 7.3",
+                    "filename": "essential/magento-framework-Mview-View-fixes-custom-changelog-batchsize-set-in-di-xml-is-used-as-string-and-throws-an-exception-in-Magento-v2-3-3.diff",
+                    "version-constraint": ">=102.0.3,<102.0.4"
                 }
             ],
             "magento/module-asynchronous-operations": [

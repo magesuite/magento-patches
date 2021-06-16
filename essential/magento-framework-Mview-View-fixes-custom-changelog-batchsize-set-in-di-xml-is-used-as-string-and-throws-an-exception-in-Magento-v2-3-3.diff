@@ -1,0 +1,11 @@
+--- a/Mview/View.php	2021-06-15 16:49:57.130627785 +0200
++++ b/Mview/View.php	2021-06-15 17:06:03.686259867 +0200
+@@ -293,7 +293,7 @@
+     {
+         $versionBatchSize = self::$maxVersionQueryBatch;
+         $batchSize = isset($this->changelogBatchSize[$this->getChangelog()->getViewId()])
+-            ? $this->changelogBatchSize[$this->getChangelog()->getViewId()]
++            ? (int) $this->changelogBatchSize[$this->getChangelog()->getViewId()]
+             : self::DEFAULT_BATCH_SIZE;
+ 
+         for ($vsFrom = $lastVersionId; $vsFrom < $currentVersionId; $vsFrom += $versionBatchSize) {
