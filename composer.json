@@ -266,7 +266,7 @@
                 {
                     "description": "Fix not working customer prefix translation",
                     "filename": "essential/fix-sales-module-customer-prefix-translation.patch",
-                    "version-constraint": "102.0.5"
+                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-store": [
