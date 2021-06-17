@@ -52,7 +52,7 @@
             {
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
                 "filename": "optional/dogma-customer-pet-image-change-destination-module-eav.patch",
-                "version-constraint": ">=102.0.5"
+                "version-constraint": ">=102.0.5,<103.0.0"
             }
         ],
         "magento/module-checkout": [
