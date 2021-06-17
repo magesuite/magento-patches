@@ -1,0 +1,15 @@
+diff --git a/TrustedshopsApi/ApiClient.php b/TrustedshopsApi/ApiClient.php
+index 03040f6..8aa2dd7 100644
+--- a/TrustedshopsApi/ApiClient.php
++++ b/TrustedshopsApi/ApiClient.php
+@@ -6,8 +6,8 @@ use Exception;
+ use Magento\Framework\Exception\AuthorizationException;
+ use Trustedshops\Trustedshops\Helper\Data;
+ use Trustedshops\Trustedshops\TrustedshopsApi\Request\RequestInterface;
+-use Zend\Http\Client;
+-use Zend\Http\Response;
++use \Zend_Http_Client as Client;
++use \Zend_Http_Response as Response;
+ 
+ /**
+  * Class ApiClient
