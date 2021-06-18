@@ -14,18 +14,18 @@ index 4c9b9f9..3d1fb66 100644
          foreach ($options as $value) {
 -            $result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
 +            //$result[] = $this->escaper->escapeHtml(trim($value)) ?: ' ';
-+            $value = $this->escaper->escapeHtml(trim($value));
++            $value = $this->escaper->escapeHtml(trim(__($value)));
 +            if (empty($value)) {
 +                $result[] = ' ';
 +            } else {
 +                $result[$value] = $value;
 +            }
          }
- 
+
          if ($isOptional && trim(current($options))) {
 -            $result = array_merge([' '], $result);
 +            //$result = array_merge([' '], $result);
 +            $result = array_merge(['' => ' '], $result);
          }
- 
+
          return $result;

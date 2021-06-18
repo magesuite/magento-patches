@@ -1,0 +1,73 @@
+diff --git a/Block/Address/Renderer/DefaultRenderer.php b/Block/Address/Renderer/DefaultRenderer.php
+index c10ff42..11a3464 100644
+--- a/Block/Address/Renderer/DefaultRenderer.php
++++ b/Block/Address/Renderer/DefaultRenderer.php
+@@ -189,6 +189,12 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
+                         $data[$key] = $v;
+                     }
+                 }
++                // BEGINNING OF PATCH
++                if (in_array($attributeCode, ['prefix','suffix'])) {
++//                    $value = $value;
++                    $value = __($value);
++                }
++                // END OF PATCH
+                 $data[$attributeCode] = $value;
+             }
+         }
+diff --git a/Helper/View.php b/Helper/View.php
+index dcd4ae0..cf9b6ac 100644
+--- a/Helper/View.php
++++ b/Helper/View.php
+@@ -51,7 +51,10 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper implements Custo
+         $name = '';
+         $prefixMetadata = $this->_customerMetadataService->getAttributeMetadata('prefix');
+         if ($prefixMetadata->isVisible() && $customerData->getPrefix()) {
+-            $name .= $customerData->getPrefix() . ' ';
++            // BEGINNING OF PATCH
++//            $name .= $customerData->getPrefix() . ' ';
++            $name .= __($customerData->getPrefix()) . ' ';
++            // END OF PATCH
+         }
+
+         $name .= $customerData->getFirstname();
+@@ -65,7 +68,10 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper implements Custo
+
+         $suffixMetadata = $this->_customerMetadataService->getAttributeMetadata('suffix');
+         if ($suffixMetadata->isVisible() && $customerData->getSuffix()) {
+-            $name .= ' ' . $customerData->getSuffix();
++            // BEGINNING OF PATCH
++//            $name .= ' ' . $customerData->getSuffix();
++            $name .= ' ' . __($customerData->getSuffix());
++            // END OF PATCH
+         }
+
+         return $this->escaper->escapeHtml($name);
+diff --git a/Model/Address/AbstractAddress.php b/Model/Address/AbstractAddress.php
+index 8421fc9..5ddf80a 100644
+--- a/Model/Address/AbstractAddress.php
++++ b/Model/Address/AbstractAddress.php
+@@ -194,7 +194,10 @@ class AbstractAddress extends AbstractExtensibleModel implements AddressModelInt
+     {
+         $name = '';
+         if ($this->_eavConfig->getAttribute('customer_address', 'prefix')->getIsVisible() && $this->getPrefix()) {
+-            $name .= $this->getPrefix() . ' ';
++            // BEGINNING OF PATCH
++//            $name .= $this->getPrefix() . ' ';
++            $name .= __($this->getPrefix()) . ' ';
++            // END OF PATCH
+         }
+         $name .= $this->getFirstname();
+         $middleName = $this->_eavConfig->getAttribute('customer_address', 'middlename');
+@@ -203,7 +206,10 @@ class AbstractAddress extends AbstractExtensibleModel implements AddressModelInt
+         }
+         $name .= ' ' . $this->getLastname();
+         if ($this->_eavConfig->getAttribute('customer_address', 'suffix')->getIsVisible() && $this->getSuffix()) {
+-            $name .= ' ' . $this->getSuffix();
++            // BEGINNING OF PATCH
++//            $name .= ' ' . $this->getSuffix();
++            // END OF PATCH
++            $name .= ' ' . __($this->getSuffix());
+         }
+         return $name;
+     }
