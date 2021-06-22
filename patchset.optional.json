@@ -454,6 +454,13 @@
               "version-constraint": "1.6.2"
             }
         ],
+        "magepal/magento2-googletagmanager": [
+            {
+                "description": "Adds compatibility between Amasty GDPR Cookie extension and Magepal Datalayer",
+                "filename": "optional/frontend/magepal-amasty-gdpr-compatibility.patch",
+                "version-constraint": "*"
+            }
+        ],
         "magento/module-gift-card-account": [
             {
                 "description": "Allows storepickup to be used with 0.00 orders (Giftacrd+Magento EE)",

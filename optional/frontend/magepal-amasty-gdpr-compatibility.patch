@@ -1,0 +1,30 @@
+diff --git a/view/frontend/web/js/datalayer.js b/view/frontend/web/js/datalayer.js
+index 24bcb24..d12e575 100644
+--- a/view/frontend/web/js/datalayer.js
++++ b/view/frontend/web/js/datalayer.js
+@@ -67,7 +67,24 @@ define([
+                 }
+             }
+         } else if (config.gdprOption === 2) {
+-            allowServices = $.mage.cookies.get(config.cookieName) !== null;
++            if (config.cookieName === 'amcookie_allowed') {
++                var amcookie_allowed = $.mage.cookies.get('amcookie_allowed'),
++                    amcookie_disallowed = $.mage.cookies.get('amcookie_disallowed');
++
++                if (amcookie_allowed !== null) {
++                    if (amcookie_allowed === '0') {
++                        allowServices = true;
++                    } else {
++                        if (amcookie_disallowed !== null) {
++                            allowServices = amcookie_disallowed.search('_ga') === -1;
++                        } else {
++                            allowServices = true;
++                        }
++                    }
++                }
++            } else {
++                allowServices = $.mage.cookies.get(config.cookieName) !== null;
++            }
+         } else if (config.gdprOption === 3) {
+             allowServices = $.mage.cookies.get(config.cookieName) === null;
+         }
