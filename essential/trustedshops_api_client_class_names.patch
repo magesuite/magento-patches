@@ -10,6 +10,27 @@ index 03040f6..8aa2dd7 100644
 -use Zend\Http\Response;
 +use \Zend_Http_Client as Client;
 +use \Zend_Http_Response as Response;
- 
+
  /**
   * Class ApiClient
+@@ -48,7 +48,7 @@ class ApiClient
+     {
+         $response = null;
+         try {
+-            $this->client->reset();
++            $this->client->resetParameters(true);
+             $this->client->setHeaders(['Accept' => 'application/json']);
+             $this->client->setEncType(Client::ENC_FORMDATA);
+             $this->client->setAuth($this->getUser(), $this->getPassword());
+@@ -60,9 +60,9 @@ class ApiClient
+                 $this->client->setRawBody($request->getRequestData()->getRequestBody());
+             }
+
+-            $response = $this->client->send();
++            $response = $this->client->request();
+
+-            if ((int)$response->getStatusCode() === 401) {
++            if ((int)$response->getStatus() === 401) {
+                 throw new AuthorizationException(__('The MyTS credentials used for authentication with the TrustedShops API are incorrect. Ensure you are logged into MyTS within the Magento 2 Backend using the correct credentials of your TrustedShops account. If your MyTS password was recently changed, try logging out and back in.'));
+             }
+         } catch (Exception $e) {
