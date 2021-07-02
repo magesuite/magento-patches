@@ -1,0 +1,19 @@
+diff --git a/Model/PriceCurrency.php b/Model/PriceCurrency.php
+index 08d320a..05da894 100644
+--- a/Model/PriceCurrency.php
++++ b/Model/PriceCurrency.php
+@@ -152,7 +152,10 @@ class PriceCurrency implements \Magento\Framework\Pricing\PriceCurrencyInterface
+      */
+     public function round($price)
+     {
+-        return round($price, 2);
++        // BEGINNING OF PATCH
++        // return round($price, 2);
++        return round($price, 4);
++        // END OF PATCH
+     }
+ 
+     /**
+diff --git a/m24-fix-different-price-in-cart-vs-on-pdp.patch b/m24-fix-different-price-in-cart-vs-on-pdp.patch
+new file mode 100644
+index 0000000..e69de29

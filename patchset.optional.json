@@ -668,6 +668,13 @@
                 "version-constraint": "100.3.4"
             }
         ],
+        "magento/module-directory": [
+            {
+                "description": "Fix different price in Cart vs on the PDP in case of discount price",
+                "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
+                "version-constraint": ">=100.4.1"
+            }
+        ],
         "xtento/pdfcustomizer": [
             {
                 "description": "Fix for empty shipping cost in invoice PDF, show formatted 0.00$",
