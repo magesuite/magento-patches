@@ -674,6 +674,13 @@
                 "filename": "optional/xtento-pdfcutomizer-fix-shipping-to-formatted-output.patch",
                 "version-constraint": ">=2.13.3"
             }
+        ],
+        "magento/module-catalog": [
+            {
+                "description": "For Leds project. Force to delete all module gallery files of product during importing images for products via API POST request.",
+                "filename": "optional/module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch",
+                "version-constraint": "104.0.1,104.0.1-p1"
+            }
         ]
     }
 }

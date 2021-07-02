@@ -1,0 +1,107 @@
+Fixes problem with deleting all gallery images for products during importing images for products via API POST request.
+
+I didn't found solution for this bug on Magento Github. It is unclear why Magento refuses to delete file(s) from gallery. It is acting like product's image is still used by other store(s), despite of that all of them was deleted from product in each store. In case when images for product(s) are imported by API using POST request to: '/V1/products/:sku/images' endpoint, all images of imported products should be deleted without any checks. This quick fix is solving this problem by trivial, but working way.
+
+index 8bcd0e2..84a0432 100644
+--- a/Model/Product/Gallery/CreateHandler.php
++++ b/Model/Product/Gallery/CreateHandler.php
+@@ -12,6 +12,7 @@ use Magento\Catalog\Model\Product;
+ use Magento\Framework\App\Filesystem\DirectoryList;
+ use Magento\Framework\App\ObjectManager;
+ use Magento\Framework\EntityManager\Operation\ExtensionInterface;
++use Magento\Framework\UrlInterface;
+ use Magento\MediaStorage\Model\File\Uploader as FileUploader;
+ use Magento\Store\Model\Store;
+ use Magento\Store\Model\StoreManagerInterface;
+@@ -26,6 +27,8 @@ use Magento\Store\Model\StoreManagerInterface;
+  */
+ class CreateHandler implements ExtensionInterface
+ {
++    public const REQUEST_PATH_WITHOUT_SKU_DURING_PRODUCTS_IMAGES_IMPORT_VIA_API = '/rest/all/V/products//images';
++
+     /**
+      * @var \Magento\Framework\EntityManager\EntityMetadata
+      * @since 101.0.0
+@@ -100,6 +103,11 @@ class CreateHandler implements ExtensionInterface
+         'thumbnail'
+     ];
+
++    /**
++     * @var UrlInterface
++     */
++    protected $url;
++
+     /**
+      * @param \Magento\Framework\EntityManager\MetadataPool $metadataPool
+      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
+@@ -109,6 +117,7 @@ class CreateHandler implements ExtensionInterface
+      * @param \Magento\Framework\Filesystem $filesystem
+      * @param \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb
+      * @param \Magento\Store\Model\StoreManagerInterface|null $storeManager
++     * @param \Magento\Framework\UrlInterface $url
+      * @throws \Magento\Framework\Exception\FileSystemException
+      */
+     public function __construct(
+@@ -119,7 +128,8 @@ class CreateHandler implements ExtensionInterface
+         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+         \Magento\Framework\Filesystem $filesystem,
+         \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb,
+-        \Magento\Store\Model\StoreManagerInterface $storeManager = null
++        \Magento\Store\Model\StoreManagerInterface $storeManager = null,
++        \Magento\Framework\UrlInterface $url
+     ) {
+         $this->metadata = $metadataPool->getMetadata(\Magento\Catalog\Api\Data\ProductInterface::class);
+         $this->attributeRepository = $attributeRepository;
+@@ -129,6 +139,7 @@ class CreateHandler implements ExtensionInterface
+         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+         $this->fileStorageDb = $fileStorageDb;
+         $this->storeManager = $storeManager ?: ObjectManager::getInstance()->get(StoreManagerInterface::class);
++        $this->url = $url;
+     }
+
+     /**
+@@ -594,19 +605,41 @@ class CreateHandler implements ExtensionInterface
+      */
+     private function canRemoveImage(ProductInterface $product, string $imageFile) :bool
+     {
+-        $canRemoveImage = true;
++        if ($this->isApiImagesImportRequest()) {
++            return true;
++        }
+         $gallery = $this->getImagesForAllStores($product);
+         $storeId = $product->getStoreId();
+
+         if (!empty($gallery)) {
+             foreach ($gallery as $image) {
+                 if ($image['filepath'] === $imageFile && (int) $image['store_id'] !== $storeId) {
+-                    $canRemoveImage = false;
++                    return false;
+                 }
+             }
+         }
+
+-        return $canRemoveImage;
++        return true;
++    }
++
++    /**
++     * It is unclear why Magento refuses to delete file(s) from gallery. It is acting like product's image is still
++     * used by other store(s), despite of that all of them was deleted from product in each store.
++     * In case when images for product(s) are imported by API using POST request to:
++     * /V1/products/:sku/images endpoint, all images of imported products should be deleted without any checks.
++     * This quick fix is solving this problem by trivial, but working way.
++     *
++     * @return bool
++     */
++    protected function isApiImagesImportRequest(): bool
++    {
++        $url = $this->url->getCurrentUrl();
++        $path = parse_url($url, PHP_URL_PATH);
++        $pathWithoutSku = preg_replace('/\d/', '', $path);
++        if ( $pathWithoutSku == self::REQUEST_PATH_WITHOUT_SKU_DURING_PRODUCTS_IMAGES_IMPORT_VIA_API) {
++            return true;
++        }
++        return false;
+     }
+
+     /**
