@@ -1,0 +1,17 @@
+diff --git a/View/Element/UiComponentFactory.php b/View/Element/UiComponentFactory.php
+index 5e1bc93..d7766d5 100644
+--- a/View/Element/UiComponentFactory.php
++++ b/View/Element/UiComponentFactory.php
+@@ -402,6 +402,12 @@ class UiComponentFactory extends DataObject
+ 
+             if (!$isMerged) {
+                 if (!isset($data['arguments']['data']['config']['componentType'])) {
++                    // BEGINNING OF PATCH
++                    if (!isset($bundleComponents[$name])) {
++                        continue;
++                    }
++                    // END OF PATCH
++
+                     throw new LocalizedException(
+                         new Phrase(
+                             'The "componentType" configuration parameter is required for the "%1" component.',
