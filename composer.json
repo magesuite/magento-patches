@@ -125,6 +125,11 @@
                     "description": "Fixes custom changelog batchsize set in di.xml is used as string and throws an exception in Magento v2.3.3 running on PHP 7.3",
                     "filename": "essential/magento-framework-Mview-View-fixes-custom-changelog-batchsize-set-in-di-xml-is-used-as-string-and-throws-an-exception-in-Magento-v2-3-3.diff",
                     "version-constraint": ">=102.0.3,<102.0.4"
+                },
+                {
+                    "description": "Fix exception while trying to schedule content staging change for category when custom modules do not support content staging",
+                    "filename": "essential/prevent-exception-when-content-staging-section-is-not-defined.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-asynchronous-operations": [
