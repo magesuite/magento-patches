@@ -129,7 +129,7 @@
                 {
                     "description": "Fix exception while trying to schedule content staging change for category when custom modules do not support content staging",
                     "filename": "essential/prevent-exception-when-content-staging-section-is-not-defined.patch",
-                    "version-constraint": "*"
+                    "version-constraint": ">102.0.3"
                 }
             ],
             "magento/module-asynchronous-operations": [
