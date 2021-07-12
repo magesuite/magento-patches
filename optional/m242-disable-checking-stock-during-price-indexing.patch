@@ -1,0 +1,25 @@
+diff --git a/Model/ResourceModel/Indexer/Price.php b/Model/ResourceModel/Indexer/Price.php
+index 55bef49..82b044e 100644
+--- a/Model/ResourceModel/Indexer/Price.php
++++ b/Model/ResourceModel/Indexer/Price.php
+@@ -625,12 +625,14 @@ class Price implements DimensionalIndexerInterface
+                 'tier_price' => $tierExpr,
+             ]
+         );
+-        $select->join(
+-            ['si' => $this->getTable('cataloginventory_stock_status')],
+-            'si.product_id = bs.product_id',
+-            []
+-        );
+-        $select->where('si.stock_status = ?', Stock::STOCK_IN_STOCK);
++//        BEGINNING OF PATCH (commented the lines below)
++//        $select->join(
++//            ['si' => $this->getTable('cataloginventory_stock_status')],
++//            'si.product_id = bs.product_id',
++//            []
++//        );
++//        $select->where('si.stock_status = ?', Stock::STOCK_IN_STOCK);
++//        END OF PATCH
+ 
+         $this->tableMaintainer->insertFromSelect($select, $this->getBundleSelectionTable(), []);
+     }

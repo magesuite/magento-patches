@@ -104,6 +104,13 @@
                 "version-constraint": "102.0.3"
             }
         ],
+        "magento/module-bundle": [
+            {
+                "description": "Disable checking stock during price indexing for bundle products with dynamic price (KRG-1841)",
+                "filename": "optional/m242-disable-checking-stock-during-price-indexing.patch",
+                "version-constraint": ">=101.0.2"
+            }
+        ],
         "magento/module-customer": [
             {
                 "description": "Fix order of top navigation items so they can be sorted using sortOrder directive in XML update",
