@@ -351,6 +351,11 @@
                 "description": "For Leds project. Force to delete all module gallery files of product during importing images for products via API POST request.",
                 "filename": "optional/module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch",
                 "version-constraint": "104.0.1,104.0.1-p1"
+            },
+            {
+                "description": "Fix different price in Cart vs on the PDP in case of discount price",
+                "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
+                "version-constraint": ">=104.0.1"
             }
         ],
         "magento/magento2-base": [
@@ -676,13 +681,6 @@
                 "description": "Fix for not being able to create store view if cms pages exist with same url key for different storeviews",
                 "filename": "optional/fix-creating-store-view-with-cms-pages-with-same-url-key.patch",
                 "version-constraint": "100.3.4"
-            }
-        ],
-        "magento/module-directory": [
-            {
-                "description": "Fix different price in Cart vs on the PDP in case of discount price",
-                "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
-                "version-constraint": ">=100.4.1"
             }
         ],
         "xtento/pdfcustomizer": [
