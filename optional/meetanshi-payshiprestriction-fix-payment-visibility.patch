@@ -1,0 +1,16 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index 49a28d5..fae9d26 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -84,6 +84,11 @@ class Data extends AbstractHelper
+      */
+     public function getMethodsVisibility($type, $websiteId, $method = null)
+     {
++        // BEGINNING OF PATCH
++        $storeId = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
++        $this->storeManager->setCurrentStore($storeId);
++        // END OF PATCH
++        
+         $collection = $this->collectionFactory->create();
+         $collection->addFieldToFilter('type', ['eq' => $type]);
+         if ($method !== null) {
