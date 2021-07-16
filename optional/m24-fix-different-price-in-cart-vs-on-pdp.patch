@@ -1,16 +1,18 @@
-diff --git a/Model/PriceCurrency.php b/Model/PriceCurrency.php
-index 08d320a..05da894 100644
---- a/Model/PriceCurrency.php
-+++ b/Model/PriceCurrency.php
-@@ -152,7 +152,10 @@ class PriceCurrency implements \Magento\Framework\Pricing\PriceCurrencyInterface
-      */
-     public function round($price)
+LED-2500 Fix different price in Cart vs on the PDP in case of discount price
+
+diff --git a/Pricing/Price/RegularPrice.php b/Pricing/Price/RegularPrice.php
+index 2c4e332..3ec3f10 100644
+--- a/Pricing/Price/RegularPrice.php
++++ b/Pricing/Price/RegularPrice.php
+@@ -28,7 +28,10 @@ class RegularPrice extends AbstractPrice implements BasePriceProviderInterface
      {
--        return round($price, 2);
-+        // BEGINNING OF PATCH
-+        // return round($price, 2);
-+        return round($price, 4);
-+        // END OF PATCH
-     }
- 
-     /**
+         if ($this->value === null) {
+             $price = $this->product->getPrice();
+-            $priceInCurrentCurrency = $this->priceCurrency->convertAndRound($price);
++            // BEGINNING OF PATCH
++            // $priceInCurrentCurrency = $this->priceCurrency->convertAndRound($price);
++            $priceInCurrentCurrency = $this->priceCurrency->convertAndRound($price, null, null, 4);
++            // END OF PATCH
+             $this->value = $priceInCurrentCurrency ? (float)$priceInCurrentCurrency : 0;
+         }
+         return $this->value;

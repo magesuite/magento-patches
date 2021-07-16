@@ -347,6 +347,16 @@
                 "description": "Keep regular price in the tier prices listing",
                 "filename": "optional/m23-keep-regular-price-in-tier-listing.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "For Leds project. Force to delete all module gallery files of product during importing images for products via API POST request.",
+                "filename": "optional/module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch",
+                "version-constraint": "104.0.1,104.0.1-p1"
+            },
+            {
+                "description": "Fix different price in Cart vs on the PDP in case of discount price",
+                "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
+                "version-constraint": ">=104.0.1"
             }
         ],
         "magento/magento2-base": [
@@ -675,25 +685,11 @@
                 "version-constraint": "100.3.4"
             }
         ],
-        "magento/module-directory": [
-            {
-                "description": "Fix different price in Cart vs on the PDP in case of discount price",
-                "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
-                "version-constraint": ">=100.4.1"
-            }
-        ],
         "xtento/pdfcustomizer": [
             {
                 "description": "Fix for empty shipping cost in invoice PDF, show formatted 0.00$",
                 "filename": "optional/xtento-pdfcutomizer-fix-shipping-to-formatted-output.patch",
                 "version-constraint": ">=2.13.3"
-            }
-        ],
-        "magento/module-catalog": [
-            {
-                "description": "For Leds project. Force to delete all module gallery files of product during importing images for products via API POST request.",
-                "filename": "optional/module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch",
-                "version-constraint": "104.0.1,104.0.1-p1"
             }
         ]
     }
