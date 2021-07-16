@@ -277,6 +277,11 @@
                     "description": "Fix not working customer prefix translation",
                     "filename": "essential/fix-sales-module-customer-prefix-translation.patch",
                     "version-constraint": ">=102.0.5"
+                },
+                {
+                    "description": "Fix invoice grand total amount for orders with discounts",
+                    "filename": "essential/m242-invoice-grand-total-amount.patch",
+                    "version-constraint": "103.0.2"
                 }
             ],
             "magento/module-store": [

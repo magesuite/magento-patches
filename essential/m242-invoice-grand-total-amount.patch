@@ -1,0 +1,19 @@
+issue: https://github.com/magento/magento2/issues/32270
+PR: https://github.com/magento/magento2/commit/c789a531f0b0d6d3c693badc7865406ac7d021be
+
+diff --git a/Model/Order/Invoice/Total/Discount.php b/Model/Order/Invoice/Total/Discount.php
+index ef7205b..f2a99a4 100644
+--- a/Model/Order/Invoice/Total/Discount.php
++++ b/Model/Order/Invoice/Total/Discount.php
+@@ -71,9 +71,9 @@ class Discount extends AbstractTotal
+         $invoice->setDiscountAmount(-$totalDiscountAmount);
+         $invoice->setBaseDiscountAmount(-$baseTotalDiscountAmount);
+
+-        $grandTotal = $invoice->getGrandTotal() - $totalDiscountAmount < 0.0001
++        $grandTotal = abs($invoice->getGrandTotal() - $totalDiscountAmount) < 0.0001
+             ? 0 : $invoice->getGrandTotal() - $totalDiscountAmount;
+-        $baseGrandTotal = $invoice->getBaseGrandTotal() - $baseTotalDiscountAmount < 0.0001
++        $baseGrandTotal = abs($invoice->getBaseGrandTotal() - $baseTotalDiscountAmount) < 0.0001
+             ? 0 : $invoice->getBaseGrandTotal() - $baseTotalDiscountAmount;
+         $invoice->setGrandTotal($grandTotal);
+         $invoice->setBaseGrandTotal($baseGrandTotal);
