@@ -1149,6 +1149,13 @@
                     "version-constraint": ">=100.1.4-p2"
                 }
             ],
+            "magento/module-company-shipping": [
+                {
+                    "description": "Use carriers code name when carrier title is not provided",
+                    "filename": "essential/company-shipping-carriers-default-titles.patch",
+                    "version-constraint": "1.3.1"
+                }
+            ],
             "magento/module-target-rule": [
                 {
                     "description": "Use row_id field to get related cross sell products in checkout",
