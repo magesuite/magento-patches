@@ -733,6 +733,13 @@
                     "version-constraint": ">=101.0.0"
                 }
             ],
+            "magento/module-quick-order": [
+                {
+                    "description": "Cast quantity value to float before validation",
+                    "filename": "essential/fix-qty-type-in-quick-order.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "magento/module-import-export": [
                 {
                     "description": "Fix skip invalid rows functionality in import",
