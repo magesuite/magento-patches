@@ -735,7 +735,7 @@
             ],
             "magento/module-quick-order": [
                 {
-                    "description": "Cast quantity value to quote before adding validation",
+                    "description": "Cast quantity value to float before validation",
                     "filename": "essential/fix-qty-type-in-quick-order.patch",
                     "version-constraint": "*"
                 }
