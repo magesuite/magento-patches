@@ -449,6 +449,11 @@
                     "description": "Fix wrong category instance in layered navigation",
                     "filename": "essential/smile-elasticsuite-fix-wrong-category-instance.patch",
                     "version-constraint": ">2.8.3"
+                },
+                {
+                    "description": "Fix synonyms for multi word quieries",
+                    "filename": "essential/smile-elasticsuite-fix-synonyms-for-multi-words-queries.patch",
+                    "version-constraint": ">2.10.0"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [

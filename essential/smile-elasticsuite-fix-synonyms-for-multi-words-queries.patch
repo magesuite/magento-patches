@@ -1,0 +1,14 @@
+https://github.com/Smile-SA/elasticsuite/issues/1933
+
+diff --git a/src/module-elasticsuite-thesaurus/Model/Index.php b/src/module-elasticsuite-thesaurus/Model/Index.php
+index 8317d88..f465d5e 100644
+--- a/src/module-elasticsuite-thesaurus/Model/Index.php
++++ b/src/module-elasticsuite-thesaurus/Model/Index.php
+@@ -96,6 +96,7 @@ class Index
+      */
+     public function getQueryRewrites(ContainerConfigurationInterface $containerConfig, $queryText)
+     {
++        $queryText = str_replace(' ', '_', $queryText);
+         $cacheKey  = $this->getCacheKey($containerConfig, $queryText);
+         $cacheTags = $this->getCacheTags($containerConfig);
+
