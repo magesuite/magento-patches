@@ -696,6 +696,13 @@
                 "filename": "optional/m24-fix-opening-store-view-between-website.patch",
                 "version-constraint": ">=101.1.2"
             }
+        ],
+        "meetanshi/payshiprestriction": [
+            {
+                "description": "Fix payment visibility for website view",
+                "filename": "optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
+                "version-constraint": ">=1.0.6"
+            }
         ]
     }
 }
