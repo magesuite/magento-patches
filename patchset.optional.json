@@ -411,6 +411,11 @@
                 "description": "Fix issue with undefined index during remove banned payment methods.",
                 "filename": "optional/payone-fix-undefined-index.patch",
                 "version-constraint": "^3.0.0"
+            },
+            {
+                "description": "Fix payone payone statuses processing. If invoice has been set to order, request is reject.",
+                "filename": "optional/ payone-fix-status-notification-processing.patch",
+                "version-constraint": "^3.2.0"
             }
         ],
         "magento/module-cms": [
