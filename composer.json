@@ -716,6 +716,13 @@
                     "version-constraint": ">=1.0.6"
                 }
             ],
+            "aheadworks/module-requisition-lists": [
+                {
+                    "description": "Fix wrong template generated for bundle products price column",
+                    "filename": "essential/aheadworks-requisition-list-fix-for-bundle-products-price-template-renderer.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "customweb/module-computopcw": [{
                 "description": "Module Computop Error on transaction getOrderContext() on null (UEFA-455)",
                 "filename": "essential/m22-computopcw-fix-error-on-transaction.patch",
