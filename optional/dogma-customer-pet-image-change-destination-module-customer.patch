@@ -1,19 +1,20 @@
 Two patches added to change destination directory for custom customer attribute pet_image from default `pub/media/customer` to `pub/media/pet_image` to allow displaying this image on the frontend.
 Patches: dogma-customer-pet-image-change-destination-module-customer.patch, dogma-customer-pet-image-change-destination-module-eav.patch
 
-index 1a1c480..b8110ef 100644
+diff --git a/Model/Metadata/Form/File.php b/Model/Metadata/Form/File.php
+index 1e7d00a..b0bd30e 100644
 --- a/Model/Metadata/Form/File.php
 +++ b/Model/Metadata/Form/File.php
-@@ -348,7 +348,11 @@ class File extends AbstractData
-                 $uploader->setFilesDispersion(true);
-                 $uploader->setFilenamesCaseSensitivity(false);
-                 $uploader->setAllowRenameFiles(true);
+@@ -378,7 +378,11 @@ class File extends AbstractData
+             $uploader->setFilenamesCaseSensitivity(false);
+             $uploader->setAllowRenameFiles(true);
+             try {
 -                $uploader->save($mediaDir->getAbsolutePath($this->_entityTypeCode), $value['name']);
 +                if ($this->getAttribute()->getAttributeCode() == \Creativestyle\CustomizationDogmaOrder\Setup\Patch\Data\AddCustomerPetAttributes::PET_IMAGE_ATTRIBUTE) {
 +                    $uploader->save($mediaDir->getAbsolutePath(\Creativestyle\CustomizationDogmaOrder\Setup\Patch\Data\AddCustomerPetAttributes::PET_IMAGE_ATTRIBUTE), $value['name']);
 +                } else {
 +                    $uploader->save($mediaDir->getAbsolutePath($this->_entityTypeCode), $value['name']);
 +                }
-                 $result = $uploader->getUploadedFileName();
              } catch (\Exception $e) {
                  $this->_logger->critical($e);
+             }

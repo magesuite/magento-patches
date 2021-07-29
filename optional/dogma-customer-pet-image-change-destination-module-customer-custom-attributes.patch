@@ -1,0 +1,20 @@
+diff --git a/ViewModel/FileAttribute.php b/ViewModel/FileAttribute.php
+index f46533f..6ccc90f 100644
+--- a/ViewModel/FileAttribute.php
++++ b/ViewModel/FileAttribute.php
+@@ -134,7 +134,14 @@ class FileAttribute implements ArgumentInterface
+                 $filename = $entity->getData($attribute->getAttributeCode());
+ 
+                 if ($filename) {
+-                    $filePath = $this->entityType . $filename;
++                    // BEGINNING OF PATCH
++                    //$filePath = $this->entityType . $filename;
++                    if ($attribute->getAttributeCode() == \Creativestyle\CustomizationDogmaOrder\Setup\Patch\Data\AddCustomerPetAttributes::PET_IMAGE_ATTRIBUTE) {
++                        $filePath = \Creativestyle\CustomizationDogmaOrder\Setup\Patch\Data\AddCustomerPetAttributes::PET_IMAGE_ATTRIBUTE . $filename;
++                    } else {
++                        $filePath = $this->entityType . $filename;
++                    }
++                    // END OF PATCH
+                     $fileProcessor = $this->fileProcessorFactory
+                         ->create(['entityTypeCode' => $this->entityType]);
+                     $fileInfo = $this->mediaDirectory->stat($filePath);
