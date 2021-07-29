@@ -709,7 +709,7 @@
                 "version-constraint": ">=101.1.2"
             }
         ],
-        "meetanshi/payshiprestriction": [
+        "meetanshi/module-payshiprestriction": [
             {
                 "description": "Fix payment visibility for website view",
                 "filename": "optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
