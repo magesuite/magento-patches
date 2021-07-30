@@ -1,9 +1,9 @@
-Fix payone payone statuses processing. If invoice has been set to order, request is reject
+Fix payone payone statuses processing. If invoice has been set to order, request is reject.
 
-diff --git a/Controller/TransactionStatus/Index.php b/Controller/TransactionStatus/Index.php
-index aeac8f7..e4bda2e 100644
---- a/Controller/TransactionStatus/Index.php
-+++ b/Controller/TransactionStatus/Index.php
+diff --git a/Controller/Transactionstatus/Index.php b/Controller/Transactionstatus/Index.php
+index aeac8f7..62c88b9 100644
+--- a/Controller/Transactionstatus/Index.php
++++ b/Controller/Transactionstatus/Index.php
 @@ -164,10 +164,18 @@ class Index extends \Payone\Core\Controller\ExternalAction
          }
 
@@ -13,16 +13,17 @@ index aeac8f7..e4bda2e 100644
              return 'Order not found';
          }
 
-+        $oOrder = $this->orderFactory->create()->loadByIncrementId($this->databaseHelper->getOrderIncrementIdByTxid($sTxid));
 +        $invoiceCollectionSize = $oOrder->getInvoiceCollection()->getSize();
 +
 +        if ($this->getParam('txaction') == 'paid' &&  $invoiceCollectionSize > 0) {
 +            return 'Order notified and has an invoice';
 +        }
 +
++
          if ($this->getParam('txaction') == 'appointed' && $oOrder->getStatus() == 'canceled') {
              // order was canceled in checkout, probably due to browser-back-button usage -> create a new order for incoming payment
              $oOrder = $this->substituteOrder->createSubstituteOrder($oOrder, false);
+
 diff --git a/Helper/Order.php b/Helper/Order.php
 index 3df83c0..4dab0be 100644
 --- a/Helper/Order.php
@@ -90,5 +91,5 @@ index 3b526fb..fc84f89 100644
              <module name="Magento_Quote" />
              <module name="Magento_Sales" />
 --
-+2.30.1 (Apple Git-130)
+2.30.1 (Apple Git-130)
 
