@@ -1,4 +1,4 @@
-Fix payone payone statuses processing. If invoice has been set to order, request is reject.
+Fix payone payone statuses processing. If invoice has been set to order, request is reject
 
 diff --git a/Controller/TransactionStatus/Index.php b/Controller/TransactionStatus/Index.php
 index aeac8f7..e4bda2e 100644
