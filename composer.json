@@ -945,7 +945,7 @@
                 {
                     "description": "Fix remaining available discount amount when applying fixed price cart rules to bundle products",
                     "filename": "essential/m24-fix-sales-rule-fixed-for-bundle.patch",
-                    "version-constraint": ">=101.2.1"
+                    "version-constraint": ">=101.2.1,<101.2.3"
                 },
                 {
                     "description": "There are cases (Sofort payment) when payment method does not exists for given mixin what results in endless loader",
