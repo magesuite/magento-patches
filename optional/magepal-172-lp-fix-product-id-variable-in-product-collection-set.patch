@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/shared-component.js b/view/frontend/web/js/shared-component.js
+index 67a6468..4fcfec1 100644
+--- a/view/frontend/web/js/shared-component.js
++++ b/view/frontend/web/js/shared-component.js
+@@ -165,8 +165,8 @@ define([
+             var self = this;
+             if (_.isObject(data) && _.has(data,'ecommerce') && _.has(data.ecommerce, 'impressions')) {
+                 _.each(data.ecommerce.impressions, function (product) {
+-                    if (_.has(product, 'p_id')) {
+-                        self.productCollection[product.p_id] = product;
++                    if (_.has(product, 'ID')) {
++                        self.productCollection[product.ID] = product;
+                     }
+                 });
+             }

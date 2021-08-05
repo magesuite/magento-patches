@@ -1,0 +1,50 @@
+diff --git a/TrustedshopsApi/ApiClient.php b/TrustedshopsApi/ApiClient.php
+index 03040f6..8aa2dd7 100644
+--- a/TrustedshopsApi/ApiClient.php
++++ b/TrustedshopsApi/ApiClient.php
+@@ -6,8 +6,8 @@ use Exception;
+ use Magento\Framework\Exception\AuthorizationException;
+ use Trustedshops\Trustedshops\Helper\Data;
+ use Trustedshops\Trustedshops\TrustedshopsApi\Request\RequestInterface;
+-use Zend\Http\Client;
+-use Zend\Http\Response;
++use \Zend_Http_Client as Client;
++use \Zend_Http_Response as Response;
+
+ /**
+  * Class ApiClient
+@@ -48,7 +48,7 @@ class ApiClient
+     {
+         $response = null;
+         try {
+-            $this->client->reset();
++            $this->client->resetParameters(true);
+             $this->client->setHeaders(['Accept' => 'application/json']);
+             $this->client->setEncType(Client::ENC_FORMDATA);
+             $this->client->setAuth($this->getUser(), $this->getPassword());
+@@ -60,9 +60,9 @@ class ApiClient
+                 $this->client->setRawBody($request->getRequestData()->getRequestBody());
+             }
+
+-            $response = $this->client->send();
++            $response = $this->client->request();
+
+-            if ((int)$response->getStatusCode() === 401) {
++            if ((int)$response->getStatus() === 401) {
+                 throw new AuthorizationException(__('The MyTS credentials used for authentication with the TrustedShops API are incorrect. Ensure you are logged into MyTS within the Magento 2 Backend using the correct credentials of your TrustedShops account. If your MyTS password was recently changed, try logging out and back in.'));
+             }
+         } catch (Exception $e) {
+
+diff --git a/Controller/Adminhtml/Shops/Login.php b/Controller/Adminhtml/Shops/Login.php
+index 1dd9165..5b19075 100644
+--- a/Controller/Adminhtml/Shops/Login.php
++++ b/Controller/Adminhtml/Shops/Login.php
+@@ -109,7 +109,7 @@ class Login extends Action
+         }
+
+         $content = $response->getBody();
+-        $httpCode = $response->getStatusCode();
++        $httpCode = $response->getStatus();
+
+         if ($httpCode === 500 || $httpCode === 0) {
+             return $result->setData([

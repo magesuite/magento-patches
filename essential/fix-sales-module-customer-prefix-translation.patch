@@ -1,0 +1,56 @@
+diff --git a/Model/Order/Address.php b/Model/Order/Address.php
+index 0fd4555..5f7c89d 100644
+--- a/Model/Order/Address.php
++++ b/Model/Order/Address.php
+@@ -142,7 +142,10 @@ class Address extends AbstractModel implements OrderAddressInterface, AddressMod
+     {
+         $name = '';
+         if ($this->getPrefix()) {
+-            $name .= $this->getPrefix() . ' ';
++            // BEGINNING OF PATCH
++//            $name .= $this->getPrefix() . ' ';
++            $name .= __($this->getPrefix()) . ' ';
++            // END OF PATCH
+         }
+         $name .= $this->getFirstname();
+         if ($this->getMiddlename()) {
+@@ -150,7 +153,10 @@ class Address extends AbstractModel implements OrderAddressInterface, AddressMod
+         }
+         $name .= ' ' . $this->getLastname();
+         if ($this->getSuffix()) {
+-            $name .= ' ' . $this->getSuffix();
++            // BEGINNING OF PATCH
++//            $name .= ' ' . $this->getSuffix();
++            $name .= ' ' . __($this->getSuffix());
++            // END OF PATCH
+         }
+         return $name;
+     }
+diff --git a/Model/Order.php b/Model/Order.php
+index f899bab..3cb1969 100644
+--- a/Model/Order.php
++++ b/Model/Order.php
+@@ -2013,7 +2013,10 @@ class Order extends AbstractModel implements EntityInterface, OrderInterface
+
+         $customerName = '';
+         if ($this->isVisibleCustomerPrefix() && strlen($this->getCustomerPrefix())) {
+-            $customerName .= $this->getCustomerPrefix() . ' ';
++            // BEGINNING OF PATCH
++//            $customerName .= $this->getCustomerPrefix() . ' ';
++            $customerName .= __($this->getCustomerPrefix()) . ' ';
++            // END OF PATCH
+         }
+         $customerName .= $this->getCustomerFirstname();
+         if ($this->isVisibleCustomerMiddlename() && strlen($this->getCustomerMiddlename())) {
+@@ -2021,7 +2024,10 @@ class Order extends AbstractModel implements EntityInterface, OrderInterface
+         }
+         $customerName .= ' ' . $this->getCustomerLastname();
+         if ($this->isVisibleCustomerSuffix() && strlen($this->getCustomerSuffix())) {
+-            $customerName .= ' ' . $this->getCustomerSuffix();
++            // BEGINNING OF PATCH
++//            $customerName .= ' ' . $this->getCustomerSuffix();
++            $customerName .= ' ' . __($this->getCustomerSuffix());
++            // END OF PATCH
+         }
+
+         return $customerName;

@@ -1,0 +1,16 @@
+diff --git a/Ui/Component/RequisitionList/Item/Listing/Column/Price.php b/Ui/Component/RequisitionList/Item/Listing/Column/Price.php
+index fac0596..ed15e1c 100644
+--- a/Ui/Component/RequisitionList/Item/Listing/Column/Price.php
++++ b/Ui/Component/RequisitionList/Item/Listing/Column/Price.php
+@@ -134,7 +134,10 @@ class Price extends Column
+         $provider = $this->pool->getProvider($item);
+         $rendererPool = $this->getRenderPool();
+         $price = $provider->getFinalPriceForBuyRequest();
+-        if ($price) {
++        //BEGINNING OF PATCH
++//        if ($price) {
++        if ($price && $item[\Aheadworks\RequisitionLists\Api\Data\RequisitionListItemInterface::PRODUCT_TYPE] != \Magento\Bundle\Model\Product\Type::TYPE_CODE) {
++        //END OF PATCH
+             $amount = $this->adjustmentCalculator->getAmount(
+                 $this->priceCurrency->convert($price),
+                 $provider->getProduct()

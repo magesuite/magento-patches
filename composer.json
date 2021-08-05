@@ -115,6 +115,21 @@
                     "description": "Fix merged assets generation to avoid broken CSS and JS",
                     "filename": "essential/fix-merged-assets-generation-to-avoid-broken-css-and-js.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix file uploader, filename is too long exception",
+                    "filename": "essential/m236-fix-filename-is-too-long-exception.patch",
+                    "version-constraint": "102.0.6"
+                },
+                {
+                    "description": "Fixes custom changelog batchsize set in di.xml is used as string and throws an exception in Magento v2.3.3 running on PHP 7.3",
+                    "filename": "essential/magento-framework-Mview-View-fixes-custom-changelog-batchsize-set-in-di-xml-is-used-as-string-and-throws-an-exception-in-Magento-v2-3-3.diff",
+                    "version-constraint": ">=102.0.3,<102.0.4"
+                },
+                {
+                    "description": "Fix exception while trying to schedule content staging change for category when custom modules do not support content staging",
+                    "filename": "essential/prevent-exception-when-content-staging-section-is-not-defined.patch",
+                    "version-constraint": ">102.0.3"
                 }
             ],
             "magento/module-asynchronous-operations": [
@@ -257,6 +272,16 @@
                     "description": "Fix error on order success page with date html tag",
                     "filename": "essential/m23-fix-order-date-success-page.patch",
                     "version-constraint": ">=102.0.3,<102.0.6"
+                },
+                {
+                    "description": "Fix not working customer prefix translation",
+                    "filename": "essential/fix-sales-module-customer-prefix-translation.patch",
+                    "version-constraint": ">=102.0.5"
+                },
+                {
+                    "description": "Fix invoice grand total amount for orders with discounts",
+                    "filename": "essential/m242-invoice-grand-total-amount.patch",
+                    "version-constraint": "103.0.2"
                 }
             ],
             "magento/module-store": [
@@ -429,6 +454,11 @@
                     "description": "Fix wrong category instance in layered navigation",
                     "filename": "essential/smile-elasticsuite-fix-wrong-category-instance.patch",
                     "version-constraint": ">2.8.3"
+                },
+                {
+                    "description": "Fix synonyms for multi word quieries",
+                    "filename": "essential/smile-elasticsuite-fix-synonyms-for-multi-words-queries.patch",
+                    "version-constraint": ">2.10.0"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
@@ -542,6 +572,41 @@
                     "description": "Replace jquery-ui fade effect with jquery fadeIn/fadeOut",
                     "filename": "essential/frontend/replace-jquery-ui-fade.patch",
                     "version-constraint": ">=100.4.2"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m228_m229-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.2.8,100.2.9"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m2210_m2211-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.2.10,100.2.11"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m231-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.1"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m232-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.2,100.3.2-p2"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m233-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.3,100.3.3-p1"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m234_m241-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": ">=100.3.4,<=100.3.6-p1 || >=100.4.0,<=100.4.1"
+                },
+                {
+                    "description": "Fix checkout break when there is free gift promo",
+                    "filename": "essential/m237_m242-fix-free-gift-promo-checkout-break.patch",
+                    "version-constraint": "100.3.7 || >=100.4.1-p1"
                 }
             ],
             "magento/module-checkout-agreements": [
@@ -561,6 +626,11 @@
                     "description": "Fixes store switcher (only magento 2.2.5)",
                     "filename": "essential/m22-fix-language-switcher.patch",
                     "version-constraint": "100.2.4"
+                },
+                {
+                    "description": "Fixed Unable to apply data patch issue after upgrade in 2.4",
+                    "filename": "essential/m242-fix-catalog-url-rewrite-data-patch.patch",
+                    "version-constraint": ">=100.4.0"
                 }
             ],
             "magento/module-catalog-import-export": [
@@ -651,6 +721,13 @@
                     "version-constraint": ">=1.0.6"
                 }
             ],
+            "aheadworks/module-requisition-lists": [
+                {
+                    "description": "Fix wrong template generated for bundle products price column",
+                    "filename": "essential/aheadworks-requisition-list-fix-for-bundle-products-price-template-renderer.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "customweb/module-computopcw": [{
                 "description": "Module Computop Error on transaction getOrderContext() on null (UEFA-455)",
                 "filename": "essential/m22-computopcw-fix-error-on-transaction.patch",
@@ -671,6 +748,13 @@
                     "description": "Fixes free shipping cart rule bug.",
                     "filename": "essential/m23plus-fix-free-shipping-cart-rule.patch",
                     "version-constraint": ">=101.0.0"
+                }
+            ],
+            "magento/module-quick-order": [
+                {
+                    "description": "Cast quantity value to float before validation",
+                    "filename": "essential/fix-qty-type-in-quick-order.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-import-export": [
@@ -794,6 +878,26 @@
                     "description": "Fix incorrect customer prefix data (gender select)",
                     "filename": "essential/m242-fix-prefix-options-select.patch",
                     "version-constraint": ">=103.0.2"
+                },
+                {
+                    "description": "Fix not working translation for customer prefix in options",
+                    "filename": "essential/fix-customer-prefix-options-translation.patch",
+                    "version-constraint": ">=102.0.5, <103.0.2"
+                },
+                {
+                    "description": "Prevent create account form button from staying disabled after incorrect data submission",
+                    "filename": "essential/frontend/prevent-create-account-form-button-from-staying-disabled-after-incorrect-data-submission.patch",
+                    "version-constraint": "103.0.1"
+                },
+                {
+                    "description": "Fix js errors in customer data when component not initialized",
+                    "filename": "essential/frontend/customer-data-initialization-fix.patch",
+                    "version-constraint": ">=103.0.2"
+                },
+                {
+                    "description": "Fix not working translation for customers",
+                    "filename": "essential/fix-customer-module-prefix-translation.patch",
+                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
@@ -1069,6 +1173,13 @@
                     "version-constraint": ">=100.1.4-p2"
                 }
             ],
+            "magento/module-company-shipping": [
+                {
+                    "description": "Use carriers code name when carrier title is not provided",
+                    "filename": "essential/company-shipping-carriers-default-titles.patch",
+                    "version-constraint": "1.3.1"
+                }
+            ],
             "magento/module-target-rule": [
                 {
                     "description": "Use row_id field to get related cross sell products in checkout",
@@ -1122,6 +1233,20 @@
                 {
                     "description": "Load reCaptcha API only when it is actually used on a certain page",
                     "filename": "essential/frontend/load-recaptcha-only-when-used.patch",
+                    "version-constraint": ">=2.0.0"
+                }
+            ],
+            "magento/module-contact": [
+                {
+                    "description": "Remove empty spaces from comment input in contact form",
+                    "filename": "essential/frontend/fix-empty-spaces-in-contact-form-comment-input.patch",
+                    "version-constraint": "100.4.1"
+                }
+            ],
+            "trustedshops/trustedshops": [
+                {
+                    "description": "Fix API client zend class names",
+                    "filename": "essential/trustedshops_api_client_class_names.patch",
                     "version-constraint": ">=2.0.0"
                 }
             ]

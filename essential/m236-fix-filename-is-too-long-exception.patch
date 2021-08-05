@@ -1,0 +1,17 @@
+Original issue: https://github.com/magento/magento2/pull/30011/files
+
+diff --git a/File/Uploader.php b/File/Uploader.php
+index 7ec5843..93569a9 100644
+--- a/File/Uploader.php
++++ b/File/Uploader.php
+@@ -407,8 +407,8 @@ class Uploader
+         $fileInfo['extension'] = $fileInfo['extension'] ?? '';
+
+         // account for excessively long filenames that cannot be stored completely in database
+-        if (strlen($fileInfo['basename']) > 90) {
+-            throw new \InvalidArgumentException('Filename is too long; must be 90 characters or less');
++        if (strlen($fileInfo['basename']) > 200) {
++            throw new \InvalidArgumentException('Filename is too long; must be 200 characters or less');
+         }
+
+         if (preg_match('/^_+$/', $fileInfo['filename'])) {

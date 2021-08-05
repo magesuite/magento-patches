@@ -1,0 +1,17 @@
+diff --git a/Model/Source/ShippingMethod.php b/Model/Source/ShippingMethod.php
+index 77e5390..2e57044 100644
+--- a/Model/Source/ShippingMethod.php
++++ b/Model/Source/ShippingMethod.php
+@@ -45,9 +45,10 @@ class ShippingMethod implements OptionSourceInterface
+         $carriers = $this->scopeConfig->getValue('carriers');
+ 
+         foreach ($carriers as $carrierCode => $carrier) {
+-            $shippingTitle = $carrier['title'];
++            $shippingTitle = isset($carrier['title']) ? $carrier['title'] : $carrierCode;
++            $isActive = isset($carrier['active']) ?? $carrier['active'];
+ 
+-            if (!$carrier['active']) {
++            if (!$isActive) {
+                 $shippingTitle .= __(' (disabled)');
+             }
+ 

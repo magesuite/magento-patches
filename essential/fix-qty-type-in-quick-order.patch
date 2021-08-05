@@ -1,0 +1,12 @@
+diff --git a/Plugin/AdvancedCheckout/AddExtraDataToCartItemForQuickOrderPlugin.php b/Plugin/AdvancedCheckout/AddExtraDataToCartItemForQuickOrderPlugin.php
+index ace360b..d576a06 100644
+--- a/Plugin/AdvancedCheckout/AddExtraDataToCartItemForQuickOrderPlugin.php
++++ b/Plugin/AdvancedCheckout/AddExtraDataToCartItemForQuickOrderPlugin.php
+@@ -95,6 +95,7 @@ class AddExtraDataToCartItemForQuickOrderPlugin
+     ): array {
+         if ($this->quickOrderConfig->isActive()) {
+             $item = null;
++            $qty = (float)$qty;
+             if (isset($config['__item'])) {
+                 $item = $config['__item'];
+                 $item['qty'] = !empty($item['qty'])

@@ -37,7 +37,7 @@
                 "filename": "optional/m22-fix-for-limited-roles-in-admin-panel.patch",
                 "version-constraint": "101.0.*"
             },
-            {                    
+            {
                 "description": "Use jquery slideUp instead of jquery-ui blind effect. Patch cannot be essential because theme-cs > 11.2.0 is needed",
                 "filename": "optional/frontend/remove-jquery-ui-blind-effect.patch",
                 "version-constraint": "*"
@@ -52,7 +52,7 @@
             {
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
                 "filename": "optional/dogma-customer-pet-image-change-destination-module-eav.patch",
-                "version-constraint": ">=102.0.5"
+                "version-constraint": ">=103.0.0"
             }
         ],
         "magento/module-checkout": [
@@ -104,6 +104,13 @@
                 "version-constraint": "102.0.3"
             }
         ],
+        "magento/module-bundle": [
+            {
+                "description": "Disable checking stock during price indexing for bundle products with dynamic price (KRG-1841)",
+                "filename": "optional/m242-disable-checking-stock-during-price-indexing.patch",
+                "version-constraint": ">=101.0.2"
+            }
+        ],
         "magento/module-customer": [
             {
                 "description": "Fix order of top navigation items so they can be sorted using sortOrder directive in XML update",
@@ -114,6 +121,13 @@
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
                 "filename": "optional/dogma-customer-pet-image-change-destination-module-customer.patch",
                 "version-constraint": ">=102.0.5"
+            }
+        ],
+        "magento/module-customer-custom-attributes": [
+            {
+                "description": "Change destination folder for customer attribute pet_image - Dogma",
+                "filename": "optional/dogma-customer-pet-image-change-destination-module-customer-custom-attributes.patch",
+                "version-constraint": ">=100.4.2"
             }
         ],
         "magento/module-quote": [
@@ -228,7 +242,7 @@
                 "version-constraint": "~100.2.0,<=100.2.5"
             }
         ],
-	"magento/module-newsletter": [
+	      "magento/module-newsletter": [
             {
                 "description": "Prevents multiple emails sending when accessing confirmation url.",
                 "filename": "optional/prevent-multiple-success-emails-sending.patch",
@@ -275,14 +289,13 @@
                 "version-constraint": "^1.2.9"
             }
         ],
-	"aheadworks/module-customer-group-catalog-permissions" : [
+	      "aheadworks/module-customer-group-catalog-permissions" : [
             {
                 "description": "Add support for elasticsuite",
                 "filename": "optional/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
                 "version-constraint": "*"
             }
         ],
-
         "emartech/emarsys-magento2-extension": [
             {
                 "description": "Patch to fix constructor which was causing di:compile method failure",
@@ -340,6 +353,23 @@
                 "description": "Keep regular price in the tier prices listing",
                 "filename": "optional/m23-keep-regular-price-in-tier-listing.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "For Leds project. Force to delete all module gallery files of product during importing images for products via API POST request.",
+                "filename": "optional/module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch",
+                "version-constraint": "104.0.1,104.0.1-p1"
+            },
+            {
+                "description": "Fix different price in Cart vs on the PDP in case of discount price",
+                "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
+                "version-constraint": ">=104.0.1"
+            }
+        ],
+        "magento/magento2-base": [
+            {
+                "description": "Remove date validation as it is very rarely used and load whole moment library",
+                "filename": "optional/frontend/remove-date-validation.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-sales-rule": [
@@ -388,8 +418,12 @@
                 "description": "Fix issue with undefined index during remove banned payment methods.",
                 "filename": "optional/payone-fix-undefined-index.patch",
                 "version-constraint": "^3.0.0"
+            },
+            {
+                "description": "Fix payone payone statuses processing. If invoice has been set to order, request is reject.",
+                "filename": "optional/ payone-fix-status-notification-processing.patch",
+                "version-constraint": "^3.2.0"
             }
-
         ],
         "magento/module-cms": [
             {
@@ -445,6 +479,13 @@
               "description": "Fix product id variable in setting up product collection (from p_id to ID) for Magepal version 1.6.2",
               "filename": "optional/magepal-162-lp-fix-product-id-variable-in-product-collection-set.patch",
               "version-constraint": "1.6.2"
+            }
+        ],
+        "magepal/magento2-googletagmanager": [
+            {
+                "description": "Adds compatibility between Amasty GDPR Cookie extension and Magepal Datalayer",
+                "filename": "optional/frontend/magepal-amasty-gdpr-compatibility.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-gift-card-account": [
@@ -588,13 +629,13 @@
                 "version-constraint": "^1.0.4"
             }
         ],
-	    "magento/swatches": [
-	        {
-                "description": "Restores functionality to change image on swatch click when SSS are installed",
-                "filename": "optional/m232-add-swatches-attribute-data.patch",
-                "version-constraint": "*"
-            }
-	    ],
+        "magento/swatches": [
+            {
+                  "description": "Restores functionality to change image on swatch click when SSS are installed",
+                  "filename": "optional/m232-add-swatches-attribute-data.patch",
+                  "version-constraint": "*"
+              }
+        ],
         "edrone/magento2module": [
             {
                 "description": "Fix newsletter controller CSRF validation",
@@ -623,6 +664,13 @@
                 "version-constraint": ">=100.3.1,<100.3.6"
             }
         ],
+        "customweb/lib-titolo": [
+            {
+                "description": "Patch to add password autorization in refund request",
+                "filename": "optional/external-customweb-datatranscw-password-authorization-refund-request.patch",
+                "version-constraint": "*"
+            }
+        ],
         "customweb/module-datatranscw": [
             {
                 "description": "Patch to cache XML files instead of parsing",
@@ -632,6 +680,11 @@
             {
                 "description": "Clear quote on success page",
                 "filename": "optional/external-customweb-datatranscw-clear-quote-on-success-page.patch",
+                "version-constraint": "*"
+            },
+            {
+                "description": "Disable cancel payment observer",
+                "filename": "optional/external-customweb-datatranscw-disable-cancel-payment-observer.patch",
                 "version-constraint": "*"
             }
         ],
@@ -647,6 +700,20 @@
                 "description": "Fix for empty shipping cost in invoice PDF, show formatted 0.00$",
                 "filename": "optional/xtento-pdfcutomizer-fix-shipping-to-formatted-output.patch",
                 "version-constraint": ">=2.13.3"
+            }
+        ],
+        "magento/module-store": [
+            {
+                "description": "Fixing issue with possibility to open store view from different website than assigned to store view",
+                "filename": "optional/m24-fix-opening-store-view-between-website.patch",
+                "version-constraint": ">=101.1.2"
+            }
+        ],
+        "meetanshi/module-payshiprestriction": [
+            {
+                "description": "Fix payment visibility for website view",
+                "filename": "optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
+                "version-constraint": ">=1.0.6"
             }
         ]
     }
