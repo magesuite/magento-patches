@@ -1,0 +1,21 @@
+Fixing issue with empty payment information in order confirmation email after creation of order substitute by Transactionstatus service
+This can happen order was canceled in checkout, probably due to browser-back-button usage -> create a new order for incoming payment
+
+Issue: https://creativestyle.atlassian.net/browse/DOG-971
+
+diff --git a/Model/Handler/SubstituteOrder.php b/Model/Handler/SubstituteOrder.php
+index 0efd504..99eea0c 100644
+--- a/Model/Handler/SubstituteOrder.php
++++ b/Model/Handler/SubstituteOrder.php
+@@ -171,6 +171,10 @@ class SubstituteOrder
+         $this->databaseHelper->relabelApiProtocol($canceledOrder->getIncrementId(), $newOrder->getIncrementId());
+         $this->databaseHelper->relabelOrderPayment($canceledOrder->getIncrementId(), $newOrder->getId());
+
++        // BEGINNING OF PATCH
++        $newOrder->loadByIncrementId($canceledOrder->getIncrementId());
++        // END OF PATCH
++
+         $this->handleTransactionStatus($canceledOrder, $newOrder);
+
+         $this->registry->unregister('payone_creating_substitute_order');
+

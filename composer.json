@@ -1152,6 +1152,11 @@
                     "description": "Fixing issue with credit card type in order view",
                     "filename": "essential/payone32-fix-creditcard-type.patch",
                     "version-constraint": ">=3.2.0"
+                },
+                {
+                    "description": "Fixing issue with empty payment information in order confirmation email after creation of order substitute by Transactionstatus service",
+                    "filename": "essential/payone-fix-missing-payment-information-in-email.patch",
+                    "version-constraint": ">=3.2.0"
                 }
             ],
             "vertex/module-address-validation": [
