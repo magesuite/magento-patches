@@ -1152,6 +1152,11 @@
                     "description": "Fixing issue with credit card type in order view",
                     "filename": "essential/payone32-fix-creditcard-type.patch",
                     "version-constraint": ">=3.2.0"
+                },
+                {
+                    "description": "Cache privacy declaration curl request",
+                    "filename": "essential/payone-cache-privacy-declaration-request.patch",
+                    "version-constraint": ">=3.2.0"
                 }
             ],
             "vertex/module-address-validation": [
