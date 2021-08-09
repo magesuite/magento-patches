@@ -1,0 +1,59 @@
+This fix cache privacy declaration. Reduce page loading time 300-600 ms.
+See https://github.com/PAYONE-GmbH/magento-2/pull/389
+
+diff --git a/Model/Api/Payolution/PrivacyDeclaration.php b/Model/Api/Payolution/PrivacyDeclaration.php
+index f109d03..554d8d5 100644
+--- a/Model/Api/Payolution/PrivacyDeclaration.php
++++ b/Model/Api/Payolution/PrivacyDeclaration.php
+@@ -102,19 +102,28 @@ class PrivacyDeclaration
+      */
+     protected $curl;
+
++    /**
++     * @var \Magento\Framework\App\CacheInterface
++     */
++    protected $cache;
++
+     /**
+      * Constructor
+      *
+      * @param \Payone\Core\Helper\Shop $shopHelper
++     * @param \Magento\Framework\HTTP\Client\Curl $curl
++     * @param \Magento\Framework\App\CacheInterface $cache
+      */
+     public function __construct(
+         \Payone\Core\Helper\Shop $shopHelper,
+-        \Magento\Framework\HTTP\Client\Curl $curl
++        \Magento\Framework\HTTP\Client\Curl $curl,
++        \Magento\Framework\App\CacheInterface $cache
+     ) {
+         $this->shopHelper = $shopHelper;
+         $this->curl = $curl;
+         $this->curl->setOption(CURLOPT_SSL_VERIFYPEER, false);
+         $this->curl->setOption(CURLOPT_SSL_VERIFYHOST, false);
++        $this->cache = $cache;
+     }
+
+     /**
+@@ -126,6 +135,13 @@ class PrivacyDeclaration
+     protected function getAcceptanceTextFromPayolution($sCompany)
+     {
+         $sUrl = $this->sAcceptanceBaseUrl.'?mId='.base64_encode($sCompany).'&lang='.$this->shopHelper->getLocale();
++        $cacheKey = 'PAYONE_ACCEPTANCE_TEXT_' . sha1($sUrl);
++        $cache = $this->cache->load($cacheKey);
++
++        if ($cache !== false) {
++            return $cache;
++        }
++
+         $this->curl->get($sUrl);
+         $sContent = $this->curl->getBody();
+         $sPage = false;
+@@ -138,6 +154,7 @@ class PrivacyDeclaration
+                 //remove everything before the <header> tag ( a window.close link which wouldn't work in the given context )
+                 $sPage = substr($sPage, stripos($sPage, '<header>'));
+             }
++            $this->cache->save($sPage, $cacheKey, [], 86400);
+         }
+         return $sPage;
+     }
