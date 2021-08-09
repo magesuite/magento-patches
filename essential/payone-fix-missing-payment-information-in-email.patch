@@ -12,7 +12,7 @@ index 0efd504..99eea0c 100644
          $this->databaseHelper->relabelOrderPayment($canceledOrder->getIncrementId(), $newOrder->getId());
 
 +        // BEGINNING OF PATCH
-+        $newOrder->loadByIncrementId($canceledOrder->getIncrementId());
++        $newOrder->loadByIncrementId($newOrder->getIncrementId());
 +        // END OF PATCH
 +
          $this->handleTransactionStatus($canceledOrder, $newOrder);
