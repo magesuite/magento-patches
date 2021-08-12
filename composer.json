@@ -630,7 +630,7 @@
                 {
                     "description": "Fixed Unable to apply data patch issue after upgrade in 2.4",
                     "filename": "essential/m242-fix-catalog-url-rewrite-data-patch.patch",
-                    "version-constraint": ">=100.4.0"
+                    "version-constraint": ">=100.4.0,<100.4.3"
                 }
             ],
             "magento/module-catalog-import-export": [
