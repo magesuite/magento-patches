@@ -1,0 +1,36 @@
+Disables product assignment reindex. It was causing excessive ES reindexes on Haarshop.
+Related ticket: https://creativestyle.atlassian.net/browse/HAAR-2783
+
+diff --git a/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php b/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
+index 1d1d230..e744ad5 100644
+--- a/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
++++ b/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
+@@ -75,16 +75,18 @@ class Rows
+         array $entityIds,
+         bool $useTempTable = false
+     ): ActionRows {
+-        $indexer = $this->indexerRegistry->get(FulltextIndexer::INDEXER_ID);
+-        if (!empty($entityIds) && $indexer->isScheduled()) {
+-            foreach ($this->storeManager->getStores() as $store) {
+-                $indexTable = $this->getIndexTable((int) $store->getId(), $useTempTable);
+-                $productIds = $this->getProductIdsFromIndex($indexTable, $entityIds);
+-                if (!empty($productIds)) {
+-                    $indexer->reindexList($productIds);
+-                }
+-            }
+-        }
++// Commented out, because plugin caused issues generating excessive catalog_fulltext_search reindexes after category edit actions.
++//
++//        $indexer = $this->indexerRegistry->get(FulltextIndexer::INDEXER_ID);
++//        if (!empty($entityIds) && $indexer->isScheduled()) {
++//            foreach ($this->storeManager->getStores() as $store) {
++//                $indexTable = $this->getIndexTable((int) $store->getId(), $useTempTable);
++//                $productIds = $this->getProductIdsFromIndex($indexTable, $entityIds);
++//                if (!empty($productIds)) {
++//                    $indexer->reindexList($productIds);
++//                }
++//            }
++//        }
+ 
+         return $result;
+     }
