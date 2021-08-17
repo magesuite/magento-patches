@@ -715,6 +715,13 @@
                 "filename": "optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
                 "version-constraint": ">=1.0.6"
             }
+        ],
+        "magento/module-elasticsearch": [
+            {
+                "description": "Disables ES reindexing after product-category assignment",
+                "filename": "optional/disable-catalogsearch-fulltext-product-assignment-plugin.patch",
+                "version-constraint": ">=101.0.0"
+            }
         ]
     }
 }
