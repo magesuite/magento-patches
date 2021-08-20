@@ -310,6 +310,13 @@
                 "version-constraint": "^2.4.0"
             }
         ],
+        "amasty/base": [
+            {
+                "description": "Passes concrete DriverInterface implementation to DenyListPathValidator",
+                "filename": "optional/amasty-base-pass-filedriver-to-denylistpathvalidator.patch",
+                "version-constraint": "*"
+            }
+        ],
         "amasty/product-attachment": [
             {
                 "description": "Fix for duplicated block (amfile.attachment ID already exists)",

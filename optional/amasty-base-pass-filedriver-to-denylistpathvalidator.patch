@@ -1,0 +1,54 @@
+Passes concrete \Magento\Framework\Filesystem\DriverInterface implementation to DenyListPathValidator,
+as using interface in this place breaks build process on jenkin's docker.
+
+diff --git a/Model/FilesystemProvider.php b/Model/FilesystemProvider.php
+index 1b24297..e57d384 100644
+--- a/Model/FilesystemProvider.php
++++ b/Model/FilesystemProvider.php
+@@ -43,6 +43,11 @@ class FilesystemProvider
+      */
+     private $logger;
+
++    /**
++     * @var \Magento\Framework\Filesystem\Driver\File
++     */
++    private $fileDriver;
++
+     /**
+      * @var array
+      */
+@@ -58,12 +63,14 @@ class FilesystemProvider
+         DirectoryList $directoryList,
+         ComponentRegistrarInterface $componentRegistrar,
+         LoggerInterface $logger,
++        \Magento\Framework\Filesystem\Driver\File $fileDriver,
+         array $exceptionPaths = []
+     ) {
+         $this->objectManager = $objectManager;
+         $this->directoryList = $directoryList;
+         $this->componentRegistrar = $componentRegistrar;
+         $this->logger = $logger;
++        $this->fileDriver = $fileDriver;
+         $this->exceptionPaths = $exceptionPaths;
+     }
+
+@@ -81,7 +88,6 @@ class FilesystemProvider
+                 $this->filesystem = $this->objectManager->create(Filesystem::class);
+             }
+         }
+-
+         return $this->filesystem;
+     }
+
+@@ -91,9 +97,9 @@ class FilesystemProvider
+     private function createConfiguredFilesystem(): Filesystem
+     {
+         /** @var DenyListPathValidator $denyListPathValidator */
+-        $denyListPathValidator = $this->objectManager->create(DenyListPathValidator::class);
+-        $rootDirectory = $this->directoryList->getRoot();
++        $denyListPathValidator =  $this->objectManager->create(DenyListPathValidator::class, ['driver' => $this->fileDriver]);
+
++        $rootDirectory = $this->directoryList->getRoot();
+         foreach ($this->exceptionPaths as $module => $pathsList) {
+             $componentPath = $this->componentRegistrar->getPath(ComponentRegistrar::MODULE, $module);
+
