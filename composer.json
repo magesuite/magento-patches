@@ -1203,7 +1203,7 @@
                 {
                     "description": "Fix JS error on Create New Customer Account page",
                     "filename": "essential/m24-login-as-customer-js-error-register.patch",
-                    "version-constraint": ">=100.4.0,<=100.4.1"
+                    "version-constraint": ">=100.4.0,<=100.4.1-p2"
                 }
             ],
             "magento/module-inventory-source-selection-api": [
