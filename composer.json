@@ -708,7 +708,7 @@
                 {
                     "description": "Fix for breaking collection of products when module is disabled",
                     "filename": "essential/aheadworks-fix-product-collection-when-module-disabled.patch",
-                    "version-constraint": ">=1.0.4"
+                    "version-constraint": ">=1.0.4,<1.0.7"
                 },
                 {
                     "description": "Fix for private const in the Title block",
