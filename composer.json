@@ -303,6 +303,11 @@
                     "description": "Handle exception raised with m2epro module",
                     "filename": "essential/m22-amasty-adminactionslog-exception-fix.patch",
                     "version-constraint": "1.0.13"
+                },
+                {
+                    "description": "Ajax request throws an exception in the admin panel",
+                    "filename": "essential/amasty-adminactionslog-fix-issue-with-ajax-request.patch",
+                    "version-constraint": ">=2.0.0"
                 }
             ],
             "amasty/base": [
