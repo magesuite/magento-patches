@@ -109,6 +109,11 @@
                 "description": "Disable checking stock during price indexing for bundle products with dynamic price (KRG-1841)",
                 "filename": "optional/m242-disable-checking-stock-during-price-indexing.patch",
                 "version-constraint": ">=101.0.2"
+            },
+            {
+                "description": "Allow to add multi selections with qty higher than 1",
+                "filename": "optional/m24-bundle-allow-multi-selections-with-qty.patch",
+                "version-constraint": ">=101.0.2"
             }
         ],
         "magento/module-customer": [
