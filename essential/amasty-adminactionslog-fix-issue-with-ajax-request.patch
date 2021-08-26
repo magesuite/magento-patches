@@ -1,0 +1,18 @@
+Ajax request throws an exception in the admin panel
+https://creativestyle.atlassian.net/browse/MGP-394
+
+diff --git a/Logging/ActionType/RenderBefore/Layout.php b/Logging/ActionType/RenderBefore/Layout.php
+index 8049678..91b2612 100644
+--- a/Logging/ActionType/RenderBefore/Layout.php
++++ b/Logging/ActionType/RenderBefore/Layout.php
+@@ -78,8 +78,9 @@ class Layout implements LoggingActionInterface
+         $historyEntry = $this->historyEntryRepository->getBySessionId($sessionId);
+         $details = $historyEntry->getVisitHistoryDetails();
+         $lastDetail = end($details) ?: $this->detailFactory->create();
++        $isAjax = $this->metadata->getRequest()->isAjax();
+
+-        if ($lastDetail->getPageUrl() !== $context->getUrlBuilder()->getCurrentUrl()) {
++        if ($lastDetail->getPageUrl() !== $context->getUrlBuilder()->getCurrentUrl() && !$isAjax) {
+             $storageKey = $this->userDataProvider->getUserName() . 'StayDuration';
+             $currentTimeStamp = $this->dateTime->gmtTimestamp();
+             $lastDetailStayDuration = $this->dataStorage->isExists($storageKey)
