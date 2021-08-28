@@ -1,0 +1,83 @@
+diff --git a/Model/Service/Quote/TransactionService.php b/Model/Service/Quote/TransactionService.php
+index 2a36618..5463e04 100644
+--- a/Model/Service/Quote/TransactionService.php
++++ b/Model/Service/Quote/TransactionService.php
+@@ -99,6 +99,14 @@ class TransactionService extends AbstractTransactionService
+      */
+     private $submittingOrder = false;
+ 
++    // BEGINNING OF PATCH
++    /**
++     *
++     * @var \Magento\Framework\App\CacheInterface
++     */
++    private $cache;
++    // END OF PATCH
++
+     /**
+      *
+      * @param ResourceConnection $resource
+@@ -116,7 +124,11 @@ class TransactionService extends AbstractTransactionService
+     public function __construct(ResourceConnection $resource, Helper $helper, ScopeConfigInterface $scopeConfig,
+         CustomerRegistry $customerRegistry, CartRepositoryInterface $quoteRepository, TimezoneInterface $timezone,
+         PaymentMethodConfigurationManagementInterface $paymentMethodConfigurationManagement, ApiClient $apiClient,
+-        CookieManagerInterface $cookieManager, LineItemService $lineItemService, CheckoutSession $checkoutSession)
++        CookieManagerInterface $cookieManager, LineItemService $lineItemService, CheckoutSession $checkoutSession
++        // BEGINNING OF PATCH
++        , \Magento\Framework\App\CacheInterface $cache
++        // END OF PATCH
++    )
+     {
+         parent::__construct($resource, $helper, $scopeConfig, $customerRegistry, $quoteRepository, $timezone,
+             $paymentMethodConfigurationManagement, $apiClient, $cookieManager);
+@@ -126,6 +138,9 @@ class TransactionService extends AbstractTransactionService
+         $this->apiClient = $apiClient;
+         $this->lineItemService = $lineItemService;
+         $this->checkoutSession = $checkoutSession;
++        // BEGINNING OF PATCH
++        $this->cache = $cache;
++        // END OF PATCH
+     }
+ 
+     /**
+@@ -179,6 +194,9 @@ class TransactionService extends AbstractTransactionService
+      */
+     public function getPossiblePaymentMethods(Quote $quote)
+     {
++        // BEGINNING OF PATCH
++        $this->loadPossiblePaymentMethodCache($quote->getId());
++        // END OF PATCH
+         if (
+         	! \array_key_exists($quote->getId(), $this->possiblePaymentMethodCache) ||
+             is_null($this->possiblePaymentMethodCache[$quote->getId()])
+@@ -201,10 +219,30 @@ class TransactionService extends AbstractTransactionService
+             }
+             $this->updatePaymentMethodConfigurations($paymentMethods);
+             $this->possiblePaymentMethodCache[$quote->getId()] = $paymentMethods;
++            // BEGINNING OF PATCH
++            $this->savePossiblePaymentMethodCache($quote->getId());
++            // END OF PATCH
+         }
+         return $this->possiblePaymentMethodCache[$quote->getId()];
+     }
+ 
++    // BEGINNING OF PATCH
++    private function getPossiblePaymentMethodCache($quoteId){
++        if(empty($quoteId) OR !empty($this->possiblePaymentMethodCache[$quoteId])){
++            return;
++        }
++
++        $cacheKey = sprintf('possiblePaymentMethodCache_%d', $quoteId);
++        $cache = $this->cache->load($cacheKey);
++        $this->possiblePaymentMethodCache[$quoteId] = $cache ? unserialize($this->cache->load($cacheKey)) : null;
++    }
++
++    private function savePossiblePaymentMethodCache($quoteId) {
++            $cacheKey = sprintf('possiblePaymentMethodCache_%d', $quoteId);
++            $this->cache->save(serialize($this->possiblePaymentMethodCache[$quoteId]), $cacheKey, [], 120);
++    }
++    // END OF PATCH
++
+     /**
+      * Gets whether the payment method is available for the given quote.
+      *
