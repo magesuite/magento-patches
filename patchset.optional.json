@@ -275,7 +275,7 @@
                 "version-constraint": ">=2.6.1"
             }
         ],
-        "wallee/magento-2-2": [
+        "wallee/magento-2": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
                 "filename": "optional/m22-wallee-payment.patch",
@@ -284,7 +284,7 @@
             {
               "description": "Fix long loading of payment methods in checkout, add cache for possiblePaymentMethodCache",
               "filename": "optional/wallee-magento-2-fix-long-loading-payment-methods.patch",
-              "version-optional": ">=1.1.3"
+              "version-constraint": ">=1.1.3"
             }
         ],
         "aheadworks/module-giftcard": [
