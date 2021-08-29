@@ -62,7 +62,7 @@ index 2a36618..5463e04 100644
      }
  
 +    // BEGINNING OF PATCH
-+    private function getPossiblePaymentMethodCache($quoteId){
++    private function loadPossiblePaymentMethodCache($quoteId){
 +        if(empty($quoteId) OR !empty($this->possiblePaymentMethodCache[$quoteId])){
 +            return;
 +        }
