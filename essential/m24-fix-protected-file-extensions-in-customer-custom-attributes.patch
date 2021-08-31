@@ -1,0 +1,36 @@
+diff --git a/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php b/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php
+index 75b9e2a..9cfcba4 100644
+--- a/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php
++++ b/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php
+@@ -173,7 +173,12 @@ class General extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractM
+             'max_text_length'
+         );
+ 
+-        $forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        //BEGINNING OF PATCH
++        //$forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        $forbiddenFileExtensions = is_array($this->extensionValidator->getProtectedFileExtensions()) ?
++            implode(',', $this->extensionValidator->getProtectedFileExtensions()) :
++            $this->extensionValidator->getProtectedFileExtensions();
++        //END OF PATCH
+         $fieldset->addField(
+             'file_extensions',
+             'text',
+diff --git a/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php b/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php
+index 3efacd2..4a3db5e 100644
+--- a/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php
++++ b/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php
+@@ -195,7 +195,12 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+             'max_text_length'
+         );
+ 
+-        $forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        //BEGINNING OF PATCH
++        //$forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        $forbiddenFileExtensions = is_array($this->extensionValidator->getProtectedFileExtensions()) ?
++            implode(',', $this->extensionValidator->getProtectedFileExtensions()) :
++            $this->extensionValidator->getProtectedFileExtensions();
++        //END OF PATCH
+         $fieldset->addField(
+             'file_extensions',
+             'text',
