@@ -107,9 +107,9 @@
                     "version-constraint": ">=101.0.0"
                 },
                 {
-                    "description": "Return 500 HTTP code error when fatal error occurs so monitoring treats it as shop down",
+                    "description": "Return 500 HTTP code error when fatal error occurs so monitoring treats it as shop down, Magento < 2.4.3",
                     "filename": "essential/m23-return-500-http-code-on-fatal-error.patch",
-                    "version-constraint": ">=102.0.0"
+                    "version-constraint": ">=102.0.0,<103.0.3"
                 },
                 {
                     "description": "Fix merged assets generation to avoid broken CSS and JS",
@@ -371,9 +371,14 @@
                     "version-constraint": ">=2.3.0,<2.4.0"
                 },
                 {
-                    "description": "Fix Module.php file that contains incorrect comma",
+                    "description": "Fix Module.php file that contains incorrect comma, Magento < 2.4.3",
                     "filename": "essential/m24-fix-setup-module-php-comma-for-php-73.patch",
-                    "version-constraint": ">=2.4.0"
+                    "version-constraint": ">=2.4.0,<2.4.3"
+                },
+                {
+                    "description": "Fix Module.php file that contains incorrect comma, Magento >= 2.4.3",
+                    "filename": "essential/m243-plus-fix-setup-module-php-comma-for-php-73.patch",
+                    "version-constraint": ">=2.4.3"
                 },
                 {
                     "description": "Remove hardcoded FormData polyfill so it can be loaded on demand",
@@ -382,7 +387,7 @@
                 },{
                     "description": "Load draggable and resizable widget only if needed in dialog widget",
                     "filename": "essential/frontend/make-dependencies-optional-for-dialog-widget.patch",
-                    "version-constraint": ">=2.4.2"
+                    "version-constraint": ">=2.4.2,<2.4.3"
                 }
             ],
             "magento/module-search": [
@@ -628,9 +633,9 @@
                     "version-constraint": "100.2.4"
                 },
                 {
-                    "description": "Fixed Unable to apply data patch issue after upgrade in 2.4",
+                    "description": "Fixed Unable to apply data patch issue after upgrade in Magento >= 2.4.0 and < 2.4.3",
                     "filename": "essential/m242-fix-catalog-url-rewrite-data-patch.patch",
-                    "version-constraint": ">=100.4.0"
+                    "version-constraint": ">=100.4.0,<100.4.3"
                 }
             ],
             "magento/module-catalog-import-export": [
@@ -1049,7 +1054,7 @@
                 {
                     "description": "Fix remaining available discount amount when applying fixed price cart rules to bundle products",
                     "filename": "essential/m24-fix-sales-rule-fixed-for-bundle.patch",
-                    "version-constraint": ">=101.2.1"
+                    "version-constraint": ">=101.2.1,<101.2.3"
                 },
                 {
                     "description": "There are cases (Sofort payment) when payment method does not exists for given mixin what results in endless loader",
