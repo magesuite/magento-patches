@@ -1,0 +1,42 @@
+This patch will fix issue with possibility to open store view from different website than assigned to store view.
+
+Example:
+Configured websites and stores:
+- website1.com with stores de, en
+- website2.com with stores dede, ende
+
+https://website1.com/de - will open store view de from website1
+https://website1.com/en - will open store view en from website1
+https://website1.com/dede - will open store view dede from website2 but it shouldn't be possible
+https://website2.com/de - will open store view de from website1 but it shouldn't be possible
+
+diff --git a/App/Request/StorePathInfoValidator.php b/App/Request/StorePathInfoValidator.php
+index abbf29f..32a9bea 100644
+--- a/App/Request/StorePathInfoValidator.php
++++ b/App/Request/StorePathInfoValidator.php
+@@ -21,6 +21,8 @@ use Magento\Store\Model\Validation\StoreCodeValidator;
+  */
+ class StorePathInfoValidator
+ {
++    const XML_PATH_OPENING_STORE_VIEW_BETWEEN_WEBSITE = 'web/url/disable_opening_store_view_between_website';
++
+     /**
+      * Store Config
+      *
+@@ -86,6 +88,16 @@ class StorePathInfoValidator
+         try {
+             $this->storeRepository->getActiveStoreByCode($storeCode);
+
++            // BEGINNING OF PATCH
++            // This patch will fix issue with possibility to open store view from different website than assigned to store view.
++            $store = $this->storeRepository->getActiveStoreByCode($storeCode);
++$this->scopeConfig
++            $disableOpeningStoreViewBetweenWebsite = $this->config->isSetFlag(self::XML_PATH_OPENING_STORE_VIEW_BETWEEN_WEBSITE);
++            if ($disableOpeningStoreViewBetweenWebsite && strpos($store->getBaseUrl(), $request->getHttpHost()) === false) {
++                return null;
++            }
++            // END OF PATCH
++
+             return $storeCode;
+         } catch (NoSuchEntityException $e) {
+             return null;
