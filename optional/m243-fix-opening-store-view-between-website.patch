@@ -30,7 +30,7 @@ index abbf29f..32a9bea 100644
 +            // BEGINNING OF PATCH
 +            // This patch will fix issue with possibility to open store view from different website than assigned to store view.
 +            $store = $this->storeRepository->getActiveStoreByCode($storeCode);
-+$this->scopeConfig
++
 +            $disableOpeningStoreViewBetweenWebsite = $this->config->isSetFlag(self::XML_PATH_OPENING_STORE_VIEW_BETWEEN_WEBSITE);
 +            if ($disableOpeningStoreViewBetweenWebsite && strpos($store->getBaseUrl(), $request->getHttpHost()) === false) {
 +                return null;
