@@ -1,0 +1,24 @@
+diff --git a/Helper/Variable/Processors/Output.php b/Helper/Variable/Processors/Output.php
+index 3c2ce95..85b9e34 100644
+--- a/Helper/Variable/Processors/Output.php
++++ b/Helper/Variable/Processors/Output.php
+@@ -421,11 +421,17 @@ class Output extends Pdf
+      */
+     private function generateMergeZend($files)
+     {
+-        $pdfNew = $this->zendPdf;
++        // BEGINNING OF PATCH
++        // $pdfNew = $this->zendPdf;
++        $pdfNew = new Zend_Pdf();
++        $extractor = new Zend_Pdf_Resource_Extractor();
++        // END OF PATCH
+         foreach ($files as $file) {
+             //@codingStandardsIgnoreLine
+             $pdf = Zend_Pdf::load($file);
+-            $extractor = $this->zendExtractor;
++            // BEGINNING OF PATCH
++            // $extractor = $this->zendExtractor;
++            // END OF PATCH
+             foreach ($pdf->pages as $page) {
+                 $pdfExtract = $extractor->clonePage($page);
+                 $pdfNew->pages[] = $pdfExtract;

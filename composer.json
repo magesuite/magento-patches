@@ -1271,6 +1271,13 @@
                     "filename": "essential/trustedshops_api_client_class_names.patch",
                     "version-constraint": ">=2.0.0"
                 }
+            ],
+            "xtento/pdfcustomizer": [
+                {
+                    "description": "Fix for large pdf file size when xtento pdfcustomizer runs on message queue consumer",
+                    "filename": "essential/xtento-pdfcustomizer-fix-large-pdf-file-size.patch",
+                    "version-constraint": ">=2.13.6"
+                }
             ]
         }
     }
