@@ -1,0 +1,39 @@
+Amasty Xnotif plugin sets has_stock_status_filter on configurable product collection not taking config for disabling/enabling output of
+out of stock products within the store into consideration. This patch adds check, and prevents setting flag in case show_out_of_stock is disabled.
+
+diff --git a/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php b/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php
+index bd91266..7cdabdb 100644
+--- a/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php
++++ b/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php
+@@ -16,6 +16,18 @@ use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable\Pr
+  */
+ class Configurable
+ {
++    const XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK = 'cataloginventory/options/show_out_of_stock';
++
++    /**
++     * @var \Magento\Framework\App\Config\ScopeConfigInterface
++     */
++    protected $scopeConfig;
++
++    public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig)
++    {
++        $this->scopeConfig = $scopeConfig;
++    }
++
+     /**
+      * @param NativeConfigurable $subject
+      * @param Collection $collection
+@@ -24,6 +36,12 @@ class Configurable
+      */
+     public function afterGetUsedProductCollection(NativeConfigurable $subject, $collection)
+     {
++        if (!$this->scopeConfig->getValue(
++            self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK,
++            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
++        )) {
++            return $collection;
++        }
+         $collection->setFlag('has_stock_status_filter', true);
+
+         return $collection;
