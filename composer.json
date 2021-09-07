@@ -933,7 +933,7 @@
                 {
                     "description": "Wrap inventory configurable product indexer (MSI) with transaction",
                     "filename": "essential/wrap-inventory-configurable-indexer-with-transaction.patch",
-                    "version-constraint": ">=1.1.0, ,<1.2.0"
+                    "version-constraint": ">=1.1.0,<1.2.0"
                 }
             ],
             "magento/module-inventory-grouped-product-indexer": [
