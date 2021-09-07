@@ -1,0 +1,68 @@
+diff --git a/Indexer/SourceItem/Strategy/Sync.php b/Indexer/SourceItem/Strategy/Sync.php
+index 85851a5..06a957c 100644
+--- a/Indexer/SourceItem/Strategy/Sync.php
++++ b/Indexer/SourceItem/Strategy/Sync.php
+@@ -58,6 +58,11 @@ class Sync
+      */
+     private $defaultStockProvider;
+ 
++    /**
++     * @var \Magento\Framework\App\ResourceConnection
++     */
++    protected $connection;
++
+     /**
+      * $indexStructure is reserved name for construct variable (in index internal mechanism)
+      *
+@@ -85,6 +90,9 @@ class Sync
+         $this->indexNameBuilder = $indexNameBuilder;
+         $this->stockIndexer = $stockIndexer;
+         $this->defaultStockProvider = $defaultStockProvider;
++
++        $resourceConnection = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\ResourceConnection::class);
++        $this->connection = $resourceConnection->getConnection();
+     }
+ 
+     /**
+@@ -114,18 +122,29 @@ class Sync
+                 $this->indexStructure->create($mainIndexName, ResourceConnection::DEFAULT_CONNECTION);
+             }
+ 
+-            $this->indexHandler->cleanIndex(
+-                $mainIndexName,
+-                new \ArrayIterator($skuList),
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
+-
+-            $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
+-            $this->indexHandler->saveIndex(
+-                $mainIndexName,
+-                $indexData,
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
++            // BEGINNING OF PATCH
++            try {
++                $this->connection->beginTransaction();
++
++                $this->indexHandler->cleanIndex(
++                    $mainIndexName,
++                    new \ArrayIterator($skuList),
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++
++                $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
++                $this->indexHandler->saveIndex(
++                    $mainIndexName,
++                    $indexData,
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++
++                $this->connection->commit();
++            } catch (\Exception $e) {
++                $this->connection->rollBack();
++                throw $e;
++            }
++            // END OF PATCH
+         }
+     }
+ 
