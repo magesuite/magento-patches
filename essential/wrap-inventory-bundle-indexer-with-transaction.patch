@@ -1,0 +1,45 @@
+diff --git a/Indexer/SourceItem/SourceItemIndexer.php b/Indexer/SourceItem/SourceItemIndexer.php
+index 2c0d805..39b307a 100644
+--- a/Indexer/SourceItem/SourceItemIndexer.php
++++ b/Indexer/SourceItem/SourceItemIndexer.php
+@@ -115,17 +115,29 @@ class SourceItemIndexer
+ 
+             $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
+ 
+-            $this->indexHandler->cleanIndex(
+-                $mainIndexName,
+-                $indexData,
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
+-
+-            $this->indexHandler->saveIndex(
+-                $mainIndexName,
+-                $indexData,
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
++            // BEGINNING OF PATCH
++            $connection = $this->resourceConnection->getConnection();
++            try {
++                $connection->beginTransaction();
++
++                $this->indexHandler->cleanIndex(
++                    $mainIndexName,
++                    $indexData,
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++
++                $this->indexHandler->saveIndex(
++                    $mainIndexName,
++                    $indexData,
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++
++                $connection->commit();
++            } catch (\Exception $e) {
++                $connection->rollBack();
++                throw $e;
++            }
++            // END OF PATCH
+         }
+     }
+ }

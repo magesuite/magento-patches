@@ -483,6 +483,11 @@
                     "description": "Forward port changes that were introduced in 2.2.5, but was not included in Magento 2.3",
                     "filename": "essential/fix-stock-inventory-reindex-bug.patch",
                     "version-constraint": ">100.2.4,<100.2.9 || >100.3.0,<100.3.5"
+                },
+                {
+                    "description": "Wrap cataloginventory indexer with transaction",
+                    "filename": "essential/wrap-cataloginventory-indexer-with-transaction.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-catalog": [
@@ -530,6 +535,11 @@
                     "description": "Catalog product flat table is not updated when attribute is null",
                     "filename": "essential/m23plus-fix-flat-table-indexer-on-null.patch",
                     "version-constraint": ">103.0.0"
+                },
+                {
+                    "description": "Wrap price indexer with transaction",
+                    "filename": "essential/m242-wrap-price-indexer-with-transaction.patch",
+                    "version-constraint": ">=103.0.2"
                 }
             ],
             "magento/module-checkout": [
@@ -903,6 +913,34 @@
                     "description": "Fix not working translation for customers",
                     "filename": "essential/fix-customer-module-prefix-translation.patch",
                     "version-constraint": ">=102.0.5"
+                }
+            ],
+            "magento/module-inventory-indexer": [
+                {
+                    "description": "Wrap inventory indexer (MSI) with transaction",
+                    "filename": "essential/wrap-inventory-indexer-with-transaction.patch",
+                    "version-constraint": ">=2.0.0"
+                }
+            ],
+            "magento/module-inventory-bundle-product-indexer": [
+                {
+                    "description": "Wrap inventory bundle product indexer (MSI) with transaction",
+                    "filename": "essential/wrap-inventory-bundle-indexer-with-transaction.patch",
+                    "version-constraint": ">=1.0.0"
+                }
+            ],
+            "magento/module-inventory-configurable-product-indexer": [
+                {
+                    "description": "Wrap inventory configurable product indexer (MSI) with transaction",
+                    "filename": "essential/wrap-inventory-configurable-indexer-with-transaction.patch",
+                    "version-constraint": ">=1.1.0"
+                }
+            ],
+            "magento/module-inventory-grouped-product-indexer": [
+                {
+                    "description": "Wrap inventory grouped product indexer (MSI) with transaction",
+                    "filename": "essential/wrap-inventory-grouped-indexer-with-transaction.patch",
+                    "version-constraint": ">=1.1.0"
                 }
             ],
             "magento/module-customer-custom-attributes": [
