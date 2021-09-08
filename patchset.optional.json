@@ -356,7 +356,7 @@
             },
             {
                 "description": "Lensplaza - Allow displaying of simple products attached to glasses configurable in admin panel.",
-                "filename": "optional/LP-allow-glasses-simples-attached-to-configurable-calculation-in-admin-edit-page.patch.patch",
+                "filename": "optional/LP-allow-glasses-simples-attached-to-configurable-calculation-in-admin-edit-page.patch",
                 "version-constraint": "*"
             }
         ],
