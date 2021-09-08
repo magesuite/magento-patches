@@ -353,6 +353,11 @@
                 "description": "Disables displaying of simple products attached to configurable in admin panel.",
                 "filename": "optional/m242-remove-simples-attached-to-configurable-calculation-in-admin-product-edit-page.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Lensplaza - Allow displaying of simple products attached to glasses configurable in admin panel.",
+                "filename": "optional/LP-allow-glasses-simples-attached-to-configurable-calculation-in-admin-edit-page.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-configurable-import-export": [
