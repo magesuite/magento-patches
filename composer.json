@@ -539,7 +539,7 @@
                 {
                     "description": "Wrap price indexer with transaction",
                     "filename": "essential/m242-wrap-price-indexer-with-transaction.patch",
-                    "version-constraint": ">=103.0.2"
+                    "version-constraint": ">=104.0.2"
                 }
             ],
             "magento/module-checkout": [
