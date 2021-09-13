@@ -1,0 +1,35 @@
+diff --git a/Block/Data/Product.php b/Block/Data/Product.php
+index 7c97ec3..95e4c45 100644
+--- a/Block/Data/Product.php
++++ b/Block/Data/Product.php
+@@ -129,18 +129,18 @@ class Product extends CatalogLayer
+     protected function getBundleProducts()
+     {
+         $products = [];
+-
+-        if ($product = $this->getProduct()) {
+-            $associatedProducts = $product->getTypeInstance()->getSelectionsCollection(
+-                $product->getTypeInstance()->getOptionsIds($product),
+-                $product
+-            );
+-
+-            foreach ($associatedProducts as $associatedProduct) {
+-                $products[] = $this->getProductLayer($associatedProduct);
+-            }
+-        }
+-
++        // BEGIN PATCH
++        //if ($product = $this->getProduct()) {
++            //$associatedProducts = $product->getTypeInstance()->getSelectionsCollection(
++                //$product->getTypeInstance()->getOptionsIds($product),
++                //$product
++            //);
++
++            //foreach ($associatedProducts as $associatedProduct) {
++                //$products[] = $this->getProductLayer($associatedProduct);
++            //}
++        //}
++        // END PATCH
+         return $products;
+     }
+ 
