@@ -511,7 +511,7 @@
             },
             {
               "description": "Disallow loading bundle child products",
-              "filename": "optional/mmagepal-enhanced-ecommerce-bundle-disallow-loading-child-products.patch",
+              "filename": "optional/magepal-enhanced-ecommerce-bundle-disallow-loading-child-products.patch",
               "version-constraint": ">=1.7.1"
             }
         ],
