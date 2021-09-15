@@ -1,0 +1,40 @@
+diff --git a/Controller/Checkout/PlaceOrder.php b/Controller/Checkout/PlaceOrder.php
+index d5fcdc2..0f0e388 100644
+--- a/Controller/Checkout/PlaceOrder.php
++++ b/Controller/Checkout/PlaceOrder.php
+@@ -34,11 +34,6 @@ class PlaceOrder extends AbstractController
+      */
+     protected $orderRepository;
+ 
+-    /**
+-     * @var \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender
+-     */
+-    protected $orderSender;
+-
+     public function __construct(
+         \Magento\Framework\App\Action\Context $context,
+         \Magento\Checkout\Model\Session $checkoutSession,
+@@ -47,7 +42,6 @@ class PlaceOrder extends AbstractController
+         \Netzkollektiv\EasyCredit\Helper\Data $easyCreditHelper,
+         \Netzkollektiv\EasyCredit\BackendApi\Quote $easyCreditQuote,
+         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+-        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
+         \Magento\Quote\Api\CartManagementInterface $cartManagement,
+         \Magento\Checkout\Helper\Data $checkoutData,
+         \Psr\Log\LoggerInterface $logger
+@@ -56,7 +50,6 @@ class PlaceOrder extends AbstractController
+         $this->easyCreditCheckout = $easyCreditHelper->getCheckout();
+         $this->easyCreditQuote = $easyCreditQuote;
+         $this->orderRepository = $orderRepository;
+-        $this->orderSender = $orderSender;
+         $this->cartManagement = $cartManagement;
+         $this->checkoutData = $checkoutData;
+         $this->logger = $logger;
+@@ -128,7 +121,6 @@ class PlaceOrder extends AbstractController
+         try {
+             $orderId = $this->cartManagement->placeOrder($quote->getId());
+             $order = $this->orderRepository->get($orderId);
+-            $this->orderSender->send($order);
+         } catch (\Magento\Framework\Exception\LocalizedException $e) {
+             $this->messageManager->addErrorMessage(__($e->getMessage()));
+             $this->_redirect('easycredit/checkout/cancel');

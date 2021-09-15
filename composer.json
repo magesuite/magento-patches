@@ -1310,6 +1310,13 @@
                     "version-constraint": ">=2.0.0"
                 }
             ],
+            "ratenkaufbyeasycredit/module-core": [
+                {
+                    "description": "Fix double order confirmation",
+                    "filename": "essential/easycredit-fix-double-order-confirmation.patch",
+                    "version-constraint": ">=1.3.5"
+                }
+            ],
             "xtento/pdfcustomizer": [
                 {
                     "description": "Fix for large pdf file size when xtento pdfcustomizer runs on message queue consumer",
