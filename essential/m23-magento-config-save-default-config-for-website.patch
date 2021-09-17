@@ -1,0 +1,16 @@
+diff --git a/Model/Config.php b/Model/Config.php
+index 356c6ca..c3b4a96 100644
+--- a/Model/Config.php
++++ b/Model/Config.php
+@@ -453,7 +453,10 @@ class Config extends \Magento\Framework\DataObject
+                 $backendModel->addData($data);
+                 $this->_checkSingleStoreMode($field, $backendModel);
+ 
+-                $path = $this->getFieldPath($field, $fieldId, $extraOldGroups, $oldConfig);
++                //BEGINNING OF PATCH
++                //$path = $this->getFieldPath($field, $fieldId, $extraOldGroups, $oldConfig);
++                $path = $this->getFieldPath($field, $fieldId, $oldConfig, $extraOldGroups);
++                //END OF PATCH
+                 $backendModel->setPath($path)->setValue($fieldData['value']);
+ 
+                 $inherit = !empty($fieldData['inherit']);
