@@ -292,6 +292,11 @@
               "description": "Fix long loading of payment methods in checkout, add cache for possiblePaymentMethodCache",
               "filename": "optional/wallee-magento-2-fix-long-loading-payment-methods.patch",
               "version-constraint": ">=1.1.3"
+            },
+            {
+                "description": "Add custom field to wallee payment methods",
+                "filename": "optional/ipet-wallee-methods-custom-fields.patch",
+                "version-constraint": ">=1.1.3"
             }
         ],
         "aheadworks/module-giftcard": [
