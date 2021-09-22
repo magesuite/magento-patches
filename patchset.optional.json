@@ -746,7 +746,12 @@
                 "description": "Fix for empty shipping cost in invoice PDF, show formatted 0.00$",
                 "filename": "optional/xtento-pdfcutomizer-fix-shipping-to-formatted-output.patch",
                 "version-constraint": ">=2.13.3"
-            }
+            },
+            {
+                "description": "Compatybility patch for xtento pdfcustomizer to work with Magento 2.3.4",
+                "filename": "optional/xtento-pdfcustomizer-compatibility-m243.patch",
+                "version-constraint": ">=2.13.6"
+          }
         ],
         "magento/module-store": [
             {
