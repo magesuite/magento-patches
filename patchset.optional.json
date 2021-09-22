@@ -750,7 +750,7 @@
             {
                 "description": "Compatibility patch for xtento pdfcustomizer to work with Magento 2.3.4",
                 "filename": "optional/xtento-pdfcustomizer-compatibility-m243.patch",
-                "version-constraint": ">=2.13.6"
+                "version-constraint": "<=2.13.6"
           }
         ],
         "magento/module-store": [
