@@ -748,7 +748,7 @@
                 "version-constraint": ">=2.13.3"
             },
             {
-                "description": "Compatybility patch for xtento pdfcustomizer to work with Magento 2.3.4",
+                "description": "Compatibility patch for xtento pdfcustomizer to work with Magento 2.3.4",
                 "filename": "optional/xtento-pdfcustomizer-compatibility-m243.patch",
                 "version-constraint": ">=2.13.6"
           }
