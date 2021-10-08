@@ -397,6 +397,11 @@
                 "description": "Fix different price in Cart vs on the PDP in case of discount price",
                 "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
                 "version-constraint": ">=104.0.1"
+            },
+            {
+                "description": "Feat: replace input field type by textarea in attribute options configuration",
+                "filename": "optional/adminhtml/magento-catalog-textarea-attribute-option-field.patch",
+                "version-constraint": ">=103.0.3"
             }
         ],
         "magento/magento2-base": [
