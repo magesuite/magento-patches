@@ -1,0 +1,13 @@
+diff --git a/Model/SendinblueSib.php b/Model/SendinblueSib.php
+index 4a1e57f..339b95c 100644
+--- a/Model/SendinblueSib.php
++++ b/Model/SendinblueSib.php
+@@ -51,7 +51,7 @@ class SendinblueSib extends \Magento\Framework\Model\AbstractModel
+         $this->_orderCollectionFactory = $salesOrderCollectionFactory;
+         $this->_resourceConfig = $resourceConfig;
+         $this->_getValueDefault = $scopeDefaultType;
+-        $this->_scopeTypeDefault = $scopeDefaultType::SCOPE_TYPE_DEFAULT;
++        $this->_scopeTypeDefault = "stores";
+         $this->_storeId = $defaultStoreId::DEFAULT_STORE_ID;
+         $this->_dir = $dir;
+         $this->_customers = $customers;
