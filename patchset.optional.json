@@ -783,6 +783,13 @@
                 "filename": "optional/disable-catalogsearch-fulltext-product-assignment-plugin.patch",
                 "version-constraint": ">=101.0.0"
             }
-        ]
+        ],
+       "sendinblue/module-sendinblue": [
+        {
+          "description": "Allow different api-keys for each store",
+          "filename": "optional/sendinblue-allow-stores-settings-support.patch",
+          "version-constraint": "*"
+        }
+      ]
     }
 }
