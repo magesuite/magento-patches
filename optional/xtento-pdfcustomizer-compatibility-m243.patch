@@ -75,3 +75,19 @@ index 6b7d321..1554cad 100644
 -}
 \ No newline at end of file
 +}
+
+diff --git a/Model/Email/Template/CustomFilter.php b/Model/Email/Template/CustomFilter.php
+index 1554cad..c6bd1e8 100644
+--- a/Model/Email/Template/CustomFilter.php
++++ b/Model/Email/Template/CustomFilter.php
+@@ -54,9 +54,7 @@ class CustomFilter extends \Magento\Email\Model\Template\Filter
+         } else {
+             $configVariables = $objectManager->get('\Magento\Email\Model\Source\Variables');
+         }
+-        if (version_compare($utilsHelper->getMagentoVersion(), '2.2', '<')) {
+-            parent::__construct($string, $logger, $escaper, $assetRepo, $scopeConfig, $coreVariableFactory, $storeManager, $layout, $layoutFactory, $appState, $urlModel, $configVariables, $variableResolver, $cssProcessor, $pubDirectory, $cssInliner, $variables, $directiveProcessors);
+-        }
++        parent::__construct($string, $logger, $escaper, $assetRepo, $scopeConfig, $coreVariableFactory, $storeManager, $layout, $layoutFactory, $appState, $urlModel, $configVariables, $variableResolver, $cssProcessor, $pubDirectory, $cssInliner, $variables, $directiveProcessors);
+
+         $this->regionFactory = $regionFactory;
+         $this->filesystem = $filesystem;
