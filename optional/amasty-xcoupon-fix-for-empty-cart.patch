@@ -1,21 +1,19 @@
 diff --git a/Observer/Controller/Action/Predispatch.php b/Observer/Controller/Action/Predispatch.php
-index 288631e..6168385 100644
+index 9ac95a6..0e1276b 100644
 --- a/Observer/Controller/Action/Predispatch.php
 +++ b/Observer/Controller/Action/Predispatch.php
-@@ -37,9 +37,13 @@ class Predispatch implements \Magento\Framework\Event\ObserverInterface
+@@ -37,7 +37,13 @@ class Predispatch implements \Magento\Framework\Event\ObserverInterface
       */
      public function execute(\Magento\Framework\Event\Observer $observer)
      {
 -        $coupon = $this->request->getParam('coupon_code');
--
--        if ($coupon) {
-+        $coupon = $this->request->getParam('remove') ? "" : $this->request->getParam('coupon');
++        // BEGIN PATCH
++        // $coupon = $this->request->getParam('coupon_code');
++        $coupon = $this->request->getParam('remove') ? '' : $this->request->getParam('coupon');
 +        if (empty($coupon)) {
-+            $coupon = $this->request->getParam('coupon_code') ?
-+                $this->request->getParam('coupon_code') :
-+                $this->checkoutSession->getCoupon();
++            $coupon = $this->request->getParam('coupon_code');
 +        }
-+        if (!empty($coupon)) {
++        // END PATCH
+
+         if ($coupon) {
              if ($quote = $this->checkoutSession->getQuote()) {
-                 $this->checkoutSession->setCoupon($coupon);
-                 $quote->setCouponCode($coupon)
