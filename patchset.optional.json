@@ -659,6 +659,13 @@
                 "version-constraint": ">1.0.6"
             }
         ],
+        "magento/module-inventory-in-store-pickup-quote": [
+            {
+                "description": "Fix wrong extension attribute join on field column",
+                "filename": "optional/m242-fix-inventory-in-store-pickup-quote-extension-attribute-field.patch",
+                "version-constraint": ">=1.1.0"
+            }
+        ],
         "best4mage/cptp": [
             {
                 "description": "Patch to remove check for action when tier prices are applied in cart summary",
