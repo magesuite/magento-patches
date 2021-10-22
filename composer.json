@@ -469,6 +469,11 @@
                     "description": "Fix synonyms for multi word quieries",
                     "filename": "essential/smile-elasticsuite-fix-synonyms-for-multi-words-queries.patch",
                     "version-constraint": ">2.10.0,<2.10.7"
+                },
+                {
+                    "description": "Fix hiding of default datetime field in attribute swatches configurations if attribute is of other type",
+                    "filename": "essential/adminhtml/elasticsuite-default-value-datetime-visibility.patch",
+                    "version-constraint": ">2.8.3"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
