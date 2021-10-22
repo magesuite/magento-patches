@@ -474,6 +474,11 @@
                 "description": "Fixing .thumbs directory structure in pub/media/",
                 "filename": "optional/m23-fix-thumbs-directories-structure.patch",
                 "version-constraint": "103.0.*"
+            },
+            {
+              "description": "Fix endless loading media gallery",
+              "filename": "optional/adminhtml/fix-cms-loading-media-gallery.patch",
+              "version-constraint": ">=104.0.2 < 104.0.3"
             }
         ],
         "dynamic-yield/integration": [
