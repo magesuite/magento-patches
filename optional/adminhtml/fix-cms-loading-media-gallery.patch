@@ -1,0 +1,14 @@
+diff --git a/Block/Adminhtml/Wysiwyg/Images/Tree.php b/Block/Adminhtml/Wysiwyg/Images/Tree.php
+index c033e09..98e3df1 100644
+--- a/Block/Adminhtml/Wysiwyg/Images/Tree.php
++++ b/Block/Adminhtml/Wysiwyg/Images/Tree.php
+@@ -76,8 +76,7 @@ class Tree extends \Magento\Backend\Block\Template
+                 'path' => substr($item->getFilename(), strlen($storageRoot)),
+                 'cls' => 'folder',
+             ];
+-            $nestedDirectories = $this->getMediaDirectory()->readRecursively($item->getFilename());
+-            $hasNestedDirectories = count($nestedDirectories) > 0;
++            $hasNestedDirectories = count(glob($item->getFilename() . '/*', GLOB_ONLYDIR)) > 0;
+ 
+             // if no nested directories inside dir, add 'leaf' state so that jstree hides dropdown arrow next to dir
+             if (!$hasNestedDirectories) {
