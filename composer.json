@@ -1211,12 +1211,12 @@
                 {
                     "description": "Fixing issue with credit card type in order view",
                     "filename": "essential/payone32-fix-creditcard-type.patch",
-                    "version-constraint": ">=3.2.0"
+                    "version-constraint": ">=3.2.0,<3.3.0"
                 },
                 {
                     "description": "Cache privacy declaration curl request",
                     "filename": "essential/payone-cache-privacy-declaration-request.patch",
-                    "version-constraint": ">=3.2.0"
+                    "version-constraint": ">=3.2.0,<3.3.0"
                 },
                 {
                     "description": "Fixing issue with empty payment information in order confirmation email after creation of order substitute by Transactionstatus service",
