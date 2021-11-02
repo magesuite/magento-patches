@@ -1112,6 +1112,13 @@
                     "version-constraint": ">=101.1.5-p2,<101.1.6"
                 }
             ],
+            "magento/module-sales-archive": [
+                {
+                    "description": "Fix, the invoice is not removed from the archive after restoring the order",
+                    "filename": "essential/m24-fix-invoice-not-removed-from-archive-when-order-restored.patch",
+                    "version-constraint": ">=101.0.1"
+                }
+            ],
             "magento/module-paypal": [
                 {
                     "description": "Fix inability to place PayPal guest order when Automatic Assignment to Customer Group is enabled",
