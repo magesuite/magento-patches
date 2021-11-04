@@ -397,6 +397,13 @@
                     "version-constraint": "~100.2.0,<=100.2.3"
                 }
             ],
+            "magento/module-elasticsearch": [
+                {
+                    "description": "Disable products elasticsearch reindex after category change",
+                    "filename": "essential/m24-disable-products-es-reindex-after-category-change.patch",
+                    "version-constraint": ">=101.0.0"
+                }
+            ],
             "magento/module-config": [
                 {
                     "description": "Fix module loading order (Magento 2.2.0-2.2.4)",
@@ -469,6 +476,11 @@
                     "description": "Fix synonyms for multi word quieries",
                     "filename": "essential/smile-elasticsuite-fix-synonyms-for-multi-words-queries.patch",
                     "version-constraint": ">2.10.0,<2.10.7"
+                },
+                {
+                    "description": "Search indexing, delete products directly before inserting new data into index",
+                    "filename": "essential/m24-search-index-delete-products-directly-before-inserting.patch",
+                    "version-constraint": ">2.10.0"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
@@ -545,6 +557,23 @@
                     "description": "Wrap price indexer with transaction",
                     "filename": "essential/m242-wrap-price-indexer-with-transaction.patch",
                     "version-constraint": ">=104.0.2"
+                }
+            ],
+            "magento/module-catalog-search": [
+                {
+                    "description": "Remove deletion of products in partial indexing, Magento 2.4.0-2.4.1",
+                    "filename": "essential/m24plus-remove-deletion-of-products-in-partial-indexing.patch",
+                    "version-constraint": ">=102.0.0,<102.0.2"
+                },
+                {
+                    "description": "Remove deletion of products in partial indexing, Magento 2.4.2",
+                    "filename": "essential/m242-remove-deletion-of-products-in-partial-indexing.patch",
+                    "version-constraint": ">=102.0.2,<102.0.3"
+                },
+                {
+                    "description": "Remove deletion of products in partial indexing, Magento >= 2.4.3",
+                    "filename": "essential/m243plus-remove-deletion-of-products-in-partial-indexing.patch",
+                    "version-constraint": ">=102.0.3"
                 }
             ],
             "magento/module-checkout": [
