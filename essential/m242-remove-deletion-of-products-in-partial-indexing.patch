@@ -1,0 +1,44 @@
+diff --git a/Model/Indexer/Fulltext.php b/Model/Indexer/Fulltext.php
+index f72516d..627440a 100644
+--- a/Model/Indexer/Fulltext.php
++++ b/Model/Indexer/Fulltext.php
+@@ -196,7 +196,17 @@ class Fulltext implements
+             array_merge($entityIds, $this->fulltextResource->getRelationsByChild($entityIds))
+         );
+         if ($saveHandler->isAvailable($dimensions)) {
+-            $saveHandler->deleteIndex($dimensions, new \ArrayIterator($productIds));
++            // BEGIN PATCH
++            // We are removing full delete in order for it to happen directly during indexing done by ElasticSuite
++            // That way we minimize gap when products data is missing inside ElasticSearch
++            // $saveHandler->deleteIndex($dimensions, new \ArrayIterator($productIds));
++            // Following code covers case of deleted products that should be removed from index
++            $deletedIds = $this->getDeletedIds($productIds);
++
++            if(!empty($deletedIds)) {
++                $saveHandler->deleteIndex($dimensions, new \ArrayIterator($deletedIds));
++            }
++            // END PATCH
+             $saveHandler->saveIndex($dimensions, $this->fullAction->rebuildStoreIndex($storeId, $productIds));
+         }
+     }
+@@ -239,4 +249,20 @@ class Fulltext implements
+     {
+         $this->execute([$id]);
+     }
++
++    /**
++     * @param int[] $productIdsForReindex
++     * @return int[]
++     */
++    public function getDeletedIds($productIdsForReindex) {
++        $connection = $this->fulltextResource->getConnection();
++        $select = $connection->select();
++
++        $select->from($connection->getTableName('catalog_product_entity'), 'entity_id');
++        $select->where('entity_id IN (?)', $productIdsForReindex);
++
++        $foundProductIds = $connection->fetchCol($select);
++
++        return array_diff($productIdsForReindex, $foundProductIds);
++    }
+ }

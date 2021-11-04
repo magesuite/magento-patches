@@ -1,0 +1,15 @@
+diff --git a/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php b/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
+index 1d1d230..f1f3f14 100644
+--- a/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
++++ b/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
+@@ -81,7 +81,9 @@ class Rows
+                 $indexTable = $this->getIndexTable((int) $store->getId(), $useTempTable);
+                 $productIds = $this->getProductIdsFromIndex($indexTable, $entityIds);
+                 if (!empty($productIds)) {
+-                    $indexer->reindexList($productIds);
++                    // BEGIN PATCH
++                    // $indexer->reindexList($productIds);
++                    // END PATCH
+                 }
+             }
+         }

@@ -1,0 +1,24 @@
+diff --git a/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php b/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
+index caa97fa..fdb84c2 100644
+--- a/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
++++ b/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
+@@ -120,7 +120,18 @@ class GenericIndexerHandler implements IndexerInterface
+                 }
+ 
+                 if (!empty($batchDocuments)) {
+-                    $bulk = $this->indexOperation->createBulk()->addDocuments($index, $batchDocuments);
++                    // BEGIN PATCH
++                    // $bulk = $this->indexOperation->createBulk()->addDocuments($index, $batchDocuments);
++                    // We are making delete and insert to happen inside the same bulk operation directly one after
++                    // another to minimize time when products are deleted from the index and unavailable for storefront
++                    $bulk = $this->indexOperation->createBulk();
++
++                    foreach($batchDocuments as $documentId => $document) {
++                        $bulk->deleteDocument($index, $documentId);
++                        $bulk->addDocument($index, $documentId, $document);
++                    }
++                    // END PATCH
++
+                     $this->indexOperation->executeBulk($bulk);
+                 }
+             }
