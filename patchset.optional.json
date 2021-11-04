@@ -409,6 +409,11 @@
                 "description": "Remove date validation as it is very rarely used and load whole moment library",
                 "filename": "optional/frontend/remove-date-validation.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "TinyMCE4 Allow to use elements inside html tag",
+                "filename": "optional/m24-tinymce4-allow-to-use-elements-inside-html-tag.patch",
+                "version-constraint": ">=2.4.3"
             }
         ],
         "magento/module-sales-rule": [
