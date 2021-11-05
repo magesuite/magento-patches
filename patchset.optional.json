@@ -811,7 +811,7 @@
         "firebear/importexport": [
             {
                 "description": "Firebear disable newly created category (IPET-443)",
-                "filename": "optional/firebear_disable_newly_created_category.patch",
+                "filename": "optional/firebear-disable-newly-created-category.patch",
                 "version-constraint": ">=3.6.0"
             }
         ]
