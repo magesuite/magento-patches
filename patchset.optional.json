@@ -787,13 +787,6 @@
               "version-constraint": ">=101.1.3"
             }
         ],
-        "meetanshi/module-payshiprestriction": [
-            {
-                "description": "Fix payment visibility for website view",
-                "filename": "optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
-                "version-constraint": ">=1.0.6"
-            }
-        ],
         "magento/module-elasticsearch": [
             {
                 "description": "Disables ES reindexing after product-category assignment",
@@ -801,12 +794,26 @@
                 "version-constraint": ">=101.0.0"
             }
         ],
-       "sendinblue/module-sendinblue": [
-        {
-          "description": "Allow different api-keys for each store",
-          "filename": "optional/sendinblue-allow-stores-settings-support.patch",
-          "version-constraint": "*"
-        }
-      ]
+        "meetanshi/module-payshiprestriction": [
+            {
+                "description": "Fix payment visibility for website view",
+                "filename": "optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
+                "version-constraint": ">=1.0.6"
+            }
+        ],
+        "sendinblue/module-sendinblue": [
+            {
+                "description": "Allow different api-keys for each store",
+                "filename": "optional/sendinblue-allow-stores-settings-support.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "firebear/importexport": [
+            {
+                "description": "Firebear disable newly created category (IPET-443)",
+                "filename": "optional/firebear_disable_newly_created_category.patch",
+                "version-constraint": ">=3.6.0"
+            }
+        ]
     }
 }
