@@ -243,6 +243,11 @@
                     "description": "Lazyload storage polyfill only when it is needed",
                     "filename": "essential/frontend/load-storage-polyfill-on-demand.patch",
                     "version-constraint": "101.1.0"
+                },
+                {
+                    "description": "Fixes an empty mini-cart bug after adding products to the cart from the wishlist by making messages observable",
+                    "filename": "essential/frontend/fix-make-messages-observable.patch",
+                    "version-constraint": ">=101.1.0"
                 }
             ],
             "magento/module-page-cache": [
