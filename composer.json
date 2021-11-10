@@ -1321,6 +1321,13 @@
                     "version-constraint": ">=1.2.0"
                 }
             ],
+            "magento/module-re-captcha-checkout": [
+                {
+                    "description": "Fix error in checkout when reCaptcha is disabled for Checkout/Placing Order",
+                    "filename": "essential/frontend/m24-fix-checkout-place-order-recaptcha-error.patch",
+                    "version-constraint": ">=1.1.1"
+                }
+            ],
             "magento/module-re-captcha-migration": [
                 {
                     "description": "Fix copying ReCaptcha key during migration",
