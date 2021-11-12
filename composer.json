@@ -486,6 +486,11 @@
                     "description": "Search indexing, delete products directly before inserting new data into index",
                     "filename": "essential/m24-search-index-delete-products-directly-before-inserting.patch",
                     "version-constraint": ">2.10.0"
+                },
+                {
+                    "description": "Fix hiding of default datetime field in attribute swatches configurations if attribute is of other type",
+                    "filename": "essential/adminhtml/elasticsuite-default-value-datetime-visibility.patch",
+                    "version-constraint": ">2.8.3"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
