@@ -1,5 +1,5 @@
 diff --git a/view/frontend/web/js/view/messages.js b/view/frontend/web/js/view/messages.js
-index 388166b..41f1782 100644
+index 388166b..5cceba5 100644
 --- a/view/frontend/web/js/view/messages.js
 +++ b/view/frontend/web/js/view/messages.js
 @@ -8,18 +8,19 @@
@@ -13,7 +13,7 @@ index 388166b..41f1782 100644
      'escaper',
      'jquery/jquery-storageapi'
 -], function ($, Component, customerData, _, escaper) {
-+], function ($, Component, ko, customerData, _, escaper) {
++], function ($, ko, Component, customerData, _, escaper) {
      'use strict';
  
      return Component.extend({
