@@ -1,14 +1,20 @@
+Fix issue with invalid category model instance
+
 diff --git a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
-index e7470ee..f13ee51 100644
+index e7470ee..30190d7 100644
 --- a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
 +++ b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
-@@ -110,8 +110,7 @@ class Ajax extends \Magento\Framework\App\Action\Action
+@@ -110,8 +110,11 @@ class Ajax extends \Magento\Framework\App\Action\Action
          $this->layerResolver->create($this->getLayerType());
- 
+
          if ($this->getRequest()->getParam('cat')) {
 -            $category = $this->categoryFactory->create()->setId($this->getRequest()->getParam('cat'));
 -            $this->layerResolver->get()->setCurrentCategory($category);
-+            $this->layerResolver->get()->setCurrentCategory($this->getRequest()->getParam('cat'));
++            // BEGIN PATCH
++            //$category = $this->categoryFactory->create()->setId($this->getRequest()->getParam('cat'));
++            //$this->layerResolver->get()->setCurrentCategory($category);
++            $this->layerResolver->get()->setCurrentCategory((int)$this->getRequest()->getParam('cat'));
++            // END PATCH
          }
- 
+
          $this->applyFilters();

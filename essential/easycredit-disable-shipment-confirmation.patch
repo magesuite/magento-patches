@@ -1,0 +1,18 @@
+Allow capturing money for the invoice without shipment confirmation from API
+
+diff --git a/Model/Payment.php b/Model/Payment.php
+index 035f569..8528d67 100644
+--- a/Model/Payment.php
++++ b/Model/Payment.php
+@@ -223,8 +223,9 @@ class Payment extends \Magento\Payment\Model\Method\AbstractMethod
+             $txId = $payment->getAdditionalInformation('transaction_id');
+
+             $this->_getTransaction($txId);
+-
+-            $this->easyCreditMerchant->confirmShipment($txId);
++	    // BEGIN PATCH
++            //$this->easyCreditMerchant->confirmShipment($txId);
++	    // END PATCH
+         } catch (\Exception $e) {
+             throw new LocalizedException(__($e->getMessage()));
+         }

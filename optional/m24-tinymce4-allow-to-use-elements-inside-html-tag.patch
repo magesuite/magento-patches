@@ -1,0 +1,17 @@
+Allow to use elements inside <a> and <img> tag
+https://github.com/magento/magento2/issues/4536
+
+diff --git a/lib/web/mage/adminhtml/wysiwyg/tiny_mce/tinymce4Adapter.js b/lib/web/mage/adminhtml/wysiwyg/tiny_mce/tinymce4Adapter.js
+index fdb2e62..d9ba506 100644
+--- a/lib/web/mage/adminhtml/wysiwyg/tiny_mce/tinymce4Adapter.js
++++ b/lib/web/mage/adminhtml/wysiwyg/tiny_mce/tinymce4Adapter.js
+@@ -200,6 +200,9 @@ define([
+                 'convert_urls': false,
+                 'content_css': this.config.tinymce4['content_css'],
+                 'relative_urls': true,
++                // BEGIN of patch
++                'valid_elements': '*[*]',
++                // END of patch
+                 'valid_children': '+body[style]',
+                 menubar: false,
+                 plugins: this.config.tinymce4.plugins,

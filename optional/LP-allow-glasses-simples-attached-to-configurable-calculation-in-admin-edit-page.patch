@@ -10,7 +10,7 @@ index 7815408..ea20a98 100644
 +     * @var \Creativestyle\CustomizationLensplazaRxConfigurator\Helper\GlassesAttributeSet
 +     */
 +    protected $glassesAttributeSet;
- 
+
      /**
       * @var Escaper
 @@ -115,6 +119,7 @@ class AssociatedProducts
@@ -27,12 +27,12 @@ index 7815408..ea20a98 100644
          $this->escaper = $escaper ?: ObjectManager::getInstance()->get(Escaper::class);
 +        $this->glassesAttributeSet = $glassesAttributeSet;
      }
- 
+
      /**
 @@ -291,27 +297,29 @@ class AssociatedProducts
                          $attributes[$attribute->getAttributeId()]['chosen'][$optionId] = $variationOption;
                      }
- 
+
 -                    $productMatrix[] = [
 -                        'id' => $product->getId(),
 -                        'product_link' => '<a href="' . $this->urlBuilder->getUrl(
@@ -54,7 +54,7 @@ index 7815408..ea20a98 100644
 -                        'attributes' => $this->getTextAttributes($variationOptions),
 -                        'thumbnail_image' => $this->imageHelper->init($product, 'product_thumbnail_image')->getUrl(),
 -                    ];
-+                    if ($this->glassesAttributeSet->isGlassesProduct($product)) {
++                    if ($this->glassesAttributeSet->isGlassesProduct($product->getId())) {
 +                        $productMatrix[] = [
 +                            'id' => $product->getId(),
 +                            'product_link' => '<a href="' . $this->urlBuilder->getUrl(

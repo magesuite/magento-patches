@@ -1,0 +1,16 @@
+
+
+index 96c7720..049bbc4 100644
+--- a/Model/Import/Product/CategoryProcessor.php
++++ b/Model/Import/Product/CategoryProcessor.php
+@@ -216,7 +216,9 @@ class CategoryProcessor extends \Magento\CatalogImportExport\Model\Import\Produc
+         $category->setPath($parentCategory->getPath());
+         $category->setParentId($parentId);
+         $category->setName($this->unquoteDelimiter($categoryName));
+-        $category->setIsActive(true);
++        // BEGINNING OF PATCH
++        $category->setIsActive(false);
++        // END OF PATCH
+         $category->setIncludeInMenu(true);
+         $category->setAttributeSetId($category->getDefaultAttributeSetId());
+         $urlKey = $this->checkUrlKeyDuplicates(

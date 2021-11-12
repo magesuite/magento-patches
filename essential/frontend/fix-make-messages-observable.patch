@@ -1,0 +1,26 @@
+diff --git a/view/frontend/web/js/view/messages.js b/view/frontend/web/js/view/messages.js
+index 388166b..5cceba5 100644
+--- a/view/frontend/web/js/view/messages.js
++++ b/view/frontend/web/js/view/messages.js
+@@ -8,18 +8,19 @@
+  */
+ define([
+     'jquery',
++    'knockout',
+     'uiComponent',
+     'Magento_Customer/js/customer-data',
+     'underscore',
+     'escaper',
+     'jquery/jquery-storageapi'
+-], function ($, Component, customerData, _, escaper) {
++], function ($, ko, Component, customerData, _, escaper) {
+     'use strict';
+ 
+     return Component.extend({
+         defaults: {
+             cookieMessages: [],
+-            messages: [],
++            messages: ko.observableArray([]),
+             allowedTags: ['div', 'span', 'b', 'strong', 'i', 'em', 'u', 'a']
+         },
+ 
