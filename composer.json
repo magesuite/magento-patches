@@ -1361,6 +1361,11 @@
                     "description": "Fix double order confirmation",
                     "filename": "essential/easycredit-fix-double-order-confirmation.patch",
                     "version-constraint": ">=1.3.5"
+                },
+                {
+                    "description": "Disable shipment confirmation from API",
+                    "filename": "essential/easycredit-disable-shipment-confirmation.patch",
+                    "version-constraint": ">=1.3.5"
                 }
             ],
             "ratenkaufbyeasycredit/php-sdk": [
