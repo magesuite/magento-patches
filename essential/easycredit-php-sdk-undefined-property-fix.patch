@@ -1,0 +1,22 @@
+diff --git a/src/Merchant.php b/src/Merchant.php
+index 11be883..7610d10 100644
+--- a/src/Merchant.php
++++ b/src/Merchant.php
+@@ -146,7 +146,7 @@ class Merchant
+         foreach ($result->wsMessages->messages as $message) {
+ 
+             $devMessage = implode(': ',array_filter(array(
+-                $message->field,
++                $message->field ?? null,
+                 $message->key
+             )));
+             $devMessage = '('.$devMessage.')';
+@@ -157,7 +157,7 @@ class Merchant
+             }
+ 
+             $userMessage = (isset($message->infoFuerBenutzer) && $message->infoFuerBenutzer) ? $message->infoFuerBenutzer : 'An error occured';
+-            if ($message->field) {
++            if (isset($message->field)) {
+                 $userMessage.= ' ('.$message->field.')';
+             }
+ 

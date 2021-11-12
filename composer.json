@@ -1363,6 +1363,13 @@
                     "version-constraint": ">=1.3.5"
                 }
             ],
+            "ratenkaufbyeasycredit/php-sdk": [
+                {
+                    "description": "Fix undefined propery in API response",
+                    "filename": "essential/easycredit-php-sdk-undefined-property-fix.patch",
+                    "version-constraint": ">=1.4.0"
+                }
+            ],
             "xtento/pdfcustomizer": [
                 {
                     "description": "Fix for large pdf file size when xtento pdfcustomizer runs on message queue consumer",
