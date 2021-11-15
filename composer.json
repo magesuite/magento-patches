@@ -1281,7 +1281,7 @@
                 {
                     "description": "Enable Tree Data translations in User Area",
                     "filename": "essential/m234plus-enable-ua-tree-data-translations.patch",
-                    "version-constraint": ">=100.1.4-p2,<101.1.1"
+                    "version-constraint": ">=100.1.4-p2,<101.1.2"
                 }
             ],
             "magento/module-company-shipping": [
