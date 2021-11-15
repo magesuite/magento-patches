@@ -1,0 +1,15 @@
+diff --git a/Observer/AbstractObserver.php b/Observer/AbstractObserver.php
+index cb2719c..3588bf0 100644
+--- a/Observer/AbstractObserver.php
++++ b/Observer/AbstractObserver.php
+@@ -78,7 +78,9 @@ abstract class AbstractObserver
+                         $targetAttribute = $attribute;
+                         break;
+                 }
+-                $target->setData($targetAttribute, $source->getData($sourceAttribute));
++                if($targetAttribute!='address_type') {
++                    $target->setData($targetAttribute, $source->getData($sourceAttribute));
++                }
+             }
+         }
+ 
