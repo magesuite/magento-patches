@@ -1,0 +1,17 @@
+Based on pull request: https://github.com/magento/security-package/pull/302
+Fix error in checkout that occured when reCaptcha (Security -> Storefront) was disabled (by default) for Checkout/Placing Order.
+
+diff --git a/Block/LayoutProcessor/Checkout/Onepage.php b/Block/LayoutProcessor/Checkout/Onepage.php
+index 390bf71..fac0c3d 100644
+--- a/Block/LayoutProcessor/Checkout/Onepage.php
++++ b/Block/LayoutProcessor/Checkout/Onepage.php
+@@ -79,7 +79,8 @@ class Onepage implements LayoutProcessorInterface
+             ['place-order-recaptcha']['settings'] = $this->captchaUiConfigResolver->get($key);
+         } else {
+             if (isset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+-                ['payment']['children']['beforeMethods']['children']['place-order-recaptcha'])) {
++                ['payment']['children']['beforeMethods']['children']['place-order-recaptcha-container']['children']
++                ['place-order-recaptcha'])) {
+                 unset($jsLayout['components']['checkout']['children']['steps']['children']['billing-step']['children']
+                     ['payment']['children']['beforeMethods']['children']['place-order-recaptcha-container']
+                     ['children']['place-order-recaptcha']);
