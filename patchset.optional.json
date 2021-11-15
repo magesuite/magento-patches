@@ -133,7 +133,13 @@
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
                 "filename": "optional/dogma-customer-pet-image-change-destination-module-customer-custom-attributes.patch",
                 "version-constraint": ">=100.4.2"
+            },
+            {
+                "description": "Patch for skipping address_type when converting address to quote",
+                "filename": "optional/gnp-fix-for-address-type-override.patchh",
+                "version-constraint": "*"
             }
+
         ],
         "magento/module-quote": [
             {
