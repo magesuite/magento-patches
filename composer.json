@@ -567,6 +567,11 @@
                     "description": "Wrap price indexer with transaction",
                     "filename": "essential/m242-wrap-price-indexer-with-transaction.patch",
                     "version-constraint": ">=104.0.2"
+                },
+                {
+                    "description": "Remove category tag from top menu",
+                    "filename": "essential/m24-remove-category-tag-from-topmenu.patch",
+                    "version-constraint": ">=103.0.7"
                 }
             ],
             "magento/module-catalog-search": [
