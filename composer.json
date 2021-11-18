@@ -963,7 +963,7 @@
                 {
                     "description": "Wrap inventory indexer (MSI) with transaction",
                     "filename": "essential/wrap-inventory-indexer-with-transaction.patch",
-                    "version-constraint": ">=2.0.0,<2.1.0"
+                    "version-constraint": ">=2.0.0"
                 }
             ],
             "magento/module-inventory-bundle-product-indexer": [
