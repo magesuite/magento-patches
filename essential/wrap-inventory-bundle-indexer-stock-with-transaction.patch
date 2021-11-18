@@ -1,0 +1,63 @@
+diff --git a/Indexer/StockIndexer.php b/Indexer/StockIndexer.php
+index 9ffc7e3..6d60706 100644
+--- a/Indexer/StockIndexer.php
++++ b/Indexer/StockIndexer.php
+@@ -65,6 +65,11 @@ class StockIndexer
+      */
+     private $prepareIndexDataForClearingIndex;
+ 
++    /**
++     * @var \Magento\Framework\App\ResourceConnection
++     */
++    protected $resourceConnection;
++
+     /**
+      * $indexStructure is reserved name for construct variable in index internal mechanism.
+      *
+@@ -95,6 +100,8 @@ class StockIndexer
+         $this->indexTableSwitcher = $indexTableSwitcher;
+         $this->defaultStockProvider = $defaultStockProvider;
+         $this->prepareIndexDataForClearingIndex = $prepareIndexDataForClearingIndex;
++        $resourceConnection = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\ResourceConnection::class);
++        $this->resourceConnection = $resourceConnection;
+     }
+ 
+     /**
+@@ -147,17 +154,26 @@ class StockIndexer
+ 
+             $indexData = $this->indexDataByStockIdProvider->execute($stockId);
+ 
+-            $this->indexHandler->cleanIndex(
+-                $mainIndexName,
+-                $this->prepareIndexDataForClearingIndex->execute($indexData),
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
+-
+-            $this->indexHandler->saveIndex(
+-                $mainIndexName,
+-                $indexData,
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
++            // BEGINNING OF PATCH
++            $connection = $this->resourceConnection->getConnection();
++            try {
++                $this->indexHandler->cleanIndex(
++                    $mainIndexName,
++                    $this->prepareIndexDataForClearingIndex->execute($indexData),
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++
++                $this->indexHandler->saveIndex(
++                    $mainIndexName,
++                    $indexData,
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++                $connection->commit();
++            } catch (\Exception $e) {
++                $connection->rollBack();
++                throw $e;
++            }
++            // END OF PATCH
+         }
+     }
+ }
