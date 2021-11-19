@@ -1,0 +1,15 @@
+diff --git a/Plugin/Block/Topmenu.php b/Plugin/Block/Topmenu.php
+index b4aa5bd..e07e300 100644
+--- a/Plugin/Block/Topmenu.php
++++ b/Plugin/Block/Topmenu.php
+@@ -118,7 +118,9 @@ class Topmenu
+      */
+     public function beforeGetIdentities(\Magento\Theme\Block\Html\Topmenu $subject)
+     {
+-        $subject->addIdentity(Category::CACHE_TAG);
++        // BEGINNING OF PATCH
++        // $subject->addIdentity(Category::CACHE_TAG);
++        // END OF PATCH
+         $rootId = $this->storeManager->getStore()->getRootCategoryId();
+         $storeId = $this->storeManager->getStore()->getId();
+         /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $collection */
