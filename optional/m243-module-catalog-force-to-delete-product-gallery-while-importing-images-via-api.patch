@@ -1,0 +1,55 @@
+Fixes problem with deleting all gallery images for products during importing images for products via API POST request.
+
+I didn't found solution for this bug on Magento Github. It is unclear why Magento refuses to delete file(s) from gallery. It is acting like product's image is still used by other store(s), despite of that all of them was deleted from product in each store. In case when images for product(s) are imported by API using POST request to: '/V1/products/:sku/images' endpoint, all images of imported products should be deleted without any checks. This quick fix is solving this problem by trivial, but working way.
+
+This patch is a modification of module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch to provide Magento 2.4.3 compatibility
+
+index 29d2d44..514de36 100644
+--- a/Model/Product/Gallery/CreateHandler.php
++++ b/Model/Product/Gallery/CreateHandler.php
+@@ -626,7 +626,9 @@ class CreateHandler implements ExtensionInterface
+      */
+     private function canRemoveImage(ProductInterface $product, string $imageFile) :bool
+     {
+-        $canRemoveImage = true;
++        if ($this->isApiImagesImportRequest()) {
++            return true;
++        }
+         $gallery = $this->getImagesForAllStores($product);
+         $storeId = $product->getStoreId();
+         $storeIds = [];
+@@ -644,12 +646,32 @@ class CreateHandler implements ExtensionInterface
+                     && $image['filepath'] === $imageFile
+                     && (int) $image['store_id'] !== $storeId
+                 ) {
+-                    $canRemoveImage = false;
++                    return false;
+                 }
+             }
+         }
+
+-        return $canRemoveImage;
++        return true;
++    }
++
++    /**
++     * It is unclear why Magento refuses to delete file(s) from gallery. It is acting like product's image is still
++     * used by other store(s), despite of that all of them was deleted from product in each store.
++     * In case when images for product(s) are imported by API using POST request to:
++     * /V1/products/:sku/images endpoint, all images of imported products should be deleted without any checks.
++     * This quick fix is solving this problem by trivial, but working way.
++     *
++     * @return bool
++     */
++    protected function isApiImagesImportRequest(): bool
++    {
++        $url = $this->url->getCurrentUrl();
++        $path = parse_url($url, PHP_URL_PATH);
++        $pathWithoutSku = preg_replace('/\d/', '', $path);
++        if ( $pathWithoutSku == self::REQUEST_PATH_WITHOUT_SKU_DURING_PRODUCTS_IMAGES_IMPORT_VIA_API) {
++            return true;
++        }
++        return false;
+     }
+
+     /**
