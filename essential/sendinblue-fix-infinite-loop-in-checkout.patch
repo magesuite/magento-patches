@@ -1,0 +1,18 @@
+diff --git a/Observer/SibCartObserver.php b/Observer/SibCartObserver.php
+index 57407fd..2c47a9e 100644
+--- a/Observer/SibCartObserver.php
++++ b/Observer/SibCartObserver.php
+@@ -26,6 +26,13 @@ class SibCartObserver implements ObserverInterface
+         $model = $objectManager->create('Sendinblue\Sendinblue\Model\SendinblueSib');
+         $maKey = $model->getDbData('sib_automation_key');
+         $sibAbdStatus = $model->getDbData('sib_abdcart_status');
++
++        // BEGIN PATCH
++        if (empty($maKey) || !$sibAbdStatus) {
++            return false;
++        }
++        // END PATCH
++        
+         $cart = $objectManager->get('\Magento\Checkout\Model\Cart');
+         $customer = $cart->getQuote()->getData();
+ 

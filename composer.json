@@ -1202,6 +1202,11 @@
                     "description": "Fix for error on Sendniblue doi confirmation page",
                     "filename": "essential/external-sendinblue-fix-doi-confirmation-page.patch",
                     "version-constraint": ">2.1.0"
+                },
+                {
+                    "description": "Fix infinite loop in checkout",
+                    "filename": "essential/sendinblue-fix-infinite-loop-in-checkout.patch",
+                    "version-constraint": ">=2.1.10"
                 }
             ],
             "zendframework/zend-mail": [
