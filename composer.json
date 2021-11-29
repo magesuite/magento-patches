@@ -1376,6 +1376,13 @@
                     "version-constraint": "100.4.1"
                 }
             ],
+            "magento/module-page-builder": [
+                {
+                    "description": "Fix page builder during clean install",
+                    "filename": "essential/m24-fix-page-builder-clean-install.patch",
+                    "version-constraint": ">=2.2.1"
+                }
+            ],
             "trustedshops/trustedshops": [
                 {
                     "description": "Fix API client zend class names",
