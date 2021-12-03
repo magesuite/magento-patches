@@ -1,0 +1,18 @@
+Original issue: https://github.com/amzn/amazon-payments-magento-2-plugin/issues/1096
+
+--- vendor/amzn/amazon-pay-magento-2-module/view/frontend/web/js/amazon-button.js	2021-11-23 09:56:27.210261519 -0500
++++ vendor/amzn/amazon-pay-magento-2-module/view/frontend/web/js/amazon-button.js	2021-11-23 09:58:34.771034834 -0500
+@@ -117,7 +117,12 @@
+                     this._loadButtonConfig(function (buttonConfig) {
+                         // do not use session config for decoupled button
+                         delete buttonConfig.createCheckoutSessionConfig;
+-                        var amazonPayButton = amazon.Pay.renderButton('#' + $buttonRoot.empty().removeUniqueId().uniqueId().attr('id'), buttonConfig);
++                        try {
++                            var amazonPayButton = amazon.Pay.renderButton('#' + $buttonRoot.empty().removeUniqueId().uniqueId().attr('id'), buttonConfig);
++                        } catch (e) {
++                            console.log('Amazon Pay button render error: ' + e);
++                            return;
++                        }
+                         amazonPayButton.onClick(function() {
+                             if (self.buttonType === 'PayNow' && !additionalValidators.validate()) {
+                                 return false;
