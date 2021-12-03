@@ -1,22 +1,30 @@
 diff --git a/Model/PreviewQuotaManager.php b/Model/PreviewQuotaManager.php
-index f6d232f..778ad6f 100644
+index f6d232f..bf34c60 100644
 --- a/Model/PreviewQuotaManager.php
 +++ b/Model/PreviewQuotaManager.php
-@@ -90,14 +90,14 @@ class PreviewQuotaManager
+@@ -90,17 +90,22 @@ class PreviewQuotaManager
                  )
              );
  
 -            $this->searchCriteriaBuilder->addFilter('entity_id', $ids, 'in');
++            // BEGIN PATCH
++//            $this->searchCriteriaBuilder->addFilter('entity_id', $ids, 'in');
 +            $this->searchCriteriaBuilder->addFilter('main_table.entity_id', $ids, 'in');
              $this->searchCriteriaBuilder->addFilter(
 -                CartInterface::KEY_STORE_ID,
-+                'main_table.'.CartInterface::KEY_STORE_ID,
++//                CartInterface::KEY_STORE_ID,
++                'main_table'.CartInterface::KEY_STORE_ID,
                  $storeId,
                  'eq'
              );
              $this->searchCriteriaBuilder->addFilter(
 -                CartInterface::KEY_UPDATED_AT,
-+                'main_table.'.CartInterface::KEY_UPDATED_AT,
++//                CartInterface::KEY_UPDATED_AT,
++                'main_table'.CartInterface::KEY_UPDATED_AT,
                  $now->format('Y-m-d H:i:s'),
                  'to'
              );
++            // END PATCH
+ 
+             $carts = $this->cartRepository->getList(
+                 $this->searchCriteriaBuilder->create()
