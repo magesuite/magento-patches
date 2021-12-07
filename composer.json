@@ -1128,6 +1128,13 @@
                     "version-constraint": ">=3.0.0,<=3.4.1"
                 }
             ],
+            "amzn/amazon-pay-magento-2-module": [
+                {
+                    "description": "Fix preventing the stoppage of execution when the initial button container isn't found, allowing the rendering to complete successfully.",
+                    "filename": "essential/frontend/amazon-pay-fix-checkout-button-error.patch",
+                    "version-constraint": ">=5.9.1"
+                }
+            ],
             "msp/cashondelivery": [
                 {
                     "description": "Remove not defined method from webapi.xml which crashed API",
