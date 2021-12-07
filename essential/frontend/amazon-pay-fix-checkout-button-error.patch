@@ -1,8 +1,10 @@
 Original issue: https://github.com/amzn/amazon-payments-magento-2-plugin/issues/1096
 
---- view/frontend/web/js/amazon-button.js	2021-11-23 09:56:27.210261519 -0500
-+++ view/frontend/web/js/amazon-button.js	2021-11-23 09:58:34.771034834 -0500
-@@ -117,7 +117,12 @@
+diff --git a/view/frontend/web/js/amazon-button.js b/view/frontend/web/js/amazon-button.js
+index 375b248..b955ed5 100644
+--- a/view/frontend/web/js/amazon-button.js
++++ b/view/frontend/web/js/amazon-button.js
+@@ -132,7 +132,12 @@ define([
                      this._loadButtonConfig(function (buttonConfig) {
                          // do not use session config for decoupled button
                          delete buttonConfig.createCheckoutSessionConfig;
