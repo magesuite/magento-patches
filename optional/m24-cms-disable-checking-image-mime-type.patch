@@ -1,0 +1,17 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index 1e98bb6..7b278d2 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -371,8 +371,10 @@ class Storage extends \Magento\Framework\DataObject
+             $driver = $this->_directory->getDriver();
+             $itemStats = $driver->stat($item->getFilename());
+             $item->setSize($itemStats['size']);
+-            $mimeType = $itemStats['mimetype'] ?? $this->mime->getMimeType($item->getFilename());
+-            $item->setMimeType($mimeType);
++            // BEGINNING OF PATCH
++            // $mimeType = $itemStats['mimetype'] ?? $this->mime->getMimeType($item->getFilename());
++            // $item->setMimeType($mimeType);
++            // END OF PATCH
+ 
+             if ($this->isImage($item->getBasename())) {
+                 $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
