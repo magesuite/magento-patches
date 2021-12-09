@@ -820,6 +820,13 @@
                 "filename": "optional/firebear-disable-newly-created-category.patch",
                 "version-constraint": ">=3.6.0"
             }
-        ]
+        ],
+      "wyomind/datafeedmanager": [
+        {
+          "description": "Fix for feed configuration revert issue by cron process",
+          "filename": "optional/wyomind_datafeedmanager_allow_php.patch",
+          "version-constraint": ">=11.20.0"
+        }
+      ]
     }
 }

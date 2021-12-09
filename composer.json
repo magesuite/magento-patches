@@ -1402,6 +1402,13 @@
                     "version-constraint": ">=1.4.0"
                 }
             ],
+            "wyomind/datafeedmanager": [
+                {
+                    "description": "Fix for feed configuration revert issue by cron process",
+                    "filename": "essential/wyomind-datafeedmanager-fix-config-revert-issue.patch",
+                    "version-constraint": ">=11.20.0"
+                }
+            ],
             "xtento/pdfcustomizer": [
                 {
                     "description": "Fix for large pdf file size when xtento pdfcustomizer runs on message queue consumer",

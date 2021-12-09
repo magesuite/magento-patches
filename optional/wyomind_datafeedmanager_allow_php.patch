@@ -1,0 +1,14 @@
+diff --git a/Helper/Attributes.php b/Helper/Attributes.php
+index 30c0b18..fc05219 100644
+--- a/Helper/Attributes.php
++++ b/Helper/Attributes.php
+@@ -236,8 +236,7 @@ class Attributes extends \Magento\Framework\App\Helper\AbstractHelper
+             ${$key} = $value;
+         }
+         try {
+-            return $script;
+-            // eval($script);
++            return eval($script);
+         } catch (\Throwable $e) {
+             if ($product != null) {
+                 $exc = new \Exception("
