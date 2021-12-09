@@ -1394,7 +1394,7 @@
                 {
                     "description": "Fix API client zend class names",
                     "filename": "essential/trustedshops_api_client_class_names.patch",
-                    "version-constraint": ">=2.0.3"
+                    "version-constraint": "2.0.3"
                 }
             ],
             "ratenkaufbyeasycredit/module-core": [
