@@ -654,6 +654,11 @@
                 "description": "Fix for Wyomind Data Feed Manager to enable parsing of custom functions.",
                 "filename": "optional/wyomind-datafeedmanager-fix-custom-functions-execute.patch",
                 "version-constraint": "11.15.1"
+            },
+            {
+                "description": "Fix for feed configuration revert issue by cron process",
+                "filename": "optional/wyomind_datafeedmanager_allow_php.patch",
+                "version-constraint": ">=11.20.0"
             }
         ],
         "magento/module-media-storage": [

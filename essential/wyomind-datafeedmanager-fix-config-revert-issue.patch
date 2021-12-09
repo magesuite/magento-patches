@@ -1,0 +1,20 @@
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index ac5f4a9..995d715 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -799,8 +799,13 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+             if ($this->_isPreview) {
+                 return $display;
+             } else {
+-                $this->setUpdatedAt($this->coreDate->gmtDate('Y-m-d H:i:s'));
+-                $this->save();
++                $currentDate = $this->coreDate->gmtDate('Y-m-d H:i:s');
++                $this->getResource()->getConnection()->update(
++                    $this->getResource()->getTable('datafeedmanager_feeds'),
++                    ['updated_at' => $currentDate],
++                    ['id = ?' => $this->getId()]
++                );
++
+                 $this->io->open(['path' => $this->getFilePath()]);
+                 $finalFile = $this->dfmHelper->getFinalFilename($this->getDateformat(), $this->getName(), $this->getUpdatedAt()) . $this->dfmHelper->getExtFromType($this->getType());
+                 $this->io->mv($this->_tmpFile, $finalFile);
