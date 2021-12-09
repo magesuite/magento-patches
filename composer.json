@@ -1247,6 +1247,11 @@
                     "description": "Fix dotmailer setUp and tearDown declarations in integration tests",
                     "filename": "essential/m24-dotmailer-fix-tests-setup-teardown.patch",
                     "version-constraint": ">=4.6.0,<4.8.0"
+                },
+                {
+                    "description": "Fix dotmailer problem with store errors to flag table",
+                    "filename": "essential/dotmailer-fix-error-reporting-to-flag.patch",
+                    "version-constraint": ">=4.10.1"
                 }
             ],
             "dotmailer/dotmailer-magento2-extension-sms": [
