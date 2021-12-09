@@ -497,6 +497,11 @@
               "description": "Fix endless loading media gallery",
               "filename": "optional/adminhtml/fix-cms-loading-media-gallery.patch",
               "version-constraint": ">=104.0.2 < 104.0.3"
+            },
+            {
+              "description": "Disable checking image mime type",
+              "filename": "optional/m24-cms-disable-checking-image-mime-type.patch",
+              "version-constraint": ">=104.0.2"
             }
         ],
         "dynamic-yield/integration": [
