@@ -1387,7 +1387,7 @@
                 {
                     "description": "Fix page builder during clean install",
                     "filename": "essential/m24-fix-page-builder-clean-install.patch",
-                    "version-constraint": ">=2.2.1"
+                    "version-constraint": ">=2.2.0"
                 }
             ],
             "trustedshops/trustedshops": [
