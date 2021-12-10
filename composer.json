@@ -139,6 +139,13 @@
                     "version-constraint": ">=100.4.0, <100.4.2"
                 }
             ],
+            "magento/module-directory": [
+                {
+                    "description": "Fix incorrect amount display for currency in summary section",
+                    "filename": "essential/m243-fix-incorrect-amount-display-for-currency-in-summary-section.patch",
+                    "version-constraint": "100.4.3"
+                }
+            ],
             "magento/module-ui": [
                 {
                     "description": "Add autocomplete to checkout inputs - setup",
