@@ -678,6 +678,11 @@
                     "description": "Fix checkout break when there is free gift promo",
                     "filename": "essential/m237_m242-fix-free-gift-promo-checkout-break.patch",
                     "version-constraint": "100.3.7 || >=100.4.1-p1"
+                },
+                {
+                    "description": "Do not send billing address if form is invalid",
+                    "filename": "essential/frontend/m243-do-not-send-billing-address-if-invalid.patch",
+                    "version-constraint": ">=100.4.3"
                 }
             ],
             "magento/module-checkout-agreements": [
