@@ -668,7 +668,7 @@
             {
               "description": "Fix for Wyomind Data Feed Manager filtering by qty on MSI",
               "filename": "optional/wyomind-datafeedmanager-support-for-msi.patch",
-              "version-constraint": ">=11.20.0",
+              "version-constraint": ">=11.20.0"
             }
         ],
         "magento/module-media-storage": [
