@@ -664,6 +664,11 @@
                 "description": "Fix for feed configuration revert issue by cron process",
                 "filename": "optional/wyomind_datafeedmanager_allow_php.patch",
                 "version-constraint": ">=11.20.0"
+            },
+            {
+              "description": "Fix for Wyomind Data Feed Manager filtering by qty on MSI",
+              "filename": "optional/wyomind-datafeedmanager-support-for-msi.patch",
+              "version-constraint": ">=11.20.0"
             }
         ],
         "magento/module-media-storage": [
