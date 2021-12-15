@@ -1,0 +1,155 @@
+diff --git a/view/frontend/layout/checkout_cart_index.xml b/view/frontend/layout/checkout_cart_index.xml
+index b465c68..43c41a7 100644
+--- a/view/frontend/layout/checkout_cart_index.xml
++++ b/view/frontend/layout/checkout_cart_index.xml
+@@ -82,11 +82,17 @@
+                                                                         <item name="sortOrder" xsi:type="string">115</item>
+                                                                         <item name="dataScope" xsi:type="string">shippingAddress.city</item>
+                                                                         <item name="provider" xsi:type="string">checkoutProvider</item>
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">address-level2</item>
++                                                                        </item>
+                                                                     </item>
+                                                                     <item name="country_id" xsi:type="array">
+                                                                         <item name="sortOrder" xsi:type="string">110</item>
+                                                                         <item name="dataScope" xsi:type="string">shippingAddress.country_id</item>
+                                                                         <item name="provider" xsi:type="string">checkoutProvider</item>
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">country</item>
++                                                                        </item>
+                                                                     </item>
+                                                                     <item name="region_id" xsi:type="array">
+                                                                         <item name="component" xsi:type="string">Magento_Ui/js/form/element/region</item>
+@@ -95,6 +101,7 @@
+                                                                             <item name="template" xsi:type="string">ui/form/field</item>
+                                                                             <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                             <item name="customEntry" xsi:type="string">shippingAddress.region</item>
++                                                                            <item name="autocomplete" xsi:type="string">address-level1</item>
+                                                                         </item>
+                                                                         <!-- Value of region_id field is filtered by the value of county_id attribute -->
+                                                                         <item name="filterBy" xsi:type="array">
+@@ -116,6 +123,10 @@
+                                                                         <item name="dataScope" xsi:type="string">shippingAddress.postcode</item>
+                                                                         <item name="sortOrder" xsi:type="string">114</item>
+                                                                         <item name="provider" xsi:type="string">checkoutProvider</item>
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">postal-code</item>
++                                                                            <item name="pattern" xsi:type="string">[0-9a-zA-Z\- ]+</item>
++                                                                        </item>
+                                                                     </item>
+                                                                 </item>
+                                                             </item>
+diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
+index e854863..ade9bd1 100644
+--- a/view/frontend/layout/checkout_index_index.xml
++++ b/view/frontend/layout/checkout_index_index.xml
+@@ -191,6 +191,7 @@
+                                                                             <item name="template" xsi:type="string">ui/form/field</item>
+                                                                             <item name="elementTmpl" xsi:type="string">ui/form/element/select</item>
+                                                                             <item name="customEntry" xsi:type="string">shippingAddress.region</item>
++                                                                            <item name="autocomplete" xsi:type="string">address-level1</item>
+                                                                         </item>
+                                                                         <item name="validation" xsi:type="array">
+                                                                             <item name="required-entry" xsi:type="boolean">true</item>
+@@ -207,22 +208,55 @@
+                                                                         <item name="validation" xsi:type="array">
+                                                                             <item name="required-entry" xsi:type="boolean">true</item>
+                                                                         </item>
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">postal-code</item>
++                                                                            <item name="pattern" xsi:type="string">[0-9a-zA-Z\- ]+</item>
++                                                                        </item>
+                                                                     </item>
+                                                                     <item name="company" xsi:type="array">
+                                                                         <item name="validation" xsi:type="array">
+                                                                             <item name="min_text_length" xsi:type="number">0</item>
+                                                                         </item>
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">organization</item>
++                                                                        </item>
+                                                                     </item>
+                                                                     <item name="fax" xsi:type="array">
+                                                                         <item name="validation" xsi:type="array">
+                                                                             <item name="min_text_length" xsi:type="number">0</item>
+                                                                         </item>
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="type" xsi:type="string">tel</item>
++                                                                            <item name="autocomplete" xsi:type="string">fax</item>
++                                                                        </item>
+                                                                     </item>
+                                                                     <item name="telephone" xsi:type="array">
+                                                                         <item name="config" xsi:type="array">
+                                                                             <item name="tooltip" xsi:type="array">
+                                                                                 <item name="description" xsi:type="string" translate="true">For delivery questions.</item>
+                                                                             </item>
++                                                                            <item name="type" xsi:type="string">tel</item>
++                                                                            <item name="autocomplete" xsi:type="string">tel</item>
++                                                                        </item>
++                                                                    </item>
++                                                                    <item name="country_id" xsi:type="array">
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">country</item>
++                                                                        </item>
++                                                                    </item>
++                                                                    <item name="city" xsi:type="array">
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">address-level2</item>
++                                                                        </item>
++                                                                    </item>
++                                                                    <item name="firstname" xsi:type="array">
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">given-name</item>
++                                                                        </item>
++                                                                    </item>
++                                                                    <item name="lastname" xsi:type="array">
++                                                                        <item name="config" xsi:type="array">
++                                                                            <item name="autocomplete" xsi:type="string">family-name</item>
+                                                                         </item>
+                                                                     </item>
+                                                                 </item>
+diff --git a/view/frontend/web/template/authentication.html b/view/frontend/web/template/authentication.html
+index 4afaf3c..b27bd4c 100644
+--- a/view/frontend/web/template/authentication.html
++++ b/view/frontend/web/template/authentication.html
+@@ -53,7 +53,8 @@
+                                        id="login-email"
+                                        name="username"
+                                        data-bind="attr: {autocomplete: autocomplete}"
+-                                       data-validate="{required:true, 'validate-email':true}" />
++                                       data-validate="{required:true, 'validate-email':true}"
++                                       autocomplete="email" />
+                             </div>
+                         </div>
+                         <div class="field field-password required">
+@@ -65,7 +66,7 @@
+                                        name="password"
+                                        data-bind="attr: {autocomplete: autocomplete}"
+                                        data-validate="{required:true}"
+-                                       autocomplete="off"/>
++                                       autocomplete="current-password" />
+                             </div>
+                         </div>
+                         <!-- ko foreach: getRegion('additional-login-form-fields') -->
+diff --git a/view/frontend/web/template/form/element/email.html b/view/frontend/web/template/form/element/email.html
+index b7dfaff..a712f23 100644
+--- a/view/frontend/web/template/form/element/email.html
++++ b/view/frontend/web/template/form/element/email.html
+@@ -25,7 +25,8 @@
+                             mageInit: {'mage/trim-input':{}}"
+                        name="username"
+                        data-validate="{required:true, 'validate-email':true}"
+-                       id="customer-email" />
++                       id="customer-email"
++                       autocomplete="email" />
+                 <!-- ko template: 'ui/form/element/helper/tooltip' --><!-- /ko -->
+                 <span class="note" data-bind="fadeVisible: isPasswordVisible() == false"><!-- ko i18n: 'You can create an account after checkout.'--><!-- /ko --></span>
+             </div>
+@@ -44,7 +45,7 @@
+                            type="password"
+                            name="password"
+                            id="customer-password"
+-                           data-validate="{required:true}" autocomplete="off"/>
++                           data-validate="{required:true}" autocomplete="current-password" />
+                     <span class="note" data-bind="i18n: 'You already have an account with us. Sign in or continue as guest.'"></span>
+                 </div>
+ 
