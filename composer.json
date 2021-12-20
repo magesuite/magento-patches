@@ -615,6 +615,11 @@
                     "version-constraint": ">=100.3.2,<100.4.0"
                 },
                 {
+                    "description": "M2.4.3-p1: add autocomplete to Checkout/Cart inputs - xml config",
+                    "filename": "essential/m243-autocomplete-checkout.patch",
+                    "version-constraint": "<=100.4.3-p1"
+                },
+                {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
                     "filename": "essential/m232-checkout-customer-id-exception.patch",
                     "version-constraint": ">=100.3.2,<100.3.4"
@@ -909,6 +914,11 @@
                     "description": "Fix adding autocomplete to user area inputs",
                     "filename": "essential/m235-autocomplete-user-area.patch",
                     "version-constraint": ">=102.0.4,<102.0.6"
+                },
+                {
+                    "description": "M2.4.3-p1 Fix adding autocomplete to user area inputs",
+                    "filename": "essential/m243-autocomplete-user-area.patch",
+                    "version-constraint": ">=103.0.3-p1"
                 },
                 {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
