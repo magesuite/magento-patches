@@ -617,7 +617,7 @@
                 {
                     "description": "M2.4.3-p1: add autocomplete to Checkout/Cart inputs - xml config",
                     "filename": "essential/m243-autocomplete-checkout.patch",
-                    "version-constraint": "<=100.4.3-p1"
+                    "version-constraint": ">100.3.3,<=100.4.3-p1"
                 },
                 {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
