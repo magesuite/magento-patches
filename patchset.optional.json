@@ -695,6 +695,11 @@
                 "description": "Patch to allow create shipment for items which are not in stock - Magento 2.3.5",
                 "filename": "optional/msi-allow-create-shipment-for-not-available-products-m235.patch",
                 "version-constraint": ">1.0.6"
+            },
+            {
+                "description": "Patch to allow create shipment for items which are not in stock - Magento 2.4.3",
+                "filename": "optional/msi-allow-create-shipment-for-not-available-products-m243.patch",
+                "version-constraint": "1.2.1-p1"
             }
         ],
         "magento/module-inventory-in-store-pickup-quote": [
