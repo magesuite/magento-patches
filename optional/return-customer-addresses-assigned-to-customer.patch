@@ -1,0 +1,30 @@
+diff --git a/Model/Customer.php b/Model/Customer.php
+index f90b672..f3c44a9 100644
+--- a/Model/Customer.php
++++ b/Model/Customer.php
+@@ -540,18 +540,19 @@ class Customer extends \Magento\Framework\Model\AbstractModel
+      */
+     public function getAddressesCollection()
+     {
+-        if ($this->_addressesCollection === null) {
+-            $this->_addressesCollection = $this->getAddressCollection()->setCustomerFilter(
++        $index = $this->getId() ?? 0;
++        if (!isset($this->_addressesCollection[$index])) {
++            $this->_addressesCollection[$index] = $this->getAddressCollection()->setCustomerFilter(
+                 $this
+             )->addAttributeToSelect(
+                 '*'
+             );
+-            foreach ($this->_addressesCollection as $address) {
++            foreach ($this->_addressesCollection[$index] as $address) {
+                 $address->setCustomer($this);
+             }
+         }
+
+-        return $this->_addressesCollection;
++        return $this->_addressesCollection[$index];
+     }
+
+     /**
+--
+2.30.1 (Apple Git-130)

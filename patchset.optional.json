@@ -501,6 +501,13 @@
             {
               "description": "Disable checking image mime type",
               "filename": "optional/m24-cms-disable-checking-image-mime-type.patch",
+              "version-constraint": ">=103.0.3-p1"
+            }
+        ],
+        "magento/customer": [
+            {
+              "description": "Returning customer addresses collection by customer_id, when magento-company module is istalled",
+              "filename": "optional/return-customer-addresses-assigned-to-customer.patch",
               "version-constraint": ">=104.0.2"
             }
         ],
