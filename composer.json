@@ -1461,7 +1461,7 @@
                 {
                     "description": "Fix for errors related to log table - increase table size, remove filtering by not existing field",
                     "filename": "essential/fix-klarna-logs.patch",
-                    "version-constraint": "^6.0.0"
+                    "version-constraint": "6.2.4"
                 }
             ]
         }
