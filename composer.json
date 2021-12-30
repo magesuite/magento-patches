@@ -1456,6 +1456,13 @@
                     "filename": "essential/xtento-pdfcustomizer-fix-large-pdf-file-size.patch",
                     "version-constraint": ">=2.13.6"
                 }
+            ],
+            "klarna/module-core": [
+                {
+                    "description": "Fix for errors related to log table - increase table size, remove filtering by not existing field",
+                    "filename": "essential/fix-klarna-logs.patch",
+                    "version-constraint": "^6.0.0"
+                }
             ]
         }
     }
