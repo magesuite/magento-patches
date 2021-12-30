@@ -854,6 +854,13 @@
                 "filename": "optional/firebear-disable-newly-created-category.patch",
                 "version-constraint": ">=3.6.0"
             }
+        ],
+        "klarna/module-core": [
+          {
+            "description": "Fix for errors related to log table - increase table size, remove filtering by not existing field",
+            "filename": "essential/fix-klarna-logs.patch",
+            "version-constraint": "^6.0.0"
+          }
         ]
     }
 }
