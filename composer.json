@@ -399,7 +399,7 @@
                 },{
                     "description": "Load draggable and resizable widget only if needed in dialog widget",
                     "filename": "essential/frontend/make-dependencies-optional-for-dialog-widget.patch",
-                    "version-constraint": ">=2.4.2,<2.4.3"
+                    "version-constraint": ">2.4.1,<=2.4.2"
                 }
             ],
             "magento/module-search": [
