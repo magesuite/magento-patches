@@ -1,0 +1,19 @@
+diff --git a/Model/Order.php b/Model/Order.php
+index f10ae1e..689a3df 100644
+--- a/Model/Order.php
++++ b/Model/Order.php
+@@ -703,6 +703,14 @@ class Order extends AbstractModel
+ 
+             $product->setPrice($price)->setFinalPrice($price);
+ 
++            //BEGIN PATCH
++            /**
++             * At this point, quantity and stock status has been checked only for the default stock.
++             * We remove is_salable flag, so Magento will check quantity and stock status also for other stocks (MSI issue)
++             */
++            $product->unsetData('is_salable');
++            // END PATCH
++
+             $this->total += $price;
+             $this->weight += ($product->getWeight() * (int)$item['QUANTITY']);
+             $qty += (int)$item['QUANTITY'];

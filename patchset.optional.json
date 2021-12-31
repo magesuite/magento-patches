@@ -295,6 +295,13 @@
                 "version-constraint": ">=2.6.1"
             }
         ],
+        "magmodules/magento2-digitec-galaxus": [
+            {
+                "description": "Fix adding products to cart, MSI issue (iPet)",
+                "filename": "optional/magmodules-digitecgalaxus-fix-adding-to-cart-msi.patch",
+                "version-constraint": "*"
+            }
+        ],
         "wallee/magento-2": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
