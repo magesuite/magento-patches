@@ -1,0 +1,20 @@
+diff --git a/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php b/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php
+index facd35e..3fd240b 100644
+--- a/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php
++++ b/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php
+@@ -166,7 +166,14 @@ class InventoryRequestFromQuoteFactory
+         }
+ 
+         return $this->inventorySourceSelectionAddressFactory->create([
+-            'country'   => $shippingAddress->getCountryId(),
++            //BEGIN PATCH
++            /**
++             * Amasty creates an address object here.
++             * In some cases, when customer opens first step in the checkout, we don't have address data and getCountryId() returns null.
++             * But all construct parameters needs to be a string in \Magento\InventorySourceSelectionApi\Api\Data\AddressInterface.
++            */
++            'country'   => $shippingAddress->getCountryId() ?? '',
++            // END PATCH
+             'postcode'  => $shippingAddress->getPostcode() ?? '',
+             'street'    => implode("\n", $shippingAddress->getStreet()),
+             'region'    => $shippingAddress->getRegionCode() ?? '',
