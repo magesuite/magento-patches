@@ -1,0 +1,15 @@
+diff --git a/view/frontend/templates/sales/order/items/renderer.phtml b/view/frontend/templates/sales/order/items/renderer.phtml
+index 3507901..dd5bf99 100644
+--- a/view/frontend/templates/sales/order/items/renderer.phtml
++++ b/view/frontend/templates/sales/order/items/renderer.phtml
+@@ -26,7 +26,7 @@ $prevOptionId = '';
+         <?php $attributes = $block->getSelectionAttributes($item) ?>
+         <?php if ($prevOptionId != $attributes['option_id']) : ?>
+             <tr class="options-label">
+-                <td class="col label" colspan="5"><?= $block->escapeHtml($attributes['option_label']); ?></td>
++                <td class="col label" colspan="5"><?= $block->escapeHtml(__($attributes['option_label'])); ?></td>
+             </tr>
+             <?php $prevOptionId = $attributes['option_id'] ?>
+         <?php endif; ?>
+--
+2.30.1 (Apple Git-130)
