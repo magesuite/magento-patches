@@ -227,6 +227,13 @@
                 "version-constraint": "^1.9.2"
             }
         ],
+        "amasty/shippingtablerates": [
+            {
+                "description": "Fix an error during creating shipping address object",
+                "filename": "optional/amasty-shippingtablerates-fix-create-address-object.patch",
+                "version-constraint": ">=1.10.2"
+            }
+        ],
         "amasty/xnotif": [
             {
                 "description": "Fix setting has_stock_status_filter flag without checking for show_out_of_stock config",

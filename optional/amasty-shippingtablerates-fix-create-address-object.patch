@@ -1,0 +1,13 @@
+diff --git a/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php b/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php
+index facd35e..4de6e00 100644
+--- a/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php
++++ b/Model/Quote/Inventory/InventoryRequestFromQuoteFactory.php
+@@ -166,7 +166,7 @@ class InventoryRequestFromQuoteFactory
+         }
+ 
+         return $this->inventorySourceSelectionAddressFactory->create([
+-            'country'   => $shippingAddress->getCountryId(),
++            'country'   => $shippingAddress->getCountryId() ?? '',
+             'postcode'  => $shippingAddress->getPostcode() ?? '',
+             'street'    => implode("\n", $shippingAddress->getStreet()),
+             'region'    => $shippingAddress->getRegionCode() ?? '',
