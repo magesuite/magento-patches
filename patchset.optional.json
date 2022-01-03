@@ -121,6 +121,11 @@
                 "description": "Allow to add multi selections with qty higher than 1",
                 "filename": "optional/m24-bundle-allow-multi-selections-with-qty.patch",
                 "version-constraint": ">=101.0.2"
+            },
+            {
+                "description": "Allow to translate attribute option label in line 29 of Magento_Bundle::frontend/order/items/renderer.phtml template ",
+                "filename": "optional/frontend/m24-catalog-bundle-order-items-render-translation.patch",
+                "version-constraint": ">=101.0.3"
             }
         ],
         "magento/module-customer": [
