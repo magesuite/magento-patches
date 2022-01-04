@@ -77,6 +77,11 @@
                 "description": "Fix bug in flush_preview_quotas cron caused by amazon pay module which has amazon_quote table with ambiguous entity_id column",
                 "filename": "optional/m24-fix-amazaon-pay-conflict-with-flush-preview-quotas-cron.patch",
                 "version-constraint": "^100.4.1"
+            },
+            {
+                "description": "Fixes issue with wrongly converted addresses with extension_attributes",
+                "filename": "optional/fix-extension-attributes-conversion-for-checkout-staging.patch",
+                "version-constraint": "^100.4.2"
             }
         ],
         "magento/framework": [

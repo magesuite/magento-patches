@@ -1,0 +1,38 @@
+diff --git a/Plugin/GuestPaymentInformationManagementPlugin.php b/Plugin/GuestPaymentInformationManagementPlugin.php
+index 2728b16..998295e 100644
+--- a/Plugin/GuestPaymentInformationManagementPlugin.php
++++ b/Plugin/GuestPaymentInformationManagementPlugin.php
+@@ -97,12 +97,14 @@ class GuestPaymentInformationManagementPlugin
+      */
+     private function checkIfShippingAddressMatchesWithBillingAddress(Quote $quote, AddressInterface $billingAddress): bool
+     {
++        $removeKeys = ['region_code', 'save_in_address_book','extension_attributes'];
+         $quoteShippingAddressData = $quote->getShippingAddress()->getData();
+         $billingData = $this->convertAddressValueToFlatArray($billingAddress->getData());
+         $billingKeys = array_flip(array_keys($billingData));
+         $shippingData = array_intersect_key($quoteShippingAddressData, $billingKeys);
+-        $removeKeys = ['region_code', 'save_in_address_book'];
++
+         $billingData = array_diff_key($billingData, array_flip($removeKeys));
++        $shippingData = array_diff_key($shippingData, array_flip($removeKeys))
+         $difference = array_diff($billingData,$shippingData);
+         return empty($difference);
+     }
+diff --git a/Plugin/PaymentInformationManagementPlugin.php b/Plugin/PaymentInformationManagementPlugin.php
+index 7f0de54..31603d3 100644
+--- a/Plugin/PaymentInformationManagementPlugin.php
++++ b/Plugin/PaymentInformationManagementPlugin.php
+@@ -114,10 +114,12 @@ class PaymentInformationManagementPlugin
+             $quoteShippingAddressData = $shippingAddress->getData();
+             $billingAddressData = $billingAddress->getData();
+             if (!empty($quoteShippingAddressData) && !empty($billingAddressData)) {
++                $removeKeys = ['region_code', 'save_in_address_book', 'extension_attributes'];
+                 $billingData = $this->convertAddressValueToFlatArray($billingAddressData);
+                 $billingKeys = array_flip(array_keys($billingData));
+                 $shippingData = array_intersect_key($quoteShippingAddressData, $billingKeys);
+-                $removeKeys = ['region_code', 'save_in_address_book'];
++                $shippingData = array_diff_key($shippingData, array_flip($removeKeys));
++
+                 $billingData = array_diff_key($billingData, array_flip($removeKeys));
+                 $difference = array_diff($billingData, $shippingData);
+                 $sameAsBillingFlag = empty($difference);
