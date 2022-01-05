@@ -498,6 +498,11 @@
                     "description": "Fix hiding of default datetime field in attribute swatches configurations if attribute is of other type",
                     "filename": "essential/adminhtml/elasticsuite-default-value-datetime-visibility.patch",
                     "version-constraint": ">2.8.3"
+                },
+                {
+                    "description": "Fix for scenario with failing tests when servername is not set",
+                    "filename": "essential/es-fix-for-empty-servername.patch",
+                    "version-constraint": ">=2.10.9"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
