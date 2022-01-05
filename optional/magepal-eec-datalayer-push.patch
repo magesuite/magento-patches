@@ -1,0 +1,18 @@
+diff --git a/view/frontend/web/js/datalayer.js b/view/frontend/web/js/datalayer.js
+index c0ee962..185227b 100644
+--- a/view/frontend/web/js/datalayer.js
++++ b/view/frontend/web/js/datalayer.js
+@@ -36,8 +36,11 @@ define([
+                         });
+                     }
+                 }
+-                shareComponent.setProductCollection(data);
+-                shareComponent.getDataLayerObject().push(data);
++
++                window.addEventListener('gtm_loaded', function() {
++                    shareComponent.setProductCollection(data);
++                    shareComponent.getDataLayerObject().push(data);
++                });
+             });
+         }
+ 
