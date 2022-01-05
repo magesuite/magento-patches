@@ -14,7 +14,7 @@ index 2728b16..998295e 100644
 -        $removeKeys = ['region_code', 'save_in_address_book'];
 +
          $billingData = array_diff_key($billingData, array_flip($removeKeys));
-+        $shippingData = array_diff_key($shippingData, array_flip($removeKeys))
++        $shippingData = array_diff_key($shippingData, array_flip($removeKeys));
          $difference = array_diff($billingData,$shippingData);
          return empty($difference);
      }
