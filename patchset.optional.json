@@ -574,9 +574,14 @@
               "version-constraint": "1.6.2"
             },
             {
-              "description": "Disallow loading bundle child products",
-              "filename": "optional/magepal-enhanced-ecommerce-bundle-disallow-loading-child-products.patch",
-              "version-constraint": ">=1.7.1"
+                "description": "Disallow loading bundle child products",
+                "filename": "optional/magepal-enhanced-ecommerce-bundle-disallow-loading-child-products.patch",
+                "version-constraint": ">=1.7.1"
+            },
+            {
+                "description": "Fix gtm dataLayer push order - wrapped push methods with custom event trigger",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-eec-datalayer-push.patch",
+                "version-constraint": ">=1.7.2"
             }
         ],
         "magepal/magento2-googletagmanager": [
@@ -584,6 +589,11 @@
                 "description": "Adds compatibility between Amasty GDPR Cookie extension and Magepal Datalayer",
                 "filename": "optional/frontend/magepal-amasty-gdpr-compatibility.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Introduce custom gtm.js load event",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-eec-gtm-custom-load-event.patch",
+                "version-constraint": ">=2.7.0"
             }
         ],
         "magepal/magento2-google-analytics4": [

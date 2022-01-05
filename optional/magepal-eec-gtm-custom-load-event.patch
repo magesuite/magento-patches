@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/datalayer.js b/view/frontend/web/js/datalayer.js
+index 24bcb24..ebbf88a 100644
+--- a/view/frontend/web/js/datalayer.js
++++ b/view/frontend/web/js/datalayer.js
+@@ -90,6 +90,10 @@ define([
+                 j = d.createElement(s), dl = l != dataLayerName ? '&l=' + l : '';
+             j.async = true;
+             j.src = '//www.googletagmanager.com/gtm.js?id=' + i + dl + containerCode;
++            j.addEventListener('load', function() {
++                var _ge = new CustomEvent('gtm_loaded', { bubbles: true });
++                d.dispatchEvent(_ge);
++            });
+             f.parentNode.insertBefore(j, f);
+         })(window, document, 'script', dataLayerName, accountId);
+ 
