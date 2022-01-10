@@ -1,7 +1,7 @@
-diff --git a/Model/Layer/Filter/DecimalFilterTrait.php b/Model/Layer/Filter/DecimalFilterTrait.php
+diff --git a/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php b/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php
 index 315ec14..542be4a 100644
---- a/Model/Layer/Filter/DecimalFilterTrait.php
-+++ b/Model/Layer/Filter/DecimalFilterTrait.php
+--- a/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php
++++ b/src/module-elasticsuite-catalog/Model/Layer/Filter/DecimalFilterTrait.php
 @@ -51,10 +51,7 @@ trait DecimalFilterTrait
                  list($fromValue, $toValue) = $filter;
                  $this->setCurrentValue(['from' => $fromValue, 'to' => $toValue]);
@@ -14,10 +14,10 @@ index 315ec14..542be4a 100644
  
                  $this->getLayer()->getProductCollection()->addFieldToFilter(
                      $this->getFilterField(),
-diff --git a/view/frontend/web/js/range-slider-widget.js b/view/frontend/web/js/range-slider-widget.js
+diff --git a/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js b/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js
 index e6c91ec..2d7f63b 100644
---- a/view/frontend/web/js/range-slider-widget.js
-+++ b/view/frontend/web/js/range-slider-widget.js
+--- a/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js
++++ b/src/module-elasticsuite-catalog/view/frontend/web/js/range-slider-widget.js
 @@ -188,13 +188,9 @@ define(['jquery', 'Magento_Catalog/js/price-utils', 'mage/template', 'Magento_Ui
  
          _getItemCount : function () {
