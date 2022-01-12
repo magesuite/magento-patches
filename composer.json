@@ -5,7 +5,7 @@
     "license": "OSL-3.0",
     "type": "patchset",
     "require": {
-        "creativestyle/composer-plugin-patchset": "^1.0"
+        "creativestyle/composer-plugin-patchset": "^2.0"
     },
     "extra": {
         "patchset": {
