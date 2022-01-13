@@ -880,6 +880,11 @@
                 "description": "Allow different api-keys for each store",
                 "filename": "optional/sendinblue-allow-stores-settings-support.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Fix unclosed bufor",
+              "filename": "vendor/creativestyle/magento-patches/optional/fix-unclosed-bufor.patch",
+              "version-constraint": "*"
             }
         ],
         "firebear/importexport": [
