@@ -1,0 +1,20 @@
+diff --git a/CustomerData/MultipleWishlist.php b/CustomerData/MultipleWishlist.php
+index e1daad6..d8c6f7b 100644
+--- a/CustomerData/MultipleWishlist.php
++++ b/CustomerData/MultipleWishlist.php
+@@ -40,6 +40,15 @@ class MultipleWishlist implements SectionSourceInterface
+      */
+     public function getSectionData()
+     {
++        // BEGIN PATCH
++        if(!$this->wishlistHelper->isMultipleEnabled()) {
++            return [
++                'can_create' => false,
++                'short_list' => []
++            ];
++        }
++        // END PATCH
++
+         return [
+             'can_create' => $this->canCreateWishlists(),
+             'short_list' => $this->getWishlistShortList(),
