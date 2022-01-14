@@ -1217,6 +1217,11 @@
                     "description": "Fix customer name for Paypal Express orders",
                     "filename": "essential/paypal-express-fix-customer-name.patch",
                     "version-constraint": ">=100.3.4"
+                },
+                {
+                    "description": "Add possibility to define billing address for packstation and paypal",
+                    "filename": "essential/frontend/m24-fix-paypal-billing-address.patch",
+                    "version-constraint": ">=101.0.3"
                 }
             ],
             "seven-senders/shipments-module": [

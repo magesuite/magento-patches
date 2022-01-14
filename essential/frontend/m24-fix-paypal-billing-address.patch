@@ -1,0 +1,38 @@
+Original issue: https://github.com/magento/magento2/issues/31923#issuecomment-771087963
+
+diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
+index 732ebf0..47eb02f 100644
+--- a/view/frontend/layout/checkout_index_index.xml
++++ b/view/frontend/layout/checkout_index_index.xml
+@@ -59,7 +59,10 @@
+                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
+                                                                         </item>
+                                                                         <item name="paypal_express" xsi:type="array">
+-                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">false</item>
++                                                                            <!-- BEGIN PATCH -->
++                                                                            <!-- <item name="isBillingAddressRequired" xsi:type="boolean">false</item> -->
++                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
++                                                                            <!-- END PATCH -->
+                                                                         </item>
+                                                                         <item name="payflow_express_bml" xsi:type="array">
+                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">false</item>
+diff --git a/view/frontend/web/template/payment/paypal-express.html b/view/frontend/web/template/payment/paypal-express.html
+index a88e151..f4ade7f 100644
+--- a/view/frontend/web/template/payment/paypal-express.html
++++ b/view/frontend/web/template/payment/paypal-express.html
+@@ -25,6 +25,15 @@
+         <!-- ko foreach: getRegion('messages') -->
+         <!-- ko template: getTemplate() --><!-- /ko -->
+         <!--/ko-->
++
++        <!-- BEGIN PATCH -->
++        <div class="payment-method-billing-address">
++            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
++            <!-- ko template: getTemplate() --><!-- /ko -->
++            <!--/ko-->
++        </div>
++        <!-- END PATCH -->
++
+         <fieldset class="fieldset" data-bind='attr: {id: "payment_form_" + getCode()}'>
+             <div class="payment-method-note">
+                 <!-- ko i18n: 'You will be redirected to the PayPal website.' --><!-- /ko -->
