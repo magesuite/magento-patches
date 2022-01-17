@@ -599,6 +599,11 @@
                 "description": "Introduce custom gtm.js load event",
                 "filename": "vendor/creativestyle/magento-patches/optional/magepal-eec-gtm-custom-load-event.patch",
                 "version-constraint": ">=2.7.0"
+            },
+            {
+                "description": "Wrap datalayer push method with gtm.js load event",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-google-tag-datalayer-push-fix.patch",
+                "version-constraint": ">=2.7.0"
             }
         ],
         "magepal/magento2-google-analytics4": [
