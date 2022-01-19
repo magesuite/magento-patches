@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/datalayer.js b/view/frontend/web/js/datalayer.js
+index ebbf88a..1cd4ec5 100644
+--- a/view/frontend/web/js/datalayer.js
++++ b/view/frontend/web/js/datalayer.js
+@@ -104,7 +104,9 @@ define([
+     {
+         if (_.isArray(dataLayer)) {
+             _.each(dataLayer, function (data) {
+-                window[dataLayerName].push(data);
++                window.addEventListener('gtm_loaded', function() {
++                    window[dataLayerName].push(data);
++                });
+             });
+         }
+     }
