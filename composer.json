@@ -1335,7 +1335,7 @@
                 },
                 {
                     "description": "Fixes error-processor-mixin - loads quote only when checkoutConfig is available",
-                    "filename": "essential/payone-error-processor-mixin-fix",
+                    "filename": "essential/payone-error-processor-mixin-fix.patch",
                     "version-constraint": ">=3.2.0, <=3.3.0"
                 }
             ],
