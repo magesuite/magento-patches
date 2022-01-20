@@ -5,6 +5,11 @@
                 "description": "Fix invalid object requested in object constructor",
                 "filename": "optional/iways-paypal-plus-payment-plugin.patch",
                 "version-constraint": "<=1.3.2"
+            },
+            {
+              "description": "Remove quote collect totals calculation before request",
+              "filename": "optional/iways-paypal-remove-quote-collect-totals.patch",
+              "version-constraint": ">=1.3.6"
             }
         ],
         "smile/elasticsuite": [

@@ -1,0 +1,26 @@
+diff --git a/Model/Api.php b/Model/Api.php
+index 6e8cf77..278826b 100644
+--- a/Model/Api.php
++++ b/Model/Api.php
+@@ -343,7 +343,9 @@ class Api
+             return false;
+         }
+ 
+-        $quote->setTotalsCollectedFlag(false)->collectTotals()->save();
++        // BEGIN PATCH
++        // $quote->setTotalsCollectedFlag(false)->collectTotals()->save();
++        // END PATCH
+ 
+         $payer = $this->buildPayer($quote);
+ 
+@@ -398,7 +400,9 @@ class Api
+             $payment = PayPalPayment::get($this->customerSession->getPayPalPaymentId(), $this->_apiContext);
+             $patchRequest = new PatchRequest();
+ 
+-            $quote->setTotalsCollectedFlag(false)->collectTotals()->save();
++            // BEGIN PATCH
++            // $quote->setTotalsCollectedFlag(false)->collectTotals()->save();
++            // END PATCH
+ 
+             if (!$quote->isVirtual()) {
+                 $shippingAddress = $this->buildShippingAddress($quote);
