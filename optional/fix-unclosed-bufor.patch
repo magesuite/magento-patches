@@ -1,0 +1,12 @@
+diff --git a/Observer/SibAutomationObserver.php b/Observer/SibAutomationObserver.php
+index 5b05732..825c534 100644
+--- a/Observer/SibAutomationObserver.php
++++ b/Observer/SibAutomationObserver.php
+@@ -21,7 +21,6 @@ class SibAutomationObserver implements ObserverInterface
+ {
+     public function execute(Observer $observer)
+     {
+-        ob_start( );
+         $userEmail = '';
+         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+         $model = $objectManager->create('Sendinblue\Sendinblue\Model\SendinblueSib');
