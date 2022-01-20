@@ -1332,6 +1332,11 @@
                     "description": "Fixing issue with empty payment information in order confirmation email after creation of order substitute by Transactionstatus service",
                     "filename": "essential/payone-fix-missing-payment-information-in-email.patch",
                     "version-constraint": ">=3.2.0"
+                },
+                {
+                    "description": "Fixes error-processor-mixin - loads quote only when checkoutConfig is available",
+                    "filename": "essential/payone-error-processor-mixin-fix",
+                    "version-constraint": ">=3.2.0, <=3.3.0"
                 }
             ],
             "vertex/module-address-validation": [
