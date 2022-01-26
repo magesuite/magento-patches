@@ -119,6 +119,11 @@
                 "description": "Patch to fix product image cache generating wrong hashes",
                 "filename": "optional/m233-fix-product-image-cache-hash-1.patch",
                 "version-constraint": "102.0.3"
+            },
+            {
+                "description": "Disable cookie size error message",
+                "filename": "optional/m24-disable-cookie-size-error-message.patch",
+                "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-bundle": [
