@@ -1,0 +1,19 @@
+diff --git a/Model/Import/AbstractImport.php b/Model/Import/AbstractImport.php
+index a91c928..7884637 100644
+--- a/Model/Import/AbstractImport.php
++++ b/Model/Import/AbstractImport.php
+@@ -166,8 +166,12 @@ abstract class AbstractImport
+      */
+     protected function saveMessagesToLog()
+     {
+-        $writer = new \Zend\Log\Writer\Stream(BP . '/' . $this->getPathToLogFile());
+-        $logger = new \Zend\Log\Logger();
++//        $writer = new \Zend\Log\Writer\Stream(BP . '/' . $this->getPathToLogFile());
++//        $logger = new \Zend\Log\Logger();
++        // BEGIN PATCH
++        $writer = new \Zend_Log_Writer_Stream(BP . '/' . $this->getPathToLogFile());
++        $logger = new \Zend_Log;
++        // END PATCH
+         $logger->addWriter($writer);
+ 
+         $messages = $this->getMessages();

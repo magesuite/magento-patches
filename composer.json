@@ -779,6 +779,11 @@
                     "description": "Fix giftcard duplication after cart merge. HAAR-2106 Gift card activation 2 times",
                     "filename": "essential/aheadworks-module-giftcard-fix-giftcards-duplication.patch",
                     "version-constraint": ">=1.2.9"
+                },
+                {
+                    "description": "Fix non existing logger class",
+                    "filename": "essential/aheadworks/module-giftcard/non-existing-class-fix.patch",
+                    "version-constraint": ">=1.2.9"
                 }
             ],
             "aheadworks/module-product-question": [
