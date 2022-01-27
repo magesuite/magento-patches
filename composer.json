@@ -1490,13 +1490,6 @@
                     "filename": "essential/magento/module-multiple-wishlist/disable-output-of-wishlists-when-module-is-disabled.patch",
                     "version-constraint": "*"
                 }
-            ],
-            "aromicon/module-deepl": [
-                {
-                    "description": "Add gzipped response support",
-                    "filename": "essential/aromicon/module-deepl/handling-zipped-response.patch",
-                    "version-constraint": "*"
-                }
             ]
         }
     }
