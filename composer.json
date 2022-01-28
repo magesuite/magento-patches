@@ -130,6 +130,11 @@
                     "description": "Fix exception while trying to schedule content staging change for category when custom modules do not support content staging",
                     "filename": "essential/prevent-exception-when-content-staging-section-is-not-defined.patch",
                     "version-constraint": ">102.0.3"
+                },
+                {
+                    "description": "Fix fetching IDs from changelog to prevent duplicate reindexing",
+                    "filename": "essential/m243plus-mview-fix-fetching-ids-from-changelog.patch",
+                    "version-constraint": ">=103.0.3"
                 }
             ],
             "magento/module-asynchronous-operations": [

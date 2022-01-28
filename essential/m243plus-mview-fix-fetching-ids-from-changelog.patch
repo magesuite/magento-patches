@@ -1,0 +1,54 @@
+diff --git a/Mview/View.php b/Mview/View.php
+index 420702c..1ce47d2 100644
+--- a/Mview/View.php
++++ b/Mview/View.php
+@@ -296,24 +296,44 @@ class View extends DataObject implements ViewInterface
+      * @return void
+      * @throws \Exception
+      */
++    // BEGIN PATCH
++    //    private function executeAction(ActionInterface $action, int $lastVersionId, int $currentVersionId)
++    //    {
++    //        $batchSize = isset($this->changelogBatchSize[$this->getChangelog()->getViewId()])
++    //            ? (int) $this->changelogBatchSize[$this->getChangelog()->getViewId()]
++    //            : self::DEFAULT_BATCH_SIZE;
++    //
++    //        $vsFrom = $lastVersionId;
++    //        while ($vsFrom < $currentVersionId) {
++    //            $walker = $this->getWalker();
++    //            $ids = $walker->walk($this->getChangelog(), $vsFrom, $currentVersionId, $batchSize);
++    //
++    //            if (empty($ids)) {
++    //                break;
++    //            }
++    //            $vsFrom += $batchSize;
++    //            $action->execute($ids);
++    //        }
++    //    }
++    // Reverted changes to how ids from changelog are fetched to properly handle multiple duplicates
++    // in a changelog table
+     private function executeAction(ActionInterface $action, int $lastVersionId, int $currentVersionId)
+     {
+         $batchSize = isset($this->changelogBatchSize[$this->getChangelog()->getViewId()])
+             ? (int) $this->changelogBatchSize[$this->getChangelog()->getViewId()]
+             : self::DEFAULT_BATCH_SIZE;
+ 
+-        $vsFrom = $lastVersionId;
+-        while ($vsFrom < $currentVersionId) {
+-            $walker = $this->getWalker();
+-            $ids = $walker->walk($this->getChangelog(), $vsFrom, $currentVersionId, $batchSize);
++        $batchedIds = array_chunk($this->getChangelog()->getList($lastVersionId, $currentVersionId), $batchSize);
+ 
++        foreach($batchedIds as $ids) {
+             if (empty($ids)) {
+                 break;
+             }
+-            $vsFrom += $batchSize;
++
+             $action->execute($ids);
+         }
+     }
++    // END PATCH
+ 
+     /**
+      * Create and validate walker class for changelog
