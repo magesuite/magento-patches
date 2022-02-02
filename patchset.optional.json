@@ -334,6 +334,11 @@
                 "description": "Fix adding products to cart, MSI issue (iPet)",
                 "filename": "optional/magmodules-digitecgalaxus-fix-adding-to-cart-msi.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Return first category path (iPet)",
+                "filename": "optional/magmodules-digitecgalaxus-return-first-category-path.patch",
+                "version-constraint": "*"
             }
         ],
         "wallee/magento-2": [

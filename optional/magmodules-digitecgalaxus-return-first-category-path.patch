@@ -1,0 +1,16 @@
+diff --git a/Helper/Source.php b/Helper/Source.php
+index 6a86647..89fd799 100644
+--- a/Helper/Source.php
++++ b/Helper/Source.php
+@@ -1169,6 +1169,11 @@ class Source extends AbstractHelper
+                     $category = $categories[$catId];
+                     $level = $categories[$catId]['level'];
+                     $categoryPath = implode(' > ', $category['path']);
++                    // BEGIN PATCH
++                    //return first category path
++                    break;
++                    // END PATCH
++
+                 }
+             }
+         }
