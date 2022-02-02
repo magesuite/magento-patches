@@ -1174,7 +1174,7 @@
                 {
                     "description": "Fix preventing the stoppage of execution when the initial button container isn't found, allowing the rendering to complete successfully.",
                     "filename": "essential/frontend/amazon-pay-fix-checkout-button-error.patch",
-                    "version-constraint": ">=5.9.1"
+                    "version-constraint": ">=5.9.1,<5.9.10"
                 }
             ],
             "msp/cashondelivery": [
