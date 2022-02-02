@@ -45,7 +45,7 @@ index 743fcd6..339ee8b 100644
 -                    $.each(methodList(), function( key, value ) {
 -                        if (response.responseJSON.parameters.paymentMethodWhitelist.includes(value.method) === false) {
 -                            targetModule.disablePaymentType(value.method);
-+                        if (response.responseJSON.hasOwnProperty('parameters') && response.responseJSON.parameters.hasOwnProperty('paymentMethodWhitelist') && response.responseJSON.parameters.paymentMethodWhitelist.length > 0) {
++                        if (response && response.responseJSON && response.responseJSON.hasOwnProperty('parameters') && response.responseJSON.parameters.hasOwnProperty('paymentMethodWhitelist') && response.responseJSON.parameters.paymentMethodWhitelist.length > 0) {
 +                            $.each(methodList(), function( key, value ) {
 +                                if (response.responseJSON.parameters.paymentMethodWhitelist.includes(value.method) === false) {
 +                                    targetModule.disablePaymentType(value.method);
@@ -53,7 +53,7 @@ index 743fcd6..339ee8b 100644
 +                            });
 +                        }
 +                        if (response.status != 401) {
-+                            if(response.responseJSON.message.indexOf('307 -') !== -1 && quote.paymentMethod().method.indexOf('payone_ratepay') !== -1) {
++                            if(response.responseJSON && response.responseJSON.message.indexOf('307 -') !== -1 && quote.paymentMethod().method.indexOf('payone_ratepay') !== -1) {
 +                                targetModule.disablePaymentType(quote.paymentMethod().method);
 +                            }
                          }
