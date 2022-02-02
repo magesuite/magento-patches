@@ -240,6 +240,13 @@
                 "version-constraint": "^1.0.8"
             }
         ],
+        "amasty/module-faq-product-questions": [
+            {
+                "description": "Add prefix to question url in sitemap (ipet only)",
+                "filename": "optional/amasty/module-faq-product-questions/ipet-fix-question-url-in-sitemap.patch",
+                "version-constraint": ">=2.11.3"
+            }
+        ],
         "amasty/pgrid": [
             {
                 "description": "Fix an error with duplicated insert to amasty_pgrid_qty_sold after product save",

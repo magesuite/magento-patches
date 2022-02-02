@@ -1,0 +1,58 @@
+diff --git a/Plugin/Sitemap/Model/Sitemap.php b/Plugin/Sitemap/Model/Sitemap.php
+index f5bc78e..7669955 100644
+--- a/Plugin/Sitemap/Model/Sitemap.php
++++ b/Plugin/Sitemap/Model/Sitemap.php
+@@ -38,6 +38,9 @@ class Sitemap
+      * @var Url
+      */
+     private $url;
++    // BEGIN PATCH
++    protected $configuration;
++    // END PATCH
+ 
+     /**
+      * @var string
+@@ -59,13 +62,19 @@ class Sitemap
+         CategoryCollectionFactory $categoryCollectionFactory,
+         ConfigProvider $configProvider,
+         StoreManagerInterface $storeManager,
+-        Url $url
++        Url $url,
++        // BEGIN PATCH
++        \Creativestyle\CustomizationIpet\Helper\Configuration $configuration
++        // END PATCH
+     ) {
+         $this->questionCollectionFactory = $questionCollectionFactory;
+         $this->categoryCollectionFactory = $categoryCollectionFactory;
+         $this->configProvider = $configProvider;
+         $this->storeManager = $storeManager;
+         $this->url = $url;
++        // BEGIN PATCH
++        $this->configuration = $configuration;
++        // END PATCH
+     }
+ 
+     /**
+@@ -93,6 +102,12 @@ class Sitemap
+         $frequency = $this->configProvider->getFrequency($storeId);
+         $priority = $this->configProvider->getSitemapPriority($storeId);
+         $this->faqUrlKey = $this->configProvider->getUrlKey($storeId);
++        // BEGIN PATCH
++        if ($questionUrlPrefix = $this->configuration->getFaqQuestionUrlPrefix()) {
++            $this->faqUrlKey .= '/' . $questionUrlPrefix;
++        }
++        // END PATCH
++
+         $questions = $this->getQuestions($storeId);
+ 
+         if (!empty($questions)) {
+@@ -108,6 +123,9 @@ class Sitemap
+             );
+         }
+ 
++        // BEGIN PATCH
++        $this->faqUrlKey = $this->configProvider->getUrlKey($storeId);
++        // END PATCH
+         $categories = $this->getCategories($storeId);
+ 
+         if (!empty($categories)) {
