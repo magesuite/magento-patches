@@ -1,0 +1,13 @@
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index 4d18921..4f4e57d 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -813,7 +813,7 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+                     $this->storageHelper->ftpUpload($this->params['use_sftp'], !$this->params['ftp_active'], $this->params['ftp_host'], $this->params['ftp_login'], $this->params['ftp_password'], $this->params['ftp_dir'], $this->params['ftp_ssl'], $this->getPath(), $finalFile, $this->params['ftp_port']);
+                 }
+             }
+-            $this->progressHelper->stopObservingProgress();
++//            $this->progressHelper->stopObservingProgress();
+             return $this;
+         } catch (\Exception $e) {
+             $this->progressHelper->log($e->getMessage(), !$this->_isPreview, progressHelper::FAILED);
