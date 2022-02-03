@@ -153,6 +153,11 @@
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
                 "filename": "optional/dogma-customer-pet-image-change-destination-module-customer.patch",
                 "version-constraint": ">=102.0.5"
+            },
+            {
+              "description": "Change pattern for customer name validation",
+              "filename": "essential/magento/module-customer/update-pattern-for-customer-name-validation.patch",
+              "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-customer-custom-attributes": [
