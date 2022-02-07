@@ -1,0 +1,42 @@
+Github Issue: https://github.com/magento/magento2/issues/34531
+
+diff --git a/Model/AdminSessionInfo.php b/Model/AdminSessionInfo.php
+index c14d399..696d772 100644
+--- a/Model/AdminSessionInfo.php
++++ b/Model/AdminSessionInfo.php
+@@ -133,10 +133,10 @@ class AdminSessionInfo extends \Magento\Framework\Model\AbstractModel
+         $currentTime = $this->dateTime->gmtTimestamp();
+         $lastUpdatedTime = $this->getUpdatedAt();
+         if (!is_numeric($lastUpdatedTime)) {
+-            $lastUpdatedTime = strtotime($lastUpdatedTime);
++            $lastUpdatedTime = $lastUpdatedTime === null ? 0 : strtotime($lastUpdatedTime);
+         }
+
+-        return $lastUpdatedTime <= ($currentTime - $lifetime) ? true : false;
++        return $lastUpdatedTime <= ($currentTime - $lifetime);
+     }
+
+     /**
+diff --git a/Model/AdminSessionsManager.php b/Model/AdminSessionsManager.php
+index 154760e..40ba338 100644
+--- a/Model/AdminSessionsManager.php
++++ b/Model/AdminSessionsManager.php
+@@ -335,12 +335,16 @@ class AdminSessionsManager
+      */
+     private function lastProlongIsOldEnough()
+     {
+-        $lastProlongTimestamp = strtotime($this->getCurrentSession()->getUpdatedAt());
++        $lastUpdatedTime = $this->getCurrentSession()->getUpdatedAt();
++        if ($lastUpdatedTime === null || is_numeric($lastUpdatedTime)) {
++            $lastUpdatedTime = "now";
++        }
++        $lastProlongTimestamp = strtotime($lastUpdatedTime);
+         $nowTimestamp = $this->authSession->getUpdatedAt();
+
+         $diff = $nowTimestamp - $lastProlongTimestamp;
+
+-        return (float) $diff > $this->getIntervalBetweenConsecutiveProlongs();
++        return (float)$diff > $this->getIntervalBetweenConsecutiveProlongs();
+     }
+
+     /**

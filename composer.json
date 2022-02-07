@@ -1500,6 +1500,13 @@
                     "filename": "essential/magento/module-multiple-wishlist/disable-output-of-wishlists-when-module-is-disabled.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "magento/module-security": [
+                {
+                    "description": "Fix fatal error while logging into the admin panel",
+                    "filename": "essential/magento/module-security/fix-issue-for-admin-strtotime.patch",
+                    "version-constraint": ">=100.4.3"
+                }
             ]
         }
     }
