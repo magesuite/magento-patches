@@ -447,12 +447,12 @@
                 {
                     "description": "Adjust filter range",
                     "filename": "essential/m23-smile-adjust-filter-range.patch",
-                    "version-constraint": ">=2.6.0,<2.8.16 || >2.8.16,<2.10.9"
+                    "version-constraint": ">=2.6.0,<2.8.16 || >2.8.16,<2.9.10,<2.10.9"
                 },
                 {
                     "description": "Adjust filter range for 2.8.18 tag",
                     "filename": "essential/m23-smile-adjust-filter-range-2-8-16.patch",
-                    "version-constraint": "2.8.16"
+                    "version-constraint": "2.8.16,2.9.10"
                 },
                 {
                     "description": "Fix to not reindex whole category if manual sort of products has not change",
