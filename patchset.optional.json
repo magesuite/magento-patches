@@ -3,101 +3,101 @@
         "iways/module-pay-pal-plus" : [
             {
                 "description": "Fix invalid object requested in object constructor",
-                "filename": "optional/iways-paypal-plus-payment-plugin.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/iways-paypal-plus-payment-plugin.patch",
                 "version-constraint": "<=1.3.2"
             },
             {
               "description": "Remove quote collect totals calculation before request",
-              "filename": "optional/iways-paypal-remove-quote-collect-totals.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/iways-paypal-remove-quote-collect-totals.patch",
               "version-constraint": ">=1.3.6"
             }
         ],
         "smile/elasticsuite": [
             {
                 "description": "Fix adminSortIndex bug",
-                "filename": "optional/m21-elasticsuite-admin-sort-index-fix.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m21-elasticsuite-admin-sort-index-fix.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Patches queries mapping issue when used together with AheadWorks Customer Groups",
-                "filename": "optional/change-queries-mapping-field-id.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/change-queries-mapping-field-id.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Remove dependency to whole jquery-ui",
-                "filename": "optional/frontend/remove-whole-jquery-ui-dependency.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/frontend/remove-whole-jquery-ui-dependency.patch",
                 "version-constraint": "<=2.10.3"
             }
         ],
         "smile/module-elasticsuite-shared-catalog": [
             {
                 "description": "Fix sharedCatalog magento method that changed name",
-                "filename": "optional/m24-fix-elasticsuite-shared-catalog-collection-plugin.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m24-fix-elasticsuite-shared-catalog-collection-plugin.patch",
                 "version-constraint": "2.10.1"
             }
         ],
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
-                "filename": "optional/m22-fix-for-limited-roles-in-admin-panel.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-for-limited-roles-in-admin-panel.patch",
                 "version-constraint": "101.0.*"
             },
             {
                 "description": "Use jquery slideUp instead of jquery-ui blind effect. Patch cannot be essential because theme-cs > 11.2.0 is needed",
-                "filename": "optional/frontend/remove-jquery-ui-blind-effect.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/frontend/remove-jquery-ui-blind-effect.patch",
                 "version-constraint": "*"
             }
         ],
         "magento/module-eav": [
             {
                 "description": "Fix attribute code length from default 30 to 60 - fixed in magento 2.3",
-                "filename": "optional/m22-fix-maximum-length-of-attribute-code.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-maximum-length-of-attribute-code.patch",
                 "version-constraint": "101.0.*"
             },
             {
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
-                "filename": "optional/dogma-customer-pet-image-change-destination-module-eav.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/dogma-customer-pet-image-change-destination-module-eav.patch",
                 "version-constraint": ">=103.0.0"
             }
         ],
         "magento/module-checkout": [
             {
                 "description": "Generate session ID only if connection is unsecure - fixed in magento 2.2.5",
-                "filename": "optional/m22-fix-checkout-session-regenerate.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-checkout-session-regenerate.patch",
                 "version-constraint": "100.2.*"
             },
             {
                 "description": "Fix for underscore in carrier code (LED-1814)",
-                "filename": "optional/m22-fix-carrier-underscore-issue.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-carrier-underscore-issue.patch",
                 "version-constraint": "100.2.*"
             },
             {
                 "description": "Fix redirect to home after removing a product from cart (HAAR-1812)",
-                "filename": "optional/m22-fix-home-redirect-after-remove-from-cart.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-home-redirect-after-remove-from-cart.patch",
                 "version-constraint": ">=100.2.2"
             }
         ],
         "magento/module-checkout-staging": [
             {
                 "description": "Fix bug in flush_preview_quotas cron caused by amazon pay module which has amazon_quote table with ambiguous entity_id column",
-                "filename": "optional/m24-fix-amazaon-pay-conflict-with-flush-preview-quotas-cron.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m24-fix-amazaon-pay-conflict-with-flush-preview-quotas-cron.patch",
                 "version-constraint": "^100.4.1"
             },
             {
                 "description": "Fixes issue with wrongly converted addresses with extension_attributes",
-                "filename": "optional/fix-extension-attributes-conversion-for-checkout-staging.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/fix-extension-attributes-conversion-for-checkout-staging.patch",
                 "version-constraint": "^100.4.2"
             }
         ],
         "magento/framework": [
             {
                 "description": "Fix rounding issue in locale de_CH",
-                "filename": "optional/m22-fix-de_CH-rounding-issue.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-de_CH-rounding-issue.patch",
                 "version-constraint": "^101.0.7"
             },
             {
                 "description": "Fix missing page layout (HAAR-1308)",
-                "filename": "optional/m22-fix-missing-page-layout.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-missing-page-layout.patch",
                 "version-constraint": "101.0.*"
             },
             {
@@ -112,63 +112,63 @@
             },
             {
                 "description": "Patch to allow add huge xml elements without throwing error",
-                "filename": "optional/m233-fix-for-huge-xml-elements.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m233-fix-for-huge-xml-elements.patch",
                 "version-constraint": "<=102.0.4"
             },
             {
                 "description": "Patch to fix product image cache generating wrong hashes",
-                "filename": "optional/m233-fix-product-image-cache-hash-1.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m233-fix-product-image-cache-hash-1.patch",
                 "version-constraint": "102.0.3"
             },
             {
                 "description": "Disable cookie size error message",
-                "filename": "optional/m24-disable-cookie-size-error-message.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m24-disable-cookie-size-error-message.patch",
                 "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-bundle": [
             {
                 "description": "Disable checking stock during price indexing for bundle products with dynamic price (KRG-1841)",
-                "filename": "optional/m242-disable-checking-stock-during-price-indexing.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m242-disable-checking-stock-during-price-indexing.patch",
                 "version-constraint": ">=101.0.2"
             },
             {
                 "description": "Allow to add multi selections with qty higher than 1",
-                "filename": "optional/m24-bundle-allow-multi-selections-with-qty.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m24-bundle-allow-multi-selections-with-qty.patch",
                 "version-constraint": ">=101.0.2"
             },
             {
                 "description": "Allow to translate attribute option label in line 29 of Magento_Bundle::frontend/order/items/renderer.phtml template ",
-                "filename": "optional/frontend/m24-catalog-bundle-order-items-render-translation.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/frontend/m24-catalog-bundle-order-items-render-translation.patch",
                 "version-constraint": ">=101.0.3"
             }
         ],
         "magento/module-customer": [
             {
                 "description": "Fix order of top navigation items so they can be sorted using sortOrder directive in XML update",
-                "filename": "optional/m22-fix-order-of-top-navigation-links.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-order-of-top-navigation-links.patch",
                 "version-constraint": "101.0.*"
             },
             {
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
-                "filename": "optional/dogma-customer-pet-image-change-destination-module-customer.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/dogma-customer-pet-image-change-destination-module-customer.patch",
                 "version-constraint": ">=102.0.5"
             },
             {
               "description": "Change pattern for customer name validation",
-              "filename": "essential/magento/module-customer/update-pattern-for-customer-name-validation.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/update-pattern-for-customer-name-validation.patch",
               "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-customer-custom-attributes": [
             {
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
-                "filename": "optional/dogma-customer-pet-image-change-destination-module-customer-custom-attributes.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/dogma-customer-pet-image-change-destination-module-customer-custom-attributes.patch",
                 "version-constraint": ">=100.4.2"
             },
             {
                 "description": "Patch for skipping address_type when converting address to quote",
-                "filename": "optional/gnp-fix-for-address-type-override.patchh",
+                "filename": "vendor/creativestyle/magento-patches/optional/gnp-fix-for-address-type-override.patchh",
                 "version-constraint": "*"
             }
 
@@ -176,119 +176,119 @@
         "magento/module-quote": [
             {
                 "description": "Add company field to rate request in quote module",
-                "filename": "optional/m22-add-company-to-rate-request.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-add-company-to-rate-request.patch",
                 "version-constraint": "101.0.*"
             }
         ],
         "magento/module-sales": [
             {
                 "description": "Fix invalid invoice qty when bundle products are present in the order",
-                "filename": "optional/m23-fix-invalid-invoice-qty-for-bundles.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-fix-invalid-invoice-qty-for-bundles.patch",
                 "version-constraint": "102.0.2"
             },
             {
                 "description": "Save address in address book opt-in while creating order from admin panel",
-                "filename": "optional/save-address-admin-opt-in.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/save-address-admin-opt-in.patch",
                 "version-constraint": "^102.0.2"
             }
         ],
         "magento/module-shipping": [
             {
                 "description": "Ticked checkbox `Email Copy of Shipment` while creating shpiment manually",
-                "filename": "optional/shipment-email-checkbox-ticked-by-default.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/shipment-email-checkbox-ticked-by-default.patch",
                 "version-constraint": "*"
             }
         ],
         "amasty/module-xcoupon": [
             {
                 "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",
-                "filename": "optional/m22-amasty-fix-adding-coupon-twice-in-cart.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-amasty-fix-adding-coupon-twice-in-cart.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Fixes issue with not applying coupon correctly after visiting empty cart (HAAR-2127)",
-                "filename": "optional/amasty-xcoupon-fix-for-empty-cart.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-xcoupon-fix-for-empty-cart.patch",
                 "version-constraint": "^1.1.0"
             }
         ],
         "amasty/promo": [
             {
                 "description": "Fix from temporary version released for haarshop",
-                "filename": "optional/m22-amasty-promo-fix-popup-js.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-amasty-promo-fix-popup-js.patch",
                 "version-constraint": "2.2.*"
             },
             {
                 "description": "Temporary fix for Amasty/Promo ^2.6.0 regarding slicker issue",
-                "filename": "optional/amasty-promo-popup-slicker-fix.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-promo-popup-slicker-fix.patch",
                 "version-constraint": "^2.6.0"
             },
             {
                 "description": "Remove Amasty_BannersLite from dependency (patch from Amasty)",
-                "filename": "optional/amasty-promo-remove-banners-lite.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-promo-remove-banners-lite.patch",
                 "version-constraint": "^2.6.0"
             },
             {
                 "description": "Fix redirect to home after adding amasty free gift (HAAR-1837)",
-                "filename": "optional/m22-fix-home-redirect-after-adding-amasty-gift.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-home-redirect-after-adding-amasty-gift.patch",
                 "version-constraint": "^2.7.0"
             },
             {
                 "description": "Fix endless loop when quote is being saved on client login (HAAR-2003)",
-                "filename": "optional/amasty-fix-loop-on-quote-save.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-fix-loop-on-quote-save.patch",
                 "version-constraint": "^2.8.0"
             }
         ],
         "amasty/module-banners-lite": [
             {
                 "description": "Remove cleaning product cache in Amasty_BannersLite",
-                "filename": "optional/amasty-banners-lite-remove-clean-product-cache.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-banners-lite-remove-clean-product-cache.patch",
                 "version-constraint": "^1.0.8"
             }
         ],
         "amasty/module-faq-product-questions": [
             {
                 "description": "Add prefix to question url in sitemap (ipet only)",
-                "filename": "optional/amasty/module-faq-product-questions/ipet-fix-question-url-in-sitemap.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-faq-product-questions/ipet-fix-question-url-in-sitemap.patch",
                 "version-constraint": ">=2.11.3"
             }
         ],
         "amasty/pgrid": [
             {
                 "description": "Fix an error with duplicated insert to amasty_pgrid_qty_sold after product save",
-                "filename": "optional/amasty-pgrid-fix-error-with-duplicated-insert.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-pgrid-fix-error-with-duplicated-insert.patch",
                 "version-constraint": "^1.9.2"
             }
         ],
         "amasty/shippingtablerates": [
             {
                 "description": "Fix an error during creating shipping address object",
-                "filename": "optional/amasty-shippingtablerates-fix-create-address-object.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-shippingtablerates-fix-create-address-object.patch",
                 "version-constraint": ">=1.10.2"
             }
         ],
         "amasty/xnotif": [
             {
                 "description": "Fix setting has_stock_status_filter flag without checking for show_out_of_stock config",
-                "filename": "optional/amasty-xnotif-disable-stock-filter-if-outofstock-products-not-visible.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-xnotif-disable-stock-filter-if-outofstock-products-not-visible.patch",
                 "version-constraint": "^1.11.12"
             }
         ],
         "magento/module-payment": [
             {
                 "description": "Fix groups issue in getPaymentMethodList method - fixed in magento 2.2.6",
-                "filename": "optional/m22-fix-getPaymentMethodList-method.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-getPaymentMethodList-method.patch",
                 "version-constraint": "100.2.*"
             }
         ],
         "amzn/amazon-pay-module": [
             {
                 "description": "Fix wrong type of amazon_order_reference_id",
-                "filename": "optional/m22-fix-amazon-pay-extension-attribute.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-fix-amazon-pay-extension-attribute.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Fix missing extension attribute amazonOrderReferenceId",
-                "filename": "optional/fix-amazon-pay-missing-extension-attribute.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/fix-amazon-pay-missing-extension-attribute.patch",
                 "version-constraint": "<3.6.0"
             }
         ],
@@ -302,317 +302,317 @@
         "magento/module-paypal": [
             {
                 "description": "Fix for duplicate Order Confirmation Emails for PayPal Express checkout order (<=2.2.5)",
-                "filename": "optional/m225minus-fix-paypal-duplicated-confirmation",
+                "filename": "vendor/creativestyle/magento-patches/optional/m225minus-fix-paypal-duplicated-confirmation",
                 "version-constraint": "~100.2.0,<=100.2.5"
             }
         ],
 	      "magento/module-newsletter": [
             {
                 "description": "Prevents multiple emails sending when accessing confirmation url.",
-                "filename": "optional/prevent-multiple-success-emails-sending.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/prevent-multiple-success-emails-sending.patch",
                 "version-constraint": "*"
             }
         ],
         "mageworx/seo-suite-ultimate": [
             {
                 "description": "Fix area code is already set error (LED-1901)",
-                "filename": "optional/m22-mageworx-fix-xmlsitemap-area-code-error.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-mageworx-fix-xmlsitemap-area-code-error.patch",
                 "version-constraint": "*"
             }
         ],
         "mageworx/module-xmlsitemap": [
             {
                 "description": "Fix fatal error during sitemap generation process (LEDS)",
-                "filename": "optional/mageworx-xmlsitemap-fix-generation.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/mageworx-xmlsitemap-fix-generation.patch",
                 "version-constraint": ">=3.3.0,<3.3.2"
             }
         ],
         "mageworx/module-seomarkup": [
             {
                 "description": "Fix product reviews on category page (LEDS)",
-                "filename": "optional/mageworx-seomarkup-fix-product-review.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/mageworx-seomarkup-fix-product-review.patch",
                 "version-constraint": ">=2.6.1"
             }
         ],
         "magmodules/magento2-digitec-galaxus": [
             {
                 "description": "Fix adding products to cart, MSI issue (iPet)",
-                "filename": "optional/magmodules-digitecgalaxus-fix-adding-to-cart-msi.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magmodules-digitecgalaxus-fix-adding-to-cart-msi.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Return first category path (iPet)",
-                "filename": "optional/magmodules-digitecgalaxus-return-first-category-path.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magmodules-digitecgalaxus-return-first-category-path.patch",
                 "version-constraint": "*"
             }
         ],
         "wallee/magento-2": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
-                "filename": "optional/m22-wallee-payment.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-wallee-payment.patch",
                 "version-optional": "1.0.36"
             },
             {
               "description": "Fix long loading of payment methods in checkout, add cache for possiblePaymentMethodCache",
-              "filename": "optional/wallee-magento-2-fix-long-loading-payment-methods.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/wallee-magento-2-fix-long-loading-payment-methods.patch",
               "version-constraint": ">=1.1.3"
             },
             {
                 "description": "Add custom field to wallee payment methods",
-                "filename": "optional/ipet-wallee-methods-custom-fields.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/ipet-wallee-methods-custom-fields.patch",
                 "version-constraint": ">=1.1.3"
             }
         ],
         "aheadworks/module-giftcard": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",
-                "filename": "optional/m22-wallee-aw-giftcard.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-wallee-aw-giftcard.patch",
                 "version-constraint": "1.2.3"
             },
             {
                 "description": "Fix for issue with notification about invalid giftcards. (prepared by aheadworks)",
-                "filename": "optional/aheadworks-fix-invalid-giftcard-notification.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks-fix-invalid-giftcard-notification.patch",
                 "version-constraint": "^1.2.9"
             }
         ],
 	      "aheadworks/module-customer-group-catalog-permissions" : [
             {
                 "description": "Add support for elasticsuite",
-                "filename": "optional/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
                 "version-constraint": "*"
             }
         ],
         "emartech/emarsys-magento2-extension": [
             {
                 "description": "Patch to fix constructor which was causing di:compile method failure",
-                "filename": "optional/m23-emarsys-fixed-inherited-constructor.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-emarsys-fixed-inherited-constructor.patch",
                 "version-constraint": "1.3.0"
             }
         ],
         "aheadworks/module-blog": [
             {
                 "description": "Fix problem with index on HAAR",
-                "filename": "optional/m22-aheadworks-module-blog-fix-indexer-haar.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m22-aheadworks-module-blog-fix-indexer-haar.patch",
                 "version-constraint": "^2.4.0"
             }
         ],
         "amasty/base": [
             {
                 "description": "Passes concrete DriverInterface implementation to DenyListPathValidator",
-                "filename": "optional/amasty-base-pass-filedriver-to-denylistpathvalidator.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty-base-pass-filedriver-to-denylistpathvalidator.patch",
                 "version-constraint": "*"
             }
         ],
         "amasty/product-attachment": [
             {
                 "description": "Fix for duplicated block (amfile.attachment ID already exists)",
-                "filename": "optional/m23-amasty-product-attachment-fix-duplicated-block.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-amasty-product-attachment-fix-duplicated-block.patch",
                 "version-constraint": "^2.2.0"
             }
         ],
         "magento/module-catalog-import-export": [
             {
                 "description": "Fix products import issue with categories paths default store.",
-                "filename": "optional/m222-catalog-import-export-fix-import-categories-store.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m222-catalog-import-export-fix-import-categories-store.patch",
                 "version-constraint": "100.2.2"
             }
         ],
         "magento/module-configurable-product": [
             {
                 "description": "Disables displaying of simple products attached to configurable in admin panel.",
-                "filename": "optional/m242-remove-simples-attached-to-configurable-calculation-in-admin-product-edit-page.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m242-remove-simples-attached-to-configurable-calculation-in-admin-product-edit-page.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Lensplaza - Allow displaying of simple products attached to glasses configurable in admin panel.",
-                "filename": "optional/LP-allow-glasses-simples-attached-to-configurable-calculation-in-admin-edit-page.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/LP-allow-glasses-simples-attached-to-configurable-calculation-in-admin-edit-page.patch",
                 "version-constraint": "*"
             }
         ],
         "magento/module-configurable-import-export": [
             {
                 "description": "Fix configurable products relation to simples with qty = 0 during import.",
-                "filename": "optional/m23-attach-simples-with-qty0-to-configurable-during-import.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-attach-simples-with-qty0-to-configurable-during-import.patch",
                 "version-constraint": ">=100.3.2"
             }
         ],
         "magento/module-catalog": [
             {
                 "description": "Fix for NKD bulk api store view scope products update",
-                "filename": "optional/m23commerce-nkd-patch-for-api-product-update.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23commerce-nkd-patch-for-api-product-update.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Patch to fix product image cache generating wrong hashes",
-                "filename": "optional/m233-fix-product-image-cache-hash-2.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m233-fix-product-image-cache-hash-2.patch",
                 "version-constraint": "103.0.3"
             },
             {
                 "description": "Keep regular price in the tier prices listing",
-                "filename": "optional/m23-keep-regular-price-in-tier-listing.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-keep-regular-price-in-tier-listing.patch",
                 "version-constraint": ">=103.0.3"
             },
             {
                 "description": "For Leds project. Force to delete all module gallery files of product during importing images for products via API POST request.",
-                "filename": "optional/module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch",
                 "version-constraint": "104.0.1,104.0.1-p1"
             },
             {
                 "description": "Fix different price in Cart vs on the PDP in case of discount price",
-                "filename": "optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m24-fix-different-price-in-cart-vs-on-pdp.patch",
                 "version-constraint": ">=104.0.1"
             },
             {
                 "description": "Feat: replace input field type by textarea in attribute options configuration",
-                "filename": "optional/adminhtml/magento-catalog-textarea-attribute-option-field.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/adminhtml/magento-catalog-textarea-attribute-option-field.patch",
                 "version-constraint": ">=103.0.3"
             },
             {
                 "description": "Feat: ability to sort items by attribute position in compare window",
-                "filename": "optional/frontend/m24-catalog-attribute-sorted-by-position-in-comparison.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/frontend/m24-catalog-attribute-sorted-by-position-in-comparison.patch",
                 "version-constraint": ">=104.0.1"
             }
         ],
         "magento/magento2-base": [
             {
                 "description": "Remove date validation as it is very rarely used and load whole moment library",
-                "filename": "optional/frontend/remove-date-validation.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/frontend/remove-date-validation.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "TinyMCE4 Allow to use elements inside html tag",
-                "filename": "optional/m24-tinymce4-allow-to-use-elements-inside-html-tag.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m24-tinymce4-allow-to-use-elements-inside-html-tag.patch",
                 "version-constraint": ">=2.4.3"
             }
         ],
         "magento/module-sales-rule": [
             {
                 "description": "Restore apply discount for shipping amount when discount is for whole cart",
-                "filename": "optional/m23-restore-shipping-amount-discount-for-whole-cart.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-restore-shipping-amount-discount-for-whole-cart.patch",
                 "version-constraint": ">=101.1.2"
             }
         ],
         "mageplaza/module-currency-formatter": [
             {
                 "description": "Prevents triggering JS logic when extension is disabled",
-                "filename": "optional/mageplaza-currency-formatter-js-fix.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/mageplaza-currency-formatter-js-fix.patch",
                 "version-constraint": "^1.0"
             }
         ],
         "patworx/santander-magento-2": [
             {
                 "description": "Update santander_hire.js to santander-magento-2 v.1.2.1",
-                "filename": "optional/patworx_santander_hire_version_update.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/patworx_santander_hire_version_update.patch",
                 "version-constraint": "1.2.0"
             }
         ],
         "payone-gmbh/magento-2": [
             {
                 "description": "Fix for mismatch of order total amount and sum of the items amount (due to differences in tax handling)",
-                "filename": "optional/payone-invoice-items-tax.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/payone-invoice-items-tax.patch",
                 "version-constraint": "^2.5.0"
             },
             {
                 "description": "Fix for mismatch of order total amount and sum of the items amount (for Payone 3.2+)",
-                "filename": "optional/payone32-invoice-items-tax.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/payone32-invoice-items-tax.patch",
                 "version-constraint": "^3.2.0"
             },
             {
                 "description": "Fix Payone refund tax issues",
-                "filename": "optional/payone-refund-tax.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/payone-refund-tax.patch",
                 "version-constraint": "^2.5.0"
             },
 	          {
                 "description": "Fix Payone issue when missing translation for order emails sent via admin panel",
-                "filename": "optional/external-payone-email-translation-patch.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-payone-email-translation-patch.patch",
                 "version-constraint": "^2.5.0"
             },
             {
                 "description": "Fix issue with undefined index during remove banned payment methods.",
-                "filename": "optional/payone-fix-undefined-index.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/payone-fix-undefined-index.patch",
                 "version-constraint": "^3.0.0"
             },
             {
                 "description": "Fix payone payone statuses processing. If invoice has been set to order, request is reject.",
-                "filename": "optional/ payone-fix-status-notification-processing.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/ payone-fix-status-notification-processing.patch",
                 "version-constraint": "^3.2.0"
             }
         ],
         "magento/module-cms": [
             {
                 "description": "Fixed page preview error by returning empty string instead of null",
-                "filename": "optional/m23-null-to-empty-string.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-null-to-empty-string.patch",
                 "version-constraint": "103.0.*"
             },
             {
                 "description": "Fixing .thumbs directory structure in pub/media/",
-                "filename": "optional/m23-fix-thumbs-directories-structure.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-fix-thumbs-directories-structure.patch",
                 "version-constraint": "103.0.*"
             },
             {
               "description": "Fix endless loading media gallery",
-              "filename": "optional/adminhtml/fix-cms-loading-media-gallery.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/adminhtml/fix-cms-loading-media-gallery.patch",
               "version-constraint": ">=104.0.2 < 104.0.3"
             },
             {
               "description": "Disable checking image mime type",
-              "filename": "optional/m24-cms-disable-checking-image-mime-type.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/m24-cms-disable-checking-image-mime-type.patch",
               "version-constraint": ">=103.0.3-p1"
             }
         ],
         "magento/customer": [
             {
               "description": "Returning customer addresses collection by customer_id, when magento-company module is istalled",
-              "filename": "optional/return-customer-addresses-assigned-to-customer.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/return-customer-addresses-assigned-to-customer.patch",
               "version-constraint": ">=104.0.2"
             }
         ],
         "dynamic-yield/integration": [
             {
                 "description": "Fixed CLI command causing build to fail",
-                "filename": "optional/m23-dynamic-yield-command-test-failing-fix.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-dynamic-yield-command-test-failing-fix.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Fixed crontab file with fixed schedule",
-                "filename": "optional/m23-dynamicyield-fix-crontab-file.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-dynamicyield-fix-crontab-file.patch",
                 "version-constraint": "*"
             }
         ],
         "magepal/magento2-enhanced-ecommerce": [
             {
                 "description": "Disables price calculations on category page",
-                "filename": "optional/magepal-eec-disables-expensive-price-calculations.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-eec-disables-expensive-price-calculations.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Increases index of Checkout steps by 1",
-                "filename": "optional/magepal-lp-increase-checkout-step-index-by-1.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-lp-increase-checkout-step-index-by-1.patch",
                 "version-constraint": "^1.2.0"
             },
             {
                 "description": "Include grouped product addtocart url",
-                "filename": "optional/magepal-lp-include-grouped-product-addtocart-url.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-lp-include-grouped-product-addtocart-url.patch",
                 "version-constraint": "^1.2.0"
             },
             {
                 "description": "Fix product id variable in product click event (from p_id to ID) for Magepal version <1.6.1",
-                "filename": "optional/magepal-lp-fix-product-id-variable-in-product-click.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-lp-fix-product-id-variable-in-product-click.patch",
                 "version-constraint": ">=1.2.0,<1.6.1"
             },
             {
               "description": "Fix product id variable in setting up product collection (from p_id to ID) for Magepal version 1.6.1",
-              "filename": "optional/magepal-161-lp-fix-product-id-variable-in-product-collection-set.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/magepal-161-lp-fix-product-id-variable-in-product-collection-set.patch",
               "version-constraint": "1.6.1"
             },
             {
               "description": "Fix product id variable in setting up product collection (from p_id to ID) for Magepal version 1.6.2",
-              "filename": "optional/magepal-162-lp-fix-product-id-variable-in-product-collection-set.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/magepal-162-lp-fix-product-id-variable-in-product-collection-set.patch",
               "version-constraint": "1.6.2"
             },
             {
                 "description": "Disallow loading bundle child products",
-                "filename": "optional/magepal-enhanced-ecommerce-bundle-disallow-loading-child-products.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-enhanced-ecommerce-bundle-disallow-loading-child-products.patch",
                 "version-constraint": ">=1.7.1"
             },
             {
@@ -624,7 +624,7 @@
         "magepal/magento2-googletagmanager": [
             {
                 "description": "Adds compatibility between Amasty GDPR Cookie extension and Magepal Datalayer",
-                "filename": "optional/frontend/magepal-amasty-gdpr-compatibility.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/frontend/magepal-amasty-gdpr-compatibility.patch",
                 "version-constraint": "*"
             },
             {
@@ -641,286 +641,286 @@
         "magepal/magento2-google-analytics4": [
             {
                 "description": "Disallow loading bundle child products",
-                "filename": "optional/magepal-google-analytics4-bundle-disallow-loading-child-products.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal-google-analytics4-bundle-disallow-loading-child-products.patch",
                 "version-constraint": ">=1.7.1"
             }
         ],
         "magento/module-gift-card-account": [
             {
                 "description": "Allows storepickup to be used with 0.00 orders (Giftacrd+Magento EE)",
-                "filename": "optional/m23-ee-allow-store-pickup-as-free-payment-method.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-ee-allow-store-pickup-as-free-payment-method.patch",
                 "version-constraint": "*"
             }
         ],
         "wagento/zendesk": [
             {
                 "description": "Fix redirect url encoding for auth methods",
-                "filename": "optional/zendesk-fix-auth-url-encoding.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/zendesk-fix-auth-url-encoding.patch",
                 "version-constraint": "^220.0"
             }
         ],
         "msp/cashondelivery": [
             {
                 "description": "Fix infinite loop when product from cart has been disabled before removed from quote",
-                "filename": "optional/cash_on_delivery_infinite_loop_fix.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/cash_on_delivery_infinite_loop_fix.patch",
                 "version_constraint": "^1.2"
             }
         ],
         "seven-senders/shipments-module": [
             {
                 "description": "Fix wrong shipment data when tracking id is added",
-                "filename": "optional/seven-senders-sendwise-wrong-shipment-data-issue.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/seven-senders-sendwise-wrong-shipment-data-issue.patch",
                 "version_constraint": "*"
             }
         ],
         "Postnl/Ecs": [
             {
                 "description": "Fix wrong shipment name in exported order",
-                "filename": "optional/postnl-ecs-shipping-name.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/postnl-ecs-shipping-name.patch",
                 "version_constraint": "*"
             },
             {
                 "description": "Fix wrong depth/height code",
-                "filename": "optional/external-postnl-change-depth-code.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-postnl-change-depth-code.patch",
                 "version_constraint": "*"
             },
             {
                 "description": "Limits order processing to 1 per file",
-                "filename": "optional/external-limit-order-export-to-one-per-file.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-limit-order-export-to-one-per-file.patch",
                 "version_constraint": "*"
             },
             {
                 "description": "Changed limit for product export descriptions fields",
-                "filename": "optional/external-changed-limit-of-product-export-description-fields.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-changed-limit-of-product-export-description-fields.patch",
                 "version_constraint": "*"
             },
             {
                 "description": "Changed limit for order export street fields",
-                "filename": "optional/external-postnl-order-street-fields-limit.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-postnl-order-street-fields-limit.patch",
                 "version_constraint": "*"
             },
             {
                 "description": "Removed not needed order complete before shipment creation process",
-                "filename": "optional/external-postnl-remove-complete-order-before-shipment-process.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-postnl-remove-complete-order-before-shipment-process.patch",
                 "version_constraint": "*"
             },
             {
                 "description": "Change product export ean field",
-                "filename": "optional/external-postnl-change-ean-export-field.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-postnl-change-ean-export-field.patch",
                 "version_constraint": "*"
             },
             {
                 "description": "Fix cleanup method when called with max length argument",
-                "filename": "optional/external-postnl-fix-cleanup-methods-to-substr-cleaned-string-instead-of-original.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-postnl-fix-cleanup-methods-to-substr-cleaned-string-instead-of-original.patch",
                 "version_constraint": "*"
             }
         ],
         "magento/module-url-rewrite": [
             {
                 "description": "Fix for not working layered navigation when there is trailing slash in url",
-                "filename": "optional/m233-url-rewrite-trailing-slash-fix.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m233-url-rewrite-trailing-slash-fix.patch",
                 "version-constraint": "101.1.3"
             }
         ],
         "wyomind/datafeedmanager" : [
             {
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI.",
-                "filename": "optional/add-msi-support-for-wyomind-datafeed-product-filtering-qty.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/add-msi-support-for-wyomind-datafeed-product-filtering-qty.patch",
                 "version-constraint": "^11.13.12"
             },
             {
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI. Ported to SCAF from KRG for newer version of DFM.",
-                "filename": "optional/scaf-add-msi-support-for-wyomind-datafeed-product-filtering-qty.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/scaf-add-msi-support-for-wyomind-datafeed-product-filtering-qty.patch",
                 "version-constraint": "^11.14.1"
             },
             {
                 "description": "Fix for Wyomind Data Feed Manager to enable parsing of custom functions.",
-                "filename": "optional/wyomind-datafeedmanager-fix-custom-functions-execute.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/wyomind-datafeedmanager-fix-custom-functions-execute.patch",
                 "version-constraint": "11.15.1"
             },
             {
                 "description": "Fix for feed configuration revert issue by cron process",
-                "filename": "optional/wyomind_datafeedmanager_allow_php.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/wyomind_datafeedmanager_allow_php.patch",
                 "version-constraint": ">=11.20.0"
             },
             {
               "description": "Fix for Wyomind Data Feed Manager filtering by qty on MSI",
-              "filename": "optional/wyomind-datafeedmanager-support-for-msi.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind-datafeedmanager-support-for-msi.patch",
               "version-constraint": ">=11.20.0"
             },
             {
               "description": "Patch for Wyomind Data Feed Manager to fix integration tests in Magento",
-              "filename": "optional/wyomind-datafeedmanager-integration-tests-fix.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind-datafeedmanager-integration-tests-fix.patch",
               "version-constraint": ">=11.20.0"
             }
         ],
         "magento/module-media-storage": [
             {
                 "description": "Patch to fix product image cache generating wrong hashes",
-                "filename": "optional/m233-fix-product-image-cache-hash-3.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m233-fix-product-image-cache-hash-3.patch",
                 "version-constraint": "100.3.3"
             }
         ],
         "magento/module-wishlist": [
             {
                 "description": "Patch to unlimit the wishlist items in the sidebard and teaser",
-                "filename": "optional/wishlist-teaser-unlimited.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/wishlist-teaser-unlimited.patch",
                 "version-constraint": "^101.1.3"
             }
         ],
         "magento/module-inventory-source-deduction-api": [
             {
                 "description": "Patch to allow create shipment for items which are not in stock",
-                "filename": "optional/msi-allow-create-shipment-for-not-available-products.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/msi-allow-create-shipment-for-not-available-products.patch",
                 "version-constraint": "1.0.6"
             },
             {
                 "description": "Patch to allow create shipment for items which are not in stock - Magento 2.3.5",
-                "filename": "optional/msi-allow-create-shipment-for-not-available-products-m235.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/msi-allow-create-shipment-for-not-available-products-m235.patch",
                 "version-constraint": ">1.0.6"
             },
             {
                 "description": "Patch to allow create shipment for items which are not in stock - Magento 2.4.3",
-                "filename": "optional/msi-allow-create-shipment-for-not-available-products-m243.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/msi-allow-create-shipment-for-not-available-products-m243.patch",
                 "version-constraint": "1.2.1-p1"
             }
         ],
         "magento/module-inventory-in-store-pickup-quote": [
             {
                 "description": "Fix wrong extension attribute join on field column",
-                "filename": "optional/m242-fix-inventory-in-store-pickup-quote-extension-attribute-field.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m242-fix-inventory-in-store-pickup-quote-extension-attribute-field.patch",
                 "version-constraint": ">=1.1.0"
             }
         ],
         "best4mage/cptp": [
             {
                 "description": "Patch to remove check for action when tier prices are applied in cart summary",
-                "filename": "optional/external-best4mage-remove-action-check.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-best4mage-remove-action-check.patch",
                 "version-constraint": "*"
             }
         ],
         "aheadworks/module-reviewreminder": [
             {
                 "description": "Disable adding old orders to custom table during install of the module",
-                "filename": "optional/aheadworks-review-reminder-disabling-adding-old-orders-during-install.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks-review-reminder-disabling-adding-old-orders-during-install.patch",
                 "version-constraint": "^1.0.4"
             }
         ],
         "tig/persistent-shopping-cart-magento2": [
             {
                 "description": "Adding a dedicated admin field for persistant guest cart cookie lifetime",
-                "filename": "optional/tig-persistent-shopping-cart-guest-cookie-lifetime.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/tig-persistent-shopping-cart-guest-cookie-lifetime.patch",
                 "version-constraint": "^1.0.4"
             }
         ],
         "magento/swatches": [
             {
                   "description": "Restores functionality to change image on swatch click when SSS are installed",
-                  "filename": "optional/m232-add-swatches-attribute-data.patch",
+                  "filename": "vendor/creativestyle/magento-patches/optional/m232-add-swatches-attribute-data.patch",
                   "version-constraint": "*"
               }
         ],
         "edrone/magento2module": [
             {
                 "description": "Fix newsletter controller CSRF validation",
-                "filename": "optional/m23-fix-edrone-controller-newsletter-csrf.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-fix-edrone-controller-newsletter-csrf.patch",
                 "version-constraint": "*"
             }
         ],
         "klarna/module-kp": [
             {
                 "description": "Fix klarna.js syntax to support ie11",
-                "filename": "optional/klarna-fix-ie11.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/klarna-fix-ie11.patch",
                 "version-constraint": "6.5.1"
             }
         ],
         "dotmailer/dotmailer-magento2-extension": [
             {
                 "description": "Update return type in CouponAttributeInterface for a coupon expiration date getter",
-                "filename": "optional/dotmailer440-fix-return-type-in-coupon-attribute-interface.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/dotmailer440-fix-return-type-in-coupon-attribute-interface.patch",
                 "version-constraint": "4.4.0"
             }
         ],
         "magento/module-persistent": [
             {
                 "description": "Fix issue with redirecting to login page after paypal express click by guest with persistent cart enabled",
-                "filename": "optional/m23-persistent-fix-paypal-express-redirect-to-login.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m23-persistent-fix-paypal-express-redirect-to-login.patch",
                 "version-constraint": ">=100.3.1,<100.3.6"
             }
         ],
         "customweb/lib-titolo": [
             {
                 "description": "Patch to add password autorization in refund request",
-                "filename": "optional/external-customweb-datatranscw-password-authorization-refund-request.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-customweb-datatranscw-password-authorization-refund-request.patch",
                 "version-constraint": "*"
             }
         ],
         "customweb/module-datatranscw": [
             {
                 "description": "Patch to cache XML files instead of parsing",
-                "filename": "optional/external-customweb-datatranscw-cache-xml.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-customweb-datatranscw-cache-xml.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Clear quote on success page",
-                "filename": "optional/external-customweb-datatranscw-clear-quote-on-success-page.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-customweb-datatranscw-clear-quote-on-success-page.patch",
                 "version-constraint": "*"
             },
             {
                 "description": "Disable cancel payment observer",
-                "filename": "optional/external-customweb-datatranscw-disable-cancel-payment-observer.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/external-customweb-datatranscw-disable-cancel-payment-observer.patch",
                 "version-constraint": "*"
             }
         ],
         "magento/module-cms-url-rewrite": [
             {
                 "description": "Fix for not being able to create store view if cms pages exist with same url key for different storeviews",
-                "filename": "optional/fix-creating-store-view-with-cms-pages-with-same-url-key.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/fix-creating-store-view-with-cms-pages-with-same-url-key.patch",
                 "version-constraint": "100.3.4"
             }
         ],
         "xtento/pdfcustomizer": [
             {
                 "description": "Fix for empty shipping cost in invoice PDF, show formatted 0.00$",
-                "filename": "optional/xtento-pdfcutomizer-fix-shipping-to-formatted-output.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/xtento-pdfcutomizer-fix-shipping-to-formatted-output.patch",
                 "version-constraint": ">=2.13.3"
             },
             {
                 "description": "Compatibility patch for xtento pdfcustomizer to work with Magento 2.3.4",
-                "filename": "optional/xtento-pdfcustomizer-compatibility-m243.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/xtento-pdfcustomizer-compatibility-m243.patch",
                 "version-constraint": "<=2.13.6"
           }
         ],
         "magento/module-store": [
             {
                 "description": "Fixing issue with possibility to open store view from different website than assigned to store view",
-                "filename": "optional/m24-fix-opening-store-view-between-website.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/m24-fix-opening-store-view-between-website.patch",
                 "version-constraint": ">=101.1.2,<101.1.3"
             },
             {
               "description": "Fixing issue with possibility to open store view from different website than assigned to store view",
-              "filename": "optional/m243-fix-opening-store-view-between-website.patch",
+              "filename": "vendor/creativestyle/magento-patches/optional/m243-fix-opening-store-view-between-website.patch",
               "version-constraint": ">=101.1.3"
             }
         ],
         "magento/module-elasticsearch": [
             {
                 "description": "Disables ES reindexing after product-category assignment",
-                "filename": "optional/disable-catalogsearch-fulltext-product-assignment-plugin.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/disable-catalogsearch-fulltext-product-assignment-plugin.patch",
                 "version-constraint": ">=101.0.0"
             }
         ],
         "meetanshi/module-payshiprestriction": [
             {
                 "description": "Fix payment visibility for website view",
-                "filename": "optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/meetanshi-payshiprestriction-fix-payment-visibility.patch",
                 "version-constraint": ">=1.0.6"
             }
         ],
         "sendinblue/module-sendinblue": [
             {
                 "description": "Allow different api-keys for each store",
-                "filename": "optional/sendinblue-allow-stores-settings-support.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/sendinblue-allow-stores-settings-support.patch",
                 "version-constraint": "*"
             },
             {
@@ -932,7 +932,7 @@
         "firebear/importexport": [
             {
                 "description": "Firebear disable newly created category (IPET-443)",
-                "filename": "optional/firebear-disable-newly-created-category.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear-disable-newly-created-category.patch",
                 "version-constraint": ">=3.6.0"
             }
         ],
