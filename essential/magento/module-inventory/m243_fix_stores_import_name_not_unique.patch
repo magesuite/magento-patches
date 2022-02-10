@@ -1,0 +1,28 @@
+This patch makes column name in table inventory_source not unique
+Needed while stores import (in NKD)
+
+diff --git a/Model/ResourceModel/Source.php b/Model/ResourceModel/Source.php
+index 6c28d54..5810208 100644
+--- a/Model/ResourceModel/Source.php
++++ b/Model/ResourceModel/Source.php
+@@ -63,12 +63,14 @@ class Source extends AbstractDb
+     protected function _construct()
+     {
+         $this->_init(self::TABLE_NAME_SOURCE, SourceInterface::SOURCE_CODE);
+-        $this->addUniqueField(
+-            [
+-                'field' => SourceInterface::NAME,
+-                'title' => 'Name'
+-            ]
+-        );
++        // BEGIN PATCH
++//        $this->addUniqueField(
++//            [
++//                'field' => SourceInterface::NAME,
++//                'title' => 'Name'
++//            ]
++//        );
++        // END PATCH
+     }
+
+     /**

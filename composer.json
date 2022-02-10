@@ -1507,6 +1507,13 @@
                     "filename": "essential/magento/module-security/fix-issue-for-admin-strtotime.patch",
                     "version-constraint": ">=100.4.3"
                 }
+            ],
+            "magento/module-inventory": [
+                {
+                    "description": "Makes inventory_source name not unique",
+                    "filename": "essential/magento/module-inventory/m243_fix_stores_import_name_not_unique.patch",
+                    "version-constraint": ">1.2.1"
+                }
             ]
         }
     }
