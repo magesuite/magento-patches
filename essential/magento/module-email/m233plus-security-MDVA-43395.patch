@@ -1,0 +1,19 @@
+diff --git a/Model/Template/Filter.php b/Model/Template/Filter.php
+index 1a7c368..62f37d9 100644
+--- a/Model/Template/Filter.php
++++ b/Model/Template/Filter.php
+@@ -618,6 +618,14 @@ class Filter extends Template
+         }
+ 
+         $text = __($text, $params)->render();
++
++        // BEGIN PATCH
++        $pattern = '/{{.*?}}/';
++        do {
++            $text = preg_replace($pattern, '', (string)$text);
++        } while (preg_match($pattern, $text));
++        // END PATCH
++
+         return $this->applyModifiers($text, $modifiers);
+     }
+ 

@@ -135,6 +135,11 @@
                     "description": "Fix fetching IDs from changelog to prevent duplicate reindexing",
                     "filename": "essential/m243plus-mview-fix-fetching-ids-from-changelog.patch",
                     "version-constraint": ">=103.0.3"
+                },
+                {
+                    "description": "Security patch MDVA-43395",
+                    "filename": "essential/magento/framework/m233plus-security-MDVA-43395.patch",
+                    "version-constraint": ">102.0.3"
                 }
             ],
             "magento/module-asynchronous-operations": [
@@ -419,6 +424,13 @@
                     "description": "Disable products elasticsearch reindex after category change",
                     "filename": "essential/m24-disable-products-es-reindex-after-category-change.patch",
                     "version-constraint": ">=101.0.0"
+                }
+            ],
+            "magento/module-email": [
+                {
+                    "description": "Security patch MDVA-43395",
+                    "filename": "essential/magento/module-email/m233plus-security-MDVA-43395.patch",
+                    "version-constraint": ">101.0.3"
                 }
             ],
             "magento/module-config": [
