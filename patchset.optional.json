@@ -870,6 +870,11 @@
                 "description": "Disable cancel payment observer",
                 "filename": "vendor/creativestyle/magento-patches/optional/external-customweb-datatranscw-disable-cancel-payment-observer.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Fix external checkout observer",
+              "filename": "vendor/creativestyle/magento-patches/optional/external-customweb-add-beans-to-beans-provider.patch",
+              "version-constraint": ">=3.0.415"
             }
         ],
         "magento/module-cms-url-rewrite": [
