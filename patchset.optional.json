@@ -263,7 +263,7 @@
             {
                 "description": "Fix an error during creating shipping address object",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty-shippingtablerates-fix-create-address-object.patch",
-                "version-constraint": ">=1.10.2"
+                "version-constraint": "1.10.2"
             }
         ],
         "amasty/xnotif": [
