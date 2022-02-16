@@ -1,7 +1,7 @@
 diff --git a/Model/DependencyContainer.php b/Model/DependencyContainer.php
 --- a/Model/DependencyContainer.php
 +++ b/Model/DependencyContainer.php
-@@ -167,6 +167,8 @@
+@@ -167,6 +167,10 @@
  		$provider->addObject($this->_captureAdapter);
  		$provider->addObject($this->_refundAdapter);
  		$provider->addObject($this->_externalCheckoutService);
@@ -15,21 +15,21 @@ diff --git a/Model/DependencyContainer.php b/Model/DependencyContainer.php
 diff --git a/Model/ExternalCheckout/Widget/Collection.php b/Model/ExternalCheckout/Widget/Collection.php
 --- a/Model/ExternalCheckout/Widget/Collection.php
 +++ b/Model/ExternalCheckout/Widget/Collection.php
-@@ -77,9 +77,9 @@
+@@ -77,9 +77,15 @@
  						$context->save();
  					}
 
 -					$providerService = $this->_container->getBean('Customweb_Payment_ExternalCheckout_IProviderService');
-+					// $providerService = $this->_container->getBean('Customweb_Payment_ExternalCheckout_IProviderService');
-+					// BEGIN PATCH
++                    // $providerService = $this->_container->getBean('Customweb_Payment_ExternalCheckout_IProviderService');
++                    // BEGIN PATCH
 +					$providerService = $this->_container->getBean('Customweb_Datatrans_ExternalCheckout_CheckoutProviderService');
-+					// END PATCH
++                    // END PATCH
  					if (!($providerService instanceof \Customweb_Payment_ExternalCheckout_IProviderService)) {
 -						throw new \Customweb_Core_Exception_CastException('Customweb_Payment_ExternalCheckout_IProviderService');
-+					// throw new \Customweb_Core_Exception_CastException('Customweb_Payment_ExternalCheckout_IProviderService');
-+					// BEGIN PATCH
++					    // throw new \Customweb_Core_Exception_CastException('Customweb_Payment_ExternalCheckout_IProviderService');
++                        // BEGIN PATCH
 +						throw new \Customweb_Core_Exception_CastException('Customweb_Datatrans_ExternalCheckout_CheckoutProviderService');
-+					// END PATCH
++                        // END PATCH
  					}
 
  					$context->updateFromQuote($quote);
