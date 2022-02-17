@@ -1,0 +1,21 @@
+diff --git a/Model/Client/Orders.php b/Model/Client/Orders.php
+index f623dda..3933c2b 100644
+--- a/Model/Client/Orders.php
++++ b/Model/Client/Orders.php
+@@ -306,6 +306,16 @@ class Orders extends AbstractModel
+             $orderData['expiresAt'] = $this->expires->atDateForMethod($method, $storeId);
+         }
+
++        // BEGIN PATCH
++        $orderDataObject =  new \Magento\Framework\DataObject($orderData);
++        $eventData = [
++                'order' => $order,
++                'order_data' => $orderDataObject
++                ];
++        $this->eventManager->dispatch('mollie_before_build_transaction_orders_api', $eventData);
++        $orderData = $orderDataObject->toArray();
++        // END PATCH
++
+         $orderData = $this->buildTransaction->execute($order, static::CHECKOUT_TYPE, $orderData);
+
+         $this->mollieHelper->addTolog('request', $orderData);
