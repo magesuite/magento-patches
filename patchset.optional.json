@@ -947,6 +947,13 @@
             "filename": "essential/fix-klarna-logs.patch",
             "version-constraint": ">=6.2.0"
           }
+        ],
+        "mollie/magento2": [
+          {
+            "description": "Fix error when add to cart - added additional buyRequest check for splitted lenses in quote",
+            "filename": "optional/mollie/magento2/lensplaza-fix-add-to-cart-action.patch",
+            "version-constraint": "*"
+          }
         ]
     }
 }
