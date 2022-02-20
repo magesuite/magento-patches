@@ -623,6 +623,11 @@
                     "description": "Remove deletion of products in partial indexing, Magento >= 2.4.3",
                     "filename": "essential/m243plus-remove-deletion-of-products-in-partial-indexing.patch",
                     "version-constraint": ">=102.0.3"
+                },
+                {
+                    "description": "Disable reindex of elasticsearch inside category_products indexer",
+                    "filename": "essential/magento/module-catalog-search/disable-elasticsearch-reindex-in-category-product-indexer.patch",
+                    "version-constraint": ">=101.0.5"
                 }
             ],
             "magento/module-checkout": [
