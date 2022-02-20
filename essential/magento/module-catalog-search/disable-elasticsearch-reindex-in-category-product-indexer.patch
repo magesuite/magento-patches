@@ -1,0 +1,25 @@
+diff --git a/Model/Indexer/Fulltext/Plugin/Product/Category/Action/Rows.php b/Model/Indexer/Fulltext/Plugin/Product/Category/Action/Rows.php
+index 2b1844d..d8f1d0f 100644
+--- a/Model/Indexer/Fulltext/Plugin/Product/Category/Action/Rows.php
++++ b/Model/Indexer/Fulltext/Plugin/Product/Category/Action/Rows.php
+@@ -41,12 +41,14 @@ class Rows
+      */
+     public function afterExecute(ActionRows $subject, ActionRows $result, array $entityIds): ActionRows
+     {
+-        if (!empty($entityIds)) {
+-            $indexer = $this->indexerRegistry->get(FulltextIndexer::INDEXER_ID);
+-            if ($indexer->isScheduled()) {
+-                $indexer->reindexList($entityIds);
+-            }
+-        }
++        // BEGIN PATCH
++        //if (!empty($entityIds)) {
++        //    $indexer = $this->indexerRegistry->get(FulltextIndexer::INDEXER_ID);
++        //    if ($indexer->isScheduled()) {
++        //        $indexer->reindexList($entityIds);
++        //    }
++        //}
++        // END PATCH
+         return $result;
+     }
+ }
