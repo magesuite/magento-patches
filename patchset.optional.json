@@ -346,6 +346,13 @@
                 "version-constraint": "*"
             }
         ],
+        "magmodules/magento2-channable": [
+            {
+                "description": "Fix compatibility with integration tests for magesuite-gdpr",
+                "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-channable/channable-magesuite-gdpr-tests-fix.patch",
+                "version-constraint": "*"
+            }
+        ],
         "wallee/magento-2": [
             {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36)",

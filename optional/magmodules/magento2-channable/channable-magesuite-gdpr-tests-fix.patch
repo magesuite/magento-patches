@@ -1,0 +1,15 @@
+diff --git a/Block/Adminhtml/Order/Totals.php b/Block/Adminhtml/Order/Totals.php
+index ee90cc5..87faf10 100755
+--- a/Block/Adminhtml/Order/Totals.php
++++ b/Block/Adminhtml/Order/Totals.php
+@@ -51,6 +51,10 @@ class Totals extends MagentoTotals
+     public function initTotals()
+     {
+         $quoteId = $this->getOrder()->getQuoteId();
++        if (!$quoteId) {
++            return $this;
++        }
++
+         $quote = $this->quote->get($quoteId);
+         $parent = $this->getParentBlock();
+         $this->_order = $parent->getOrder();
