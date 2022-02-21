@@ -1,0 +1,147 @@
+diff --git a/Filter/DirectiveProcessor/DependDirective.php b/Filter/DirectiveProcessor/DependDirective.php
+index f557f74..83345ac 100644
+--- a/Filter/DirectiveProcessor/DependDirective.php
++++ b/Filter/DirectiveProcessor/DependDirective.php
+@@ -32,9 +32,13 @@ class DependDirective implements DirectiveProcessorInterface
+     }
+ 
+     /**
+-     * @inheritdoc
++     * @param array $construction
++     * @param Template $filter
++     * @param array $templateVariables
++     *
++     * @return string
+      */
+-    public function process(array $construction, Template $filter, array $templateVariables): string
++    private function resolve(array $construction, Template $filter, array $templateVariables): string
+     {
+         if (empty($templateVariables)) {
+             // If template processing
+@@ -48,6 +52,16 @@ class DependDirective implements DirectiveProcessorInterface
+         }
+     }
+ 
++    /**
++     * @inheritdoc
++     */
++    public function process(array $construction, Template $filter, array $templateVariables): string
++    {
++        $result = $this->resolve($construction, $filter, $templateVariables);
++
++        return str_replace(['{', '}'], '', (string) $result);
++    }
++
+     /**
+      * @inheritdoc
+      */
+diff --git a/Filter/DirectiveProcessor/ForDirective.php b/Filter/DirectiveProcessor/ForDirective.php
+index 2b51185..41cd581 100644
+--- a/Filter/DirectiveProcessor/ForDirective.php
++++ b/Filter/DirectiveProcessor/ForDirective.php
+@@ -36,14 +36,13 @@ class ForDirective implements DirectiveProcessorInterface
+     }
+ 
+     /**
+-     * Filter the string as template.
+-     *
+      * @param array $construction
+      * @param Template $filter
+      * @param array $templateVariables
++     *
+      * @return string
+      */
+-    public function process(array $construction, Template $filter, array $templateVariables): string
++    private function resolve(array $construction, Template $filter, array $templateVariables): string
+     {
+         if (!$this->isValidLoop($construction)) {
+             return $construction[0];
+@@ -67,6 +66,16 @@ class ForDirective implements DirectiveProcessorInterface
+         return $construction[0];
+     }
+ 
++    /**
++     * @inheritdoc
++     */
++    public function process(array $construction, Template $filter, array $templateVariables): string
++    {
++        $result = $this->resolve($construction, $filter, $templateVariables);
++
++        return str_replace(['{', '}'], '', (string) $result);
++    }
++
+     /**
+      * Check if the matched construction is valid.
+      *
+diff --git a/Filter/DirectiveProcessor/IfDirective.php b/Filter/DirectiveProcessor/IfDirective.php
+index 7fedc79..469dae7 100644
+--- a/Filter/DirectiveProcessor/IfDirective.php
++++ b/Filter/DirectiveProcessor/IfDirective.php
+@@ -32,9 +32,13 @@ class IfDirective implements DirectiveProcessorInterface
+     }
+ 
+     /**
+-     * @inheritdoc
++     * @param array $construction
++     * @param Template $filter
++     * @param array $templateVariables
++     *
++     * @return string
+      */
+-    public function process(array $construction, Template $filter, array $templateVariables): string
++    private function resolve(array $construction, Template $filter, array $templateVariables): string
+     {
+         if (empty($templateVariables)) {
+             return $construction[0];
+@@ -50,6 +54,16 @@ class IfDirective implements DirectiveProcessorInterface
+         }
+     }
+ 
++    /**
++     * @inheritdoc
++     */
++    public function process(array $construction, Template $filter, array $templateVariables): string
++    {
++        $result = $this->resolve($construction, $filter, $templateVariables);
++
++        return str_replace(['{', '}'], '', (string) $result);
++    }
++
+     /**
+      * @inheritdoc
+      */
+diff --git a/Filter/DirectiveProcessor/SimpleDirective.php b/Filter/DirectiveProcessor/SimpleDirective.php
+index 9f4b30d..b9280ae 100644
+--- a/Filter/DirectiveProcessor/SimpleDirective.php
++++ b/Filter/DirectiveProcessor/SimpleDirective.php
+@@ -68,7 +68,7 @@ class SimpleDirective implements DirectiveProcessorInterface
+                 ->get($construction['directiveName']);
+         } catch (\InvalidArgumentException $e) {
+             // This directive doesn't have a SimpleProcessor
+-            return $construction[0];
++            return '';
+         }
+ 
+         $parameters = $this->extractParameters($construction, $filter, $templateVariables);
+@@ -79,6 +79,8 @@ class SimpleDirective implements DirectiveProcessorInterface
+             !empty($construction['content']) ? $filter->filter($construction['content']) : null
+         );
+ 
++        $value = str_replace(['{', '}'], '', (string) $value);
++
+         $value = $this->filterApplier->applyFromRawParam(
+             $construction['filters'] ?? '',
+             $value,
+diff --git a/Filter/DirectiveProcessor/VarDirective.php b/Filter/DirectiveProcessor/VarDirective.php
+index f2fe398..a7d6790 100644
+--- a/Filter/DirectiveProcessor/VarDirective.php
++++ b/Filter/DirectiveProcessor/VarDirective.php
+@@ -55,6 +55,8 @@ class VarDirective implements DirectiveProcessorInterface
+             $result = $this->filterApplier->applyFromRawParam($construction['filters'], $result);
+         }
+ 
++        $result = str_replace(['{', '}'], '', (string) $result);
++
+         return $result;
+     }
+ 
