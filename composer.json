@@ -525,6 +525,11 @@
                     "description": "Fix for scenario with failing tests when servername is not set",
                     "filename": "essential/es-fix-for-empty-servername.patch",
                     "version-constraint": ">=2.9.10 || <=2.10.5 || >=2.10.9"
+                },
+                {
+                    "description": "Fix for scenario with failing tests when servername is not set for magento 2.3.7",
+                    "filename": "essential/es-fix-for-empty-servername-for-m237.patch",
+                    "version-constraint": "2.9.10.1"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
