@@ -1,0 +1,41 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index 388d0b0..1606e16 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -258,7 +258,7 @@ class Storage extends \Magento\Framework\DataObject
+      *
+      * @return void
+      */
+-    private function initStorage(): void
++    public function initStorage(): void
+     {
+         $imageFolders = $this->coreConfig->getValue(
+             self::MEDIA_GALLERY_IMAGE_FOLDERS_CONFIG_PATH,
+@@ -433,18 +433,6 @@ class Storage extends \Magento\Framework\DataObject
+                     $thumbUrl = $this->_backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
+                 }
+
+-                try {
+-                    $size = getimagesizefromstring(
+-                        $driver->fileGetContents($item->getFilename())
+-                    );
+-
+-                    if (is_array($size)) {
+-                        $item->setWidth($size[0]);
+-                        $item->setHeight($size[1]);
+-                    }
+-                } catch (\Error $e) {
+-                    $this->logger->notice(sprintf("GetImageSize caused error: %s", $e->getMessage()));
+-                }
+             } else {
+                 $thumbUrl = $this->_assetRepo->getUrl(self::THUMB_PLACEHOLDER_PATH_SUFFIX);
+             }
+@@ -827,7 +815,7 @@ class Storage extends \Magento\Framework\DataObject
+      */
+     public function getThumbnailRoot()
+     {
+-        return rtrim($this->_cmsWysiwygImages->getStorageRoot(), '/') . '/' . self::THUMBS_DIRECTORY_NAME;
++        return rtrim($this->_cmsWysiwygImages->getStorageRoot(), '/') . '/' . self::THUMBS_DIRECTORY_NAME . '/';
+     }
+
+     /**
