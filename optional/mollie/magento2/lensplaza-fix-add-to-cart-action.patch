@@ -1,0 +1,36 @@
+diff --git a/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php b/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php
+index 143bcfa..ae31841 100644
+--- a/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php
++++ b/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php
+@@ -32,6 +32,13 @@ class MakeRecurringProductsUniqueInCart
+     public function afterRepresentProduct(CartItemInterface $item, bool $result): bool
+     {
+         $buyRequest = $item->getOptionByCode('info_buyRequest');
++
++        // BEGIN PATCH
++        if (empty($buyRequest)) {
++            return $result;
++        }
++        // END PATCH
++
+         if ((
+                 strstr($buyRequest->getValue(), 'is_recurring') !== false &&
+                 $this->jsonContainsRecurringValue($buyRequest->getValue())
+diff --git a/Service/Quote/CartContainsRecurringProduct.php b/Service/Quote/CartContainsRecurringProduct.php
+index eb7cc7e..807784c 100644
+--- a/Service/Quote/CartContainsRecurringProduct.php
++++ b/Service/Quote/CartContainsRecurringProduct.php
+@@ -27,6 +27,13 @@ class CartContainsRecurringProduct
+         $items = $cart->getItemsCollection()->getItems();
+         foreach ($items as $item) {
+             $buyRequest = $item->getOptionByCode('info_buyRequest');
++
++            // BEGIN PATCH
++            if (empty($buyRequest)) {
++                continue;
++            }
++            // END PATCH
++
+             if (strstr($buyRequest->getValue(), 'is_recurring') !== false &&
+                 $this->jsonContainsRecurringValue($buyRequest->getValue())) {
+                 return true;
