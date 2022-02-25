@@ -1536,6 +1536,13 @@
                     "version-constraint": ">=6.2.0"
                 }
             ],
+            "mollie/magento2": [
+                {
+                    "description": "Add a dispatch event mollie_before_build_transaction_orders_api to handle additional fee from bulk goods",
+                    "filename": "essential/mollie/magento2/mollie-klarna-event-to-add-bulk-goods",
+                    "version-constraint": ">=2.6.0"
+                }
+            ],
             "magento/module-multiple-wishlist": [
                 {
                     "description": "Disable output of wishlists in customer sections when module is disabled",
