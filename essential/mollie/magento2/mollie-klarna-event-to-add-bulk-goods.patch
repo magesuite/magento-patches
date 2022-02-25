@@ -6,7 +6,7 @@ index f623dda..3933c2b 100644
              $orderData['expiresAt'] = $this->expires->atDateForMethod($method, $storeId);
          }
 
-+        // BEGIN PATCH
++        // BEGIN PATCH - add event dispatch to have option to manipulate mollie order data in 3rd party code
 +        $orderDataObject =  new \Magento\Framework\DataObject($orderData);
 +        $eventData = [
 +                'order' => $order,
