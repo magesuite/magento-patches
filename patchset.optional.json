@@ -199,6 +199,13 @@
                 "version-constraint": "*"
             }
         ],
+        "mirasvit/module-rewards": [
+            {
+                "description": "Use subtotal incl tax in proportion calculation for refund points logic (IPET-825)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/subtotal-incl-tax-in-refund-proportion-calculation.patch",
+                "version-constraint": "*"
+            }
+        ],
         "amasty/module-xcoupon": [
             {
                 "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",
