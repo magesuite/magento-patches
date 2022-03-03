@@ -1,0 +1,16 @@
+diff --git a/src/Rewards/Model/Total/Creditmemo/Discount.php b/src/Rewards/Model/Total/Creditmemo/Discount.php
+index 4afa950..d921813 100644
+--- a/src/Rewards/Model/Total/Creditmemo/Discount.php
++++ b/src/Rewards/Model/Total/Creditmemo/Discount.php
+@@ -163,7 +163,10 @@ class Discount extends AbstractTotal
+     {
+         $order = $creditmemo->getOrder();
+         if ($order->getSubtotal() > 0) {
+-            $proportion = $creditmemo->getSubtotal() / $order->getSubtotal();
++            // BEGIN PATCH
++            // $proportion = $creditmemo->getSubtotal() / $order->getSubtotal();
++            $proportion = $creditmemo->getSubtotalInclTax() / $order->getSubtotalInclTax();
++            // END PATCH
+         } else { // for zero orders with earning points
+             $proportion = $this->cancelEarnedPointsService->getCreditmemoItemsQty($creditmemo) /
+                 $this->cancelEarnedPointsService->getCreditmemoOrderItemsQty($creditmemo);
