@@ -1,0 +1,21 @@
+diff --git a/Model/Source/ShippingMethod.php b/Model/Source/ShippingMethod.php
+--- a/Model/Source/ShippingMethod.php
++++ b/Model/Source/ShippingMethod.php
+@@ -45,9 +45,15 @@
+         $carriers = $this->scopeConfig->getValue('carriers');
+
+         foreach ($carriers as $carrierCode => $carrier) {
+-            $shippingTitle = $carrier['title'];
++            // $shippingTitle = $carrier['title'];
++            //
++            // if (!$carrier['active']) {
++            // BEGIN PATCH
++            $shippingTitle = $carrier['title'] ?? $carrierCode;
++            $active = $carrier['active'] ?? false;
+
+-            if (!$carrier['active']) {
++            if (!$active) {
++            // END PATCH
+                 $shippingTitle .= __(' (disabled)');
+             }
+
