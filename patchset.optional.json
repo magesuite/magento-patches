@@ -372,6 +372,11 @@
               "version-constraint": ">=1.1.3"
             },
             {
+                "description": "Fix synchronize payment method",
+                "filename": "vendor/creativestyle/magento-patches/optional/fix-synchronize-payment-method.patch",
+                "version-constraint": ">=1.1.3"
+            },
+            {
                 "description": "Add custom field to wallee payment methods",
                 "filename": "vendor/creativestyle/magento-patches/optional/ipet-wallee-methods-custom-fields.patch",
                 "version-constraint": ">=1.1.3"
