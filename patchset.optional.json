@@ -373,7 +373,7 @@
             },
             {
                 "description": "Fix synchronize payment method",
-                "filename": "vendor/creativestyle/magento-patches/optional/fix-synchronize-payment-method.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-synchronize-payment-method.patch",
                 "version-constraint": ">=1.1.3"
             },
             {
