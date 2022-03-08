@@ -1,0 +1,14 @@
+diff --git a/lib/web/mage/utils/misc.js b/lib/web/mage/utils/misc.js
+index 3829f5e..82e2b32 100644
+--- a/lib/web/mage/utils/misc.js
++++ b/lib/web/mage/utils/misc.js
+@@ -5,8 +5,7 @@
+ 
+ define([
+     'underscore',
+-    'jquery',
+-    'FormData'
++    'jquery'
+ ], function (_, $) {
+     'use strict';
+ 

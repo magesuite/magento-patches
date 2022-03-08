@@ -1,0 +1,16 @@
+diff --git a/view/frontend/web/js/view/messages.js b/view/frontend/web/js/view/messages.js
+index 8d2ffed..388166b 100644
+--- a/view/frontend/web/js/view/messages.js
++++ b/view/frontend/web/js/view/messages.js
+@@ -39,7 +39,10 @@ define([
+                 customerData.set('messages', {});
+             }
+ 
+-            $.cookieStorage.set('mage-messages', '');
++            $.mage.cookies.set('mage-messages', '', {
++                samesite: 'strict',
++                domain: ''
++            });
+         },
+ 
+         /**
