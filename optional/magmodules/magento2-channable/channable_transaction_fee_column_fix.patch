@@ -1,9 +1,17 @@
 diff --git a/etc/db_schema.xml b/etc/db_schema.xml
-index 727f13d..50c924a 100755
+index 8f5ed6b..0833a52 100755
 --- a/etc/db_schema.xml
 +++ b/etc/db_schema.xml
 @@ -330,7 +330,6 @@
      <table name="quote">
+         <column name="transaction_fee"
+                 xsi:type="float"
+-                unsigned="true"
+                 nullable="false"
+                 comment="Transaction Fee"/>
+     </table>
+@@ -338,7 +337,6 @@
+     <table name="sales_order">
          <column name="transaction_fee"
                  xsi:type="float"
 -                unsigned="true"
