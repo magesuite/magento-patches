@@ -358,6 +358,11 @@
                 "description": "Fix compatibility with integration tests for magesuite-gdpr",
                 "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-channable/channable-magesuite-gdpr-tests-fix.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Remove 'unsigned' from transaction_fee column in quote table added by the extension",
+              "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-channable/channable_transaction_fee_column_fix.patch",
+              "version-constraint": "*"
             }
         ],
         "wallee/magento-2": [

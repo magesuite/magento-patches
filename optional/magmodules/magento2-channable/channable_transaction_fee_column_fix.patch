@@ -1,0 +1,12 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 727f13d..50c924a 100755
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -330,7 +330,6 @@
+     <table name="quote">
+         <column name="transaction_fee"
+                 xsi:type="float"
+-                unsigned="true"
+                 nullable="false"
+                 comment="Transaction Fee"/>
+     </table>
