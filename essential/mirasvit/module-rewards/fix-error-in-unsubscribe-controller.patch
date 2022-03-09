@@ -1,0 +1,16 @@
+diff --git a/src/RewardsCustomerAccount/Controller/Account/Unsubscribe.php b/src/RewardsCustomerAccount/Controller/Account/Unsubscribe.php
+index b4663cc..ecba303 100644
+--- a/src/RewardsCustomerAccount/Controller/Account/Unsubscribe.php
++++ b/src/RewardsCustomerAccount/Controller/Account/Unsubscribe.php
+@@ -59,7 +59,10 @@ class Unsubscribe extends \Mirasvit\RewardsCustomerAccount\Controller\Account
+             ->addFieldToFilter('referral_link', $this->getRequest()->getParam('code'))
+             ->getFirstItem();
+
+-        $customerId = (int) $link->getCustomerId() ? : 0;
++        // PATCH BEGIN
++        // $customerId = (int) $link->getCustomerId() ? : 0;
++        $customerId = (int) $link->getCustomerId() ? : $this->customerSession->getCustomerId();
++        // PATCH END
+
+         if (!$customerId) {
+             $this->messageManager->addErrorMessage(__('Something went wrong while saving your subscription.'));
