@@ -351,6 +351,11 @@
                 "description": "Return first category path (iPet)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magmodules-digitecgalaxus-return-first-category-path.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Set different status for galaxus orders (iPet)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/set-different-status-for-galaxus-orders.patch",
+                "version-constraint": "*"
             }
         ],
         "magmodules/magento2-channable": [
