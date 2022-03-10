@@ -1,0 +1,17 @@
+diff --git a/Model/Order.php b/Model/Order.php
+index 689a3df..7034b60 100644
+--- a/Model/Order.php
++++ b/Model/Order.php
+@@ -806,7 +806,11 @@ class Order extends AbstractModel
+                 $transactionSave->save();
+ 
+                 $order->setState(\Magento\Sales\Model\Order::STATE_PROCESSING);
+-                $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
++                // BEGIN PATCH
++                // set correct status for paid order
++                // $order->setStatus(\Magento\Sales\Model\Order::STATE_PROCESSING);
++                $order->setStatus('new_paid');
++                // END PATCH
+                 $this->orderRepository->save($order);
+             } catch (\Exception $e) {
+                 $this->generalHelper->addToLog('invoiceOrder: ' . $order->getIncrementId(), $e->getMessage());
