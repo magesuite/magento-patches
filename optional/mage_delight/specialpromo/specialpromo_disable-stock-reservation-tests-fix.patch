@@ -1,0 +1,16 @@
+diff --git a/Plugin/ProductAbstractType.php b/Plugin/ProductAbstractType.php
+index a4fda84..39a490c 100644
+--- a/Plugin/ProductAbstractType.php
++++ b/Plugin/ProductAbstractType.php
+@@ -20,7 +20,10 @@ class ProductAbstractType
+     {
+         $options = $result;
+         $itemInfoBuyRequest = $product->getCustomOption('info_buyRequest');
+-        ;
++        if ($itemInfoBuyRequest === null) {
++            return $result;
++        }
++        
+         $itemDataSerialized = $itemInfoBuyRequest->getData('value');
+         $itemData = [];
+         $selectOptions = [
