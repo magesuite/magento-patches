@@ -19,27 +19,7 @@ index 3415dbe..4169d34 100644
 +					<label>Payment Comment</label>
 +					<comment><![CDATA[Append Payment comment to Wallee Payment transaction meta-data.]]></comment>
 +				</field>
-+				<field id="switch_order_to_processing_state" type="select" canRestore="1" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="90" translate="label comment">
-+					<label>Switch an order to processing state</label>
-+					<comment><![CDATA[Set "Yes" if you need to switch an order state to 'processing' if an order has open (not paid) invoices. Set "No" if you need to keep an initial state. A state 'pending_payment' is initial for wallee orders.]]></comment>
-+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-+				</field>
 +				<!-- END OF PATCH -->
  			</group>
  		</section>
  	</system>
-diff --git a/etc/config-method-template.xml b/etc/config-method-template.xml
-index 4ddea73..7a903b5 100644
---- a/etc/config-method-template.xml
-+++ b/etc/config-method-template.xml
-@@ -24,7 +24,9 @@
- 				<show_description>1</show_description>
- 				<show_image>1</show_image>
- 				<sort_order>{sortOrder}</sort_order>
--				<order_status>pending</order_status>
-+				<!-- BEGINNING OF PATCH -->
-+				<order_status>new_paid</order_status>
-+				<!-- END OF PATCH -->
- 				<is_gateway>1</is_gateway>
- 				<can_authorize>0</can_authorize>
- 				<can_capture>1</can_capture>
