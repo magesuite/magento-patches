@@ -974,7 +974,7 @@
         "mage_delight/specialpromo": [
             {
                 "description": "Fix for magesuite-disble-stock-reservation integration tests",
-                "filename": "optional/mage_delight/specialpromo/specialpromo-disable-stock-reservation-tests-fix.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/mage_delight/specialpromo/specialpromo-disable-stock-reservation-tests-fix.patch",
                 "version-constraint": "*"
             }
         ]
