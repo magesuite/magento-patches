@@ -4,7 +4,8 @@ I didn't found solution for this bug on Magento Github. It is unclear why Magent
 
 This patch is a modification of module-catalog-force-to-delete-all-module-gallery-files-of-product-during-importing-images-for-products-via-api-post-request.patch to provide Magento 2.4.3 compatibility
 
-index 29d2d44..514de36 100644
+diff --git a/Model/Product/Gallery/CreateHandler.php b/Model/Product/Gallery/CreateHandler.php
+index 7a1bd21..944f087 100644
 --- a/Model/Product/Gallery/CreateHandler.php
 +++ b/Model/Product/Gallery/CreateHandler.php
 @@ -12,6 +12,7 @@ use Magento\Catalog\Model\Product;
@@ -36,17 +37,23 @@ index 29d2d44..514de36 100644
      /**
       * @param \Magento\Framework\EntityManager\MetadataPool $metadataPool
       * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
-@@ -119,7 +127,8 @@ class CreateHandler implements ExtensionInterface
+@@ -108,6 +116,7 @@ class CreateHandler implements ExtensionInterface
+      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+      * @param \Magento\Framework\Filesystem $filesystem
+      * @param \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb
++     * @param \Magento\Framework\UrlInterface $url
+      * @param \Magento\Store\Model\StoreManagerInterface|null $storeManager
+      * @throws \Magento\Framework\Exception\FileSystemException
+      */
+@@ -119,6 +128,7 @@ class CreateHandler implements ExtensionInterface
          \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
          \Magento\Framework\Filesystem $filesystem,
          \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb,
--        \Magento\Store\Model\StoreManagerInterface $storeManager = null
-+        \Magento\Store\Model\StoreManagerInterface $storeManager = null,
-+        \Magento\Framework\UrlInterface $url
++        \Magento\Framework\UrlInterface $url,
+         \Magento\Store\Model\StoreManagerInterface $storeManager = null
      ) {
          $this->metadata = $metadataPool->getMetadata(\Magento\Catalog\Api\Data\ProductInterface::class);
-         $this->attributeRepository = $attributeRepository;
-@@ -129,6 +138,7 @@ class CreateHandler implements ExtensionInterface
+@@ -129,6 +139,7 @@ class CreateHandler implements ExtensionInterface
          $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
          $this->fileStorageDb = $fileStorageDb;
          $this->storeManager = $storeManager ?: ObjectManager::getInstance()->get(StoreManagerInterface::class);
@@ -54,7 +61,7 @@ index 29d2d44..514de36 100644
      }
  
      /**
-@@ -615,7 +625,9 @@ class CreateHandler implements ExtensionInterface
+@@ -615,7 +626,9 @@ class CreateHandler implements ExtensionInterface
       */
      private function canRemoveImage(ProductInterface $product, string $imageFile) :bool
      {
@@ -65,7 +72,7 @@ index 29d2d44..514de36 100644
          $gallery = $this->getImagesForAllStores($product);
          $storeId = $product->getStoreId();
          $storeIds = [];
-@@ -633,12 +645,32 @@ class CreateHandler implements ExtensionInterface
+@@ -633,12 +646,32 @@ class CreateHandler implements ExtensionInterface
                      && $image['filepath'] === $imageFile
                      && (int) $image['store_id'] !== $storeId
                  ) {
@@ -100,3 +107,39 @@ index 29d2d44..514de36 100644
      }
  
      /**
+diff --git a/Model/Product/Gallery/UpdateHandler.php b/Model/Product/Gallery/UpdateHandler.php
+index edee9ae..e4169bf 100644
+--- a/Model/Product/Gallery/UpdateHandler.php
++++ b/Model/Product/Gallery/UpdateHandler.php
+@@ -15,6 +15,7 @@ use Magento\Framework\App\ObjectManager;
+ use Magento\Framework\EntityManager\MetadataPool;
+ use Magento\Framework\Filesystem;
+ use Magento\Framework\Json\Helper\Data;
++use Magento\Framework\UrlInterface;
+ use Magento\MediaStorage\Helper\File\Storage\Database;
+ use Magento\Store\Model\Store;
+ use Magento\Store\Model\StoreManagerInterface;
+@@ -41,6 +42,7 @@ class UpdateHandler extends CreateHandler
+      * @param Config $mediaConfig
+      * @param Filesystem $filesystem
+      * @param Database $fileStorageDb
++     * @param UrlInterface $url
+      * @param StoreManagerInterface|null $storeManager
+      * @param AttributeValue|null $attributeValue
+      */
+@@ -52,6 +54,7 @@ class UpdateHandler extends CreateHandler
+         Config $mediaConfig,
+         Filesystem $filesystem,
+         Database $fileStorageDb,
++        UrlInterface $url,
+         StoreManagerInterface $storeManager = null,
+         ?AttributeValue $attributeValue = null
+     ) {
+@@ -63,6 +66,7 @@ class UpdateHandler extends CreateHandler
+             $mediaConfig,
+             $filesystem,
+             $fileStorageDb,
++            $urlInterface,
+             $storeManager
+         );
+         $this->attributeValue = $attributeValue ?: ObjectManager::getInstance()->get(AttributeValue::class);
