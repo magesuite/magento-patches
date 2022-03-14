@@ -139,7 +139,7 @@ index edee9ae..e4169bf 100644
              $mediaConfig,
              $filesystem,
              $fileStorageDb,
-+            $urlInterface,
++            $url,
              $storeManager
          );
          $this->attributeValue = $attributeValue ?: ObjectManager::getInstance()->get(AttributeValue::class);
