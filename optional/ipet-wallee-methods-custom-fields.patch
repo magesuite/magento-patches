@@ -3,10 +3,10 @@ Because config for their method is created dynamically based on system-method-te
 Patch is the easiest way to achieve that, alternative way is overwrite private method which load template.
 
 diff --git a/etc/adminhtml/system-method-template.xml b/etc/adminhtml/system-method-template.xml
-index 3415dbe..4169d34 100644
+index 3415dbe..93ca2c4 100644
 --- a/etc/adminhtml/system-method-template.xml
 +++ b/etc/adminhtml/system-method-template.xml
-@@ -43,6 +43,21 @@
+@@ -43,6 +43,16 @@
  					<label>Sort Order</label>
  					<frontend_class>validate-number</frontend_class>
  				</field>
