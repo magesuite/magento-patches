@@ -532,6 +532,13 @@
                 "version-constraint": "^1.0"
             }
         ],
+        "mageprince/magento2-paymentfee": [
+            {
+                "description": "Calculate tax for payment fee excl tax",
+                "filename": "vendor/creativestyle/magento-patches/optional/mageprince/magento2-paymentfee/calculate-tax-for-payment-fee-excl-tax.patch",
+                "version-constraint": ">=2.1.4"
+            }
+        ],
         "patworx/santander-magento-2": [
             {
                 "description": "Update santander_hire.js to santander-magento-2 v.1.2.1",
