@@ -1,0 +1,20 @@
+diff --git a/Cron/Order.php b/Cron/Order.php
+index a75f87a..262709d 100644
+--- a/Cron/Order.php
++++ b/Cron/Order.php
+@@ -27,10 +27,13 @@ class Order extends Common
+         }
+         
+         $errors = [];
+-        
++        $continue = true;
+         foreach ($orders as $order) {
+             try {
+-                $processor->processOrder($order);
++                if($continue) {
++                    $processor->processOrder($order);
++                    $continue = false;
++                }
+             } catch (\Exception $e) {
+                 $errors[] = $e;
+             }
