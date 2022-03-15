@@ -701,47 +701,47 @@
                 "version_constraint": "*"
             }
         ],
-        "Postnl/Ecs": [
-            {
-                "description": "Fix wrong shipment name in exported order",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/postnl-ecs-shipping-name.patch",
-                "version_constraint": "*"
-            },
-            {
-                "description": "Fix wrong depth/height code",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/external-postnl-change-depth-code.patch",
-                "version_constraint": "*"
-            },
-            {
-                "description": "Limits order processing to 1 per file",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/external-limit-order-export-to-one-per-file.patch",
-                "version_constraint": "*"
-            },
-            {
-                "description": "Changed limit for product export descriptions fields",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/external-changed-limit-of-product-export-description-fields.patch",
-                "version_constraint": "*"
-            },
-            {
-                "description": "Changed limit for order export street fields",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/external-postnl-order-street-fields-limit.patch",
-                "version_constraint": "*"
-            },
-            {
-                "description": "Removed not needed order complete before shipment creation process",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/external-postnl-remove-complete-order-before-shipment-process.patch",
-                "version_constraint": "*"
-            },
-            {
-                "description": "Change product export ean field",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/external-postnl-change-ean-export-field.patch",
-                "version_constraint": "*"
-            },
-            {
-                "description": "Fix cleanup method when called with max length argument",
-                "filename": "vendor/creativestyle/magento-patches/optional/Postnl/Ecs/external-postnl-fix-cleanup-methods-to-substr-cleaned-string-instead-of-original.patch",
-                "version_constraint": "*"
-            }
+        "postnl/ecs": [
+          {
+            "description": "Fix wrong shipment name in exported order",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/postnl-ecs-shipping-name.patch",
+            "version_constraint": "*"
+          },
+          {
+            "description": "Fix wrong height code",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/external-postnl-change-depth-code.patch",
+            "version_constraint": "*"
+          },
+          {
+            "description": "Limits order processing to 1 per file",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/external-limit-order-export-to-one-per-file.patch",
+            "version_constraint": "*"
+          },
+          {
+            "description": "Changed limit for product export descriptions fields",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/external-changed-limit-of-product-export-description-fields.patch",
+            "version_constraint": "*"
+          },
+          {
+            "description": "Changed limit for order export street fields",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/external-postnl-order-street-fields-limit.patch",
+            "version_constraint": "*"
+          },
+          {
+            "description": "Removed not needed order complete before shipment creation process",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/external-postnl-remove-complete-order-before-shipment-process.patch",
+            "version_constraint": "*"
+          },
+          {
+            "description": "Change product export ean field",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/external-postnl-change-ean-export-field.patch",
+            "version_constraint": "*"
+          },
+          {
+            "description": "Fix cleanup method when called with max length argument",
+            "filename": "vendor/creativestyle/magento-patches/optional/postnl/ecs/external-postnl-fix-cleanup-methods-to-substr-cleaned-string-instead-of-original.patch",
+            "version_constraint": "*"
+          }
         ],
         "magento/module-url-rewrite": [
             {
