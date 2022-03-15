@@ -1,0 +1,17 @@
+diff --git a/Model/Service/Order/TransactionService.php b/Model/Service/Order/TransactionService.php
+index 91c0112..983e234 100644
+--- a/Model/Service/Order/TransactionService.php
++++ b/Model/Service/Order/TransactionService.php
+@@ -407,7 +407,11 @@ class TransactionService extends AbstractTransactionService
+         $address->setPostCode(
+             $this->helper->fixLength($this->helper->removeLinebreaks($customerAddress->getPostcode()), 40));
+         $street = $customerAddress->getStreet();
+-        $address->setStreet($this->helper->fixLength(\is_array($street) ? \implode("\n", $street) : $street, 300));
++        // BEGIN PATCH
++        // Replace new line character with space
++        // $address->setStreet($this->helper->fixLength(\is_array($street) ? \implode("\n", $street) : $street, 300));
++        $address->setStreet($this->helper->fixLength(\is_array($street) ? \implode(" ", $street) : $street, 300));
++        // END PATCH
+         return $address;
+     }
+ 
