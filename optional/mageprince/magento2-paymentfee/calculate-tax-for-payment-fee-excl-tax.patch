@@ -1,0 +1,59 @@
+diff --git a/Model/Total/Fee.php b/Model/Total/Fee.php
+index 6ad6a72..68b3284 100644
+--- a/Model/Total/Fee.php
++++ b/Model/Total/Fee.php
+@@ -93,15 +93,29 @@ class Fee extends Address\Total\AbstractTotal
+                     $baseTax = $this->taxCalculator->calcTaxAmount(
+                         $baseFee,
+                         $rate,
+-                        true,
++                        // BEGIN PATCH
++                        // change priceIncludeTax flag to false
++                        // true,
++                        false,
++                        // END PATCH
+                         true
+                     );
+                     $tax = $this->taxCalculator->calcTaxAmount(
+                         $fee,
+                         $rate,
+-                        true,
++                        // BEGIN PATCH
++                        // change priceIncludeTax flag to false
++                        // true,
++                        false,
++                        // END PATCH
+                         true
+                     );
++
++                    // BEGIN PATCH
++                    // subtract tax value from paymentFee
++                    $baseFee -= $baseTax;
++                    $fee -= $tax;
++                    // END PATCH
+                 }
+             }
+         }
+@@ -121,6 +135,22 @@ class Fee extends Address\Total\AbstractTotal
+         $quote->setPaymentFeeTax($tax);
+         $quote->setBasePaymentFeeTax($baseTax);
+ 
++        // BEGIN PATCH
++        // add paymentFee tax to correct tax group
++        $appliedTaxes = $total->getAppliedTaxes();
++
++        foreach ($appliedTaxes as &$appliedTax) {
++            if ($appliedTax['percent'] != $rate) {
++                continue;
++            }
++
++            $appliedTax['base_amount'] += $baseTax;
++            $appliedTax['amount'] += $tax;
++        }
++
++        $total->setAppliedTaxes($appliedTaxes);
++        // END PATCH
++
+         return $this;
+     }
+ 
