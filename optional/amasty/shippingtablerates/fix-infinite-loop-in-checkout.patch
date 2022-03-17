@@ -1,0 +1,25 @@
+diff --git a/Model/Rate/Provider.php b/Model/Rate/Provider.php
+index 54ce86d..ffcffdb 100644
+--- a/Model/Rate/Provider.php
++++ b/Model/Rate/Provider.php
+@@ -97,12 +97,14 @@ class Provider
+             return [];
+         }
+         $sourceCodes = [];
+-        if ($this->msiModuleStatusInspector->isEnabled()) {
+-            $getSourceSelectionResultFromQuote = $this->objectManager->create(
+-                GetSourceSelectionResultFromQuote::class
+-            );
+-            $sourceCodes = $getSourceSelectionResultFromQuote->execute($this->quoteSession->getQuote());
+-        }
++        // PATCH BEGIN - infinite loop in checkout
++        // if ($this->msiModuleStatusInspector->isEnabled()) {
++        //    $getSourceSelectionResultFromQuote = $this->objectManager->create(
++        //        GetSourceSelectionResultFromQuote::class
++        //    );
++        //    $sourceCodes = $getSourceSelectionResultFromQuote->execute($this->quoteSession->getQuote());
++        // }
++        // PATCH END
+ 
+         $request->setData(\Amasty\ShippingTableRates\Model\ResourceModel\Rate::SOURCES_REQUEST_KEY, $sourceCodes);
+         $methodIds = [];
