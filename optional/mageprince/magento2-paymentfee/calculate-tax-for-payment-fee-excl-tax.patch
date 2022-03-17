@@ -1,28 +1,9 @@
 diff --git a/Model/Total/Fee.php b/Model/Total/Fee.php
-index 6ad6a72..68b3284 100644
+index 17b47ce..7ca73df 100644
 --- a/Model/Total/Fee.php
 +++ b/Model/Total/Fee.php
-@@ -93,15 +93,29 @@ class Fee extends Address\Total\AbstractTotal
-                     $baseTax = $this->taxCalculator->calcTaxAmount(
-                         $baseFee,
-                         $rate,
--                        true,
-+                        // BEGIN PATCH
-+                        // change priceIncludeTax flag to false
-+                        // true,
-+                        false,
-+                        // END PATCH
-                         true
-                     );
-                     $tax = $this->taxCalculator->calcTaxAmount(
-                         $fee,
-                         $rate,
--                        true,
-+                        // BEGIN PATCH
-+                        // change priceIncludeTax flag to false
-+                        // true,
-+                        false,
-+                        // END PATCH
+@@ -102,6 +102,12 @@ class Fee extends Address\Total\AbstractTotal
+                         false,
                          true
                      );
 +
@@ -34,7 +15,7 @@ index 6ad6a72..68b3284 100644
                  }
              }
          }
-@@ -121,6 +135,22 @@ class Fee extends Address\Total\AbstractTotal
+@@ -121,6 +127,22 @@ class Fee extends Address\Total\AbstractTotal
          $quote->setPaymentFeeTax($tax);
          $quote->setBasePaymentFeeTax($baseTax);
  
