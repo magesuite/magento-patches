@@ -1,0 +1,18 @@
+GitHub: https://github.com/amzn/amazon-payments-magento-2-plugin/pull/1117
+
+diff --git a/view/frontend/web/template/billing-address.html b/view/frontend/web/template/billing-address.html
+index f54229f..f88b405 100644
+--- a/view/frontend/web/template/billing-address.html
++++ b/view/frontend/web/template/billing-address.html
+@@ -1,7 +1,9 @@
+ <div if="isAddressLoaded" id="amazon-billing-address" class="checkout-billing-address">
+     <render args="detailsTemplate"/>
+-    <fieldset class="fieldset" data-bind="visible: isAddressFormVisible()">
+-        <render args="formTemplate"/>
++    <fieldset class="fieldset" data-bind="visible: !isAddressDetailsVisible()">
++        <div data-bind="fadeVisible: isAddressFormVisible">
++            <render args="formTemplate"/>
++        </div>
+         <render args="actionsTemplate"/>
+     </fieldset>
+ </div>
