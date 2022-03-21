@@ -1220,6 +1220,11 @@
                     "description": "Fix preventing the stoppage of execution when the initial button container isn't found, allowing the rendering to complete successfully.",
                     "filename": "essential/amzn/amazon-pay-magento-2-module/amazon-pay-fix-checkout-button-error.patch",
                     "version-constraint": ">=5.9.1,<5.9.10"
+                },
+                {
+                    "description": "Fix visibility of billing address form",
+                    "filename": "essential/amzn/amazon-pay-magento-2-module/amazon-pay-fix-billing-form-visibility.patch",
+                    "version-constraint": ">=5.9.1,<5.11.2"
                 }
             ],
             "msp/cashondelivery": [
