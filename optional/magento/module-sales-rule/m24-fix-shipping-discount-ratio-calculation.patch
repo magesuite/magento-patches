@@ -1,0 +1,126 @@
+diff --git a/Helper/CartFixedDiscount.php b/Helper/CartFixedDiscount.php
+index b1fda3e..22d4fef 100644
+--- a/Helper/CartFixedDiscount.php
++++ b/Helper/CartFixedDiscount.php
+@@ -28,16 +28,33 @@ class CartFixedDiscount
+      */
+     private $priceCurrency;
+ 
++    // BEGIN PATCH
++    /**
++     * @var \Magento\Tax\Model\Config
++     */
++    protected $taxConfig;
++    // END PATCH
++
+     /**
+      * @param DeltaPriceRound $deltaPriceRound
+      * @param PriceCurrencyInterface $priceCurrency
++     * BEGIN PATCH
++     * @param ?\Magento\Tax\Model\Config $taxConfig
++     * END PATCH
+      */
+     public function __construct(
+         DeltaPriceRound $deltaPriceRound,
+-        PriceCurrencyInterface $priceCurrency
++        PriceCurrencyInterface $priceCurrency,
++        // BEGIN PATCH
++        ?\Magento\Tax\Model\Config $taxConfig = null
++        // END PATCH
+     ) {
+         $this->deltaPriceRound = $deltaPriceRound;
+         $this->priceCurrency = $priceCurrency;
++
++        // BEGIN PATCH
++        $this->taxConfig = $taxConfig ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class);
++        // END PATCH
+     }
+ 
+     /**
+@@ -49,7 +66,12 @@ class CartFixedDiscount
+     public function calculateShippingAmountWhenAppliedToShipping(
+         AddressInterface $address
+     ): float {
+-        $shippingAmount = (float) $address->getShippingAmount();
++        // BEGIN PATCH
++        // return shipping amount with or without tax, depending on tax configuration
++
++        // $shippingAmount = (float) $address->getShippingAmount();
++        $shippingAmount = $this->taxConfig->shippingPriceIncludesTax($address->getQuote()->getStoreId()) ? (float) $address->getShippingInclTax() : (float) $address->getShippingAmount();
++        // END PATCH
+         if ($shippingAmount == 0.0) {
+             $address->setCollectShippingRates(true);
+             $address->collectShippingRates();
+diff --git a/Model/Validator.php b/Model/Validator.php
+index 7b3a6b1..dfb6940 100644
+--- a/Model/Validator.php
++++ b/Model/Validator.php
+@@ -106,6 +106,13 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+      */
+     private $cartFixedDiscountHelper;
+ 
++    // BEGIN PATCH
++    /**
++     * @var \Magento\Tax\Model\Config
++     */
++    protected $taxConfig;
++    // END PATCH
++
+     /**
+      * @param \Magento\Framework\Model\Context $context
+      * @param \Magento\Framework\Registry $registry
+@@ -120,6 +127,9 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+      * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
+      * @param array $data
+      * @param CartFixedDiscount|null $cartFixedDiscount
++     * BEGIN PATCH
++     * @param ?\Magento\Tax\Model\Config $taxConfig
++     * END PATCH
+      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+      */
+     public function __construct(
+@@ -135,7 +145,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
+         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+         array $data = [],
+-        ?CartFixedDiscount $cartFixedDiscount = null
++        ?CartFixedDiscount $cartFixedDiscount = null,
++        // BEGIN PATCH
++        ?\Magento\Tax\Model\Config $taxConfig = null
++        // END PATCH
+     ) {
+         $this->_collectionFactory = $collectionFactory;
+         $this->_catalogData = $catalogData;
+@@ -147,6 +160,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+         $this->cartFixedDiscountHelper = $cartFixedDiscount ?:
+             ObjectManager::getInstance()->get(CartFixedDiscount::class);
+         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
++
++        // BEGIN PATCH
++        $this->taxConfig = $taxConfig ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class);
++        // END PATCH
+     }
+ 
+     /**
+@@ -365,8 +382,19 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+                         $cartRules[$rule->getId()] = $rule->getDiscountAmount();
+                     }
+                     if ($cartRules[$rule->getId()] > 0) {
+-                        $shippingAmount = $address->getShippingAmount() - $address->getShippingDiscountAmount();
+-                        $quoteBaseSubtotal = (float) $quote->getBaseSubtotal();
++                        // BEGIN PATCH
++                        // return shipping amount and quote base subtotal with or without tax, depending on tax configuration
++
++                        // $shippingAmount = $address->getShippingAmount() - $address->getShippingDiscountAmount();
++                        // $quoteBaseSubtotal = (float) $quote->getBaseSubtotal();
++
++                        $shippingPriceIncludesTax = $this->taxConfig->shippingPriceIncludesTax($quote->getStoreId());
++
++                        $shippingAmount = $shippingPriceIncludesTax ? $address->getShippingInclTax() : $address->getShippingAmount();
++                        $shippingAmount -= $address->getShippingDiscountAmount();
++
++                        $quoteBaseSubtotal = $shippingPriceIncludesTax ? (float) $quote->getTotals()['subtotal']->getValue() : (float) $quote->getBaseSubtotal();
++                        // END PATCH
+                         $isMultiShipping = $this->cartFixedDiscountHelper->checkMultiShippingQuote($quote);
+                         if ($isAppliedToShipping) {
+                             $quoteBaseSubtotal = ($quote->getIsMultiShipping() && $isMultiShipping) ?
