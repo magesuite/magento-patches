@@ -1003,6 +1003,11 @@
                 "description": "Fix for magesuite-disble-stock-reservation integration tests",
                 "filename": "vendor/creativestyle/magento-patches/optional/mage_delight/specialpromo/specialpromo-disable-stock-reservation-tests-fix.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix saving additional rule configuration caused by conflict with Amasty AdminLogs extension",
+                "filename": "vendor/creativestyle/magento-patches/optional/mage_delight/specialpromo/fix_module_conflict_with_amasty_adminlogs.patch",
+                "version-constraint": "*"
             }
         ]
     }

@@ -1,0 +1,23 @@
+diff --git a/Observer/SalesruleLoadAfter.php b/Observer/SalesruleLoadAfter.php
+index b567e17..e1e5f4d 100644
+--- a/Observer/SalesruleLoadAfter.php
++++ b/Observer/SalesruleLoadAfter.php
+@@ -42,10 +42,15 @@ class SalesruleLoadAfter implements \Magento\Framework\Event\ObserverInterface
+     {
+         $rule = $observer->getEvent()->getRule();
+         $model = $this->ruleAdditional->create()->loadByRuleId($rule);
+-        if ($this->specialPromoHelper->isModuleEnable()) {
+-            foreach ($this->additionalDataFields as $fields) {
+-                $rule->setData($fields, $model->getData($fields));
++        if (!$this->specialPromoHelper->isModuleEnable()) {
++            return;
++        }
++
++        foreach ($this->additionalDataFields as $field) {
++            if (empty($rule->getData($field))) {
++                $rule->setData($field, $model->getData($field));
+             }
+         }
++
+     }
+ }
