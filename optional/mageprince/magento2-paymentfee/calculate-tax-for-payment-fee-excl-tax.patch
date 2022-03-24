@@ -1,8 +1,19 @@
 diff --git a/Model/Total/Fee.php b/Model/Total/Fee.php
-index 17b47ce..7ca73df 100644
+index 17b47ce..c04944b 100644
 --- a/Model/Total/Fee.php
 +++ b/Model/Total/Fee.php
-@@ -102,6 +102,12 @@ class Fee extends Address\Total\AbstractTotal
+@@ -80,6 +80,10 @@ class Fee extends Address\Total\AbstractTotal
+         $baseTax = 0;
+         $tax = 0;
+ 
++        // BEGIN PATCH
++        $rate = 0;
++        // END PATCH
++
+         if ($this->helper->isEnable()) {
+             $baseFee = $this->calculator->calculate($quote);
+             $fee = $this->helper->getStoreFee($baseFee, $quote);
+@@ -102,6 +106,12 @@ class Fee extends Address\Total\AbstractTotal
                          false,
                          true
                      );
@@ -15,12 +26,17 @@ index 17b47ce..7ca73df 100644
                  }
              }
          }
-@@ -121,6 +127,22 @@ class Fee extends Address\Total\AbstractTotal
+@@ -121,6 +131,27 @@ class Fee extends Address\Total\AbstractTotal
          $quote->setPaymentFeeTax($tax);
          $quote->setBasePaymentFeeTax($baseTax);
  
 +        // BEGIN PATCH
 +        // add paymentFee tax to correct tax group
++
++        if (!$rate) {
++            return $this;
++        }
++
 +        $appliedTaxes = $total->getAppliedTaxes();
 +
 +        foreach ($appliedTaxes as &$appliedTax) {
