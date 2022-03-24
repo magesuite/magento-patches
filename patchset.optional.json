@@ -528,6 +528,11 @@
                 "description": "Restore apply discount for shipping amount when discount is for whole cart",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/m23-restore-shipping-amount-discount-for-whole-cart.patch",
                 "version-constraint": ">=101.1.2"
+            },
+            {
+                "description": "Fix shipping discount ration calculation",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/m24-fix-shipping-discount-ratio-calculation.patch",
+                "version-constraint": ">=101.2.3"
             }
         ],
         "mageplaza/module-currency-formatter": [
