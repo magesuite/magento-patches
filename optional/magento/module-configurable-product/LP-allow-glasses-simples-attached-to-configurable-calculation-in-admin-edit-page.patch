@@ -1,35 +1,43 @@
 diff --git a/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php b/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php
-index 7815408..ea20a98 100644
+index 7815408..f72aa6c 100644
 --- a/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php
 +++ b/Ui/DataProvider/Product/Form/Modifier/Data/AssociatedProducts.php
-@@ -86,6 +86,10 @@ class AssociatedProducts
-      * @var ImageHelper
+@@ -87,6 +87,16 @@ class AssociatedProducts
       */
      protected $imageHelper;
+
 +    /**
 +     * @var \Creativestyle\CustomizationLensplazaRxConfigurator\Helper\GlassesAttributeSet
 +     */
 +    protected $glassesAttributeSet;
-
++
++    /**
++     * @var \Creativestyle\CustomizationLensplazaSunglasses\Helper\Sunglasses
++     */
++    protected $sunglassesHelper;
++
      /**
       * @var Escaper
-@@ -115,6 +119,7 @@ class AssociatedProducts
+      */
+@@ -115,6 +125,8 @@ class AssociatedProducts
          CurrencyInterface $localeCurrency,
          JsonHelper $jsonHelper,
          ImageHelper $imageHelper,
 +        \Creativestyle\CustomizationLensplazaRxConfigurator\Helper\GlassesAttributeSet $glassesAttributeSet,
++        \Creativestyle\CustomizationLensplazaSunglasses\Helper\Sunglasses $sunglassesHelper,
          Escaper $escaper = null
      ) {
          $this->locator = $locator;
-@@ -127,6 +132,7 @@ class AssociatedProducts
+@@ -127,6 +139,8 @@ class AssociatedProducts
          $this->jsonHelper = $jsonHelper;
          $this->imageHelper = $imageHelper;
          $this->escaper = $escaper ?: ObjectManager::getInstance()->get(Escaper::class);
 +        $this->glassesAttributeSet = $glassesAttributeSet;
++        $this->sunglassesHelper = $sunglassesHelper;
      }
 
      /**
-@@ -291,27 +297,29 @@ class AssociatedProducts
+@@ -291,27 +305,32 @@ class AssociatedProducts
                          $attributes[$attribute->getAttributeId()]['chosen'][$optionId] = $variationOption;
                      }
 
@@ -54,7 +62,10 @@ index 7815408..ea20a98 100644
 -                        'attributes' => $this->getTextAttributes($variationOptions),
 -                        'thumbnail_image' => $this->imageHelper->init($product, 'product_thumbnail_image')->getUrl(),
 -                    ];
-+                    if ($this->glassesAttributeSet->isGlassesProduct($product->getId())) {
++                    $isGlasses = $this->glassesAttributeSet->isGlassesProduct($product->getId());
++                    $isSunglasses = $this->sunglassesHelper->isSunglassesProduct($product->getId());
++
++                    if ($isGlasses || $isSunglasses) {
 +                        $productMatrix[] = [
 +                            'id' => $product->getId(),
 +                            'product_link' => '<a href="' . $this->urlBuilder->getUrl(
