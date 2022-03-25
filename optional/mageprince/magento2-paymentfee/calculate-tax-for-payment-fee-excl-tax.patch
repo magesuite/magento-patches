@@ -1,5 +1,5 @@
 diff --git a/Model/Total/Fee.php b/Model/Total/Fee.php
-index 17b47ce..c04944b 100644
+index 17b47ce..0d728fb 100644
 --- a/Model/Total/Fee.php
 +++ b/Model/Total/Fee.php
 @@ -80,6 +80,10 @@ class Fee extends Address\Total\AbstractTotal
@@ -26,15 +26,28 @@ index 17b47ce..c04944b 100644
                  }
              }
          }
-@@ -121,6 +131,27 @@ class Fee extends Address\Total\AbstractTotal
+@@ -121,6 +131,11 @@ class Fee extends Address\Total\AbstractTotal
          $quote->setPaymentFeeTax($tax);
          $quote->setBasePaymentFeeTax($baseTax);
  
 +        // BEGIN PATCH
 +        // add paymentFee tax to correct tax group
++        $this->addTaxToTotals($rate, $total, $tax);
++        // END PATCH
 +
+         return $this;
+     }
+ 
+@@ -186,4 +201,52 @@ class Fee extends Address\Total\AbstractTotal
+     {
+         return __($this->helper->getTitle());
+     }
++
++    // BEGIN PATCH
++    protected function addTaxToTotals($rate, $total, $tax)
++    {
 +        if (!$rate) {
-+            return $this;
++            return;
 +        }
 +
 +        $appliedTaxes = $total->getAppliedTaxes();
@@ -44,13 +57,37 @@ index 17b47ce..c04944b 100644
 +                continue;
 +            }
 +
-+            $appliedTax['base_amount'] += $baseTax;
++            $appliedTax['base_amount'] += $tax;
 +            $appliedTax['amount'] += $tax;
 +        }
 +
 +        $total->setAppliedTaxes($appliedTaxes);
-+        // END PATCH
 +
-         return $this;
-     }
- 
++        $itemsAppliedTaxes = $total->getItemsAppliedTaxes();
++        $shippingItemTax = $itemsAppliedTaxes['shipping'][0] ?? null;
++
++        if (!$shippingItemTax) {
++            return;
++        }
++
++        $paymentFeeItemTax = [
++            'amount' => $tax,
++            'base_amount' => $tax,
++            'percent' => $rate,
++            'id' => $shippingItemTax['id'],
++            'rates' => $shippingItemTax['rates'],
++            'item_id' => null,
++            'item_type' => 'payment_fee',
++            'associated_item_id' => null
++
++        ];
++
++        $itemsAppliedTaxes = array_merge(
++            $itemsAppliedTaxes,
++            ['payment_fee' => [$paymentFeeItemTax]]
++        );
++
++        $total->setItemsAppliedTaxes($itemsAppliedTaxes);
++    }
++    // END PATCH
+ }
