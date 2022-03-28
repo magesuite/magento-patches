@@ -1,5 +1,5 @@
 diff --git a/src/Rewards/Model/Total/Creditmemo/Discount.php b/src/Rewards/Model/Total/Creditmemo/Discount.php
-index 4afa950..d921813 100644
+index 3b35640..6254692 100644
 --- a/src/Rewards/Model/Total/Creditmemo/Discount.php
 +++ b/src/Rewards/Model/Total/Creditmemo/Discount.php
 @@ -163,7 +163,10 @@ class Discount extends AbstractTotal
@@ -14,3 +14,19 @@ index 4afa950..d921813 100644
          } else { // for zero orders with earning points
              $proportion = $this->cancelEarnedPointsService->getCreditmemoItemsQty($creditmemo) /
                  $this->cancelEarnedPointsService->getCreditmemoOrderItemsQty($creditmemo);
+diff --git a/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php b/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php
+index 71cfa4a..7a0a094 100644
+--- a/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php
++++ b/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php
+@@ -51,7 +51,10 @@ class CancelEarnedPoints
+         $proportion = 1;
+         if ($creditMemo) {
+             if ($order->getSubtotal() > 0) {
+-                $proportion = $creditMemo->getSubtotal() / $order->getSubtotal();
++                // BEGIN PATCH
++                // $proportion = $creditMemo->getSubtotal() / $order->getSubtotal();
++                $proportion = $creditMemo->getSubtotalInclTax() / $order->getSubtotalInclTax();
++                // END PATCH
+             } else { // for zero orders with earning points
+                 $proportion = $this->getCreditmemoItemsQty($creditMemo) / $this->getCreditmemoOrderItemsQty($creditMemo);
+             }
