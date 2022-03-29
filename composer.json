@@ -1258,6 +1258,11 @@
                     "description": "There are cases (Sofort payment) when payment method does not exists for given mixin what results in endless loader",
                     "filename": "essential/magento/module-sales-rule/check-payment-method-exists.patch",
                     "version-constraint": ">=101.1.5-p2,<101.1.6"
+                },
+                {
+                    "description": "Unable to cancel order when catalog price rule is used without coupon",
+                    "filename": "essential/magento/module-sales-rule/m24-fix-coupon-usage-foreign-key-problem.patch",
+                    "version-constraint": ">=101.2.3"
                 }
             ],
             "magento/module-sales-archive": [

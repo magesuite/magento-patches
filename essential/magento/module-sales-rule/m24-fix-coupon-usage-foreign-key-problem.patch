@@ -1,0 +1,27 @@
+Unable to cancel order when catalog price rule is used without coupon
+Github issue: https://github.com/magento/magento2/issues/16779
+
+diff --git a/Model/Coupon/Usage/Processor.php b/Model/Coupon/Usage/Processor.php
+index 90a456d..57b43da 100644
+--- a/Model/Coupon/Usage/Processor.php
++++ b/Model/Coupon/Usage/Processor.php
+@@ -140,10 +140,18 @@ class Processor
+         if ($ruleCustomer->getId()) {
+             if ($isIncrement || $ruleCustomer->getTimesUsed() > 0) {
+                 $ruleCustomer->setTimesUsed($ruleCustomer->getTimesUsed() + ($isIncrement ? 1 : -1));
++                // BEGIN PATCH
++                $ruleCustomer->save();
++                // END PATCH
+             }
+         } elseif ($isIncrement) {
+             $ruleCustomer->setCustomerId($customerId)->setRuleId($ruleId)->setTimesUsed(1);
++            // BEGIN PATCH
++            $ruleCustomer->save();
++            // END PATCH
+         }
+-        $ruleCustomer->save();
++        // BEGIN PATCH
++        // $ruleCustomer->save();
++        // END PATCH
+     }
+ }
