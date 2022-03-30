@@ -52,10 +52,10 @@ index b1fda3e..22d4fef 100644
              $address->setCollectShippingRates(true);
              $address->collectShippingRates();
 diff --git a/Model/Validator.php b/Model/Validator.php
-index 7b3a6b1..dfb6940 100644
+index 7b3a6b1..e0912ed 100644
 --- a/Model/Validator.php
 +++ b/Model/Validator.php
-@@ -106,6 +106,13 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+@@ -106,6 +106,23 @@ class Validator extends \Magento\Framework\Model\AbstractModel
       */
      private $cartFixedDiscountHelper;
  
@@ -64,12 +64,22 @@ index 7b3a6b1..dfb6940 100644
 +     * @var \Magento\Tax\Model\Config
 +     */
 +    protected $taxConfig;
++
++    /**
++     * @var \Creativestyle\CustomizationIpetCatalog\Helper\Configuration
++     */
++    protected $ipetCatalogConfiguration;
++
++    /**
++     * @var \Creativestyle\CustomizationIpetCatalog\Model\Product\PriceRound
++     */
++    protected $priceRound;
 +    // END PATCH
 +
      /**
       * @param \Magento\Framework\Model\Context $context
       * @param \Magento\Framework\Registry $registry
-@@ -120,6 +127,9 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+@@ -120,6 +137,9 @@ class Validator extends \Magento\Framework\Model\AbstractModel
       * @param \Magento\Framework\Data\Collection\AbstractDb $resourceCollection
       * @param array $data
       * @param CartFixedDiscount|null $cartFixedDiscount
@@ -79,7 +89,7 @@ index 7b3a6b1..dfb6940 100644
       * @SuppressWarnings(PHPMD.ExcessiveParameterList)
       */
      public function __construct(
-@@ -135,7 +145,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+@@ -135,7 +155,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
          \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
          \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
          array $data = [],
@@ -91,18 +101,34 @@ index 7b3a6b1..dfb6940 100644
      ) {
          $this->_collectionFactory = $collectionFactory;
          $this->_catalogData = $catalogData;
-@@ -147,6 +160,10 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+@@ -147,6 +170,12 @@ class Validator extends \Magento\Framework\Model\AbstractModel
          $this->cartFixedDiscountHelper = $cartFixedDiscount ?:
              ObjectManager::getInstance()->get(CartFixedDiscount::class);
          parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 +
 +        // BEGIN PATCH
 +        $this->taxConfig = $taxConfig ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class);
++        $this->ipetCatalogConfiguration = \Magento\Framework\App\ObjectManager::getInstance()->get(\Creativestyle\CustomizationIpetCatalog\Helper\Configuration::class);
++        $this->priceRound = \Magento\Framework\App\ObjectManager::getInstance()->get(\Creativestyle\CustomizationIpetCatalog\Model\Product\PriceRound::class);
 +        // END PATCH
      }
  
      /**
-@@ -365,8 +382,19 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+@@ -344,6 +373,13 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+                     $discountAmount = ($shippingAmount - $address->getShippingDiscountAmount()) * $rulePercent / 100;
+                     $baseDiscountAmount = ($baseShippingAmount -
+                             $address->getBaseShippingDiscountAmount()) * $rulePercent / 100;
++
++                    // BEGIN PATCH
++                    if ($this->ipetCatalogConfiguration->roundPriceToNearestFiveCents()) {
++                        $discountAmount = $this->priceRound->roundDown($discountAmount);
++                        $baseDiscountAmount = $this->priceRound->roundDown($baseDiscountAmount);
++                    }
++                    // END PATCH
+                     $discountPercent = min(100, $address->getShippingDiscountPercent() + $rulePercent);
+                     $address->setShippingDiscountPercent($discountPercent);
+                     break;
+@@ -365,8 +401,19 @@ class Validator extends \Magento\Framework\Model\AbstractModel
                          $cartRules[$rule->getId()] = $rule->getDiscountAmount();
                      }
                      if ($cartRules[$rule->getId()] > 0) {
