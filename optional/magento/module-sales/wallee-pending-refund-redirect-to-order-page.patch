@@ -1,0 +1,33 @@
+diff --git a/Controller/Adminhtml/Order/Creditmemo/Save.php b/Controller/Adminhtml/Order/Creditmemo/Save.php
+index 63558c0..01f0135 100644
+--- a/Controller/Adminhtml/Order/Creditmemo/Save.php
++++ b/Controller/Adminhtml/Order/Creditmemo/Save.php
+@@ -20,6 +20,10 @@ class Save extends \Magento\Backend\App\Action implements HttpPostActionInterfac
+      */
+     const ADMIN_RESOURCE = 'Magento_Sales::sales_creditmemo';
+ 
++    // BEGIN PATCH
++    const WALLEE_REFUND_PENDING_STATUS_MESSAGE = 'The refund was requested successfully, but is still pending on the gateway.';
++    // END PATCH
++
+     /**
+      * @var \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader
+      */
+@@ -132,6 +136,17 @@ class Save extends \Magento\Backend\App\Action implements HttpPostActionInterfac
+                 return $resultForward;
+             }
+         } catch (\Magento\Framework\Exception\LocalizedException $e) {
++            // BEGIN PATCH
++            /*
++             * Sometimes, wallee takes over a minute to process a refund.
++             * In this case, it displays warning and stays on the new refund page which is confusing for an administrator.
++             * We redirect admin to the order view page, where the information about the pending refund is visible.
++             */
++            if ($e->getMessage() == self::WALLEE_REFUND_PENDING_STATUS_MESSAGE) {
++                $resultRedirect->setPath('sales/order/view', ['order_id' => $this->getRequest()->getParam('order_id')]);
++                return $resultRedirect;
++            }
++            // END PATCH
+             $this->messageManager->addErrorMessage($e->getMessage());
+             $this->_getSession()->setFormData($data);
+         } catch (\Exception $e) {
