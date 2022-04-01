@@ -184,6 +184,11 @@
                 "description": "Save address in address book opt-in while creating order from admin panel",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/save-address-admin-opt-in.patch",
                 "version-constraint": "^102.0.2"
+            },
+            {
+                "description": "Wallee pending refund - redirect to order view page (IPET-985)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/wallee-pending-refund-redirect-to-order-page.patch",
+                "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-shipping": [
