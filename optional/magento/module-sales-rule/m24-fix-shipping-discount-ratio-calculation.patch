@@ -52,7 +52,7 @@ index b1fda3e..22d4fef 100644
              $address->setCollectShippingRates(true);
              $address->collectShippingRates();
 diff --git a/Model/Validator.php b/Model/Validator.php
-index 7b3a6b1..e0912ed 100644
+index 7b3a6b1..86b74ca 100644
 --- a/Model/Validator.php
 +++ b/Model/Validator.php
 @@ -106,6 +106,23 @@ class Validator extends \Magento\Framework\Model\AbstractModel
@@ -142,7 +142,7 @@ index 7b3a6b1..e0912ed 100644
 +
 +                        $shippingPriceIncludesTax = $this->taxConfig->shippingPriceIncludesTax($quote->getStoreId());
 +
-+                        $shippingAmount = $shippingPriceIncludesTax ? $address->getShippingInclTax() : $address->getShippingAmount();
++                        $shippingAmount = $shippingPriceIncludesTax ? $address->getShippingAmountForDiscount() : $address->getShippingAmount();
 +                        $shippingAmount -= $address->getShippingDiscountAmount();
 +
 +                        $quoteBaseSubtotal = $shippingPriceIncludesTax ? (float) $quote->getTotals()['subtotal']->getValue() : (float) $quote->getBaseSubtotal();
