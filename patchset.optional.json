@@ -203,6 +203,11 @@
                 "description": "Use subtotal incl tax in proportion calculation for refund points logic (IPET-825)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/subtotal-incl-tax-in-refund-proportion-calculation.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Not set reward point name in discount description (IPET-986)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/not-set-reward-point-name-in-discount-description.patch",
+                "version-constraint": "*"
             }
         ],
         "amasty/module-xcoupon": [

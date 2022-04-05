@@ -1,0 +1,93 @@
+Disabling set reward point name in discount_description in quote/order.
+This description is confused for customer when "Spending discount calculation method = Apply to totals", because discount from reward points has separate position in totals.
+Issue appeared in ticket: IPET-986
+
+diff --git a/src/Rewards/Model/Total/Quote/Discount.php b/src/Rewards/Model/Total/Quote/Discount.php
+index 52d3087..a41ceb1 100644
+--- a/src/Rewards/Model/Total/Quote/Discount.php
++++ b/src/Rewards/Model/Total/Quote/Discount.php
+@@ -246,7 +246,9 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
+
+             return $this;
+         }
+-        $this->itemAddress->setDiscountDescription(__('Rewards Discount')->render());
++        // BEGIN PATCH
++        //$this->itemAddress->setDiscountDescription(__('Rewards Discount')->render());
++        // END PATCH
+
+         $items = $shippingAssignment->getItems();
+
+diff --git a/src/Rewards/Plugin/SalesRuleValidator.php b/src/Rewards/Plugin/SalesRuleValidator.php
+index 3895593..ebe24cd 100644
+--- a/src/Rewards/Plugin/SalesRuleValidator.php
++++ b/src/Rewards/Plugin/SalesRuleValidator.php
+@@ -125,36 +125,39 @@ class SalesRuleValidator
+
+         return $returnValue;
+     }
+-
+-    /**
+-     * @param Validator $validator
+-     * @param \callable $proceed
+-     * @param Address   $address
+-     * @param string    $separator
+-     *
+-     * @return Validator
+-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+-     */
+-    public function aroundPrepareDescription(Validator $validator, $proceed, $address, $separator = ', ')
+-    {
+-        \Magento\Framework\Profiler::start(__CLASS__ . ':' . __METHOD__);
+-        $descriptions = (array)$address->getDiscountDescriptionArray();
+-
+-        $quote    = $address->getQuote();
+-        $purchase = $this->rewardsPurchase->getByQuote($quote);
+-
+-        if ($purchase && $purchase->getSpendAmount() > 0) {
+-            $descriptions[] = $this->rewardsData->getPointsName();
+-        }
+-
+-        $address->setDiscountDescriptionArray($descriptions);
+-
+-        $returnValue = $proceed($address, $separator);
+-
+-        \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
+-
+-        return $returnValue;
+-    }
++// BEGIN PATCH
++// Disabling set reward point name in discount_description in quote/order.
++// This description is confused for customer when "Spending discount calculation method = Apply to totals", because discount from reward points has separate position in totals.
++//    /**
++//     * @param Validator $validator
++//     * @param \callable $proceed
++//     * @param Address   $address
++//     * @param string    $separator
++//     *
++//     * @return Validator
++//     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++//     */
++//    public function aroundPrepareDescription(Validator $validator, $proceed, $address, $separator = ', ')
++//    {
++//        \Magento\Framework\Profiler::start(__CLASS__ . ':' . __METHOD__);
++//        $descriptions = (array)$address->getDiscountDescriptionArray();
++//
++//        $quote    = $address->getQuote();
++//        $purchase = $this->rewardsPurchase->getByQuote($quote);
++//
++//        if ($purchase && $purchase->getSpendAmount() > 0) {
++//            $descriptions[] = $this->rewardsData->getPointsName();
++//        }
++//
++//        $address->setDiscountDescriptionArray($descriptions);
++//
++//        $returnValue = $proceed($address, $separator);
++//
++//        \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
++//
++//        return $returnValue;
++//    }
++// END PATCH
+ 
+     /**
+      * @return $this
