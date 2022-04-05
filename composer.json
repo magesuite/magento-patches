@@ -821,7 +821,7 @@
                 {
                     "description": "Fix non existing logger class",
                     "filename": "essential/aheadworks/module-giftcard/non-existing-class-fix.patch",
-                    "version-constraint": ">=1.2.9"
+                    "version-constraint": ">=1.2.9,<1.4.7"
                 }
             ],
             "aheadworks/module-product-question": [
