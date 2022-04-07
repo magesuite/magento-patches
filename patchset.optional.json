@@ -472,7 +472,7 @@
         ],
         "magento/module-grouped-product": [
             {
-                "description": "patch to change default sorting by position to sorting by custom flag and price [IPET-997]",
+                "description": "Patch to change default sorting by position to sorting by custom flag and price [IPET-997]",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-grouped-product/ipet-change-sort-associated-products.patch",
                 "version-constraint": "*"
             }
