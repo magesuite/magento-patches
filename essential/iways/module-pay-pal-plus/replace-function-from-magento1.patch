@@ -1,0 +1,48 @@
+diff --git a/Model/Webhook/Event.php b/Model/Webhook/Event.php
+--- a/Model/Webhook/Event.php
++++ b/Model/Webhook/Event.php
+@@ -74,14 +74,28 @@
+      */
+     protected $logger;
+
++//    BEGIN PATCH
++    /**
++     * @var \Magento\Paypal\Model\Pro
++     */
++    protected $paypalPro;
++//    END PATCH
++
+     public function __construct(
+         \Magento\Sales\Model\Order\Payment\TransactionFactory $salesOrderPaymentTransactionFactory,
+         \Magento\Sales\Model\OrderFactory $salesOrderFactory,
+-        \Psr\Log\LoggerInterface $logger
++//        \Psr\Log\LoggerInterface $logger
++//        BEGIN PATCH
++        \Psr\Log\LoggerInterface $logger,
++        \Magento\Paypal\Model\Pro $paypalPro
++//        EBD PATCH
+     ) {
+         $this->salesOrderPaymentTransactionFactory = $salesOrderPaymentTransactionFactory;
+         $this->salesOrderFactory = $salesOrderFactory;
+         $this->logger = $logger;
++//        BEGIN PATCH
++        $this->paypalPro = $paypalPro;
++//        END PATCH
+     }
+
+     /**
+@@ -225,8 +239,12 @@
+         $this->_order->getPayment()
+             ->setPreparedMessage($webhookEvent->getSummary())
+             ->setTransactionId($paymentResource->id)
+-            ->setIsTransactionClosed(0)
+-            ->registerPaymentReviewAction(\Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE, false);
++            ->setIsTransactionClosed(0);
++//            ->setIsTransactionClosed(0)
++//            ->registerPaymentReviewAction(\Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE, false);
++//        BEGIN PATCH
++        $this->paypalPro->reviewPayment($this->_order->getPayment(), \Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE);
++//        END PATCH
+         $this->_order->save();
+     }
+
