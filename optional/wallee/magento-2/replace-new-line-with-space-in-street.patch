@@ -15,3 +15,21 @@ index 91c0112..983e234 100644
          return $address;
      }
  
+diff --git a/Model/Service/Quote/TransactionService.php b/Model/Service/Quote/TransactionService.php
+index 2c11961..9bc41e9 100644
+--- a/Model/Service/Quote/TransactionService.php
++++ b/Model/Service/Quote/TransactionService.php
+@@ -419,7 +419,12 @@ class TransactionService extends AbstractTransactionService
+         }
+         $address->setPostCode(
+             $this->helper->fixLength($this->helper->removeLinebreaks($customerAddress->getPostcode()), 40));
+-        $address->setStreet($this->helper->fixLength($customerAddress->getStreetFull(), 300));
++        // BEGIN PATCH
++        // Replace new line character with space
++        // $address->setStreet($this->helper->fixLength($customerAddress->getStreetFull(), 300));
++        $street = $customerAddress->getStreet();
++        $address->setStreet($this->helper->fixLength(\is_array($street) ? \implode(" ", $street) : $street, 300));
++        // END PATCH
+         return $address;
+     }
+ 
