@@ -1590,6 +1590,13 @@
                     "filename": "essential/mirasvit/module-rewards/fix-error-in-unsubscribe-controller.patch",
                     "version-constraint": ">=3.0.40"
                 }
+            ],
+            "magepal/magento2-enhanced-ecommerce": [
+                {
+                    "description": "Avoid loading product for a second time",
+                    "filename": "essential/magepal/magento2-enhanced-ecommerce/avoid-loading-product-second-time.patch",
+                    "version-constraint": ">=1.7.2"
+                }
             ]
         }
     }
