@@ -1,0 +1,18 @@
+diff --git a/src/Rewards/Helper/Balance/Spend/QuoteSubtotalCalc.php b/src/Rewards/Helper/Balance/Spend/QuoteSubtotalCalc.php
+index 6560c77..c3b6237 100644
+--- a/src/Rewards/Helper/Balance/Spend/QuoteSubtotalCalc.php
++++ b/src/Rewards/Helper/Balance/Spend/QuoteSubtotalCalc.php
+@@ -76,6 +76,13 @@ class QuoteSubtotalCalc
+                 $rewardsTotal = $totals->getBaseGrandTotal();
+                 if (!$this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {
+                     $rewardsTotal -= $totals->getBaseTotalAmount('shipping');
++
++                    // BEGIN PATCH
++                    // set 0 if calculated amount is lower than 0 (it can happen if discount is higher than subtotal)
++                    if ($rewardsTotal < 0) {
++                        $rewardsTotal = 0;
++                    }
++                    // END PATCH
+                 }
+             } else {
+                 //subtotal + -discount

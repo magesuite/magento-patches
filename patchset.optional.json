@@ -208,6 +208,11 @@
                 "description": "Not set reward point name in discount description (IPET-986)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/not-set-reward-point-name-in-discount-description.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix negative reward total (it can happen if discount is higher than subtotal)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-minimum-reward-totals.patch",
+                "version-constraint": "*"
             }
         ],
         "amasty/module-xcoupon": [
@@ -468,6 +473,13 @@
                 "description": "Fix products import issue with categories paths default store.",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/m222-catalog-import-export-fix-import-categories-store.patch",
                 "version-constraint": "100.2.2"
+            }
+        ],
+        "magento/module-grouped-product": [
+            {
+                "description": "Patch to change default sorting by position to sorting by custom flag and price [IPET-997]",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-grouped-product/ipet-change-sort-associated-products.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-configurable-product": [
