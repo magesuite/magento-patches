@@ -31,16 +31,22 @@ diff --git a/Model/Webhook/Event.php b/Model/Webhook/Event.php
      }
 
      /**
-@@ -225,8 +239,12 @@
+@@ -222,11 +236,18 @@
+     protected function paymentSalePending(\PayPal\Api\WebhookEvent $webhookEvent)
+     {
+         $paymentResource = $webhookEvent->getResource();
++//        $this->_order->getPayment()
++//            ->setPreparedMessage($webhookEvent->getSummary())
++//            ->setTransactionId($paymentResource->id)
++//            ->setIsTransactionClosed(0)
++//            ->registerPaymentReviewAction(\Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE, false);
++//        BEGIN PATCH
          $this->_order->getPayment()
              ->setPreparedMessage($webhookEvent->getSummary())
              ->setTransactionId($paymentResource->id)
 -            ->setIsTransactionClosed(0)
 -            ->registerPaymentReviewAction(\Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE, false);
 +            ->setIsTransactionClosed(0);
-+//            ->setIsTransactionClosed(0)
-+//            ->registerPaymentReviewAction(\Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE, false);
-+//        BEGIN PATCH
 +        $this->paypalPro->reviewPayment($this->_order->getPayment(), \Magento\Sales\Model\Order\Payment::REVIEW_ACTION_UPDATE);
 +//        END PATCH
          $this->_order->save();
