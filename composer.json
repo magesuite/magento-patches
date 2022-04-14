@@ -884,6 +884,11 @@
                     "description": "Fixes free shipping cart rule bug.",
                     "filename": "essential/magento/module-quote/m23plus-fix-free-shipping-cart-rule.patch",
                     "version-constraint": ">=101.0.0"
+                },
+                {
+                    "description": "Fix translations in the rest api request",
+                    "filename": "essential/magento/module-quote/fix-translations-in-the-rest-api-request.patch",
+                    "version-constraint": ">=101.2.1"
                 }
             ],
             "magento/module-quick-order": [
