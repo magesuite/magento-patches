@@ -52,7 +52,7 @@ index b1fda3e..22d4fef 100644
              $address->setCollectShippingRates(true);
              $address->collectShippingRates();
 diff --git a/Model/Validator.php b/Model/Validator.php
-index 7b3a6b1..9266a57 100644
+index 7b3a6b1..5392bdb 100644
 --- a/Model/Validator.php
 +++ b/Model/Validator.php
 @@ -106,6 +106,23 @@ class Validator extends \Magento\Framework\Model\AbstractModel
@@ -149,3 +149,24 @@ index 7b3a6b1..9266a57 100644
                          $isMultiShipping = $this->cartFixedDiscountHelper->checkMultiShippingQuote($quote);
                          if ($isAppliedToShipping) {
                              $quoteBaseSubtotal = ($quote->getIsMultiShipping() && $isMultiShipping) ?
+@@ -401,6 +447,20 @@ class Validator extends \Magento\Framework\Model\AbstractModel
+                     break;
+             }
+ 
++            // BEGIN PATCH
++            // if some cases, there can be a situation when discount isn't rounded correctly and -+0.01 is missing
++
++            $discountTotalAmount = $address->getDiscountAmount() - $discountAmount;
++
++            if ($this->ipetCatalogConfiguration->roundPriceToNearestFiveCents()) {
++                $roundedDiscountAmount = $this->priceRound->roundDown($discountTotalAmount);
++                $discountDiff = $discountTotalAmount - $roundedDiscountAmount;
++
++                $discountAmount += $discountDiff;
++                $baseDiscountAmount += $discountDiff;
++            }
++            // END PATCH
++
+             $discountAmount = min($address->getShippingDiscountAmount() + $discountAmount, $shippingAmount);
+             $baseDiscountAmount = min(
+                 $address->getBaseShippingDiscountAmount() + $baseDiscountAmount,
