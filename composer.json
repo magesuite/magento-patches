@@ -309,6 +309,11 @@
                     "description": "Fix invoice grand total amount for orders with discounts",
                     "filename": "essential/magento/module-sales/m242-invoice-grand-total-amount.patch",
                     "version-constraint": "103.0.2"
+                },
+                {
+                    "description": "Fix displaying tax in admin invoice",
+                    "filename": "essential/magento/module-sales/m243-fix-displaying-tax-in-admin-invoice.patch",
+                    "version-constraint": ">=103.0.3,<103.0.4"
                 }
             ],
             "magento/module-store": [
