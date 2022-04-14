@@ -1595,7 +1595,7 @@
                 {
                     "description": "Avoid loading product for a second time",
                     "filename": "essential/magepal/magento2-enhanced-ecommerce/avoid-loading-product-second-time.patch",
-                    "version-constraint": ">=1.7.2"
+                    "version-constraint": ">=1.7.1,<1.7.3"
                 }
             ]
         }
