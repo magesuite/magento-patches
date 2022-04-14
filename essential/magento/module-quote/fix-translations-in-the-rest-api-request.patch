@@ -1,0 +1,46 @@
+Translate discount error in the rest api request
+Github issue: https://github.com/magento/magento2/issues/26333
+
+diff --git a/Model/CouponManagement.php b/Model/CouponManagement.php
+index 0c93724..c9cf5f9 100644
+--- a/Model/CouponManagement.php
++++ b/Model/CouponManagement.php
+@@ -25,6 +25,10 @@ class CouponManagement implements CouponManagementInterface
+      */
+     protected $quoteRepository;
+
++    // PATCH BEGIN
++    protected \Magento\Store\Model\App\Emulation $emulation;
++    // PATCH END
++
+     /**
+      * Constructs a coupon read service object.
+      *
+@@ -32,8 +36,14 @@ class CouponManagement implements CouponManagementInterface
+      */
+     public function __construct(
+         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
++        // PATCH BEGIN
++        ,\Magento\Store\Model\App\Emulation $emulation
++        // PATCH END
+     ) {
+         $this->quoteRepository = $quoteRepository;
++        // PATCH BEGIN
++        $this->emulation = $emulation;
++        // PATCH END
+     }
+
+     /**
+@@ -73,7 +83,12 @@ class CouponManagement implements CouponManagementInterface
+             );
+         }
+         if ($quote->getCouponCode() != $couponCode) {
++            // PATCH BEGIN
++            // throw new NoSuchEntityException(__("The coupon code isn't valid. Verify the code and try again."));
++            $this->emulation->startEnvironmentEmulation($quote->getStoreId(), 'frontend', true);
+             throw new NoSuchEntityException(__("The coupon code isn't valid. Verify the code and try again."));
++            $this->emulation->stopEnvironmentEmulation();
++            // PATCH END
+         }
+         return true;
+     }
