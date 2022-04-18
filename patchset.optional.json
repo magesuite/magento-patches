@@ -562,6 +562,13 @@
                 "version-constraint": ">=101.2.3"
             }
         ],
+        "magento/module-tax": [
+            {
+                "description": "Add payment fee tax to aggregated taxes (iPet)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-tax/add-payment-fee-tax-to-aggregated-taxes.patch",
+                "version-constraint": ">=100.4.3"
+            }
+        ],
         "mageplaza/module-currency-formatter": [
             {
                 "description": "Prevents triggering JS logic when extension is disabled",
