@@ -1,5 +1,5 @@
 diff --git a/Model/Webhook/Listener/Refund/SuccessfulCommand.php b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
-index 0cd0e36..d1b2be1 100644
+index 0cd0e36..90dff06 100644
 --- a/Model/Webhook/Listener/Refund/SuccessfulCommand.php
 +++ b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
 @@ -240,9 +240,22 @@ class SuccessfulCommand extends AbstractCommand
@@ -11,10 +11,10 @@ index 0cd0e36..d1b2be1 100644
 +                    // Add payment fee to $creditmemoAmount. Otherwise, it will be added as adjustment_positive to refund and it will break creation of creditmemo
 +                    if ($reduction->getQuantityReduction() > 0 && $order->getPaymentFee()) {
 +                        $creditmemoAmount += ($order->getPaymentFee() + $order->getPaymentFeeTax());
-+                        $creditmemoAmount += ($order->getPaymentFeeTax() + $order->getPaymentFeeTaxDiscount());
++                        $creditmemoAmount -= ($order->getPaymentFeeTax() + $order->getPaymentFeeTaxDiscount());
 +                    }
 +                    break;
-+                // END PATCH
++                    // END PATCH
                  case LineItemType::DISCOUNT:
                      break;
                  case LineItemType::SHIPPING:
