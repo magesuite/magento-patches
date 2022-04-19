@@ -1,0 +1,26 @@
+diff --git a/view/adminhtml/web/js/product-attributes.js b/view/adminhtml/web/js/product-attributes.js
+index 0a9d3d6..07fda95 100644
+--- a/view/adminhtml/web/js/product-attributes.js
++++ b/view/adminhtml/web/js/product-attributes.js
+@@ -174,11 +174,14 @@ define([
+                  * @this {swatchProductAttributes}
+                  */
+                 switchIsFilterable: function () {
+-                    if (this.isFilterable.selectedIndex === 0) {
+-                        this._disable(this.position);
+-                    } else {
+-                        this._enable(this.position);
+-                    }
++                    // PATCH BEGIN
++                    // Forcing enabling position field
++                        //if (this.isFilterable.selectedIndex === 0) {
++                        //    this._disable(this.position);
++                        //} else {
++                            this._enable(this.position);
++                        //}
++                    // PATCH END
+                 },
+
+                 /**
+--
+2.30.1 (Apple Git-130)

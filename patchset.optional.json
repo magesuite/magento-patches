@@ -36,6 +36,13 @@
                 "version-constraint": "2.10.1"
             }
         ],
+        "smile/module-elasticsuite-swatches": [
+            {
+                "description": "Feat: forcing enabling position field in the product attribute form",
+                "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-swatches/m24-forcing-enabling-position-field.patch",
+                "version-constraint": ">=2.10.1"
+            }
+        ],
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
