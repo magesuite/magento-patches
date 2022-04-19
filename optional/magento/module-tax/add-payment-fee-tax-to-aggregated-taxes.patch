@@ -1,0 +1,25 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index 0e95046..1d19cdc 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -774,6 +774,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+             }
+         }
+ 
++        // BEGIN PATCH
++
++        // Add payment fee tax item to aggregatedTaxes
++        $paymentFeeRatio = 1;
++        foreach ($orderTaxDetails->getItems() as $itemTaxDetail) {
++            if ($itemTaxDetail->getType() != 'payment_fee') {
++                continue;
++            }
++
++            $taxClassAmount = $this->_aggregateTaxes($taxClassAmount, $itemTaxDetail, $paymentFeeRatio);
++        }
++
++        // END PATCH
++
+         return $taxClassAmount;
+     }
+ 

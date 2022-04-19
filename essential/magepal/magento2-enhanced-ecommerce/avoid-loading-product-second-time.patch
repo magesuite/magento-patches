@@ -1,0 +1,48 @@
+diff --git a/Plugin/Controller/Cart/Add.php b/Plugin/Controller/Cart/Add.php
+index 16ef67c..a929192 100644
+--- a/Plugin/Controller/Cart/Add.php
++++ b/Plugin/Controller/Cart/Add.php
+@@ -47,6 +47,10 @@ class Add
+      */
+     private $gtmHelper;
+ 
++    // PATCH BEGIN
++    protected \Magento\Store\Model\StoreManagerInterface $storeManager;
++    // PATCH END
++
+     /**
+      * @param  RequestInterface  $request
+      * @param  ResponseInterface  $response
+@@ -62,6 +66,9 @@ class Add
+         EnhancedEcommerceSession $enhancedEcommerceSession,
+         ProductRepositoryInterface $productRepository,
+         GtmHelper $gtmHelper
++        // PATCH BEGIN
++        ,\Magento\Store\Model\StoreManagerInterface $storeManager
++        // PATCH END
+     ) {
+         $this->request = $request;
+         $this->response = $response;
+@@ -69,6 +76,9 @@ class Add
+         $this->messageManager = $messageManager;
+         $this->productRepository = $productRepository;
+         $this->gtmHelper = $gtmHelper;
++        // PATCH BEGIN
++        $this->storeManager = $storeManager;
++        // PATCH END
+     }
+ 
+     /**
+@@ -136,7 +146,11 @@ class Add
+ 
+         if ($productId) {
+             try {
+-                return $this->productRepository->getById($productId);
++                return $this->productRepository->getById($productId
++                    // PATCH BEGIN
++                    ,false, $this->storeManager->getStore()->getId()
++                    // PATCH END
++                );
+             } catch (NoSuchEntityException $e) {
+                 return false;
+             }

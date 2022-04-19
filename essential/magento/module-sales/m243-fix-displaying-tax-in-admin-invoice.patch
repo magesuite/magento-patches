@@ -1,0 +1,36 @@
+This patch fixing displaying invoice in admin panel because in some cases page cannot be opened.
+
+Bug appeared in version 2.4.3, fixed in 2.4.4 (revert to state from 2.4.2)
+
+PR: https://github.com/magento/magento2/commit/d648bdc238ba6b59890694251655f725ad1b5d88
+
+diff --git a/view/adminhtml/templates/order/totals/tax.phtml b/view/adminhtml/templates/order/totals/tax.phtml
+index 0ae7f71..c7bf110 100644
+--- a/view/adminhtml/templates/order/totals/tax.phtml
++++ b/view/adminhtml/templates/order/totals/tax.phtml
+@@ -56,10 +56,11 @@ $randomHelper = $block->getData('randomHelper');
+             $baseAmount = $info['base_amount'];
+             $rates      = $info['rates'];
+             $isFirst    = 1;
++            $rateRow    = 0;
+             ?>
+ 
+             <?php foreach ($rates as $rate): ?>
+-                <tr id="rate-<?= /* @noEscape */ $rate->getId() ?>"
++                <tr id="rate-<?= $rateRow ?>"
+                     class="summary-details<?= ($isTop ? ' summary-details-first' : '') ?>">
+                     <?php if ($rate['percent'] !== null): ?>
+                         <td class="admin__total-mark">
+@@ -74,10 +75,11 @@ $randomHelper = $block->getData('randomHelper');
+                         </td>
+                     <?php endif; ?>
+                 </tr>
+-                <?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display:none;", 'tr#rate-' . $rate->getId()) ?>
++                <?= /* @noEscape */ $secureRenderer->renderStyleAsTag("display:none;", 'tr#rate-' . $rateRow) ?>
+                 <?php
+                 $isFirst = 0;
+                 $isTop = 0;
++                $rateRow++;
+                 ?>
+             <?php endforeach; ?>
+         <?php endforeach; ?>
