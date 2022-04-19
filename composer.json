@@ -1601,6 +1601,13 @@
                     "version-constraint": ">=3.0.40"
                 }
             ],
+            "iways/module-pay-pal-plus": [
+                {
+                    "description": "Replace old magento 1 function with paypal function",
+                    "filename": "essential/iways/module-pay-pal-plus/replace-function-from-magento1.patch",
+                    "version-constraint": ">=1.3.6"
+                }
+            ],
             "magepal/magento2-enhanced-ecommerce": [
                 {
                     "description": "Avoid loading product for a second time",
