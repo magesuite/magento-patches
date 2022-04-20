@@ -1,0 +1,33 @@
+Disabling url_path generation for categories to avoid problems with wrong generated url_rewrite  in multi store shop.
+Issue appeared in ticket: IPET-1087
+
+diff --git a/Observer/CategoryUrlPathAutogeneratorObserver.php b/Observer/CategoryUrlPathAutogeneratorObserver.php
+index 9593f5c..ff5d375 100644
+--- a/Observer/CategoryUrlPathAutogeneratorObserver.php
++++ b/Observer/CategoryUrlPathAutogeneratorObserver.php
+@@ -122,14 +122,17 @@ class CategoryUrlPathAutogeneratorObserver implements ObserverInterface
+     private function updateUrlKey(Category $category, ?string $urlKey): void
+     {
+         $this->validateUrlKey($category, $urlKey);
+-        $category->setUrlKey($urlKey)
+-            ->setUrlPath($this->categoryUrlPathGenerator->getUrlPath($category));
+-        if (!$category->isObjectNew()) {
+-            $category->getResource()->saveAttribute($category, 'url_path');
+-            if ($category->dataHasChangedFor('url_path')) {
+-                $this->updateUrlPathForChildren($category);
+-            }
+-        }
++        $category->setUrlKey($urlKey);
++// BEGIN PATCH
++// Disable generate url_path for categories to avoid problems with wrong url_rewrite generated in multi store shop.
++//            ->setUrlPath($this->categoryUrlPathGenerator->getUrlPath($category));
++//        if (!$category->isObjectNew()) {
++//            $category->getResource()->saveAttribute($category, 'url_path');
++//            if ($category->dataHasChangedFor('url_path')) {
++//                $this->updateUrlPathForChildren($category);
++//            }
++//        }
++// END PATCH
+     }
+ 
+     /**

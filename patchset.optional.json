@@ -545,6 +545,13 @@
                 "version-constraint": ">=104.0.1"
             }
         ],
+        "magento/module-catalog-url-rewrite": [
+            {
+                "description": "Disable generation of url_path for categories",
+                "filename": "essential/magento/module-catalog-url-rewrite/disabling-url-path-generation-for-categories",
+                "version-constraint": ">=100.4.3"
+            }
+        ],
         "magento/magento2-base": [
             {
                 "description": "Remove date validation as it is very rarely used and load whole moment library",
