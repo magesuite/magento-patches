@@ -1,7 +1,8 @@
 diff --git a/view/adminhtml/web/js/product-attributes.js b/view/adminhtml/web/js/product-attributes.js
+
 index 0a9d3d6..07fda95 100644
---- a/view/adminhtml/web/js/product-attributes.js
-+++ b/view/adminhtml/web/js/product-attributes.js
+--- a/src/module-elasticsuite-swatches/view/adminhtml/web/js/product-attributes.js
++++ b/src/module-elasticsuite-swatches/view/adminhtml/web/js/product-attributes.js
 @@ -174,11 +174,14 @@ define([
                   * @this {swatchProductAttributes}
                   */

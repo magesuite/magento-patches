@@ -27,6 +27,11 @@
                 "description": "Remove dependency to whole jquery-ui",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/remove-whole-jquery-ui-dependency.patch",
                 "version-constraint": "<=2.10.3"
+            },
+            {
+              "description": "Feat: forcing enabling position field in the product attribute form",
+              "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-swatches/m24-forcing-enabling-position-field.patch",
+              "version-constraint": ">=2.10.1"
             }
         ],
         "smile/module-elasticsuite-shared-catalog": [
@@ -34,13 +39,6 @@
                 "description": "Fix sharedCatalog magento method that changed name",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-shared-catalog/m24-fix-elasticsuite-shared-catalog-collection-plugin.patch",
                 "version-constraint": "2.10.1"
-            }
-        ],
-        "smile/module-elasticsuite-swatches": [
-            {
-                "description": "Feat: forcing enabling position field in the product attribute form",
-                "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-swatches/m24-forcing-enabling-position-field.patch",
-                "version-constraint": ">=2.10.1"
             }
         ],
         "magento/module-ui": [
