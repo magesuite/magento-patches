@@ -218,6 +218,11 @@
                 "description": "Fix negative reward total (it can happen if discount is higher than subtotal)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-minimum-reward-totals.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Don't substract discount from price because it generates problems if coupon code is added",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/do-not-substract-discount-from-item-price.patch",
+                "version-constraint": "*"
             }
         ],
         "amasty/module-xcoupon": [

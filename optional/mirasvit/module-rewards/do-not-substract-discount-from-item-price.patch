@@ -1,0 +1,19 @@
+diff --git a/src/Rewards/Service/Quote/Item/CalcPriceService.php b/src/Rewards/Service/Quote/Item/CalcPriceService.php
+index ec47d8a..8a175df 100644
+--- a/src/Rewards/Service/Quote/Item/CalcPriceService.php
++++ b/src/Rewards/Service/Quote/Item/CalcPriceService.php
+@@ -132,8 +132,12 @@ class CalcPriceService
+             if (!$this->isApplyTaxAfterDiscount()) {
+                 $itemTotalPrice     += $tax;
+                 $baseItemTotalPrice += $baseTax;
+-                $itemTotalPrice     -= $item->getData(OrderItemInterface::DISCOUNT_AMOUNT);
+-                $baseItemTotalPrice -= $item->getData(OrderItemInterface::BASE_DISCOUNT_AMOUNT);
++                // BEGIN PATCH
++                // Don't substract discount from price because it generates problems if coupon code is added
++
++                //$itemTotalPrice     -= $item->getData(OrderItemInterface::DISCOUNT_AMOUNT);
++                //$baseItemTotalPrice -= $item->getData(OrderItemInterface::BASE_DISCOUNT_AMOUNT);
++                // END PATCH
+             }
+         } else { // for bundle products price does not mark as percent
+             if ($this->config->getGeneralIsIncludeTaxSpending()) {
