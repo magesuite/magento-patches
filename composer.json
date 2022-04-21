@@ -894,6 +894,11 @@
                     "description": "Fix translations in the rest api request",
                     "filename": "essential/magento/module-quote/fix-translations-in-the-rest-api-request.patch",
                     "version-constraint": ">=101.2.1"
+                },
+                {
+                    "description": "Fix invalid address in the checkout",
+                    "filename": "essential/magento/module-quote/m24-fix-invalid-address-in-the-checkout.patch",
+                    "version-constraint": ">=101.2.3"
                 }
             ],
             "magento/module-quick-order": [
