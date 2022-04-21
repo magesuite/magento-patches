@@ -546,7 +546,7 @@
         "magento/module-catalog-url-rewrite": [
             {
                 "description": "Disable generation of url_path for categories",
-                "filename": "essential/magento/module-catalog-url-rewrite/disabling-url-path-generation-for-categories",
+                "filename": "essential/magento/module-catalog-url-rewrite/disabling-url-path-generation-for-categories.patch",
                 "version-constraint": ">=100.4.3"
             }
         ],
