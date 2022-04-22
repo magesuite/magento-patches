@@ -1,15 +1,21 @@
 diff --git a/Helper/Data.php b/Helper/Data.php
-index 0e95046..1d19cdc 100644
+index 0e95046..171fade 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
-@@ -774,6 +774,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -774,6 +774,25 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
              }
          }
  
 +        // BEGIN PATCH
-+
 +        // Add payment fee tax item to aggregatedTaxes
-+        $paymentFeeRatio = 1;
++        $paymentFeeTaxAmount = $salesItem->getPaymentFeeTax() - $salesItem->getPaymentFeeTaxDiscount();
++        $originalPaymentFeeTaxAmount = $order->getPaymentFeeTax() - $order->getPaymentFeeTaxDiscount();
++
++        if ($originalPaymentFeeTaxAmount <= 0 || $paymentFeeTaxAmount <= 0) {
++            return $taxClassAmount;
++        }
++
++        $paymentFeeRatio = $paymentFeeTaxAmount / $originalPaymentFeeTaxAmount;
 +        foreach ($orderTaxDetails->getItems() as $itemTaxDetail) {
 +            if ($itemTaxDetail->getType() != 'payment_fee') {
 +                continue;
@@ -17,7 +23,6 @@ index 0e95046..1d19cdc 100644
 +
 +            $taxClassAmount = $this->_aggregateTaxes($taxClassAmount, $itemTaxDetail, $paymentFeeRatio);
 +        }
-+
 +        // END PATCH
 +
          return $taxClassAmount;
