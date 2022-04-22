@@ -550,8 +550,8 @@
         ],
         "magento/module-catalog-url-rewrite": [
             {
-                "description": "Disable generation of url_path for categories",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-url-rewrite/disabling-url-path-generation-for-categories.patch",
+                "description": "Force generation of url_path per storeviews for categories",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-url-rewrite/force-url-path-generation-per-storeviews-for-categories.patch",
                 "version-constraint": ">=100.4.3"
             }
         ],

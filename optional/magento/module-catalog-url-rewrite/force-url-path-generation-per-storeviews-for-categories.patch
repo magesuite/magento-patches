@@ -1,0 +1,24 @@
+Force url_path generation for all storeviews assigned to category to avoid problems with wrong generated url_rewrite in multi store shop.
+Issue appeared in ticket: IPET-1087
+
+diff --git a/Observer/CategoryUrlPathAutogeneratorObserver.php b/Observer/CategoryUrlPathAutogeneratorObserver.php
+index 9593f5c..5af8a6f 100644
+--- a/Observer/CategoryUrlPathAutogeneratorObserver.php
++++ b/Observer/CategoryUrlPathAutogeneratorObserver.php
+@@ -125,7 +125,15 @@ class CategoryUrlPathAutogeneratorObserver implements ObserverInterface
+         $category->setUrlKey($urlKey)
+             ->setUrlPath($this->categoryUrlPathGenerator->getUrlPath($category));
+         if (!$category->isObjectNew()) {
+-            $category->getResource()->saveAttribute($category, 'url_path');
++            // BEGIN PATCH
++            //$category->getResource()->saveAttribute($category, 'url_path');
++
++            foreach ($category->getStoreIds() as $storeId) {
++                $categoryStoreScope = $this->categoryRepository->get($category->getId(), $storeId);
++                $this->updateUrlPathForCategory($categoryStoreScope);
++            }
++            // END PATCH
++
+             if ($category->dataHasChangedFor('url_path')) {
+                 $this->updateUrlPathForChildren($category);
+             }
