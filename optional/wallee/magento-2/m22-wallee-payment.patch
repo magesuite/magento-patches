@@ -14,7 +14,17 @@ Temporary patch prepared by Computop to fix their wallee payment module.
          $transport = new DataObject([
              'items' => $items
          ]);
-@@ -382,6 +387,30 @@ abstract class AbstractLineItemService
+@@ -178,7 +183,8 @@ abstract class AbstractLineItemService
+      */
+     private function convertItem($entityItem, $entity)
+     {
+-        $amountIncludingTax = $entityItem->getRowTotal() - $entityItem->getDiscountAmount() + $entityItem->getTaxAmount() +
++        $entityItemDiscountAmount = $entityItem->getDiscountAmount() > 0 ? $entityItem->getDiscountAmount() : 0;
++        $amountIncludingTax = $entityItem->getRowTotal() - $entityItemDiscountAmount + $entityItem->getTaxAmount() +
+             $entityItem->getDiscountTaxCompensationAmount();
+ 
+         $currency = $this->getCurrencyCode($entity);
+@@ -409,6 +415,30 @@ abstract class AbstractLineItemService
          }
      }
  
@@ -45,3 +55,10 @@ Temporary patch prepared by Computop to fix their wallee payment module.
      /**
       * Gets the unique ID for the line item of the given entity.
       *
+@@ -424,4 +454,4 @@ abstract class AbstractLineItemService
+      * @return string
+      */
+     abstract protected function getCurrencyCode($entity);
+-}
+\ No newline at end of file
++}
