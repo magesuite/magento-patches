@@ -1,0 +1,12 @@
+diff --git a/view/adminhtml/layout/catalog_product_edit.xml b/view/adminhtml/layout/catalog_product_edit.xml
+index 4809584..3e19783 100644
+--- a/view/adminhtml/layout/catalog_product_edit.xml
++++ b/view/adminhtml/layout/catalog_product_edit.xml
+@@ -2,6 +2,6 @@
+ 
+ <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+     <head>
+-        <css src="Amasty_ShippingTableRates::css/stype.css"/>
++        <css src="Amasty_ShippingTableRates::css/style.css"/>
+     </head>
+ </page>

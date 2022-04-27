@@ -356,6 +356,13 @@
                     "version-constraint": ">=2.3.7,<2.3.9"
                 }
             ],
+            "amasty/shippingtablerates": [
+                {
+                    "description": "Fix adminhtml style css filename",
+                    "filename": "essential/amasty/shippingtablerates/fix-adminhtml-style-css-filename.patch",
+                    "version-constraint": ">=1.10.4"
+                }
+            ],
             "magento/magento2-base": [
                 {
                     "description": "Fix fullscreen product gallery touch swiping",
