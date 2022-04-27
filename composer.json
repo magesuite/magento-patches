@@ -553,6 +553,16 @@
                     "description": "Fix for scenario with failing tests when servername is not set for magento 2.3.7",
                     "filename": "essential/smile/elasticsuite/es-fix-for-empty-servername-for-m237.patch",
                     "version-constraint": ">=2.9.10.1,<2.10"
+                },
+                {
+                    "description": "Improves performance of virtual category query generation.",
+                    "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v.2.9.x.patch",
+                    "version-constraint": ">=2.9.0,<2.10.0"
+                },
+                {
+                    "description": "Improves performance of virtual category query generation.",
+                    "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v.2.10.x.patch",
+                    "version-constraint": ">=2.10.0"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
