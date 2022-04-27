@@ -1,0 +1,63 @@
+Improves performance of virtual category query generation.
+
+diff --git a/src/module-elasticsuite-virtual-category/Model/Rule.php b/src/module-elasticsuite-virtual-category/Model/Rule.php
+index f23975b..2490c9e 100644
+--- a/src/module-elasticsuite-virtual-category/Model/Rule.php
++++ b/src/module-elasticsuite-virtual-category/Model/Rule.php
+@@ -13,6 +13,8 @@
+  */
+ namespace Smile\ElasticsuiteVirtualCategory\Model;
+
++use Magento\Catalog\Model\CategoryRepository;
++use Magento\Framework\Exception\NoSuchEntityException;
+ use Magento\Store\Model\StoreManagerInterface;
+ use Smile\ElasticsuiteCatalogRule\Model\Data\ConditionFactory as ConditionDataFactory ;
+ use Smile\ElasticsuiteCore\Search\Request\QueryInterface;
+@@ -71,6 +73,11 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+      */
+     private $storeManager;
+
++    /**
++     * @var CategoryRepository
++     */
++    private $categoryRepository;
++
+     /**
+      * Constructor.
+      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+@@ -87,6 +94,7 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+      * @param CollectionFactory       $categoryCollectionFactory Virtual categories collection factory.
+      * @param QueryBuilder            $queryBuilder              Search rule query builder.
+      * @param StoreManagerInterface   $storeManagerInterface     Store Manager
++     * @param CategoryRepository      $categoryRepository        Category repository
+      * @param array                   $data                      Additional data.
+      */
+     public function __construct(
+@@ -102,6 +110,7 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+         CollectionFactory $categoryCollectionFactory,
+         QueryBuilder $queryBuilder,
+         StoreManagerInterface $storeManagerInterface,
++        CategoryRepository $categoryRepository,
+         array $data = []
+     ) {
+         $this->queryFactory              = $queryFactory;
+@@ -110,6 +119,7 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+         $this->categoryCollectionFactory = $categoryCollectionFactory;
+         $this->queryBuilder              = $queryBuilder;
+         $this->storeManager              = $storeManagerInterface;
++        $this->categoryRepository        = $categoryRepository;
+
+         parent::__construct($context, $registry, $formFactory, $localeDate, $combineConditionsFactory, $conditionDataFactory, $data);
+     }
+@@ -245,7 +255,10 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+
+         if ($category->getVirtualCategoryRoot() !== null && !empty($category->getVirtualCategoryRoot())) {
+             $rootCategoryId = $category->getVirtualCategoryRoot();
+-            $rootCategory->load($rootCategoryId);
++            try {
++                $rootCategory = $this->categoryRepository->get($rootCategoryId, $storeId);
++            } catch (NoSuchEntityException $e) {
++            }
+         }
+
+         if ($rootCategory && $rootCategory->getId()
