@@ -1,0 +1,15 @@
+diff --git a/Model/SalesRule/UpdateHandler.php b/Model/SalesRule/UpdateHandler.php
+index e7e2887..75637d3 100644
+--- a/Model/SalesRule/UpdateHandler.php
++++ b/Model/SalesRule/UpdateHandler.php
+@@ -37,6 +37,10 @@ class UpdateHandler implements ExtensionInterface
+     {
+         $rule = $entity;
+         $ruleExtensionAttributes = $rule->getExtensionAttributes();
++        if (!$ruleExtensionAttributes) {
++            return $entity;
++        }
++
+         $ruleId = $this->ruleResolver->getLinkId($rule);
+         $this->ruleUsageRepository->saveUsageLimit(
+             (int)$ruleId,
