@@ -280,6 +280,11 @@
         ],
         "amasty/pgrid": [
             {
+                "description": "Disable set url_path on inline url_key editor to fix an error with duplicated URL during product save",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-disable-set-url_path-for-product.patch",
+                "version-constraint": "^1.9.2"
+            },
+            {
                 "description": "Fix an error with duplicated insert to amasty_pgrid_qty_sold after product save",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-fix-error-with-duplicated-insert.patch",
                 "version-constraint": "^1.9.2"
