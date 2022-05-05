@@ -1,0 +1,21 @@
+Disable set url_path on inline url_key editor to fix an error with duplicated URL during product save
+Issue appeared in ticket: IPET-1172
+
+diff --git a/Controller/Adminhtml/Index/InlineEdit.php b/Controller/Adminhtml/Index/InlineEdit.php
+index ca74d86..635a08a 100644
+--- a/Controller/Adminhtml/Index/InlineEdit.php
++++ b/Controller/Adminhtml/Index/InlineEdit.php
+@@ -322,8 +322,11 @@ class InlineEdit extends \Amasty\Pgrid\Controller\Adminhtml\Index
+     {
+         if ($product->dataHasChangedFor('url_key') || $product->dataHasChangedFor('visibility')) {
+             $product->setData('save_rewrites_history', true);
+-            $product->unsUrlPath();
+-            $product->setUrlPath($this->productUrlPathGenerator->getUrlPath($product));
++            // BEGIN PATCH
++            // Disable set url_path on inline url_key editor to fix an error with duplicated URL during product save
++            // $product->unsUrlPath();
++            // $product->setUrlPath($this->productUrlPathGenerator->getUrlPath($product));
++            // END PATCH
+             $this->urlPersist->replace($this->productUrlRewriteGenerator->generate($product));
+         }
+     }
