@@ -551,6 +551,11 @@
                 "description": "Feat: ability to sort items by attribute position in compare window",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/m24-catalog-attribute-sorted-by-position-in-comparison.patch",
                 "version-constraint": ">=104.0.1"
+            },
+            {
+                "description": "Fix for missing store view attributes after duplicate product",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/module-catalog-fix-product-duplicate-with-store-view-attributes.patch",
+                "version-constraint": "<104.0.4"
             }
         ],
         "magento/module-catalog-url-rewrite": [
