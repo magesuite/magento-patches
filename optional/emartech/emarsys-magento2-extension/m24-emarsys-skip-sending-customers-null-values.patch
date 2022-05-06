@@ -1,0 +1,48 @@
+diff --git a/Helper/CustomerEventHandler.php b/Helper/CustomerEventHandler.php
+index 0a64c4b..c4ac604 100644
+--- a/Helper/CustomerEventHandler.php
++++ b/Helper/CustomerEventHandler.php
+@@ -93,6 +93,9 @@ class CustomerEventHandler extends BaseEventHandler
+         }
+ 
+         $customerData = $this->customerHelper->getOneCustomer($customerId, $websiteId, true);
++        // BEGIN PATCH
++        $customerData = $this->cleanEmptyCustomerData($customerData);
++        // END PATCH
+ 
+         if (false !== $customerData) {
+             $this->saveEvent(
+@@ -132,4 +135,33 @@ class CustomerEventHandler extends BaseEventHandler
+ 
+         return true;
+     }
++
++    // BEGIN PATCH
++    private function cleanEmptyCustomerData($customerData): array
++    {
++        $customerData = $this->cleanEmptyValues($customerData);
++        $keysToClean = [\Emartech\Emarsys\Api\Data\CustomerInterface::BILLING_ADDRESS_KEY, \Emartech\Emarsys\Api\Data\CustomerInterface::SHIPPING_ADDRESS_KEY];
++        foreach($keysToClean as $keyToClean){
++            if(isset($customerData[$keyToClean])){
++                $customerData[$keyToClean] = $this->cleanEmptyValues($customerData[$keyToClean]);
++                if(empty($customerData[$keyToClean])){
++                    unset($customerData[$keyToClean]);
++                }
++            }
++        }
++
++        return $customerData;
++    }
++
++    private function cleanEmptyValues(array $array): array
++    {
++        return array_filter($array, function($value){
++            if ($value === null) {
++                return false;
++            }
++
++            return true;
++        });
++    }
++    // END PATCH
+ }
