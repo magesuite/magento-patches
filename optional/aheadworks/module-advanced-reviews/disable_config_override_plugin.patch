@@ -1,7 +1,7 @@
 Github Issue: https://github.com/magento/magento2/issues/18668
 
 diff --git a/etc/frontend/di.xml b/etc/frontend/di.xml
-index cdbbd48..faa81ae 100644
+index 0cbc3b5..6650242 100644
 --- a/etc/frontend/di.xml
 +++ b/etc/frontend/di.xml
 @@ -309,7 +309,9 @@
@@ -10,9 +10,11 @@ index cdbbd48..faa81ae 100644
 
 -    <type name="Magento\Framework\App\Config\ScopeConfigInterface">
 +    <!-- PATCH BEGIN -->
-+    <!--<type name="Magento\Framework\App\Config\ScopeConfigInterface">
++    <!-- <type name="Magento\Framework\App\Config\ScopeConfigInterface">
          <plugin name="aw-ar" type="Aheadworks\AdvancedReviews\Plugin\App\Config\ScopeConfigPlugin"/>
 -    </type>
-+    </type>-->
+-</config>
+\ No newline at end of file
++    </type> -->
 +    <!-- PATCH END -->
- </config>
++</config>
