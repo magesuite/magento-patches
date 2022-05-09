@@ -1,0 +1,211 @@
+Fix for missing store view attributes after duplicate product
+
+Bug appeared in version 2.4.3, fixed in 2.4.4
+
+PR: https://github.com/magento/magento2/commit/f0bc113c3179590cb18fbc94b94ae292cd5962e2
+
+diff --git a/Model/Product/Copier.php b/Model/Product/Copier.php
+index b04d3da..a34a1d4 100644
+--- a/Model/Product/Copier.php
++++ b/Model/Product/Copier.php
+@@ -6,12 +6,13 @@
+ namespace Magento\Catalog\Model\Product;
+ 
+ use Magento\Catalog\Api\Data\ProductInterface;
++use Magento\Catalog\Api\ProductRepositoryInterface;
+ use Magento\Catalog\Model\Attribute\ScopeOverriddenValue;
+ use Magento\Catalog\Model\Product;
+ use Magento\Catalog\Model\Product\Attribute\Source\Status;
+ use Magento\Catalog\Model\Product\Option\Repository as OptionRepository;
+ use Magento\Catalog\Model\ProductFactory;
+-use Magento\Framework\App\ObjectManager;
++use Magento\Catalog\Model\ResourceModel\DuplicatedProductAttributesCopier;
+ use Magento\Framework\EntityManager\MetadataPool;
+ use Magento\Store\Model\Store;
+ use Magento\UrlRewrite\Model\Exception\UrlAlreadyExistsException;
+@@ -50,25 +51,45 @@ class Copier
+      */
+     private $scopeOverriddenValue;
+ 
++    // BEGIN PATCH
++    /**
++     * @var ProductRepositoryInterface
++     */
++    private $productRepository;
++
++    /**
++     * @var DuplicatedProductAttributesCopier
++     */
++    private $attributeCopier;
++    // END PATCH
++
+     /**
+      * @param CopyConstructorInterface $copyConstructor
+      * @param ProductFactory $productFactory
+      * @param ScopeOverriddenValue $scopeOverriddenValue
+      * @param OptionRepository|null $optionRepository
+      * @param MetadataPool|null $metadataPool
++     * @param ProductRepositoryInterface $productRepository
++     * @param DuplicatedProductAttributesCopier $attributeCopier
+      */
+     public function __construct(
+         CopyConstructorInterface $copyConstructor,
+         ProductFactory $productFactory,
+         ScopeOverriddenValue $scopeOverriddenValue,
+         OptionRepository $optionRepository,
+-        MetadataPool $metadataPool
++        MetadataPool $metadataPool,
++        ProductRepositoryInterface $productRepository,
++        DuplicatedProductAttributesCopier $attributeCopier
+     ) {
+         $this->productFactory = $productFactory;
+         $this->copyConstructor = $copyConstructor;
+         $this->scopeOverriddenValue = $scopeOverriddenValue;
+         $this->optionRepository = $optionRepository;
+         $this->metadataPool = $metadataPool;
++        // BEGIN PATCH
++        $this->productRepository = $productRepository;
++        $this->attributeCopier = $attributeCopier;
++        // END PATCH
+     }
+ 
+     /**
+@@ -79,11 +100,15 @@ class Copier
+      */
+     public function copy(Product $product): Product
+     {
+-        $product->getWebsiteIds();
+-        $product->getCategoryIds();
+-
+         $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
+ 
++        // BEGIN PATCH
++        /*  Regardless in what scope the product was provided,
++            for duplicating we want to clone product in Global scope first */
++        if ((int)$product->getStoreId() !== Store::DEFAULT_STORE_ID) {
++            $product = $this->productRepository->getById($product->getId(), true, Store::DEFAULT_STORE_ID);
++        }
++        // END PATCH
+         /** @var Product $duplicate */
+         $duplicate = $this->productFactory->create();
+         $productData = $product->getData();
+@@ -102,6 +127,9 @@ class Copier
+         $duplicate->setStoreId(Store::DEFAULT_STORE_ID);
+         $this->copyConstructor->build($product, $duplicate);
+         $this->setDefaultUrl($product, $duplicate);
++        // BEGIN PATCH
++        $this->attributeCopier->copyProductAttributes($product, $duplicate);
++        // END PATCH
+         $this->setStoresUrl($product, $duplicate);
+         $this->optionRepository->duplicate($product, $duplicate);
+ 
+diff --git a/Model/ResourceModel/DuplicatedProductAttributesCopier.php b/Model/ResourceModel/DuplicatedProductAttributesCopier.php
+new file mode 100644
+index 0000000..3d01504
+--- /dev/null
++++ b/Model/ResourceModel/DuplicatedProductAttributesCopier.php
+@@ -0,0 +1,103 @@
++<?php
++// BEGIN PATCH
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++namespace Magento\Catalog\Model\ResourceModel;
++
++/**
++ * DuplicatedProductAttributesCopier
++ *
++ * Is used to copy product attributes related to non-global scope
++ * from source to target product during product duplication
++ */
++
++use Magento\Catalog\Api\Data\ProductInterface;
++use Magento\Catalog\Model\Product;
++use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory;
++use Magento\Framework\App\ResourceConnection;
++use Magento\Framework\EntityManager\MetadataPool;
++use Magento\Store\Model\Store;
++
++/**
++ *
++ */
++class DuplicatedProductAttributesCopier
++{
++    /**
++     * @var MetadataPool
++     */
++    private $metadataPool;
++
++    /**
++     * @var CollectionFactory
++     */
++    private $collectionFactory;
++
++    /**
++     * @var ResourceConnection
++     */
++    private $resource;
++
++    /**
++     * @param MetadataPool $metadataPool
++     * @param CollectionFactory $collectionFactory
++     * @param ResourceConnection $resource
++     */
++    public function __construct(
++        MetadataPool $metadataPool,
++        CollectionFactory $collectionFactory,
++        ResourceConnection $resource
++    ) {
++        $this->metadataPool = $metadataPool;
++        $this->collectionFactory = $collectionFactory;
++        $this->resource = $resource;
++    }
++
++    /**
++     * Copy non-global Product Attributes form source to target
++     *
++     * @param $source Product
++     * @param $target Product
++     * @return void
++     */
++    public function copyProductAttributes(Product $source, Product $target): void
++    {
++        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
++        $linkField = $metadata->getLinkField();
++        $attributeCollection = $this->collectionFactory->create()
++            ->setAttributeSetFilter($source->getAttributeSetId())
++            ->addFieldToFilter('backend_type', ['neq' => 'static'])
++            ->addFieldToFilter('is_global', 0);
++
++        $eavTableNames = [];
++        foreach ($attributeCollection->getItems() as $item) {
++            /** @var \Magento\Catalog\Model\ResourceModel\Eav\Attribute $item */
++            $eavTableNames[] = $item->getBackendTable();
++        }
++
++        $connection = $this->resource->getConnection();
++        foreach (array_unique($eavTableNames) as $eavTable) {
++            $select = $connection->select()
++                ->from(
++                    ['main_table' => $this->resource->getTableName($eavTable)],
++                    ['attribute_id', 'store_id', 'value']
++                )->where($linkField . ' = ?', $source->getData($linkField))
++                ->where('store_id <> ?', Store::DEFAULT_STORE_ID);
++            $records = $connection->fetchAll($select);
++
++            if (!count($records)) {
++                continue;
++            }
++
++            foreach ($records as $index => $bind) {
++                $bind[$linkField] = $target->getData($linkField);
++                $records[$index] = $bind;
++            }
++
++            $connection->insertMultiple($this->resource->getTableName($eavTable), $records);
++        }
++    }
++}
++// END PATCH
+\ No newline at end of file
