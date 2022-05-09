@@ -474,6 +474,13 @@
                 "version-constraint": "^2.4.0"
             }
         ],
+        "aheadworks/module-advanced-reviews": [
+            {
+                "description": "Disable config override plugin",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-advanced-reviews/disable_config_override_plugin.patch",
+                "version-constraint": ">=1.4.0"
+            }
+        ],
         "amasty/base": [
             {
                 "description": "Passes concrete DriverInterface implementation to DenyListPathValidator",
