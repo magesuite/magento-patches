@@ -1,0 +1,48 @@
+diff --git a/Model/Service/LineItemReductionService.php b/Model/Service/LineItemReductionService.php
+index 5e98d5c..ed11788 100644
+--- a/Model/Service/LineItemReductionService.php
++++ b/Model/Service/LineItemReductionService.php
+@@ -189,9 +189,18 @@ class LineItemReductionService
+         if ($creditmemo->getShippingAmount() > 0) {
+             $reduction = new LineItemReductionCreate();
+             $reduction->setLineItemUniqueId('shipping');
++            // BEGIN PATCH
++            // Add missed ShippingDiscountTaxCompensationAmount, otherwise the condition will always return false, even if whole shipping amount should be refunded
++
++//          if ($this->helper->compareAmounts($creditmemo->getShippingAmount() + $creditmemo->getShippingTaxAmount(),
++//              $creditmemo->getOrder()
++//                  ->getShippingInclTax(), $creditmemo->getOrderCurrencyCode()) == 0) {
++
+             if ($this->helper->compareAmounts($creditmemo->getShippingAmount() + $creditmemo->getShippingTaxAmount(),
+                 $creditmemo->getOrder()
+-                    ->getShippingInclTax(), $creditmemo->getOrderCurrencyCode()) == 0) {
++                    ->getShippingInclTax() - $creditmemo->getOrder()->getShippingDiscountTaxCompensationAmount(), $creditmemo->getOrderCurrencyCode()) == 0) {
++
++            // END PATCH
+                 $reduction->setQuantityReduction(1);
+                 $reduction->setUnitPriceReduction(0);
+             } else {
+diff --git a/Model/Webhook/Listener/Refund/SuccessfulCommand.php b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
+index 0cd0e36..1e95a7d 100644
+--- a/Model/Webhook/Listener/Refund/SuccessfulCommand.php
++++ b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
+@@ -260,8 +260,17 @@ class SuccessfulCommand extends AbstractCommand
+                     }
+ 
+                     if ($order->getShippingDiscountAmount() > 0) {
+-                        $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
+-                            $order->getShippingDiscountAmount();
++                        // BEGIN PATCH
++                        // Magento provides the shipping amount with discount, it shouldn't be discounted twice
++                        // Also, discount should be added only if shipping amount wasn't already refunded
++
++//                        $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
++//                            $order->getShippingDiscountAmount();
++
++                        if ($shippingAmount > 0) {
++                            $shippingAmount += $order->getShippingDiscountAmount();
++                        }
++                        // END PATCH
+                     }
+                     break;
+             }

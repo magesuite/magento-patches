@@ -1,13 +1,29 @@
 diff --git a/src/Rewards/Model/Total/Creditmemo/Discount.php b/src/Rewards/Model/Total/Creditmemo/Discount.php
-index 3b35640..6254692 100644
+index a613b7d..701a800 100644
 --- a/src/Rewards/Model/Total/Creditmemo/Discount.php
 +++ b/src/Rewards/Model/Total/Creditmemo/Discount.php
-@@ -163,7 +163,10 @@ class Discount extends AbstractTotal
+@@ -78,6 +78,13 @@ class Discount extends AbstractTotal
+         $earnedPoints = round($purchase->getEarnPoints() * $proportion, 0);
+         $creditmemo->setRewardsEarnPoints($earnedPoints);
+ 
++        // BEGIN PATCH
++        // There is a conflict between wallee and mirasvit-rewards modules and in some cases, adjustments are used twice
++        // We can skip the execution of this code below
++
++        return $this;
++        // END PATCH
++
+         $items = $order->getItemsCollection();
+         $itemsLeft = 0;
+         $itemsRefunding = 0;
+@@ -163,7 +170,12 @@ class Discount extends AbstractTotal
      {
          $order = $creditmemo->getOrder();
          if ($order->getSubtotal() > 0) {
 -            $proportion = $creditmemo->getSubtotal() / $order->getSubtotal();
 +            // BEGIN PATCH
++            // Use subtotal with tax to calculate proportion, because we have 2 different tax rates in the shop
++
 +            // $proportion = $creditmemo->getSubtotal() / $order->getSubtotal();
 +            $proportion = $creditmemo->getSubtotalInclTax() / $order->getSubtotalInclTax();
 +            // END PATCH
@@ -15,18 +31,21 @@ index 3b35640..6254692 100644
              $proportion = $this->cancelEarnedPointsService->getCreditmemoItemsQty($creditmemo) /
                  $this->cancelEarnedPointsService->getCreditmemoOrderItemsQty($creditmemo);
 diff --git a/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php b/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php
-index 71cfa4a..7a0a094 100644
+index c549937..d7a7f1b 100644
 --- a/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php
 +++ b/src/Rewards/Service/Order/Transaction/CancelEarnedPoints.php
-@@ -51,7 +51,10 @@ class CancelEarnedPoints
+@@ -51,7 +51,13 @@ class CancelEarnedPoints
          $proportion = 1;
          if ($creditMemo) {
              if ($order->getSubtotal() > 0) {
 -                $proportion = $creditMemo->getSubtotal() / $order->getSubtotal();
 +                // BEGIN PATCH
++                // Use subtotal with tax to calculate proportion, because we have 2 different tax rates in the shop
++
 +                // $proportion = $creditMemo->getSubtotal() / $order->getSubtotal();
 +                $proportion = $creditMemo->getSubtotalInclTax() / $order->getSubtotalInclTax();
 +                // END PATCH
++
              } else { // for zero orders with earning points
                  $proportion = $this->getCreditmemoItemsQty($creditMemo) / $this->getCreditmemoOrderItemsQty($creditMemo);
              }
