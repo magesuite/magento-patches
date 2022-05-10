@@ -205,8 +205,8 @@
         ],
         "mirasvit/module-rewards": [
             {
-                "description": "Use subtotal incl tax in proportion calculation for refund points logic (IPET-825)",
-                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/subtotal-incl-tax-in-refund-proportion-calculation.patch",
+                "description": "Fix refund proportion calculation (IPET-825) and skip grandtotal adjustments (IPET-1184 + IPET-1206)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-refund-proportion-calculation-and-skip-grandtotal-adjustments.patch",
                 "version-constraint": "*"
             },
             {
@@ -421,8 +421,8 @@
                 "version-constraint": ">=1.1.3"
             },
             {
-                "description": "Add payment fee to refund amount",
-                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/add-payment-fee-to-refund-amount.patch",
+                "description": "Process shipping amount correctly in wallee refund (IPET-1184 + IPET-1206)",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/process-shipping-amount-correctly-in-wallee-refund.patch",
                 "version-constraint": ">=1.1.3"
             },
             {
