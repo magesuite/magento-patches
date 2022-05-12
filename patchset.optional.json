@@ -291,7 +291,7 @@
             },
             {
                 "description": "Fix for Amasty filter 'Availability' on product grid (IPET-1069]",
-                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-ipet-fix-stock-filter.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-msi-availability.patch",
                 "version-constraint": "^1.9.2"
             }
         ],
