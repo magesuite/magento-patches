@@ -1,0 +1,42 @@
+diff --git a/Model/Order/Creditmemo/Total/Tax.php b/Model/Order/Creditmemo/Total/Tax.php
+index faed11c..f7928ec 100644
+--- a/Model/Order/Creditmemo/Total/Tax.php
++++ b/Model/Order/Creditmemo/Total/Tax.php
+@@ -203,8 +203,18 @@ class Tax extends AbstractTotal
+         if ($invoice!== null) {
+             $amount = $invoice->getTaxAmount()
+                 - $this->calculateInvoiceRefundedAmount($invoice, CreditmemoInterface::TAX_AMOUNT);
++
++            // BEGIN PATCH
++            // subtract the payment fee tax (otherwise it will be added twice)
++            $amount -= ($invoice->getPaymentFeeTax() - $invoice->getPaymentFeeTaxDiscount());
++            // END PATCH
+         } else {
+             $amount = $order->getTaxInvoiced() - $order->getTaxRefunded();
++
++            // BEGIN PATCH
++            // subtract the payment fee tax (otherwise it will be added twice)
++            $amount -= ($order->getPaymentFeeTax() - $order->getPaymentFeeTaxDiscount());
++            // END PATCH
+         }
+ 
+         return (float) $amount - $creditMemo->getTaxAmount();
+@@ -224,8 +234,18 @@ class Tax extends AbstractTotal
+         if ($invoice!== null) {
+             $amount = $invoice->getBaseTaxAmount()
+                 - $this->calculateInvoiceRefundedAmount($invoice, CreditmemoInterface::BASE_TAX_AMOUNT);
++
++            // BEGIN PATCH
++            // subtract the payment fee tax (otherwise it will be added twice)
++            $amount -= ($invoice->getPaymentFeeTax() - $invoice->getPaymentFeeTaxDiscount());
++            // END PATCH
+         } else {
+             $amount = $order->getBaseTaxInvoiced() - $order->getBaseTaxRefunded();
++
++            // BEGIN PATCH
++            // subtract the payment fee tax (otherwise it will be added twice)
++            $amount -= ($order->getPaymentFeeTax() - $order->getPaymentFeeTaxDiscount());
++            // END PATCH
+         }
+ 
+         return (float) $amount - $creditMemo->getBaseTaxAmount();

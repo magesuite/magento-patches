@@ -194,6 +194,11 @@
                 "description": "Wallee pending refund - redirect to order view page (IPET-985)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/wallee-pending-refund-redirect-to-order-page.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "Fix payment fee tax added twice in creditmemo (IPET-1184)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-creditmemo-payment-fee-tax-added-twice.patch",
+                "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-shipping": [
