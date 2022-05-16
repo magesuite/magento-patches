@@ -1,0 +1,72 @@
+Fix for Amasty filter "Availability" on product grid. By default this feature used old Magento inventory from table "cataloginventory_stock_item" and it's doesn't work with MSI.
+Fix provided by Amasty with creativestyle adjustments
+Issue appeared in ticket: IPET-1069
+
+diff --git a/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php b/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
+index 1d6707d..e682954 100644
+--- a/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
++++ b/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
+@@ -193,11 +193,11 @@ class ProductDataProvider
+         if (in_array('amasty_availability', $visibleColumns)
+             && !$subject->getCollection()->getFlag('amasty_instock_filter')
+         ) {
+-            $this->addInventoryColumn(
+-                $subject->getCollection(),
+-                'amasty_availability',
+-                $this->availabilityColumn->getAvailableExpression()
++            // BEGIN PATCH
++            $this->addAvailabilityColumn(
++                $subject->getCollection()
+             );
++            // END PATCH
+         }
+ 
+         if (in_array('amasty_backorders', $visibleColumns)) {
+@@ -213,6 +213,20 @@ class ProductDataProvider
+         }
+     }
+ 
++    // BEGIN PATCH
++    private function addAvailabilityColumn(Collection $collection): void
++    {
++        $collection->joinField(
++            'amasty_availability',
++            'inventory_source_item',
++            'IFNULL(status, 0)',
++            'sku=sku',
++            '{{table}}.status=1',
++            'left'
++        );
++    }
++    // END PATCH
++
+     private function addQtySoldColumn(Collection $collection): void
+     {
+         $collection->joinField(
+diff --git a/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php b/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
+index 5a0409e..dc42bce 100644
+--- a/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
++++ b/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
+@@ -32,16 +32,16 @@ class AddAvailabilityFilterToCollection implements AddFilterToCollectionInterfac
+             return;
+         }
+ 
++        // BEGIN PATCH
+         $collection->joinField(
+             'amasty_availability',
+-            'cataloginventory_stock_item',
+-            $this->availabilityColumn->getAvailableExpression(),
+-            'product_id=entity_id',
+-            '{{table}}.stock_id=1',
+-            'left'
++            'inventory_source_item',
++            'status',
++            'sku=sku',
++            '{{table}}.status=' . $condition['eq']
+         );
++        // END PATCH
+ 
+-        $collection->getSelect()->where($this->availabilityColumn->getAvailableExpression() . '= ?', $condition['eq']);
+         $collection->setFlag('amasty_instock_filter', 1);
+     }
+ }
