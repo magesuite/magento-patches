@@ -7,7 +7,7 @@ index 702165a..0f6e170 100644
          $productName = preg_replace('/[^A-Za-z0-9 .]/u','', strip_tags($product->getName()));
          $node->appendChild($xml->createElementNS("http://www.toppak.nl/item",'description', 
 -            $this->_cleanupString($productName, 35)
-+            $this->_cleanupString($productName, 60)
++            $this->_cleanupString($productName, 30)
          ));
          
          $productDescription = preg_replace('/[^A-Za-z0-9 .]/u','', strip_tags($product->getShortDescription()));
