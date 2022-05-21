@@ -1,5 +1,5 @@
 diff --git a/Events/CustomerPlugin.php b/Events/CustomerPlugin.php
-index 54b4538..35f731c 100644
+index 9ad7bf2..27fc53d 100644
 --- a/Events/CustomerPlugin.php
 +++ b/Events/CustomerPlugin.php
 @@ -170,7 +170,7 @@ class CustomerPlugin
@@ -8,14 +8,15 @@ index 54b4538..35f731c 100644
              $customerData = $this->customerHelper->getOneCustomer($customer->getId(), $websiteId, true);
 -
 +            $customerData = $this->cleanEmptyCustomerData($customerData);
- 
              if (false !== $customerData) {
                  $this->saveEvent(
-@@ -470,4 +470,31 @@ class CustomerPlugin
+                     $websiteId,
+@@ -469,4 +469,33 @@ class CustomerPlugin
  
          $this->eventRepository->save($eventModel);
      }
 +
++    // BEGIN PATCH
 +    private function cleanEmptyCustomerData($customerData): array
 +    {
 +        $customerData = $this->cleanEmptyValues($customerData);
@@ -42,4 +43,5 @@ index 54b4538..35f731c 100644
 +            return true;
 +        });
 +    }
++    // END PATCH
  }
