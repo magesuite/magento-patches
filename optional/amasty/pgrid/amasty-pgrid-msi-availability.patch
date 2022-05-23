@@ -3,7 +3,7 @@ Fix provided by Amasty with creativestyle adjustments
 Issue appeared in ticket: IPET-1069
 
 diff --git a/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php b/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
-index 1d6707d..e682954 100644
+index 1d6707d..0f521af 100644
 --- a/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
 +++ b/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
 @@ -193,11 +193,11 @@ class ProductDataProvider
@@ -36,7 +36,7 @@ index 1d6707d..e682954 100644
 +            'sku=sku',
 +            '{{table}}.status=1',
 +            'left'
-+        );
++        )->distinct(true);
 +    }
 +    // END PATCH
 +
@@ -44,7 +44,7 @@ index 1d6707d..e682954 100644
      {
          $collection->joinField(
 diff --git a/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php b/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
-index 5a0409e..dc42bce 100644
+index 5a0409e..e49d73b 100644
 --- a/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
 +++ b/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
 @@ -32,16 +32,16 @@ class AddAvailabilityFilterToCollection implements AddFilterToCollectionInterfac
@@ -59,11 +59,12 @@ index 5a0409e..dc42bce 100644
 -            'product_id=entity_id',
 -            '{{table}}.stock_id=1',
 -            'left'
+-        );
 +            'inventory_source_item',
 +            'status',
 +            'sku=sku',
 +            '{{table}}.status=' . $condition['eq']
-         );
++        )->distinct(true);
 +        // END PATCH
  
 -        $collection->getSelect()->where($this->availabilityColumn->getAvailableExpression() . '= ?', $condition['eq']);
