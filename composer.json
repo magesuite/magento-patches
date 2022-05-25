@@ -330,6 +330,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "amasty/module-faq-product-questions": [
+                {
+                    "description": "Fix highlighted text in search results",
+                    "filename": "essential/amasty/module-faq-product-questions/search-results-highlight-only-text.patch",
+                    "version-constraint": ">=2.12.2"
+                }
+            ],
             "amasty/adminactionslog": [
                 {
                     "description": "Handle exception raised with m2epro module",

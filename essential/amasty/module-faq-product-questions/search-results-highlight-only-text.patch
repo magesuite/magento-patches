@@ -1,0 +1,23 @@
+diff --git a/Block/Lists/QuestionsList.php b/Block/Lists/QuestionsList.php
+index 8c4ea6a..df83bd3 100644
+--- a/Block/Lists/QuestionsList.php
++++ b/Block/Lists/QuestionsList.php
+@@ -90,10 +90,15 @@ class QuestionsList extends \Amasty\Faq\Block\AbstractBlock implements IdentityI
+     public function highlight($text)
+     {
+         if ($this->toHighlight) {
+-
+-            return preg_replace_callback('/(' . implode('|', $this->toHighlight) . ')/isu', function ($match) {
+-                return '<span class="amfaq-highlight">' . $match[0] . '</span>';
++            // PATCH BEGIN
++            //return preg_replace_callback('/(' . implode('|', $this->toHighlight) . ')/isu', function ($match) {
++            //    return '<span class="amfaq-highlight">' . $match[0] . '</span>';
++            //}, $text);
++            $highlightWhat = implode('|', $this->toHighlight);
++            $text = preg_replace_callback('#((?:(?!<[/a-z]).)*)([^>]*>|$)#si', function($m) use ($highlightWhat) {
++                return preg_replace('/(' . $highlightWhat . ')/isu', '<span class="amfaq-highlight">$1</span>', $m[1]) . $m[2];
+             }, $text);
++            //PATCH END
+         }
+         return $text;
+     }
