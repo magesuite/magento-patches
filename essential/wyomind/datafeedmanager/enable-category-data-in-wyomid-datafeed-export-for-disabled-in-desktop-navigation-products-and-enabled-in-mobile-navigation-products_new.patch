@@ -1,0 +1,24 @@
+It is not Wyomind bug, but because of our module "MageSuiteNavigation" there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns "product_category" and "category_2" were empty. This patch is fixing private method "extractCategories" and enabling possibility to export category data for mobile navigation.
+
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index 8f3771c..09075da 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -1571,7 +1571,7 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+ // 2. all categories available
+         $listOfCategories = $this->categoryFactory->create()->getCollection()
+             ->setStoreId($this->params['store_id'])
+-            ->addAttributeToSelect(['name', 'store_id', 'is_active', 'include_in_menu']);
++            ->addAttributeToSelect(['name', 'store_id', 'is_active', 'include_in_menu', 'include_in_mobile_navigation']);
+         $this->categories = [];
+
+         foreach ($listOfCategories as $category) {
+@@ -1584,7 +1584,7 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+             if ($this->_includeInMenu) {
+                 $this->categories[$category->getId()]['include_in_menu'] = true;
+             } else {
+-                $this->categories[$category->getId()]['include_in_menu'] = $category->getIncludeInMenu();
++                $this->categories[$category->getId()]['include_in_menu'] = $category->getIncludeInMenu() || $category->getIncludeInMobileNavigation();
+             }
+         }
+
