@@ -1,0 +1,107 @@
+diff --git a/Model/ResourceModel/Product/Collection.php b/Model/ResourceModel/Product/Collection.php
+index 8abbd40..28c7dd0 100644
+--- a/Model/ResourceModel/Product/Collection.php
++++ b/Model/ResourceModel/Product/Collection.php
+@@ -27,6 +27,11 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+     protected $_framework=null;
+
+     /**
++     * @var \Magento\InventorySales\Model\ResourceModel\GetAssignedStockIdForWebsite
++     */
++    protected $getAssignedStockIdForWebsite;
++
++    /**
+      * Collection constructor.
+      * @param \Magento\Framework\Data\Collection\EntityFactory $entityFactory
+      * @param \Psr\Log\LoggerInterface $logger
+@@ -71,8 +76,10 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+         \Magento\Framework\Stdlib\DateTime $dateTime,
+         \Magento\Customer\Api\GroupManagementInterface $groupManagement,
+         \Wyomind\Framework\Helper\Module $framework,
++        \Magento\InventorySales\Model\ResourceModel\GetAssignedStockIdForWebsite $getAssignedStockIdForWebsite,
+         \Magento\Framework\DB\Adapter\AdapterInterface $connection = null
+     ) {
++        $this->getAssignedStockIdForWebsite = $getAssignedStockIdForWebsite;
+         $this->_framework=$framework;
+         $this->_rowId=$this->_framework->moduleIsEnabled('Magento_Enterprise') ? 'row_id' : 'entity_id';
+         parent::__construct(
+@@ -322,6 +329,10 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+      */
+     public function getMainRequest($storeId, $websiteId, $notLike, $concat, $manageStock, $listOfAttributes, $categoriesFilterList, $condition, $params, $includeDisabled)
+     {
++        $website = $this->_storeManager->getWebsite($websiteId);
++        $stockId = $this->getAssignedStockIdForWebsite->execute($website->getCode());
++        $stockTable =  $stockId ? 'inventory_stock_' . $stockId : 'cataloginventory_stock_item';
++
+         $storeManager=$this->_storeManager;
+
+         $storeRootId=$storeManager->getStore($params['store_id'])->getRootCategoryId();
+@@ -331,7 +342,7 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+         $tableCpsl=$connection->getTableName('catalog_product_super_link');
+         $tableCpe=$connection->getTableName("catalog_product_entity");
+         $tableCce=$connection->getTableName("catalog_category_entity");
+-        $tableCsi=$connection->getTableName('cataloginventory_stock_item');
++        $tableCsi = $connection->getTableName($stockTable);
+         $tableCur=$connection->getTableName('url_rewrite');
+         $tableCcpi=$connection->getTableName('catalog_category_product');
+
+@@ -399,7 +410,8 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+                         if ($a > 0) {
+                             $where.=' ' . $attributeFilter->statement . ' ';
+                         }
+-                        $where.=' qty ' . sprintf($condition[$attributeFilter->condition], $attributeFilter->value);
++                        $qtyColumn = $stockId ? 'quantity' : 'qty';
++                        $where .= $qtyColumn . sprintf($condition[$attributeFilter->condition], $attributeFilter->value);
+
+                         $a++;
+                         break;
+@@ -408,19 +420,23 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+                             $where.=' ' . $attributeFilter->statement . ' ';
+                         }
+
+-                        $where.="(IF(";
+-                        // use_config_manage_stock=1 && default_manage_stock=0
+-                        $where.="(use_config_manage_stock=1 AND $manageStock=0)";
+-                        // use_config_manage_stock=0 && manage_stock=0
+-                        $where.=" OR ";
+-                        $where.="(use_config_manage_stock=0 AND manage_stock=0)";
+-                        // use_config_manage_stock=1 && default_manage_stock=1 && in_stock=1
+-                        $where.=" OR ";
+-                        $where.="(use_config_manage_stock=1 AND $manageStock=1 AND is_in_stock=1 )";
+-                        // use_config_manage_stock=0 && manage_stock=1 && in_stock=1
+-                        $where.=" OR ";
+-                        $where.="(use_config_manage_stock=0 AND manage_stock=1 AND is_in_stock=1 )";
+-                        $where.=",'1','0')" . sprintf($condition[$attributeFilter->condition], $attributeFilter->value) . ")";
++                        if ($stockId) {
++                            $where.=' is_salable=1 ';
++                        } else {
++                            $where .= "(IF(";
++                            // use_config_manage_stock=1 && default_manage_stock=0
++                            $where .= "(use_config_manage_stock=1 AND {$manageStock}=0)";
++                            // use_config_manage_stock=0 && manage_stock=0
++                            $where .= " OR ";
++                            $where .= "(use_config_manage_stock=0 AND manage_stock=0)";
++                            // use_config_manage_stock=1 && default_manage_stock=1 && in_stock=1
++                            $where .= " OR ";
++                            $where .= "(use_config_manage_stock=1 AND {$manageStock}=1 AND is_in_stock=1 )";
++                            // use_config_manage_stock=0 && manage_stock=1 && in_stock=1
++                            $where .= " OR ";
++                            $where .= "(use_config_manage_stock=0 AND manage_stock=1 AND is_in_stock=1 )";
++                            $where .= ",'1','0')" . sprintf($condition[$attributeFilter->condition], $attributeFilter->value) . ")";
++                        }
+
+                         $a++;
+                         break;
+@@ -462,7 +478,11 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+             $this->addFieldToFilter($tempFilter);
+         }
+
+-        $this->getSelect()->joinLeft(['stock'=>$tableCsi], "stock.product_id=e.entity_id", ["qty"=>"qty", "is_in_stock"=>"is_in_stock", "manage_stock"=>"manage_stock", "use_config_manage_stock"=>"use_config_manage_stock", "backorders"=>"backorders", "use_config_backorders"=>"use_config_backorders"]);
++        if ($stockId) {
++            $this->getSelect()->joinLeft(['stock' => $tableCsi], "stock.sku=e.sku", ["quantity" => "quantity", "is_salable" => "is_salable"]);
++        } else {
++            $this->getSelect()->joinLeft(['stock' => $tableCsi], "stock.product_id=e.entity_id", ["qty" => "qty", "is_in_stock" => "is_in_stock", "manage_stock" => "manage_stock", "use_config_manage_stock" => "use_config_manage_stock", "backorders" => "backorders", "use_config_backorders" => "use_config_backorders"]);
++        }
+         $this->getSelect()->joinLeft(['url'=>$tableCur], "url.entity_id=e.entity_id " . $notLike . " AND url.entity_type ='product' AND url.store_id=" . $storeId, ["request_path"=>$concat . "(DISTINCT request_path)"]);
+         $this->getSelect()->joinLeft(["curpc"=>$tableCurpc], "url.url_rewrite_id=curpc.url_rewrite_id ");
+
