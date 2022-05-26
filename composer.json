@@ -1114,7 +1114,12 @@
                 {
                     "description": "Fix js errors in customer data when component not initialized",
                     "filename": "essential/magento/module-customer/customer-data-initialization-fix.patch",
-                    "version-constraint": ">=103.0.2"
+                    "version-constraint": ">=103.0.2,<103.0.4"
+                },
+                {
+                    "description": "Fix js errors in customer data when component not initialized, Magento 2.4.4+",
+                    "filename": "essential/magento/module-customer/m244-plus-customer-data-initialization-fix.patch",
+                    "version-constraint": ">=103.0.4"
                 },
                 {
                     "description": "Fix not working translation for customers",
