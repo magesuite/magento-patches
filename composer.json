@@ -1538,7 +1538,12 @@
                 {
                     "description": "Skip MSI bundle validator for source items import",
                     "filename": "essential/magento/module-inventory-bundle-product/skip-msi-bundle-sourceitem-validator.patch",
-                    "version-constraint": ">=1.2.0"
+                    "version-constraint": ">=1.2.0,<1.2.1"
+                },
+                {
+                    "description": "Skip MSI bundle validator for source items import, Magento 2.4.4+",
+                    "filename": "essential/magento/module-inventory-bundle-product/m244-plus-skip-msi-bundle-sourceitem-validator.patch",
+                    "version-constraint": ">=1.2.1"
                 }
             ],
             "magento/module-re-captcha-checkout": [
