@@ -1,0 +1,99 @@
+diff --git a/Indexer/SourceItem/Strategy/Sync.php b/Indexer/SourceItem/Strategy/Sync.php
+index 678e446..ee18540 100644
+--- a/Indexer/SourceItem/Strategy/Sync.php
++++ b/Indexer/SourceItem/Strategy/Sync.php
+@@ -57,6 +57,11 @@ class Sync
+      */
+     private $stockIndexer;
+ 
++    /**
++     * @var \Magento\Framework\App\ResourceConnection
++     */
++    protected $connection;
++
+     /**
+      * @var DefaultStockProviderInterface
+      */
+@@ -105,6 +110,9 @@ class Sync
+         $this->defaultStockProvider = $defaultStockProvider;
+         $this->reservationsIndexTable = $reservationsIndexTable;
+         $this->prepareReservationsIndexData = $prepareReservationsIndexData;
++
++        $resourceConnection = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\ResourceConnection::class);
++        $this->connection = $resourceConnection->getConnection();
+     }
+ 
+     /**
+@@ -134,23 +142,55 @@ class Sync
+                 $this->indexStructure->create($mainIndexName, ResourceConnection::DEFAULT_CONNECTION);
+             }
+ 
+-            $this->indexHandler->cleanIndex(
+-                $mainIndexName,
+-                new ArrayIterator($skuList),
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
+-
+-            $this->reservationsIndexTable->createTable($stockId);
+-            $this->prepareReservationsIndexData->execute($stockId);
+-
+-            $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
+-            $this->indexHandler->saveIndex(
+-                $mainIndexName,
+-                $indexData,
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
+-
+-            $this->reservationsIndexTable->dropTable($stockId);
++            // BEGIN PATCH
++            // $this->indexHandler->cleanIndex(
++            //     $mainIndexName,
++            //     new ArrayIterator($skuList),
++            //     ResourceConnection::DEFAULT_CONNECTION
++            // );
++            //
++            // $this->reservationsIndexTable->createTable($stockId);
++            // $this->prepareReservationsIndexData->execute($stockId);
++            //
++            // $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
++            // $this->indexHandler->saveIndex(
++            //     $mainIndexName,
++            //     $indexData,
++            //     ResourceConnection::DEFAULT_CONNECTION
++            // );
++            //
++            // $this->reservationsIndexTable->dropTable($stockId);
++
++            try {
++                $this->reservationsIndexTable->createTable($stockId);
++
++                $this->connection->beginTransaction();
++
++                $this->indexHandler->cleanIndex(
++                    $mainIndexName,
++                    new ArrayIterator($skuList),
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++
++                $this->prepareReservationsIndexData->execute($stockId);
++
++                $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
++
++                $this->indexHandler->saveIndex(
++                    $mainIndexName,
++                    $indexData,
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++
++                $this->connection->commit();
++            }
++            catch(\Exception $e) {
++                $this->connection->rollBack();
++                throw $e;
++            } finally {
++                $this->reservationsIndexTable->dropTable($stockId);
++            }
++            // END PATCH
+         }
+     }
+ 
