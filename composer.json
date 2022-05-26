@@ -1121,7 +1121,12 @@
                 {
                     "description": "Wrap inventory indexer (MSI) with transaction",
                     "filename": "essential/magento/module-inventory-indexer/wrap-inventory-indexer-with-transaction.patch",
-                    "version-constraint": ">=2.0.0"
+                    "version-constraint": ">=2.0.0,<2.1.2"
+                },
+                {
+                    "description": "Wrap inventory indexer (MSI) with transaction, Magento 2.4.4+",
+                    "filename": "essential/magento/module-inventory-indexer/m244-plus-wrap-inventory-indexer-with-transaction.patch",
+                    "version-constraint": ">=2.1.2"
                 }
             ],
             "magento/module-inventory-bundle-product-indexer": [
