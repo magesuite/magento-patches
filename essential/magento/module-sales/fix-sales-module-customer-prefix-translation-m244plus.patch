@@ -1,0 +1,56 @@
+diff --git a/Model/Order.php b/Model/Order.php
+index f272a46..9d5310d 100644
+--- a/Model/Order.php
++++ b/Model/Order.php
+@@ -2040,7 +2040,10 @@ class Order extends AbstractModel implements EntityInterface, OrderInterface
+         $customerName = '';
+         $prefix = $this->getCustomerPrefix();
+         if ($prefix !== null && $this->isVisibleCustomerPrefix() && strlen($prefix)) {
+-            $customerName .= $prefix . ' ';
++            // BEGINNING OF PATCH
++            // $customerName .= $prefix . ' ';
++            $customerName .= __($prefix) . ' ';
++            // END PATCH
+         }
+         $customerName .= $this->getCustomerFirstname();
+         $middlename = $this->getCustomerMiddlename();
+@@ -2050,7 +2053,10 @@ class Order extends AbstractModel implements EntityInterface, OrderInterface
+         $customerName .= ' ' . $this->getCustomerLastname();
+         $suffix = $this->getCustomerSuffix();
+         if ($suffix !== null && $this->isVisibleCustomerSuffix() && strlen($suffix)) {
+-            $customerName .= ' ' . $suffix;
++            // BEGINNING OF PATCH
++            // $customerName .= ' ' . $suffix;
++            $customerName .= ' ' . __($suffix);
++            // END PATCH
+         }
+ 
+         return $customerName;
+diff --git a/Model/Order/Address.php b/Model/Order/Address.php
+index 0fd4555..5f7c89d 100644
+--- a/Model/Order/Address.php
++++ b/Model/Order/Address.php
+@@ -142,7 +142,10 @@ class Address extends AbstractModel implements OrderAddressInterface, AddressMod
+     {
+         $name = '';
+         if ($this->getPrefix()) {
+-            $name .= $this->getPrefix() . ' ';
++            // BEGINNING OF PATCH
++//            $name .= $this->getPrefix() . ' ';
++            $name .= __($this->getPrefix()) . ' ';
++            // END OF PATCH
+         }
+         $name .= $this->getFirstname();
+         if ($this->getMiddlename()) {
+@@ -150,7 +153,10 @@ class Address extends AbstractModel implements OrderAddressInterface, AddressMod
+         }
+         $name .= ' ' . $this->getLastname();
+         if ($this->getSuffix()) {
+-            $name .= ' ' . $this->getSuffix();
++            // BEGINNING OF PATCH
++//            $name .= ' ' . $this->getSuffix();
++            $name .= ' ' . __($this->getSuffix());
++            // END OF PATCH
+         }
+         return $name;
+     }
