@@ -1,0 +1,15 @@
+diff --git a/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php b/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
+index 56f51be..eb06735 100644
+--- a/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
++++ b/Model/Indexer/Fulltext/Plugin/Category/Product/Action/Rows.php
+@@ -86,7 +86,9 @@ class Rows
+ 
+             $productIds = array_merge([], ...$productIds);
+             if (!empty($productIds)) {
+-                $indexer->reindexList(array_unique($productIds));
++                // BEGIN PATCH
++                // $indexer->reindexList(array_unique($productIds));
++                // END PATCH
+             }
+         }
+ 
