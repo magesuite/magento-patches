@@ -832,7 +832,7 @@
                 {
                     "description": "Fixes performance issue caused by generate file hash",
                     "filename": "essential/magento/module-catalog-import-export/m24-fix-performance-hash-issue.patch",
-                    "version-constraint": ">=101.1.2"
+                    "version-constraint": ">=101.1.2,<101.1.4"
                 }
             ],
             "magento/module-review": [
