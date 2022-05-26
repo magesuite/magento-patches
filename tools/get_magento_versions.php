@@ -127,6 +127,19 @@ class Repo {
 $requestedMagentoVersion = isset($argv[1]) ? $argv[1] : null;
 $packageName = isset($argv[2]) ? $argv[2] : null;
 
+if(empty($requestedMagentoVersion) && empty($packageName)) {
+    echo <<<HTML
+Usage
+php get_magento_versions.php - get all magento module reqs for every magneto version
+php get_magento_versions.php '2.2' - select only magento 2.2.X versions
+php get_magento_versions.php '2.2.[1-2]' - select magento 2.2.1 and 2.2.2 using this regex
+php get_magento_versions.php '2.3' 'magento/module-newsletter' -  show only magento/module-newsletter deps for 2.3.X magento versions
+
+HTML;
+
+    die;
+}
+
 $repo = new Repo();
 $result = $repo->getRequiredPackagesVersions($requestedMagentoVersion, $packageName);
 
