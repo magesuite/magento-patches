@@ -1,0 +1,79 @@
+diff --git a/Model/SourceItem/Validator/ShipmentTypeValidator.php b/Model/SourceItem/Validator/ShipmentTypeValidator.php
+index 6ff69d9..8dfeaf7 100644
+--- a/Model/SourceItem/Validator/ShipmentTypeValidator.php
++++ b/Model/SourceItem/Validator/ShipmentTypeValidator.php
+@@ -106,35 +106,45 @@ class ShipmentTypeValidator implements SourceItemValidatorInterface
+     public function validate(SourceItemInterface $sourceItem): ValidationResult
+     {
+         $errors = [];
+-        if ($this->isSingleSourceMode->execute()) {
+-            return $this->validationResultFactory->create(['errors' => $errors]);
+-        }
+-        $bundleProductIds = $this->getBundleProductIdsByChildSku->execute((string) $sourceItem->getSku());
+-        if (!$bundleProductIds) {
+-            return $this->validationResultFactory->create(['errors' => $errors]);
+-        }
+-        $collection = $this->getBundleProductsCollection($bundleProductIds);
+-        $shipTogetherBundleProductIdsByLinkId = $this->getShipTogetherBundleProductIdsByLinkId($collection);
+-        $chidrenSkusByParentId = $shipTogetherBundleProductIdsByLinkId
+-            ? $this->getChidrenSkusByParentIds->execute(array_keys($shipTogetherBundleProductIdsByLinkId))
+-            : [];
+-        foreach ($chidrenSkusByParentId as $bundleProductLinkId => $skus) {
+-            $sourceCodes = $this->getSourceCodesBySkus->execute($skus);
+-            if ($sourceCodes && !in_array($sourceItem->getSourceCode(), $sourceCodes)) {
+-                $bundleProduct = $collection->getItemById($shipTogetherBundleProductIdsByLinkId[$bundleProductLinkId]);
+-                $url = $this->url->getUrl('catalog/product/edit', ['id' => $bundleProduct->getId()]);
+-                $errors[] = __(
+-                    'Not able to assign "%1" to product "%2", as it is part of bundle product'
+-                    . ' <a href="%3">"%4"</a> with shipment type "Ship Together" and has multiple sources '
+-                    . 'or different source as other bundle selections.',
+-                    $sourceItem->getSourceCode(),
+-                    $sourceItem->getSku(),
+-                    $url,
+-                    $bundleProduct->getSku()
+-                );
+-                break;
+-            }
+-        }
++        
++        //
++        // [PATCH] Skipping bundle validator for source items during import because it has a huge impact on performance.
++        // It's problematic because in this validator for each item there is a request for loading all related bundle products and check if has "Ship Together".
++        // It's not useful as long as we not shipping bundle products from multiple sources.
++        //
++        // BEGIN PATCH
++        //
++        // if ($this->isSingleSourceMode->execute()) {
++        //     return $this->validationResultFactory->create(['errors' => $errors]);
++        // }
++        // $bundleProductIds = $this->getBundleProductIdsByChildSku->execute((string) $sourceItem->getSku());
++        // if (!$bundleProductIds) {
++        //     return $this->validationResultFactory->create(['errors' => $errors]);
++        // }
++        // $collection = $this->getBundleProductsCollection($bundleProductIds);
++        // $shipTogetherBundleProductIdsByLinkId = $this->getShipTogetherBundleProductIdsByLinkId($collection);
++        // $chidrenSkusByParentId = $shipTogetherBundleProductIdsByLinkId
++        //     ? $this->getChidrenSkusByParentIds->execute(array_keys($shipTogetherBundleProductIdsByLinkId))
++        //     : [];
++        // foreach ($chidrenSkusByParentId as $bundleProductLinkId => $skus) {
++        //     $sourceCodes = $this->getSourceCodesBySkus->execute($skus);
++        //     if ($sourceCodes && !in_array($sourceItem->getSourceCode(), $sourceCodes)) {
++        //         $bundleProduct = $collection->getItemById($shipTogetherBundleProductIdsByLinkId[$bundleProductLinkId]);
++        //         $url = $this->url->getUrl('catalog/product/edit', ['id' => $bundleProduct->getId()]);
++        //         $errors[] = __(
++        //             'Not able to assign "%1" to product "%2", as it is part of bundle product'
++        //             . ' <a href="%3">"%4"</a> with shipment type "Ship Together" and has multiple sources '
++        //             . 'or different source as other bundle selections.',
++        //             $sourceItem->getSourceCode(),
++        //             $sourceItem->getSku(),
++        //             $url,
++        //             $bundleProduct->getSku()
++        //         );
++        //         break;
++        //     }
++        // }
++        //
++        // END PATCH
+ 
+         return $this->validationResultFactory->create(['errors' => $errors]);
+     }
