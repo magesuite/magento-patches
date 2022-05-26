@@ -726,7 +726,12 @@
                 {
                     "description": "M2.4.3-p1: add autocomplete to Checkout/Cart inputs - xml config",
                     "filename": "essential/magento/module-checkout/m243-autocomplete-checkout.patch",
-                    "version-constraint": ">=100.4.3-p1"
+                    "version-constraint": ">=100.4.3-p1,<100.4.4"
+                },
+                {
+                    "description": "M2.4.4: add autocomplete to Checkout/Cart inputs - xml config",
+                    "filename": "essential/magento/module-checkout/m244-autocomplete-checkout.patch",
+                    "version-constraint": ">=100.4.4"
                 },
                 {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
