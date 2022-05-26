@@ -1,0 +1,16 @@
+diff --git a/setup/src/Magento/Setup/Module.php b/setup/src/Magento/Setup/Module.php
+index ec87d73..f7c1145 100644
+--- a/setup/src/Magento/Setup/Module.php
++++ b/setup/src/Magento/Setup/Module.php
+@@ -75,7 +75,10 @@ class Module implements
+         // phpcs:disable
+         $result = array_merge_recursive(
+             include __DIR__ . '/../../../config/module.config.php',
+-            include __DIR__ . '/../../../config/di.config.php',
++            // BEGIN PATCH
++            // include __DIR__ . '/../../../config/di.config.php',
++            include __DIR__ . '/../../../config/di.config.php'
++            // END PATCH
+         );
+         // phpcs:enable
+         return $result;

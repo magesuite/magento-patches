@@ -441,7 +441,12 @@
                 {
                     "description": "Fix Module.php file that contains incorrect comma, Magento >= 2.4.3",
                     "filename": "essential/magento/magento2-base/m243-plus-fix-setup-module-php-comma-for-php-73.patch",
-                    "version-constraint": ">=2.4.3"
+                    "version-constraint": ">=2.4.3,<2.4.4"
+                },
+                {
+                    "description": "Fix Module.php file that contains incorrect comma, Magento >= 2.4.4",
+                    "filename": "essential/magento/magento2-base/m244-plus-fix-setup-module-php-comma-for-php-73.patch",
+                    "version-constraint": ">=2.4.4"
                 },
                 {
                     "description": "Remove hardcoded FormData polyfill so it can be loaded on demand",
