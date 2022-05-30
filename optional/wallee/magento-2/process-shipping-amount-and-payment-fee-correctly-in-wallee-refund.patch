@@ -23,12 +23,12 @@ index 5e98d5c..ed11788 100644
                  $reduction->setUnitPriceReduction(0);
              } else {
 diff --git a/Model/Webhook/Listener/Refund/SuccessfulCommand.php b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
-index 0cd0e36..1e95a7d 100644
+index 0cd0e36..73e24f9 100644
 --- a/Model/Webhook/Listener/Refund/SuccessfulCommand.php
 +++ b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
 @@ -260,8 +260,17 @@ class SuccessfulCommand extends AbstractCommand
                      }
- 
+
                      if ($order->getShippingDiscountAmount() > 0) {
 -                        $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
 -                            $order->getShippingDiscountAmount();
@@ -46,3 +46,18 @@ index 0cd0e36..1e95a7d 100644
                      }
                      break;
              }
+@@ -279,6 +288,14 @@ class SuccessfulCommand extends AbstractCommand
+             $positiveAdjustment = $refund->getAmount() - $roundedCreditmemoAmount;
+         }
+
++        // BEGIN PATCH
++        // Refund amount is calculated on Wallee side, sometimes, when discounts and payment_fee are combined, this value is rounded incorrectly and 0.01 might be missing.
++        $totalToRefund = $order->getGrandTotal() - $order->getTotalRefunded();
++        if ($totalToRefund - 0.01 == $positiveAdjustment) {
++            $positiveAdjustment = $totalToRefund;
++        }
++        // END PATCH
++
+         return [
+             'qtys' => $refundQuantities,
+             'shipping_amount' => $shippingAmount,
