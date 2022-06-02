@@ -145,6 +145,11 @@
                     "description": "Security patch MDVA-43395 and MDVA-43443 for Magento 2.3.3-p1-2.4.2",
                     "filename": "essential/magento/framework/m233-m242-security-MDVA-43395-MDVA-43443.patch",
                     "version-constraint": ">102.0.3,<103.0.3"
+                },
+                {
+                    "description": "Fix email sending for email containing hypen",
+                    "filename": "essential/magento/framework/emails-are-not-sent-for-email-containing-hyphen.patch",
+                    "version-constraint": ">=103.0.3"
                 }
             ],
             "magento/module-asynchronous-operations": [
