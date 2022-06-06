@@ -1,0 +1,32 @@
+diff --git a/Helper/Attributes.php b/Helper/Attributes.php
+index c4ae2da..958e1d3 100644
+--- a/Helper/Attributes.php
++++ b/Helper/Attributes.php
+@@ -662,6 +662,19 @@ class Attributes extends \Magento\Framework\App\Helper\AbstractHelper
+         }
+
+         // Remove invalid characters
++        if (is_array($value)) {
++            foreach ($value as $key => $item) {
++                $value[$key] = $this->removeInvalidCharacters($item);
++            }
++        } else {
++            $value = $this->removeInvalidCharacters($value);
++        }
++
++        return $value;
++    }
++
++    protected function removeInvalidCharacters($value)
++    {
+         $valueCleaned = preg_replace(
+             '/' .
+             '[\x00-\x1F\x7F]' .
+@@ -675,7 +688,6 @@ class Attributes extends \Magento\Framework\App\Helper\AbstractHelper
+             $value
+         );
+         $value = str_replace('&#153;', '', (string)$valueCleaned);
+-
+         return $value;
+     }
+

@@ -1581,6 +1581,11 @@
             ],
             "wyomind/datafeedmanager": [
                 {
+                    "description": "Fix array to string conversion error",
+                    "filename": "essential/wyomind/datafeedmanager/fix-array-to-sring-conversion-error.patch",
+                    "version-constraint": ">=11.22.1"
+                },
+                {
                     "description": "Fix for feed configuration revert issue by cron process",
                     "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-fix-config-revert-issue.patch",
                     "version-constraint": ">=11.20.0,<11.22.0"
