@@ -1,0 +1,23 @@
+Fix redirect when logged out customer trying download invoice.
+Wallee invoice can be downloaded from URL /wallee_payment/order/downloadInvoice/order_id/xxx/ only by the logged in customer, but if customer is logged out then wrong redirect URL is generated.
+Current incorrect redirect: /wallee_payment/order/history - it leads to 404 page
+This path changes redirect to /sales/order/history which can be properly opened.
+
+diff --git a/Controller/Order/DownloadInvoice.php b/Controller/Order/DownloadInvoice.php
+index 3f40237..27273cf 100644
+--- a/Controller/Order/DownloadInvoice.php
++++ b/Controller/Order/DownloadInvoice.php
+@@ -99,7 +99,12 @@ class DownloadInvoice extends \Wallee\Payment\Controller\Order
+     {
+         $result = $this->orderLoader->load($this->_request);
+         if ($result instanceof ResultInterface) {
+-            return $result;
++            // BEGIN PATCH
++            //return $result;
++
++            $resultRedirect = $this->resultRedirectFactory->create();
++            return $resultRedirect->setPath('sales/order/history');
++            // END PATCH
+         }
+ 
+         /** @var \Magento\Sales\Model\Order $order */
