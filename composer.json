@@ -839,6 +839,11 @@
                     "description": "Fix for cleaning cache for all products after update and reindex blog posts",
                     "filename": "essential/aheadworks/module-blog/aheadworks-module-blog-fix-cleaning-products-cache.patch",
                     "version-constraint": ">=2.5.0,<=2.7.0"
+                },
+                {
+                    "description": "Fixes saving incorect End Date for post",
+                    "filename": "essential/aheadworks/module-blog/fix-blog-post-end-date.patch",
+                    "version-constraint": ">=2.13.0"
                 }
             ],
             "aheadworks/module-faq": [
