@@ -1,0 +1,16 @@
+diff --git a/Model/ResourceModel/PostRepository.php b/Model/ResourceModel/PostRepository.php
+index 1d4f905..745fa55 100644
+--- a/Model/ResourceModel/PostRepository.php
++++ b/Model/ResourceModel/PostRepository.php
+@@ -181,6 +181,11 @@ class PostRepository implements PostRepositoryInterface
+         if (is_array($productCondition)) {
+             $postModel->setProductCondition($this->serializer->serialize($productCondition));
+         }
++        // PATCH START
++        if (!$postModel->getEndDate()) {
++            $postModel->setEndDate(null);
++        }
++        // PATCH END
+         $this->checkAtCharacterForTwitterData($postModel);
+         $this->checkCustomerGroupsData($postModel);
+         $this->entityManager->save($postModel);
