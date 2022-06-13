@@ -22,11 +22,3 @@ index c4ae2da..958e1d3 100644
          $valueCleaned = preg_replace(
              '/' .
              '[\x00-\x1F\x7F]' .
-@@ -675,7 +688,6 @@ class Attributes extends \Magento\Framework\App\Helper\AbstractHelper
-             $value
-         );
-         $value = str_replace('&#153;', '', (string)$valueCleaned);
--
-         return $value;
-     }
-
