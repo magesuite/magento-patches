@@ -1608,7 +1608,7 @@
                 {
                     "description": "It is not Wyomind bug, but because of our module 'MageSuiteNavigation' there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns 'product_category' and 'category_2' were empty. This patch is fixing private method 'extractCategories' and enabling possibility to export category data for mobile navigation.",
                     "filename": "essential/wyomind/datafeedmanager/enable-category-data-in-wyomid-datafeed-export-for-disabled-in-desktop-navigation-products-and-enabled-in-mobile-navigation-products_new.patch",
-                    "version-constraint": ">=11.22.0"
+                    "version-constraint": ">=11.22.0,<11.23.0"
                 }
             ],
             "xtento/pdfcustomizer": [
