@@ -1097,6 +1097,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/mage_delight/specialpromo/fix_module_conflict_with_amasty_adminlogs.patch",
                 "version-constraint": "*"
             }
+        ],
+        "creativestyle/magesuite-s3-media-listing": [
+            {
+                "description": "Prevent generating WYSIWYG images on the fly",
+                "filename": "vendor/creativestyle/magento-patches/optional/creativestyle/magesuite-s3-media-listing/prevent-generating-wysiwyg-thumbnails-on-the-fly-on-s3.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }

@@ -1,0 +1,18 @@
+diff --git a/Plugin/Model/Wysiwyg/Images/Storage/S3Adapter.php b/Plugin/Model/Wysiwyg/Images/Storage/S3Adapter.php
+index 350d0d3..18fe2e8 100644
+--- a/Plugin/Model/Wysiwyg/Images/Storage/S3Adapter.php
++++ b/Plugin/Model/Wysiwyg/Images/Storage/S3Adapter.php
+@@ -141,8 +141,11 @@ class S3Adapter
+                 }
+ 
+                 if ($subject->isImage($item->getBasename())) {
+-                    $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true) ?:
+-                        $this->backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
++                    // BEGIN PATCH
++//                    $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true) ?:
++//                        $this->backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
++                    $thumbUrl = $this->cmsWysiwygImages->getCurrentUrl() . $item->getBasename();
++                    // END PATCH
+                 } else {
+                     $thumbUrl = $this->assetRepository->getUrl(
+                         \Magento\Cms\Model\Wysiwyg\Images\Storage::THUMB_PLACEHOLDER_PATH_SUFFIX
