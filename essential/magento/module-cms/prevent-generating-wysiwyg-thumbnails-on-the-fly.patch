@@ -1,0 +1,16 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index 1606e16..a792abc 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -430,7 +430,10 @@ class Storage extends \Magento\Framework\DataObject
+                 $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
+                 // generate thumbnail "on the fly" if it does not exists
+                 if (!$thumbUrl) {
+-                    $thumbUrl = $this->_backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
++                    // BEGIN PATCH
++                    //$thumbUrl = $this->_backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
++                    $thumbUrl = $this->_cmsWysiwygImages->getCurrentUrl() . $item->getBasename();
++                    // END PATCH
+                 }
+ 
+             } else {
