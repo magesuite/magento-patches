@@ -1102,6 +1102,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/mage_delight/specialpromo/fix_module_conflict_with_amasty_adminlogs.patch",
                 "version-constraint": "*"
             }
+        ],
+        "plenty/module-order": [
+            {
+                "description": "Add PayPal Express to mapping",
+                "filename": "vendor/creativestyle/magento-patches/optional/plenty/order/add-paypal-express-to-mapping.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }
