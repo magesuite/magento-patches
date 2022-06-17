@@ -1,0 +1,12 @@
+diff --git a/Block/Adminhtml/Profile/Config/Form/Field/Order/Payment/Renderer/Magento.php b/Block/Adminhtml/Profile/Config/Form/Field/Order/Payment/Renderer/Magento.php
+index 3a1c167..f1359dd 100644
+--- a/Block/Adminhtml/Profile/Config/Form/Field/Order/Payment/Renderer/Magento.php
++++ b/Block/Adminhtml/Profile/Config/Form/Field/Order/Payment/Renderer/Magento.php
+@@ -56,6 +56,7 @@ class Magento extends Select
+             foreach ($this->paymentConfig->getActiveMethods() as $code => $model) {
+                 $this->addOption($code, $this->_scopeConfig->getValue('payment/'.$code.'/title') ?: $code);
+             }
++            $this->addOption('paypal_express', 'paypal_express');
+         }
+         return parent::_toHtml();
+     }
