@@ -1680,6 +1680,13 @@
                     "filename": "essential/magepal/magento2-enhanced-ecommerce/avoid-loading-product-second-time.patch",
                     "version-constraint": ">=1.7.1,<1.7.3"
                 }
+            ],
+            "cleverzoeger/ext-magento2-cleverzoeger-paqato": [
+                {
+                    "description": "Add store emulation for getting product image url",
+                    "filename": "essential/cleverzoeger/ext-magento2-cleverzoeger-paqato/add-store-emulation-for-getting-product-image-url.patch",
+                    "version-constraint": ">=1.4.0"
+                }
             ]
         }
     }
