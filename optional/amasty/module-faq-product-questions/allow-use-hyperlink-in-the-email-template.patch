@@ -1,0 +1,14 @@
+diff --git a/Model/Emails/Notifier/CustomerNotifier.php b/Model/Emails/Notifier/CustomerNotifier.php
+index 3b191e7..6a99a05 100644
+--- a/Model/Emails/Notifier/CustomerNotifier.php
++++ b/Model/Emails/Notifier/CustomerNotifier.php
+@@ -58,6 +58,9 @@ class CustomerNotifier implements NotifierInterface
+             'answer' => strip_tags(
+                 $question->getCleanedFullAnswer(),
+                 '<ul><li><p><br>'
++                // PATCH BEGIN
++                . '<a>'
++                // PATCH END
+             ),
+             'question_link' => $this->getQuestionUrl($question),
+             'asked_from_store' => $question->getAskedFromStore()

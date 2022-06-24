@@ -281,6 +281,11 @@
                 "description": "Add prefix to question url in sitemap (ipet only)",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-faq-product-questions/ipet-fix-question-url-in-sitemap.patch",
                 "version-constraint": ">=2.11.3"
+            },
+            {
+                "description": "Allow to use hyperlink in the email template",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-faq-product-questions/allow-use-hyperlink-in-the-email-template.patch",
+                "version-constraint": ">=2.12.2"
             }
         ],
         "amasty/pgrid": [
