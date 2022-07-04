@@ -1114,6 +1114,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/plenty/order/add-paypal-express-to-mapping.patch",
                 "version-constraint": "*"
             }
+        ],
+        "mailchimp/mc-magento2": [
+            {
+                "description": "Precede product title with product SKU in the Mailchimp product feed",
+                "filename": "vendor/creativestyle/magento-patches/optional/mailchimp/mc-magento2/customize-product-title-in-mailchimp-product-feed.patch",
+                "version-constraint": "*"
+            }
         ]
     }
 }
