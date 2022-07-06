@@ -379,7 +379,7 @@
                 {
                     "description": "Fix adminhtml style css filename",
                     "filename": "essential/amasty/shippingtablerates/fix-adminhtml-style-css-filename.patch",
-                    "version-constraint": ">=1.10.5,<1.10.6"
+                    "version-constraint": "<1.10.5"
                 }
             ],
             "magento/magento2-base": [
