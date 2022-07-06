@@ -314,7 +314,12 @@
             {
                 "description": "Fix infinite loop in checkout",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/shippingtablerates/fix-infinite-loop-in-checkout.patch",
-                "version-constraint": ">=1.10.3"
+                "version-constraint": ">=1.10.6"
+            },
+            {
+                "description": "Disallow adding discount tax compensation",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/shippingtablerates/disallow-adding-discount-tax-compensation.patch",
+                "version-constraint": ">=1.10.6"
             }
         ],
         "amasty/xnotif": [

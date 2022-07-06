@@ -1,25 +1,31 @@
 diff --git a/Model/Rate/Provider.php b/Model/Rate/Provider.php
-index 54ce86d..ffcffdb 100644
+index c81ffba..8bd4b9c 100644
 --- a/Model/Rate/Provider.php
 +++ b/Model/Rate/Provider.php
-@@ -97,12 +97,14 @@ class Provider
-             return [];
-         }
+@@ -293,15 +293,17 @@ class Provider
+     private function getSourceCodes(array $quoteItems)
+     {
          $sourceCodes = [];
 -        if ($this->msiModuleStatusInspector->isEnabled()) {
 -            $getSourceSelectionResultFromQuote = $this->objectManager->create(
 -                GetSourceSelectionResultFromQuote::class
 -            );
--            $sourceCodes = $getSourceSelectionResultFromQuote->execute($this->quoteSession->getQuote());
+-
+-            /** @var Item|QuoteAddressItem $firstItem */
+-            $firstItem = array_shift($quoteItems);
+-            $sourceCodes = $getSourceSelectionResultFromQuote->execute($firstItem->getQuote());
 -        }
-+        // PATCH BEGIN - infinite loop in checkout
++        // BEGIN PATCH - infinite loop in checkout triggered by reward points
 +        // if ($this->msiModuleStatusInspector->isEnabled()) {
 +        //    $getSourceSelectionResultFromQuote = $this->objectManager->create(
 +        //        GetSourceSelectionResultFromQuote::class
 +        //    );
-+        //    $sourceCodes = $getSourceSelectionResultFromQuote->execute($this->quoteSession->getQuote());
++        //
++        //    /** @var Item|QuoteAddressItem $firstItem */
++        //    $firstItem = array_shift($quoteItems);
++        //    $sourceCodes = $getSourceSelectionResultFromQuote->execute($firstItem->getQuote());
 +        // }
 +        // PATCH END
  
-         $request->setData(\Amasty\ShippingTableRates\Model\ResourceModel\Rate::SOURCES_REQUEST_KEY, $sourceCodes);
-         $methodIds = [];
+         return $sourceCodes;
+     }
