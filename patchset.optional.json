@@ -701,6 +701,11 @@
                 "description": "Fix endless loading media gallery",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-cms/fix-cms-loading-media-gallery.patch",
                 "version-constraint": ">=104.0.2 < 104.0.3"
+            },
+            {
+                "description": "Allow to listing media root folder",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-cms/allow-to-listing-media-root-folder.patch",
+                "version-constraint": ">=104.0.3"
             }
         ],
         "magento/customer": [
