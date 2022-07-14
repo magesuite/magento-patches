@@ -701,11 +701,6 @@
                 "description": "Fix endless loading media gallery",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-cms/fix-cms-loading-media-gallery.patch",
                 "version-constraint": ">=104.0.2 < 104.0.3"
-            },
-            {
-                "description": "Disable checking image mime type",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-cms/m24-cms-disable-checking-image-mime-type.patch",
-                "version-constraint": ">=103.0.3-p1"
             }
         ],
         "magento/customer": [

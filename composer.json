@@ -1213,6 +1213,11 @@
                     "description": "Prevent generating WYSIWYG images on the fly",
                     "filename": "essential/magento/module-cms/prevent-generating-wysiwyg-thumbnails-on-the-fly.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Disable checking image mime type",
+                    "filename": "vendor/creativestyle/magento-patches/optional/magento/module-cms/m24-cms-disable-checking-image-mime-type.patch",
+                    "version-constraint": ">=103.0.3-p1"
                 }
             ],
             "magento/module-payment": [
