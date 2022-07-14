@@ -1216,7 +1216,7 @@
                 },
                 {
                     "description": "Disable checking image mime type",
-                    "filename": "vendor/creativestyle/magento-patches/essential/magento/module-cms/m24-cms-disable-checking-image-mime-type.patch",
+                    "filename": "essential/magento/module-cms/m24-cms-disable-checking-image-mime-type.patch",
                     "version-constraint": ">=103.0.3-p1"
                 }
             ],
