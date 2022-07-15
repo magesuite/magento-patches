@@ -1,0 +1,15 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index d55c0e6..8befbc9 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -972,7 +972,9 @@ class Storage extends \Magento\Framework\DataObject
+         $storageRootLength = strlen($storageRoot);
+         $mediaSubPathname = substr($directoryPath, $storageRootLength);
+         if (!$mediaSubPathname) {
+-            return false;
++            // PATCH BEGIN
++            return true;
++            // PATCH END
+         }
+         $mediaSubPathname = ltrim($mediaSubPathname, '/');
+         return preg_match($this->getAllowedPathPattern(), $mediaSubPathname) == 1;
