@@ -1,0 +1,17 @@
+diff --git a/Model/ResourceModel/Report/Collection.php b/Model/ResourceModel/Report/Collection.php
+index 332304c..e9f1692 100644
+--- a/Model/ResourceModel/Report/Collection.php
++++ b/Model/ResourceModel/Report/Collection.php
+@@ -223,7 +223,11 @@ class Collection extends \Magento\Framework\Data\Collection
+             );
+         }
+ 
+-        $dateStart->modify('+1 month');
++        if ((int) $dateStart->format('j') === (int) $dateStart->format('t')) {
++            $dateStart->modify('last day of next month');
++        } else {
++            $dateStart->modify('+1 month');
++        }
+ 
+         if ($dateStart->diff($dateEnd)->m == 0) {
+             $dateStart->setDate($dateStart->format('Y'), $dateStart->format('m'), 1);
