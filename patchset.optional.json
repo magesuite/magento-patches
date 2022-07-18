@@ -1126,6 +1126,18 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/mailchimp/mc-magento2/customize-product-title-in-mailchimp-product-feed.patch",
                 "version-constraint": "*"
             }
+        ],
+        "magento/module-reports": [
+            {
+                "description": "Fix displaying report result for month interval when a start date is last day of 31-days month",
+                "filename": "essential/magento/module-reports/fix-generating-month-intervals.patch",
+                "version-constraint": ">=2.3.3"
+            },
+            {
+                "description": "Fix displaying report result for month interval when a start date is last day of 31-days month (ordered, viewed and bestsellers products)",
+                "filename": "essential/magento/module-reports/fix-generating-month-intervals_for_product_category_reports.patch",
+                "version-constraint": ">=2.0.0"
+            }
         ]
     }
 }

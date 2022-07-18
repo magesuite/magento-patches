@@ -1707,6 +1707,18 @@
                     "filename": "essential/cleverzoeger/ext-magento2-cleverzoeger-paqato/add-store-emulation-for-getting-product-image-url.patch",
                     "version-constraint": ">=1.4.0"
                 }
+            ],
+            "magento/module-reports": [
+                {
+                    "description": "Fix displaying report result for month interval when a start date is last day of 31-days month",
+                    "filename": "essential/magento/module-reports/fix-generating-month-intervals.patch",
+                    "version-constraint": ">=2.3.3"
+                },
+                {
+                    "description": "Fix displaying report result for month interval when a start date is last day of 31-days month (ordered, viewed and bestsellers products)",
+                    "filename": "essential/magento/module-reports/fix-generating-month-intervals_for_product_category_reports.patch",
+                    "version-constraint": ">=2.0.0"
+                }
             ]
         }
     }
