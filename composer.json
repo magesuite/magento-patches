@@ -820,13 +820,6 @@
                     "version-constraint": ">=101.1.2"
                 }
             ],
-            "magento/module-offline-shipping": [
-                {
-                    "description": "Fix issue with negative package amounnt",
-                    "filename": "essential/magento/module-offline-shipping/fix-issue-with-negative-package-amount.patch",
-                    "version-constraint": ">=100.4.2"
-                }
-            ],
             "magento/module-review": [
                 {
                     "description": "Fix ajax endpoint for review by a redirect to 404 instead of a thrown exception",
