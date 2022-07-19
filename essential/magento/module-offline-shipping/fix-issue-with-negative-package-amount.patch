@@ -1,7 +1,7 @@
 This issue will be fixed in Magento 2.4.5
 
 diff --git a/Model/Carrier/Tablerate.php b/Model/Carrier/Tablerate.php
-index 20b881d..15c314e 100644
+index 112accb..15c314e 100644
 --- a/Model/Carrier/Tablerate.php
 +++ b/Model/Carrier/Tablerate.php
 @@ -111,6 +111,11 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
@@ -23,7 +23,7 @@ index 20b881d..15c314e 100644
 +        // PATCH BEGIN
 +        $freeWeight = 0;
 +        // PATCH END
-
+ 
          if ($request->getAllItems()) {
              foreach ($request->getAllItems() as $item) {
 @@ -132,19 +140,33 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
@@ -49,7 +49,8 @@ index 20b881d..15c314e 100644
 +                }
 +                // PATCH END
              }
-
+-            
++
              $request->setPackageValue($request->getPackageValue() - $freePackageValue);
              $request->setPackageValueWithDiscount($request->getPackageValueWithDiscount() - $freePackageValue);
          }
