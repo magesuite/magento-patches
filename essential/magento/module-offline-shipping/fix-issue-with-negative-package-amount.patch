@@ -1,7 +1,7 @@
 This issue will be fixed in Magento 2.4.5
 
 diff --git a/Model/Carrier/Tablerate.php b/Model/Carrier/Tablerate.php
-index 112accb..add7b32 100644
+index 20b881d..15c314e 100644
 --- a/Model/Carrier/Tablerate.php
 +++ b/Model/Carrier/Tablerate.php
 @@ -111,6 +111,11 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
@@ -26,7 +26,7 @@ index 112accb..add7b32 100644
 
          if ($request->getAllItems()) {
              foreach ($request->getAllItems() as $item) {
-@@ -132,19 +140,34 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
+@@ -132,19 +140,33 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
                              $freeQty += $item->getQty() * ($child->getQty() - $freeShipping);
                          }
                      }
@@ -43,15 +43,13 @@ index 112accb..add7b32 100644
                      $freeQty += $item->getQty() - $freeShipping;
                      $freePackageValue += $item->getBaseRowTotal();
                  }
-+
 +                // PATCH BEGIN
 +                if ($item->getFreeShippingMethod() && $item->getFreeShippingMethod() !== 'tablerate_bestway') {
 +                    $freeWeight += (int) $item->getWeight();
 +                }
 +                // PATCH END
              }
--
-+
+
              $request->setPackageValue($request->getPackageValue() - $freePackageValue);
              $request->setPackageValueWithDiscount($request->getPackageValueWithDiscount() - $freePackageValue);
          }
@@ -64,7 +62,7 @@ index 112accb..add7b32 100644
          if (!$request->getConditionName()) {
              $conditionName = $this->getConfigData('condition_name');
              $request->setConditionName($conditionName ? $conditionName : $this->_defaultConditionName);
-@@ -181,6 +204,9 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
+@@ -181,6 +203,9 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
               * Free package weight has been already taken into account.
               */
              $request->setPackageValue($freePackageValue);
