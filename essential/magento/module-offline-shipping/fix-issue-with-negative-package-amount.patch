@@ -1,0 +1,75 @@
+This issue will be fixed in Magento 2.4.5
+
+diff --git a/Model/Carrier/Tablerate.php b/Model/Carrier/Tablerate.php
+index 112accb..15c314e 100644
+--- a/Model/Carrier/Tablerate.php
++++ b/Model/Carrier/Tablerate.php
+@@ -111,6 +111,11 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
+                     }
+                 } elseif ($item->getProduct()->isVirtual()) {
+                     $request->setPackageValue($request->getPackageValue() - $item->getBaseRowTotal());
++                    // PATCH BEGIN
++                    $request->setPackageValueWithDiscount(
++                        $request->getPackageValueWithDiscount() - $item->getBaseRowTotal()
++                    );
++                    // PATCH END
+                 }
+             }
+         }
+@@ -118,6 +123,9 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
+         // Free shipping by qty
+         $freeQty = 0;
+         $freePackageValue = 0;
++        // PATCH BEGIN
++        $freeWeight = 0;
++        // PATCH END
+ 
+         if ($request->getAllItems()) {
+             foreach ($request->getAllItems() as $item) {
+@@ -132,19 +140,33 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
+                             $freeQty += $item->getQty() * ($child->getQty() - $freeShipping);
+                         }
+                     }
+-                } elseif ($item->getFreeShipping() || $item->getAddress()->getFreeShipping()) {
++                // PATCH BEGIN
++                } elseif (($item->getFreeShipping() || $item->getAddress()->getFreeShipping()) &&
++                    ($item->getFreeShippingMethod() == null || $item->getFreeShippingMethod() &&
++                        $item->getFreeShippingMethod() == 'tablerate_bestway')
++                ) {
++                // PATCH END
+                     $freeShipping = $item->getFreeShipping() ?
+                         $item->getFreeShipping() : $item->getAddress()->getFreeShipping();
+                     $freeShipping = is_numeric($freeShipping) ? $freeShipping : 0;
+                     $freeQty += $item->getQty() - $freeShipping;
+                     $freePackageValue += $item->getBaseRowTotal();
+                 }
++                // PATCH BEGIN
++                if ($item->getFreeShippingMethod() && $item->getFreeShippingMethod() !== 'tablerate_bestway') {
++                    $freeWeight += (int) $item->getWeight();
++                }
++                // PATCH END
+             }
+-            
++
+             $request->setPackageValue($request->getPackageValue() - $freePackageValue);
+             $request->setPackageValueWithDiscount($request->getPackageValueWithDiscount() - $freePackageValue);
+         }
+-
++        // PATCH BEGIN
++        if ($freeWeight > 0) {
++            $request->setFreeMethodWeight($freeWeight);
++        }
++        // PATCH END
+         if (!$request->getConditionName()) {
+             $conditionName = $this->getConfigData('condition_name');
+             $request->setConditionName($conditionName ? $conditionName : $this->_defaultConditionName);
+@@ -181,6 +203,9 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
+              * Free package weight has been already taken into account.
+              */
+             $request->setPackageValue($freePackageValue);
++            // PATCH BEGIN
++            $request->setPackageValueWithDiscount($freePackageValue);
++            // PATCH END
+             $request->setPackageQty($freeQty);
+             $rate = $this->getRate($request);
+             if (!empty($rate) && $rate['price'] >= 0) {
