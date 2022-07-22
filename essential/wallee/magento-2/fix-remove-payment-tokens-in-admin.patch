@@ -8,7 +8,7 @@ index ba6785d..1c79be4 100644
                                  <item name="url" xsi:type="string">#</item>
 -                                <item name="onclick" xsi:type="string">return tokenControl.removeToken($token_id);</item>
 +                                <!-- BEGIN PATCH -->
-+                                <item name="onclick" xsi:type="string">return tokenControl.removeToken($enity_id);</item>
++                                <item name="onclick" xsi:type="string">return tokenControl.removeToken($entity_id);</item>
 +                                <!-- END PATCH -->
                              </item>
                          </argument>
