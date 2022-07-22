@@ -1726,6 +1726,13 @@
                     "filename": "essential/magento/module-reports/fix-generating-month-intervals_for_product_category_reports.patch",
                     "version-constraint": ">=2.0.0"
                 }
+            ],
+            "wallee/magento-2": [
+                {
+                    "description": "Fix for remove saved payment token in admin panel (IPET-954)",
+                    "filename": "essential/wallee/magento-2/fix-remove-payment-tokens-in-admin.patch",
+                    "version-constraint": ">=1.2.0"
+                }
             ]
         }
     }
