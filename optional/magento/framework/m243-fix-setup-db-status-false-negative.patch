@@ -1,0 +1,28 @@
+This patch fixes the false negative output of the setup:db:status command, which breaks the deployment.
+Makes empty string field comment and null comment equal to each other.
+https://github.com/magento/magento2/issues/19597
+
+diff --git a/Setup/Declaration/Schema/Comparator.php b/Setup/Declaration/Schema/Comparator.php
+index 0c1f9ae..7fdfc95 100644
+--- a/Setup/Declaration/Schema/Comparator.php
++++ b/Setup/Declaration/Schema/Comparator.php
+@@ -24,7 +24,18 @@ class Comparator
+      */
+     public function compare(ElementInterface $first, ElementInterface $second)
+     {
++        $firstParams = $first->getDiffSensitiveParams();
++        $secondParams = $second->getDiffSensitiveParams();
++
++        if (array_key_exists('comment', $firstParams) && $firstParams['comment'] === '') {
++            $firstParams['comment'] = null;
++        }
++
++        if (array_key_exists('comment', $secondParams) && $secondParams['comment'] === '') {
++            $secondParams['comment'] = null;
++        }
++
+         return get_class($first) === get_class($second) &&
+-            $first->getDiffSensitiveParams() === $second->getDiffSensitiveParams();
++            $firstParams === $secondParams;
+     }
+ }
