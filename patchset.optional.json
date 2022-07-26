@@ -124,6 +124,11 @@
                 "description": "Disable cookie size error message",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-disable-cookie-size-error-message.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "Fix false negative output of setup:db:status command",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m243-fix-setup-db-status-false-negative.patch",
+                "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-bundle": [
@@ -1147,6 +1152,13 @@
                 "description": "Fix displaying report result for month interval when a start date is last day of 31-days month (ordered, viewed and bestsellers products)",
                 "filename": "essential/magento/module-reports/fix-generating-month-intervals_for_product_category_reports.patch",
                 "version-constraint": ">=2.0.0"
+            }
+        ],
+        "insign/magento2-module-postcore": [
+            {
+                "description": "Set proper initial value to post-code input observable",
+                "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/init-observable-value.patch",
+                "version-constraint": ">=1.0.6"
             }
         ]
     }
