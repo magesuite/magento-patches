@@ -1,0 +1,36 @@
+diff --git a/view/frontend/web/js/form/element/suggestions-mixin.js b/view/frontend/web/js/form/element/suggestions-mixin.js
+index 2082b5a..0fafa1e 100644
+--- a/view/frontend/web/js/form/element/suggestions-mixin.js
++++ b/view/frontend/web/js/form/element/suggestions-mixin.js
+@@ -47,8 +47,13 @@ define([
+ 
+             return this;
+         },
+-        
++
+         initObservable: function () {
++            // Set initial observable value in proper type
++            if (this.component === 'Insign_PostCore/js/form/element/post-code-suggestions') {
++                this.value = ko.observable('');
++            }
++
+             this._super();
+ 
+             this.observe('suggestions selectedCountry showSuggestionsDropdown')
+@@ -113,6 +118,7 @@ define([
+             event.preventDefault();
+             this.value(suggestion[this.valueKey]);
+             this.focused(true);
++            this.closeSuggestionsDropdown();
+         },
+ 
+         getSuggestions: function(val) {
+@@ -121,7 +127,7 @@ define([
+                     zipCity: val
+                 }),
+                 self = this;
+-                
++
+             storage.post(
+                 serviceUrl,
+                 payload,
