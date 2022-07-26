@@ -1,0 +1,19 @@
+diff --git a/src/Rewards/Helper/Balance/Spend.php b/src/Rewards/Helper/Balance/Spend.php
+index 0cce828..6c693fc 100644
+--- a/src/Rewards/Helper/Balance/Spend.php
++++ b/src/Rewards/Helper/Balance/Spend.php
+@@ -255,7 +255,13 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
+     protected function getQuoteSubtotal($quote)
+     {
+         if ($this->isRewardsIncludeTax()) {
+-            $subtotal = $quote->getBaseGrandTotal();
++            // BEGIN PATCH
++            // get real subtotal instead of grandTotal (because in grand total we have already discount added)
++
++            //$subtotal = $quote->getBaseGrandTotal();
++            $subtotal = $quote->getSubtotal();
++
++            // END PATCH
+         } else {
+             $subtotal = $quote->getBaseSubtotalWithDiscount();
+             if ($this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {

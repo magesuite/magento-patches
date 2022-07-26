@@ -233,6 +233,11 @@
                 "description": "Don't substract discount from price because it generates problems if coupon code is added",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/do-not-substract-discount-from-item-price.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Use subtotal value to calculate reward discount (IPET-1380)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/use-subtotal-value-to-calculate-reward-discount.patch",
+                "version-constraint": "*"
             }
         ],
         "amasty/module-xcoupon": [
