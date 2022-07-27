@@ -220,8 +220,8 @@
                 "version-constraint": "*"
             },
             {
-                "description": "Not set reward point name in discount description (IPET-986)",
-                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/not-set-reward-point-name-in-discount-description.patch",
+                "description": "Fix discount amount calculation (IPET-1380) and do not set reward point name in discount description (IPET-986)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fixed-reward-point-discount-amount-and-description.patch",
                 "version-constraint": "*"
             },
             {
@@ -232,11 +232,6 @@
             {
                 "description": "Don't substract discount from price because it generates problems if coupon code is added",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/do-not-substract-discount-from-item-price.patch",
-                "version-constraint": "*"
-            },
-            {
-                "description": "Use subtotal value to calculate reward discount (IPET-1380)",
-                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/use-subtotal-value-to-calculate-reward-discount.patch",
                 "version-constraint": "*"
             }
         ],

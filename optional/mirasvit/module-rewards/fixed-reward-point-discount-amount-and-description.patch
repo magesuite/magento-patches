@@ -1,0 +1,128 @@
+diff --git a/src/Rewards/Helper/Balance/Spend.php b/src/Rewards/Helper/Balance/Spend.php
+index 0cce828..e4b99c1 100644
+--- a/src/Rewards/Helper/Balance/Spend.php
++++ b/src/Rewards/Helper/Balance/Spend.php
+@@ -256,6 +256,13 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
+     {
+         if ($this->isRewardsIncludeTax()) {
+             $subtotal = $quote->getBaseGrandTotal();
++
++            // BEGIN PATCH
++            $rules = $this->spendRulesHelper->getRules($quote);
++            foreach ($rules as $rule) {
++                $subtotal = $this->getLimitedSubtotal($quote, $rule);
++            }
++            //END PATCH
+         } else {
+             $subtotal = $quote->getBaseSubtotalWithDiscount();
+             if ($this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {
+diff --git a/src/Rewards/Plugin/SalesRuleValidator.php b/src/Rewards/Plugin/SalesRuleValidator.php
+index 31f18f7..9e984da 100644
+--- a/src/Rewards/Plugin/SalesRuleValidator.php
++++ b/src/Rewards/Plugin/SalesRuleValidator.php
+@@ -126,6 +126,9 @@ class SalesRuleValidator
+         return $returnValue;
+     }
+ 
++// BEGIN PATCH
++// Disabling set reward point name in discount_description in quote/order.
++// This description is confused for customer when "Spending discount calculation method = Apply to totals", because discount from reward points has separate position in totals.
+     /**
+      * @param Validator $validator
+      * @param \callable $proceed
+@@ -135,26 +138,27 @@ class SalesRuleValidator
+      * @return Validator
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
+-    public function aroundPrepareDescription(Validator $validator, $proceed, $address, $separator = ', ')
+-    {
+-        \Magento\Framework\Profiler::start(__CLASS__ . ':' . __METHOD__);
+-        $descriptions = (array)$address->getDiscountDescriptionArray();
+-
+-        $quote    = $address->getQuote();
+-        $purchase = $this->rewardsPurchase->getByQuote($quote);
+-
+-        if ($purchase && $purchase->getSpendAmount() > 0) {
+-            $descriptions[] = $this->rewardsData->getPointsName();
+-        }
+-
+-        $address->setDiscountDescriptionArray($descriptions);
+-
+-        $returnValue = $proceed($address, $separator);
+-
+-        \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
+-
+-        return $returnValue;
+-    }
++//    public function aroundPrepareDescription(Validator $validator, $proceed, $address, $separator = ', ')
++//    {
++//        \Magento\Framework\Profiler::start(__CLASS__ . ':' . __METHOD__);
++//        $descriptions = (array)$address->getDiscountDescriptionArray();
++//
++//        $quote    = $address->getQuote();
++//        $purchase = $this->rewardsPurchase->getByQuote($quote);
++//
++//        if ($purchase && $purchase->getSpendAmount() > 0) {
++//            $descriptions[] = $this->rewardsData->getPointsName();
++//        }
++//
++//        $address->setDiscountDescriptionArray($descriptions);
++//
++//        $returnValue = $proceed($address, $separator);
++//
++//        \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
++//
++//        return $returnValue;
++//    }
++// END PATCH
+ 
+     /**
+      * @return $this
+@@ -321,6 +325,12 @@ class SalesRuleValidator
+         $purchase        = $this->rewardsPurchase->getByQuote($this->item->getQuote());
+         $baseSpendAmount = $purchase->getSpendAmount();
+ 
++        // BEGIN PATCH
++        // In some cases, module returns value with applied reward point discount and in some cases without (when additional discount is added and grandTotal == 0)
++        $quote = $this->item->getQuote();
++        $baseSpendAmount = $this->adjustBaseSpendAmount($quote, $baseSpendAmount);
++        // END PATCH
++
+         if (!$baseTotal) {
+             $baseTotal = $total;
+         }
+@@ -347,6 +357,34 @@ class SalesRuleValidator
+         ];
+     }
+ 
++    // BEGIN PATCH
++    // Method to adjust reward points variable - baseSpendAmount. This value contain grand total with all discounts without reward point discount
++    protected function adjustBaseSpendAmount($quote, $baseSpendAmount)
++    {
++        $cartFixedRules = $quote->getCartFixedRules();
++
++        if (empty($cartFixedRules)) {
++            return $baseSpendAmount;
++        }
++
++        $grandTotal = $quote->getGrandTotal();
++        $subtotalWithoutDiscount = $grandTotal + ($quote->getSubtotal() - $quote->getSubtotalWithDiscount());
++
++        $discount = 0;
++        foreach ($quote->getItems() as $item) {
++            $discount += $item->getDiscountAmount();
++        }
++
++        $cartFixedRules = $quote->getCartFixedRules();
++
++        foreach ($cartFixedRules as $discountAmount) {
++            $discount += $discountAmount;
++        }
++
++        $adjustedAmount = $subtotalWithoutDiscount - $discount;
++        return min($baseSpendAmount, $adjustedAmount);
++    }
++    // END PATCH
+ 
+     /**
+      * We need this because Faonni_Price changes total without basetotal
