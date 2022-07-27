@@ -1,3 +1,27 @@
+diff --git a/view/frontend/layout/checkout_index_index.xml b/view/frontend/layout/checkout_index_index.xml
+index bf83034..4feb790 100644
+--- a/view/frontend/layout/checkout_index_index.xml
++++ b/view/frontend/layout/checkout_index_index.xml
+@@ -34,19 +34,6 @@
+                                                                         <item name="suggestionValueLinkKey" xsi:type="string">city27</item>
+                                                                     </item>
+                                                                 </item>
+-                                                                <item name="city" xsi:type="array">
+-                                                                    <item name="component" xsi:type="string">Insign_PostCore/js/form/element/suggestions-linked</item>
+-                                                                    <item name="config" xsi:type="array">
+-                                                                        <item name="elementTmpl" xsi:type="string">Insign_PostCore/form/element/suggestions</item>
+-                                                                        <item name="valueKey" xsi:type="string">city27</item>
+-                                                                        <item name="suggestionTmpl" xsi:type="string"><![CDATA[${ $.zip } ${ $.city27 }]]></item>
+-                                                                        <item name="urlConfig" xsi:type="array">
+-                                                                            <item name="default" xsi:type="string">/address/api-autocomplete-zip</item>
+-                                                                        </item>
+-                                                                        <item name="suggestionValueLink" xsi:type="string"><![CDATA[${ $.parentName }.postcode]]></item>
+-                                                                        <item name="suggestionValueLinkKey" xsi:type="string">zip</item>
+-                                                                    </item>
+-                                                                </item>
+                                                             </item>
+                                                         </item>
+                                                     </item>
 diff --git a/view/frontend/web/js/form/element/suggestions-mixin.js b/view/frontend/web/js/form/element/suggestions-mixin.js
 index 2082b5a..0fafa1e 100644
 --- a/view/frontend/web/js/form/element/suggestions-mixin.js
