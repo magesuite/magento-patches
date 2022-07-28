@@ -849,7 +849,7 @@
                 {
                     "description": "Fix issue with negative package amounnt",
                     "filename": "essential/magento/module-offline-shipping/fix-issue-with-negative-package-amount.patch",
-                    "version-constraint": ">=100.4.2,<100.4.4"
+                    "version-constraint": ">=100.4.2,<100.4.3"
                 }
             ],
             "magento/module-review": [
