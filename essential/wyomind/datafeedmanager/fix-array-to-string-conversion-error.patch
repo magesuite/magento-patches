@@ -1,0 +1,56 @@
+diff --git a/Helper/Attributes.php b/Helper/Attributes.php
+index 3e602ca..56adaf0 100644
+--- a/Helper/Attributes.php
++++ b/Helper/Attributes.php
+@@ -554,10 +554,43 @@ Error message:
+             $value = '';
+         }
+         // Remove invalid characters
+-        $valueCleaned = preg_replace('/' . '[\\x00-\\x1F\\x7F]' . '|[\\x00-\\x7F][\\x80-\\xBF]+' . '|([\\xC0\\xC1]|[\\xF0-\\xFF])[\\x80-\\xBF]*' . '|[\\xC2-\\xDF]((?![\\x80-\\xBF])|[\\x80-\\xBF]{2,})' . '|[\\xE0-\\xEF](([\\x80-\\xBF](?![\\x80-\\xBF]))|' . '(?![\\x80-\\xBF]{2})|[\\x80-\\xBF]{3,})' . '/S', ' ', $value);
++
++        // BEGIN PATCH
++
++        // $valueCleaned = preg_replace('/' . '[\\x00-\\x1F\\x7F]' . '|[\\x00-\\x7F][\\x80-\\xBF]+' . '|([\\xC0\\xC1]|[\\xF0-\\xFF])[\\x80-\\xBF]*' . '|[\\xC2-\\xDF]((?![\\x80-\\xBF])|[\\x80-\\xBF]{2,})' . '|[\\xE0-\\xEF](([\\x80-\\xBF](?![\\x80-\\xBF]))|' . '(?![\\x80-\\xBF]{2})|[\\x80-\\xBF]{3,})' . '/S', ' ', $value);
++        // $value = str_replace('&#153;', '', (string) $valueCleaned);
++
++        if (is_array($value)) {
++            foreach ($value as $key => $item) {
++                $value[$key] = $this->removeInvalidCharacters($item);
++            }
++        } else {
++            $value = $this->removeInvalidCharacters($value);
++        }
++
++        return $value;
++    }
++
++    protected function removeInvalidCharacters($value)
++    {
++        $valueCleaned = preg_replace(
++            '/' .
++            '[\\x00-\\x1F\\x7F]' .
++            '|[\\x00-\\x7F][\\x80-\\xBF]+' .
++            '|([\\xC0\\xC1]|[\\xF0-\\xFF])[\\x80-\\xBF]*' .
++            '|[\\xC2-\\xDF]((?![\\x80-\\xBF])|[\\x80-\\xBF]{2,})' .
++            '|[\\xE0-\\xEF](([\\x80-\\xBF](?![\\x80-\\xBF]))|' .
++            '(?![\\x80-\\xBF]{2})|[\\x80-\\xBF]{3,})' .
++            '/S',
++            ' ',
++            $value
++        );
+         $value = str_replace('&#153;', '', (string) $valueCleaned);
+         return $value;
+     }
++
++    // END PATCH
++
+     /**
+      * Compare two arrays
+      * @param array $a
+@@ -584,4 +617,4 @@ Error message:
+         }
+         return strlen($a) < strlen($b) ? 1 : -1;
+     }
+-}
+\ No newline at end of file
++}

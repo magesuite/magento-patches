@@ -1,0 +1,16 @@
+Github issue: https://github.com/magento/magento2/issues/27367
+
+diff --git a/Model/QuoteManager.php b/Model/QuoteManager.php
+index 35b07eb..2313027 100644
+--- a/Model/QuoteManager.php
++++ b/Model/QuoteManager.php
+@@ -182,6 +182,9 @@ class QuoteManager
+             $quote->getAddressesCollection()->walk('setCustomerId', ['customerId' => null]);
+             $quote->getAddressesCollection()->walk('setEmail', ['email' => null]);
+             $quote->collectTotals();
++            // BEGIN PATCH
++            $quote->getCustomer()->setId(null);
++            // END PATCH
+             $this->persistentSession->getSession()->removePersistentCookie();
+             $this->persistentSession->setSession(null);
+             $this->quoteRepository->save($quote);

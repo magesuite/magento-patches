@@ -5,7 +5,7 @@ index 17b47ce..6011217 100644
 @@ -80,6 +80,10 @@ class Fee extends Address\Total\AbstractTotal
          $baseTax = 0;
          $tax = 0;
- 
+
 +        // BEGIN PATCH
 +        $rate = 0;
 +        // END PATCH
@@ -46,7 +46,7 @@ index 17b47ce..6011217 100644
 @@ -121,6 +137,11 @@ class Fee extends Address\Total\AbstractTotal
          $quote->setPaymentFeeTax($tax);
          $quote->setBasePaymentFeeTax($baseTax);
- 
+
 +        // BEGIN PATCH
 +        // add paymentFee tax to correct tax group
 +        $this->addTaxToTotals($rate, $total, $tax);
@@ -54,7 +54,7 @@ index 17b47ce..6011217 100644
 +
          return $this;
      }
- 
+
 @@ -186,4 +207,52 @@ class Fee extends Address\Total\AbstractTotal
      {
          return __($this->helper->getTitle());

@@ -1,0 +1,56 @@
+diff --git a/Service/ApiService.php b/Service/ApiService.php
+index 4cbca7f..38ef621 100644
+--- a/Service/ApiService.php
++++ b/Service/ApiService.php
+@@ -47,6 +47,10 @@ class ApiService extends AbstractService
+      */
+     private $postOrderErrors = [];
+ 
++    // PATCH START
++    protected \Magento\Store\Model\App\Emulation $emulation;
++    // PATCH END
++
+     /**
+      * ApiService constructor.
+      *
+@@ -54,15 +58,22 @@ class ApiService extends AbstractService
+      * @param \Magento\Catalog\Helper\Image $imageHelper
+      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+      * @param \CleverZoeger\Paqato\Logger\Logger $logger
++     * @param \Magento\Store\Model\App\Emulation $emulation
+      */
+     public function __construct(
+         Resolver $localeResolver,
+         Image $imageHelper,
+         ScopeConfigInterface $scopeConfig,
+         Logger $logger
++        // PATCH START
++        ,\Magento\Store\Model\App\Emulation $emulation
++        // PATCH END
+     ) {
+         $this->localeResolver = $localeResolver;
+         $this->imageHelper = $imageHelper;
++        // PATCH START
++        $this->emulation = $emulation;
++        // PATCH END
+         parent::__construct($scopeConfig, $logger);
+     }
+ 
+@@ -326,11 +337,17 @@ class ApiService extends AbstractService
+                 $product = $orderItem->getProduct();
+ 
+                 if ($product) {
++                    // PATCH START
++                    $this->emulation->startEnvironmentEmulation($order->getStoreId(), 'frontend');
++                    // PATCH END
+                     $imageUrl = $this->imageHelper->init(
+                         $product,
+                         'product_page_image_small'
+                     )->setImageFile($product->getSmallImage()) // image,small_image,thumbnail
+                     ->resize(380)->getUrl();
++                    // PATCH START
++                    $this->emulation->stopEnvironmentEmulation();
++                    // PATCH END
+                 }
+ 
+                 $item = new RequestBodyOrderItem();

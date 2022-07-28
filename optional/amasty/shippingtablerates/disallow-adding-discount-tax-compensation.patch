@@ -1,0 +1,15 @@
+diff --git a/Model/Rate/ItemsTotalCalculator.php b/Model/Rate/ItemsTotalCalculator.php
+index 3f491dd..27f0e41 100644
+--- a/Model/Rate/ItemsTotalCalculator.php
++++ b/Model/Rate/ItemsTotalCalculator.php
+@@ -80,7 +80,9 @@ class ItemsTotalCalculator
+ 
+             // Fix for correct calculation subtotal for shipping method
+             if ($afterDiscount || $includingTax) {
+-                $this->itemsTotals['not_free_price'] += $item->getBaseDiscountTaxCompensationAmount();
++                // BEGIN PATCH
++                // $this->itemsTotals['not_free_price'] += $item->getBaseDiscountTaxCompensationAmount();
++                // PATCH END
+             }
+         }
+ 

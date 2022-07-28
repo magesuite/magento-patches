@@ -124,6 +124,11 @@
                 "description": "Disable cookie size error message",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-disable-cookie-size-error-message.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "Fix false negative output of setup:db:status command",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m243-fix-setup-db-status-false-negative.patch",
+                "version-constraint": ">=103.0.3"
             }
         ],
         "magento/module-bundle": [
@@ -215,8 +220,8 @@
                 "version-constraint": "*"
             },
             {
-                "description": "Not set reward point name in discount description (IPET-986)",
-                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/not-set-reward-point-name-in-discount-description.patch",
+                "description": "Fix discount amount calculation (IPET-1380) and do not set reward point name in discount description (IPET-986)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fixed-reward-point-discount-amount-and-description.patch",
                 "version-constraint": "*"
             },
             {
@@ -281,6 +286,11 @@
                 "description": "Add prefix to question url in sitemap (ipet only)",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-faq-product-questions/ipet-fix-question-url-in-sitemap.patch",
                 "version-constraint": ">=2.11.3"
+            },
+            {
+                "description": "Allow to use hyperlink in the email template",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-faq-product-questions/allow-use-hyperlink-in-the-email-template.patch",
+                "version-constraint": ">=2.12.2"
             }
         ],
         "amasty/pgrid": [
@@ -309,7 +319,12 @@
             {
                 "description": "Fix infinite loop in checkout",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/shippingtablerates/fix-infinite-loop-in-checkout.patch",
-                "version-constraint": ">=1.10.3"
+                "version-constraint": ">=1.10.6"
+            },
+            {
+                "description": "Disallow adding discount tax compensation",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/shippingtablerates/disallow-adding-discount-tax-compensation.patch",
+                "version-constraint": ">=1.10.6"
             }
         ],
         "amasty/xnotif": [
@@ -448,6 +463,16 @@
             {
                 "description": "Fix redirect when logged out customer trying download invoice",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-download-invoice-redirect-logged-out-customer.patch",
+                "version-constraint": ">=1.1.3"
+            },
+            {
+                "description": "Temporary patch added for log to file failed validation in controller for success transaction (IPET-1392)",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/log-validation-problems-after-success-transaction.patch",
+                "version-constraint": ">=1.1.3"
+            },
+            {
+                "description": "Fix for remove saved payment token in admin panel (IPET-954)",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-remove-payment-tokens-in-admin.patch",
                 "version-constraint": ">=1.1.3"
             }
         ],
@@ -693,9 +718,9 @@
                 "version-constraint": ">=104.0.2 < 104.0.3"
             },
             {
-                "description": "Disable checking image mime type",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-cms/m24-cms-disable-checking-image-mime-type.patch",
-                "version-constraint": ">=103.0.3-p1"
+                "description": "Allow to listing media root folder",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-cms/allow-to-listing-media-root-folder.patch",
+                "version-constraint": ">=104.0.3"
             }
         ],
         "magento/customer": [
@@ -1108,6 +1133,32 @@
                 "description": "Add PayPal Express to mapping",
                 "filename": "vendor/creativestyle/magento-patches/optional/plenty/order/add-paypal-express-to-mapping.patch",
                 "version-constraint": "*"
+            }
+        ],
+        "mailchimp/mc-magento2": [
+            {
+                "description": "Precede product title with product SKU in the Mailchimp product feed",
+                "filename": "vendor/creativestyle/magento-patches/optional/mailchimp/mc-magento2/customize-product-title-in-mailchimp-product-feed.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "magento/module-reports": [
+            {
+                "description": "Fix displaying report result for month interval when a start date is last day of 31-days month",
+                "filename": "essential/magento/module-reports/fix-generating-month-intervals.patch",
+                "version-constraint": ">=2.3.3"
+            },
+            {
+                "description": "Fix displaying report result for month interval when a start date is last day of 31-days month (ordered, viewed and bestsellers products)",
+                "filename": "essential/magento/module-reports/fix-generating-month-intervals_for_product_category_reports.patch",
+                "version-constraint": ">=2.0.0"
+            }
+        ],
+        "insign/magento2-module-postcore": [
+            {
+                "description": "Set proper initial value to post-code input observable",
+                "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/init-observable-value.patch",
+                "version-constraint": ">=1.0.6"
             }
         ]
     }

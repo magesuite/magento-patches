@@ -1,0 +1,15 @@
+diff --git a/view/adminhtml/layout/wallee_payment_customer_token.xml b/view/adminhtml/layout/wallee_payment_customer_token.xml
+index ba6785d..1c79be4 100644
+--- a/view/adminhtml/layout/wallee_payment_customer_token.xml
++++ b/view/adminhtml/layout/wallee_payment_customer_token.xml
+@@ -71,7 +71,9 @@
+                             <item name="delete" xsi:type="array">
+                                 <item name="caption" xsi:type="string" translate="true">Delete</item>
+                                 <item name="url" xsi:type="string">#</item>
+-                                <item name="onclick" xsi:type="string">return tokenControl.removeToken($token_id);</item>
++                                <!-- BEGIN PATCH -->
++                                <item name="onclick" xsi:type="string">return tokenControl.removeToken($entity_id);</item>
++                                <!-- END PATCH -->
+                             </item>
+                         </argument>
+                     </arguments>

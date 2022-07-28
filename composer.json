@@ -218,6 +218,11 @@
                     "description": "Fix 'The shipping information was unable to be saved.' error",
                     "filename": "essential/magento/module-persistent/m232-the-shipping-information-was-unable-to-be-saved.patch",
                     "version-constraint": ">=100.3.2,<=100.3.3"
+                },
+                {
+                    "description": "Fix quote state error after session timeout",
+                    "filename": "essential/magento/module-persistent/fix-quote-state-error-after-session-timeout.patch",
+                    "version-constraint": ">=100.4.2,<100.4.4"
                 }
             ],
             "magento/module-theme": [
@@ -384,7 +389,7 @@
                 {
                     "description": "Fix adminhtml style css filename",
                     "filename": "essential/amasty/shippingtablerates/fix-adminhtml-style-css-filename.patch",
-                    "version-constraint": ">1.10.5"
+                    "version-constraint": "<1.10.5"
                 }
             ],
             "magento/magento2-base": [
@@ -596,7 +601,7 @@
                 {
                     "description": "Improves performance of virtual category query generation.",
                     "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v.2.10.x.patch",
-                    "version-constraint": ">=2.10.0"
+                    "version-constraint": ">=2.10.0,<2.10.11"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
@@ -838,6 +843,13 @@
                     "description": "Fixes performance issue caused by generate file hash",
                     "filename": "essential/magento/module-catalog-import-export/m24-fix-performance-hash-issue.patch",
                     "version-constraint": ">=101.1.2,<101.1.4"
+                }
+            ],
+            "magento/module-offline-shipping": [
+                {
+                    "description": "Fix issue with negative package amounnt",
+                    "filename": "essential/magento/module-offline-shipping/fix-issue-with-negative-package-amount.patch",
+                    "version-constraint": ">=100.4.2"
                 }
             ],
             "magento/module-review": [
@@ -1238,6 +1250,16 @@
                     "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.4.3+",
                     "filename": "essential/magento/module-cms/m243-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
                     "version-constraint": ">=104.0.3-p1"
+                },
+                {
+                    "description": "Prevent generating WYSIWYG images on the fly",
+                    "filename": "essential/magento/module-cms/prevent-generating-wysiwyg-thumbnails-on-the-fly.patch",
+                    "version-constraint": "*"
+                },
+                {
+                    "description": "Disable checking image mime type",
+                    "filename": "essential/magento/module-cms/m24-cms-disable-checking-image-mime-type.patch",
+                    "version-constraint": ">=103.0.3-p1"
                 }
             ],
             "magento/module-payment": [
@@ -1627,13 +1649,13 @@
             "wyomind/datafeedmanager": [
                 {
                     "description": "Fix array to string conversion error",
-                    "filename": "essential/wyomind/datafeedmanager/fix-array-to-sring-conversion-error.patch",
+                    "filename": "essential/wyomind/datafeedmanager/fix-array-to-string-conversion-error.patch",
                     "version-constraint": ">=11.22.1,<11.23.0"
                 },
                 {
                     "description": "Fix for feed configuration revert issue by cron process",
                     "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-fix-config-revert-issue.patch",
-                    "version-constraint": ">=11.20.0,<11.22.0"
+                    "version-constraint": ">=11.20.0"
                 },
                 {
                     "description": "Fix for feed configuration revert issue by cron process",
@@ -1649,6 +1671,11 @@
                     "description": "It is not Wyomind bug, but because of our module 'MageSuiteNavigation' there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns 'product_category' and 'category_2' were empty. This patch is fixing private method 'extractCategories' and enabling possibility to export category data for mobile navigation.",
                     "filename": "essential/wyomind/datafeedmanager/enable-category-data-in-wyomid-datafeed-export-for-disabled-in-desktop-navigation-products-and-enabled-in-mobile-navigation-products_new.patch",
                     "version-constraint": ">=11.22.0,<11.23.0"
+                },
+                {
+                    "description": "It is not Wyomind bug, but because of our module 'MageSuiteNavigation' there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns 'product_category' and 'category_2' were empty. This patch is fixing private method 'extractCategories' and enabling possibility to export category data for mobile navigation.",
+                    "filename": "essential/wyomind/datafeedmanager/enable-category-data-in-wyomid-datafeed-export-for-disabled-in-desktop-navigation-products-and-enabled-in-mobile-navigation-products_new2.patch",
+                    "version-constraint": ">=11.23.0"
                 }
             ],
             "xtento/pdfcustomizer": [
@@ -1719,6 +1746,32 @@
                     "description": "Avoid loading product for a second time",
                     "filename": "essential/magepal/magento2-enhanced-ecommerce/avoid-loading-product-second-time.patch",
                     "version-constraint": ">=1.7.1,<1.7.3"
+                }
+            ],
+            "cleverzoeger/ext-magento2-cleverzoeger-paqato": [
+                {
+                    "description": "Add store emulation for getting product image url",
+                    "filename": "essential/cleverzoeger/ext-magento2-cleverzoeger-paqato/add-store-emulation-for-getting-product-image-url.patch",
+                    "version-constraint": ">=1.4.0"
+                }
+            ],
+            "magento/module-reports": [
+                {
+                    "description": "Fix displaying report result for month interval when a start date is last day of 31-days month",
+                    "filename": "essential/magento/module-reports/fix-generating-month-intervals.patch",
+                    "version-constraint": ">=2.3.3"
+                },
+                {
+                    "description": "Fix displaying report result for month interval when a start date is last day of 31-days month (ordered, viewed and bestsellers products)",
+                    "filename": "essential/magento/module-reports/fix-generating-month-intervals_for_product_category_reports.patch",
+                    "version-constraint": ">=2.0.0"
+                }
+            ],
+            "wallee/magento-2": [
+                {
+                    "description": "Fix for remove saved payment token in admin panel (IPET-954)",
+                    "filename": "essential/wallee/magento-2/fix-remove-payment-tokens-in-admin.patch",
+                    "version-constraint": ">=1.2.0"
                 }
             ]
         }

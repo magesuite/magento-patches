@@ -1,7 +1,25 @@
 diff --git a/Model/Service/LineItemReductionService.php b/Model/Service/LineItemReductionService.php
-index 5e98d5c..ed11788 100644
+index 5e98d5c..b8ef85b 100644
 --- a/Model/Service/LineItemReductionService.php
 +++ b/Model/Service/LineItemReductionService.php
+@@ -75,7 +75,7 @@ class LineItemReductionService
+      * @param EventManagerInterface $eventManager
+      */
+     public function __construct(Helper $helper, LineItemReductionHelper $reductionHelper, LineItemHelper $lineItemHelper,
+-        ApiClient $apiClient, EventManagerInterface $eventManager)
++                                ApiClient $apiClient, EventManagerInterface $eventManager)
+     {
+         $this->helper = $helper;
+         $this->reductionHelper = $reductionHelper;
+@@ -101,7 +101,7 @@ class LineItemReductionService
+ 
+         $reductions = [];
+         if ($this->helper->compareAmounts($unrefundedAmount, $creditmemo->getGrandTotal(),
+-            $creditmemo->getOrderCurrencyCode()) == 0) {
++                $creditmemo->getOrderCurrencyCode()) == 0) {
+             foreach ($baseLineItems as $baseLineItem) {
+                 $reduction = new LineItemReductionCreate();
+                 $reduction->setLineItemUniqueId($baseLineItem->getUniqueId());
 @@ -189,9 +189,18 @@ class LineItemReductionService
          if ($creditmemo->getShippingAmount() > 0) {
              $reduction = new LineItemReductionCreate();
@@ -14,21 +32,46 @@ index 5e98d5c..ed11788 100644
 +//                  ->getShippingInclTax(), $creditmemo->getOrderCurrencyCode()) == 0) {
 +
              if ($this->helper->compareAmounts($creditmemo->getShippingAmount() + $creditmemo->getShippingTaxAmount(),
-                 $creditmemo->getOrder()
+-                $creditmemo->getOrder()
 -                    ->getShippingInclTax(), $creditmemo->getOrderCurrencyCode()) == 0) {
-+                    ->getShippingInclTax() - $creditmemo->getOrder()->getShippingDiscountTaxCompensationAmount(), $creditmemo->getOrderCurrencyCode()) == 0) {
++                    $creditmemo->getOrder()
++                        ->getShippingInclTax() - $creditmemo->getOrder()->getShippingDiscountTaxCompensationAmount(), $creditmemo->getOrderCurrencyCode()) == 0) {
 +
-+            // END PATCH
++                // END PATCH
                  $reduction->setQuantityReduction(1);
                  $reduction->setUnitPriceReduction(0);
              } else {
+@@ -217,7 +226,7 @@ class LineItemReductionService
+         $reducedAmount = $this->reductionHelper->getReducedAmount($baseLineItems, $reductions,
+             $creditmemo->getOrderCurrencyCode());
+         if ($this->helper->compareAmounts($reducedAmount, $creditmemo->getGrandTotal(),
+-            $creditmemo->getOrderCurrencyCode()) != 0) {
++                $creditmemo->getOrderCurrencyCode()) != 0) {
+             throw new LineItemReductionException();
+         }
+     }
 diff --git a/Model/Webhook/Listener/Refund/SuccessfulCommand.php b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
-index 0cd0e36..73e24f9 100644
+index 0cd0e36..147f2f9 100644
 --- a/Model/Webhook/Listener/Refund/SuccessfulCommand.php
 +++ b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
-@@ -260,8 +260,17 @@ class SuccessfulCommand extends AbstractCommand
+@@ -246,7 +246,13 @@ class SuccessfulCommand extends AbstractCommand
+                     if ($reduction->getQuantityReduction() > 0) {
+                         $shippingAmount = $baseLineItems[$reduction->getLineItemUniqueId()]->getAmountIncludingTax();
+                     } elseif ($reduction->getUnitPriceReduction() > 0) {
+-                        $shippingAmount = $reduction->getUnitPriceReduction();
++                        // BEGIN PATCH
++                        // In some cases, wallee reduce shipment amount instead of adding positive adjustiment
++
++                        //$shippingAmount = $reduction->getUnitPriceReduction();
++                        $shippingAmount = 0;
++
++                        // END PATCH
+                     } else {
+                         $shippingAmount = 0;
                      }
-
+@@ -260,8 +266,17 @@ class SuccessfulCommand extends AbstractCommand
+                     }
+ 
                      if ($order->getShippingDiscountAmount() > 0) {
 -                        $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
 -                            $order->getShippingDiscountAmount();
@@ -36,8 +79,8 @@ index 0cd0e36..73e24f9 100644
 +                        // Magento provides the shipping amount with discount, it shouldn't be discounted twice
 +                        // Also, discount should be added only if shipping amount wasn't already refunded
 +
-+//                        $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
-+//                            $order->getShippingDiscountAmount();
++                        //$shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
++                        //$order->getShippingDiscountAmount();
 +
 +                        if ($shippingAmount > 0) {
 +                            $shippingAmount += $order->getShippingDiscountAmount();
@@ -46,10 +89,10 @@ index 0cd0e36..73e24f9 100644
                      }
                      break;
              }
-@@ -279,6 +288,14 @@ class SuccessfulCommand extends AbstractCommand
+@@ -279,6 +294,14 @@ class SuccessfulCommand extends AbstractCommand
              $positiveAdjustment = $refund->getAmount() - $roundedCreditmemoAmount;
          }
-
+ 
 +        // BEGIN PATCH
 +        // Refund amount is calculated on Wallee side, sometimes, when discounts and payment_fee are combined, this value is rounded incorrectly and 0.01 might be missing.
 +        $totalToRefund = $order->getGrandTotal() - $order->getTotalRefunded();
