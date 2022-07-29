@@ -1164,6 +1164,11 @@
                 "description": "Set proper initial value to post-code input observable",
                 "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/init-observable-value.patch",
                 "version-constraint": ">=1.0.6"
+            },
+            {
+              "description": "Disable saved address validation and template override",
+              "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/address-validation-disable.patch",
+              "version-constraint": ">=1.0.6"
             }
         ]
     }
