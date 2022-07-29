@@ -1,0 +1,22 @@
+diff --git a/Model/Entity/Attribute/OptionManagement.php b/Model/Entity/Attribute/OptionManagement.php
+index e99f439..971a763 100644
+--- a/Model/Entity/Attribute/OptionManagement.php
++++ b/Model/Entity/Attribute/OptionManagement.php
+@@ -65,13 +65,10 @@ class OptionManagement implements AttributeOptionManagementInterface, AttributeO
+             throw new InputException(__('The attribute option label is empty. Enter the value and try again.'));
+         }
+ 
+-        if ($attribute->getSource()->getOptionId($label) !== null) {
+-            throw new InputException(
+-                __(
+-                    'Admin store attribute option label "%1" is already exists.',
+-                    $option->getLabel()
+-                )
+-            );
++        foreach ($attribute->getOptions() as $exitingOption) {
++            if ($exitingOption->getLabel() == $label) {
++                throw new \Magento\Framework\Exception\InputException(__('Admin store attribute option label "%1" is already exists.', $option->getLabel()));
++            }
+         }
+ 
+         $optionId = $this->getNewOptionId($option);

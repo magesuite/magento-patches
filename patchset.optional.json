@@ -63,6 +63,11 @@
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-eav/dogma-customer-pet-image-change-destination-module-eav.patch",
                 "version-constraint": ">=103.0.0"
+            },
+            {
+              "description": "When option label is the same as exiting option id the new option will not be added and this patch fixes it",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-eav/kruger-add-option-lablel-same-as-existing-id.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-checkout": [
