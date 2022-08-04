@@ -150,6 +150,11 @@
                     "description": "Fix email sending for email containing hypen",
                     "filename": "essential/magento/framework/emails-are-not-sent-for-email-containing-hyphen.patch",
                     "version-constraint": ">=103.0.3"
+                },
+                {
+                    "description": "Allow group attribute on referenceBlock directive in layout files",
+                    "filename": "essential/magento/framework/magento-framework-xsd-allow-group-attribute-on-referenceblock.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-asynchronous-operations": [
