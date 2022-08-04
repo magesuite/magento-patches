@@ -856,6 +856,11 @@
                     "description": "Fixes saving incorect End Date for post",
                     "filename": "essential/aheadworks/module-blog/fix-blog-post-end-date.patch",
                     "version-constraint": ">=2.13.0"
+                },
+                {
+                    "description": "Fix for relations issue in table aw_blog_product_post (IPET-1485)",
+                    "filename": "essential/aheadworks/module-blog/fix-relations-in-product-post-index.patch",
+                    "version-constraint": ">=2.13.2"
                 }
             ],
             "aheadworks/module-faq": [
