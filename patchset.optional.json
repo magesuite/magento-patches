@@ -500,6 +500,13 @@
                 "version-constraint": "*"
             }
         ],
+        "aheadworks/module-automatic-related-products": [
+            {
+                "description": "Remove constraints for table aw_autorelated_wvtav_index.",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-automatic-related-products/remove-constraints-for-table-aw_autorelated_wvtav_index.patch",
+                "version-constraint": "*"
+            }
+        ],
         "emartech/emarsys-magento2-extension": [
             {
                 "description": "Patch to fix constructor which was causing di:compile method failure",
