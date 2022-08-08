@@ -462,6 +462,11 @@
                     "description": "Load draggable and resizable widget only if needed in dialog widget",
                     "filename": "essential/magento/magento2-base/make-dependencies-optional-for-dialog-widget.patch",
                     "version-constraint": ">2.4.1,<=2.4.2"
+                },
+                {
+                    "description": "Fixes  error in the browser console: Uncaught SyntaxError: Unexpected token const",
+                    "filename": "essential/magento/magento2-base/m244-unexpected-token-const.patch",
+                    "version-constraint": ">=2.4.4,<2.4.5"
                 }
             ],
             "magento/module-search": [
