@@ -63,6 +63,11 @@
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-eav/dogma-customer-pet-image-change-destination-module-eav.patch",
                 "version-constraint": ">=103.0.0"
+            },
+            {
+              "description": "When option label is the same as exiting option id the new option will not be added and this patch fixes it",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-eav/kruger-add-option-lablel-same-as-existing-id.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-checkout": [
@@ -129,6 +134,11 @@
                 "description": "Fix false negative output of setup:db:status command",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m243-fix-setup-db-status-false-negative.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "Allow dot in query order's field validation process",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-allow-dot-in-validating-process.patch ",
+                "version-constraint": "103.0.3-p1"
             }
         ],
         "magento/module-bundle": [
@@ -492,6 +502,13 @@
             {
                 "description": "Add support for elasticsuite",
                 "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-customer-group-catalog-permissions/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "aheadworks/module-automatic-related-products": [
+            {
+                "description": "Remove constraints for table aw_autorelated_wvtav_index.",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-automatic-related-products/remove-constraints-for-table-aw_autorelated_wvtav_index.patch",
                 "version-constraint": "*"
             }
         ],
@@ -1159,6 +1176,11 @@
                 "description": "Set proper initial value to post-code input observable",
                 "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/init-observable-value.patch",
                 "version-constraint": ">=1.0.6"
+            },
+            {
+              "description": "Disable saved address validation and template override",
+              "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/address-validation-disable.patch",
+              "version-constraint": ">=1.0.6"
             }
         ]
     }
