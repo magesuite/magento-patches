@@ -1,8 +1,8 @@
 diff --git a/src/Rewards/Helper/Balance/Spend.php b/src/Rewards/Helper/Balance/Spend.php
-index 0cce828..e4b99c1 100644
+index 9587082..204c8a5 100644
 --- a/src/Rewards/Helper/Balance/Spend.php
 +++ b/src/Rewards/Helper/Balance/Spend.php
-@@ -256,6 +256,13 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -256,6 +256,14 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
      {
          if ($this->isRewardsIncludeTax()) {
              $subtotal = $quote->getBaseGrandTotal();
@@ -13,14 +13,71 @@ index 0cce828..e4b99c1 100644
 +                $subtotal = $this->getLimitedSubtotal($quote, $rule);
 +            }
 +            //END PATCH
++
          } else {
              $subtotal = $quote->getBaseSubtotalWithDiscount();
              if ($this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {
+@@ -306,12 +314,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
+ 
+             if ($rule->getActions()->validate($item)) {
+                 if ($priceIncludesTax) {
+-                    $itemPrice = $item->getBasePrice();
+-                    if ($this->isRewardsIncludeTax()) {
+-                        $itemPrice = $item->getBasePriceInclTax();
+-                    }
+-                    $itemPrice += (float)$item->getWeeeTaxAppliedAmountInclTax();
+-                    $itemPrice = $itemPrice * $item->getQty() - $item->getBaseDiscountAmount();
++                    // BEGIN PATCH
++                    // Always use full item price, do not add discount to it
++
++                    // $itemPrice = $item->getBasePrice();
++                    // if ($this->isRewardsIncludeTax()) {
++                    //     $itemPrice = $item->getBasePriceInclTax();
++                    // }
++                    // $itemPrice += (float)$item->getWeeeTaxAppliedAmountInclTax();
++                    // $itemPrice = $itemPrice * $item->getQty() - $item->getBaseDiscountAmount();
++                    $itemPrice = $item->getRowTotalInclTax();
++                    // END PATCH
+                 } else {
+                     $itemPrice = $item->getBasePrice() * $item->getQty() - $item->getBaseDiscountAmount();
+                 }
 diff --git a/src/Rewards/Plugin/SalesRuleValidator.php b/src/Rewards/Plugin/SalesRuleValidator.php
-index 31f18f7..9e984da 100644
+index e6930fb..3a3eea6 100644
 --- a/src/Rewards/Plugin/SalesRuleValidator.php
 +++ b/src/Rewards/Plugin/SalesRuleValidator.php
-@@ -126,6 +126,9 @@ class SalesRuleValidator
+@@ -60,6 +60,10 @@ class SalesRuleValidator
+ 
+     private $taxData;
+ 
++    // BEGIN PATCH
++    protected $ruleCollectionFactory;
++    // END PATCH
++
+     public function __construct(
+         \Mirasvit\Rewards\Helper\Balance\Spend $spendHelper,
+         \Mirasvit\Rewards\Helper\Purchase $rewardsPurchase,
+@@ -70,6 +74,9 @@ class SalesRuleValidator
+         \Magento\Tax\Model\TaxCalculation $taxCalculation,
+         \Magento\Tax\Model\Config $taxConfig,
+         \Magento\Tax\Helper\Data $taxData
++        // BEGIN PATCH
++        , ?\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory $ruleCollectionFactory = null
++        // END PATCH
+     ) {
+         $this->spendHelper      = $spendHelper;
+         $this->rewardsPurchase  = $rewardsPurchase;
+@@ -80,6 +87,10 @@ class SalesRuleValidator
+         $this->taxCalculation   = $taxCalculation;
+         $this->taxConfig        = $taxConfig;
+         $this->taxData          = $taxData;
++
++        // BEGIN PATCH
++        $this->ruleCollectionFactory = $ruleCollectionFactory ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory::class);
++        // END PATCH
+     }
+ 
+     /**
+@@ -126,6 +137,9 @@ class SalesRuleValidator
          return $returnValue;
      }
  
@@ -30,7 +87,7 @@ index 31f18f7..9e984da 100644
      /**
       * @param Validator $validator
       * @param \callable $proceed
-@@ -135,26 +138,27 @@ class SalesRuleValidator
+@@ -135,26 +149,27 @@ class SalesRuleValidator
       * @return Validator
       * @SuppressWarnings(PHPMD.UnusedFormalParameter)
       */
@@ -78,7 +135,7 @@ index 31f18f7..9e984da 100644
  
      /**
       * @return $this
-@@ -321,6 +325,12 @@ class SalesRuleValidator
+@@ -321,6 +336,12 @@ class SalesRuleValidator
          $purchase        = $this->rewardsPurchase->getByQuote($this->item->getQuote());
          $baseSpendAmount = $purchase->getSpendAmount();
  
@@ -91,7 +148,7 @@ index 31f18f7..9e984da 100644
          if (!$baseTotal) {
              $baseTotal = $total;
          }
-@@ -347,6 +357,34 @@ class SalesRuleValidator
+@@ -347,6 +368,29 @@ class SalesRuleValidator
          ];
      }
  
@@ -108,19 +165,14 @@ index 31f18f7..9e984da 100644
 +        $grandTotal = $quote->getGrandTotal();
 +        $subtotalWithoutDiscount = $grandTotal + ($quote->getSubtotal() - $quote->getSubtotalWithDiscount());
 +
-+        $discount = 0;
-+        foreach ($quote->getItems() as $item) {
-+            $discount += $item->getDiscountAmount();
++        $ruleCollection = $this->ruleCollectionFactory->create();
++        $ruleCollection->addFieldToFilter('rule_id', ['in' => array_keys($cartFixedRules)]);
++
++        foreach ($ruleCollection as $rule) {
++            $subtotalWithoutDiscount -= $rule->getDiscountAmount();
 +        }
 +
-+        $cartFixedRules = $quote->getCartFixedRules();
-+
-+        foreach ($cartFixedRules as $discountAmount) {
-+            $discount += $discountAmount;
-+        }
-+
-+        $adjustedAmount = $subtotalWithoutDiscount - $discount;
-+        return min($baseSpendAmount, $adjustedAmount);
++        return min($baseSpendAmount, $subtotalWithoutDiscount);
 +    }
 +    // END PATCH
  
