@@ -154,7 +154,7 @@
                 {
                     "description": "Allow group attribute on referenceBlock directive in layout files",
                     "filename": "essential/magento/framework/magento-framework-xsd-allow-group-attribute-on-referenceblock.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<103.0.4"
                 }
             ],
             "magento/module-asynchronous-operations": [
