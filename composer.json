@@ -156,6 +156,7 @@
                     "filename": "essential/magento/framework/magento-framework-xsd-allow-group-attribute-on-referenceblock.patch",
                     "version-constraint": "<103.0.4"
                 }
+
             ],
             "magento/module-asynchronous-operations": [
                 {
@@ -215,7 +216,7 @@
                 {
                     "description": "Load dependency for resizable knockout binding only on init",
                     "filename": "essential/magento/module-ui/load-resizable-widget-only-on-init.patch",
-                    "version-constraint": ">=101.2.2"
+                    "version-constraint": ">=101.2.2,<101.2.4"
                 }
             ],
             "magento/module-persistent": [
@@ -318,7 +319,12 @@
                 {
                     "description": "Fix not working customer prefix translation",
                     "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation.patch",
-                    "version-constraint": ">=102.0.5"
+                    "version-constraint": ">=102.0.5,<103.0.4"
+                },
+                {
+                    "description": "Fix not working customer prefix translation Magento 2.4.4+",
+                    "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation-m244plus.patch",
+                    "version-constraint": ">=103.0.4"
                 },
                 {
                     "description": "Fix invoice grand total amount for orders with discounts",
@@ -446,7 +452,12 @@
                 {
                     "description": "Fix Module.php file that contains incorrect comma, Magento >= 2.4.3",
                     "filename": "essential/magento/magento2-base/m243-plus-fix-setup-module-php-comma-for-php-73.patch",
-                    "version-constraint": ">=2.4.3"
+                    "version-constraint": ">=2.4.3,<2.4.4"
+                },
+                {
+                    "description": "Fix Module.php file that contains incorrect comma, Magento >= 2.4.4",
+                    "filename": "essential/magento/magento2-base/m244-plus-fix-setup-module-php-comma-for-php-73.patch",
+                    "version-constraint": ">=2.4.4"
                 },
                 {
                     "description": "Remove hardcoded FormData polyfill so it can be loaded on demand",
@@ -457,6 +468,11 @@
                     "description": "Load draggable and resizable widget only if needed in dialog widget",
                     "filename": "essential/magento/magento2-base/make-dependencies-optional-for-dialog-widget.patch",
                     "version-constraint": ">2.4.1,<=2.4.2"
+                },
+                {
+                    "description": "Fixes  error in the browser console: Uncaught SyntaxError: Unexpected token const",
+                    "filename": "essential/magento/magento2-base/m244-unexpected-token-const.patch",
+                    "version-constraint": ">=2.4.4,<2.4.5"
                 }
             ],
             "magento/module-search": [
@@ -470,7 +486,12 @@
                 {
                     "description": "Disable products elasticsearch reindex after category change",
                     "filename": "essential/magento/module-elasticsearch/m24-disable-products-es-reindex-after-category-change.patch",
-                    "version-constraint": ">=101.0.0"
+                    "version-constraint": ">=101.0.0,<101.0.4"
+                },
+                {
+                    "description": "Disable products elasticsearch reindex after category change",
+                    "filename": "essential/magento/module-elasticsearch/m244-plus-disable-products-es-reindex-after-category-change.patch",
+                    "version-constraint": ">=101.0.4"
                 }
             ],
             "magento/module-email": [
@@ -615,7 +636,12 @@
                 {
                     "description": "Wrap cataloginventory indexer with transaction",
                     "filename": "essential/magento/module-catalog-inventory/wrap-cataloginventory-indexer-with-transaction.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<100.4.4"
+                },
+                {
+                    "description": "Wrap cataloginventory indexer with transaction Magento 2.4.4+",
+                    "filename": "essential/magento/module-catalog-inventory/m244-plus-wrap-cataloginventory-indexer-with-transaction.patch",
+                    "version-constraint": ">=100.4.4"
                 }
             ],
             "magento/module-catalog": [
@@ -716,7 +742,12 @@
                 {
                     "description": "M2.4.3-p1: add autocomplete to Checkout/Cart inputs - xml config",
                     "filename": "essential/magento/module-checkout/m243-autocomplete-checkout.patch",
-                    "version-constraint": ">=100.4.3-p1"
+                    "version-constraint": ">=100.4.3-p1,<100.4.4"
+                },
+                {
+                    "description": "M2.4.4: add autocomplete to Checkout/Cart inputs - xml config",
+                    "filename": "essential/magento/module-checkout/m244-autocomplete-checkout.patch",
+                    "version-constraint": ">=100.4.4"
                 },
                 {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
@@ -822,14 +853,14 @@
                 {
                     "description": "Fixes performance issue caused by generate file hash",
                     "filename": "essential/magento/module-catalog-import-export/m24-fix-performance-hash-issue.patch",
-                    "version-constraint": ">=101.1.2"
+                    "version-constraint": ">=101.1.2,<101.1.4"
                 }
             ],
             "magento/module-offline-shipping": [
                 {
                     "description": "Fix issue with negative package amounnt",
                     "filename": "essential/magento/module-offline-shipping/fix-issue-with-negative-package-amount.patch",
-                    "version-constraint": ">=100.4.2"
+                    "version-constraint": ">=100.4.2,<100.4.3"
                 }
             ],
             "magento/module-review": [
@@ -1111,7 +1142,12 @@
                 {
                     "description": "Fix js errors in customer data when component not initialized",
                     "filename": "essential/magento/module-customer/customer-data-initialization-fix.patch",
-                    "version-constraint": ">=103.0.2"
+                    "version-constraint": ">=103.0.2,<103.0.4"
+                },
+                {
+                    "description": "Fix js errors in customer data when component not initialized, Magento 2.4.4+",
+                    "filename": "essential/magento/module-customer/m244-plus-customer-data-initialization-fix.patch",
+                    "version-constraint": ">=103.0.4"
                 },
                 {
                     "description": "Fix not working translation for customers",
@@ -1123,7 +1159,12 @@
                 {
                     "description": "Wrap inventory indexer (MSI) with transaction",
                     "filename": "essential/magento/module-inventory-indexer/wrap-inventory-indexer-with-transaction.patch",
-                    "version-constraint": ">=2.0.0"
+                    "version-constraint": ">=2.0.0,<2.1.2"
+                },
+                {
+                    "description": "Wrap inventory indexer (MSI) with transaction, Magento 2.4.4+",
+                    "filename": "essential/magento/module-inventory-indexer/m244-plus-wrap-inventory-indexer-with-transaction.patch",
+                    "version-constraint": ">=2.1.2"
                 }
             ],
             "magento/module-inventory-bundle-product-indexer": [
@@ -1545,14 +1586,19 @@
                 {
                     "description": "Skip MSI bundle validator for source items import",
                     "filename": "essential/magento/module-inventory-bundle-product/skip-msi-bundle-sourceitem-validator.patch",
-                    "version-constraint": ">=1.2.0"
+                    "version-constraint": ">=1.2.0,<1.2.1"
+                },
+                {
+                    "description": "Skip MSI bundle validator for source items import, Magento 2.4.4+",
+                    "filename": "essential/magento/module-inventory-bundle-product/m244-plus-skip-msi-bundle-sourceitem-validator.patch",
+                    "version-constraint": ">=1.2.1"
                 }
             ],
             "magento/module-re-captcha-checkout": [
                 {
                     "description": "Fix error in checkout when reCaptcha is disabled for Checkout/Placing Order",
                     "filename": "essential/magento/module-re-captcha-checkout/m24-fix-checkout-place-order-recaptcha-error.patch",
-                    "version-constraint": ">=1.1.1"
+                    "version-constraint": ">=1.1.1,<1.1.2"
                 }
             ],
             "magento/module-re-captcha-migration": [

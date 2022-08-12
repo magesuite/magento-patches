@@ -1,0 +1,74 @@
+diff --git a/Model/ResourceModel/Indexer/Stock/DefaultStock.php b/Model/ResourceModel/Indexer/Stock/DefaultStock.php
+index fceb079..b653b4e 100644
+--- a/Model/ResourceModel/Indexer/Stock/DefaultStock.php
++++ b/Model/ResourceModel/Indexer/Stock/DefaultStock.php
+@@ -320,32 +320,46 @@ class DefaultStock extends AbstractIndexer implements StockInterface
+     protected function _updateIndex($entityIds)
+     {
+         $connection = $this->getConnection();
+-        $select = $this->_getStockStatusSelect($entityIds, true);
+-        $select = $this->queryProcessorComposite->processQuery($select, $entityIds, true);
+-        $query = $connection->query($select);
+-
+-        $i = 0;
+-        $data = [];
+-        $savedEntityIds = [];
+-        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+-            $i++;
+-            $data[] = [
+-                'product_id' => (int)$row['entity_id'],
+-                'website_id' => (int)$row['website_id'],
+-                'stock_id' => Stock::DEFAULT_STOCK_ID,
+-                'qty' => (double)$row['qty'],
+-                'stock_status' => (int)$row['status'],
+-            ];
+-            $savedEntityIds[] = (int)$row['entity_id'];
+-            if ($i % 1000 == 0) {
+-                $this->_updateIndexTable($data);
+-                $data = [];
++
++        // BEGIN PATCH
++        try {
++            $connection->beginTransaction();
++
++            $select = $this->_getStockStatusSelect($entityIds, true);
++            $select = $this->queryProcessorComposite->processQuery($select, $entityIds, true);
++            $query = $connection->query($select);
++
++            $i = 0;
++            $data = [];
++            $savedEntityIds = [];
++            while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
++                $i++;
++                $data[] = [
++                    'product_id' => (int)$row['entity_id'],
++                    'website_id' => (int)$row['website_id'],
++                    'stock_id' => Stock::DEFAULT_STOCK_ID,
++                    'qty' => (double)$row['qty'],
++                    'stock_status' => (int)$row['status'],
++                ];
++                $savedEntityIds[] = (int)$row['entity_id'];
++                if ($i % 1000 == 0) {
++                    $this->_updateIndexTable($data);
++                    $data = [];
++                }
+             }
+-        }
+ 
+-        $this->_updateIndexTable($data);
++            $this->_updateIndexTable($data);
++
++            $this->deleteOldRecords(array_diff($entityIds, $savedEntityIds));
++
++            $connection->commit();
++        }
++        catch (\Exception $e) {
++            $connection->rollBack();
++            throw $e;
++        }
++        // END PATCH
+ 
+-        $this->deleteOldRecords(array_diff($entityIds, $savedEntityIds));
+         return $this;
+     }
+ 
