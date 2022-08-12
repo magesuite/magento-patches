@@ -1,8 +1,8 @@
 diff --git a/Model/ResourceModel/Indexer/Stock/DefaultStock.php b/Model/ResourceModel/Indexer/Stock/DefaultStock.php
-index fceb079..4489c55 100644
+index fceb079..b653b4e 100644
 --- a/Model/ResourceModel/Indexer/Stock/DefaultStock.php
 +++ b/Model/ResourceModel/Indexer/Stock/DefaultStock.php
-@@ -320,32 +320,44 @@ class DefaultStock extends AbstractIndexer implements StockInterface
+@@ -320,32 +320,46 @@ class DefaultStock extends AbstractIndexer implements StockInterface
      protected function _updateIndex($entityIds)
      {
          $connection = $this->getConnection();
@@ -27,6 +27,7 @@ index fceb079..4489c55 100644
 -                $this->_updateIndexTable($data);
 -                $data = [];
 +
++        // BEGIN PATCH
 +        try {
 +            $connection->beginTransaction();
 +
@@ -56,8 +57,7 @@ index fceb079..4489c55 100644
  
 -        $this->_updateIndexTable($data);
 +            $this->_updateIndexTable($data);
- 
--        $this->deleteOldRecords(array_diff($entityIds, $savedEntityIds));
++
 +            $this->deleteOldRecords(array_diff($entityIds, $savedEntityIds));
 +
 +            $connection->commit();
@@ -66,7 +66,9 @@ index fceb079..4489c55 100644
 +            $connection->rollBack();
 +            throw $e;
 +        }
-+        
++        // END PATCH
+ 
+-        $this->deleteOldRecords(array_diff($entityIds, $savedEntityIds));
          return $this;
      }
  
