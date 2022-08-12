@@ -1,0 +1,20 @@
+diff --git a/view/frontend/requirejs-config.js b/view/frontend/requirejs-config.js
+index 98e0788..cd7e18f 100644
+--- a/view/frontend/requirejs-config.js
++++ b/view/frontend/requirejs-config.js
+@@ -3,13 +3,7 @@ var config = {
+         mixins: {
+             'Magento_Checkout/js/view/shipping': {
+                 'Insign_PostCore/js/view/swisspost-address-validation': true
+-            },
+-            'Magento_Checkout/js/view/shipping-address/list': {
+-                'Insign_PostCore/js/view/shipping-address/list': true
+-            },
+-            'Magento_Checkout/js/view/shipping-address/address-renderer/default': {
+-                'Insign_PostCore/js/view/shipping-address/address-renderer/default-mixin': true
+             }
+         }
+     }
+-};
+\ No newline at end of file
++};

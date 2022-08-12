@@ -23,7 +23,7 @@ index bf83034..4feb790 100644
                                                          </item>
                                                      </item>
 diff --git a/view/frontend/web/js/form/element/suggestions-mixin.js b/view/frontend/web/js/form/element/suggestions-mixin.js
-index 2082b5a..0fafa1e 100644
+index 2082b5a..e859035 100644
 --- a/view/frontend/web/js/form/element/suggestions-mixin.js
 +++ b/view/frontend/web/js/form/element/suggestions-mixin.js
 @@ -47,8 +47,13 @@ define([
@@ -41,10 +41,12 @@ index 2082b5a..0fafa1e 100644
              this._super();
  
              this.observe('suggestions selectedCountry showSuggestionsDropdown')
-@@ -113,6 +118,7 @@ define([
+@@ -112,7 +117,8 @@ define([
+         selectSuggestion: function(suggestion, event) {
              event.preventDefault();
              this.value(suggestion[this.valueKey]);
-             this.focused(true);
+-            this.focused(true);
++            this.focused(false);
 +            this.closeSuggestionsDropdown();
          },
  
