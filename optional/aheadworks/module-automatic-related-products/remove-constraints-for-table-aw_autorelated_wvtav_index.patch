@@ -25,28 +25,17 @@ index 291701c..8313f5b 100644
          </index>
 diff --git a/etc/db_schema_whitelist.json b/etc/db_schema_whitelist.json
 index 6bf70d4..4b628f7 100644
---- a/etc/db_schema_whitelist.json
-+++ b/etc/db_schema_whitelist.json
-@@ -117,13 +117,16 @@
-         },
+--- a/vendor/aheadworks/module-automatic-related-products/etc/db_schema_whitelist.json
++++ b/vendor/aheadworks/module-automatic-related-products/etc/db_schema_whitelist.json
+@@ -118,11 +118,6 @@
          "index": {
              "AW_AUTORELATED_WVTAV_INDEX_MASTER_PRODUCT_ID": true,
--            "AW_AUTORELATED_WVTAV_INDEX_SLAVE_PRODUCT_ID": true
+             "AW_AUTORELATED_WVTAV_INDEX_SLAVE_PRODUCT_ID": true
 -        },
 -        "constraint": {
 -            "PRIMARY": true,
 -            "AW_AUTORELATED_WVTAV_IDX_MASTER_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true,
 -            "AW_AUTORELATED_WVTAV_IDX_SLAVE_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true
-+            "AW_AUTORELATED_WVTAV_INDEX_SLAVE_PRODUCT_ID": true,
-+// BEGIN PATCH
          }
-+//        },
-+//        "constraint": {
-+//            "PRIMARY": true,
-+//            "AW_AUTORELATED_WVTAV_IDX_MASTER_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true,
-+//            "AW_AUTORELATED_WVTAV_IDX_SLAVE_PRD_ID_CAT_PRD_ENTT_ENTT_ID": true
-+//        }
-+// END PATCH
      },
      "aw_autorelated_rule_wvtav_params": {
-         "column": {
