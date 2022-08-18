@@ -1,0 +1,23 @@
+Missing relations are related to reindexing of aw_blog_product_post.
+When full reindex is executed temporary table with a name like for example "aw_blog_product_post__tempa34a432d" is created in this table relations are missed, when reindexing is finished then tables are swapped, so aw_blog_product_post, where relations exist, is replaced by the temporary table where relations are missed.
+
+It might be easily fixed by removing problematic and not needed relations which disappeared after each reindex of aw_blog_product_post and caused a problem with autoscaling because of 'Declarative Schema is not up to date'
+
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 5587af2..fbdae75 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -163,8 +163,11 @@
+             <column name="post_id"/>
+             <column name="store_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_BLOG_PRODUCT_POST_POST_ID_AW_BLOG_POST_ID" table="aw_blog_product_post" column="post_id" referenceTable="aw_blog_post" referenceColumn="id" onDelete="CASCADE"/>
+-        <constraint xsi:type="foreign" referenceId="AW_BLOG_PRODUCT_POST_STORE_ID_STORE_STORE_ID" table="aw_blog_product_post" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
++<!-- BEGIN PATCH -->
++<!-- Remove problematic and not needed relations which disappeared after each reindex of aw_blog_product_post and caused a problem with autoscaling because of 'Declarative Schema is not up to date' -->
++<!--        <constraint xsi:type="foreign" referenceId="AW_BLOG_PRODUCT_POST_POST_ID_AW_BLOG_POST_ID" table="aw_blog_product_post" column="post_id" referenceTable="aw_blog_post" referenceColumn="id" onDelete="CASCADE"/>-->
++<!--        <constraint xsi:type="foreign" referenceId="AW_BLOG_PRODUCT_POST_STORE_ID_STORE_STORE_ID" table="aw_blog_product_post" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>-->
++<!-- END PATCH -->
+         <index referenceId="AW_BLOG_PRODUCT_POST_PRODUCT_ID" indexType="btree">
+             <column name="product_id"/>
+         </index>
