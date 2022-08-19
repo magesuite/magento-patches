@@ -1121,8 +1121,13 @@
         ],
         "firebear/importexport": [
             {
-                "description": "Firebear disable newly created category (IPET-443)",
-                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/firebear-disable-newly-created-category.patch",
+                "description": "Import category - disable newly created entity (IPET-443)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/import-category-disable-newly-created-entity.patch",
+                "version-constraint": ">=3.6.0"
+            },
+            {
+                "description": "Export Review - Add store_id (IPET-1487)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/export-review-add-store-id.patch",
                 "version-constraint": ">=3.6.0"
             }
         ],
