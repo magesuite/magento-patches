@@ -7,9 +7,9 @@ index 7815408..f72aa6c 100644
      protected $imageHelper;
 
 +    /**
-+     * @var \Creativestyle\CustomizationLensplazaRxConfigurator\Helper\GlassesAttributeSet
++     * @var \Creativestyle\CustomizationLensplazaGlasses\Helper\Glasses
 +     */
-+    protected $glassesAttributeSet;
++    protected $glassesHelper;
 +
 +    /**
 +     * @var \Creativestyle\CustomizationLensplazaSunglasses\Helper\Sunglasses
@@ -23,7 +23,7 @@ index 7815408..f72aa6c 100644
          CurrencyInterface $localeCurrency,
          JsonHelper $jsonHelper,
          ImageHelper $imageHelper,
-+        \Creativestyle\CustomizationLensplazaRxConfigurator\Helper\GlassesAttributeSet $glassesAttributeSet,
++        \Creativestyle\CustomizationLensplazaGlasses\Helper\Glasses $glassesHelper,
 +        \Creativestyle\CustomizationLensplazaSunglasses\Helper\Sunglasses $sunglassesHelper,
          Escaper $escaper = null
      ) {
@@ -32,7 +32,7 @@ index 7815408..f72aa6c 100644
          $this->jsonHelper = $jsonHelper;
          $this->imageHelper = $imageHelper;
          $this->escaper = $escaper ?: ObjectManager::getInstance()->get(Escaper::class);
-+        $this->glassesAttributeSet = $glassesAttributeSet;
++        $this->glassesHelper = $glassesHelper;
 +        $this->sunglassesHelper = $sunglassesHelper;
      }
 
@@ -62,7 +62,7 @@ index 7815408..f72aa6c 100644
 -                        'attributes' => $this->getTextAttributes($variationOptions),
 -                        'thumbnail_image' => $this->imageHelper->init($product, 'product_thumbnail_image')->getUrl(),
 -                    ];
-+                    $isGlasses = $this->glassesAttributeSet->isGlassesProduct($product->getId());
++                    $isGlasses = $this->glassesHelper->isGlassesProduct($product->getId());
 +                    $isSunglasses = $this->sunglassesHelper->isSunglassesProduct($product->getId());
 +
 +                    if ($isGlasses || $isSunglasses) {
