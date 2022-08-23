@@ -563,14 +563,7 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/m222-catalog-import-export-fix-import-categories-store.patch",
                 "version-constraint": "100.2.2"
             }
-        ],
-        "magento/module-grouped-product": [
-            {
-                "description": "Patch to change default sorting by position to sorting by custom flag and price [IPET-997]",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-grouped-product/ipet-change-sort-associated-products.patch",
-                "version-constraint": "*"
-            }
-        ],
+        ]
         "magento/module-configurable-product": [
             {
                 "description": "Disables displaying of simple products attached to configurable in admin panel.",
