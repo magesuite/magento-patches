@@ -1741,13 +1741,6 @@
                     "version-constraint": ">1.2.1"
                 }
             ],
-            "magento/magento2-functional-testing-framework": [
-                {
-                    "description": "Add path to MageSuite module Dependency Injection",
-                    "filename": "essential/magento/magento2-functional-testing-framework/add-path-to-magesuite-module-dependency-injection.diff",
-                    "version-constraint": ">=3.5.1"
-                }
-            ],
             "mirasvit/module-rewards": [
                 {
                     "description": "Fix error in controller while unsubscribing from notifications",
