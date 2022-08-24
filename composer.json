@@ -149,7 +149,7 @@
                 {
                     "description": "Fix email sending for email containing hypen",
                     "filename": "essential/magento/framework/emails-are-not-sent-for-email-containing-hyphen.patch",
-                    "version-constraint": ">=103.0.3"
+                    "version-constraint": ">=103.0.3,<103.0.5"
                 },
                 {
                     "description": "Allow group attribute on referenceBlock directive in layout files",
