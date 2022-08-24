@@ -1731,7 +1731,7 @@
                 {
                     "description": "Fix fatal error while logging into the admin panel",
                     "filename": "essential/magento/module-security/fix-issue-for-admin-strtotime.patch",
-                    "version-constraint": ">=100.4.3"
+                    "version-constraint": ">=100.4.3,<100.4.5"
                 }
             ],
             "magento/module-inventory": [
