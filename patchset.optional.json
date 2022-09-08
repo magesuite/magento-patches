@@ -1182,10 +1182,11 @@
             }
         ],
       "clerkio/magento2": [
-        {
-          "description": "Remove setting headers in logger controller - that causes tests to fail.",
-          "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/remove-headers-from-clerk-logger.patch",
-          "version-constraint": "*"
-        },
+            {
+                "description": "Remove setting headers in logger controller - that causes tests to fail.",
+                "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/remove-headers-from-clerk-logger.patch",
+                "version-constraint": "*"
+            }
+        ]
     }
 }
