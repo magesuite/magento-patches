@@ -1,0 +1,17 @@
+diff --git a/Controller/Logger/ClerkLogger.php b/Controller/Logger/ClerkLogger.php
+index 4637ecc..0a637a7 100644
+--- a/Controller/Logger/ClerkLogger.php
++++ b/Controller/Logger/ClerkLogger.php
+@@ -295,7 +295,11 @@ class ClerkLogger
+         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+         $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
+         $version = $productMetadata->getVersion();
+-        header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++
++        // Patch begin: it breaks tests
++        // header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++        // Patch ends
++
+         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']))
+ 
+             $Metadata['uri'] = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
