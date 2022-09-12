@@ -98,6 +98,13 @@
                     <overview>Disable reindex of elasticsearch inside category_products indexer.</overview>
                 </entry>
             </tag>
+            <tag version="1.3.21" date="2022-09-08">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fixes for wrong reindexPool indexers order.</overview>
+                    <ticket_id>DOG-1351</ticket_id>
+                </entry>
+            </tag>
         </changelog>
     </module>
 </config>

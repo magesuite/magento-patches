@@ -97,6 +97,11 @@
                 "description": "Fixes issue with wrongly converted addresses with extension_attributes",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout-staging/fix-extension-attributes-conversion-for-checkout-staging.patch",
                 "version-constraint": "^100.4.2"
+            },
+            {
+              "description": "Fixes for wrong reindexPool indexers order",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout-staging/m24-fix-for-wrong-indexer-order.patch",
+              "version-constraint": "^100.4.3"
             }
         ],
         "magento/framework": [

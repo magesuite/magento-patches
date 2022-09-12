@@ -1,0 +1,14 @@
+diff --git a/etc/di.xml b/etc/di.xml
+index 5b1842d..635506b 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -127,8 +127,8 @@
+         <arguments>
+             <argument name="reindexPool" xsi:type="array">
+                 <item name="FlatIndexProcessor" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Flat\Processor</item>
+-                <item name="PriceIndexProcessor" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Price\Processor</item>
+                 <item name="EavIndexProcessor" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Eav\Processor</item>
++                <item name="PriceIndexProcessor" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Price\Processor</item>
+                 <item name="ProductCategoryIndexProcessor" xsi:type="object">Magento\Catalog\Model\Indexer\Product\Category\Processor</item>
+                 <item name="FulltextIndexProcessor" xsi:type="object">Magento\CatalogSearch\Model\Indexer\Fulltext\Processor</item>
+             </argument>
