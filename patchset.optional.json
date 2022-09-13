@@ -637,6 +637,13 @@
                 "version-constraint": ">=100.4.3"
             }
         ],
+        "magento/module-grouped-product": [
+            {
+                "description": "Patch to skip specific products from price index and fix sort by price on POP [IPET-1095]",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-grouped-product/ipet-skip-specific-products-in-price-index.patch",
+                "version-constraint": "*"
+            }
+        ],
         "magento/magento2-base": [
             {
                 "description": "Remove date validation as it is very rarely used and load whole moment library",
