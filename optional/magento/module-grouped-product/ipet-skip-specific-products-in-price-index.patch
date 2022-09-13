@@ -1,0 +1,63 @@
+Simple patch to skip specific products from price index and fix sort by price on POP
+Issue appeared in ticket: IPET-1095
+Connected tickets: IPET-997, IPET-1510
+
+diff --git a/Model/ResourceModel/Product/Indexer/Price/Grouped.php b/Model/ResourceModel/Product/Indexer/Price/Grouped.php
+index 4a6e98a..66ceb2a 100644
+--- a/Model/ResourceModel/Product/Indexer/Price/Grouped.php
++++ b/Model/ResourceModel/Product/Indexer/Price/Grouped.php
+@@ -61,6 +61,13 @@ class Grouped implements DimensionalIndexerInterface
+      */
+     private $fullReindexAction;
+
++    // BEGIN PATCH
++    /**
++     * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
++     */
++    protected $attributeRepository;
++    // END PATCH
++
+     /**
+      * @param IndexTableStructureFactory $indexTableStructureFactory
+      * @param TableMaintainer $tableMaintainer
+@@ -75,7 +82,10 @@ class Grouped implements DimensionalIndexerInterface
+         MetadataPool $metadataPool,
+         ResourceConnection $resource,
+         $connectionName = 'indexer',
+-        $fullReindexAction = false
++        $fullReindexAction = false,
++        // BEGIN PATCH
++        ?\Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository = null
++        // END PATCH
+     ) {
+         $this->indexTableStructureFactory = $indexTableStructureFactory;
+         $this->tableMaintainer = $tableMaintainer;
+@@ -83,6 +93,10 @@ class Grouped implements DimensionalIndexerInterface
+         $this->metadataPool = $metadataPool;
+         $this->resource = $resource;
+         $this->fullReindexAction = $fullReindexAction;
++
++        // BEGIN PATCH
++        $this->attributeRepository = $attributeRepository ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Catalog\Api\ProductAttributeRepositoryInterface::class);
++        // END PATCH
+     }
+
+     /**
+@@ -178,6 +192,18 @@ class Grouped implements DimensionalIndexerInterface
+         // exclude websites that are limited for customer group
+         $select->where('cgw.website_id IS NULL');
+
++        // BEGIN PATCH
++        // Patch added to remove products with attribute "skip_price_calculation_in_grouped_product" from price index to fix issue when products are wrongly sorted by price - IPET-1095
++        $attribute = $this->attributeRepository->get(\Creativestyle\CustomizationIpetCatalog\Setup\Patch\Data\AddSkipPriceCalculationInGroupedProductAttribute::ATTRIBUTE_CODE);
++
++        $select->joinLeft(
++            ['spcigp' => $attribute->getBackendTable()],
++            "spcigp.entity_id = l.linked_product_id AND spcigp.attribute_id = {$attribute->getId()}",
++            []
++        );
++        $select->where('spcigp.value IS NULL OR spcigp.value = 0');
++        // END PATCH
++
+         return $select;
+     }
