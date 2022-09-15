@@ -144,6 +144,11 @@
                 "description": "Allow dot in query order's field validation process",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-allow-dot-in-validating-process.patch ",
                 "version-constraint": "103.0.3-p1"
+            },
+            {
+                "description": "Change the replacement for umlaut signs in URL key",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/change-replacement-for-umlaut-signs-in-url-key.patch",
+                "version-constraint": ">=2.0.0"
             }
         ],
         "magento/module-bundle": [
