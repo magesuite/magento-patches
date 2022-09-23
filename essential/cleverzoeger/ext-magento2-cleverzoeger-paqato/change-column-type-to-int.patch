@@ -1,0 +1,18 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 9b1de5c..21772d8 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -21,8 +21,12 @@
+         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+     <table name="cleverzoeger_paqato_queue" resource="default" engine="innodb"
+            comment="cleverzoeger_paqato_queue Table">
+-        <column xsi:type="smallint" name="queue_id" padding="6" unsigned="true" nullable="false" identity="true"
++        <!-- BEGIN PATCH -->
++        <!--<column xsi:type="smallint" name="queue_id" padding="6" unsigned="true" nullable="false" identity="true"
++                comment="Entity Id"/>-->
++        <column xsi:type="int" name="queue_id" unsigned="true" nullable="false" identity="true"
+                 comment="Entity Id"/>
++        <!-- END PATCH -->
+         <constraint xsi:type="primary" referenceId="PRIMARY">
+             <column name="queue_id"/>
+         </constraint>
