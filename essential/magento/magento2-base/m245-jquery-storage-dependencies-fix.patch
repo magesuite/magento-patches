@@ -1,0 +1,30 @@
+Fixes high severity issue that breaks requirejs dependencies flow.
+Commit: https://github.com/magento/magento2/commit/bc2b48a284888d33e5300df29f6c81a354822d64
+Issue: https://github.com/magento/magento2/issues/35913
+
+diff --git a/lib/web/jquery/jquery.cookie.js b/lib/web/jquery/jquery.cookie.js
+new file mode 100644
+index 0000000..7126589
+--- /dev/null
++++ b/lib/web/jquery/jquery.cookie.js
+@@ -0,0 +1,6 @@
++define([
++    'jquery',
++    'js-cookie/cookie-wrapper'
++], function () {
++
++});
+\ No newline at end of file
+diff --git a/lib/web/js-storage/js.storage.js b/lib/web/js-storage/js.storage.js
+index b016fc0..0ac8028 100644
+--- a/lib/web/js-storage/js.storage.js
++++ b/lib/web/js-storage/js.storage.js
+@@ -14,7 +14,7 @@
+ (function (factory) {
+     var registeredInModuleLoader = false;
+     if (typeof define === 'function' && define.amd) {
+-        define(['jquery', 'js-cookie/cookie-wrapper'], factory);
++        define(['jquery', 'jquery/jquery.cookie'], factory);
+         registeredInModuleLoader = true;
+     }
+     if (typeof exports === 'object') {
