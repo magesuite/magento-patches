@@ -233,6 +233,11 @@
             ],
             "magento/module-theme": [
                 {
+                    "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",
+                    "filename": "essential/magento/module-theme/m245-jquery-storage-dependencies-fix.patch",
+                    "version-constraint": "101.1.5"
+                },
+                {
                     "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
                     "filename": "essential/magento/module-theme/theme-secure-cookie.patch",
                     "version-constraint": "<=100.2.9 || >=101.0.0,<101.0.3"
@@ -399,6 +404,11 @@
                 }
             ],
             "magento/magento2-base": [
+                {
+                    "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",
+                    "filename": "essential/magento/magento2-base/m245-jquery-storage-dependencies-fix.patch",
+                    "version-constraint": "2.4.5"
+                },
                 {
                     "description": "Fix fullscreen product gallery touch swiping",
                     "filename": "essential/magento/magento2-base/m232-fix-fullscreen-gallery-touch-swiping.patch",
