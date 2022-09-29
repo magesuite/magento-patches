@@ -1,8 +1,23 @@
+diff --git a/Controller/Logger/ClerkLogger.php b/Controller/Logger/ClerkLogger.php
+index 4637ecc..968f56e 100644
+--- a/Controller/Logger/ClerkLogger.php
++++ b/Controller/Logger/ClerkLogger.php
+@@ -295,7 +295,9 @@ class ClerkLogger
+         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+         $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
+         $version = $productMetadata->getVersion();
+-        header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++        // BEGIN PATCH DISABLE HEADER MODIFIFCATION
++        // header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++        // END PATCH
+         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']))
+ 
+             $Metadata['uri'] = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 diff --git a/Observer/ProductSaveAfterObserver.php b/Observer/ProductSaveAfterObserver.php
-index 85c0720..5f6e251 100644
+index 62d63df..02660da 100644
 --- a/Observer/ProductSaveAfterObserver.php
 +++ b/Observer/ProductSaveAfterObserver.php
-@@ -99,6 +99,12 @@ class ProductSaveAfterObserver implements ObserverInterface
+@@ -99,6 +99,11 @@ class ProductSaveAfterObserver implements ObserverInterface
       */
      public function execute(\Magento\Framework\Event\Observer $observer)
      {
@@ -11,44 +26,6 @@ index 85c0720..5f6e251 100644
 +            return $observer;
 +        }
 +        // PATCH END
-+
          $storeId = $this->request->getParam('store', 0);
          $product = $observer->getEvent()->getProduct();
          if ($storeId == 0) {
-@@ -134,29 +140,29 @@ class ProductSaveAfterObserver implements ObserverInterface
-             if ($product->getId()) {
- 
-                  // 21-10-2021 KKY update parent products if in Grouped or child to Configurable before we check visibility and saleable - start
--                    
-+
-                  $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
- 
-                  $confParentProductIds = $objectManager->create('Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable')->getParentIdsByChild($product->getId());
-                  if(isset($confParentProductIds[0])){
-                      $confparentproduct = $objectManager->create('Magento\Catalog\Model\Product')->load($confParentProductIds[0]);
-- 
-+
-                      $productInfo = $this->productAdapter->getInfoForItem($confparentproduct, 'store', $storeId);
-                      $this->api->addProduct($productInfo);
--    
-+
-                  }
-                  $groupParentProductIds = $objectManager->create('Magento\GroupedProduct\Model\Product\Type\Grouped')->getParentIdsByChild($product->getId());
-                  if(isset($groupParentProductIds[0])){
-                      foreach ($groupParentProductIds as $groupParentProductId) {
-                          $groupparentproduct = $objectManager->create('Magento\Catalog\Model\Product')->load($groupParentProductId);
-- 
-+
-                          $productInfo = $this->productAdapter->getInfoForItem($groupparentproduct, 'store', $storeId);
-                          $this->api->addProduct($productInfo);
-- 
-+
-                      }
--    
-+
-                  }
-- 
-+
-                  // 21-10-2021 KKY update parent products if in Grouped or child to Configurable - end
- 
-                 //Cancel if product visibility is not as defined
