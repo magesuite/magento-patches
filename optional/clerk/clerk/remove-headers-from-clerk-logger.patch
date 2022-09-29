@@ -1,0 +1,29 @@
+diff --git a/Controller/Logger/ClerkLogger.php b/Controller/Logger/ClerkLogger.php
+index 4637ecc..0a637a7 100644
+--- a/Controller/Logger/ClerkLogger.php
++++ b/Controller/Logger/ClerkLogger.php
+@@ -295,7 +295,11 @@ class ClerkLogger
+         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+         $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
+         $version = $productMetadata->getVersion();
+-        header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++
++        // Patch begin: it breaks tests
++        // header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++        // Patch ends
++
+         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']))
+ 
+             $Metadata['uri'] = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+diff --git a/Observer/ProductSaveAfterObserver.php b/Observer/ProductSaveAfterObserver.php
+index 62d63df..eddcca4 100644
+--- a/Observer/ProductSaveAfterObserver.php
++++ b/Observer/ProductSaveAfterObserver.php
+@@ -108,6 +108,7 @@ class ProductSaveAfterObserver implements ObserverInterface
+ 
+                 if ($this->storeManager->getStore($productstoreId)->isActive() == True) {
+                     try {
++                        $this->emulation->startEnvironmentEmulation($this->storeManager->getStore($productstoreId)->getId(), \Magento\Framework\App\Area::AREA_FRONTEND);
+                         $this->updateStore($product, $productstoreId);
+                     } finally {
+                         $this->emulation->stopEnvironmentEmulation();

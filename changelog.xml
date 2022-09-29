@@ -1,0 +1,111 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:MageSuite_Changelog:etc/changelog.xsd">
+    <module
+        id="MageSuite_Patches"
+        name="MageSuite_Patches"
+        description="Repository of Magento patches released by creativestyle to fix and improve Magento and 3rd party extensions.">
+        <changelog>
+            <tag version="1.3.17" date="2022-08-19">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Patch for AheadWorks declarative schema XML.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.16" date="2022-08-19">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Firebear ImportExport - add store_id to review export.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.14" date="2022-08-04">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fix for magento/framework  - Allow dot in query order's field validation process.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.12" date="2022-08-02">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Allow group attribute on referenceBlock directive in layout files.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.11" date="2022-08-04">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Allow group attribute on referenceBlock directive in layout files.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.8" date="2022-07-26">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Disable saved address validation and template override.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.7" date="2022-07-26">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Extend exisiting insing/magento2-module-postcore patch.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.6" date="2022-07-26">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Set proper initial value to post-code input observable.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.5" date="2022-05-10">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Add a dispatch event mollie_before_build_transaction_orders_api to handle additional fee from bulk goods.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.4" date="2022-05-05">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Patch for Emarsys extension (do not submit empty values)</overview>
+                    <ticket_id>NKD-3062</ticket_id>
+                </entry>
+            </tag>
+            <tag version="1.3.2" date="2022-07-19">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Updated constraint for ElasticSuite patch (it got fixed in native extension).</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.1" date="2022-04-19">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Forced enabling position field in the product attribute form.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.0" date="2022-03-14">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fixed line endings in Sendinblue module.</overview>
+                </entry>
+            </tag>
+            <tag version="1.2.31" date="2022-02-26">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Added a dispatch event mollie_before_build_transaction_orders_api to handle additional fee from bulk goods.</overview>
+                </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fix for scenario with failing tests when servername is not set.</overview>
+                </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Disable reindex of elasticsearch inside category_products indexer.</overview>
+                </entry>
+            </tag>
+            <tag version="1.3.21" date="2022-09-08">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fixes for wrong reindexPool indexers order.</overview>
+                    <ticket_id>DOG-1351</ticket_id>
+                </entry>
+            </tag>
+        </changelog>
+    </module>
+</config>
+

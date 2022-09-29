@@ -1782,6 +1782,11 @@
                     "description": "Add store emulation for getting product image url",
                     "filename": "essential/cleverzoeger/ext-magento2-cleverzoeger-paqato/add-store-emulation-for-getting-product-image-url.patch",
                     "version-constraint": ">=1.4.0"
+                },
+                {
+                    "description": "Change column type to int",
+                    "filename": "essential/cleverzoeger/ext-magento2-cleverzoeger-paqato/change-column-type-to-int.patch",
+                    "version-constraint": ">=1.4.0"
                 }
             ],
             "magento/module-reports": [

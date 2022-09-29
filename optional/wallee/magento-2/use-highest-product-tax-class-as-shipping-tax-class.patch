@@ -1,54 +1,29 @@
 diff --git a/Model/Service/AbstractLineItemService.php b/Model/Service/AbstractLineItemService.php
-index 5510975..d00f535 100644
+index f1e9a30..6f494af 100644
 --- a/Model/Service/AbstractLineItemService.php
 +++ b/Model/Service/AbstractLineItemService.php
-@@ -86,6 +86,13 @@ abstract class AbstractLineItemService
+@@ -97,6 +97,11 @@ abstract class AbstractLineItemService
       */
-     private $productRepository;
+     private $giftCardAccountManagement;
  
-+    // BEGIN PATCH
 +    /**
 +     * @var \Magento\Tax\Model\Config
 +     */
 +    protected $taxConfig;
-+    // END PATCH
 +
      /**
       *
       * @param Helper $helper
-@@ -97,12 +104,18 @@ abstract class AbstractLineItemService
-      * @param CustomerGroupRegistry $groupRegistry
-      * @param EventManagerInterface $eventManager
-      * @param ProductRepositoryInterface $productRepository
-+     * BEGIN PATCH
-+     * @param ?\Magento\Tax\Model\Config $taxConfig
-+     * END PATCH
-      */
-     public function __construct(Helper $helper, LineItemHelper $lineItemHelper, ScopeConfigInterface $scopeConfig,
-         TaxClassRepositoryInterface $taxClassRepository, TaxHelper $taxHelper, TaxCalculation $taxCalculation,
-         CustomerGroupRegistry $groupRegistry, EventManagerInterface $eventManager,
--        ProductRepositoryInterface $productRepository)
--    {
-+        ProductRepositoryInterface $productRepository,
-+        // BEGIN PATCH
-+        ?\Magento\Tax\Model\Config $taxConfig = null
-+        // END PATCH
-+    ) {
-         $this->helper = $helper;
-         $this->lineItemHelper = $lineItemHelper;
-         $this->scopeConfig = $scopeConfig;
-@@ -112,6 +125,10 @@ abstract class AbstractLineItemService
-         $this->groupRegistry = $groupRegistry;
+@@ -125,6 +130,8 @@ abstract class AbstractLineItemService
          $this->eventManager = $eventManager;
          $this->productRepository = $productRepository;
+         $this->giftCardAccountManagement = $giftCardAccountManagement;
 +
-+        // BEGIN PATCH
-+        $this->taxConfig = $taxConfig ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class);
-+        // END PATCH
++        $this->taxConfig = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class);
      }
  
      /**
-@@ -393,9 +410,16 @@ abstract class AbstractLineItemService
+@@ -422,9 +429,16 @@ abstract class AbstractLineItemService
          $customerGroup = $this->groupRegistry->retrieve($entity->getCustomerGroupId());
          $taxRateRequest = $this->taxCalculation->getRateRequest($entity->getShippingAddress(),
              $entity->getBillingAddress(), $customerGroup->getTaxClassId(), $entity->getStore());
