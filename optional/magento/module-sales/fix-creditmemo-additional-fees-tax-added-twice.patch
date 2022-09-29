@@ -1,0 +1,48 @@
+This patch is for remove payment fee and co2 compensation fee from total amount in creditmemo to avoid refunding it twice.
+
+diff --git a/Model/Order/Creditmemo/Total/Tax.php b/Model/Order/Creditmemo/Total/Tax.php
+index faed11c..4d97241 100644
+--- a/Model/Order/Creditmemo/Total/Tax.php
++++ b/Model/Order/Creditmemo/Total/Tax.php
+@@ -203,8 +203,20 @@ class Tax extends AbstractTotal
+         if ($invoice!== null) {
+             $amount = $invoice->getTaxAmount()
+                 - $this->calculateInvoiceRefundedAmount($invoice, CreditmemoInterface::TAX_AMOUNT);
++
++            // BEGIN PATCH
++            // Subtract additional fees tax, otherwise it will be added twice
++            $amount -= (float)$invoice->getData('payment_fee_tax_discount') ?: (float)$invoice->getData('payment_fee_tax');
++            $amount -= (float)$invoice->getData('co2_compensation_fee_tax');
++            // END PATCH
+         } else {
+             $amount = $order->getTaxInvoiced() - $order->getTaxRefunded();
++
++            // BEGIN PATCH
++            // Subtract additional fees tax, otherwise it will be added twice
++            $amount -= (float)$order->getData('payment_fee_tax_discount') ?: (float)$order->getData('payment_fee_tax');
++            $amount -= (float)$order->getData('co2_compensation_fee_tax');
++            // END PATCH
+         }
+
+         return (float) $amount - $creditMemo->getTaxAmount();
+@@ -224,8 +236,20 @@ class Tax extends AbstractTotal
+         if ($invoice!== null) {
+             $amount = $invoice->getBaseTaxAmount()
+                 - $this->calculateInvoiceRefundedAmount($invoice, CreditmemoInterface::BASE_TAX_AMOUNT);
++
++            // BEGIN PATCH
++            // Subtract additional fees tax, otherwise it will be added twice
++            $amount -= (float)$invoice->getData('payment_fee_tax_discount') ?: (float)$invoice->getData('payment_fee_tax');
++            $amount -= (float)$invoice->getData('co2_compensation_fee_tax');
++            // END PATCH
+         } else {
+             $amount = $order->getBaseTaxInvoiced() - $order->getBaseTaxRefunded();
++
++            // BEGIN PATCH
++            // Subtract additional fees tax, otherwise it will be added twice
++            $amount -= (float)$order->getData('payment_fee_tax_discount') ?: (float)$order->getData('payment_fee_tax');
++            $amount -= (float)$order->getData('co2_compensation_fee_tax');
++            // END PATCH
+         }
+ 
+         return (float) $amount - $creditMemo->getBaseTaxAmount();
