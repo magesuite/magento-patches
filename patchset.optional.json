@@ -1198,12 +1198,12 @@
               "version-constraint": ">=1.0.6"
             }
         ],
-      "clerkio/magento2": [
+      "clerk/magento2": [
             {
-                "description": "Remove setting headers in logger controller - that causes tests to fail.",
-                "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/remove-headers-from-clerk-logger.patch",
+                "description": "Skip after observer, otherwise build gets broken.",
+                "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/skip-aftersave-observer-when-tests-are-running.patch",
                 "version-constraint": "*"
-            }
+           }
         ]
     }
 }
