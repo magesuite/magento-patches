@@ -221,8 +221,8 @@
                 "version-constraint": ">=103.0.3"
             },
             {
-                "description": "Fix payment fee tax added twice in creditmemo (IPET-1184)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-creditmemo-payment-fee-tax-added-twice.patch",
+                "description": "Fix for additional fees tax added twice in creditmemo (IPET-1184, IPET-1606)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-creditmemo-additional-fees-tax-added-twice.patch",
                 "version-constraint": ">=103.0.3"
             }
         ],
@@ -675,8 +675,8 @@
         ],
         "magento/module-tax": [
             {
-                "description": "Add payment fee tax to aggregated taxes (iPet)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-tax/add-payment-fee-tax-to-aggregated-taxes.patch",
+                "description": "Add additional fees to aggregated taxes (iPet)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-tax/add-additional-fees-tax-to-aggregated-taxes.patch",
                 "version-constraint": ">=100.4.3"
             }
         ],
