@@ -1,8 +1,8 @@
 diff --git a/src/Rewards/Helper/Balance/Spend.php b/src/Rewards/Helper/Balance/Spend.php
-index 9587082..204c8a5 100644
+index 262edda..ac7e8e1 100644
 --- a/src/Rewards/Helper/Balance/Spend.php
 +++ b/src/Rewards/Helper/Balance/Spend.php
-@@ -256,6 +256,14 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -256,6 +256,13 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
      {
          if ($this->isRewardsIncludeTax()) {
              $subtotal = $quote->getBaseGrandTotal();
@@ -13,11 +13,10 @@ index 9587082..204c8a5 100644
 +                $subtotal = $this->getLimitedSubtotal($quote, $rule);
 +            }
 +            //END PATCH
-+
          } else {
              $subtotal = $quote->getBaseSubtotalWithDiscount();
              if ($this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {
-@@ -306,12 +314,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -306,12 +313,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
  
              if ($rule->getActions()->validate($item)) {
                  if ($priceIncludesTax) {
@@ -42,34 +41,24 @@ index 9587082..204c8a5 100644
                      $itemPrice = $item->getBasePrice() * $item->getQty() - $item->getBaseDiscountAmount();
                  }
 diff --git a/src/Rewards/Plugin/SalesRuleValidator.php b/src/Rewards/Plugin/SalesRuleValidator.php
-index e6930fb..3a3eea6 100644
+index 52d59bf..58e30b9 100644
 --- a/src/Rewards/Plugin/SalesRuleValidator.php
 +++ b/src/Rewards/Plugin/SalesRuleValidator.php
-@@ -60,6 +60,10 @@ class SalesRuleValidator
- 
-     private $taxData;
+@@ -30,10 +30,21 @@ class SalesRuleValidator
+ {
+     private $itemDiscountService;
  
 +    // BEGIN PATCH
 +    protected $ruleCollectionFactory;
 +    // END PATCH
 +
      public function __construct(
-         \Mirasvit\Rewards\Helper\Balance\Spend $spendHelper,
-         \Mirasvit\Rewards\Helper\Purchase $rewardsPurchase,
-@@ -70,6 +74,9 @@ class SalesRuleValidator
-         \Magento\Tax\Model\TaxCalculation $taxCalculation,
-         \Magento\Tax\Model\Config $taxConfig,
-         \Magento\Tax\Helper\Data $taxData
+         ItemDiscountService $itemDiscountService
 +        // BEGIN PATCH
 +        , ?\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory $ruleCollectionFactory = null
 +        // END PATCH
      ) {
-         $this->spendHelper      = $spendHelper;
-         $this->rewardsPurchase  = $rewardsPurchase;
-@@ -80,6 +87,10 @@ class SalesRuleValidator
-         $this->taxCalculation   = $taxCalculation;
-         $this->taxConfig        = $taxConfig;
-         $this->taxData          = $taxData;
+         $this->itemDiscountService = $itemDiscountService;
 +
 +        // BEGIN PATCH
 +        $this->ruleCollectionFactory = $ruleCollectionFactory ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory::class);
@@ -77,65 +66,32 @@ index e6930fb..3a3eea6 100644
      }
  
      /**
-@@ -126,6 +137,9 @@ class SalesRuleValidator
-         return $returnValue;
-     }
- 
+@@ -58,10 +69,14 @@ class SalesRuleValidator
+      * @return array
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
+-    public function beforePrepareDescription(Validator $validator, $address, $separator = ', ')
+-    {
+-        $this->itemDiscountService->applyDiscountDescription($address);
+-
+-        return [$address, $separator];
+-    }
 +// BEGIN PATCH
 +// Disabling set reward point name in discount_description in quote/order.
 +// This description is confused for customer when "Spending discount calculation method = Apply to totals", because discount from reward points has separate position in totals.
-     /**
-      * @param Validator $validator
-      * @param \callable $proceed
-@@ -135,26 +149,27 @@ class SalesRuleValidator
-      * @return Validator
-      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-      */
--    public function aroundPrepareDescription(Validator $validator, $proceed, $address, $separator = ', ')
--    {
--        \Magento\Framework\Profiler::start(__CLASS__ . ':' . __METHOD__);
--        $descriptions = (array)$address->getDiscountDescriptionArray();
--
--        $quote    = $address->getQuote();
--        $purchase = $this->rewardsPurchase->getByQuote($quote);
--
--        if ($purchase && $purchase->getSpendAmount() > 0) {
--            $descriptions[] = $this->rewardsData->getPointsName();
--        }
--
--        $address->setDiscountDescriptionArray($descriptions);
--
--        $returnValue = $proceed($address, $separator);
--
--        \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
--
--        return $returnValue;
--    }
-+//    public function aroundPrepareDescription(Validator $validator, $proceed, $address, $separator = ', ')
++//    public function beforePrepareDescription(Validator $validator, $address, $separator = ', ')
 +//    {
-+//        \Magento\Framework\Profiler::start(__CLASS__ . ':' . __METHOD__);
-+//        $descriptions = (array)$address->getDiscountDescriptionArray();
++//        $this->itemDiscountService->applyDiscountDescription($address);
 +//
-+//        $quote    = $address->getQuote();
-+//        $purchase = $this->rewardsPurchase->getByQuote($quote);
-+//
-+//        if ($purchase && $purchase->getSpendAmount() > 0) {
-+//            $descriptions[] = $this->rewardsData->getPointsName();
-+//        }
-+//
-+//        $address->setDiscountDescriptionArray($descriptions);
-+//
-+//        $returnValue = $proceed($address, $separator);
-+//
-+//        \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
-+//
-+//        return $returnValue;
++//        return [$address, $separator];
 +//    }
 +// END PATCH
- 
-     /**
-      * @return $this
-@@ -321,6 +336,12 @@ class SalesRuleValidator
+ }
+diff --git a/src/Rewards/Service/Discount/ItemDiscountService.php b/src/Rewards/Service/Discount/ItemDiscountService.php
+index 8168184..126d030 100644
+--- a/src/Rewards/Service/Discount/ItemDiscountService.php
++++ b/src/Rewards/Service/Discount/ItemDiscountService.php
+@@ -270,6 +270,12 @@ class ItemDiscountService
          $purchase        = $this->rewardsPurchase->getByQuote($this->item->getQuote());
          $baseSpendAmount = $purchase->getSpendAmount();
  
@@ -148,7 +104,7 @@ index e6930fb..3a3eea6 100644
          if (!$baseTotal) {
              $baseTotal = $total;
          }
-@@ -347,6 +368,29 @@ class SalesRuleValidator
+@@ -296,6 +302,30 @@ class ItemDiscountService
          ];
      }
  
@@ -175,6 +131,7 @@ index e6930fb..3a3eea6 100644
 +        return min($baseSpendAmount, $subtotalWithoutDiscount);
 +    }
 +    // END PATCH
++
  
      /**
       * We need this because Faonni_Price changes total without basetotal
