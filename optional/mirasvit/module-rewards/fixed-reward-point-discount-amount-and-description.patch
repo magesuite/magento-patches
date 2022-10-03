@@ -41,32 +41,10 @@ index 262edda..ac7e8e1 100644
                      $itemPrice = $item->getBasePrice() * $item->getQty() - $item->getBaseDiscountAmount();
                  }
 diff --git a/src/Rewards/Plugin/SalesRuleValidator.php b/src/Rewards/Plugin/SalesRuleValidator.php
-index 52d59bf..58e30b9 100644
+index 52d59bf..d5e0fff 100644
 --- a/src/Rewards/Plugin/SalesRuleValidator.php
 +++ b/src/Rewards/Plugin/SalesRuleValidator.php
-@@ -30,10 +30,21 @@ class SalesRuleValidator
- {
-     private $itemDiscountService;
- 
-+    // BEGIN PATCH
-+    protected $ruleCollectionFactory;
-+    // END PATCH
-+
-     public function __construct(
-         ItemDiscountService $itemDiscountService
-+        // BEGIN PATCH
-+        , ?\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory $ruleCollectionFactory = null
-+        // END PATCH
-     ) {
-         $this->itemDiscountService = $itemDiscountService;
-+
-+        // BEGIN PATCH
-+        $this->ruleCollectionFactory = $ruleCollectionFactory ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory::class);
-+        // END PATCH
-     }
- 
-     /**
-@@ -58,10 +69,14 @@ class SalesRuleValidator
+@@ -58,10 +58,14 @@ class SalesRuleValidator
       * @return array
       * @SuppressWarnings(PHPMD.UnusedFormalParameter)
       */
@@ -88,10 +66,36 @@ index 52d59bf..58e30b9 100644
 +// END PATCH
  }
 diff --git a/src/Rewards/Service/Discount/ItemDiscountService.php b/src/Rewards/Service/Discount/ItemDiscountService.php
-index 8168184..126d030 100644
+index 8168184..2a6838c 100644
 --- a/src/Rewards/Service/Discount/ItemDiscountService.php
 +++ b/src/Rewards/Service/Discount/ItemDiscountService.php
-@@ -270,6 +270,12 @@ class ItemDiscountService
+@@ -71,6 +71,8 @@ class ItemDiscountService
+ 
+     private $taxData;
+ 
++    protected $ruleCollectionFactory;
++
+     public function __construct(
+         SpendHelper $spendHelper,
+         PurchaseHelper $rewardsPurchase,
+@@ -81,6 +83,7 @@ class ItemDiscountService
+         TaxCalculation $taxCalculation,
+         TaxConfig $taxConfig,
+         TaxDataHelper $taxData
++        , ?\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory $ruleCollectionFactory = null
+     ) {
+         $this->spendHelper      = $spendHelper;
+         $this->rewardsPurchase  = $rewardsPurchase;
+@@ -91,6 +94,8 @@ class ItemDiscountService
+         $this->taxCalculation   = $taxCalculation;
+         $this->taxConfig        = $taxConfig;
+         $this->taxData          = $taxData;
++
++        $this->ruleCollectionFactory = $ruleCollectionFactory ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory::class);
+     }
+ 
+     /**
+@@ -270,6 +275,12 @@ class ItemDiscountService
          $purchase        = $this->rewardsPurchase->getByQuote($this->item->getQuote());
          $baseSpendAmount = $purchase->getSpendAmount();
  
@@ -104,7 +108,7 @@ index 8168184..126d030 100644
          if (!$baseTotal) {
              $baseTotal = $total;
          }
-@@ -296,6 +302,30 @@ class ItemDiscountService
+@@ -296,6 +307,30 @@ class ItemDiscountService
          ];
      }
  
