@@ -1814,6 +1814,13 @@
                     "filename": "essential/wallee/magento-2/fix-remove-payment-tokens-in-admin.patch",
                     "version-constraint": ">=1.2.0"
                 }
+            ],
+            "ezimuel/ringphp": [
+                {
+                    "description": "Fix compatibility with PHP 8.1",
+                    "filename": "essential/ezimuel/ringphp/fix-compatibility-with-php-8-1.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
