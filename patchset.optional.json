@@ -574,6 +574,11 @@
                 "description": "Lensplaza - Allow displaying of simple products attached to glasses configurable in admin panel.",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-configurable-product/LP-allow-glasses-simples-attached-to-configurable-calculation-in-admin-edit-page.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix sorting products when out of stock",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-configurable-product/m243-product-out-of-stock-sorting-fix.patch",
+                "version-constraint": "2.4.3-p1"
             }
         ],
         "magento/module-configurable-import-export": [
