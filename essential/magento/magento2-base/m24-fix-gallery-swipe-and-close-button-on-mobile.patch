@@ -1,0 +1,24 @@
+Fixes issue with swiping gallery items (PDP) on mobile as well as gallery close button,
+which start the infinite loop in case the full screen mode has been initialized when 
+page has been scrolled down a bit (for eg. half of the product image was visible).
+Commit: https://github.com/magento/magento2/pull/35017/files
+Issue: https://github.com/magento/magento2/issues/34886
+
+diff --git a/lib/web/fotorama/fotorama.js b/lib/web/fotorama/fotorama.js
+index 007a0e1..39452ed 100644
+--- a/lib/web/fotorama/fotorama.js
++++ b/lib/web/fotorama/fotorama.js
+@@ -1140,7 +1140,12 @@ fotoramaVersion = '4.6.4';
+ 
+     function addEvent(el, e, fn, bool) {
+         if (!e) return;
+-        el.addEventListener ? el.addEventListener(e, fn, {passive: true}) : el.attachEvent('on' + e, fn);
++        const options = {
++            get passive() {
++                return e === 'wheel';
++            }
++        }
++        el.addEventListener ? el.addEventListener(e, fn, options) : el.attachEvent('on' + e, fn);
+     }
+ 
+     /**
