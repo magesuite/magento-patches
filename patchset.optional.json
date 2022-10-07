@@ -513,6 +513,11 @@
                 "description": "Add support for elasticsuite",
                 "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-customer-group-catalog-permissions/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Prevent from removing is_salable attribtue from products loaded by collection",
+              "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-customer-group-catalog-permissions/do_not_remove_is_salable_from_product_collection_items.patch",
+              "version-constraint": "*"
             }
         ],
         "aheadworks/module-automatic-related-products": [
