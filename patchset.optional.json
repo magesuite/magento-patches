@@ -957,6 +957,11 @@
                 "description": "Patch for Wyomind Data Feed Manager to fix integration tests in Magento",
                 "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/wyomind-datafeedmanager-integration-tests-fix.patch",
                 "version-constraint": ">=11.20.0"
+            },
+            {
+              "description": "Patch for Wyomind Data Feed Manager to fix performance issues when nested loops are used by mysql",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/disable-block-nested-loop-during-feed-generation.patch",
+              "version-constraint": ">=11.23.7"
             }
         ],
         "magento/module-media-storage": [
