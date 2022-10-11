@@ -17,7 +17,7 @@ index 262edda..ac7e8e1 100644
              $subtotal = $quote->getBaseSubtotalWithDiscount();
              if ($this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {
 @@ -306,12 +313,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
- 
+
              if ($rule->getActions()->validate($item)) {
                  if ($priceIncludesTax) {
 -                    $itemPrice = $item->getBasePrice();
@@ -40,39 +40,14 @@ index 262edda..ac7e8e1 100644
                  } else {
                      $itemPrice = $item->getBasePrice() * $item->getQty() - $item->getBaseDiscountAmount();
                  }
-diff --git a/src/Rewards/Plugin/SalesRuleValidator.php b/src/Rewards/Plugin/SalesRuleValidator.php
-index 52d59bf..d5e0fff 100644
---- a/src/Rewards/Plugin/SalesRuleValidator.php
-+++ b/src/Rewards/Plugin/SalesRuleValidator.php
-@@ -58,10 +58,14 @@ class SalesRuleValidator
-      * @return array
-      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-      */
--    public function beforePrepareDescription(Validator $validator, $address, $separator = ', ')
--    {
--        $this->itemDiscountService->applyDiscountDescription($address);
--
--        return [$address, $separator];
--    }
-+// BEGIN PATCH
-+// Disabling set reward point name in discount_description in quote/order.
-+// This description is confused for customer when "Spending discount calculation method = Apply to totals", because discount from reward points has separate position in totals.
-+//    public function beforePrepareDescription(Validator $validator, $address, $separator = ', ')
-+//    {
-+//        $this->itemDiscountService->applyDiscountDescription($address);
-+//
-+//        return [$address, $separator];
-+//    }
-+// END PATCH
- }
 diff --git a/src/Rewards/Service/Discount/ItemDiscountService.php b/src/Rewards/Service/Discount/ItemDiscountService.php
-index 8168184..2a6838c 100644
+index 8168184..d7e91bf 100644
 --- a/src/Rewards/Service/Discount/ItemDiscountService.php
 +++ b/src/Rewards/Service/Discount/ItemDiscountService.php
 @@ -71,6 +71,8 @@ class ItemDiscountService
- 
+
      private $taxData;
- 
+
 +    protected $ruleCollectionFactory;
 +
      public function __construct(
@@ -93,12 +68,24 @@ index 8168184..2a6838c 100644
 +
 +        $this->ruleCollectionFactory = $ruleCollectionFactory ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory::class);
      }
- 
+
      /**
-@@ -270,6 +275,12 @@ class ItemDiscountService
+@@ -142,7 +147,10 @@ class ItemDiscountService
+         $purchase = $this->rewardsPurchase->getByQuote($quote);
+
+         if ($purchase && $purchase->getSpendAmount() > 0) {
+-            $descriptions[] = $this->rewardsData->getPointsName();
++            // BEGIN PATCH
++            // Add amount of spend points to the description
++            $descriptions[] = $this->rewardsData->formatPoints($purchase->getSpendPoints());
++            // END PATCH
+         }
+
+         $address->setDiscountDescriptionArray($descriptions);
+@@ -270,6 +278,12 @@ class ItemDiscountService
          $purchase        = $this->rewardsPurchase->getByQuote($this->item->getQuote());
          $baseSpendAmount = $purchase->getSpendAmount();
- 
+
 +        // BEGIN PATCH
 +        // In some cases, module returns value with applied reward point discount and in some cases without (when additional discount is added and grandTotal == 0)
 +        $quote = $this->item->getQuote();
@@ -108,7 +95,7 @@ index 8168184..2a6838c 100644
          if (!$baseTotal) {
              $baseTotal = $total;
          }
-@@ -296,6 +307,30 @@ class ItemDiscountService
+@@ -296,6 +310,30 @@ class ItemDiscountService
          ];
      }
  
