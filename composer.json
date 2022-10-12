@@ -709,6 +709,11 @@
                     "description": "Remove category tag from top menu",
                     "filename": "essential/magento/module-catalog/m24-remove-category-tag-from-topmenu.patch",
                     "version-constraint": ">=103.0.7"
+                },
+                {
+                    "description": "Fix prices config data when there's no finalPrice form jsonConfig",
+                    "filename": "essential/magento/module-catalog/m243-fix-prices-config-data.patch",
+                    "version-constraint": ">=104.0.3"
                 }
             ],
             "magento/module-catalog-search": [
