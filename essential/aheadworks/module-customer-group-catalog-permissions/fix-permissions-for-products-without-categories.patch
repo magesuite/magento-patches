@@ -1,0 +1,13 @@
+diff --git a/Model/ProductPermission/Resolver.php b/Model/ProductPermission/Resolver.php
+index d9ba54f..2248ee4 100644
+--- a/Model/ProductPermission/Resolver.php
++++ b/Model/ProductPermission/Resolver.php
+@@ -104,7 +104,7 @@ class Resolver extends AbstractPermissionResolver
+             );
+             $result = $this->resolveMessagesForHiddenBlocks($permission);
+         } catch (NoSuchEntityException $e) {
+-            if (is_array($category)) {
++            if (is_array($category) && !empty($category)) {
+                 $categories = $category;
+                 $result = $this->getPermissionByCategories($categories);
+             } else {

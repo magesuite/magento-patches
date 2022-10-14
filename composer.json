@@ -977,6 +977,11 @@
                     "description": "Fix for private const in the Title block",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/aheadworks-fix-private-const-xml-path-header-translate-title.patch",
                     "version-constraint": ">=1.0.6"
+                },
+                {
+                    "description": "Fix for breaking search when module is enabled and products without categoires do not have permissions configured",
+                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-permissions-for-products-without-categories.patch",
+                    "version-constraint": ">=1.0.8"
                 }
             ],
             "aheadworks/module-requisition-lists": [
