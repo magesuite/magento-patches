@@ -637,6 +637,13 @@
                     "version-constraint": "<2.2.3"
                 }
             ],
+            "smile/module-elasticsuite-recommender": [
+                {
+                    "description": "Fix for passing parameters to recommendation widget",
+                    "filename": "essential/smile/module-elasticsuite-recommender/fix-parameters-passed-to-render-recommentations-widget.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "magento/module-catalog-inventory": [
                 {
                     "description": "Fix stock indexer to correctly reindex stock using materialized views (Magento 2.2.0-2.2.4)",
