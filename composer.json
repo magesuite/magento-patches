@@ -636,7 +636,7 @@
                 {
                     "description": "Fix generation of categories ids for ElasticSearch query in elasticsuite-recommender module",
                     "filename": "essential/smile/module-elasticsuite-recommender/fix-recommendation-category-ids-generation.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<2.10.12"
                 }
             ],
             "magento/module-catalog-inventory": [
