@@ -155,6 +155,11 @@
                     "description": "Allow group attribute on referenceBlock directive in layout files",
                     "filename": "essential/magento/framework/magento-framework-xsd-allow-group-attribute-on-referenceblock.patch",
                     "version-constraint": "<103.0.4"
+                },
+                {
+                    "description": "Security hotfix for CVE-2022-35698",
+                    "filename": "essential/magento/framework/ACSD-47578_2.4.3-p2_2.4.3-p3.patch",
+                    "version-constraint": "103.0.3-p2 || 103.0.3-p3"
                 }
 
             ],

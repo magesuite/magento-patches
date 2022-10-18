@@ -1,0 +1,306 @@
+Security hotfix for CVE-2022-35698
+
+This patch is the custom version of the official patch provided by Adobe. File paths changes have been applied to meet the requirements of CS patching routines.
+
+CVE-2022-35698 details: https://helpx.adobe.com/security/products/magento/apsb22-48.html
+The original patch: https://experienceleague.adobe.com/docs/commerce-knowledge-base/kb/troubleshooting/known-issues-patches-attached/adobe-commerce-2.4.0-2.4.5-security-hotfix-for-cve-2022-35698.html?lang=en
+
+diff --git a/Filter/Template.php b/Filter/Template.php
+index 8a3b350f3abd..c0a4e2448182 100644
+--- a/Filter/Template.php
++++ b/Filter/Template.php
+@@ -17,6 +17,8 @@
+ use Magento\Framework\Filter\DirectiveProcessor\TemplateDirective;
+ use Magento\Framework\Filter\DirectiveProcessor\VarDirective;
+ use Magento\Framework\Stdlib\StringUtils;
++use Magento\Framework\Filter\Template\SignatureProvider;
++use Magento\Framework\Filter\Template\FilteringDepthMeter;
+ 
+ /**
+  * Template filter
+@@ -99,17 +101,31 @@ class Template implements \Zend_Filter_Interface
+      */
+     private $variableResolver;
+ 
++    /**
++     * @var SignatureProvider|null
++     */
++    private $signatureProvider;
++
++    /**
++     * @var FilteringDepthMeter|null
++     */
++    private $filteringDepthMeter;
++
+     /**
+      * @param StringUtils $string
+      * @param array $variables
+      * @param DirectiveProcessorInterface[] $directiveProcessors
+      * @param VariableResolverInterface|null $variableResolver
++     * @param SignatureProvider|null $signatureProvider
++     * @param FilteringDepthMeter|null $filteringDepthMeter
+      */
+     public function __construct(
+         StringUtils $string,
+         $variables = [],
+         $directiveProcessors = [],
+-        VariableResolverInterface $variableResolver = null
++        VariableResolverInterface $variableResolver = null,
++        SignatureProvider $signatureProvider = null,
++        FilteringDepthMeter $filteringDepthMeter = null
+     ) {
+         $this->string = $string;
+         $this->setVariables($variables);
+@@ -117,6 +133,12 @@ public function __construct(
+         $this->variableResolver = $variableResolver ?? ObjectManager::getInstance()
+                 ->get(VariableResolverInterface::class);
+ 
++        $this->signatureProvider = $signatureProvider ?? ObjectManager::getInstance()
++                ->get(SignatureProvider::class);
++
++        $this->filteringDepthMeter = $filteringDepthMeter ?? ObjectManager::getInstance()
++                ->get(FilteringDepthMeter::class);
++
+         if (empty($directiveProcessors)) {
+             $this->directiveProcessors = [
+                 'depend' => ObjectManager::getInstance()->get(DependDirective::class),
+@@ -172,6 +194,60 @@ public function getTemplateProcessor()
+      */
+     public function filter($value)
+     {
++        $this->filteringDepthMeter->descend();
++
++        // Processing of template directives.
++        $templateDirectivesResults = $this->processDirectives($value);
++
++        foreach ($templateDirectivesResults as $result) {
++            $value = str_replace($result['directive'], $result['output'], $value);
++        }
++
++        // Processing of deferred directives received from child templates
++        // or nested directives.
++        $deferredDirectivesResults = $this->processDirectives($value, true);
++
++        foreach ($deferredDirectivesResults as $result) {
++            $value = str_replace($result['directive'], $result['output'], $value);
++        }
++
++        if ($this->filteringDepthMeter->showMark() > 1) {
++            // Signing own deferred directives (if any).
++            $signature = $this->signatureProvider->get();
++
++            foreach ($templateDirectivesResults as $result) {
++                if ($result['directive'] === $result['output']) {
++                    $value = str_replace(
++                        $result['output'],
++                        $signature . $result['output'] . $signature,
++                        $value
++                    );
++                }
++            }
++        }
++
++        $value = $this->afterFilter($value);
++
++        $this->filteringDepthMeter->ascend();
++
++        return $value;
++    }
++
++    /**
++     * Processes template directives and returns an array that contains results produced by each directive.
++     *
++     * @param string $value
++     * @param bool $isSigned
++     *
++     * @return array
++     *
++     * @throws \InvalidArgumentException
++     * @throws \Magento\Framework\Exception\LocalizedException
++     */
++    private function processDirectives($value, $isSigned = false): array
++    {
++        $results = [];
++
+         foreach ($this->directiveProcessors as $directiveProcessor) {
+             if (!$directiveProcessor instanceof DirectiveProcessorInterface) {
+                 throw new \InvalidArgumentException(
+@@ -179,18 +255,57 @@ public function filter($value)
+                 );
+             }
+ 
+-            if (preg_match_all($directiveProcessor->getRegularExpression(), $value, $constructions, PREG_SET_ORDER)) {
++            $pattern = $directiveProcessor->getRegularExpression();
++
++            if ($isSigned) {
++                $pattern = $this->embedSignatureIntoPattern($pattern);
++            }
++
++            if (preg_match_all($pattern, $value, $constructions, PREG_SET_ORDER)) {
+                 foreach ($constructions as $construction) {
+                     $replacedValue = $directiveProcessor->process($construction, $this, $this->templateVars);
+ 
+-                    $value = str_replace($construction[0], $replacedValue, $value);
++                    $results[] = [
++                        'directive' => $construction[0],
++                        'output' => $replacedValue
++                    ];
+                 }
+             }
+         }
+ 
+-        $value = $this->afterFilter($value);
++        return $results;
++    }
+ 
+-        return $value;
++    /**
++     * Modifies given regular expression pattern to be able to recognize signed directives.
++     *
++     * @param string $pattern
++     *
++     * @return string
++     *
++     * @throws \Magento\Framework\Exception\LocalizedException
++     */
++    private function embedSignatureIntoPattern(string $pattern): string
++    {
++        $signature = $this->signatureProvider->get();
++
++        $closingDelimiters = [
++            '(' => ')',
++            '{' => '}',
++            '[' => ']',
++            '<' => '>'
++        ];
++
++        $closingDelimiter = $openingDelimiter = substr(trim($pattern), 0, 1);
++
++        if (array_key_exists($openingDelimiter, $closingDelimiters)) {
++            $closingDelimiter = $closingDelimiters[$openingDelimiter];
++        }
++
++        $pattern = substr_replace($pattern, $signature, strpos($pattern, $openingDelimiter) + 1, 0);
++        $pattern = substr_replace($pattern, $signature, strrpos($pattern, $closingDelimiter), 0);
++
++        return $pattern;
+     }
+ 
+     /**
+diff --git a/Filter/Template/FilteringDepthMeter.php b/Filter/Template/FilteringDepthMeter.php
+new file mode 100644
+index 000000000000..57257325be79
+--- /dev/null
++++ b/Filter/Template/FilteringDepthMeter.php
+@@ -0,0 +1,52 @@
++<?php
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++declare(strict_types=1);
++
++namespace Magento\Framework\Filter\Template;
++
++/**
++ * Meter of template filtering depth.
++ *
++ * Records and provides template/directive filtering depth (filtering recursion).
++ * Filtering depth 1 means that template or directive is root and has no parents.
++ */
++class FilteringDepthMeter
++{
++    /**
++     * @var int
++     */
++    private $depth = 0;
++
++    /**
++     * Increases filtering depth.
++     *
++     * @return void
++     */
++    public function descend()
++    {
++        $this->depth++;
++    }
++
++    /**
++     * Decreases filtering depth.
++     *
++     * @return void
++     */
++    public function ascend()
++    {
++        $this->depth--;
++    }
++
++    /**
++     * Shows current filtering depth.
++     *
++     * @return int
++     */
++    public function showMark(): int
++    {
++        return $this->depth;
++    }
++}
+diff --git a/Filter/Template/SignatureProvider.php b/Filter/Template/SignatureProvider.php
+new file mode 100644
+index 000000000000..3e476f3e5d79
+--- /dev/null
++++ b/Filter/Template/SignatureProvider.php
+@@ -0,0 +1,53 @@
++<?php
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++declare(strict_types=1);
++
++namespace Magento\Framework\Filter\Template;
++
++/**
++ * Provider of a signature.
++ *
++ * Provides a signature which should be used to sign deferred directives
++ * (directives that should be processed in scope of a parent template
++ * instead of own scope, e.g. {{inlinecss}}).
++ */
++class SignatureProvider
++{
++    /**
++     * @var string|null
++     */
++    private $signature;
++
++    /**
++     * @var \Magento\Framework\Math\Random
++     */
++    private $random;
++
++    /**
++     * @param \Magento\Framework\Math\Random $random
++     */
++    public function __construct(
++        \Magento\Framework\Math\Random $random
++    ) {
++        $this->random = $random;
++    }
++
++    /**
++     * Generates a random string which will be used as a signature during runtime.
++     *
++     * @return string
++     *
++     * @throws \Magento\Framework\Exception\LocalizedException
++     */
++    public function get(): string
++    {
++        if ($this->signature === null) {
++            $this->signature = $this->random->getRandomString(32);
++        }
++
++        return $this->signature;
++    }
++}
