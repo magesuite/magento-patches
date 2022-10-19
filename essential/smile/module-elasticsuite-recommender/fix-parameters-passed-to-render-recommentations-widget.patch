@@ -1,0 +1,45 @@
+diff --git a/Block/Widget/VisitorRecommendations.php b/Block/Widget/VisitorRecommendations.php
+index 7e32fe3..2140d9f 100644
+--- a/Block/Widget/VisitorRecommendations.php
++++ b/Block/Widget/VisitorRecommendations.php
+@@ -31,21 +31,35 @@ class VisitorRecommendations extends Wrapper implements \Magento\Widget\Block\Bl
+      */
+     public function renderApp($data = [])
+     {
+-        $data = $this->getData();
++        //BEGIN PATCH
++//        $data = $this->getData();
++//
++//        $params = [];
++//
++//        if (isset($data['store_id'])) {
++//            $params['store_id'] = $data['store_id'];
++//        }
++//
++//        if (isset($data['page_size'])) {
++//            $params['page_size'] = $data['page_size'];
++//        }
++
++        $widgetConfigurationData = $this->getData();
+
+         $params = [];
+
+-        if (isset($data['store_id'])) {
+-            $params['store_id'] = $data['store_id'];
++        if (isset($widgetConfigurationData['store_id'])) {
++            $params['store_id'] = $widgetConfigurationData['store_id'];
+         }
+
+-        if (isset($data['page_size'])) {
+-            $params['page_size'] = $data['page_size'];
++        if (isset($widgetConfigurationData['page_size'])) {
++            $params['page_size'] = $widgetConfigurationData['page_size'];
+         }
+
+         if (!empty($params)) {
+             $this->setData('params', $params);
+         }
++        //END PATCH
+
+         return parent::renderApp($data);
+     }
