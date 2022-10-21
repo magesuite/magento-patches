@@ -1834,6 +1834,13 @@
                     "filename": "essential/wallee/magento-2/fix-remove-payment-tokens-in-admin.patch",
                     "version-constraint": ">=1.2.0"
                 }
+            ],
+            "adyen/module-payment": [
+                {
+                    "description": "Fix image ID while generating product url",
+                    "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api.patch",
+                    "version-constraint": ">=8.7.0"
+                }
             ]
         }
     }
