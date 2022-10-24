@@ -155,6 +155,11 @@
                     "description": "Allow group attribute on referenceBlock directive in layout files",
                     "filename": "essential/magento/framework/magento-framework-xsd-allow-group-attribute-on-referenceblock.patch",
                     "version-constraint": "<103.0.4"
+                },
+                {
+                    "description": "Security hotfix for CVE-2022-35698",
+                    "filename": "essential/magento/framework/ACSD-47578_2.4.3-p2_2.4.3-p3.patch",
+                    "version-constraint": "103.0.3-p2 || 103.0.3-p3"
                 }
 
             ],
@@ -483,6 +488,11 @@
                     "description": "Fixes  error in the browser console: Uncaught SyntaxError: Unexpected token const",
                     "filename": "essential/magento/magento2-base/m244-unexpected-token-const.patch",
                     "version-constraint": ">=2.4.4,<2.4.5"
+                },
+                {
+                    "description": "Fix gallery issues with swiping items and close button on mobiles",
+                    "filename": "essential/magento/magento2-base/m24-fix-gallery-swipe-and-close-button-on-mobile.patch",
+                    "version-constraint": ">=2.4.0,<2.4.6"
                 }
             ],
             "magento/module-search": [
@@ -721,6 +731,11 @@
                     "description": "Remove category tag from top menu",
                     "filename": "essential/magento/module-catalog/m24-remove-category-tag-from-topmenu.patch",
                     "version-constraint": ">=103.0.7"
+                },
+                {
+                    "description": "Fix prices config data when there's no finalPrice form jsonConfig",
+                    "filename": "essential/magento/module-catalog/m243-fix-prices-config-data.patch",
+                    "version-constraint": ">=104.0.3"
                 }
             ],
             "magento/module-catalog-search": [
@@ -984,6 +999,11 @@
                     "description": "Fix for private const in the Title block",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/aheadworks-fix-private-const-xml-path-header-translate-title.patch",
                     "version-constraint": ">=1.0.6"
+                },
+                {
+                    "description": "Fix for breaking search when module is enabled and products without categoires do not have permissions configured",
+                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-permissions-for-products-without-categories.patch",
+                    "version-constraint": ">=1.0.8"
                 }
             ],
             "aheadworks/module-requisition-lists": [
@@ -1745,6 +1765,11 @@
                     "description": "Add a dispatch event mollie_before_build_transaction_orders_api to handle additional fee from bulk goods",
                     "filename": "essential/mollie/magento2/mollie-klarna-event-to-add-bulk-goods.patch",
                     "version-constraint": ">=2.6.0"
+                },
+                {
+                    "description": "Changed ApplePaySession init for button on PDP in order to support older Safari versions",
+                    "filename": "essential/mollie/magento2/fix-apple-pay-button-session-init.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-multiple-wishlist": [
@@ -1825,6 +1850,13 @@
                     "description": "Fix compatibility with PHP 8.1",
                     "filename": "essential/ezimuel/ringphp/fix-compatibility-with-php-8-1.patch",
                     "version-constraint": "*"
+                }
+            ],
+            "adyen/module-payment": [
+                {
+                    "description": "Fix image ID while generating product url",
+                    "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api.patch",
+                    "version-constraint": ">=8.7.0"
                 }
             ]
         }

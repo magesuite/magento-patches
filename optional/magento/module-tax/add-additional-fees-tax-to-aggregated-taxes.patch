@@ -1,0 +1,75 @@
+This patch is added to process refund of payment fee and co2 compenation fee only in a case when full order is refunded.
+
+diff --git a/Helper/Data.php b/Helper/Data.php
+index 0e95046..413e4e8 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -774,6 +774,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+             }
+         }
+
++        // BEGIN PATCH
++        $taxClassAmount = $this->addPaymentFeeToAggregatedTaxes($order, $salesItem, $orderTaxDetails, $taxClassAmount);
++        $taxClassAmount = $this->addCo2CompensationFeeToAggregatedTaxes($order, $salesItem, $orderTaxDetails, $taxClassAmount);
++        // END PATCH
++
+         return $taxClassAmount;
+     }
+
+@@ -796,4 +801,56 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+             return $this->displayPriceIncludingTax();
+         }
+     }
++
++    // BEGIN PATCH
++    protected function addPaymentFeeToAggregatedTaxes($order, $salesItem, $orderTaxDetails, $taxClassAmount)
++    {
++        $paymentFeeTaxAmount = $salesItem->getData('payment_fee_tax') - $salesItem->getData('payment_fee_tax_discount');
++        $originalPaymentFeeTaxAmount = $order->getData('payment_fee_tax') - $order->getData('payment_fee_tax_discount');
++
++        if ($salesItem instanceof \Magento\Sales\Model\Order\Creditmemo) {
++            $paymentFeeTaxAmount = $originalPaymentFeeTaxAmount;
++        }
++
++        if ($originalPaymentFeeTaxAmount <= 0 || $paymentFeeTaxAmount <= 0) {
++            return $taxClassAmount;
++        }
++
++        $paymentFeeRatio = $paymentFeeTaxAmount / $originalPaymentFeeTaxAmount;
++        foreach ($orderTaxDetails->getItems() as $itemTaxDetail) {
++            if ($itemTaxDetail->getType() != 'payment_fee') {
++                continue;
++            }
++
++            $taxClassAmount = $this->_aggregateTaxes($taxClassAmount, $itemTaxDetail, $paymentFeeRatio);
++        }
++
++        return $taxClassAmount;
++    }
++
++    protected function addCo2CompensationFeeToAggregatedTaxes($order, $salesItem, $orderTaxDetails, $taxClassAmount)
++    {
++        $co2CompensationFeeTaxAmount = $salesItem->getData('co2_compensation_fee_tax');
++        $originalCo2CompensationFeeTaxAmount = $order->getData('co2_compensation_fee_tax');
++
++        if ($salesItem instanceof \Magento\Sales\Model\Order\Creditmemo) {
++            $co2CompensationFeeTaxAmount = $originalCo2CompensationFeeTaxAmount;
++        }
++
++        if ($originalCo2CompensationFeeTaxAmount <= 0 || $co2CompensationFeeTaxAmount <= 0) {
++            return $taxClassAmount;
++        }
++
++        $co2CompensationFeeRatio = $co2CompensationFeeTaxAmount / $originalCo2CompensationFeeTaxAmount;
++        foreach ($orderTaxDetails->getItems() as $itemTaxDetail) {
++            if ($itemTaxDetail->getType() != 'co2_compensation_fee') {
++                continue;
++            }
++
++            $taxClassAmount = $this->_aggregateTaxes($taxClassAmount, $itemTaxDetail, $co2CompensationFeeRatio);
++        }
++
++        return $taxClassAmount;
++    }
++    // END PATCH
+ }

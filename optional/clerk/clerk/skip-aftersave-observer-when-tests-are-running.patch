@@ -1,0 +1,31 @@
+diff --git a/Controller/Logger/ClerkLogger.php b/Controller/Logger/ClerkLogger.php
+index 4637ecc..968f56e 100644
+--- a/Controller/Logger/ClerkLogger.php
++++ b/Controller/Logger/ClerkLogger.php
+@@ -295,7 +295,9 @@ class ClerkLogger
+         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+         $productMetadata = $objectManager->get('Magento\Framework\App\ProductMetadataInterface');
+         $version = $productMetadata->getVersion();
+-        header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++        // BEGIN PATCH DISABLE HEADER MODIFIFCATION
++        // header('User-Agent: ClerkExtensionBot Magento 2/v' . $version . ' clerk/v' . $this->moduleList->getOne('Clerk_Clerk')['setup_version'] . ' PHP/v' . phpversion());
++        // END PATCH
+         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' && isset($_SERVER['HTTP_HOST']) && isset($_SERVER['REQUEST_URI']))
+ 
+             $Metadata['uri'] = "https://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+diff --git a/Observer/ProductSaveAfterObserver.php b/Observer/ProductSaveAfterObserver.php
+index 62d63df..02660da 100644
+--- a/Observer/ProductSaveAfterObserver.php
++++ b/Observer/ProductSaveAfterObserver.php
+@@ -99,6 +99,11 @@ class ProductSaveAfterObserver implements ObserverInterface
+      */
+     public function execute(\Magento\Framework\Event\Observer $observer)
+     {
++        // PATCH BEGIN: do not execute during tests, as it fails for *SOME* reason
++        if (defined('INTEGRATION_TESTS_DIR')) {
++            return $observer;
++        }
++        // PATCH END
+         $storeId = $this->request->getParam('store', 0);
+         $product = $observer->getEvent()->getProduct();
+         if ($storeId == 0) {

@@ -1,0 +1,16 @@
+diff --git a/Gateway/Request/CheckoutDataBuilder.php b/Gateway/Request/CheckoutDataBuilder.php
+index 8d99981..50d9034 100644
+--- a/Gateway/Request/CheckoutDataBuilder.php
++++ b/Gateway/Request/CheckoutDataBuilder.php
+@@ -232,7 +232,10 @@ class CheckoutDataBuilder implements BuilderInterface
+         $imageUrl = "";
+
+         if ($image = $product->getSmallImage()) {
+-            $imageUrl = $this->imageHelper->init($product, 'product_page_image_small')
++            // PATCH START
++            // $imageUrl = $this->imageHelper->init($product, 'product_page_image_small')
++            $imageUrl = $this->imageHelper->init($product, 'product_base_image')
++            // PATCH END
+                 ->setImageFile($image)
+                 ->getUrl();
+         }

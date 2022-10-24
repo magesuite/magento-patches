@@ -221,8 +221,8 @@
                 "version-constraint": ">=103.0.3"
             },
             {
-                "description": "Fix payment fee tax added twice in creditmemo (IPET-1184)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-creditmemo-payment-fee-tax-added-twice.patch",
+                "description": "Fix for additional fees tax added twice in creditmemo (IPET-1184, IPET-1606)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-creditmemo-additional-fees-tax-added-twice.patch",
                 "version-constraint": ">=103.0.3"
             }
         ],
@@ -240,8 +240,8 @@
                 "version-constraint": "*"
             },
             {
-                "description": "Fix discount amount calculation (IPET-1380) and do not set reward point name in discount description (IPET-986)",
-                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fixed-reward-point-discount-amount-and-description.patch",
+                "description": "Fix discount amount calculation (IPET-1380) and adjust reward point name in discount description (IPET-1616)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-reward-point-discount-amount-and-description.patch",
                 "version-constraint": "*"
             },
             {
@@ -513,6 +513,11 @@
                 "description": "Add support for elasticsuite",
                 "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-customer-group-catalog-permissions/add-handling-of-smile-elasticsuite-for-aheadworks-module-for-customer-groups.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Prevent from removing is_salable attribtue from products loaded by collection",
+              "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-customer-group-catalog-permissions/do_not_remove_is_salable_from_product_collection_items.patch",
+              "version-constraint": "*"
             }
         ],
         "aheadworks/module-automatic-related-products": [
@@ -584,6 +589,11 @@
                 "description": "Lensplaza - Allow displaying of simple products attached to glasses configurable in admin panel.",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-configurable-product/LP-allow-glasses-simples-attached-to-configurable-calculation-in-admin-edit-page.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix sorting products when out of stock",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-configurable-product/m243-product-out-of-stock-sorting-fix.patch",
+                "version-constraint": "2.4.3-p1"
             }
         ],
         "magento/module-configurable-import-export": [
@@ -675,8 +685,8 @@
         ],
         "magento/module-tax": [
             {
-                "description": "Add payment fee tax to aggregated taxes (iPet)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-tax/add-payment-fee-tax-to-aggregated-taxes.patch",
+                "description": "Add additional fees to aggregated taxes (iPet)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-tax/add-additional-fees-tax-to-aggregated-taxes.patch",
                 "version-constraint": ">=100.4.3"
             }
         ],
@@ -947,6 +957,11 @@
                 "description": "Patch for Wyomind Data Feed Manager to fix integration tests in Magento",
                 "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/wyomind-datafeedmanager-integration-tests-fix.patch",
                 "version-constraint": ">=11.20.0"
+            },
+            {
+              "description": "Patch for Wyomind Data Feed Manager to fix performance issues when nested loops are used by mysql",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/disable-block-nested-loop-during-feed-generation.patch",
+              "version-constraint": ">=11.23.7"
             }
         ],
         "magento/module-media-storage": [
@@ -1198,12 +1213,12 @@
               "version-constraint": ">=1.0.6"
             }
         ],
-      "clerkio/magento2": [
+      "clerk/magento2": [
             {
-                "description": "Remove setting headers in logger controller - that causes tests to fail.",
-                "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/remove-headers-from-clerk-logger.patch",
+                "description": "Skip after observer, otherwise build gets broken.",
+                "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/skip-aftersave-observer-when-tests-are-running.patch",
                 "version-constraint": "*"
-            }
+           }
         ]
     }
 }

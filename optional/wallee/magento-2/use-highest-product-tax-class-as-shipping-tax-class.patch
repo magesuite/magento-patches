@@ -1,11 +1,11 @@
 diff --git a/Model/Service/AbstractLineItemService.php b/Model/Service/AbstractLineItemService.php
-index f1e9a30..6f494af 100644
+index 158d975..b42260c 100644
 --- a/Model/Service/AbstractLineItemService.php
 +++ b/Model/Service/AbstractLineItemService.php
-@@ -97,6 +97,11 @@ abstract class AbstractLineItemService
+@@ -98,6 +98,11 @@ abstract class AbstractLineItemService
       */
      private $giftCardAccountManagement;
- 
+
 +    /**
 +     * @var \Magento\Tax\Model\Config
 +     */
@@ -14,19 +14,19 @@ index f1e9a30..6f494af 100644
      /**
       *
       * @param Helper $helper
-@@ -125,6 +130,8 @@ abstract class AbstractLineItemService
+@@ -126,6 +131,8 @@ abstract class AbstractLineItemService
          $this->eventManager = $eventManager;
          $this->productRepository = $productRepository;
          $this->giftCardAccountManagement = $giftCardAccountManagement;
 +
 +        $this->taxConfig = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class);
      }
- 
+
      /**
-@@ -422,9 +429,16 @@ abstract class AbstractLineItemService
-         $customerGroup = $this->groupRegistry->retrieve($entity->getCustomerGroupId());
+@@ -431,9 +438,16 @@ abstract class AbstractLineItemService
+         }
          $taxRateRequest = $this->taxCalculation->getRateRequest($entity->getShippingAddress(),
-             $entity->getBillingAddress(), $customerGroup->getTaxClassId(), $entity->getStore());
+             $entity->getBillingAddress(), $taxClassId, $entity->getStore());
 -        $shippingTaxClassId = $this->scopeConfig->getValue(
 -            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, ScopeInterface::SCOPE_STORE,
 -            $entity->getStoreId());

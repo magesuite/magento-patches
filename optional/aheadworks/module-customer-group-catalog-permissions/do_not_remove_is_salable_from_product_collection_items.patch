@@ -1,0 +1,13 @@
+diff --git a/Plugin/ConfigurableProduct/Model/ResourceModel/Product/CollectionPlugin.php b/Plugin/ConfigurableProduct/Model/ResourceModel/Product/CollectionPlugin.php
+index 6dbdd13..bd57b0f 100644
+--- a/Plugin/ConfigurableProduct/Model/ResourceModel/Product/CollectionPlugin.php
++++ b/Plugin/ConfigurableProduct/Model/ResourceModel/Product/CollectionPlugin.php
+@@ -55,7 +55,7 @@ class CollectionPlugin
+         /** @var Product $item */
+         foreach ($items as $item) {
+             $item->unsetData(Applier::PERMISSION_APPLIED);
+-            $item->unsetData('is_salable');
++//            $item->unsetData('is_salable');
+         }
+ 
+         return $items;

@@ -1,0 +1,20 @@
+diff --git a/view/frontend/web/js/view/product/apple-pay-button.js b/view/frontend/web/js/view/product/apple-pay-button.js
+index a4e8aee..d57b64d 100644
+--- a/view/frontend/web/js/view/product/apple-pay-button.js
++++ b/view/frontend/web/js/view/product/apple-pay-button.js
+@@ -80,7 +80,14 @@ define([
+             }
+ 
+             if (!this.session) {
+-                this.session = new ApplePaySession(10, request);
++                // BEGIN PATCH
++                //this.session = new ApplePaySession(10, request);
++                if (ApplePaySession.supportsVersion(10)) {
++                    this.session = new ApplePaySession(10, request);
++                } else {
++                    this.session = new ApplePaySession(3, request);
++                }
++                //END PATCH
+             }
+ 
+             this.session.onvalidatemerchant = function (event) {
