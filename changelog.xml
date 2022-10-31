@@ -5,6 +5,12 @@
         name="MageSuite_Patches"
         description="Repository of Magento patches released by creativestyle to fix and improve Magento and 3rd party extensions.">
         <changelog>
+            <tag version="1.3.27" date="2022-11-01">
+                <entry>
+                    <type>FIX</type>
+                    <overview>Allow in elasticsuite to filter less than or equal range price</overview>
+                </entry>
+            </tag>
             <tag version="1.3.26" date="2022-10-10">
                 <entry>
                     <type>FIX</type>
