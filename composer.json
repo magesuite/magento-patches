@@ -1858,6 +1858,13 @@
                     "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api.patch",
                     "version-constraint": ">=8.7.0"
                 }
+            ],
+            "firegento/fastsimpleimport": [
+                {
+                    "description": "Remove default argument from method",
+                    "filename": "essential/firegento/fastsimpleimport/remove-default-argument-from-method.patch",
+                    "version-constraint": "<2.0.0"
+                }
             ]
         }
     }
