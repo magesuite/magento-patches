@@ -408,6 +408,13 @@
                     "version-constraint": "<1.10.5"
                 }
             ],
+            "brickfox/import-export-data": [
+                {
+                    "description": "Change column type from smallint to int",
+                    "filename": "essential/brickfox/import-export-data/change-column-type-from-smallint-to-int.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "magento/magento2-base": [
                 {
                     "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",

@@ -1,0 +1,31 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 8e55d34..3f595ab 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -83,7 +83,7 @@
+            comment="Brickfox Multichannel deleted products ID">
+
+         <!--START: columns section-->
+-        <column xsi:type="smallint" name="product_id" padding="6" unsigned="true" nullable="false" identity="true"
++        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="true"
+                 comment="Deleted id"/>
+         <column xsi:type="int" name="product_magento_id" padding="10" unsigned="true" nullable="false" identity="false"
+                 comment="Flag exported deleted product"/>
+@@ -107,7 +107,7 @@
+            comment="Brickfox Multichannel export updated product data">
+
+         <!--START: columns section-->
+-        <column xsi:type="smallint" name="product_id" padding="6" unsigned="true" nullable="false" identity="true"
++        <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="true"
+                 comment="Updated id"/>
+         <column xsi:type="varchar" name="product_magento_id" nullable="false" length="25"
+                 comment="Updated magento product id"/>
+@@ -138,7 +138,7 @@
+            comment="Brickfox Multichannel export order status data">
+
+         <!--START: columns section-->
+-        <column xsi:type="smallint" name="order_id" padding="6" unsigned="true" nullable="false" identity="true"
++        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" identity="true"
+                 comment="Updated order status id"/>
+         <column xsi:type="varchar" name="order_magento_id" nullable="false" length="25"
+                 comment="Updated magento product id"/>
