@@ -1467,6 +1467,13 @@
                     "version-constraint": ">=101.0.3"
                 }
             ],
+            "magento/module-banner": [
+                {
+                    "description": "Fix saving banner content when current content value is null",
+                    "filename": "essential/magento/module-banner/fix-saving-banner-content-when-current-content-value-is-null.patch",
+                    "version-constraint": ">=2.4.3-p1"
+                }
+            ],
             "seven-senders/shipments-module": [
                 {
                     "description": "Fix shipment data parsing and shipment view in admin panel",
