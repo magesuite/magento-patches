@@ -1524,7 +1524,7 @@
                 {
                     "description": "Fix dotmailer virtualType definition that uses deprecated class naming and causes integration tests to break",
                     "filename": "essential/dotmailer/dotmailer-magento2-extension/m235-fix-dotmailer-zend-mail-transport-sendmail-breaking-integration-tests.patch",
-                    "version-constraint": ">=4.4.0"
+                    "version-constraint": ">=4.4.0,<4.14.0"
                 },
                 {
                     "description": "Fix dotmailer setUp and tearDown declarations in integration tests",
