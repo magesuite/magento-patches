@@ -41,6 +41,13 @@
                 "version-constraint": "2.10.1"
             }
         ],
+	"smile/module-elasticsuite-catalog": {
+	    {
+		"description": "Allow in elasticsuite to filter less than or equal range price",
+		"filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/change-query-condition.patch",
+		"version-constraint": "*"
+	    }
+	},
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
