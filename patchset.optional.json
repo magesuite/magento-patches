@@ -45,7 +45,7 @@
 	    {
 		"description": "Allow in elasticsuite to filter less than or equal range price",
 		"filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/change-query-condition.patch",
-		"version-constraint": "*"
+		"version-constraint": "1.6.3"
 	    }
 	},
         "magento/module-ui": [
