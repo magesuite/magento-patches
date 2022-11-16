@@ -1,0 +1,34 @@
+diff --git a/Controller/Index/Index.php b/Controller/Index/Index.php
+index 6b66001..2f94f84 100644
+--- a/Controller/Index/Index.php
++++ b/Controller/Index/Index.php
+@@ -102,8 +102,12 @@ class Index extends \Magento\Framework\App\Action\Action
+                     $postObject->setData($post);
+                     $error = false;
+                     $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
++
++                    //BEGIN PATCH
++                    $templateId = $this->_helper->getTemplateId() ?: 'deleteaccount_general_template';
+                     $transport = $this->_transportBuilder
+-                    ->setTemplateIdentifier('deleteaccount_general_template')
++                    ->setTemplateIdentifier($templateId)
++                    //END PATCH
+                     ->setTemplateOptions(
+                         [
+                         'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+diff --git a/Helper/Data.php b/Helper/Data.php
+index c0343df..5bf9e87 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -48,4 +48,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+     {
+         return $this->getConfig('deleteaccount/general/enable');
+     }
++
++    //BEGIN PATCH
++    public function getTemplateId()
++    {
++        return $this->getConfig('deleteaccount/general/template');
++    }
++    //END PATCH
+ }
