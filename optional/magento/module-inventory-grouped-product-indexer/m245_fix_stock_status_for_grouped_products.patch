@@ -10,7 +10,7 @@ index d60f840..0ecf00a 100644
              'child_stock.sku = child_product_entity.sku',
              [
                  IndexStructure::QUANTITY => 'SUM(child_stock.quantity)',
--                IndexStructure::IS_SALABLE => 'IF(inventory_stock_item.is_in_stock = 0, 0,
+-                IndexStructure::IS_SALABLE => 'IF(inventory_stock_item.is_in_stock = 0, 0, 
 -                MAX(child_stock.is_salable))',
 +                // BEGIN PATCH
 +                // Revert changes introduced in Magento 2.4.5 which causing issues with "Stock Status" for grouped product because it's loading data from legacy stock.
