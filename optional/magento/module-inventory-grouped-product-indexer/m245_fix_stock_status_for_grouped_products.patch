@@ -1,5 +1,6 @@
 Revert changes introduced in Magento 2.4.5 which causing issues with "Stock Status" for grouped product because it's loading data from legacy stock.
 Original commit: https://github.com/magento/inventory/commit/0814fe7edfb9f4344494d941b479509c3f555e85
+Similar related issue: https://github.com/magento/inventory/issues/3350
 
 diff --git a/Indexer/SelectBuilder.php b/Indexer/SelectBuilder.php
 index d60f840..0ecf00a 100644
