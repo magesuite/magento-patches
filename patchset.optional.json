@@ -1005,7 +1005,7 @@
         "magento/module-inventory-grouped-product-indexer": [
             {
                 "description": "Fix stock status for grouped products after upgrade to Magento 2.4.5 (IPET-1684)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/m245_fix_stock_status_for_grouped_products.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-grouped-product-indexer/m245_fix_stock_status_for_grouped_products.patch",
                 "version-constraint": ">=1.2.3"
             }
         ],
