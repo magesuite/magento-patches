@@ -262,6 +262,13 @@
                 "version-constraint": "*"
             }
         ],
+        "amasty/adminactionslog": [
+            {
+                "description": "Fix performance issue by removing pagination on pages were amount of logs is very low",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/adminactionslog/fix-performance-issue-when-loading-logs-on-other-pages.patch",
+                "version-constraint": "*"
+            }
+        ],
         "amasty/module-xcoupon": [
             {
                 "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",
