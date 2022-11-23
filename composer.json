@@ -735,8 +735,13 @@
                     "version-constraint": ">=103.0.7"
                 },
                 {
-                    "description": "Fix prices config data when there's no finalPrice form jsonConfig",
-                    "filename": "essential/magento/module-catalog/m243-fix-prices-config-data.patch",
+                    "description": "Fix prices config data when there's no finalPrice form jsonConfig (price-box)",
+                    "filename": "essential/magento/module-catalog/m24-fix-prices-config-data.patch",
+                    "version-constraint": ">=104.0.3"
+                },
+                {
+                    "description": "Fix tier prices-related JS issue (reference to not exsisting propery) in price-box",
+                    "filename": "essential/magento/module-catalog/m24-fix-prices-config-data.patch",
                     "version-constraint": ">=104.0.3"
                 }
             ],
