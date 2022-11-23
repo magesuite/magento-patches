@@ -926,6 +926,13 @@
                     "version-constraint": "^2.0.0"
                 }
             ],
+            "aheadworks/module-advanced-reviews": [
+                {
+                    "description": "Added bool type casting for return type of isNeedToStoreRewriteHistoryForProduct() method.",
+                    "filename": "essential/aheadworks/module-advanced-reviews/add_bool_type_casting_for_return_type.patch",
+                    "version-constraint": "^1.5.0"
+                }
+            ],
             "aheadworks/module-blog": [
                 {
                     "description": "Fix for cleaning cache for all products after update and reindex blog posts",
