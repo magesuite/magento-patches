@@ -1,0 +1,14 @@
+diff --git a/Model/Url/Rewrite/Generator/Checker.php b/Model/Url/Rewrite/Generator/Checker.php
+index 3197870..4c67a85 100644
+--- a/Model/Url/Rewrite/Generator/Checker.php
++++ b/Model/Url/Rewrite/Generator/Checker.php
+@@ -45,6 +45,8 @@ class Checker
+      */
+     public function isNeedToStoreRewriteHistoryForProduct(Product $product): bool
+     {
+-        return $product->getData('save_rewrites_history');
++        // PATCH BEGIN
++        return (bool)$product->getData('save_rewrites_history');
++        // PATCH END
+     }
+ }
