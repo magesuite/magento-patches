@@ -1,21 +1,3 @@
-diff --git a/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php b/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php
-index 9900dd1..ef669b8 100644
---- a/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php
-+++ b/Plugin/Quote/Api/Item/MakeRecurringProductsUniqueInCart.php
-@@ -31,6 +31,13 @@ class MakeRecurringProductsUniqueInCart
-     public function afterRepresentProduct(CartItemInterface $item, bool $result): bool
-     {
-         $buyRequest = $item->getOptionByCode('info_buyRequest');
-+
-+        // BEGIN PATCH
-+        if (empty($buyRequest)) {
-+            return $result;
-+        }
-+        // END PATCH
-+
-         if ((
-                 strstr($buyRequest->getValue(), 'is_recurring') !== false &&
-                 $this->jsonContainsRecurringValue($buyRequest->getValue())
 diff --git a/Service/Quote/CartContainsRecurringProduct.php b/Service/Quote/CartContainsRecurringProduct.php
 index ac46507..b169bf0 100644
 --- a/Service/Quote/CartContainsRecurringProduct.php
