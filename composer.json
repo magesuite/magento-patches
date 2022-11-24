@@ -300,7 +300,7 @@
                 {
                     "description": "Remove redundant COUNT() call for 1st page of results",
                     "filename": "essential/magento/module-theme/remove-redundant-count-call-for-first-page-of-results.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<101.1.4"
                 }
             ],
             "magento/module-page-cache": [
