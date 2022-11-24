@@ -1,23 +1,47 @@
 diff --git a/Controller/Index/Index.php b/Controller/Index/Index.php
-index 6b66001..2f94f84 100644
+index 1c836e5..0c0c094 100644
 --- a/Controller/Index/Index.php
 +++ b/Controller/Index/Index.php
-@@ -102,8 +102,12 @@ class Index extends \Magento\Framework\App\Action\Action
+@@ -100,23 +100,23 @@ class Index extends \Magento\Framework\App\Action\Action
+                     );
+                     $postObject = new \Magento\Framework\DataObject();
                      $postObject->setData($post);
-                     $error = false;
-                     $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-+
+-                    $error = false;
+-                    $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
 +                    //BEGIN PATCH
++                    $storeId = $this->storeManager->getStore()->getId();
 +                    $templateId = $this->_helper->getTemplateId() ?: 'deleteaccount_general_template';
                      $transport = $this->_transportBuilder
 -                    ->setTemplateIdentifier('deleteaccount_general_template')
+-                    ->setTemplateOptions(
+-                        [
 +                    ->setTemplateIdentifier($templateId)
-+                    //END PATCH
-                     ->setTemplateOptions(
-                         [
++                    ->setTemplateOptions([
                          'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
+-                        // this is using frontend area to get the template file
+-                        'store' => 14,
+-                        ]
+-                    )//@codingStandardsIgnoreStart
+-                     ->setTemplateVars(['data' => $postObject,
+-                    'customername' => $customername,
+-                    'message'   => 'You have Received This E-mail because
+-                    we\'ve been notified to delete your account from Default. After deleting your account, you will permanently loose your account and order confirmation stored in Our Default',
+-                    'customer_url' => $url
++                        'store' => $storeId,
++                    ])
++                    //@codingStandardsIgnoreStart
++                    ->setTemplateVars([
++                        'data' => $postObject,
++                        'customername' => $customername,
++                        'message'   => 'You have Received This E-mail because we\'ve been notified to delete your account from Default. After deleting your account, you will permanently loose your account and order confirmation stored in Our Default',
++                        'customer_url' => $url
+                      ])
++                    //END PATCH
+                     ->setFrom('general')
+                     ->addTo($customeremail)
+                     ->getTransport();
 diff --git a/Helper/Data.php b/Helper/Data.php
-index c0343df..5bf9e87 100644
+index c0343df..87f8103 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
 @@ -48,4 +48,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
