@@ -296,6 +296,11 @@
                     "description": "Fixes an empty mini-cart bug after adding products to the cart from the wishlist by making messages observable",
                     "filename": "essential/magento/module-theme/fix-make-messages-observable.patch",
                     "version-constraint": ">=101.1.0"
+                },
+                {
+                    "description": "Remove redundant COUNT() call for 1st page of results",
+                    "filename": "essential/magento/module-theme/remove-redundant-count-call-for-first-page-of-results.patch",
+                    "version-constraint": "<101.1.4"
                 }
             ],
             "magento/module-page-cache": [
