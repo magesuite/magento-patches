@@ -255,6 +255,13 @@
                 "version-constraint": "*"
             }
         ],
+        "mirasvit/module-report": [
+            {
+                "description": "Use columns value instead of expressions (IPET-1733)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report/use-columns-value-instead-of-expresions.patch",
+                "version-constraint": "*"
+            }
+        ],
         "amasty/module-xcoupon": [
             {
                 "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",

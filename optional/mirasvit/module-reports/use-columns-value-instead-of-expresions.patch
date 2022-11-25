@@ -1,0 +1,43 @@
+diff --git a/src/Report/etc/mst_report.xml b/src/Report/etc/mst_report.xml
+index e3162ec..b4a04ad 100644
+--- a/src/Report/etc/mst_report.xml
++++ b/src/Report/etc/mst_report.xml
+@@ -36,25 +36,28 @@
+ 
+         <column name="total_qty_ordered" label="Qty Ordered" type="number"/>
+ 
+-        <column name="discount_amount" label="Discount" fields="base_discount_amount,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>
++<!-- BEGIN PATCH -->
++<!-- Remove expresions to avoid calculation based on base_to_global_rate and column with base_ prefix for fields which are already stored in database -->
++<!--        <column name="discount_amount" label="Discount" fields="base_discount_amount,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>-->
+ 
+-        <column name="shipping_amount" label="Shipping" fields="base_shipping_amount,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>
++<!--        <column name="shipping_amount" label="Shipping" fields="base_shipping_amount,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>-->
+ 
+-        <column name="tax_amount" label="Tax" fields="base_tax_amount,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>
++<!--        <column name="tax_amount" label="Tax" fields="base_tax_amount,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>-->
+ 
+-        <column name="shipping_tax_amount" label="Shipping Tax" fields="base_shipping_tax_amount,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>
++<!--        <column name="shipping_tax_amount" label="Shipping Tax" fields="base_shipping_tax_amount,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>-->
+ 
+-        <column name="tax_refunded" label="Tax Refunded" fields="base_tax_refunded,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>
++<!--        <column name="tax_refunded" label="Tax Refunded" fields="base_tax_refunded,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>-->
+ 
+-        <column name="total_invoiced" label="Invoiced" fields="base_total_invoiced,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>
++<!--        <column name="total_invoiced" label="Invoiced" fields="base_total_invoiced,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>-->
+ 
+-        <column name="total_refunded" label="Refunded" fields="base_total_refunded,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>
++<!--        <column name="total_refunded" label="Refunded" fields="base_total_refunded,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>-->
+ 
+-        <column name="total_invoiced_cost" label="Invoiced Cost" fields="base_total_invoiced_cost,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>
++<!--        <column name="total_invoiced_cost" label="Invoiced Cost" fields="base_total_invoiced_cost,base_to_global_rate" expr="%1 * IF(%2 > 0, %2, 1)" type="money"/>-->
+ 
+-        <column name="subtotal" label="Subtotal" fields="base_subtotal,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>
++<!--        <column name="subtotal" label="Subtotal" fields="base_subtotal,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>-->
+ 
+-        <column name="grand_total" label="Grand Total" fields="base_grand_total,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>
++<!--        <column name="grand_total" label="Grand Total" fields="base_grand_total,base_to_global_rate" type="money" expr="%1 * IF(%2 > 0, %2, 1)"/>-->
++<!-- END PATCH -->
+ 
+         <column name="coupon_rule_name" label="Cart Price Rule"/>
+     </table>
