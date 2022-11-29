@@ -1,0 +1,19 @@
+Github Issue: https://github.com/magento/magento2/issues/18668
+
+diff --git a/etc/frontend/di.xml b/etc/frontend/di.xml
+index 04e8a41..82a44b7 100644
+--- a/etc/frontend/di.xml
++++ b/etc/frontend/di.xml
+@@ -480,7 +480,9 @@
+     </virtualType>
+     <!-- Review listing providers end -->
+ 
+-    <type name="Magento\Framework\App\Config\ScopeConfigInterface">
+-        <plugin name="aw-ar" type="Aheadworks\AdvancedReviews\Plugin\App\Config\ScopeConfigPlugin"/>
+-    </type>
++    <!-- PATCH BEGIN -->
++    <!--<type name="Magento\Framework\App\Config\ScopeConfigInterface">-->
++    <!--    <plugin name="aw-ar" type="Aheadworks\AdvancedReviews\Plugin\App\Config\ScopeConfigPlugin"/>-->
++    <!--</type>-->
++    <!-- PATCH END -->
+ </config>

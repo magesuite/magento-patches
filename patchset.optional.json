@@ -41,6 +41,13 @@
                 "version-constraint": "2.10.1"
             }
         ],
+	"smile/module-elasticsuite-catalog": {
+	    {
+		"description": "Allow in elasticsuite to filter less than or equal range price",
+		"filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/change-query-condition.patch",
+		"version-constraint": "1.6.3"
+	    }
+	},
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
@@ -258,7 +265,13 @@
         "mirasvit/module-report": [
             {
                 "description": "Use columns value instead of expressions (IPET-1733)",
-                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report/use-columns-value-instead-of-expresions.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report/use-columns-value-instead-of-expresions.patch"
+            }
+        ],
+        "amasty/adminactionslog": [
+            {
+                "description": "Fix performance issue by removing pagination on pages were amount of logs is very low",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/adminactionslog/fix-performance-issue-when-loading-logs-on-other-pages.patch",
                 "version-constraint": "*"
             }
         ],

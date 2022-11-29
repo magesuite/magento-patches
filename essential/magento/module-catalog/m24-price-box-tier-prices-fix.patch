@@ -1,0 +1,23 @@
+If statement added to prevent JS issues when tierPrices property is missing in priceConfig
+
+diff --git a/view/base/web/js/price-box.js b/view/base/web/js/price-box.js
+index 28eaad3..d7b971d 100644
+--- a/view/base/web/js/price-box.js
++++ b/view/base/web/js/price-box.js
+@@ -251,10 +251,12 @@ define([
+                 tierPriceItem,
+                 i;
+
+-            for (i = 0; i < this.options.priceConfig.tierPrices.length; i++) {
+-                tierPriceItem = this.options.priceConfig.tierPrices[i];
+-                if (productQty >= tierPriceItem.qty && tierPriceItem[priceKey]) {
+-                    result = tierPriceItem[priceKey];
++            if (this.options.priceConfig.tierPrices) {
++                for (i = 0; i < this.options.priceConfig.tierPrices.length; i++) {
++                    tierPriceItem = this.options.priceConfig.tierPrices[i];
++                    if (productQty >= tierPriceItem.qty && tierPriceItem[priceKey]) {
++                        result = tierPriceItem[priceKey];
++                    }
+                 }
+             }
+
