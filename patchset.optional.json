@@ -262,6 +262,12 @@
                 "version-constraint": "*"
             }
         ],
+        "mirasvit/module-report": [
+            {
+                "description": "Use columns value instead of expressions (IPET-1733)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report/use-columns-value-instead-of-expresions.patch"
+            }
+        ],
         "amasty/adminactionslog": [
             {
                 "description": "Fix performance issue by removing pagination on pages were amount of logs is very low",
@@ -693,8 +699,8 @@
             },
             {
                 "description": "Fix shipping discount ration calculation",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/m24-fix-shipping-discount-ratio-calculation.patch",
-                "version-constraint": ">=101.2.3"
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/m245-fix-shipping-discount-ratio-calculation.patch",
+                "version-constraint": ">=101.2.5"
             }
         ],
         "magento/module-tax": [
@@ -1014,6 +1020,13 @@
                 "description": "Fix wrong extension attribute join on field column",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-in-store-pickup-quote/m242-fix-inventory-in-store-pickup-quote-extension-attribute-field.patch",
                 "version-constraint": ">=1.1.0"
+            }
+        ],
+        "magento/module-inventory-grouped-product-indexer": [
+            {
+                "description": "Fix stock status for grouped products after upgrade to Magento 2.4.5 (IPET-1684)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-grouped-product-indexer/m245_fix_stock_status_for_grouped_products.patch",
+                "version-constraint": ">=1.2.3"
             }
         ],
         "best4mage/cptp": [
