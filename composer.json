@@ -745,6 +745,11 @@
                     "version-constraint": ">=103.0.7"
                 },
                 {
+                    "description": "Fix tier prices-related JS issue (reference to not exsisting propery) in price-box",
+                    "filename": "essential/magento/module-catalog/m243-fix-prices-config-data.patch",
+                    "version-constraint": ">=104.0.3, <104.0.4"
+                },
+                {
                     "description": "Fixes price-box issues, related to priceConfig and tier prices calculations",
                     "filename": "essential/magento/module-catalog/m24-price-box-fixes.patch",
                     "version-constraint": ">=104.0.5"
