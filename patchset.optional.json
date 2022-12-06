@@ -106,10 +106,15 @@
                 "version-constraint": "^100.4.2"
             },
             {
-              "description": "Fixes for wrong reindexPool indexers order",
-              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout-staging/m24-fix-for-wrong-indexer-order.patch",
-              "version-constraint": "^100.4.3"
-            }
+                "description": "Fixes for wrong reindexPool indexers order",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout-staging/m24-fix-for-wrong-indexer-order.patch",
+                "version-constraint": "^100.4.3"
+            },
+            {
+                "description": "[DOG-1187] Fixes issue with saving new shipping address when it is the same like billing address",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout-staging/m24-fix-saving-new-shipping-address.patch",
+                "version-constraint": "^100.4.2"
+            },
         ],
         "magento/framework": [
             {
