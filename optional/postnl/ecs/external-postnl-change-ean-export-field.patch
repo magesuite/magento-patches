@@ -4,12 +4,11 @@ index d9da804..a4afef3 100644
 +++ b/Model/Processor/Product.php
 @@ -181,8 +181,8 @@ class Product extends Common {
          ));
-         
-         $node->appendChild($xml->createElementNS("http://www.toppak.nl/item",'eanNo', 
+
+         $node->appendChild($xml->createElementNS("http://www.toppak.nl/item",'eanNo',
 -            $product->getEanNo()
 -                ? $this->_cleanupString($product->getEanNo(), 15)
 +            $product->getEan()
 +                ? $this->_cleanupString($product->getEan(), 15)
                  : $this->_cleanupString($product->getSku(), 15)
          ));
-         

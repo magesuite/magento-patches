@@ -4,12 +4,11 @@ index d47d31a..702165a 100644
 +++ b/Model/Processor/Product.php
 @@ -163,8 +163,8 @@ class Product extends Common {
          ));
-         
-         $node->appendChild($xml->createElementNS("http://www.toppak.nl/item",'depth', 
+
+         $node->appendChild($xml->createElementNS("http://www.toppak.nl/item",'depth',
 -            $product->getDepth()
 -                ? $this->_cleanupString($product->getDepth(), 255)
 +            $product->getHeight()
 +                ? $this->_cleanupString($product->getHeight(), 255)
                  : '1'
          ));
-         
