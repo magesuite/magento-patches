@@ -4,20 +4,20 @@ index 2fcb07f..aae243b 100644
 +++ b/Model/Processor/Shipment.php
 @@ -314,18 +314,6 @@ class Shipment extends Common {
                  ));*/
- 
+
              }
--                
+-
 -
 -            $shipment->register();
 -			if ( $itemCount == count($qtys)) {
 -			//complete order
--			
--				
+-
+-
 -				$order->setState(\Magento\Sales\Model\Order::STATE_COMPLETE, true)->setStatus(\Magento\Sales\Model\Order::STATE_COMPLETE);
 -				$order->save();
--			
--			
+-
+-
 -			}
-             
+
              $row->setStatus(\Postnl\Ecs\Model\Shipment\Row::STATUS_PROCESSED);
              return array($order, $shipment);
