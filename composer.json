@@ -973,7 +973,7 @@
                 },
                 {
                     "description": "Add missing dependency to juery-ui-module/widget in JS components",
-                    "filename": "essential/aheadworks/module-blog/aw-blog-add-jquery-ui-widget-dependencies",
+                    "filename": "essential/aheadworks/module-blog/aw-blog-add-jquery-ui-widget-dependencies.patch",
                     "version-constraint": ">=2.15.0"
                 }
             ],
