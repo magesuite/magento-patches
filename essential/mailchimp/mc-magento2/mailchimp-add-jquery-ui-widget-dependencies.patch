@@ -1,0 +1,56 @@
+diff --git a/view/adminhtml/web/js/apikey.js b/view/adminhtml/web/js/apikey.js
+index 2448c61..a3d4a1f 100644
+--- a/view/adminhtml/web/js/apikey.js
++++ b/view/adminhtml/web/js/apikey.js
+@@ -10,7 +10,8 @@
+ define(
+     [
+         'jquery',
+-        'Magento_Ui/js/modal/alert'
++        'Magento_Ui/js/modal/alert',
++        'jquery-ui-modules/widget'
+     ],
+     function ($,alert) {
+         "use strict";
+diff --git a/view/adminhtml/web/js/configapikey.js b/view/adminhtml/web/js/configapikey.js
+index 7ecfe33..dfe8768 100644
+--- a/view/adminhtml/web/js/configapikey.js
++++ b/view/adminhtml/web/js/configapikey.js
+@@ -10,7 +10,8 @@
+ define(
+     [
+         'jquery',
+-        'Magento_Ui/js/modal/alert'
++        'Magento_Ui/js/modal/alert',
++        'jquery-ui-modules/widget'
+     ],
+     function ($, alert) {
+         "use strict";
+diff --git a/view/adminhtml/web/js/mailchimpconfirmation.js b/view/adminhtml/web/js/mailchimpconfirmation.js
+index 8b7ec3c..0a8221b 100644
+--- a/view/adminhtml/web/js/mailchimpconfirmation.js
++++ b/view/adminhtml/web/js/mailchimpconfirmation.js
+@@ -11,7 +11,8 @@ define(
+     [
+         'jquery',
+         'Magento_Ui/js/modal/confirm',
+-        'Magento_Ui/js/modal/alert'
++        'Magento_Ui/js/modal/alert',
++        'jquery-ui-modules/widget'
+     ], function ($ , confirmation, alert) {
+         'use strict';
+ 
+diff --git a/view/frontend/web/js/campaigncatcher.js b/view/frontend/web/js/campaigncatcher.js
+index 9ca1e80..f977ef8 100644
+--- a/view/frontend/web/js/campaigncatcher.js
++++ b/view/frontend/web/js/campaigncatcher.js
+@@ -10,7 +10,8 @@
+ define(
+     [
+         'jquery',
+-        'mage/cookies'
++        'mage/cookies',
++        'jquery-ui-modules/widget'
+     ],
+     function ($) {
+         "use strict";

@@ -359,6 +359,13 @@
                     "version-constraint": ">=101.0.0,<=101.0.4"
                 }
             ],
+            "mailchimp/mc-magento2": [
+                {
+                    "description": "Add missing dependency to juery-ui-module/widget in JS components",
+                    "filename": "essential/mailchimp/mc-magento2/mailchimp-add-jquery-ui-widget-dependencies.patch",
+                    "version-constraint": ">=103.4.50"
+                }
+            ],
             "amasty/module-advanced-permissions": [
                 {
                     "description": "Fix module loading order",
@@ -963,6 +970,11 @@
                     "description": "Fix for relations issue in table aw_blog_product_post (IPET-1485)",
                     "filename": "essential/aheadworks/module-blog/fix-relations-in-product-post-index.patch",
                     "version-constraint": ">=2.13.2"
+                },
+                {
+                    "description": "Add missing dependency to juery-ui-module/widget in JS components",
+                    "filename": "essential/aheadworks/module-blog/aw-blog-add-jquery-ui-widget-dependencies",
+                    "version-constraint": ">=2.15.0"
                 }
             ],
             "aheadworks/module-faq": [
