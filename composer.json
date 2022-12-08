@@ -222,6 +222,11 @@
                     "description": "Load dependency for resizable knockout binding only on init",
                     "filename": "essential/magento/module-ui/load-resizable-widget-only-on-init.patch",
                     "version-constraint": ">=101.2.2,<101.2.4"
+                },
+                {
+                    "description": "Remove validation for color in order to avoid loading tinycolor library",
+                    "filename": "essential/magento/module-ui/m245-remove-color-validation-rule.patch",
+                    "version-constraint": ">=101.2.5"
                 }
             ],
             "magento/module-persistent": [
