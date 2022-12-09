@@ -41,13 +41,13 @@
                 "version-constraint": "2.10.1"
             }
         ],
-	"smile/module-elasticsuite-catalog": {
-	    {
-		"description": "Allow in elasticsuite to filter less than or equal range price",
-		"filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/change-query-condition.patch",
-		"version-constraint": "1.6.3"
-	    }
-	},
+        "smile/module-elasticsuite-catalog": [
+            {
+                "description": "Allow in elasticsuite to filter less than or equal range price",
+                "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/change-query-condition.patch",
+                "version-constraint": "1.6.3"
+            }
+        ],
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
@@ -376,7 +376,12 @@
             {
                 "description": "Fix setting has_stock_status_filter flag without checking for show_out_of_stock config",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/xnotif/amasty-xnotif-disable-stock-filter-if-outofstock-products-not-visible.patch",
-                "version-constraint": "^1.11.12"
+                "version-constraint": ">=1.11.12,<=1.14.2"
+            },
+            {
+                "description": "Fix setting has_stock_status_filter flag without checking for show_out_of_stock config (for version 1.14.3)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/xnotif/amasty-xnotif-1.14.3-disable-stock-filter-if-outofstock-products-not-visible.patch",
+                "version-constraint": ">=1.14.3"
             }
         ],
         "magento/module-payment": [
