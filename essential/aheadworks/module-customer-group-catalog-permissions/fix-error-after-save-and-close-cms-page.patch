@@ -1,0 +1,20 @@
+diff --git a/Plugin/Cms/Model/PageRepositoryPlugin.php b/Plugin/Cms/Model/PageRepositoryPlugin.php
+index a8f3e18..24f9f22 100644
+--- a/Plugin/Cms/Model/PageRepositoryPlugin.php
++++ b/Plugin/Cms/Model/PageRepositoryPlugin.php
+@@ -53,8 +53,14 @@ class PageRepositoryPlugin
+      * @return PageInterface
+      * @throws \Exception
+      */
+-    public function afterSave(PageRepositoryInterface $subject, PageInterface $page)
++    //BEGIN PATCH
++    public function afterSave(PageRepositoryInterface $subject, ?PageInterface $page)
+     {
++        if ($page === null) {
++            return $page;
++        }
++        //END PATCH
++
+         $pageId = $page->getId();
+         $data = $page->getData();
+ 

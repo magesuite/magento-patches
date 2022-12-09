@@ -1028,6 +1028,11 @@
                     "description": "Fix for breaking search when module is enabled and products without categoires do not have permissions configured",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-permissions-for-products-without-categories.patch",
                     "version-constraint": ">=1.0.8"
+                },
+                {
+                    "description": "Fix an error that shows up after saving and closing CMS page edit.",
+                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-error-after-save-and-close-cms-page.patch",
+                    "version-constraint": ">=1.0.8"
                 }
             ],
             "aheadworks/module-requisition-lists": [
