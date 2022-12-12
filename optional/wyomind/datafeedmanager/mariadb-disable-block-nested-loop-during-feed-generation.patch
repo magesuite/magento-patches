@@ -1,0 +1,12 @@
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index 162c9d4..0b9c46c 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -477,6 +477,7 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+             }
+             $connection = $this->getResource()->getConnection();
+             $connection->query("SET SESSION group_concat_max_len = 10000;");
++            $connection->query("SET SESSION join_cache_level=0;");
+             $timeStart = time();
+             $timeGlobal = 0;
+             $this->progressHelper->startObservingProgress($this->isLogEnabled(), $this->getId(), $this->getName());
