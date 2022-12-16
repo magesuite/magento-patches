@@ -673,6 +673,11 @@
                 "description": "Fix for missing store view attributes after duplicate product",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/module-catalog-fix-product-duplicate-with-store-view-attributes.patch",
                 "version-constraint": "<104.0.4"
+            },
+            {
+                "description": "Fix for rothacker optimise catalog category product indexer",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/m24-fix-optimise-catalog-category-product-indexer-query.patch",
+                "version-constraint": ">=104.0.1"
             }
         ],
         "magento/module-catalog-url-rewrite": [
