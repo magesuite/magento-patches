@@ -1,0 +1,19 @@
+Without this patch tests are failing, because '$userId = $this->_authSession->getUser()' sometime returns null
+
+diff --git a/Model/Rule.php b/Model/Rule.php
+index 1f7e581..186311c 100644
+--- a/Model/Rule.php
++++ b/Model/Rule.php
+@@ -138,7 +138,11 @@ class Rule extends \Magento\Framework\Model\AbstractModel implements RuleInterfa
+     {
+         $ruleConditions = [];
+         $adapter = $this->getResource()->getConnection();
+-        $userId = $this->_authSession->getUser()->getId();
++        // BEGIN PATCH
++        // $userId = $this->_authSession->getUser()->getId();
++        // method getUser() can return null at least in tests, therefore additional condition was added
++        $userId = is_object($this->_authSession->getUser()) ? $this->_authSession->getUser()->getId() : 0;
++        // END PATCH
+         $collection->addAttributeToSelect('amrolepermissions_owner', 'left');
+         $allowOwn = false;
+         $groupOwned = false;
