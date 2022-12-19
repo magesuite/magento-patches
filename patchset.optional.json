@@ -48,6 +48,13 @@
                 "version-constraint": "1.6.3"
             }
         ],
+        "aromicon/module-deepl": [
+            {
+                "description": "Inject product to helper",
+                "filename": "vendor/creativestyle/magento-patches/optional/aromicon/module-deepl/inject-product-variable.patch",
+                "version-constraint": "*"
+            }
+        ],
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
