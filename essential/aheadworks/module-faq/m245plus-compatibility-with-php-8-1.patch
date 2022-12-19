@@ -1,0 +1,17 @@
+diff --git a/Model/Config.php b/Model/Config.php
+index c7d0f4d..603838d 100644
+--- a/Model/Config.php
++++ b/Model/Config.php
+@@ -295,6 +295,12 @@ class Config
+             ScopeInterface::SCOPE_STORE
+         );
+ 
++        // BEGIN PATCH
++        if($settingsValue === null) {
++            return [];
++        }
++        // END PATCH
++
+         return explode(',', $settingsValue);
+     }
+ 

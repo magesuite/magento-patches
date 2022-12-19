@@ -1,0 +1,41 @@
+diff --git a/Ui/DataProvider/ActionsLog/Listing.php b/Ui/DataProvider/ActionsLog/Listing.php
+index f54c0ed..618384d 100644
+--- a/Ui/DataProvider/ActionsLog/Listing.php
++++ b/Ui/DataProvider/ActionsLog/Listing.php
+@@ -113,9 +113,20 @@ class Listing extends DataProvider
+             return $carry;
+         }, []);
+ 
+-        return [
+-            'items' => $logEntryItems,
+-            'totalRecords' => $searchResult->getTotalCount()
+-        ];
++        //BEGIN PATCH
++        if ($this->request->getModuleName() != 'mui') {
++            return;
++        }
++
++        $params = $this->request->getParams();
++        if ($params['namespace'] == 'amaudit_actionslog_listing') {
++            return [
++                'items' => $logEntryItems,
++                'totalRecords' => $searchResult->getTotalCount()
++            ];
++        }
++
++        return ['items' => $logEntryItems];
++        //END PATCH
+     }
+ }
+diff --git a/view/adminhtml/ui_component/amaudit_order_history_listing.xml b/view/adminhtml/ui_component/amaudit_order_history_listing.xml
+index b4b7f03..a4d49f0 100644
+--- a/view/adminhtml/ui_component/amaudit_order_history_listing.xml
++++ b/view/adminhtml/ui_component/amaudit_order_history_listing.xml
+@@ -47,7 +47,6 @@
+                 </item>
+             </argument>
+         </filters>
+-        <paging name="listing_paging"/>
+     </listingToolbar>
+     <columns name="history_columns" class="Magento\Ui\Component\Listing\Columns">
+         <column name="date" class="Magento\Ui\Component\Listing\Columns\Date">

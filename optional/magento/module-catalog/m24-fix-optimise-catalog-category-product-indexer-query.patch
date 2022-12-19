@@ -1,0 +1,87 @@
+diff --git a/Model/Indexer/Category/Product/AbstractAction.php b/Model/Indexer/Category/Product/AbstractAction.php
+index 020c195..69a091e 100644
+--- a/Model/Indexer/Category/Product/AbstractAction.php
++++ b/Model/Indexer/Category/Product/AbstractAction.php
+@@ -283,11 +283,11 @@ abstract class AbstractAction
+                 ['ccp' => $this->getTable('catalog_category_product')],
+                 'ccp.category_id = cc.entity_id',
+                 []
+-            )->joinInner(
++            )/* BEGIN PATCH ->joinInner(
+                 ['cpw' => $this->getTable('catalog_product_website')],
+                 'cpw.product_id = ccp.product_id',
+                 []
+-            )->joinInner(
++            ) END PATCH */->joinInner(
+                 ['cpe' => $this->getTable('catalog_product_entity')],
+                 'ccp.product_id = cpe.entity_id',
+                 []
+@@ -315,12 +315,12 @@ abstract class AbstractAction
+                 ' AND cpvs.store_id = ' .
+                 $store->getId(),
+                 []
+-            )->where(
++            )/* BEGIN PATCH ->where(
+                 'cc.path LIKE ' . $this->connection->quote($rootPath . '/%')
+             )->where(
+                 'cpw.website_id = ?',
+                 $store->getWebsiteId()
+-            )->where(
++            ) END PATCH */->where(
+                 $this->connection->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
+                 \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+             )->where(
+@@ -523,11 +523,11 @@ abstract class AbstractAction
+             ['cpe' => $this->getTable('catalog_product_entity')],
+             'ccp.product_id = cpe.entity_id',
+             []
+-        )->joinInner(
++        )/* BEGIN PATCH ->joinInner(
+             ['cpw' => $this->getTable('catalog_product_website')],
+             'cpw.product_id = ccp.product_id',
+             []
+-        )->joinInner(
++        ) END PATCH */->joinInner(
+             ['cpsd' => $this->getTable('catalog_product_entity_int')],
+             'cpsd.' . $productLinkField . ' = cpe.' . $productLinkField . ' AND cpsd.store_id = 0'
+                 . ' AND cpsd.attribute_id = ' . $statusAttributeId,
+@@ -561,10 +561,10 @@ abstract class AbstractAction
+             . ' AND ccas.attribute_id = ccad.attribute_id AND ccas.store_id = ' .
+             $store->getId(),
+             []
+-        )->where(
++        )/* BEGIN PATCH ->where(
+             'cpw.website_id = ?',
+             $store->getWebsiteId()
+-        )->where(
++        ) END PATCH */->where(
+             $this->connection->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
+             \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+         )->where(
+@@ -771,11 +771,11 @@ abstract class AbstractAction
+             $select = $this->connection->select()->from(
+                 ['cp' => $this->getTable('catalog_product_entity')],
+                 []
+-            )->joinInner(
++            )/* BEGIN PATCH ->joinInner(
+                 ['cpw' => $this->getTable('catalog_product_website')],
+                 'cpw.product_id = cp.entity_id',
+                 []
+-            )->joinInner(
++            ) END PATCH */->joinInner(
+                 ['cpsd' => $this->getTable('catalog_product_entity_int')],
+                 'cpsd.' . $linkField . ' = cp.' . $linkField . ' AND cpsd.store_id = 0' .
+                 ' AND cpsd.attribute_id = ' .
+@@ -803,10 +803,10 @@ abstract class AbstractAction
+                 ['ccp' => $this->getTable('catalog_category_product')],
+                 'ccp.product_id = cp.entity_id',
+                 []
+-            )->where(
++            )/* BEGIN PATCH ->where(
+                 'cpw.website_id = ?',
+                 $store->getWebsiteId()
+-            )->where(
++            ) END PATCH */->where(
+                 $this->connection->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
+                 \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
+             )->where(

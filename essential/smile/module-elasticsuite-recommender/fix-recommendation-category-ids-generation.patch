@@ -1,0 +1,12 @@
+diff --git a/Model/Product/Upsell/SearchQuery/Category.php b/Model/Product/Upsell/SearchQuery/Category.php
+index 2876efb..6d55df2 100644
+--- a/Model/Product/Upsell/SearchQuery/Category.php
++++ b/Model/Product/Upsell/SearchQuery/Category.php
+@@ -107,6 +107,6 @@ class Category implements SearchQueryBuilderInterface
+             $categoryIds = $product->getCategoryIds();
+         }
+ 
+-        return array_diff($categoryIds, [$product->getStore()->getRootCategoryId()]);
++        return array_keys(array_diff($categoryIds, [$product->getStore()->getRootCategoryId()]));
+     }
+ }

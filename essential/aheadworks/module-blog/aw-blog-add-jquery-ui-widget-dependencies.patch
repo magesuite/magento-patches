@@ -1,0 +1,78 @@
+diff --git a/view/frontend/web/js/aw-blog-ajax.js b/view/frontend/web/js/aw-blog-ajax.js
+index 3535453..e7ef928 100644
+--- a/view/frontend/web/js/aw-blog-ajax.js
++++ b/view/frontend/web/js/aw-blog-ajax.js
+@@ -5,7 +5,8 @@
+  * @method replacePlaceholder(placeholder, html)
+  */
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function($) {
+     "use strict";
+ 
+diff --git a/view/frontend/web/js/aw-blog-post-view-toggle.js b/view/frontend/web/js/aw-blog-post-view-toggle.js
+index 1f5157c..44a8777 100644
+--- a/view/frontend/web/js/aw-blog-post-view-toggle.js
++++ b/view/frontend/web/js/aw-blog-post-view-toggle.js
+@@ -1,5 +1,6 @@
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function ($) {
+     "use strict";
+ 
+diff --git a/view/frontend/web/js/aw-blog-related-grid.js b/view/frontend/web/js/aw-blog-related-grid.js
+index 41b4f92..4ce8470 100644
+--- a/view/frontend/web/js/aw-blog-related-grid.js
++++ b/view/frontend/web/js/aw-blog-related-grid.js
+@@ -4,7 +4,8 @@
+  * @method hideBlogExcessItems()
+  */
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function($) {
+     "use strict";
+ 
+diff --git a/view/frontend/web/js/aw-blog-slider.js b/view/frontend/web/js/aw-blog-slider.js
+index eaa32a7..db060c2 100644
+--- a/view/frontend/web/js/aw-blog-slider.js
++++ b/view/frontend/web/js/aw-blog-slider.js
+@@ -6,7 +6,8 @@
+  */
+ define([
+     'jquery',
+-    'slick'
++    'slick',
++    'jquery-ui-modules/widget'
+ ], function($) {
+     "use strict";
+ 
+diff --git a/view/frontend/web/js/comments-link.js b/view/frontend/web/js/comments-link.js
+index 792af52..817505f 100644
+--- a/view/frontend/web/js/comments-link.js
++++ b/view/frontend/web/js/comments-link.js
+@@ -1,5 +1,6 @@
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function ($) {
+     'use strict';
+ 
+diff --git a/view/frontend/web/js/toggle-categories.js b/view/frontend/web/js/toggle-categories.js
+index 3ffd6ed..7596e19 100644
+--- a/view/frontend/web/js/toggle-categories.js
++++ b/view/frontend/web/js/toggle-categories.js
+@@ -1,5 +1,6 @@
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function ($) {
+     "use strict";
+ 

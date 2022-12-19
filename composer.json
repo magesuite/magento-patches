@@ -149,7 +149,7 @@
                 {
                     "description": "Fix email sending for email containing hypen",
                     "filename": "essential/magento/framework/emails-are-not-sent-for-email-containing-hyphen.patch",
-                    "version-constraint": ">=103.0.3"
+                    "version-constraint": ">=103.0.3,<103.0.5"
                 },
                 {
                     "description": "Allow group attribute on referenceBlock directive in layout files",
@@ -296,6 +296,11 @@
                     "description": "Fixes an empty mini-cart bug after adding products to the cart from the wishlist by making messages observable",
                     "filename": "essential/magento/module-theme/fix-make-messages-observable.patch",
                     "version-constraint": ">=101.1.0"
+                },
+                {
+                    "description": "Remove redundant COUNT() call for 1st page of results",
+                    "filename": "essential/magento/module-theme/remove-redundant-count-call-for-first-page-of-results.patch",
+                    "version-constraint": "<101.1.4"
                 }
             ],
             "magento/module-page-cache": [
@@ -408,6 +413,13 @@
                     "version-constraint": "<1.10.5"
                 }
             ],
+            "brickfox/import-export-data": [
+                {
+                    "description": "Change column type from smallint to int",
+                    "filename": "essential/brickfox/import-export-data/change-column-type-from-smallint-to-int.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "magento/magento2-base": [
                 {
                     "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",
@@ -518,7 +530,7 @@
                 {
                     "description": "Security patch MDVA-43395 and MDVA-43443",
                     "filename": "essential/magento/module-email/m243plus-security-MDVA-43395-MDVA-43443.patch",
-                    "version-constraint": ">=101.1.3"
+                    "version-constraint": ">=101.1.3,<101.1.5"
                 },
                 {
                     "description": "Security patch MDVA-43395 and MDVA-43443 for Magento 2.3.3-p1-2.4.2",
@@ -644,6 +656,11 @@
             ],
             "smile/module-elasticsuite-recommender": [
                 {
+                    "description": "Fix generation of categories ids for ElasticSearch query in elasticsuite-recommender module",
+                    "filename": "essential/smile/module-elasticsuite-recommender/fix-recommendation-category-ids-generation.patch",
+                    "version-constraint": "<2.10.12"
+                },
+                {
                     "description": "Fix for passing parameters to recommendation widget",
                     "filename": "essential/smile/module-elasticsuite-recommender/fix-parameters-passed-to-render-recommentations-widget.patch",
                     "version-constraint": "*"
@@ -728,9 +745,14 @@
                     "version-constraint": ">=103.0.7"
                 },
                 {
-                    "description": "Fix prices config data when there's no finalPrice form jsonConfig",
+                    "description": "Fix tier prices-related JS issue (reference to not exsisting propery) in price-box",
                     "filename": "essential/magento/module-catalog/m243-fix-prices-config-data.patch",
-                    "version-constraint": ">=104.0.3"
+                    "version-constraint": ">=104.0.3, <104.0.4"
+                },
+                {
+                    "description": "Fixes price-box issues, related to priceConfig and tier prices calculations",
+                    "filename": "essential/magento/module-catalog/m24-price-box-fixes.patch",
+                    "version-constraint": ">=104.0.5"
                 }
             ],
             "magento/module-catalog-search": [
@@ -914,6 +936,13 @@
                     "version-constraint": "^2.0.0"
                 }
             ],
+            "aheadworks/module-advanced-reviews": [
+                {
+                    "description": "Added bool type casting for return type of isNeedToStoreRewriteHistoryForProduct() method.",
+                    "filename": "essential/aheadworks/module-advanced-reviews/add_bool_type_casting_for_return_type.patch",
+                    "version-constraint": "^1.5.0"
+                }
+            ],
             "aheadworks/module-blog": [
                 {
                     "description": "Fix for cleaning cache for all products after update and reindex blog posts",
@@ -946,6 +975,11 @@
                     "description": "Fixes Call to a member function addCrumb() on boolean Exception",
                     "filename": "essential/aheadworks/module-faq/m22-aheadworks-module-faq-fix-call-to-a-addCrumb-function-on-boolean.patch",
                     "version-constraint": "1.0.3"
+                },
+                {
+                    "description": "Compatibility with PHP 8.1",
+                    "filename": "essential/aheadworks/module-faq/m245plus-compatibility-with-php-8-1.patch",
+                    "version-constraint": "*"
                 }
             ],
             "aheadworks/module-giftcard": [
@@ -993,6 +1027,11 @@
                 {
                     "description": "Fix for breaking search when module is enabled and products without categoires do not have permissions configured",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-permissions-for-products-without-categories.patch",
+                    "version-constraint": ">=1.0.8"
+                },
+                {
+                    "description": "Fix an error that shows up after saving and closing CMS page edit.",
+                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-error-after-save-and-close-cms-page.patch",
                     "version-constraint": ">=1.0.8"
                 }
             ],
@@ -1433,7 +1472,7 @@
                 {
                     "description": "Unable to cancel order when catalog price rule is used without coupon",
                     "filename": "essential/magento/module-sales-rule/m24-fix-coupon-usage-foreign-key-problem.patch",
-                    "version-constraint": ">=101.2.3"
+                    "version-constraint": ">=101.2.3,<101.2.5"
                 }
             ],
             "magento/module-sales-archive": [
@@ -1458,6 +1497,13 @@
                     "description": "Add possibility to define billing address for packstation and paypal",
                     "filename": "essential/magento/module-paypal/m24-fix-paypal-billing-address.patch",
                     "version-constraint": ">=101.0.3"
+                }
+            ],
+            "magento/module-banner": [
+                {
+                    "description": "Fix saving banner content when current content value is null",
+                    "filename": "essential/magento/module-banner/fix-saving-banner-content-when-current-content-value-is-null.patch",
+                    "version-constraint": ">=2.4.3-p1"
                 }
             ],
             "seven-senders/shipments-module": [
@@ -1514,7 +1560,7 @@
                 {
                     "description": "Fix dotmailer virtualType definition that uses deprecated class naming and causes integration tests to break",
                     "filename": "essential/dotmailer/dotmailer-magento2-extension/m235-fix-dotmailer-zend-mail-transport-sendmail-breaking-integration-tests.patch",
-                    "version-constraint": ">=4.4.0"
+                    "version-constraint": ">=4.4.0,<4.14.0"
                 },
                 {
                     "description": "Fix dotmailer setUp and tearDown declarations in integration tests",
@@ -1773,7 +1819,7 @@
                 {
                     "description": "Fix fatal error while logging into the admin panel",
                     "filename": "essential/magento/module-security/fix-issue-for-admin-strtotime.patch",
-                    "version-constraint": ">=100.4.3"
+                    "version-constraint": ">=100.4.3,<100.4.5"
                 }
             ],
             "magento/module-inventory": [
@@ -1813,7 +1859,7 @@
                 {
                     "description": "Change column type to int",
                     "filename": "essential/cleverzoeger/ext-magento2-cleverzoeger-paqato/change-column-type-to-int.patch",
-                    "version-constraint": ">=1.4.0"
+                    "version-constraint": ">=1.4.0,<1.5.0"
                 }
             ],
             "magento/module-reports": [
@@ -1835,11 +1881,39 @@
                     "version-constraint": ">=1.2.0"
                 }
             ],
+            "ezimuel/ringphp": [
+                {
+                    "description": "Fix compatibility with PHP 8.1",
+                    "filename": "essential/ezimuel/ringphp/fix-compatibility-with-php-8-1.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "adyen/module-payment": [
                 {
                     "description": "Fix image ID while generating product url",
                     "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api.patch",
                     "version-constraint": ">=8.7.0"
+                }
+            ],
+            "firegento/fastsimpleimport": [
+                {
+                    "description": "Remove default argument from method",
+                    "filename": "essential/firegento/fastsimpleimport/remove-default-argument-from-method.patch",
+                    "version-constraint": "<2.0.0"
+                }
+            ],
+            "mageants/deleteaccount": [
+                {
+                    "description": "Send correct template based on the configuration",
+                    "filename": "essential/mageants/deleteaccount/fix-use-configuration-to-send-correct-template.patch",
+                    "version-constraint": ">=2.0.2"
+                }
+            ],
+            "magento/module-user": [
+                {
+                    "description": "Fix additional 'admin' store code in admin forgot password url which lead to 404 page",
+                    "filename": "essential/magento/module-user/fix-wrong-admin-password-forgot-url.patch",
+                    "version-constraint": ">=101.2.5"
                 }
             ]
         }

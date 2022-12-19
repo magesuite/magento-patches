@@ -1,0 +1,15 @@
+diff --git a/Model/Banner.php b/Model/Banner.php
+index e85abdd..d7012dc 100644
+--- a/Model/Banner.php
++++ b/Model/Banner.php
+@@ -231,7 +231,9 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
+         foreach ($bannerContents as $storeId => $content) {
+             $content = trim((string)$content);
+             if ($content) {
+-                if (!array_key_exists($storeId, $originalContents) || $content !== trim($originalContents[$storeId])) {
++                //BEGIN PATCH
++                if (!array_key_exists($storeId, $originalContents) || $originalContents[$storeId] === null || $content !== trim($originalContents[$storeId])) {
++                //END PATCH
+                     try {
+                         $this->wysiwygValidator->validate($content);
+                     } catch (ValidationException $exception) {

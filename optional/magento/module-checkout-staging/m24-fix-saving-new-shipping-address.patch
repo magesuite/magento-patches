@@ -1,0 +1,44 @@
+diff --git a/Plugin/PaymentInformationManagementPlugin.php b/Plugin/PaymentInformationManagementPlugin.php
+index 7f0de54..0746356 100644
+--- a/Plugin/PaymentInformationManagementPlugin.php
++++ b/Plugin/PaymentInformationManagementPlugin.php
+@@ -75,6 +75,9 @@ class PaymentInformationManagementPlugin
+         $quote = $this->quoteRepository->getActive($cartId);
+         $shippingAddress = $quote->getShippingAddress();
+ 
++        // BEGIN PATCH
++        $quoteShippingAddressData = $shippingAddress->getData();
++        // END PATCH
+         $quoteSameAsBilling = (int) $shippingAddress->getSameAsBilling();
+         $customer = $quote->getCustomer();
+         $customerId = $customer->getId();
+@@ -83,7 +86,11 @@ class PaymentInformationManagementPlugin
+ 
+         if ($quoteSameAsBilling === 1) {
+             $sameAsBillingFlag = 1;
+-        } elseif (!empty($shippingAddress) && !empty($billingAddress)) {
++        }
++        // BEGIN PATCH
++        // elseif (!empty($shippingAddress) && !empty($billingAddress)) {
++        elseif (!empty($quoteShippingAddressData) && !empty($billingAddress)) {
++        // END PATCH
+             $sameAsBillingFlag = $quote->getCustomerId() &&
+                 $this->checkIfShippingNullOrNotSameAsBillingAddress($shippingAddress, $billingAddress);
+         } else {
+@@ -95,6 +102,16 @@ class PaymentInformationManagementPlugin
+             if ($customerId && !$hasDefaultBilling && !$hasDefaultShipping) {
+                 $this->processCustomerShippingAddress($quote);
+             }
++            // BEGIN PATCH
++            elseif ($shippingAddress->getSaveInAddressBook() && $shippingAddress->getQuoteId()) {
++                $shippingAddressData = $shippingAddress->exportCustomerAddress();
++                $shippingAddressData->setCustomerId($quote->getCustomerId());
++                $this->addressRepository->save($shippingAddressData);
++                $quote->addCustomerAddress($shippingAddressData);
++                $shippingAddress->setCustomerAddressData($shippingAddressData);
++                $shippingAddress->setCustomerAddressId($shippingAddressData->getId());
++            }
++            // END PATCH
+         }
+     }
+ 

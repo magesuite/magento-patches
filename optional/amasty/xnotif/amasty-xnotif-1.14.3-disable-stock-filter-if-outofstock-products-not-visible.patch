@@ -1,0 +1,50 @@
+Amasty Xnotif plugin sets has_stock_status_filter on configurable product collection not taking config for disabling/enabling output of
+out of stock products within the store into consideration. This patch adds check, and prevents setting flag in case show_out_of_stock is disabled.
+
+For version 1.14.3 pf amasty/xnotif
+
+diff --git a/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php b/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php
+index 7857445..b1903df 100644
+--- a/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php
++++ b/Plugins/ConfigurableProduct/Model/Product/Type/Configurable.php
+@@ -14,15 +14,24 @@ use Magento\ConfigurableProduct\Model\ResourceModel\Product\Type\Configurable\Pr
+ class Configurable
+ {
+     public const STOCK_FLAG = 'has_stock_status_filter';
++    public const XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK = 'cataloginventory/options/show_out_of_stock';
+
+     /**
+      * @var StockStatusResource
+      */
+     private $stockStatusResource;
+
+-    public function __construct(StockStatusResource $stockStatusResource)
+-    {
++    /**
++     * @var \Magento\Framework\App\Config\ScopeConfigInterface
++     */
++    private $scopeConfig;
++
++    public function __construct(
++        StockStatusResource $stockStatusResource,
++        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
++    ) {
+         $this->stockStatusResource = $stockStatusResource;
++        $this->scopeConfig = $scopeConfig;
+     }
+
+     /**
+@@ -33,6 +42,13 @@ class Configurable
+      */
+     public function afterGetUsedProductCollection(NativeConfigurable $subject, $collection)
+     {
++        if (!$this->scopeConfig->getValue(
++            self::XML_PATH_CATALOGINVENTORY_SHOW_OUT_OF_STOCK,
++            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
++        )) {
++            return $collection;
++        }
++
+         if (!$collection->hasFlag(self::STOCK_FLAG)) {
+             $collection->setFlag(self::STOCK_FLAG, true);
+             $this->stockStatusResource->addStockDataToCollection($collection, false);

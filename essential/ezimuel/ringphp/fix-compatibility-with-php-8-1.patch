@@ -1,0 +1,17 @@
+diff --git a/src/Client/CurlMultiHandler.php b/src/Client/CurlMultiHandler.php
+index f84cf19..e0afa13 100644
+--- a/src/Client/CurlMultiHandler.php
++++ b/src/Client/CurlMultiHandler.php
+@@ -130,6 +130,12 @@ class CurlMultiHandler
+             }
+ 
+             do {
++                // BEGIN PATCH
++                if ($this->active === null) {
++                    $this->active = 0;
++                }
++                // END PATCH
++
+                 $mrc = curl_multi_exec($this->_mh, $this->active);
+             } while ($mrc === CURLM_CALL_MULTI_PERFORM);
+ 
