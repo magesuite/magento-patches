@@ -1,0 +1,13 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index b50fded..fe9a615 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -114,7 +114,7 @@ class Data
+ 
+             // Sort items by promo rule SKUs in the order, same as saved by admin.
+             $products->getSelect()
+-                ->order(new Expression("FIELD(sku," . $products->getConnection()->quote($allowedSku) . ")"));
++                ->order(new Expression("FIELD(product.sku," . $products->getConnection()->quote($allowedSku) . ")"));
+ 
+             /** @var \Magento\Catalog\Model\Product $product */
+             foreach ($products as $key => $product) {
