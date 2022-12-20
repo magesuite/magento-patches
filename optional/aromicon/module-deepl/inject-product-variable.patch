@@ -1,4 +1,4 @@
-diff --git a/src/module-deepl/Model/Translator/Catalog/Product.php b/src/module-deepl/Model/Translator/Catalog/Product.php
+diff --git a/Model/Translator/Catalog/Product.php b/Model/Translator/Catalog/Product.php
 index ef9893f..8471f06 100644
 --- a/src/module-deepl/Model/Translator/Catalog/Product.php
 +++ b/src/module-deepl/Model/Translator/Catalog/Product.php
