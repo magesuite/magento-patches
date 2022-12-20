@@ -121,7 +121,7 @@
                 "description": "[DOG-1187] Fixes issue with saving new shipping address when it is the same like billing address",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout-staging/m24-fix-saving-new-shipping-address.patch",
                 "version-constraint": "^100.4.2"
-            },
+            }
         ],
         "magento/framework": [
             {
@@ -591,6 +591,11 @@
                 "description": "Patch removes empty values from customers and customers addresses to avoid overriding data in Emarsys contacts database",
                 "filename": "vendor/creativestyle/magento-patches/optional/emartech/dont-send-null-customer-values.patch",
                 "version-constraint": "*"
+          },
+          {
+            "description": "Patch fet multistore support",
+            "filename": "vendor/creativestyle/magento-patches/optional/emartech/emarsys-magento2-extension/multiwebsite-support-patch-245.patch",
+            "version-constraint": "*"
           }
         ],
         "aheadworks/module-blog": [
