@@ -1,0 +1,13 @@
+diff --git a/Model/DiscountCalculator.php b/Model/DiscountCalculator.php
+index 148510c..0e5b9d5 100644
+--- a/Model/DiscountCalculator.php
++++ b/Model/DiscountCalculator.php
+@@ -53,7 +53,7 @@ class DiscountCalculator
+         $promoDiscount = trim($promoRule->getItemsDiscount() ?? 0);
+ 
+         /** Apply Discount On Prices Including Tax */
+-        if ($item->getTaxAmount() && $this->taxConfig->discountTax()) {
++        if (($item->getTaxAmount() || $item->getDiscountTaxCompensationAmount()) && $this->taxConfig->discountTax()) {
+             $itemPrice = $item->getBasePriceInclTax();
+         } else {
+             $itemPrice = $item->getBasePrice();
