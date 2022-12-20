@@ -399,6 +399,13 @@
                     "version-constraint": ">=2.3.7,<2.3.9"
                 }
             ],
+            "amasty/promo": [
+                {
+                    "description": "Fix sql error in cart (sku field is ambiguous)",
+                    "filename": "essential/amasty/promo/fix-mysql-error-in-cart.patch",
+                    "version-constraint": ">=2.12.1"
+                }
+            ],
             "amasty/module-special-promo-pro": [
                 {
                     "description": "Fix php notice errors (Trying to access array offset on value of type null)",
