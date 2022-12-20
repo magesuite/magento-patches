@@ -404,11 +404,6 @@
                     "description": "Fix sql error in cart (sku field is ambiguous)",
                     "filename": "essential/amasty/promo/fix-mysql-error-in-cart.patch",
                     "version-constraint": ">=2.12.1"
-                },
-                {
-                    "description": "Display discounted amount with tax for free gits",
-                    "filename": "essential/amasty/promo/fix-display-discounted-amount-with-tax-for-free-gifts.patch",
-                    "version-constraint": ">=2.12.1"
                 }
             ],
             "amasty/module-special-promo-pro": [
