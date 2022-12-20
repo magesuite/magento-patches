@@ -1,0 +1,16 @@
+diff --git a/src/module-deepl/Model/Translator/Catalog/Product.php b/src/module-deepl/Model/Translator/Catalog/Product.php
+index ef9893f..8471f06 100644
+--- a/src/module-deepl/Model/Translator/Catalog/Product.php
++++ b/src/module-deepl/Model/Translator/Catalog/Product.php
+@@ -54,7 +54,10 @@ class Product
+         $sourceLanguage = $this->config->getSourceLanguage($toStoreId);
+         $targetLanguage = $this->config->getLanguageCodeByStoreId($toStoreId, true);
+
+-        $pageFields = $this->config->getTranslatableProductFields();
++        //$pageFields = $this->config->getTranslatableProductFields();
++       // BEGIN PATCH
++        $pageFields = $this->config->getTranslatableProductFields($product);
++        // END PATCH
+
+         foreach ($pageFields as $field) {
+             if ($sourceProduct->getData($field) == '') {

@@ -399,6 +399,13 @@
                     "version-constraint": ">=2.3.7,<2.3.9"
                 }
             ],
+            "amasty/promo": [
+                {
+                    "description": "Fix sql error in cart (sku field is ambiguous)",
+                    "filename": "essential/amasty/promo/fix-mysql-error-in-cart.patch",
+                    "version-constraint": ">=2.12.1"
+                }
+            ],
             "amasty/module-special-promo-pro": [
                 {
                     "description": "Fix php notice errors (Trying to access array offset on value of type null)",
@@ -933,7 +940,7 @@
                 {
                     "description": "Fixes missing timeframe.css and view.css files issue for admin reports overview when css merging is enabled",
                     "filename": "essential/aheadworks/module-advanced-reports/aheadworks-reports-fix-css-import.patch",
-                    "version-constraint": "^2.0.0"
+                    "version-constraint": ">=2.0.0,<2.10.0"
                 }
             ],
             "aheadworks/module-advanced-reviews": [
@@ -1278,7 +1285,7 @@
                 {
                     "description": "Fix issue with empty customer atrribute page in admin panel",
                     "filename": "essential/magento/module-customer-custom-attributes/m24-fix-protected-file-extensions-in-customer-custom-attributes.patch",
-                    "version-constraint": ">=100.4.2"
+                    "version-constraint": ">=100.4.2,<100.4.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [

@@ -48,6 +48,13 @@
                 "version-constraint": "1.6.3"
             }
         ],
+        "aromicon/module-deepl": [
+            {
+                "description": "Inject product to helper",
+                "filename": "vendor/creativestyle/magento-patches/optional/aromicon/module-deepl/inject-product-variable.patch",
+                "version-constraint": "*"
+            }
+        ],
         "magento/module-ui": [
             {
                 "description": "Fix limited roles problem in admin panel",
@@ -317,6 +324,11 @@
                 "description": "Fix endless loop when quote is being saved on client login (HAAR-2003)",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/promo/amasty-fix-loop-on-quote-save.patch",
                 "version-constraint": "^2.8.0"
+            },
+            {
+              "description": "Display discounted amount with tax for free gits (MIC-645)",
+              "filename": "vendor/creativestyle/magento-patches/optional/amasty/promo/fix-display-discounted-amount-with-tax-for-free-gifts.patch",
+              "version-constraint": ">=2.12.1"
             }
         ],
         "amasty/module-banners-lite": [
