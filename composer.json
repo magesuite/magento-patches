@@ -1578,6 +1578,11 @@
                     "description": "Fix dotmailer problem with store errors to flag table",
                     "filename": "essential/dotmailer/dotmailer-magento2-extension/dotmailer-fix-error-reporting-to-flag.patch",
                     "version-constraint": ">=4.10.1"
+                },
+                {
+                    "description": "Fix dotmailer problem with Http class",
+                    "filename": "essential/dotmailer/dotmailer-magento2-extension/use-laminas-lib-instead-of-zend.patch",
+                    "version-constraint": ">=4.19.4"
                 }
             ],
             "dotmailer/dotmailer-magento2-extension-sms": [

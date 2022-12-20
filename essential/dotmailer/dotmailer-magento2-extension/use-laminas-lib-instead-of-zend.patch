@@ -1,0 +1,19 @@
+Github: https://github.com/dotmailer/dotmailer-magento2-extension/pull/598
+
+diff --git a/Model/Catalog/UrlFinder.php b/Model/Catalog/UrlFinder.php
+index f583ff7..bec947e 100644
+--- a/Model/Catalog/UrlFinder.php
++++ b/Model/Catalog/UrlFinder.php
+@@ -10,8 +10,10 @@ use Magento\Catalog\Block\Product\ImageBuilder;
+ use Magento\Catalog\Model\Product;
+ use Magento\Framework\App\Config\ScopeConfigInterface;
+ use Magento\Framework\Exception\NoSuchEntityException;
+-use Zend\Uri\Http;
+-
++// PATCH BEGIN
++//use Zend\Uri\Http;
++use \Laminas\Uri\Http;
++//PATCH END
+ class UrlFinder
+ {
+     /**
