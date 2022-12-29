@@ -1,0 +1,19 @@
+diff --git a/Model/FlushCacheByCacheTag.php b/Model/FlushCacheByCacheTag.php
+index e742f05..6286b7c 100644
+--- a/Model/FlushCacheByCacheTag.php
++++ b/Model/FlushCacheByCacheTag.php
+@@ -59,7 +59,13 @@ class FlushCacheByCacheTag
+             $cacheContext = $this->cacheContextFactory->create();
+             $cacheContext->registerEntities($cacheTag, $entityIds);
+             $this->eventManager->dispatch('clean_cache_by_tags', ['object' => $cacheContext]);
+-            $this->appCache->clean($cacheContext->getIdentities());
++            // PATCH BEGIN
++            // $this->appCache->clean($cacheContext->getIdentities());
++            $tags = $cacheContext->getIdentities();
++            if ($tags) {
++                $this->appCache->clean($tags);
++            }
++            // PATCH END
+         }
+     }
+ }

@@ -1255,6 +1255,13 @@
                     "version-constraint": ">=2.1.2"
                 }
             ],
+            "magento/module-inventory-cache": [
+                {
+                    "description": "Avoid cleaning all caches in scheduled mode",
+                    "filename": "essential/magento/module-inventory-cache/avoid-cleaning-all-caches-in-scheduled-mode.patch",
+                    "version-constraint": ">=1.2.3"
+                }
+            ],
             "magento/module-inventory-bundle-product-indexer": [
                 {
                     "description": "Wrap inventory bundle product indexer (MSI) with transaction",
