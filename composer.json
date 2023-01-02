@@ -1040,6 +1040,11 @@
                     "description": "Fix an error that shows up after saving and closing CMS page edit.",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-error-after-save-and-close-cms-page.patch",
                     "version-constraint": ">=1.0.8"
+                },
+                {
+                    "description": "Avoid loading category if category id is empty",
+                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/avoid-loading-category-if-category-id-is-empty.patch",
+                    "version-constraint": ">=1.0.12"
                 }
             ],
             "aheadworks/module-requisition-lists": [
