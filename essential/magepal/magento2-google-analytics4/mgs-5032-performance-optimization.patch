@@ -1,0 +1,101 @@
+diff --git a/Block/Data/Product.php b/Block/Data/Product.php
+index 72f8833..91eeb3b 100644
+--- a/Block/Data/Product.php
++++ b/Block/Data/Product.php
+@@ -13,6 +13,15 @@ use Magento\Framework\Exception\LocalizedException;
+ use Magento\Framework\Exception\NoSuchEntityException;
+ use MagePal\GoogleAnalytics4\Block\CatalogLayer;
+ use MagePal\GoogleTagManager\Model\DataLayerEvent;
++// BEGIN PATCH
++use Magento\Catalog\Helper\Data as CatalogHelper;
++use Magento\Catalog\Model\Layer\Resolver;
++use Magento\Framework\Registry;
++use Magento\Framework\View\Element\Template\Context;
++use MagePal\GoogleAnalytics4\Helper\Data;
++use MagePal\GoogleTagManager\DataLayer\ProductData\ProductImpressionProvider;
++use MagePal\GoogleTagManager\Helper\Data as GtmHelper;
++// END PATCH
+ 
+ class Product extends CatalogLayer
+ {
+@@ -22,6 +31,35 @@ class Product extends CatalogLayer
+     const TYPE_VIRTUAL = 'virtual';
+     const TYPE_CONFIGURABLE = 'configurable';
+ 
++    // BEGIN PATCH
++    protected \MageSuite\PerformanceProduct\Model\Container\ProductCategoryCollectionData $categoryCollectionContainer;
++
++    public function __construct(
++        Context $context,
++        Resolver $layerResolver,
++        Registry $registry,
++        CatalogHelper $catalogHelper,
++        GtmHelper $gtmHelper,
++        Data $eeHelper,
++        ProductImpressionProvider $productImpressionProvider,
++        \MageSuite\PerformanceProduct\Model\Container\ProductCategoryCollectionData $categoryCollectionContainer,
++        array $data = []
++    ) {
++        parent::__construct(
++            $context,
++            $layerResolver,
++            $registry,
++            $catalogHelper,
++            $gtmHelper,
++            $eeHelper,
++            $productImpressionProvider,
++            $data
++        );
++
++        $this->categoryCollectionContainer = $categoryCollectionContainer;
++    }
++    // END PATCH
++
+     /**
+      * Add category data to datalayer
+      *
+@@ -124,6 +162,14 @@ class Product extends CatalogLayer
+         if ($product) {
+             $associatedProducts = $product->getTypeInstance()->getAssociatedProducts($product);
+ 
++            // BEGIN PATCH
++            $productIds = array_map(function($product) {
++                return (int)$product->getId();
++            }, $associatedProducts);
++
++            $this->categoryCollectionContainer->initCollections($productIds);
++            // END PATCH
++
+             foreach ($associatedProducts as $associatedProduct) {
+                 $products[] = $this->getProductLayer($associatedProduct);
+             }
+@@ -145,6 +191,14 @@ class Product extends CatalogLayer
+                 $product
+             );
+ 
++            // BEGIN PATCH
++            $productIds = array_map(function($product) {
++                return (int)$product->getId();
++            }, $associatedProducts);
++
++            $this->categoryCollectionContainer->initCollections($productIds);
++            // END PATCH
++
+             foreach ($associatedProducts as $associatedProduct) {
+                 $products[] = $this->getProductLayer($associatedProduct);
+             }
+@@ -164,6 +218,14 @@ class Product extends CatalogLayer
+         if ($product) {
+             $configProducts = $product->getTypeInstance()->getUsedProducts($product);
+ 
++            // BEGIN PATCH
++            $productIds = array_map(function($product) {
++                return (int)$product->getId();
++            }, $configProducts);
++
++            $this->categoryCollectionContainer->initCollections($productIds);
++            // END PATCH
++
+             foreach ($configProducts as $configProduct) {
+                 $products[] = $this->getProductLayer($configProduct);
+             }

@@ -1876,6 +1876,20 @@
                     "version-constraint": ">=1.7.1,<1.7.3"
                 }
             ],
+            "magepal/magento2-google-analytics4": [
+                {
+                    "description": "Preload all required categories at once instead of loading them one-by-one.",
+                    "filename": "essential/magepal/magento2-google-analytics4/mgs-5032-performance-optimization.patch",
+                    "version-constraint": ">=1.7.0"
+                }
+            ],
+            "magepal/magento2-googletagmanager": [
+                {
+                    "description": "Preload all required categories at once instead of loading them one-by-one.",
+                    "filename": "essential/magepal/magento2-googletagmanager/mgs-5032-performance-optimization.patch",
+                    "version-constraint": ">=2.7.0"
+                }
+            ],
             "cleverzoeger/ext-magento2-cleverzoeger-paqato": [
                 {
                     "description": "Add store emulation for getting product image url",
