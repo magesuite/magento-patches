@@ -61,7 +61,7 @@ index 72f8833..91eeb3b 100644
 +            // BEGIN PATCH
 +            $productIds = array_map(function($product) {
 +                return (int)$product->getId();
-+            }, $associatedProducts);
++            }, $associatedProducts->getItems());
 +
 +            $this->categoryCollectionContainer->initCollections($productIds);
 +            // END PATCH
