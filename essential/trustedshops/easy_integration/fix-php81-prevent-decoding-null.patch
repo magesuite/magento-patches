@@ -1,0 +1,18 @@
+diff --git a/Block/ProductPageExtension.php b/Block/ProductPageExtension.php
+index e7b6310..0f7da57 100644
+--- a/Block/ProductPageExtension.php
++++ b/Block/ProductPageExtension.php
+@@ -15,8 +15,11 @@ class ProductPageExtension extends Widget
+     public function getWidgetConfigForCurrentLocation()
+     {
+         $storeId = $this->_storeManager->getStore()->getId();
+-        $config = json_decode($this->helper->getStoreConfig('widgets', $storeId),
+-            true);
++        //PATCH BEGIN
++        $configJson = $this->helper->getStoreConfig('widgets', $storeId) ?: [];
++        $config = json_decode($configJson,true);
++        //PATCH END
++
+         $widgetConfigForCurrentLocation = [];
+         if (isset($config['children'][0])) {
+             foreach ($config['children'][0]['children'] as $widgetConfig) {
