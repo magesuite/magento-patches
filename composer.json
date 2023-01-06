@@ -1589,7 +1589,12 @@
                 {
                     "description": "Fix dotmailer problem with store errors to flag table",
                     "filename": "essential/dotmailer/dotmailer-magento2-extension/dotmailer-fix-error-reporting-to-flag.patch",
-                    "version-constraint": ">=4.10.1"
+                    "version-constraint": ">=4.10.1,<4.14.0"
+                },
+                {
+                    "description": "Fix dotmailer problem with store errors to flag table updated verison",
+                    "filename": "essential/dotmailer/dotmailer-magento2-extension/dotmailer-fix-error-reporting-to-flag-4-14.patch",
+                    "version-constraint": ">=4.14.0"
                 }
             ],
             "dotdigital/dotdigital-magento2-extension": [
