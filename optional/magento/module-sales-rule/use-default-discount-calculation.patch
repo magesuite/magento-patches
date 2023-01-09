@@ -1,0 +1,35 @@
+diff --git a/Model/Rule/Action/Discount/CartFixed.php b/Model/Rule/Action/Discount/CartFixed.php
+index 2f9dbb9..2d8b9fa 100644
+--- a/Model/Rule/Action/Discount/CartFixed.php
++++ b/Model/Rule/Action/Discount/CartFixed.php
+@@ -118,6 +118,10 @@ class CartFixed extends AbstractDiscount
+                         $baseRuleTotals,
+                         $shippingPrice
+                     ) : $baseRuleTotals;
++            // BEGIN PATCH
++            // Use default discount calculation
++
++            /*
+             if ($isAppliedToShipping) {
+                 $baseDiscountAmount = $this->cartFixedDiscountHelper
+                     ->getDiscountAmount(
+@@ -138,6 +142,19 @@ class CartFixed extends AbstractDiscount
+                         $discountType
+                     );
+             }
++            */
++
++            $baseDiscountAmount = $this->cartFixedDiscountHelper
++                ->getDiscountAmount(
++                    $ruleDiscount,
++                    $qty,
++                    $baseItemPrice,
++                    $baseRuleTotals,
++                    $discountType
++                );
++
++            // END PATCH
++
+             $discountAmount = $this->priceCurrency->convert($baseDiscountAmount, $store);
+             $baseDiscountAmount = min($baseItemPrice * $qty, $baseDiscountAmount);
+             if ($ruleItemsCount <= 1) {

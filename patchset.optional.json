@@ -740,6 +740,11 @@
                 "description": "Fix shipping discount ration calculation",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/m245-fix-shipping-discount-ratio-calculation.patch",
                 "version-constraint": ">=101.2.5"
+            },
+            {
+                "description": "Use default discount calculation (IPET-1808)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/use-default-discount-calculation.patch",
+                "version-constraint": ">=101.2.5"
             }
         ],
         "magento/module-tax": [
