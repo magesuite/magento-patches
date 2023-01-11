@@ -9,7 +9,7 @@ index e7b6310..0f7da57 100644
 -        $config = json_decode($this->helper->getStoreConfig('widgets', $storeId),
 -            true);
 +        //PATCH BEGIN
-+        $configJson = $this->helper->getStoreConfig('widgets', $storeId) ?: [];
++        $configJson = $this->helper->getStoreConfig('widgets', $storeId) ?: '';
 +        $config = json_decode($configJson,true);
 +        //PATCH END
 +
