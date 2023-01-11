@@ -1,0 +1,15 @@
+diff --git a/Helper/AttributesImages.php b/Helper/AttributesImages.php
+index 950a325..1135bbf 100644
+--- a/Helper/AttributesImages.php
++++ b/Helper/AttributesImages.php
+@@ -49,7 +49,9 @@ class AttributesImages extends \Magento\Framework\App\Helper\AbstractHelper impl
+                 $path = 'catalog/product' . $image;
+                 $value = $model->baseImg . str_replace('//', '/', (string) $path);
+             }
+-        } elseif (!isset($options['index']) || $options['index'] == 0) {
++        //BEGIN PATCH
++        } elseif (!isset($options['index']) || $options['index'] == 0 || !is_numeric($options['index'])) {
++        //END PATCH
+             if ($item->getImage() != null && $item->getImage() != "" && $item->getImage() != 'no_selection') {
+                 $path = 'catalog/product/' . $item->getImage();
+                 $value = $model->baseImg . str_replace('//', '/', (string) $path);
