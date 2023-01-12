@@ -1750,6 +1750,13 @@
                     "version-constraint": ">=2.2.0"
                 }
             ],
+            "trustedshops/easy_integration": [
+                {
+                    "description": "Fix for PHP8.1 - prevent running json_decode on null when config is not set.",
+                    "filename": "essential/trustedshops/easy_integration/fix-php81-prevent-decoding-null.patch",
+                    "version-constraint": ">1.0.0"
+                }
+            ],
             "trustedshops/trustedshops": [
                 {
                     "description": "Fix API client zend class names",
