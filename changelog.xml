@@ -94,6 +94,11 @@
                     <overview>Fix tier prices-related JS issue (reference to not exsisting propery) in price-box</overview>
                     <ticket_id>HAAR-3268</ticket_id>
                 </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Remove validation for color in order to avoid loading tinycolor library</overview>
+                    <ticket_id>MGS-5026</ticket_id>
+                </entry>
             </tag>
         </changelog>
     </module>

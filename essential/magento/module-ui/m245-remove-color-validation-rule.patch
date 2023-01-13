@@ -1,0 +1,25 @@
+diff --git a/view/base/web/js/lib/validation/rules.js b/view/base/web/js/lib/validation/rules.js
+index c99f97b..3d3203c 100644
+--- a/view/base/web/js/lib/validation/rules.js
++++ b/view/base/web/js/lib/validation/rules.js
+@@ -11,10 +11,9 @@ define([
+     'underscore',
+     './utils',
+     'moment',
+-    'tinycolor',
+     'jquery/validate',
+     'mage/translate'
+-], function ($, _, utils, moment, tinycolor) {
++], function ($, _, utils, moment) {
+     'use strict';
+ 
+     debugger;
+@@ -1081,7 +1080,7 @@ define([
+                     return true;
+                 }
+ 
+-                return tinycolor(value).isValid();
++                return true;
+             },
+             $.mage.__('Wrong color format. Please specify color in HEX, RGBa, HSVa, HSLa or use color name.')
+         ],
