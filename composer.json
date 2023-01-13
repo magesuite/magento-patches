@@ -1754,7 +1754,7 @@
                 {
                     "description": "Fix for PHP8.1 - prevent running json_decode on null when config is not set.",
                     "filename": "essential/trustedshops/easy_integration/fix-php81-prevent-decoding-null.patch",
-                    "version-constraint": ">1.0.0"
+                    "version-constraint": ">=1.0.0,<1.1.0"
                 }
             ],
             "trustedshops/trustedshops": [
