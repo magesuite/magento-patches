@@ -1,5 +1,45 @@
+diff --git a/Model/Export.php b/Model/Export.php
+index d6e241f..8d29061 100644
+--- a/Model/Export.php
++++ b/Model/Export.php
+@@ -358,7 +358,7 @@ class Export
+         $limit = $selected = 100;
+ 
+         while($limit === $selected) {
+-            $result = $this->chunkProductExport($file, $limit, $offset, $usedAttributes);
++            $result = $this->chunkProductExport($file, $usedAttributes, $limit, $offset);
+             $selected = $result['count'];
+             $offset = $result['last'];
+         }
+@@ -374,7 +374,7 @@ class Export
+      *
+      * @return array
+      */
+-    public function chunkProductExport($file, $limit = 100, $offset = 0, $additionalAttributes)
++    public function chunkProductExport($file, $additionalAttributes, $limit = 100, $offset = 0)
+     {
+         if($this->_feedHelper->getIsDebugMode()){
+             $time_start = microtime(true);
+@@ -454,7 +454,7 @@ class Export
+ 
+         /** @var Product $item */
+         foreach ($collection as $item) {
+-            $line = $this->readLine($item, $storeCollection,$parentProductCollection, $additionalAttributes);
++            $line = $this->readLine($item, $storeCollection, $additionalAttributes, $parentProductCollection);
+             if($line) fputcsv($file, $this->fillLine($line), ',');
+         }
+ 
+@@ -545,7 +545,7 @@ class Export
+      *
+      * @return array
+      */
+-    public function readLine(Product $_product, $storeCollection,$parentProductCollection = null, $additionalAttributes)
++    public function readLine(Product $_product, $storeCollection, $additionalAttributes, $parentProductCollection = null)
+     {
+         if($defaultStore = $this->_storeManager->getDefaultStoreView()) {
+             $this->_storeManager->setCurrentStore($defaultStore->getStoreId());
 diff --git a/Model/Queue.php b/Model/Queue.php
-index 0786dec..3bb7a35 100644
+index 8cc4cf8..c8a215a 100644
 --- a/Model/Queue.php
 +++ b/Model/Queue.php
 @@ -35,7 +35,8 @@ class Queue
