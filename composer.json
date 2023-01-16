@@ -1972,6 +1972,13 @@
                     "filename": "essential/magento/module-user/fix-wrong-admin-password-forgot-url.patch",
                     "version-constraint": ">=101.2.5"
                 }
+            ],
+            "dynamic-yield/integration": [
+                {
+                    "description": "Patch to work with php 81",
+                    "filename": "essential/dynamic-yield/integration/m23-dynamic-yield-command-test-failing-fix.patch",
+                    "version-constraint": "0.8.0"
+                },
             ]
         }
     }
