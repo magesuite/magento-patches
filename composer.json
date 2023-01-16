@@ -1978,7 +1978,7 @@
                     "description": "Patch to work with php 81",
                     "filename": "essential/dynamic-yield/integration/m23-dynamic-yield-command-test-failing-fix.patch",
                     "version-constraint": "0.8.0"
-                },
+                }
             ]
         }
     }
