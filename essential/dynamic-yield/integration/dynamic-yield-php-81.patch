@@ -1,0 +1,14 @@
+diff --git a/Model/Queue.php b/Model/Queue.php
+index 0786dec..3bb7a35 100644
+--- a/Model/Queue.php
++++ b/Model/Queue.php
+@@ -35,7 +35,8 @@ class Queue
+      */
+     public function getCollection()
+     {
+-        return json_decode($this->_session->getData(self::COLLECTION_ID),true);
++        $collectionData = $this->_session->getData(self::COLLECTION_ID) ?: '';
++        return json_decode($collectionData,true);
+     }
+ 
+     /**
