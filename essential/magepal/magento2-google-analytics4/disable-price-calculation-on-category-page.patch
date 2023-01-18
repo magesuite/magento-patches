@@ -1,0 +1,17 @@
+Disables getFinalPrice to save resources
+
+diff --git a/Block/CatalogLayer.php b/Block/CatalogLayer.php
+index 4087683..a15cae7 100644
+--- a/Block/CatalogLayer.php
++++ b/Block/CatalogLayer.php
+@@ -299,7 +299,9 @@ class CatalogLayer extends DataLayer
+                 $viewItem = [
+                     'item_name' => $product->getName(),
+                     'item_id' => $product->getSku(),
+-                    'price' => $this->formatPrice($product->getFinalPrice()),
++                    // PATCH BEGIN
++                    // 'price' => $this->formatPrice($product->getFinalPrice()),
++                    // PATCH END
+                     'item_list_name' => $this->getItemListName(),
+                     'item_list_id' => $this->getItemListId(),
+                     'index' => $position++,
