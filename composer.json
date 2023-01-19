@@ -411,6 +411,13 @@
                     "version-constraint": ">=2.12.1"
                 }
             ],
+            "amasty/pgrid": [
+                {
+                    "description": "Prevent inserting empty values",
+                    "filename": "essential/amasty/pgrid/prevent-inserting-empty-values.patch",
+                    "version-constraint": ">=1.10.17"
+                }
+            ],
             "amasty/module-special-promo-pro": [
                 {
                     "description": "Fix php notice errors (Trying to access array offset on value of type null)",
