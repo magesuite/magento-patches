@@ -1,0 +1,15 @@
+diff --git a/Model/QuoteManagement.php b/Model/QuoteManagement.php
+index 51b6841..64dcc03 100644
+--- a/Model/QuoteManagement.php
++++ b/Model/QuoteManagement.php
+@@ -424,7 +424,9 @@ class QuoteManagement implements CartManagementInterface
+                 }
+             }
+             $quote->setCustomerIsGuest(true);
+-            $groupId = $customer ? $customer->getGroupId() : GroupInterface::NOT_LOGGED_IN_ID;
++            // BEGIN PATCH
++            $groupId = $customer->getGroupId() ?: GroupInterface::NOT_LOGGED_IN_ID;
++            // END PATCH
+             $quote->setCustomerGroupId($groupId);
+         }
+ 

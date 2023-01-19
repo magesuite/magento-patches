@@ -1096,6 +1096,11 @@
                     "description": "Fix invalid address in the checkout",
                     "filename": "essential/magento/module-quote/m24-fix-invalid-address-in-the-checkout.patch",
                     "version-constraint": ">=101.2.3"
+                },
+                {
+                    "description": "Fix for customer group id in order when guest",
+                    "filename": "essential/magento/module-quote/m245-fix_for_customer_group_id_in_order_data_when_guest.patch",
+                    "version-constraint": ">=101.2.5"
                 }
             ],
             "magento/module-quick-order": [
