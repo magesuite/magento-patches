@@ -946,6 +946,11 @@
                     "description": "Fixes missing timeframe.css and view.css files issue for admin reports overview when css merging is enabled",
                     "filename": "essential/aheadworks/module-advanced-reports/aheadworks-reports-fix-css-import.patch",
                     "version-constraint": ">=2.0.0,<2.10.0"
+                },
+                {
+                    "description": "Remove foreign keys for indices",
+                    "filename": "essential/aheadworks/module-advanced-reports/remove-foreign-keys-for-indices.patch",
+                    "version-constraint": ">=2.11.4"
                 }
             ],
             "aheadworks/module-advanced-reviews": [
