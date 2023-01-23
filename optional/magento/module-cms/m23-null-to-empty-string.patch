@@ -7,7 +7,7 @@ index 3eca0bb..0394583 100644
      protected function _toHtml()
      {
 -        $html = $this->_filterProvider->getPageFilter()->filter($this->getPage()->getContent());
-+        if ($content = $this->getPage()->getContent() === null) {
++        if (($content = $this->getPage()->getContent()) === null) {
 +            $content = '';
 +        }
 +

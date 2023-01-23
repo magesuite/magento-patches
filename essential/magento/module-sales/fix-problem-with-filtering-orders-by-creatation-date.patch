@@ -1,0 +1,16 @@
+diff --git a/Plugin/Model/ResourceModel/Order/OrderGridCollectionFilter.php b/Plugin/Model/ResourceModel/Order/OrderGridCollectionFilter.php
+index 995bb83..4383548 100644
+--- a/Plugin/Model/ResourceModel/Order/OrderGridCollectionFilter.php
++++ b/Plugin/Model/ResourceModel/Order/OrderGridCollectionFilter.php
+@@ -52,7 +52,10 @@ class OrderGridCollectionFilter
+                 }
+             }
+
+-            $fieldName = $subject->getConnection()->quoteIdentifier($field);
++            // PATCH BEGIN
++            //$fieldName = $subject->getConnection()->quoteIdentifier($field);
++            $fieldName = 'main_table.'. $subject->getConnection()->quoteIdentifier($field);
++            // PATCH END
+             $condition = $subject->getConnection()->prepareSqlCondition($fieldName, $condition);
+             $subject->getSelect()->where($condition, null, Select::TYPE_CONDITION);
+ 

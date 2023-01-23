@@ -1,0 +1,16 @@
+diff --git a/Model/Indexer/QtySold.php b/Model/Indexer/QtySold.php
+index 4fb122f..cf3a01b 100644
+--- a/Model/Indexer/QtySold.php
++++ b/Model/Indexer/QtySold.php
+@@ -88,6 +88,11 @@ class QtySold implements IndexerActionInterface
+                 array_values($indexedProductData)
+             );
+ 
++            // BEGIN PATCH
++            if (empty($indexedProductData)) {
++                return $this;
++            }
++            // END PATCH
+             $this->defaultConnection->insertOnDuplicate($productGridIndexTable, $indexedProductData);
+         }
+

@@ -222,6 +222,11 @@
                     "description": "Load dependency for resizable knockout binding only on init",
                     "filename": "essential/magento/module-ui/load-resizable-widget-only-on-init.patch",
                     "version-constraint": ">=101.2.2,<101.2.4"
+                },
+                {
+                    "description": "Remove validation for color in order to avoid loading tinycolor library",
+                    "filename": "essential/magento/module-ui/m245-remove-color-validation-rule.patch",
+                    "version-constraint": ">=101.2.5"
                 }
             ],
             "magento/module-persistent": [
@@ -350,6 +355,11 @@
                     "description": "Fix displaying tax in admin invoice",
                     "filename": "essential/magento/module-sales/m243-fix-displaying-tax-in-admin-invoice.patch",
                     "version-constraint": ">=103.0.3,<103.0.4"
+                },
+                {
+                    "description": "Fix problem with filtering orders by creation date",
+                    "filename": "essential/magento/module-sales/fix-problem-with-filtering-orders-by-creatation-date.patch",
+                    "version-constraint": ">=103.0.5"
                 }
             ],
             "magento/module-store": [
@@ -404,6 +414,13 @@
                     "description": "Fix sql error in cart (sku field is ambiguous)",
                     "filename": "essential/amasty/promo/fix-mysql-error-in-cart.patch",
                     "version-constraint": ">=2.12.1"
+                }
+            ],
+            "amasty/pgrid": [
+                {
+                    "description": "Prevent inserting empty values",
+                    "filename": "essential/amasty/pgrid/prevent-inserting-empty-values.patch",
+                    "version-constraint": ">=1.10.17"
                 }
             ],
             "amasty/module-special-promo-pro": [
@@ -941,6 +958,11 @@
                     "description": "Fixes missing timeframe.css and view.css files issue for admin reports overview when css merging is enabled",
                     "filename": "essential/aheadworks/module-advanced-reports/aheadworks-reports-fix-css-import.patch",
                     "version-constraint": ">=2.0.0,<2.10.0"
+                },
+                {
+                    "description": "Remove foreign keys for indices",
+                    "filename": "essential/aheadworks/module-advanced-reports/remove-foreign-keys-for-indices.patch",
+                    "version-constraint": ">=2.11.4"
                 }
             ],
             "aheadworks/module-advanced-reviews": [
@@ -1086,6 +1108,11 @@
                     "description": "Fix invalid address in the checkout",
                     "filename": "essential/magento/module-quote/m24-fix-invalid-address-in-the-checkout.patch",
                     "version-constraint": ">=101.2.3"
+                },
+                {
+                    "description": "Fix for customer group id in order when guest",
+                    "filename": "essential/magento/module-quote/m245-fix_for_customer_group_id_in_order_data_when_guest.patch",
+                    "version-constraint": ">=101.2.5"
                 }
             ],
             "magento/module-quick-order": [
@@ -1755,6 +1782,13 @@
                     "version-constraint": ">=2.2.0"
                 }
             ],
+            "trustedshops/easy_integration": [
+                {
+                    "description": "Fix for PHP8.1 - prevent running json_decode on null when config is not set.",
+                    "filename": "essential/trustedshops/easy_integration/fix-php81-prevent-decoding-null.patch",
+                    "version-constraint": ">=1.0.0,<1.1.0"
+                }
+            ],
             "trustedshops/trustedshops": [
                 {
                     "description": "Fix API client zend class names",
@@ -1810,6 +1844,11 @@
                 {
                     "description": "It is not Wyomind bug, but because of our module 'MageSuiteNavigation' there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns 'product_category' and 'category_2' were empty. This patch is fixing private method 'extractCategories' and enabling possibility to export category data for mobile navigation.",
                     "filename": "essential/wyomind/datafeedmanager/enable-category-data-in-wyomid-datafeed-export-for-disabled-in-desktop-navigation-products-and-enabled-in-mobile-navigation-products_new2.patch",
+                    "version-constraint": ">=11.23.0"
+                },
+                {
+                    "description": "After update to PHP 81, string to int value 0 comparison no longer return true. To fix it the if statement has been extend",
+                    "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-php-81.patch",
                     "version-constraint": ">=11.23.0"
                 }
             ],
@@ -1886,6 +1925,11 @@
                     "description": "Preload all required categories at once instead of loading them one-by-one.",
                     "filename": "essential/magepal/magento2-google-analytics4/mgs-5032-performance-optimization.patch",
                     "version-constraint": ">=1.7.0"
+                },
+                {
+                    "description": "Disable price calculation on the category page",
+                    "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page.patch",
+                    "version-constraint": ">=1.7.0"
                 }
             ],
             "magepal/magento2-googletagmanager": [
@@ -1959,6 +2003,20 @@
                     "description": "Fix additional 'admin' store code in admin forgot password url which lead to 404 page",
                     "filename": "essential/magento/module-user/fix-wrong-admin-password-forgot-url.patch",
                     "version-constraint": ">=101.2.5"
+                }
+            ],
+            "dynamic-yield/integration": [
+                {
+                    "description": "Patch to work with php 81",
+                    "filename": "essential/dynamic-yield/integration/dynamic-yield-php-81.patch",
+                    "version-constraint": "0.8.0"
+                }
+            ],
+            "ekomiltd/ekomiintegration": [
+                {
+                    "description": "Cast product description to string (php81 compatibility)",
+                    "filename": "essential/ekomiltd/ekomiintegration/cast-product-description-to-string.patch",
+                    "version-constraint": ">=2.5.11"
                 }
             ]
         }

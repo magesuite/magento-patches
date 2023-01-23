@@ -1,0 +1,321 @@
+After reindex tables are switched without foreign keys
+
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 213e806..c6f0b8c 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -23,9 +23,11 @@
+             <column name="period"/>
+             <column name="store_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_ABANDONED_CARTS_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_ABANDONED_CARTS_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_abandoned_carts" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE" />
++                    referenceColumn="store_id" onDelete="CASCADE" />-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_ABANDONED_CARTS_PERIOD_STORE_ID" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -67,9 +69,11 @@
+             <column name="order_status"/>
+             <column name="category_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_CATEGORY_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!-- <constraint xsi:type="foreign" referenceId="AW_AREP_CATEGORY_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_category" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/> -->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_CATEGORY_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -104,9 +108,11 @@
+             <column name="store_id"/>
+             <column name="order_status"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_CONVERSION_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_CONVERSION_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_conversion" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/> -->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_CONVERSION_PERIOD_STORE_ID" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -143,9 +149,11 @@
+             <column name="product_id"/>
+             <column name="order_status"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_CONVERSION_PRODUCT_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_CONVERSION_PRODUCT_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_conversion_product" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_CONVERSION_PRODUCT_PERIOD_STORE_ID" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -193,9 +201,11 @@
+             <column name="order_status"/>
+             <column name="coupon_code"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_COUPON_CODE_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_COUPON_CODE_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_coupon_code" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_COUPON_CODE_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -246,9 +256,11 @@
+             <column name="store_id"/>
+             <column name="order_status"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_CUSTOMER_SALES_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_CUSTOMER_SALES_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_customer_sales" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_CUSTOMER_SALES_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -270,9 +282,11 @@
+         <constraint xsi:type="primary" referenceId="PRIMARY">
+             <column name="range_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_CUSTOMER_SALES_RANGE_WEBSITE_ID_STORE_WEBSITE_WEBSITE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_CUSTOMER_SALES_RANGE_WEBSITE_ID_STORE_WEBSITE_WEBSITE_ID"
+                     table="aw_arep_customer_sales_range" column="website_id" referenceTable="store_website"
+-                    referenceColumn="website_id" onDelete="CASCADE"/>
++                    referenceColumn="website_id" onDelete="CASCADE"/>-->
++        <!-- BEGIN PATCH -->
+         <index referenceId="AW_AREP_CUSTOMER_SALES_RANGE_WEBSITE_ID" indexType="btree">
+             <column name="website_id"/>
+         </index>
+@@ -328,9 +342,11 @@
+             <column name="store_id"/>
+             <column name="order_status"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_LOCATION_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_LOCATION_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_location" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_LOCATION_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -368,9 +384,11 @@
+         <constraint xsi:type="primary" referenceId="PRIMARY">
+             <column name="id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_LOG_PRODUCT_VIEW_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_LOG_PRODUCT_VIEW_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_log_product_view" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_LOG_PRODUCT_VIEW_VISITOR_ID" indexType="btree">
+             <column name="visitor_id"/>
+         </index>
+@@ -415,9 +433,11 @@
+             <column name="order_status"/>
+             <column name="manufacturer"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_MANUFACTURER_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_MANUFACTURER_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_manufacturer" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_MANUFACTURER_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -512,9 +532,11 @@
+             <column name="order_status"/>
+             <column name="order_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_ORDERS_DETAILED_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_ORDERS_DETAILED_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_orders_detailed" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_CATEGORY_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -559,9 +581,11 @@
+             <column name="order_status"/>
+             <column name="method"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_PAYMENT_TYPE_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!-- <constraint xsi:type="foreign" referenceId="AW_AREP_PAYMENT_TYPE_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_payment_type" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_PAYMENT_TYPE_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -603,9 +627,11 @@
+             <column name="order_status"/>
+             <column name="product_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_ATTRIBUTES_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_ATTRIBUTES_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_product_attributes" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_PRODUCT_ATTRIBUTES_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -655,9 +681,11 @@
+             <column name="product_id"/>
+             <column name="payment_method"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_product_performance" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_PRODUCT_PERFORMANCE_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -711,9 +739,11 @@
+             <column name="product_id"/>
+             <column name="category_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_CATEGORY_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_CATEGORY_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_product_performance_category" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_PRD_PERFORMANCE_CTGR_PERIOD_STORE_ID_ORDER_STS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -766,9 +796,11 @@
+             <column name="product_id"/>
+             <column name="coupon_code"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_COUPON_CODE_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_COUPON_CODE_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_product_performance_coupon_code" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_PRD_PERFORMANCE_COUPON_CODE_PERIOD_STORE_ID_ORDER_STS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -823,9 +855,11 @@
+             <column name="manufacturer"/>
+             <column name="parent_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_MANUFACTURER_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_PERFORMANCE_MANUFACTURER_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_product_performance_manufacturer" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_PRD_PERFORMANCE_MANUFACTURER_PERIOD_STORE_ID_ORDER_STS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -878,9 +912,11 @@
+             <column name="parent_id"/>
+             <column name="parent_product_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_VARIANT_PERFORMANCE_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_PRODUCT_VARIANT_PERFORMANCE_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_product_variant_performance" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_PRODUCT_VARIANT_PERFORMANCE_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -950,9 +986,11 @@
+             <column name="store_id"/>
+             <column name="order_status"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_SALES_BY_HOUR_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_SALES_BY_HOUR_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_sales_by_hour" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_SALES_BY_HOUR_DATE_HOUR_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="date"/>
+             <column name="hour"/>
+@@ -1044,9 +1082,11 @@
+             <column name="order_id"/>
+             <column name="product_id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_SALES_DETAILED_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_SALES_DETAILED_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_sales_detailed" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_SALES_DETAILED_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -1092,9 +1132,11 @@
+             <column name="order_status"/>
+             <column name="payment_method"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_SALES_OVERVIEW_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_SALES_OVERVIEW_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_sales_overview" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_SALES_OVERVIEW_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -1144,9 +1186,11 @@
+             <column name="order_status"/>
+             <column name="coupon_code"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="AW_AREP_SALES_OVERVIEW_COUPON_CODE_STORE_ID_STORE_STORE_ID"
++        <!-- BEGIN PATCH -->
++        <!--<constraint xsi:type="foreign" referenceId="AW_AREP_SALES_OVERVIEW_COUPON_CODE_STORE_ID_STORE_STORE_ID"
+                     table="aw_arep_sales_overview_coupon_code" column="store_id" referenceTable="store"
+-                    referenceColumn="store_id" onDelete="CASCADE"/>
++                    referenceColumn="store_id" onDelete="CASCADE"/>-->
++        <!-- END PATCH -->
+         <index referenceId="AW_AREP_SALES_OVERVIEW_COUPON_CODE_PERIOD_STORE_ID_ORDER_STATUS" indexType="btree">
+             <column name="period"/>
+             <column name="store_id"/>
+@@ -1190,4 +1234,4 @@
+             <column name="end_date"/>
+         </constraint>
+     </table>
+-</schema>
+\ No newline at end of file
++</schema>
