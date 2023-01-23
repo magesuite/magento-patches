@@ -2006,6 +2006,13 @@
                     "filename": "essential/dynamic-yield/integration/dynamic-yield-php-81.patch",
                     "version-constraint": "0.8.0"
                 }
+            ],
+            "ekomiltd/ekomiintegration": [
+                {
+                    "description": "Cast product description to string (php81 compatibility)",
+                    "filename": "essential/ekomiltd/ekomiintegration/cast-product-description-to-string.patch",
+                    "version-constraint": ">=2.5.11"
+                }
             ]
         }
     }
