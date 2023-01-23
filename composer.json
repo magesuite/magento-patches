@@ -593,7 +593,7 @@
                 {
                     "description": "Adjust filter range for 2.8.18 tag",
                     "filename": "essential/smile/elasticsuite/m23-smile-adjust-filter-range-2-8-16.patch",
-                    "version-constraint": "2.8.16,>=2.9.10 || <2.10.0"
+                    "version-constraint": "2.8.16,>=2.9.10 || <2.11.0"
                 },
                 {
                     "description": "Fix to not reindex whole category if manual sort of products has not change",
