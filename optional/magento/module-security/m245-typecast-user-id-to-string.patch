@@ -1,0 +1,15 @@
+diff --git a/Observer/AdminUserAuthenticateBefore.php b/Observer/AdminUserAuthenticateBefore.php
+index 2d0f7bc..1327304 100644
+--- a/Observer/AdminUserAuthenticateBefore.php
++++ b/Observer/AdminUserAuthenticateBefore.php
+@@ -56,7 +56,9 @@ class AdminUserAuthenticateBefore implements ObserverInterface
+         /** @var \Magento\User\Model\User $user */
+         $user->loadByUsername($username);
+ 
+-        if ($user->getId() && $this->userExpirationManager->isUserExpired($user->getId())) {
++        // BEGIN PATCH
++        if ($user->getId() && $this->userExpirationManager->isUserExpired((string)$user->getId())) {
++        // END PATCH
+             $this->userExpirationManager->deactivateExpiredUsersById([$user->getId()]);
+             throw new AuthenticationException(
+                 __(
