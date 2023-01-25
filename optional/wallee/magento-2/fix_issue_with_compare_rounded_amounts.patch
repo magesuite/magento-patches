@@ -1,0 +1,31 @@
+Fix for issue with disappearing payment methods caused by amount rounding method changed in version 1.3.5.
+Error from wallee API: "The number 0.000000000000028421709430404 needs to have at most 11 integer digits and at most 8 decimal digits."
+Issue appeared in ticket: IPET-1832
+Related commit: https://github.com/wallee-payment/magento-2/commit/935e92c0d9c08bac834a233b829d2dd30359db74
+
+diff --git a/Helper/LineItem.php b/Helper/LineItem.php
+index 58eaaca..12a9b4b 100644
+--- a/Helper/LineItem.php
++++ b/Helper/LineItem.php
+@@ -21,6 +21,9 @@ use Wallee\Sdk\Model\TaxCreate;
+  */
+ class LineItem extends AbstractHelper
+ {
++    // BEGIN PATCH
++    const EPSILON = 0.0000001;
++    // END PATCH
+ 
+     /**
+      *
+@@ -96,7 +99,10 @@ class LineItem extends AbstractHelper
+         $expectedAmount = $this->helper->roundAmount($expectedAmount, $currencyCode);
+         $effectiveAmount = $this->helper->roundAmount($this->getTotalAmountIncludingTax($items), $currencyCode);
+         $difference = $expectedAmount - $effectiveAmount;
+-        if ($difference != 0) {
++        // BEGIN PATCH
++        //if ($difference != 0) {
++        if ($difference > self::EPSILON) {
++        // END PATCH
+             if ($ensureConsistency) {
+                 throw new \Exception(
+                     'The line item total amount of ' . $effectiveAmount . ' does not match the expected amount of ' .
