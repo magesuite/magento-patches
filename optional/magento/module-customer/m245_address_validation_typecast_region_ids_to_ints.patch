@@ -1,0 +1,17 @@
+diff --git a/Model/Address/Validator/Country.php b/Model/Address/Validator/Country.php
+index e0eb1cb..9f85ae9 100644
+--- a/Model/Address/Validator/Country.php
++++ b/Model/Address/Validator/Country.php
+@@ -101,8 +101,10 @@ class Country implements ValidatorInterface
+         $countryModel = $address->getCountryModel();
+         $regionCollection = $countryModel->getRegionCollection();
+         $region = $address->getRegion();
+-        $regionId = (string)$address->getRegionId();
+-        $allowedRegions = $regionCollection->getAllIds();
++        // BEGIN PATCH
++        $regionId = (int)$address->getRegionId();
++        $allowedRegions = array_map('intval', $regionCollection->getAllIds());
++        // END PATCH
+         $isRegionRequired = $this->directoryData->isRegionRequired($countryId);
+         if ($isRegionRequired && empty($allowedRegions) && !\Zend_Validate::is($region, 'NotEmpty')) {
+             //If region is required for country and country doesn't provide regions list
