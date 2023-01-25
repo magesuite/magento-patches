@@ -1,0 +1,16 @@
+diff --git a/Model/Carrier/Tablerate.php b/Model/Carrier/Tablerate.php
+index dddaa69..b2b0bf3 100644
+--- a/Model/Carrier/Tablerate.php
++++ b/Model/Carrier/Tablerate.php
+@@ -187,7 +187,10 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
+             }
+             $method = $this->createShippingMethod($shippingPrice, $rate['cost']);
+             $result->append($method);
+-        } elseif ($request->getPackageQty() == $freeQty) {
++        // PATCH BEGIN
++        // } elseif ($request->getPackageQty() == $freeQty) {
++        } elseif ($request->getPackageQty() == $freeQty || $item->getAddress()->getFreeShipping()) {
++        // PATCH END
+ 
+             /**
+              * Promotion rule was applied for the whole cart.

@@ -427,6 +427,11 @@
                 "description": "Address based free shipping",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-offline-shipping/m22-address-based-free-shipping.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Show free shipping when rule is added to whole cart",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-offline-shipping/show-free-shipping-when-rule-is-added-to-whole-cart.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-paypal": [
