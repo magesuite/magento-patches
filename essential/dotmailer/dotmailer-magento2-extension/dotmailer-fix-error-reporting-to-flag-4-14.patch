@@ -1,0 +1,24 @@
+diff --git a/Plugin/TransportPlugin.php b/Plugin/TransportPlugin.php
+index 45c65a6..cd06acc 100755
+--- a/Plugin/TransportPlugin.php
++++ b/Plugin/TransportPlugin.php
+@@ -95,7 +95,8 @@ class TransportPlugin
+                 );
+                 return $proceed();
+             }
+-
++            // BEGIN PATCH
++            /*
+             $now = new \DateTime('now', new \DateTimezone('UTC'));
+             $errorData = [
+                 'date' => $now->format("Y-m-d H:i:s"),
+@@ -109,7 +110,8 @@ class TransportPlugin
+                 Monitor::SMTP_ERROR_FLAG_CODE,
+                 $flagData
+             );
+-
++            */
++            // END PATCH
+             $this->dataHelper->log("TransportPlugin send exception: " . $e->getMessage());
+             return $proceed();
+         }

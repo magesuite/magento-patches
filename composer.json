@@ -593,7 +593,7 @@
                 {
                     "description": "Adjust filter range for 2.8.18 tag",
                     "filename": "essential/smile/elasticsuite/m23-smile-adjust-filter-range-2-8-16.patch",
-                    "version-constraint": "2.8.16,>=2.9.10 || <2.10.0"
+                    "version-constraint": "2.8.16,>=2.9.10 || <2.11.0"
                 },
                 {
                     "description": "Fix to not reindex whole category if manual sort of products has not change",
@@ -1616,7 +1616,12 @@
                 {
                     "description": "Fix dotmailer problem with store errors to flag table",
                     "filename": "essential/dotmailer/dotmailer-magento2-extension/dotmailer-fix-error-reporting-to-flag.patch",
-                    "version-constraint": ">=4.10.1"
+                    "version-constraint": ">=4.10.1,<4.14.0"
+                },
+                {
+                    "description": "Fix dotmailer problem with store errors to flag table updated verison",
+                    "filename": "essential/dotmailer/dotmailer-magento2-extension/dotmailer-fix-error-reporting-to-flag-4-14.patch",
+                    "version-constraint": ">=4.14.0"
                 }
             ],
             "dotdigital/dotdigital-magento2-extension": [
