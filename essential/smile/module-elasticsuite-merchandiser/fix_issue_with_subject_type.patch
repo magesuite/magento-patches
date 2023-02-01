@@ -1,0 +1,15 @@
+diff --git a/Plugin/AddPerformanceSortOrder.php b/Plugin/AddPerformanceSortOrder.php
+index 60ebb4a..902df27 100644
+--- a/Plugin/AddPerformanceSortOrder.php
++++ b/Plugin/AddPerformanceSortOrder.php
+@@ -75,7 +75,9 @@ class AddPerformanceSortOrder
+      * @param array    $options Options.
+      * @return array
+      */
+-    public function afterToOptionArray(ListSort $subject, array $options)
++    // BEGIN PATCH
++    public function afterToOptionArray(\Magento\Framework\Data\OptionSourceInterface $subject, array $options)
++    // END PATCH
+     {
+         $options[] = [
+             'label' => __('Performance'),
