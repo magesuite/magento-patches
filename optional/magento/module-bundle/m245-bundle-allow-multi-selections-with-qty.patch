@@ -1,0 +1,32 @@
+Allow to add multi selections with qty higher than 1
+https://creativestyle.atlassian.net/browse/MGP-318
+https://creativestyle.atlassian.net/browse/MGP-1116
+
+diff --git a/Model/Product/Type.php b/Model/Product/Type.php
+index 3890be0..b90581f 100644
+--- a/Model/Product/Type.php
++++ b/Model/Product/Type.php
+@@ -1238,13 +1238,17 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
+      */
+     protected function getQty($selection, $qtys, $selectionOptionId)
+     {
+-        if ($selection->getSelectionCanChangeQty() && isset($qtys[$selectionOptionId])) {
+-            if (is_array($qtys[$selectionOptionId]) && isset($qtys[$selectionOptionId][$selection->getSelectionId()])) {
+-                $selectionQty = $qtys[$selectionOptionId][$selection->getSelectionId()];
+-                $qty = (float)$selectionQty > 0 ? $selectionQty : 1;
++        // BEGIN PATCH
++        //if ($selection->getSelectionCanChangeQty() && isset($qtys[$selectionOptionId])) {
++        if (isset($qtys[$selectionOptionId])) {
++            $selectionId = $selection->getSelectionId();
++            if (is_array($qtys[$selectionOptionId]) && isset($qtys[$selectionOptionId][$selectionId])) {
++                $selectionQty = $qtys[$selectionOptionId][$selectionId];
++                $qty = (float)$selectionQty > 0 ? $qtys[$selectionOptionId][$selectionId] : 1;
+             } else {
+                 $qty = (float)$qtys[$selectionOptionId] > 0 ? $qtys[$selectionOptionId] : 1;
+             }
++        // END PATCH
+         } else {
+             $qty = (float)$selection->getSelectionQty() ? $selection->getSelectionQty() : 1;
+         }
+--
+2.30.1 (Apple Git-130)
