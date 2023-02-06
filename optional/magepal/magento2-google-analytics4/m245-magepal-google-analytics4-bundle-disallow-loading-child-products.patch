@@ -1,0 +1,33 @@
+Disallow loading bundle child products
+https://creativestyle.atlassian.net/browse/MGP-1116
+
+---
+ Block/Data/Product.php | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Block/Data/Product.php b/Block/Data/Product.php
+index 883fc40..56938b8 100644
+--- a/Block/Data/Product.php
++++ b/Block/Data/Product.php
+@@ -185,7 +185,8 @@ class Product extends CatalogLayer
+     {
+         $products = [];
+
+-        if ($product = $this->getProduct()) {
++        // BEGIN PATCH
++        /*if ($product = $this->getProduct()) {
+             $associatedProducts = $product->getTypeInstance()->getSelectionsCollection(
+                 $product->getTypeInstance()->getOptionsIds($product),
+                 $product
+@@ -202,7 +203,8 @@ class Product extends CatalogLayer
+             foreach ($associatedProducts as $associatedProduct) {
+                 $products[] = $this->getProductLayer($associatedProduct);
+             }
+-        }
++        }*/
++        // END PATCH
+
+         return $products;
+     }
+--
+2.30.1 (Apple Git-130)

@@ -179,7 +179,12 @@
             {
                 "description": "Allow to add multi selections with qty higher than 1",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m24-bundle-allow-multi-selections-with-qty.patch",
-                "version-constraint": ">=101.0.2"
+                "version-constraint": ">=101.0.2, <103.0.0"
+            },
+            {
+                "description": "Allow to add multi selections with qty higher than 1",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m245-bundle-allow-multi-selections-with-qty.patch",
+                "version-constraint": ">=103.0.0"
             },
             {
                 "description": "Allow to translate attribute option label in line 29 of Magento_Bundle::frontend/order/items/renderer.phtml template ",
@@ -728,6 +733,11 @@
                 "description": "TinyMCE4 Allow to use elements inside html tag",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/magento2-base/m24-tinymce4-allow-to-use-elements-inside-html-tag.patch",
                 "version-constraint": ">=2.4.3"
+            },
+            {
+              "description": "TinyMCE5 Allow to use elements inside html tag",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/magento2-base/m245-tinymce5-allow-to-use-elements-inside-html-tag.patch",
+              "version-constraint": ">=2.4.5"
             }
         ],
         "magento/module-sales-rule": [
@@ -906,7 +916,12 @@
             {
                 "description": "Disallow loading bundle child products",
                 "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-google-analytics4/magepal-google-analytics4-bundle-disallow-loading-child-products.patch",
-                "version-constraint": ">=1.7.1"
+                "version-constraint": ">=1.7.1,<1.7.4"
+            },
+            {
+                "description": "Disallow loading bundle child products",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-google-analytics4/m245-magepal-google-analytics4-bundle-disallow-loading-child-products.patch",
+                "version-constraint": ">=1.7.4"
             }
         ],
         "magento/module-gift-card-account": [
