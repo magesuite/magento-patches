@@ -1,0 +1,24 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index d68d2d6..54dee90 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -196,8 +196,8 @@ class Data extends AbstractHelper
+                 'capture_peer_cert' => true
+             ]
+         ];
+-        $adapter = new Socket();
+-        $client = new Client();
++        $adapter = new \Zend_Http_Client_Adapter_Socket();
++        $client = new \Zend_Http_Client();
+         $client->setAdapter($adapter);
+
+         $adapter->setStreamContext($options);
+@@ -216,7 +216,7 @@ class Data extends AbstractHelper
+         $client->setUri('https://license.clever-zoeger.de/verify.php');
+
+         $client->setMethod(Request::METHOD_POST);
+-        $response = $client->send();
++        $response = $client->request();
+
+         $messageBody = $this->json->unserialize($response->getBody());
+         if ($messageBody == 1) {
