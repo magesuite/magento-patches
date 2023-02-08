@@ -1,0 +1,16 @@
+diff --git a/Observer/Configurable/DisableChild.php b/Observer/Configurable/DisableChild.php
+index 739c7cb..0f2f88e 100755
+--- a/Observer/Configurable/DisableChild.php
++++ b/Observer/Configurable/DisableChild.php
+@@ -59,6 +59,11 @@ class DisableChild implements ObserverInterface
+     {
+         $product = $observer->getProduct();
+         $childProductId = $product->getId();
++        //BEGIN PATCH
++        if (!$childProductId) {
++            return;
++        }
++        //END PATCH
+         $parentProductId = $this->configure->getParentIdsByChild($childProductId);
+         if (isset($parentProductId)) {
+             foreach ($parentProductId as $id) {
