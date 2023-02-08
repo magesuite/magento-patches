@@ -1,0 +1,17 @@
+diff --git a/Plugin/PostDataProcessor.php b/Plugin/PostDataProcessor.php
+index ef7463d..1f0b979 100755
+--- a/Plugin/PostDataProcessor.php
++++ b/Plugin/PostDataProcessor.php
+@@ -137,8 +137,10 @@ class PostDataProcessor
+     {
+         $isPageToRedirect = false;
+         foreach ($allStoreIds as $storeId) {
+-            if ($this->bssHelper->getPageIdToRedirectCms($storeId) == $data['page_id'] ||
+-                $this->bssHelper->getPageIdToRedirect($storeId) == $data['page_id']
++            //PATCH BEGIN
++            if (isset($data['page_id']) && ($this->bssHelper->getPageIdToRedirectCms($storeId) == $data['page_id'] ||
++                $this->bssHelper->getPageIdToRedirect($storeId) == $data['page_id'])
++            //PATCH END
+             ) {
+                 $isPageToRedirect = true;
+                 $storeName = $allStores[$storeId];

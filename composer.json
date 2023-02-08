@@ -2018,6 +2018,25 @@
                     "filename": "essential/dynamic-yield/integration/dynamic-yield-php-81.patch",
                     "version-constraint": "0.8.0"
                 }
+            ],
+            "bsscommerce/hideprice": [
+                {
+                    "description": "Added check for empty child id",
+                    "filename": "essential/bsscommerce/hideprice/add-check-for-empty-child-id-in-observer.patch",
+                    "version-constraint": ">=1.2.6"
+                }
+            ],
+            "bsscommerce/catalog-permission": [
+                {
+                    "description": "Added check for non-existing categories that caused errors in integration tests",
+                    "filename": "essential/bsscommerce/catalog-permission/added-check-for-category-exist-to-fix-integeration-tests.patch",
+                    "version-constraint": ">=1.1.9"
+                },
+                {
+                    "description": "Added check for page_id array key that caused errors in integration tests",
+                    "filename": "essential/bsscommerce/catalog-permission/added-check-for-page_id-to-fix-integeration-tests.patch",
+                    "version-constraint": ">=1.1.9"
+                }
             ]
         }
     }

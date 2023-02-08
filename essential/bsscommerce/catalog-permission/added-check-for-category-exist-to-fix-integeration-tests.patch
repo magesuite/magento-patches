@@ -1,0 +1,17 @@
+diff --git a/Observer/Category/InvalidCache.php b/Observer/Category/InvalidCache.php
+index bde9be6..26510a8 100755
+--- a/Observer/Category/InvalidCache.php
++++ b/Observer/Category/InvalidCache.php
+@@ -65,7 +65,11 @@ class InvalidCache implements ObserverInterface
+         $requestCategory = $observer->getCategory();
+         $requestClearCache = false;
+         if ($requestCategory && $requestCategory->getId()) {
+-            $savedCategory = $this->categoryRepository->get($requestCategory->getId());
++            try {
++                $savedCategory = $this->categoryRepository->get($requestCategory->getId());
++            } catch (\Magento\Framework\Exception\NoSuchEntityException $exception) {
++                return $this;
++            }
+             $savedCustomerGroup = $this->convertCustomerGroup($savedCategory->getData('bss_customer_group'));
+             $requestCustomerGroup = $this->convertCustomerGroup($requestCategory->getData('bss_customer_group'));
+             if ($savedCustomerGroup != $requestCustomerGroup) {
