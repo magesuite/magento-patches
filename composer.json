@@ -560,6 +560,11 @@
                     "description": "Security patch MDVA-43395 and MDVA-43443 for Magento 2.3.3-p1-2.4.2",
                     "filename": "essential/magento/module-email/m233-m242-security-MDVA-43395-MDVA-43443.patch",
                     "version-constraint": ">101.0.3,<101.1.3"
+                },
+                {
+                    "description": "Replace deprecated jQuery load function with .on('load')",
+                    "filename": "essential/magento/module-email/m245-fix-deprecated-jquery-function.patch",
+                    "version-constraint": ">101.1.0,<101.2.0"
                 }
             ],
             "magento/module-config": [

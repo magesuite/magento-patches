@@ -1,0 +1,20 @@
+Fixes deprecated jQuery function
+
+Bug confirmed present in 2.4.5 (2.4.5-p1).
+
+Original issue: https://github.com/magento/magento2/issues/35697
+PR: https://github.com/magento/magento2/pull/35816
+
+diff --git a/view/adminhtml/templates/preview/iframeswitcher.phtml b/view/adminhtml/templates/preview/iframeswitcher.phtml
+index fd66acb..ce097c9 100644
+--- a/view/adminhtml/templates/preview/iframeswitcher.phtml
++++ b/view/adminhtml/templates/preview/iframeswitcher.phtml
+@@ -34,7 +34,7 @@ require([
+         $('#preview_form').trigger('submit');
+     });
+ 
+-    $('#preview_iframe').load(function() {
++    $('#preview_iframe').on('load', function() {
+         $(this).height($(this).contents().height());
+     });
+ });
