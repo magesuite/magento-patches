@@ -1,0 +1,15 @@
+diff --git a/Model/Rule/Related/Validator.php b/Model/Rule/Related/Validator.php
+index 2038eb2..db7e93a 100644
+--- a/Model/Rule/Related/Validator.php
++++ b/Model/Rule/Related/Validator.php
+@@ -129,7 +129,9 @@ class Validator
+
+             $this->productCollection->addAttributeToSelect('*');
+             $this->productCollection->addUrlRewrite();
+-
++            // BEGIN PATCH
++            $this->productCollection->groupByAttribute(\Magento\Catalog\Api\Data\ProductAttributeInterface::CODE_SKU);
++            // END PATCH
+             $this->productCollection
+                 ->setPageSize($rule->getLimit())
+                 ->setCurPage(1)

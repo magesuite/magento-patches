@@ -984,6 +984,13 @@
                     "version-constraint": "^1.5.0"
                 }
             ],
+            "aheadworks/module-automatic-related-products": [
+                {
+                    "description": "Fix for duplicated products in collection query that are crashing loading process.",
+                    "filename": "essential/aheadworks/module-automatic-related-products/add_group_by_sku_at_product_collection.patch",
+                    "version-constraint": "^2.2.0"
+                }
+            ],
             "aheadworks/module-blog": [
                 {
                     "description": "Fix for cleaning cache for all products after update and reindex blog posts",
