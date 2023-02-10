@@ -1,0 +1,17 @@
+diff --git a/Model/Indexer/Category/Product/AbstractAction.php b/Model/Indexer/Category/Product/AbstractAction.php
+index 49d8336..b69ce2c 100644
+--- a/Model/Indexer/Category/Product/AbstractAction.php
++++ b/Model/Indexer/Category/Product/AbstractAction.php
+@@ -730,9 +730,11 @@ abstract class AbstractAction
+             foreach ($categories as $category) {
+                 $categoriesTree = explode('/', $category['path']);
+                 foreach ($categoriesTree as $parentId) {
+-                    if (!in_array($this->getCurrentStore()->getRootCategoryId(), $categoriesTree, true)) {
++                    /* BEGIN PATCH: Forced casting to string to match strict comparison requirements */
++                    if (!in_array((string)$this->getCurrentStore()->getRootCategoryId(), $categoriesTree, true)) {
+                         break;
+                     }
++                    /* END PATCH */
+ 
+                     if ($parentId !== $category['entity_id']) {
+                         $values[] = [$parentId, $category['entity_id']];

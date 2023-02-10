@@ -717,6 +717,11 @@
                 "description": "Fix for rothacker optimise catalog category product indexer",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/m24-fix-optimise-catalog-category-product-indexer-query.patch",
                 "version-constraint": ">=104.0.1"
+            },
+            {
+                "description": "Fix for casting category-root-id which breaks indexer otherwise. See TT-1329",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/fixed-casting-for-category-root-id.patch",
+                "version-constraint": ">=104.0.5"
             }
         ],
         "magento/module-catalog-url-rewrite": [
