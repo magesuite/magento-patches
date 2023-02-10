@@ -1,0 +1,43 @@
+Original issue: https://github.com/magento/magento2/issues/36151
+PR: https://github.com/magento/magento2/commit/f05da7543d49ccf4af553a91cc905988ec7d8408
+
+diff --git a/Model/ResourceModel/CustomerRepository.php b/Model/ResourceModel/CustomerRepository.php
+index d789558..2eefc08 100644
+--- a/Model/ResourceModel/CustomerRepository.php
++++ b/Model/ResourceModel/CustomerRepository.php
+@@ -204,7 +204,10 @@ class CustomerRepository implements CustomerRepositoryInterface
+         $prevCustomerData = $prevCustomerDataArr = null;
+         if ($customer->getId()) {
+             $prevCustomerData = $this->getById($customer->getId());
+-            $prevCustomerDataArr = $prevCustomerData->__toArray();
++            // BEGIN PATCH
++            // $prevCustomerDataArr = $prevCustomerData->__toArray();
++            $prevCustomerDataArr = $this->prepareCustomerData($prevCustomerData->__toArray());
++            // END PATCH
+         }
+         /** @var $customer \Magento\Customer\Model\Data\Customer */
+         $customerArr = $customer->__toArray();
+@@ -528,4 +531,23 @@ class CustomerRepository implements CustomerRepositoryInterface
+             $customerModel->setGroupId($prevCustomerDataArr['group_id']);
+         }
+     }
++
++    // BEGIN PATCH
++    /**
++     * Prepare customer data.
++     *
++     * @param array $customerData
++     * @return array
++     */
++    private function prepareCustomerData(array $customerData): array
++    {
++        if (isset($customerData[CustomerInterface::CUSTOM_ATTRIBUTES])) {
++            foreach ($customerData[CustomerInterface::CUSTOM_ATTRIBUTES] as $attribute) {
++                $customerData[$attribute['attribute_code']] = $attribute['value'];
++            }
++            unset($customerData[CustomerInterface::CUSTOM_ATTRIBUTES]);
++        }
++        return $customerData;
++    }
++    //END PATCH
+ }
