@@ -1,0 +1,15 @@
+diff --git a/Service/ApiService.php b/Service/ApiService.php
+index 8ae9698..3d008b2 100644
+--- a/Service/ApiService.php
++++ b/Service/ApiService.php
+@@ -415,7 +415,9 @@ class ApiService extends AbstractService
+                         $shipment = new RequestBodyShipment();
+                         $shipment->setOrderNumber($order->getIncrementId());
+                         $shipment->setTrackingCode($track->getTrackNumber());
+-                        $shipment->setCarrier($this->getCarrierCode($track->getCarrierCode(), $track->getTitle()));
++                        // BEGIN PATCH
++                        $shipment->setCarrier($this->getCarrierCode($track->getCarrierCode(), (string)$track->getTitle()));
++                        // END PATCH
+                         $shipment->setShippingDate($this->formatDate($magentoShipment->getCreatedAt()));
+                         if ($track->getTitle() && str_contains($track->getTitle(), 'Retour')) {
+                             $shipment->setType('return');
