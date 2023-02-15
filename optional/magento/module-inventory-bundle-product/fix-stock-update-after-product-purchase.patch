@@ -1,0 +1,47 @@
+diff --git a/Plugin/InventoryApi/UpdateParentStockStatusInLegacyStockPlugin.php b/Plugin/InventoryApi/UpdateParentStockStatusInLegacyStockPlugin.php
+index 252d64d..1f59d93 100755
+--- a/Plugin/InventoryApi/UpdateParentStockStatusInLegacyStockPlugin.php
++++ b/Plugin/InventoryApi/UpdateParentStockStatusInLegacyStockPlugin.php
+@@ -28,16 +28,20 @@ class UpdateParentStockStatusInLegacyStockPlugin
+      */
+     private $getProductIdsBySkus;
+ 
++    private \Magento\InventoryCatalogApi\Api\DefaultSourceProviderInterface $defaultSourceProvider;
++
+     /**
+      * @param GetProductIdsBySkusInterface $getProductIdsBySkus
+      * @param ChangeParentStockStatus $changeParentStockStatus
+      */
+     public function __construct(
+         GetProductIdsBySkusInterface $getProductIdsBySkus,
+-        ChangeParentStockStatus $changeParentStockStatus
++        ChangeParentStockStatus $changeParentStockStatus,
++        \Magento\InventoryCatalogApi\Api\DefaultSourceProviderInterface $defaultSourceProvider
+     ) {
+         $this->getProductIdsBySkus = $getProductIdsBySkus;
+         $this->changeParentStockStatus = $changeParentStockStatus;
++        $this->defaultSourceProvider = $defaultSourceProvider;
+     }
+ 
+     /**
+@@ -54,10 +58,19 @@ class UpdateParentStockStatusInLegacyStockPlugin
+     {
+         $productIds = [];
+         $sourceItems = array_column($sourceItemDecrementData, 'source_item');
++
++        /** @var SourceItemInterface $sourceItem */
+         foreach ($sourceItems as $sourceItem) {
+             $sku = $sourceItem->getSku();
+-            $productIds[] = (int)$this->getProductIdsBySkus->execute([$sku])[$sku];
++            //PATCH BEGIN
++            if ($sourceItem->getSourceCode() === $this->defaultSourceProvider->getCode()
++                && $productId = ($this->getProductIdsBySkus->execute([$sku])[$sku] ?? null)
++            ) {
++                $productIds[] = (int) $productId;
++            }
++            //PATCH END
+         }
++
+         if ($productIds) {
+             $this->changeParentStockStatus->execute($productIds);
+         }
