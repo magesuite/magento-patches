@@ -1,0 +1,26 @@
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index 162c9d4..1712b51 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -1158,10 +1158,17 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+                 unset($this->categoriesFilterList[$i]);
+             }
+         }
+-        if (!count($this->categoriesFilterList)) {
+-            $this->categoriesFilterList = [0 => '*'];
+-        }
+-        $this->categoriesFilterList = array_values($this->categoriesFilterList);
++
++        // BEGIN PATCH
++        // Set "all categories" in categoriesFilterList, so all categories will be used not only selected in feed configuration
++        
++        // if (!count($this->categoriesFilterList)) {
++        //     $this->categoriesFilterList = [0 => '*'];
++        // }
++        //$this->categoriesFilterList = array_values($this->categoriesFilterList);
++
++        $this->categoriesFilterList = [0 => '*'];
++        // END PATCH
+     }
+     /**
+      * Analyse product template, then check what attributes are required
