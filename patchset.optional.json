@@ -1059,11 +1059,11 @@
             },
             {
               "description": "Patch for Wyomind Data Feed Manager to fix performance issues when nested loops are used by MariaDB",
-              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/mariadb-disable-block-nested-loop-during-feed-generation.patch (IPET-1867)",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/mariadb-disable-block-nested-loop-during-feed-generation.patch",
               "version-constraint": ">=11.23.7"
             },
             {
-                "description": "Set all categories in categoriesFilterList, so all categories will be used not only selected in feed configuration",
+                "description": "Set all categories in categoriesFilterList, so all categories will be used not only selected in feed configuration (IPET-1867)",
                 "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/disable-category-filter-in-feeds.patch",
                 "version-constraint": "*"
             }
