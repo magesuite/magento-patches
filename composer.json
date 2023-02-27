@@ -1873,6 +1873,13 @@
                     "version-constraint": ">=11.23.0"
                 }
             ],
+            "wyomind/framework": [
+                {
+                    "description": "Fix string divided by int php 8 error",
+                    "filename": "essential/wyomind/framework/fix-php-8-error-with-string-divided-by-int.patch",
+                    "version-constraint": ">=7.2.4"
+                }
+            ],
             "xtento/pdfcustomizer": [
                 {
                     "description": "Fix for large pdf file size when xtento pdfcustomizer runs on message queue consumer",
