@@ -1,0 +1,13 @@
+diff --git a/Plugin/SwitchSameSite.php b/Plugin/SwitchSameSite.php
+index f03bcbb..25daadf 100644
+--- a/Plugin/SwitchSameSite.php
++++ b/Plugin/SwitchSameSite.php
+@@ -82,7 +82,7 @@ class SwitchSameSite
+     private function isAffectedKeys($name)
+     {
+         if (!count($this->affectedKeys)) {
+-            $affectedKeys = $this->scopeConfig->getValue(self::CONFIG_AFFECTED_KEYS, ScopeInterface::SCOPE_STORE);
++            $affectedKeys = (string)$this->scopeConfig->getValue(self::CONFIG_AFFECTED_KEYS, ScopeInterface::SCOPE_STORE);
+             $this->affectedKeys = explode(',', strtolower($affectedKeys));
+         }
+
