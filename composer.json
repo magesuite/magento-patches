@@ -160,8 +160,12 @@
                     "description": "Security hotfix for CVE-2022-35698",
                     "filename": "essential/magento/framework/ACSD-47578_2.4.3-p2_2.4.3-p3.patch",
                     "version-constraint": "103.0.3-p2 || 103.0.3-p3"
+                },
+                {
+                    "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
+                    "filename": "essential/magento/framework/port-of-default-charset-fixes-for-mysql-8-0-29-from-magento-246.patch",
+                    "version-constraint": "*"
                 }
-
             ],
             "magento/module-asynchronous-operations": [
                 {

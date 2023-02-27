@@ -1,5 +1,5 @@
 diff --git a/src/Rewards/Helper/Balance/Spend.php b/src/Rewards/Helper/Balance/Spend.php
-index 262edda..ac7e8e1 100644
+index d713e22..f8e66a3 100644
 --- a/src/Rewards/Helper/Balance/Spend.php
 +++ b/src/Rewards/Helper/Balance/Spend.php
 @@ -256,6 +256,13 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
@@ -17,7 +17,7 @@ index 262edda..ac7e8e1 100644
              $subtotal = $quote->getBaseSubtotalWithDiscount();
              if ($this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {
 @@ -306,12 +313,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
-
+ 
              if ($rule->getActions()->validate($item)) {
                  if ($priceIncludesTax) {
 -                    $itemPrice = $item->getBasePrice();
@@ -41,13 +41,13 @@ index 262edda..ac7e8e1 100644
                      $itemPrice = $item->getBasePrice() * $item->getQty() - $item->getBaseDiscountAmount();
                  }
 diff --git a/src/Rewards/Service/Discount/ItemDiscountService.php b/src/Rewards/Service/Discount/ItemDiscountService.php
-index 8168184..d7e91bf 100644
+index 430d0d1..47a34e9 100644
 --- a/src/Rewards/Service/Discount/ItemDiscountService.php
 +++ b/src/Rewards/Service/Discount/ItemDiscountService.php
 @@ -71,6 +71,8 @@ class ItemDiscountService
-
+ 
      private $taxData;
-
+ 
 +    protected $ruleCollectionFactory;
 +
      public function __construct(
@@ -68,24 +68,37 @@ index 8168184..d7e91bf 100644
 +
 +        $this->ruleCollectionFactory = $ruleCollectionFactory ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory::class);
      }
-
+ 
      /**
-@@ -142,7 +147,10 @@ class ItemDiscountService
+@@ -122,7 +127,10 @@ class ItemDiscountService
+ 
+             $this->process();
+         }
+-        $this->config->setDisableRewardsCalculation(false);
++        // BEGIN PATCH
++        // Disabled flag because it stops discount calculation for additional fees
++        // $this->config->setDisableRewardsCalculation(false);
++        // END PATCH
+ 
+         \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
+     }
+@@ -143,7 +151,11 @@ class ItemDiscountService
          $purchase = $this->rewardsPurchase->getByQuote($quote);
-
+ 
          if ($purchase && $purchase->getSpendAmount() > 0) {
 -            $descriptions[] = $this->rewardsData->getPointsName();
 +            // BEGIN PATCH
 +            // Add amount of spend points to the description
++            // $descriptions[] = $this->rewardsData->getPointsName();
 +            $descriptions[] = $this->rewardsData->formatPoints($purchase->getSpendPoints());
 +            // END PATCH
          }
-
+ 
          $address->setDiscountDescriptionArray($descriptions);
-@@ -270,6 +278,12 @@ class ItemDiscountService
+@@ -271,6 +283,12 @@ class ItemDiscountService
          $purchase        = $this->rewardsPurchase->getByQuote($this->item->getQuote());
          $baseSpendAmount = $purchase->getSpendAmount();
-
+ 
 +        // BEGIN PATCH
 +        // In some cases, module returns value with applied reward point discount and in some cases without (when additional discount is added and grandTotal == 0)
 +        $quote = $this->item->getQuote();
@@ -95,7 +108,7 @@ index 8168184..d7e91bf 100644
          if (!$baseTotal) {
              $baseTotal = $total;
          }
-@@ -296,6 +310,30 @@ class ItemDiscountService
+@@ -297,6 +315,30 @@ class ItemDiscountService
          ];
      }
  
