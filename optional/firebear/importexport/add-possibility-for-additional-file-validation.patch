@@ -1,0 +1,48 @@
+This patch introduces an event to allow implementing additional file validation before import.
+Unfortunately we can't use after plugin because the logic is in the controller method "execute"
+and this method returns \Magento\Framework\Controller\Result\Json which doesn't have any access property, it can be only rendered as response.
+Issue appeared in ticket: IPET-1889
+
+diff --git a/Controller/Adminhtml/Job/Loadmap.php b/Controller/Adminhtml/Job/Loadmap.php
+index ff715e9..691d0bd 100644
+--- a/Controller/Adminhtml/Job/Loadmap.php
++++ b/Controller/Adminhtml/Job/Loadmap.php
+@@ -47,6 +47,8 @@ class Loadmap extends JobController
+      */
+     private $importSource;
+
++    protected \Magento\Framework\Event\ManagerInterface $eventManagerInterface;
++
+     /**
+      * Loadmap constructor.
+      *
+@@ -59,13 +61,15 @@ class Loadmap extends JobController
+         Context $context,
+         Platforms $platforms,
+         Processor $processor,
+-        Options $options
++        Options $options,
++        \Magento\Framework\Event\ManagerInterface $eventManagerInterface
+     ) {
+         parent::__construct($context);
+
+         $this->platforms = $platforms;
+         $this->processor = $processor;
+         $this->options = $options;
++        $this->eventManagerInterface = $eventManagerInterface;
+     }
+
+     /**
+@@ -154,6 +158,12 @@ class Loadmap extends JobController
+                 }
+             }
+         }
++        // BEGIN PATCH
++        // This patch introduces an event to allow implementing additional file validation before import.
++        $resultDataObject = new \Magento\Framework\DataObject(['result_data' => $resultData]);
++        $this->eventManagerInterface->dispatch('firebear_import_additional_validation', ['result_data_object' => $resultDataObject]);
++        $resultData = $resultDataObject->getResultData();
++        // END PATCH
+         return $resultJson->setData($resultData);
+     }
+ 
