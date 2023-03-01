@@ -1932,6 +1932,13 @@
                     "version-constraint": ">1.2.1"
                 }
             ],
+            "mirasvit/module-affiliate": [
+                {
+                    "description": "Add translations of hardcoded literals.",
+                    "filename": "essential/mirasvit/module-affiliate/add_translations_of_hardcoded_literals.patch",
+                    "version-constraint": ">=1.4.0"
+                }
+            ],
             "mirasvit/module-rewards": [
                 {
                     "description": "Fix error in controller while unsubscribing from notifications",

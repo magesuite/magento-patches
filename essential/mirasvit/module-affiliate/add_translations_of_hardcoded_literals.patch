@@ -1,0 +1,55 @@
+diff --git a/src/Affiliate/Program/SaleProgram.php b/src/Affiliate/Program/SaleProgram.php
+index cda6430..760ec1e 100644
+--- a/src/Affiliate/Program/SaleProgram.php
++++ b/src/Affiliate/Program/SaleProgram.php
+@@ -138,10 +138,10 @@ class SaleProgram extends AbstractProgram
+         if ($this->isNeedAddCommission()) {
+             $orderBaseGrandTotal = $this->pricingHelper->currency($this->order->getBaseGrandTotal(), true, false);
+
+-            return "Commission for order #{$this->order->getIncrementId()} ($orderBaseGrandTotal)";
++            return (string)__("Commission for order #{%1} (%2)", $this->order->getIncrementId(), $orderBaseGrandTotal);
+         }
+         if ($this->isNeedRefundCommission()) {
+-            return "Refund for order #{$this->order->getIncrementId()}";
++            return (string)__("Refund for order #{%1}", $this->order->getIncrementId());
+         }
+
+         return '';
+diff --git a/src/Affiliate/Service/ChartService.php b/src/Affiliate/Service/ChartService.php
+index 7f7ceca..742740a 100644
+--- a/src/Affiliate/Service/ChartService.php
++++ b/src/Affiliate/Service/ChartService.php
+@@ -79,14 +79,14 @@ class ChartService
+         ]]);
+
+         $chart->addDatasetData(
+-            'Balance',
++            (string)__('Balance'),
+             Chart::TYPE_LINE,
+             '#2da562',
+             $this->getBalanceDatasetData($chart)
+         );
+
+         $chart->addDatasetData(
+-            'Earned',
++            (string)__('Earned'),
+             Chart::TYPE_BAR,
+             '#FF6A51',
+             $this->getEarnedDatasetData($chart)
+diff --git a/src/Affiliate/view/frontend/templates/account/statistics.phtml b/src/Affiliate/view/frontend/templates/account/statistics.phtml
+index 82c16dd..d22cc5a 100644
+--- a/src/Affiliate/view/frontend/templates/account/statistics.phtml
++++ b/src/Affiliate/view/frontend/templates/account/statistics.phtml
+@@ -72,10 +72,10 @@ $chartConfig     = $block->getChartConfig() ?? [];
+                         <?= $block->formatDate($event->getCreatedAt(), \IntlDateFormatter::MEDIUM, true) ?>
+                     </td>
+                     <td data-th="<?= __('Type') ?>">
+-                        <?= $block->escapeHtml(ucfirst($event->getType())) ?>
++                        <?= $block->escapeHtml(__(ucfirst($event->getType()))) ?>
+                     </td>
+                     <td data-th="<?= __('Referrer') ?>">
+-                        <?= $block->escapeHtml($event->getReferer()) ?>
++                        <?= $block->escapeHtml(__($event->getReferer())) ?>
+                     </td>
+                     <td data-th="<?= __('Commission') ?>">
+                         <?= $pricingHelper->currency($event->getCommission()) ?>
