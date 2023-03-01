@@ -1,0 +1,35 @@
+diff --git a/src/module-elasticsuite-thesaurus/Model/Index.php b/src/module-elasticsuite-thesaurus/Model/Index.php
+index 042192c..65d3a59 100644
+--- a/src/module-elasticsuite-thesaurus/Model/Index.php
++++ b/src/module-elasticsuite-thesaurus/Model/Index.php
+@@ -241,8 +241,29 @@ class Index
+             $synonyms = $synonyms + $this->combineSynonyms(str_replace('_', ' ', $query), $synonymByPositions, $maxRewrites);
+         }
+ 
+-        return $synonyms;
++        // BEGIN PATCH
++        // Elasticsearch client returns each possible variation of query, including lower and upper cases.
++        // To avoid generating too many records, we can exclude these synonyms which differ only in characters size
++
++        // return $synonyms;
++        return $this->unifySynonymsByLetterSize($synonyms);
++    }
++
++    protected function unifySynonymsByLetterSize($synonyms)
++    {
++        if (empty($synonyms)) {
++            return $synonyms;
++        }
++
++        $unifiedSynonyms = [];
++
++        foreach ($synonyms as $query => $weight) {
++            $unifiedSynonyms[strtolower($query)] = $weight;
++        }
++
++        return $unifiedSynonyms;
+     }
++    // END PATCH
+ 
+     /**
+      * Explode the query text and fetch combination of words inside it.
