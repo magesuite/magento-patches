@@ -1284,6 +1284,11 @@
                 "description": "Export Review - Add store_id (IPET-1487)",
                 "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/export-review-add-store-id.patch",
                 "version-constraint": ">=3.6.0"
+            },
+            {
+                "description": "Add possibility for additional file validation (IPET-1889)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/add-possibility-for-additional-file-validation.patch",
+                "version-constraint": "*"
             }
         ],
         "mollie/magento2": [
