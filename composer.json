@@ -2063,6 +2063,13 @@
                     "filename": "essential/bsscommerce/catalog-permission/added-check-for-page_id-to-fix-integeration-tests.patch",
                     "version-constraint": ">=1.1.9"
                 }
+            ],
+            "sharplogicians/giftwrap": [
+                {
+                    "description": "Use new Magento indexer for created product type",
+                    "filename": "essential/sharplogicians/giftwrap/use-new-indexer-for-created-product-type.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
