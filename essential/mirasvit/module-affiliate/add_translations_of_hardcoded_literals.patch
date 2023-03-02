@@ -7,11 +7,11 @@ index cda6430..760ec1e 100644
              $orderBaseGrandTotal = $this->pricingHelper->currency($this->order->getBaseGrandTotal(), true, false);
 
 -            return "Commission for order #{$this->order->getIncrementId()} ($orderBaseGrandTotal)";
-+            return (string)__("Commission for order #{%1} (%2)", $this->order->getIncrementId(), $orderBaseGrandTotal);
++            return (string)__("Commission for order #%1 (%2)", $this->order->getIncrementId(), $orderBaseGrandTotal);
          }
          if ($this->isNeedRefundCommission()) {
 -            return "Refund for order #{$this->order->getIncrementId()}";
-+            return (string)__("Refund for order #{%1}", $this->order->getIncrementId());
++            return (string)__("Refund for order #%1", $this->order->getIncrementId());
          }
 
          return '';
