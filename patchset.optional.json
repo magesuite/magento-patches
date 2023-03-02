@@ -32,6 +32,11 @@
               "description": "Feat: forcing enabling position field in the product attribute form",
               "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-swatches/m24-forcing-enabling-position-field.patch",
               "version-constraint": ">=2.10.1"
+            },
+            {
+                "description": "Unify synonyms by letter size (IPET-1916)",
+                "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/unify-synonyms-by-letter-size.patch",
+                "version-constraint": ">=2.10.13"
             }
         ],
         "smile/module-elasticsuite-shared-catalog": [
