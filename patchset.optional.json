@@ -1359,6 +1359,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/skip-aftersave-observer-when-tests-are-running.patch",
                 "version-constraint": "*"
            }
-        ]
+        ],
+      "unifiedarts/module-tsc-augment": [
+        {
+          "description": "Fixes JS error in amazon-pay return in three-step-checkout.",
+          "filename": "vendor/creativestyle/magento-patches/optional/unifiedarts/module-tsc-augment/fixes-js-error-in-amazon-pay-return-in-tsc.patch",
+          "version-constraint": "*"
+        }
+      ]
     }
 }

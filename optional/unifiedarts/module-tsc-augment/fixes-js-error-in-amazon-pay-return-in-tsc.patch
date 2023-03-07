@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/view/form/element/validate-email-mixin.js b/view/frontend/web/js/view/form/element/validate-email-mixin.js
+index ee6b93b..6d038a4 100644
+--- a/view/frontend/web/js/view/form/element/validate-email-mixin.js
++++ b/view/frontend/web/js/view/form/element/validate-email-mixin.js
+@@ -52,7 +52,9 @@ define([
+                 '</div>',
+             tscLoginFormSelector: 'form[data-role=email-with-possible-login]',
+             tscUsernameSelector: 'form[data-role=email-with-possible-login] input[name=username]',
+-            tscLinkHash: '${ $.parentName.indexOf("payment") !== -1 ? "payment" : "shipping" }',
++            // PATCH BEGIN SEE: TOYS-673:
++            tscLinkHash: 'shipping',
++            // PATCH END
+             tscSpinnerClass: '_spinner'
+         },
+         tscCheckValidationRequest: null,

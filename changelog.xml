@@ -99,6 +99,11 @@
                     <overview>Remove validation for color in order to avoid loading tinycolor library</overview>
                     <ticket_id>MGS-5026</ticket_id>
                 </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fixes JS error with Amazon Pay and ThreeStepCheckout combination</overview>
+                    <ticket_id>TOYS-673</ticket_id>
+                </entry>
             </tag>
         </changelog>
     </module>
