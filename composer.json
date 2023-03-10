@@ -1578,13 +1578,6 @@
                     "version-constraint": ">=2.4.3-p1"
                 }
             ],
-            "magento/module-media-gallery-ui": [
-                {
-                    "description": "Port of DirectoryTree listing from Magento 2.4.6 pre release",
-                    "filename": "essential/magento/module-media-gallery-ui/port-of-get-directory-tree-from-magento-246.patch",
-                    "version-constraint": ">=2.4.5-p1"
-                }
-            ],
             "seven-senders/shipments-module": [
                 {
                     "description": "Fix shipment data parsing and shipment view in admin panel",
