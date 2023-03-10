@@ -1348,24 +1348,31 @@
                 "version-constraint": ">=1.0.6"
             },
             {
-              "description": "Disable saved address validation and template override",
-              "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/address-validation-disable.patch",
-              "version-constraint": ">=1.0.6"
+                "description": "Disable saved address validation and template override",
+                "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/address-validation-disable.patch",
+                "version-constraint": ">=1.0.6"
             }
         ],
-      "clerk/magento2": [
+        "clerk/magento2": [
             {
                 "description": "Skip after observer, otherwise build gets broken.",
                 "filename": "vendor/creativestyle/magento-patches/optional/clerk/clerk/skip-aftersave-observer-when-tests-are-running.patch",
                 "version-constraint": "*"
            }
         ],
-      "unifiedarts/module-tsc-augment": [
-        {
-          "description": "Fixes JS error in amazon-pay return in three-step-checkout.",
-          "filename": "vendor/creativestyle/magento-patches/optional/unifiedarts/module-tsc-augment/fixes-js-error-in-amazon-pay-return-in-tsc.patch",
-          "version-constraint": "*"
-        }
-      ]
+        "unifiedarts/module-tsc-augment": [
+            {
+                "description": "Fixes JS error in amazon-pay return in three-step-checkout.",
+                "filename": "vendor/creativestyle/magento-patches/optional/unifiedarts/module-tsc-augment/fixes-js-error-in-amazon-pay-return-in-tsc.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "channelpilot-solutions/module-api": [
+            {
+                "description": "Adjust module to Magento 2.4.5",
+                "filename": "vendor/creativestyle/magento-patches/optional/channelpilot/module-api/magento245-compatibility.patch",
+                "version-constraint": "*"
+            }
+        ]
     }
 }
