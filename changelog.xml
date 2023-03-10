@@ -104,6 +104,11 @@
                     <overview>Fixes JS error with Amazon Pay and ThreeStepCheckout combination</overview>
                     <ticket_id>TOYS-673</ticket_id>
                 </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Improves listing of files in GetDirectoryTree</overview>
+                    <ticket_id>RK-727</ticket_id>
+                </entry>
             </tag>
         </changelog>
     </module>
