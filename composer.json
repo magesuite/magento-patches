@@ -164,7 +164,7 @@
                 {
                     "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
                     "filename": "essential/magento/framework/port-of-default-charset-fixes-for-mysql-8-0-29-from-magento-243-p1.patch",
-                    "version-constraint": "<=103.0.3-p2"
+                    "version-constraint": "<=103.0.3-p3"
                 },
                 {
                     "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
