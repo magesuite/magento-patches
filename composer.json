@@ -2050,6 +2050,11 @@
                     "description": "Patch to work with php 81",
                     "filename": "essential/dynamic-yield/integration/dynamic-yield-php-81.patch",
                     "version-constraint": "0.8.0"
+                },
+                {
+                    "description": "Added setting the default value to the plugin as it is in the origin method",
+                    "filename": "essential/dynamic-yield/integration/set-default-value-in-plugin-as-in-origin-method.patch",
+                    "version-constraint": "0.8.5"
                 }
             ],
             "bsscommerce/hideprice": [

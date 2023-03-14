@@ -1,0 +1,15 @@
+diff --git a/Plugin/AddToCartPlugin.php b/Plugin/AddToCartPlugin.php
+index de12612..38a0b4d 100644
+--- a/Plugin/AddToCartPlugin.php
++++ b/Plugin/AddToCartPlugin.php
+@@ -65,6 +65,10 @@ class AddToCartPlugin
+      */
+     public function aroundAddProduct(Cart $cart, Closure $proceed, Product $productInfo, $requestInfo)
+     {
++        if ($requestInfo === null) {
++            $requestInfo = 1;
++        }
++
+         $product = $this->_initProduct($productInfo);
+         $request = $this->_initProductRequest($requestInfo);
+         $closure = $proceed($product, $request);
