@@ -517,7 +517,7 @@
             {
                 "description": "Fix long loading of payment methods in checkout, add cache for possiblePaymentMethodCache",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/wallee-magento-2-fix-long-loading-payment-methods.patch",
-                "version-constraint": ">=1.1.3"
+                "version-constraint": ">=1.1.3,<1.3.20"
             },
             {
                 "description": "Fix synchronize payment method",
