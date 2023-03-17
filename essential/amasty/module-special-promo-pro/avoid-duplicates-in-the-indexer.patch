@@ -1,0 +1,16 @@
+diff --git a/Model/Indexer/PurchaseHistory.php b/Model/Indexer/PurchaseHistory.php
+index 981d446..5dfcf33 100644
+--- a/Model/Indexer/PurchaseHistory.php
++++ b/Model/Indexer/PurchaseHistory.php
+@@ -55,6 +55,11 @@ class PurchaseHistory implements IndexerActionInterface, MviewActionInterface
+             $indexHandler->cleanIndex([]);
+         } else {
+             $ids = $this->indexAction->convertOrderIdsToCustomerIds($ids);
++            // BEGIN PATCH
++            if (empty($ids)) {
++                return;
++            }
++            // END PATCH
+             $indexHandler->deleteIndex([], new \ArrayIterator($ids));
+         }
+ 

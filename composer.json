@@ -437,6 +437,11 @@
                     "description": "Fix php notice errors (Trying to access array offset on value of type null)",
                     "filename": "essential/amasty/module-special-promo-pro/amasty-special-promo-pro-fix-notice-errors.patch",
                     "version-constraint": ">=2.8.6"
+                },
+                {
+                    "description": "Avoid duplicates in the indexer",
+                    "filename": "essential/amasty/module-special-promo-pro/avoid-duplicates-in-the-indexer.patch",
+                    "version-constraint": ">=2.11.0"
                 }
             ],
             "amasty/shippingtablerates": [
