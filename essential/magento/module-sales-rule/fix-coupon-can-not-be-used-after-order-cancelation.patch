@@ -1,0 +1,19 @@
+See: https://github.com/magento/magento2/commit/29dbfce41d62fd524bc7c594a0e4ae9a81e83d45
+
+diff --git a/Model/Coupon/UpdateCouponUsages.php b/Model/Coupon/UpdateCouponUsages.php
+index d664cf3..e6f9afd 100644
+--- a/Model/Coupon/UpdateCouponUsages.php
++++ b/Model/Coupon/UpdateCouponUsages.php
+@@ -59,7 +59,11 @@ class UpdateCouponUsages
+         $updateInfo->setCustomerId((int)$subject->getCustomerId());
+         $updateInfo->setIsIncrement($increment);
+
+-        if ($subject->getOrigData('coupon_code') !== null) {
++        if ($subject->getOrigData('coupon_code') !== null
++            // BEGIN PATCH
++            && $subject->getStatus() !== \Magento\Sales\Model\Order::STATE_CANCELED
++            // END PATCH
++        ) {
+             $updateInfo->setCouponAlreadyApplied(true);
+         }
+

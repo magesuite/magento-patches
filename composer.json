@@ -1552,6 +1552,11 @@
                     "description": "Unable to cancel order when catalog price rule is used without coupon",
                     "filename": "essential/magento/module-sales-rule/m24-fix-coupon-usage-foreign-key-problem.patch",
                     "version-constraint": ">=101.2.3,<101.2.5"
+                },
+                {
+                    "description": "Fix promo codes are not getting re-activated when order is canceled",
+                    "filename": "essential/magento/module-sales-rule/fix-coupon-can-not-be-used-after-order-cancelation.patch",
+                    "version-constraint": ">=101.2.5"
                 }
             ],
             "magento/module-paypal": [
