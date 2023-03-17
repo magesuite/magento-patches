@@ -1,0 +1,13 @@
+diff --git a/Model/SourceItemsSaveSynchronization/SetDataToLegacyCatalogInventory.php b/Model/SourceItemsSaveSynchronization/SetDataToLegacyCatalogInventory.php
+index 0b2b263..dfbfe0d 100644
+--- a/Model/SourceItemsSaveSynchronization/SetDataToLegacyCatalogInventory.php
++++ b/Model/SourceItemsSaveSynchronization/SetDataToLegacyCatalogInventory.php
+@@ -205,7 +205,7 @@ class SetDataToLegacyCatalogInventory
+             $this->setDataToLegacyStockStatus->execute(
+                 (string)$sourceItem->getSku(),
+                 (float)$sourceItem->getQuantity(),
+-                (int)$stockStatuses[(string)$sourceItem->getSku()]
++                $isInStock
+             );
+             $productIds[] = $productId;
+         }
