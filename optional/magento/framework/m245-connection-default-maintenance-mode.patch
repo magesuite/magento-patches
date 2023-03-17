@@ -1,14 +1,3 @@
-From 597b769f5918e11b58dc15ae7cc407477ee2c695 Mon Sep 17 00:00:00 2001
-From: Sergey Nezbritskiy <sergey.nezbritskiy@gmail.com>
-Date: Sun, 15 Aug 2021 17:55:34 +0300
-Subject: [PATCH 01/11] ISSUE-33802: ensure that deployment config will reload
- its data, if the key was not found
-
----
- .../Framework/App/DeploymentConfig.php        | 33 +++++++---
- .../App/Test/Unit/DeploymentConfigTest.php    | 64 +++++++++++--------
- 2 files changed, 60 insertions(+), 37 deletions(-)
-
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 6aeec2c2d0192..e7fd1e86de8a7 100644
 --- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
@@ -234,17 +223,6 @@ index 7a05b86ed050c..0dc3691d6509e 100644
 +        $this->assertEquals($defaultValue, $result);
 +    }
  }
-
-From c1cefe7633bc1da2e2b5e28d14ea3a8167f66ca0 Mon Sep 17 00:00:00 2001
-From: Sergey Nezbritskiy <sergey.nezbritskiy@gmail.com>
-Date: Sun, 15 Aug 2021 18:19:08 +0300
-Subject: [PATCH 02/11] ISSE-33802: load config on empty cache only
-
----
- lib/internal/Magento/Framework/App/DeploymentConfig.php     | 6 ++----
- .../Framework/App/Test/Unit/DeploymentConfigTest.php        | 6 +++---
- 2 files changed, 5 insertions(+), 7 deletions(-)
-
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index e7fd1e86de8a7..9f5c352d659ea 100644
 --- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
@@ -302,15 +280,6 @@ index 0dc3691d6509e..39b16a59a56bc 100644
          $defaultValue = 'some_default_value';
          $result = $this->_deploymentConfig->get('missing/key', $defaultValue);
          $this->assertEquals($defaultValue, $result);
-
-From a2e458a111c48a48eec07f4d723a2437627c62b8 Mon Sep 17 00:00:00 2001
-From: Sergey Nezbritskiy <sergey.nezbritskiy@gmail.com>
-Date: Sun, 15 Aug 2021 18:26:53 +0300
-Subject: [PATCH 03/11] ISS-33802: update test phpdocs
-
----
- .../App/Test/Unit/DeploymentConfigTest.php    | 76 ++++++++++++++-----
- 1 file changed, 57 insertions(+), 19 deletions(-)
 
 diff --git a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 index 39b16a59a56bc..6ebda9d895a37 100644
@@ -469,17 +438,6 @@ index 39b16a59a56bc..6ebda9d895a37 100644
          $this->assertEquals($defaultValue, $result);
      }
  }
-
-From d0191e74f1fad7449b703b1281f30ecee53d1c53 Mon Sep 17 00:00:00 2001
-From: Sergey Nezbritskiy <sergey.nezbritskiy@gmail.com>
-Date: Sun, 15 Aug 2021 18:51:44 +0300
-Subject: [PATCH 04/11] ISS-33802: refactor DeploymentConfig class in order to
- ensure that all methods follow the same reload logic
-
----
- .../Framework/App/DeploymentConfig.php        | 103 ++++++++++--------
- .../App/Test/Unit/DeploymentConfigTest.php    |   5 +-
- 2 files changed, 57 insertions(+), 51 deletions(-)
 
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 9f5c352d659ea..82e17f6a83f96 100644
@@ -709,16 +667,6 @@ index 6ebda9d895a37..dbc1d1833ac0b 100644
          $this->assertTrue($this->deploymentConfig->isDbAvailable());
      }
 
-
-From f72e25f8670fc1b641992f6d0bee25f07cc1590c Mon Sep 17 00:00:00 2001
-From: Sergey Nezbritskiy <sergey.nezbritskiy@gmail.com>
-Date: Sun, 15 Aug 2021 19:34:57 +0300
-Subject: [PATCH 05/11] ISS-33802: revert backward incompatible changes
-
----
- .../Framework/App/DeploymentConfig.php        | 25 +++++++++++++------
- 1 file changed, 17 insertions(+), 8 deletions(-)
-
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 82e17f6a83f96..6ce0fd6386f7d 100644
 --- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
@@ -797,15 +745,6 @@ index 82e17f6a83f96..6ce0fd6386f7d 100644
      }
  }
 
-From 5da5972e680c5a9ea9cfd0e35fc675203d9bb77e Mon Sep 17 00:00:00 2001
-From: Sergey Nezbritskiy <sergey.nezbritskiy@gmail.com>
-Date: Mon, 16 Aug 2021 10:48:13 +0300
-Subject: [PATCH 06/11] ISS-33802: revert semantic versioning changes
-
----
- .../Magento/Framework/App/DeploymentConfig.php     | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 6ce0fd6386f7d..14be08ca1729e 100644
 --- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
@@ -872,15 +811,6 @@ index 6ce0fd6386f7d..14be08ca1729e 100644
          $this->data = [];
          $this->flatData = [];
 
-From acda6b94794b0e09759c8e8ff1d4d2f30b52cde0 Mon Sep 17 00:00:00 2001
-From: Sergey Nezbritskiy <sergey.nezbritskiy@gmail.com>
-Date: Mon, 16 Aug 2021 10:50:43 +0300
-Subject: [PATCH 07/11] ISS-33802: remove dead code
-
----
- lib/internal/Magento/Framework/App/DeploymentConfig.php | 3 ---
- 1 file changed, 3 deletions(-)
-
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 14be08ca1729e..3f6ee187ecc2e 100644
 --- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
@@ -895,17 +825,6 @@ index 14be08ca1729e..3f6ee187ecc2e 100644
          if (array_key_exists($key, $this->flatData) && $this->flatData[$key] === null) {
              return '';
          }
-
-From 27e0943d7ee8a300e621244890088b1ad6015ecc Mon Sep 17 00:00:00 2001
-From: Ihor Sviziev <ihor-sviziev@users.noreply.github.com>
-Date: Fri, 16 Sep 2022 15:09:25 +0300
-Subject: [PATCH 08/11] ISSUE-33802: ensure that deployment config will reload
- its data, if the key was not found
-
-Revert method position change for simpler diff review
----
- .../Framework/App/DeploymentConfig.php        | 34 +++++++++----------
- 1 file changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 3f6ee187ecc2e..d65d4cb6393d0 100644
@@ -970,17 +889,6 @@ index 3f6ee187ecc2e..d65d4cb6393d0 100644
       * Loads the configuration data
       *
 
-From c3f8950909b98c3cb7aafe7fc64d1331bf97dd78 Mon Sep 17 00:00:00 2001
-From: Ihor Sviziev <ihor-sviziev@users.noreply.github.com>
-Date: Fri, 16 Sep 2022 17:23:35 +0300
-Subject: [PATCH 09/11] ISSUE-33802: ensure that deployment config will reload
- its data, if the key was not found
-
-Update tests
----
- .../App/Test/Unit/DeploymentConfigTest.php    | 30 +++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
-
 diff --git a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 index 6eb8f461dde29..42b4d7866c23b 100644
 --- a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
@@ -1042,16 +950,6 @@ index 6eb8f461dde29..42b4d7866c23b 100644
      }
  }
 
-From b21ea9a2040046abf032b60e94d70dd2c234873a Mon Sep 17 00:00:00 2001
-From: Ihor Sviziev <ihor-sviziev@users.noreply.github.com>
-Date: Sat, 17 Sep 2022 13:48:26 +0300
-Subject: [PATCH 10/11] Update
- lib/internal/Magento/Framework/App/DeploymentConfig.php
-
----
- lib/internal/Magento/Framework/App/DeploymentConfig.php | 2 ++
- 1 file changed, 2 insertions(+)
-
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 90515de2ea18f..6f26c4a4e3837 100644
 --- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
@@ -1065,16 +963,6 @@ index 90515de2ea18f..6f26c4a4e3837 100644
       * @param string|null $key
       * @return mixed|null
       */
-
-From e946842d6e15a4c0ba604af0a5936f0fbcc57972 Mon Sep 17 00:00:00 2001
-From: Ihor Sviziev <ihor-sviziev@users.noreply.github.com>
-Date: Sat, 17 Sep 2022 13:48:32 +0300
-Subject: [PATCH 11/11] Update
- lib/internal/Magento/Framework/App/DeploymentConfig.php
-
----
- lib/internal/Magento/Framework/App/DeploymentConfig.php | 2 ++
- 1 file changed, 2 insertions(+)
 
 diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
 index 6f26c4a4e3837..6713baa3a1d54 100644
