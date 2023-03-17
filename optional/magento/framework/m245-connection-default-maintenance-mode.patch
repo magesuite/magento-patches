@@ -1,7 +1,7 @@
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 6aeec2c2d0192..e7fd1e86de8a7 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -73,15 +73,13 @@ public function __construct(DeploymentConfig\Reader $reader, $overrideData = [])
      public function get($key = null, $defaultValue = null)
      {
@@ -55,10 +55,10 @@ index 6aeec2c2d0192..e7fd1e86de8a7 100644
 +        return $this->flatData[$key] ?? null;
 +    }
  }
-diff --git a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+diff --git a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 index 7a05b86ed050c..0dc3691d6509e 100644
---- a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
-+++ b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+--- a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
++++ b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 @@ -1,8 +1,10 @@
  <?php
 +
@@ -223,10 +223,10 @@ index 7a05b86ed050c..0dc3691d6509e 100644
 +        $this->assertEquals($defaultValue, $result);
 +    }
  }
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index e7fd1e86de8a7..9f5c352d659ea 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -38,7 +38,7 @@ class DeploymentConfig
       *
       * @var array
@@ -255,10 +255,10 @@ index e7fd1e86de8a7..9f5c352d659ea 100644
          if (array_key_exists($key, $this->flatData) && $this->flatData[$key] === null) {
              return '';
          }
-diff --git a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+diff --git a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 index 0dc3691d6509e..39b16a59a56bc 100644
---- a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
-+++ b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+--- a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
++++ b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 @@ -163,7 +163,7 @@ public function keyCollisionDataProvider(): array
 
      public function testResetData(): void
@@ -281,10 +281,10 @@ index 0dc3691d6509e..39b16a59a56bc 100644
          $result = $this->_deploymentConfig->get('missing/key', $defaultValue);
          $this->assertEquals($defaultValue, $result);
 
-diff --git a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+diff --git a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 index 39b16a59a56bc..6ebda9d895a37 100644
---- a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
-+++ b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+--- a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
++++ b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 @@ -12,6 +12,8 @@
  use Magento\Framework\App\DeploymentConfig;
  use Magento\Framework\App\DeploymentConfig\Reader;
@@ -439,10 +439,10 @@ index 39b16a59a56bc..6ebda9d895a37 100644
      }
  }
 
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 9f5c352d659ea..82e17f6a83f96 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -38,7 +38,7 @@ class DeploymentConfig
       *
       * @var array
@@ -637,10 +637,10 @@ index 9f5c352d659ea..82e17f6a83f96 100644
 +        return $this->data[$key] ?? null;
 +    }
  }
-diff --git a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+diff --git a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 index 6ebda9d895a37..dbc1d1833ac0b 100644
---- a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
-+++ b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+--- a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
++++ b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 @@ -149,7 +149,7 @@ public function testNotAvailable(): void
       */
      public function testNotAvailableThenAvailable(): void
@@ -667,10 +667,10 @@ index 6ebda9d895a37..dbc1d1833ac0b 100644
          $this->assertTrue($this->deploymentConfig->isDbAvailable());
      }
 
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 82e17f6a83f96..6ce0fd6386f7d 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -31,14 +31,14 @@ class DeploymentConfig
       *
       * @var array
@@ -745,10 +745,10 @@ index 82e17f6a83f96..6ce0fd6386f7d 100644
      }
  }
 
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 6ce0fd6386f7d..14be08ca1729e 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -55,7 +55,7 @@ class DeploymentConfig
       * @param DeploymentConfig\Reader $reader
       * @param array $overrideData
@@ -811,10 +811,10 @@ index 6ce0fd6386f7d..14be08ca1729e 100644
          $this->data = [];
          $this->flatData = [];
 
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 14be08ca1729e..3f6ee187ecc2e 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -206,9 +206,6 @@ private function flattenParams(array $params, ?string $path = null, array &$flat
       */
      private function getByKey(?string $key)
@@ -826,10 +826,10 @@ index 14be08ca1729e..3f6ee187ecc2e 100644
              return '';
          }
 
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 3f6ee187ecc2e..d65d4cb6393d0 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -86,6 +86,18 @@ public function get($key = null, $defaultValue = null)
          return $result ?? $defaultValue;
      }
@@ -889,10 +889,10 @@ index 3f6ee187ecc2e..d65d4cb6393d0 100644
       * Loads the configuration data
       *
 
-diff --git a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+diff --git a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 index 6eb8f461dde29..42b4d7866c23b 100644
---- a/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
-+++ b/lib/internal/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
+--- a/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
++++ b/Magento/Framework/App/Test/Unit/DeploymentConfigTest.php
 @@ -234,31 +234,31 @@ public function testResetDataOnMissingConfig(): void
          $this->assertEquals($defaultValue, $result);
      }
@@ -950,10 +950,10 @@ index 6eb8f461dde29..42b4d7866c23b 100644
      }
  }
 
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 90515de2ea18f..6f26c4a4e3837 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -242,6 +242,8 @@ private function flattenParams(array $params, ?string $path = null, array &$flat
      }
 
@@ -964,10 +964,10 @@ index 90515de2ea18f..6f26c4a4e3837 100644
       * @return mixed|null
       */
 
-diff --git a/lib/internal/Magento/Framework/App/DeploymentConfig.php b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+diff --git a/Magento/Framework/App/DeploymentConfig.php b/Magento/Framework/App/DeploymentConfig.php
 index 6f26c4a4e3837..6713baa3a1d54 100644
---- a/lib/internal/Magento/Framework/App/DeploymentConfig.php
-+++ b/lib/internal/Magento/Framework/App/DeploymentConfig.php
+--- a/Magento/Framework/App/DeploymentConfig.php
++++ b/Magento/Framework/App/DeploymentConfig.php
 @@ -257,6 +257,8 @@ private function getByKey(?string $key)
      }
 
