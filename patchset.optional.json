@@ -1138,7 +1138,7 @@
         "magento/module-inventory-bundle-product": [
           {
             "description": "Fix auto stock status update after purchase for parent product when default stock is not used",
-            "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-configurable-product/fix-stock-update-after-product-purchase.patch",
+            "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-bundle-product/fix-stock-update-after-product-purchase.patch",
             "version-constraint": "1.2.2"
           }
         ],
