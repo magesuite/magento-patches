@@ -1348,7 +1348,7 @@
                 {
                     "description": "[TT-1324] Prevent legacy stock update using itself for product status change",
                     "filename": "essential/magento/module-inventory-catalog/m245_prevent_legacy_stock_update_using_itself_for_product_status_change.patch",
-                    "version-constraint": ">=100.4.5"
+                    "version-constraint": ">=1.3.0"
                 }
             ],
             "magento/module-inventory-configurable-product-indexer": [
