@@ -1,0 +1,47 @@
+diff --git a/Observer/SalesOrderCancelAfter.php b/Observer/SalesOrderCancelAfter.php
+index 8e5dd21..b4352d9 100644
+--- a/Observer/SalesOrderCancelAfter.php
++++ b/Observer/SalesOrderCancelAfter.php
+@@ -8,6 +8,7 @@ declare(strict_types=1);
+ namespace Magento\GiftCardAccount\Observer;
+ 
+ use Magento\Framework\Event\ObserverInterface;
++use Magento\CustomerBalance\Helper\Data as CustomerBalanceHelper;
+ 
+ class SalesOrderCancelAfter implements ObserverInterface
+ {
+@@ -22,15 +23,23 @@ class SalesOrderCancelAfter implements ObserverInterface
+     private $revertGiftCardAccountBalance;
+ 
+     /**
++     * @var CustomerBalanceHelper
++     */
++    private $customerBalanceHelper;
++
++    /**
+      * @param ReturnFundsToStoreCredit $returnFundsToStoreCredit
+      * @param RevertGiftCardAccountBalance $revertGiftCardAccountBalance
++     * @param CustomerBalanceHelper $customerBalanceHelper
+      */
+     public function __construct(
+         ReturnFundsToStoreCredit $returnFundsToStoreCredit,
+-        RevertGiftCardAccountBalance $revertGiftCardAccountBalance
++        RevertGiftCardAccountBalance $revertGiftCardAccountBalance,
++        CustomerBalanceHelper $customerBalanceHelper
+     ) {
+         $this->returnFundsToStoreCredit = $returnFundsToStoreCredit;
+         $this->revertGiftCardAccountBalance = $revertGiftCardAccountBalance;
++        $this->customerBalanceHelper = $customerBalanceHelper;
+     }
+ 
+     /**
+@@ -40,7 +49,8 @@ class SalesOrderCancelAfter implements ObserverInterface
+     public function execute(\Magento\Framework\Event\Observer $observer) : void
+     {
+         $order = $observer->getEvent()->getOrder();
+-        if ($order->getCustomerId()) {
++
++        if ($order->getCustomerId() && $this->customerBalanceHelper->isEnabled()) {
+             $this->returnFundsToStoreCredit->execute($observer);
+         } else {
+             $this->revertGiftCardAccountBalance->execute($observer);
