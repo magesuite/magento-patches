@@ -921,7 +921,7 @@
                 {
                     "description": "Do not send billing address if form is invalid",
                     "filename": "essential/magento/module-checkout/m243-do-not-send-billing-address-if-invalid.patch",
-                    "version-constraint": ">=100.4.3"
+                    "version-constraint": ">=100.4.3, <100.4.6"
                 }
             ],
             "magento/module-checkout-agreements": [
