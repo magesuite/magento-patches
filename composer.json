@@ -1599,7 +1599,7 @@
                 {
                     "description": "Port of DirectoryTree listing from Magento 2.4.6 pre release",
                     "filename": "essential/magento/module-media-gallery-ui/port-of-get-directory-tree-from-magento-246.patch",
-                    "version-constraint": ">=100.4.4"
+                    "version-constraint": ">=100.4.4, <100.4.5"
                 }
             ],
             "seven-senders/shipments-module": [
