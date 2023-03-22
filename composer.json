@@ -1235,7 +1235,7 @@
                 {
                     "description": "M2.4.3-p1 Fix adding autocomplete to user area inputs",
                     "filename": "essential/magento/module-customer/m243-autocomplete-user-area.patch",
-                    "version-constraint": ">=103.0.3-p1"
+                    "version-constraint": ">=103.0.3-p1, <103.0.6"
                 },
                 {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
