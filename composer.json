@@ -1305,7 +1305,7 @@
                 {
                     "description": "Fix not working translation for customers",
                     "filename": "essential/magento/module-customer/fix-customer-module-prefix-translation.patch",
-                    "version-constraint": ">=102.0.5"
+                    "version-constraint": ">=102.0.5, <103.0.6"
                 },
                 {
                     "description": "Fix Customer`s Custom Attribute (Text Field) with blank value Value",
