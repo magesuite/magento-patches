@@ -1280,7 +1280,7 @@
                 {
                     "description": "Fix incorrect customer prefix data (gender select)",
                     "filename": "essential/magento/module-customer/m242-fix-prefix-options-select.patch",
-                    "version-constraint": ">=103.0.2"
+                    "version-constraint": ">=103.0.2, <103.0.6"
                 },
                 {
                     "description": "Fix not working translation for customer prefix in options",
