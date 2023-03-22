@@ -1329,7 +1329,7 @@
                 {
                     "description": "Avoid cleaning all caches in scheduled mode",
                     "filename": "essential/magento/module-inventory-cache/avoid-cleaning-all-caches-in-scheduled-mode.patch",
-                    "version-constraint": ">=1.2.3"
+                    "version-constraint": ">=1.2.3, <1.2.6"
                 }
             ],
             "magento/module-inventory-bundle-product-indexer": [
