@@ -876,7 +876,7 @@
                 {
                     "description": "Fix incorrect customer name prefix data (gender select)",
                     "filename": "essential/magento/module-checkout/m242-fix-prefix-array-element-index.patch",
-                    "version-constraint": ">=100.4.2"
+                    "version-constraint": ">=100.4.2, <100.4.6"
                 },
                 {
                     "description": "Replace jquery-ui fade effect with jquery fadeIn/fadeOut",
