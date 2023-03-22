@@ -1600,6 +1600,11 @@
                     "description": "Port of DirectoryTree listing from Magento 2.4.6 pre release",
                     "filename": "essential/magento/module-media-gallery-ui/port-of-get-directory-tree-from-magento-246.patch",
                     "version-constraint": ">=100.4.4"
+                },
+                {
+                    "description": "Added missing path value needed for image edit",
+                    "filename": "essential/magento/module-media-gallery-ui/image-path-added.patch",
+                    "version-constraint": ">=100.4.4"
                 }
             ],
             "seven-senders/shipments-module": [
