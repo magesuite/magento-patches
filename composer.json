@@ -1145,7 +1145,7 @@
                 {
                     "description": "Fix for customer group id in order when guest",
                     "filename": "essential/magento/module-quote/m245-fix_for_customer_group_id_in_order_data_when_guest.patch",
-                    "version-constraint": ">=101.2.5"
+                    "version-constraint": ">=101.2.5, <101.2.6"
                 }
             ],
             "magento/module-quick-order": [
