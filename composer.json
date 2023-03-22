@@ -578,7 +578,7 @@
                 {
                     "description": "Replace deprecated jQuery load function with .on('load')",
                     "filename": "essential/magento/module-email/m245-fix-deprecated-jquery-function.patch",
-                    "version-constraint": ">101.1.0,<101.2.0"
+                    "version-constraint": ">101.1.0,<101.1.6"
                 }
             ],
             "magento/module-config": [
