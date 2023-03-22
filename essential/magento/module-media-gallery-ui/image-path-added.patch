@@ -1,0 +1,13 @@
+diff --git a/view/adminhtml/web/template/grid/columns/image.html b/view/adminhtml/web/template/grid/columns/image.html
+index ada4dfd..8a16d6a 100644
+--- a/view/adminhtml/web/template/grid/columns/image.html
++++ b/view/adminhtml/web/template/grid/columns/image.html
+@@ -11,7 +11,7 @@
+     <div class="media-gallery-image">
+         <div data-row="file"
+              class="masonry-image-block media-gallery-image-block"
+-             attr="'data-id': $col.getId($row())"
++             attr="'data-id': $col.getId($row()), 'data-path': $row().path"
+              css="{ selected: isSelected($row()) }"
+              click="function(){ clickOnImage($row(), $collapsible.opened()) }"
+         >
