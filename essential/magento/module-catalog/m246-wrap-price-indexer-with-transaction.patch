@@ -1,0 +1,86 @@
+diff --git a/Model/Indexer/Product/Price/AbstractAction.php b/Model/Indexer/Product/Price/AbstractAction.php
+index e69ab50..fa25172 100644
+--- a/Model/Indexer/Product/Price/AbstractAction.php
++++ b/Model/Indexer/Product/Price/AbstractAction.php
+@@ -389,39 +389,52 @@ abstract class AbstractAction
+         $changedIds = array_unique(array_merge($changedIds, ...array_values($parentProductsTypes)));
+         $productsTypes = array_merge_recursive($productsTypes, $parentProductsTypes);
+
+-        $typeIndexers = array_filter(
+-            $this->getTypeIndexers(),
+-            function ($type) use ($productsTypes) {
+-                return isset($productsTypes[$type]) && !empty($productsTypes[$type]);
+-            },
+-            ARRAY_FILTER_USE_KEY
+-        );
+-        if (empty($typeIndexers)) {
+-            $this->deleteIndexData($changedIds);
+-            return $changedIds;
+-        }
++        //BEGIN PATCH
++        try {
++            $this->getConnection()->beginTransaction();
++        //END PATCH
++            $typeIndexers = array_filter(
++                $this->getTypeIndexers(),
++                function ($type) use ($productsTypes) {
++                    return isset($productsTypes[$type]) && !empty($productsTypes[$type]);
++                },
++                ARRAY_FILTER_USE_KEY
++            );
++            if (empty($typeIndexers)) {
++                $this->deleteIndexData($changedIds);
++                return $changedIds;
++            }
+
+-        foreach ($typeIndexers as $productType => $indexer) {
+-            $entityIds = $productsTypes[$productType];
+-            if ($indexer instanceof DimensionalIndexerInterface) {
+-                foreach ($this->dimensionCollectionFactory->create() as $dimensions) {
+-                    $this->tableMaintainer->createMainTmpTable($dimensions);
+-                    $temporaryTable = $this->tableMaintainer->getMainTmpTable($dimensions);
+-                    $this->_emptyTable($temporaryTable);
+-                    $indexer->executeByDimensions($dimensions, \SplFixedArray::fromArray($entityIds, false));
+-                    $mainTable = $this->tableMaintainer->getMainTableByDimensions($dimensions);
+-                    $this->_insertFromTable($temporaryTable, $mainTable);
+-                    $this->deleteOutdatedData($entityIds, $temporaryTable, $mainTable);
++            foreach ($typeIndexers as $productType => $indexer) {
++                $entityIds = $productsTypes[$productType];
++                if ($indexer instanceof DimensionalIndexerInterface) {
++                    foreach ($this->dimensionCollectionFactory->create() as $dimensions) {
++                        $this->tableMaintainer->createMainTmpTable($dimensions);
++                        $temporaryTable = $this->tableMaintainer->getMainTmpTable($dimensions);
++                        $this->_emptyTable($temporaryTable);
++                        $indexer->executeByDimensions($dimensions, \SplFixedArray::fromArray($entityIds, false));
++                        $mainTable = $this->tableMaintainer->getMainTableByDimensions($dimensions);
++                        $this->_insertFromTable($temporaryTable, $mainTable);
++                        $this->deleteOutdatedData($entityIds, $temporaryTable, $mainTable);
++                    }
++                } else {
++                    // handle 3d-party indexers for backward compatibility
++                    $this->deleteIndexData($changedIds);
++                    $this->_emptyTable($this->_defaultIndexerResource->getIdxTable());
++                    $this->_copyRelationIndexData($entityIds);
++                    $indexer->reindexEntity($entityIds);
++                    $this->_syncData($entityIds);
+                 }
+-            } else {
+-                // handle 3d-party indexers for backward compatibility
+-                $this->deleteIndexData($changedIds);
+-                $this->_emptyTable($this->_defaultIndexerResource->getIdxTable());
+-                $this->_copyRelationIndexData($entityIds);
+-                $indexer->reindexEntity($entityIds);
+-                $this->_syncData($entityIds);
+             }
++
++        //BEGIN PATCH
++            $this->getConnection()->commit();
++
++        } catch (\Exception $e) {
++            $this->getConnection()->rollBack();
++            throw $e;
+         }
++        //END PATCH
+
+         return $changedIds;
+     }

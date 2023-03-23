@@ -1,0 +1,24 @@
+diff --git a/view/frontend/web/js/view/billing-address.js b/view/frontend/web/js/view/billing-address.js
+index 68c2548..3437a42 100644
+--- a/view/frontend/web/js/view/billing-address.js
++++ b/view/frontend/web/js/view/billing-address.js
+@@ -148,6 +148,9 @@ function (
+             if (this.selectedAddress() && !this.isAddressFormVisible()) {
+                 selectBillingAddress(this.selectedAddress());
+                 checkoutData.setSelectedBillingAddress(this.selectedAddress().getKey());
++
++                setBillingAddressAction(globalMessageList);
++                this.updateAddresses();
+             } else {
+                 this.source.set('params.invalid', false);
+                 this.source.trigger(this.dataScopePrefix + '.data.validate');
+@@ -168,6 +171,9 @@ function (
+                     selectBillingAddress(newBillingAddress);
+                     checkoutData.setSelectedBillingAddress(newBillingAddress.getKey());
+                     checkoutData.setNewCustomerBillingAddress(addressData);
++
++                    setBillingAddressAction(globalMessageList);
++                    this.updateAddresses();
+                 }
+             }
+             this.updateAddresses(true);

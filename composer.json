@@ -356,6 +356,11 @@
                     "version-constraint": ">=103.0.4, <103.0.6"
                 },
                 {
+                    "description": "Fix not working customer prefix translation Magento 2.4.6",
+                    "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation-m246.patch",
+                    "version-constraint": ">=103.0.6"
+                },
+                {
                     "description": "Fix invoice grand total amount for orders with discounts",
                     "filename": "essential/magento/module-sales/m242-invoice-grand-total-amount.patch",
                     "version-constraint": "103.0.2"
@@ -790,6 +795,11 @@
                     "version-constraint": ">=104.0.2, <104.0.6"
                 },
                 {
+                    "description": "Wrap price indexer with transaction",
+                    "filename": "essential/magento/module-catalog/m246-wrap-price-indexer-with-transaction.patch",
+                    "version-constraint": ">=104.0.6"
+                },
+                {
                     "description": "Remove category tag from top menu",
                     "filename": "essential/magento/module-catalog/m24-remove-category-tag-from-topmenu.patch",
                     "version-constraint": ">=103.0.7"
@@ -922,6 +932,11 @@
                     "description": "Do not send billing address if form is invalid",
                     "filename": "essential/magento/module-checkout/m243-do-not-send-billing-address-if-invalid.patch",
                     "version-constraint": ">=100.4.3, <100.4.6"
+                },
+                {
+                    "description": "Do not send billing address if form is invalid",
+                    "filename": "essential/magento/module-checkout/m246-do-not-send-billing-address-if-invalid.patch",
+                    "version-constraint": ">=100.4.6"
                 }
             ],
             "magento/module-checkout-agreements": [
@@ -1238,6 +1253,11 @@
                     "version-constraint": ">=103.0.3-p1, <103.0.6"
                 },
                 {
+                    "description": "M2.4.6 Fix adding autocomplete to user area inputs",
+                    "filename": "essential/magento/module-customer/m246-autocomplete-user-area.patch",
+                    "version-constraint": ">=103.0.6"
+                },
+                {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
                     "filename": "essential/magento/module-customer/fix-section-config.patch",
                     "version-constraint": ">=101.0.2,<=102.0.2"
@@ -1281,6 +1301,11 @@
                     "description": "Fix incorrect customer prefix data (gender select)",
                     "filename": "essential/magento/module-customer/m242-fix-prefix-options-select.patch",
                     "version-constraint": ">=103.0.2, <103.0.6"
+                },
+                {
+                    "description": "Fix incorrect customer prefix data (gender select)",
+                    "filename": "essential/magento/module-customer/m246-fix-prefix-options-select.patch",
+                    "version-constraint": ">=103.0.6"
                 },
                 {
                     "description": "Fix not working translation for customer prefix in options",
