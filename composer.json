@@ -795,11 +795,6 @@
                     "version-constraint": ">=104.0.2, <104.0.6"
                 },
                 {
-                    "description": "Wrap price indexer with transaction",
-                    "filename": "essential/magento/module-catalog/m246-wrap-price-indexer-with-transaction.patch",
-                    "version-constraint": ">=104.0.6"
-                },
-                {
                     "description": "Remove category tag from top menu",
                     "filename": "essential/magento/module-catalog/m24-remove-category-tag-from-topmenu.patch",
                     "version-constraint": ">=103.0.7"
