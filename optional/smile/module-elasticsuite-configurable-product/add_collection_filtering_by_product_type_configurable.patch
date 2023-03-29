@@ -1,0 +1,21 @@
+diff --git a/Plugin/Block/Product/ListProduct.php b/Plugin/Block/Product/ListProduct.php
+index eb5e2b8..9937bfe 100644
+--- a/Plugin/Block/Product/ListProduct.php
++++ b/Plugin/Block/Product/ListProduct.php
+@@ -88,8 +88,15 @@ class ListProduct
+         $configurableIds = [];
+         $bestPerformingChildren = [];
+
++        $collection = $subject->getLoadedProductCollection();
++        $collection->addFieldToFilter(
++            \Magento\Catalog\Api\Data\ProductInterface::TYPE_ID,
++            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
++        );
++        $products = $collection->getItems();
++
+         /** @var Product $product */
+-        foreach ($subject->getLoadedProductCollection() as $product) {
++        foreach ($products as $product) {
+             if ($product->getTypeId() === 'configurable') {
+                 $configurableIds[] = $product->getId();
+             }
