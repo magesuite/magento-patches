@@ -963,6 +963,11 @@
                     "description": "Fixes performance issue caused by generate file hash",
                     "filename": "essential/magento/module-catalog-import-export/m24-fix-performance-hash-issue.patch",
                     "version-constraint": ">=101.1.2,<101.1.4"
+                },
+                {
+                    "description": "Fixes performance issue caused by generate file hash - version 2.4.5 +",
+                    "filename": "essential/magento/module-catalog-import-export/m245-fix-performance-hash-issue.patch",
+                    "version-constraint": ">=101.1.5"
                 }
             ],
             "magento/module-offline-shipping": [
