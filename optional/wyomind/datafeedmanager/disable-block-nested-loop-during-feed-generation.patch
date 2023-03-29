@@ -1,14 +1,29 @@
 diff --git a/Model/Feeds.php b/Model/Feeds.php
-index ac09abc..b12119a 100644
+index 9053ebd..a76ddca 100644
 --- a/Model/Feeds.php
 +++ b/Model/Feeds.php
-@@ -477,6 +477,9 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+@@ -530,6 +530,11 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
              }
              $connection = $this->getResource()->getConnection();
              $connection->query("SET SESSION group_concat_max_len = 10000;");
 +            // PATCH BEGIN: Workaround for strange mysql behaviour, causing performance issues
-+            $connection->query("SET optimizer_switch='block_nested_loop=off';");
++            if (!$this->isMariaDb($connection)) {
++                $connection->query("SET optimizer_switch='block_nested_loop=off';");
++            }
 +            // PATCH END
              $timeStart = time();
              $timeGlobal = 0;
              $this->progressHelper->startObservingProgress($this->isLogEnabled(), $this->getId(), $this->getName());
+@@ -1531,4 +1536,12 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+     {
+         return $this->framework->getStoreConfig("datafeedmanager/system/log") ? true : false;
+     }
++
++    //BEGIN PATCH Workaround for strange mysql behaviour, causing performance issues
++    public function isMariaDb($connection)
++    {
++        $serverVersion = $connection->getConnection()->getAttribute(\PDO::ATTR_SERVER_VERSION);
++        return strpos($serverVersion, 'MariaDB') !== false;
++    }
++    //END PATCH
+ }
