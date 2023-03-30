@@ -39,6 +39,13 @@
                 "version-constraint": ">=2.10.13"
             }
         ],
+        "smile/module-elasticsuite-configurable-product": [
+            {
+                "description": "Add collection filtering by product type configurable before fetching items.",
+                "filename": "essential/smile/module-elasticsuite-configurable-product/add_collection_filtering_by_product_type_configurable.patch",
+                "version-constraint": ">=2.10.0"
+            }
+        ],
         "smile/module-elasticsuite-shared-catalog": [
             {
                 "description": "Fix sharedCatalog magento method that changed name",
