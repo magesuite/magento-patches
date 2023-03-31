@@ -1092,6 +1092,13 @@
                 "version-constraint": "^101.1.3"
             }
         ],
+        "magento/module-inventory-catalog": [
+            {
+                "description": "Performance improvement, disable run price indexer after placing an order because of clearing to much cache indexes",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-catalog/m245-mgp-1162-remove-calling-price-indexer-after-place-order.patch",
+                "version-constraint": "^1.3.0"
+            }
+        ],
         "magento/module-inventory-source-deduction-api": [
             {
                 "description": "Patch to allow create shipment for items which are not in stock",

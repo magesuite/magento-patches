@@ -1,0 +1,30 @@
+diff --git a/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php b/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php
+index dcf26cf..10f5dae 100644
+--- a/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php
++++ b/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php
+@@ -78,11 +78,17 @@ class PriceIndexUpdater
+         }
+         // In the case the source item is default source,
+         // the price indexer will be executed according to indexer.xml configuration
+-        if ($customSourceItemIds) {
+-            $productIds = $this->productIdsBySourceItemIds->execute($customSourceItemIds);
+-            if (!empty($productIds)) {
+-                $this->priceIndexProcessor->reindexList($productIds, true);
+-            }
+-        }
++
++        // BEGIN PATCH
++        // in MGP we have static bundle prices provided directly in admin area
++        // the below code is not needed
++
++        //if ($customSourceItemIds) {
++        //    $productIds = $this->productIdsBySourceItemIds->execute($customSourceItemIds);
++        //    if (!empty($productIds)) {
++        //        $this->priceIndexProcessor->reindexList($productIds, true);
++        //    }
++        //}
++        // END PATCH
+     }
+ }
+-- 
+2.30.1 (Apple Git-130)
