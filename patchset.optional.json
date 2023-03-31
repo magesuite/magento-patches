@@ -1149,6 +1149,13 @@
             "version-constraint": "1.2.2"
           }
         ],
+        "magento/module-inventory-cache": [
+          {
+            "description": "ACP2E-118: Cache invalidation on stock update",
+            "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-cache/fix-for-cache-invalidation-on-stock-update.patch",
+            "version-constraint": "1.2.3"
+          }
+        ],
         "best4mage/cptp": [
             {
                 "description": "Patch to remove check for action when tier prices are applied in cart summary",
