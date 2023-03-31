@@ -1717,6 +1717,13 @@
                     "version-constraint": ">=101.2.5,<101.3.2"
                 }
             ],
+            "magento/module-gift-card-account": [
+                {
+                    "description": "Fixing issue giftcard balance not restored after order cancelation (DOG-1602)",
+                    "filename": "essential/magento/module-gift-card-account/fix-giftcard-can-not-be-used-after-order-cancelation.patch",
+                    "version-constraint": ">=101.2.5"
+                }
+            ],
             "payone-gmbh/magento-2": [
                 {
                     "description": "Fixing issue with duplicated invoices generation",
