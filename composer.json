@@ -741,6 +741,11 @@
                     "description": "Wrap cataloginventory indexer with transaction Magento 2.4.4+",
                     "filename": "essential/magento/module-catalog-inventory/m244-plus-wrap-cataloginventory-indexer-with-transaction.patch",
                     "version-constraint": ">=100.4.4"
+                },
+                {
+                    "description": "ACP2E-134: cache is cleared for the product and categories after an order is placed",
+                    "filename": "essential/magento/module-catalog-inventory/m24-fix-for-clear-product-and-category-cache-after-placing-order.patch",
+                    "version-constraint": "<100.4.6"
                 }
             ],
             "magento/module-catalog": [
