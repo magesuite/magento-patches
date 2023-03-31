@@ -6,7 +6,7 @@ index eb5e2b8..9937bfe 100644
          $configurableIds = [];
          $bestPerformingChildren = [];
 
-+        $collection = $subject->getLoadedProductCollection();
++        $collection = clone $subject->getLoadedProductCollection();
 +        $collection->addFieldToFilter(
 +            \Magento\Catalog\Api\Data\ProductInterface::TYPE_ID,
 +            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
