@@ -1,0 +1,43 @@
+diff --git a/Model/Processor/Order.php b/Model/Processor/Order.php
+index 1c3419a..9217767 100644
+--- a/Model/Processor/Order.php
++++ b/Model/Processor/Order.php
+@@ -158,7 +158,9 @@ class Order extends Common {
+         );
+     }
+ 
+-    protected function _cleanupString($string, $maxLength = 0)
++    //BEGIN PATCH
++    protected function _cleanupString($string, $maxLength = 0, $field = '')
++    //END PATCH
+     {
+         if (empty($string)) {
+             return '';
+@@ -166,8 +168,15 @@ class Order extends Common {
+ 
+ 
+         $trimmed = trim(preg_replace('#\s+#us', ' ', str_replace($this->_getBadCharacters(), '', $string)));
++        //BEGIN PATCH
++        if ($field === 'phonenumber') {
++            $trimmed = preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $trimmed);
++        }
++        //END PATCH
+         if ($maxLength && mb_strlen($string, 'UTF-8') > $maxLength)
+-            $trimmed = mb_substr($string, 0, $maxLength, 'UTF-8');
++            //BEGIN PATCH
++            $trimmed = mb_substr($trimmed, 0, $maxLength, 'UTF-8');
++            //END PATCH
+         return $trimmed;
+     }
+ 
+@@ -249,7 +258,9 @@ class Order extends Common {
+         ));
+ 
+         $node->appendChild($xml->createElementNS('http://www.toppak.nl/deliveryorder_new',$prefix . 'Phone',
+-            $this->_cleanupString($address->getTelephone(), 17)
++            //BEGIN PATCH
++            $this->_cleanupString($address->getTelephone(), 17, 'phonenumber')
++            //END PATCH
+         ));
+ 
+         $node->appendChild($xml->createElementNS('http://www.toppak.nl/deliveryorder_new',$prefix . 'StreetHouseNrExt',
