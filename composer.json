@@ -1649,6 +1649,11 @@
                     "description": "Fix infinite loop in checkout",
                     "filename": "essential/sendinblue/module-sendinblue/sendinblue-fix-infinite-loop-in-checkout.patch",
                     "version-constraint": ">=2.1.10"
+                },
+                {
+                    "description": "Fix for not not set transport object (breaking transactional email)",
+                    "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object.patch",
+                    "version-constraint": ">=2.1.22"
                 }
             ],
             "zendframework/zend-mail": [
