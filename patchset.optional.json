@@ -420,6 +420,13 @@
                 "version-constraint": ">=1.4.31, <1.5.0"
             }
         ],
+        "amasty/module-advanced-permissions": [
+          {
+            "description": "Without this patch tests are failing, because '$this->getCurrentUser->execute()' sometime returns null",
+            "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-advanced-permissions/prevent-access-to-null-like-to-object-v1.5.0.patch",
+            "version-constraint": ">=1.5.0"
+          }
+        ],
         "magento/module-payment": [
             {
                 "description": "Fix groups issue in getPaymentMethodList method - fixed in magento 2.2.6",
