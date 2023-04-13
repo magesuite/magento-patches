@@ -1,0 +1,14 @@
+diff --git a/Model/AbstractExtensibleModel.php b/Model/AbstractExtensibleModel.php
+index 306159f..06a3b59 100644
+--- a/Model/AbstractExtensibleModel.php
++++ b/Model/AbstractExtensibleModel.php
+@@ -120,6 +120,9 @@ abstract class AbstractExtensibleModel extends AbstractModel implements
+         );
+         foreach ($data[self::CUSTOM_ATTRIBUTES] as $code => $value) {
+             if (!($value instanceof \Magento\Framework\Api\AttributeInterface)) {
++                // BEGIN PATCH
++                $value = isset($value['value']) ? $value['value'] : $value;
++                // END PATCH
+                 $data[self::CUSTOM_ATTRIBUTES][$code] = $this->customAttributeFactory->create()
+                     ->setAttributeCode($code)
+                     ->setValue($value);
