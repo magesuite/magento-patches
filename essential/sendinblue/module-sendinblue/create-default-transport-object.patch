@@ -7,7 +7,7 @@ index d87ea1a..d7a969f 100644
                  ]));
              }
 +        } else {
-+            $this->transport = new \Zend\Mail\Transport\Sendmail(null);
++            $this->transport = new \Laminas\Mail\Transport\Sendmail(null);
          }
      }
      /**
