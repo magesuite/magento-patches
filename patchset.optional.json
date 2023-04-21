@@ -1381,9 +1381,9 @@
         ],
         "perfion/perfion-magento-connector": [
             {
-              "description": "Added factories in constructor CLI commands classes",
-              "filename": "vendor/creativestyle/magento-patches/optional/perfion/perfion-magento-connector/add-factories-in-constructor-to-console-commands.patch",
-              "version-constraint": "*"
+                "description": "Added factories in constructor CLI commands classes",
+                "filename": "vendor/creativestyle/magento-patches/optional/perfion/perfion-magento-connector/add-factories-in-constructor-to-console-commands.patch",
+                "version-constraint": "*"
             }
         ]
     }
