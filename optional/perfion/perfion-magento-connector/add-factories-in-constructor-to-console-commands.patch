@@ -1,0 +1,380 @@
+diff --git a/src/Console/Command/ProcessChannelCommand.php b/src/Console/Command/ProcessChannelCommand.php
+index 1f7ff28..3550b7b 100644
+--- a/src/Console/Command/ProcessChannelCommand.php
++++ b/src/Console/Command/ProcessChannelCommand.php
+@@ -7,49 +7,49 @@ namespace Perfion\Connector\Console\Command;
+ use Magento\Framework\Api\Filter;
+ use Magento\Framework\Api\Search\FilterGroup;
+ use Magento\Framework\Api\SearchCriteria;
+-use Magento\Framework\Api\SortOrderBuilder;
++use Magento\Framework\Api\SortOrderBuilderFactory;
+ use Perfion\Connector\Api;
+ use Perfion\Connector\Service;
+ use Symfony\Component\Console;
+-use Perfion\Connector\Service\PostChannelProcess;
++use Perfion\Connector\Service\PostChannelProcessFactory;
+ 
+ class ProcessChannelCommand extends Console\Command\Command
+ {
+-    /** @var Api\ChannelRepositoryInterface */
+-    private $channelRepository;
++    /** @var Api\ChannelRepositoryInterfaceFactory */
++    private $channelRepositoryFactory;
+ 
+-    /** @var Service\ProcessBatch */
+-    private $processService;
++    /** @var Service\ProcessBatchFactory */
++    private $processServiceFactory;
+ 
+-    /** @var Api\ChannelBatchRepositoryInterface */
+-    private $batchRepository;
++    /** @var Api\ChannelBatchRepositoryInterfaceFactory */
++    private $batchRepositoryFactory;
+ 
+-    /** @var SortOrderBuilder */
+-    private $sortOrderBuilder;
++    /** @var SortOrderBuilderFactory */
++    private $sortOrderBuilderFactory;
+ 
+-    /** @var PostChannelProcess */
+-    private $postChannelProcess;
++    /** @var PostChannelProcessFactory */
++    private $postChannelProcessFactory;
+ 
+     /**
+-     * @param Api\ChannelRepositoryInterface $channelRepository
+-     * @param Api\ChannelBatchRepositoryInterface $batchRepository
+-     * @param Service\ProcessBatch $processService
+-     * @param SortOrderBuilder $sortOrderBuilder
+-     * @param PostChannelProcess $postChannelProcess
++     * @param Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory
++     * @param Api\ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory
++     * @param Service\ProcessBatchFactory $processServiceFactory
++     * @param SortOrderBuilderFactory $sortOrderBuilderFactory
++     * @param PostChannelProcessFactory $postChannelProcessFactory
+      */
+     public function __construct(
+-        Api\ChannelRepositoryInterface $channelRepository,
+-        Api\ChannelBatchRepositoryInterface $batchRepository,
+-        Service\ProcessBatch $processService,
+-        SortOrderBuilder $sortOrderBuilder,
+-        PostChannelProcess $postChannelProcess
++        Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory,
++        Api\ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory,
++        Service\ProcessBatchFactory $processServiceFactory,
++        SortOrderBuilderFactory $sortOrderBuilderFactory,
++        PostChannelProcessFactory $postChannelProcessFactory
+     ) {
+         parent::__construct();
+-        $this->channelRepository = $channelRepository;
+-        $this->processService = $processService;
+-        $this->batchRepository = $batchRepository;
+-        $this->sortOrderBuilder = $sortOrderBuilder;
+-        $this->postChannelProcess = $postChannelProcess;
++        $this->channelRepositoryFactory = $channelRepositoryFactory;
++        $this->processServiceFactory = $processServiceFactory;
++        $this->batchRepositoryFactory = $batchRepositoryFactory;
++        $this->sortOrderBuilderFactory = $sortOrderBuilderFactory;
++        $this->postChannelProcessFactory = $postChannelProcessFactory;
+     }
+ 
+     /**
+@@ -99,7 +99,8 @@ class ProcessChannelCommand extends Console\Command\Command
+         $log = new Console\Logger\ConsoleLogger($output);
+ 
+         try {
+-            $batch = $this->batchRepository->getById($batchId);
++            $batchRepository = $this->batchRepositoryFactory->create();
++            $batch = $batchRepository->getById($batchId);
+ 
+             $output->writeLn(sprintf(
+                 '<comment>Process batch #%s (%s)</comment>... </comment>',
+@@ -107,8 +108,8 @@ class ProcessChannelCommand extends Console\Command\Command
+                 $batch->getType()
+             ));
+ 
+-            $this->processService->process($batch, $log);
+-            $this->batchRepository->save($batch);
++            $this->processServiceFactory->create()->process($batch, $log);
++            $batchRepository->save($batch);
+ 
+             $output->writeln('<info>✓</info>');
+ 
+@@ -137,14 +138,15 @@ class ProcessChannelCommand extends Console\Command\Command
+                 continue;
+             }
+ 
+-            $batchIds = $this->batchRepository->getPendingIdsByChannel($channel);
++            $batchRepository = $this->batchRepositoryFactory->create();
++            $batchIds = $batchRepository->getPendingIdsByChannel($channel);
+             if (count($batchIds) > 0) {
+                 $output->writeln(sprintf('<comment>Processing channel `%s`</comment>', $channel->getCode()));
+                 $output->writeln(sprintf("\t<info>%s batches found.</info>", count($batchIds)));
+ 
+                 foreach ($batchIds as $batchId) {
+                     try {
+-                        $batch = $this->batchRepository->getById((int) $batchId);
++                        $batch = $batchRepository->getById((int) $batchId);
+ 
+                         $start = microtime(true);
+                         $output->write(sprintf(
+@@ -156,14 +158,14 @@ class ProcessChannelCommand extends Console\Command\Command
+                         if($payload === null || $payload ===""){
+                             $output->writeln("<info>Received payload did not contain any XML, skipping batch (setting complete status)</info>");
+                             $batch->setStatus(1);
+-                            $this->batchRepository->save($batch);
++                            $batchRepository->save($batch);
+                             continue;
+                         }
+                         $xml = \simplexml_load_string($batch->getPayload());
+ 
+-                        $this->postChannelProcess->gatherData($channel, $xml);
+-                        $this->processService->process($batch, $log);
+-                        $this->batchRepository->save($batch);
++                        $this->postChannelProcessFactory->create()->gatherData($channel, $xml);
++                        $this->processServiceFactory->create()->process($batch, $log);
++                        $batchRepository->save($batch);
+ 
+                         $duration = microtime(true) - $start;
+                         $output->writeln(sprintf('<info>✓</info> %.1fs', $duration));
+@@ -174,7 +176,7 @@ class ProcessChannelCommand extends Console\Command\Command
+                 }
+             }
+             try {
+-                $this->postChannelProcess->process($channel, $output);
++                $this->postChannelProcessFactory->create()->process($channel, $output);
+             } catch (\Exception $exception) {
+                 $output->writeln(sprintf('<error>An error encountered post channel process:</error> %s.', $exception->getMessage()));
+             }
+@@ -206,12 +208,13 @@ class ProcessChannelCommand extends Console\Command\Command
+             $searchCriteria->setFilterGroups([$group]);
+         }
+ 
++        $sortOrderBuilder = $this->sortOrderBuilderFactory->create();
+         $searchCriteria->setSortOrders([
+-            $this->sortOrderBuilder->setField('priority')->setAscendingDirection()->create(),
+-            $this->sortOrderBuilder->setField('code')->setAscendingDirection()->create()
++            $sortOrderBuilder->setField('priority')->setAscendingDirection()->create(),
++            $sortOrderBuilder->setField('code')->setAscendingDirection()->create()
+         ]);
+ 
+-        $result = $this->channelRepository->getList($searchCriteria);
++        $result = $this->channelRepositoryFactory->create()->getList($searchCriteria);
+ 
+         return $result->getItems();
+     }
+diff --git a/src/Console/Command/RunChannelCommand.php b/src/Console/Command/RunChannelCommand.php
+index e019c35..c59c593 100644
+--- a/src/Console/Command/RunChannelCommand.php
++++ b/src/Console/Command/RunChannelCommand.php
+@@ -12,82 +12,82 @@ use Magento\Framework\Api\AttributeValueFactory;
+ use Magento\Framework\Api\Filter;
+ use Magento\Framework\Api\Search\FilterGroup;
+ use Magento\Framework\Api\SearchCriteria;
+-use Magento\Framework\Api\SortOrderBuilder;
++use Magento\Framework\Api\SortOrderBuilderFactory;
+ use Magento\Framework\App\Area;
+ use Magento\Framework\Exception\LocalizedException;
+ use Magento\Framework\Exception\NoSuchEntityException;
+-use Magento\Framework\Indexer\ConfigInterface;
+-use Magento\Framework\Indexer\IndexerRegistry;
++use Magento\Framework\Indexer\ConfigInterfaceFactory;
++use Magento\Framework\Indexer\IndexerRegistryFactory;
+ use Magento\Framework\Registry;
+ use Perfion\Connector\Api;
+-use Perfion\Connector\Api\ChannelBatchRepositoryInterface;
+-use Perfion\Connector\Api\ChannelRepositoryInterface;
++use Perfion\Connector\Api\ChannelBatchRepositoryInterfaceFactory;
++use Perfion\Connector\Api\ChannelRepositoryInterfaceFactory;
+ use Perfion\Connector\Service;
+-use Perfion\Connector\Service\FetchChannel;
+-use Perfion\Connector\Service\ProcessBatch;
++use Perfion\Connector\Service\FetchChannelFactory;
++use Perfion\Connector\Service\ProcessBatchFactory;
+ use Symfony\Component\Console;
+ use Magento\Catalog\Model\ProductLink\Link;
+-use Perfion\Connector\Service\PostChannelProcess;
++use Perfion\Connector\Service\PostChannelProcessFactory;
+ 
+ class RunChannelCommand extends Console\Command\Command
+ {
+-    /** @var Service\FetchChannel */
+-    private $fetchService;
++    /** @var Service\FetchChannelFactory */
++    private $fetchServiceFactory;
+ 
+-    /** @var Api\ChannelRepositoryInterface */
+-    private $channelRepository;
++    /** @var Api\ChannelRepositoryInterfaceFactory */
++    private $channelRepositoryFactory;
+ 
+-    /** @var Api\ChannelBatchRepositoryInterface */
+-    private $batchRepository;
++    /** @var Api\ChannelBatchRepositoryInterfaceFactory */
++    private $batchRepositoryFactory;
+ 
+-    /** @var Service\ProcessBatch */
+-    private $processService;
++    /** @var Service\ProcessBatchFactory */
++    private $processServiceFactory;
+ 
+-    /** @var SortOrderBuilder */
+-    private $sortOrderBuilder;
++    /** @var SortOrderBuilderFactory */
++    private $sortOrderBuilderFactory;
+ 
+-    /** @var ConfigInterface */
+-    private $config;
++    /** @var ConfigInterfaceFactory */
++    private $configFactory;
+ 
+     /** @var Registry */
+     private $registry;
+ 
+-    /** @var PostChannelProcess */
+-    private $postChannelProcess;
++    /** @var PostChannelProcessFactory */
++    private $postChannelProcessFactory;
+ 
+ 
+     /**
+-     * @param ChannelRepositoryInterface $channelRepository
+-     * @param ChannelBatchRepositoryInterface $batchRepository
+-     * @param FetchChannel $fetchService
+-     * @param ProcessBatch $processService
+-     * @param SortOrderBuilder $sortOrderBuilder
+-     * @param ConfigInterface $config
+-     * @param IndexerRegistry $indexerRegistry
++     * @param ChannelRepositoryInterfaceFactory $channelRepositoryFactory
++     * @param ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory
++     * @param FetchChannelFactory $fetchServiceFactory
++     * @param ProcessBatchFactory $processServiceFactory
++     * @param SortOrderBuilderFactory $sortOrderBuilderFactory
++     * @param ConfigInterfaceFactory $configFactory
++     * @param IndexerRegistryFactory $indexerRegistryFactory
+      * @param Registry $registry
+-     * @param PostChannelProcess $postChannelProcess
++     * @param PostChannelProcessFactory $postChannelProcessFactory
+      */
+     public function __construct(
+-        Api\ChannelRepositoryInterface                      $channelRepository,
+-        Api\ChannelBatchRepositoryInterface                 $batchRepository,
+-        Service\FetchChannel                                $fetchService,
+-        Service\ProcessBatch                                $processService,
+-        SortOrderBuilder                                    $sortOrderBuilder,
+-        ConfigInterface                                     $config,
+-        IndexerRegistry                                     $indexerRegistry,
+-        Registry                                            $registry,
+-        PostChannelProcess                                  $postChannelProcess
++        Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory,
++        Api\ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory,
++        Service\FetchChannelFactory $fetchServiceFactory,
++        Service\ProcessBatchFactory $processServiceFactory,
++        SortOrderBuilderFactory $sortOrderBuilderFactory,
++        ConfigInterfaceFactory $configFactory,
++        IndexerRegistryFactory $indexerRegistryFactory,
++        Registry $registry,
++        PostChannelProcessFactory $postChannelProcessFactory
+     ) {
+         parent::__construct();
+-        $this->config = $config;
+-        $this->channelRepository = $channelRepository;
+-        $this->batchRepository = $batchRepository;
+-        $this->processService = $processService;
+-        $this->fetchService = $fetchService;
+-        $this->sortOrderBuilder = $sortOrderBuilder;
+-        $this->indexerRegistry = $indexerRegistry;
++        $this->configFactory = $configFactory;
++        $this->channelRepositoryFactory = $channelRepositoryFactory;
++        $this->batchRepositoryFactory = $batchRepositoryFactory;
++        $this->processServiceFactory = $processServiceFactory;
++        $this->fetchServiceFactory = $fetchServiceFactory;
++        $this->sortOrderBuilderFactory = $sortOrderBuilderFactory;
++        $this->indexerRegistryFactory = $indexerRegistryFactory;
+         $this->registry = $registry;
+-        $this->postChannelProcess = $postChannelProcess;
++        $this->postChannelProcessFactory = $postChannelProcessFactory;
+     }
+ 
+     /**
+@@ -119,8 +119,9 @@ class RunChannelCommand extends Console\Command\Command
+         $this->registry->unregister('isSecureArea');
+         $this->registry->register('isSecureArea', true);
+ 
+-        foreach ($this->config->getIndexers() as $indexerData) {
+-            $indexer = $this->indexerRegistry->get($indexerData['indexer_id']);
++        $config = $this->configFactory->create();
++        foreach ($config->getIndexers() as $indexerData) {
++            $indexer = $this->indexerRegistryFactory->create()->get($indexerData['indexer_id']);
+             $indexer->getView()->suspend();
+         }
+             $channelCodes = (array)$input->getOption('channel');
+@@ -142,7 +143,8 @@ class RunChannelCommand extends Console\Command\Command
+ 
+             try {
+ 
+-                $batches = $this->fetchService->fetch($channel, $log);
++                $fetchService = $this->fetchServiceFactory->create();
++                $batches = $fetchService->fetch($channel, $log);
+                 $output->writeln(sprintf("\t<info>✓</info> received %s batches", count($batches)));
+                 $batchSkus = [];
+                 $productWebsites = [];
+@@ -150,7 +152,8 @@ class RunChannelCommand extends Console\Command\Command
+                 $categoriesPerfionId = [];
+                 $categoryStores = [];
+                 $relatedProducts = [];
+-                $batches = $this->batchRepository->getPendingByChannel($channel);
++                $batchRepository = $this->batchRepositoryFactory->create();
++                $batches = $batchRepository->getPendingByChannel($channel);
+                 foreach ($batches as $batch) {
+                     try {
+                         $output->write(sprintf(
+@@ -159,9 +162,9 @@ class RunChannelCommand extends Console\Command\Command
+                         ));
+                         $xml = \simplexml_load_string($batch->getPayload());
+                         $channelName = $xml->Result->Channel->attributes()['name'];
+-                        $this->postChannelProcess->gatherData($channel, $xml);
+-                        $this->processService->process($batch, $log);
+-                        $this->batchRepository->save($batch);
++                        $this->postChannelProcessFactory->create()->gatherData($channel, $xml);
++                        $this->processServiceFactory->create()->process($batch, $log);
++                        $batchRepository->save($batch);
+ 
+                         $output->writeln('<info>✓</info>');
+                     } catch (\Exception $e) {
+@@ -174,14 +177,14 @@ class RunChannelCommand extends Console\Command\Command
+                 $output->writeln(sprintf('<error>An error encountered:</error> %s.', $e->getMessage()));
+             }
+             try {
+-                $this->postChannelProcess->process($channel, $output);
++                $this->postChannelProcessFactory->create()->process($channel, $output);
+             } catch (\Exception $exception) {
+                 $output->writeln(sprintf('<error>An error encountered post channel process:</error> %s.', $exception->getMessage()));
+             }
+         }
+-        
+-        foreach ($this->config->getIndexers() as $indexerData) {
+-            $indexer = $this->indexerRegistry->get($indexerData['indexer_id']);
++
++        foreach ($config->getIndexers() as $indexerData) {
++            $indexer = $this->indexerRegistryFactory->create()->get($indexerData['indexer_id']);
+             $indexer->getView()->resume();
+         }
+         $output->writeln('<info>Complete.</info>');
+@@ -210,12 +213,13 @@ class RunChannelCommand extends Console\Command\Command
+             $searchCriteria->setFilterGroups([$group]);
+         }
+ 
++        $sortOrderBuilder = $this->sortOrderBuilderFactory->create();
+         $searchCriteria->setSortOrders([
+-            $this->sortOrderBuilder->setField('priority')->setAscendingDirection()->create(),
+-            $this->sortOrderBuilder->setField('code')->setAscendingDirection()->create()
++            $sortOrderBuilder->setField('priority')->setAscendingDirection()->create(),
++            $sortOrderBuilder->setField('code')->setAscendingDirection()->create()
+         ]);
+ 
+-        $result = $this->channelRepository->getList($searchCriteria);
++        $result = $this->channelRepositoryFactory->create()->getList($searchCriteria);
+ 
+         return $result->getItems();
+     }
