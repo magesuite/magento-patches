@@ -1,0 +1,24 @@
+diff --git a/Model/Order.php b/Model/Order.php
+index 9d5310d..88e7c18 100644
+--- a/Model/Order.php
++++ b/Model/Order.php
+@@ -1557,9 +1557,17 @@ class Order extends AbstractModel implements EntityInterface, OrderInterface
+     {
+         $items = $this->getItems();
+ 
+-        if (isset($items[$itemId])) {
+-            return $items[$itemId];
++        // BEGIN PATCH
++//        if (isset($items[$itemId])) {
++//            return $items[$itemId];
++//        }
++
++        foreach($items as $item) {
++            if($item->getItemId() == $itemId) {
++                return $item;
++            }
+         }
++        // END PATCH
+ 
+         return null;
+     }
