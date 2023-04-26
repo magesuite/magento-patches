@@ -2138,6 +2138,13 @@
                     "filename": "essential/sharplogicians/giftwrap/use-new-indexer-for-created-product-type.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "magento/module-product-video": [
+                {
+                    "description": "Add touch event for fotorama to have video working on touch devices",
+                    "filename": "essential/magento/module-product-video/fotorama-video-add-touchend-event-on-mobile.patch",
+                    "version-constraint": ">=100.4.0"
+                }
             ]
         }
     }
