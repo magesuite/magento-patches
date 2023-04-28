@@ -265,6 +265,11 @@
                 "description": "Fix for additional fees tax added twice in creditmemo (IPET-1184, IPET-1606)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-creditmemo-additional-fees-tax-added-twice.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "Fix function Order getItemByID returns null (DOG-1600)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-order-get-item-by-id-function.patch",
+                "version-constraint": ">=103.0.5-p1"
             }
         ],
         "magento/module-shipping": [
