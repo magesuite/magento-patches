@@ -1,0 +1,17 @@
+diff --git a/src/Rewards/Model/Total/Quote/Discount.php b/src/Rewards/Model/Total/Quote/Discount.php
+index 59a25c6..01c250d 100644
+--- a/src/Rewards/Model/Total/Quote/Discount.php
++++ b/src/Rewards/Model/Total/Quote/Discount.php
+@@ -174,6 +174,12 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
+ 
+         if ($this->quote->isMultipleShippingAddresses() || $this->quote->getIsMultiShipping()) {
+             $purchase = $this->getPurchase();
++            // BEGIN PATCH
++            // This patch was add to fix compatibility with test from magesuite-free-gift
++            if (!$purchase) {
++                return $this;
++            }
++            // END PATCH
+ 
+             $purchase->setSpendMaxPoints(0)
+                 ->setSpendMinPoints(0)
