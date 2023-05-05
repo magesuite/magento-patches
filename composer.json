@@ -932,6 +932,11 @@
                     "description": "Do not send billing address if form is invalid",
                     "filename": "essential/magento/module-checkout/m243-do-not-send-billing-address-if-invalid.patch",
                     "version-constraint": ">=100.4.3"
+                },
+                {
+                    "description": "Fix validation error with region-id on address without region",
+                    "filename": "essential/magento/module-checkout/fix-validation-error-with-region-id.patch",
+                    "version-constraint": ">=100.4.3"
                 }
             ],
             "magento/module-checkout-agreements": [

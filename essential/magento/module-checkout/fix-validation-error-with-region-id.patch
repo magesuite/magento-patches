@@ -1,0 +1,16 @@
+jira issue: https://creativestyle.atlassian.net/browse/ROT-1248
+magento issue: https://github.com/magento/magento2/issues/16368
+
+diff --git a/view/frontend/web/js/model/new-customer-address.js b/view/frontend/web/js/model/new-customer-address.js
+index eb4b45d..74daa08 100644
+--- a/view/frontend/web/js/model/new-customer-address.js
++++ b/view/frontend/web/js/model/new-customer-address.js
+@@ -36,7 +36,7 @@ define([
+         return {
+             email: addressData.email,
+             countryId: countryId,
+-            regionId: regionId || addressData.regionId,
++            regionId: regionId || addressData.regionId || null,
+             regionCode: addressData.region ? addressData.region['region_code'] : null,
+             region: addressData.region ? addressData.region.region : null,
+             customerId: addressData['customer_id'] || addressData.customerId,
