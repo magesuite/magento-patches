@@ -548,6 +548,11 @@
                     "description": "Fix gallery issues with swiping items and close button on mobiles",
                     "filename": "essential/magento/magento2-base/m24-fix-gallery-swipe-and-close-button-on-mobile.patch",
                     "version-constraint": ">=2.4.0,<2.4.6"
+                },
+                {
+                    "description": "Fix gallery issues with swiping items on mobiles",
+                    "filename": "essential/magento/magento2-base/m246-fix-gallery-swipe-on-mobile.patch",
+                    "version-constraint": ">=2.4.6"
                 }
             ],
             "magento/module-search": [
