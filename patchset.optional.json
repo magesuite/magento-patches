@@ -37,6 +37,11 @@
                 "description": "Unify synonyms by letter size (IPET-1916)",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/unify-synonyms-by-letter-size.patch",
                 "version-constraint": ">=2.10.13"
+            },
+            {
+              "description": "Skip reindex of given dimension if index has not been provided and exception was not thrown",
+              "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/krg-skip-reindex-in-case-of-failure.patch",
+              "version-constraint": "*"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
