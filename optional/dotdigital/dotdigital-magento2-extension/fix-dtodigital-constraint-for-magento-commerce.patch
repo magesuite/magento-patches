@@ -1,0 +1,39 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 35e624d..f021eb5 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -231,7 +231,10 @@
+         <constraint xsi:type="primary" referenceId="PRIMARY">
+             <column name="id"/>
+         </constraint>
+-        <constraint xsi:type="foreign" referenceId="EMAIL_CATALOG_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID" table="email_catalog" column="product_id" referenceTable="catalog_product_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
++        <!-- BEGIN PATCH -->
++        <!-- <constraint xsi:type="foreign" referenceId="EMAIL_CATALOG_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID" table="email_catalog" column="product_id" referenceTable="catalog_product_entity" referenceColumn="entity_id" onDelete="CASCADE"/> -->
++        <constraint xsi:type="foreign" referenceId="EMAIL_CATALOG_PRODUCT_ID_SEQUENCE_PRODUCT_SEQUENCE_VALUE" table="email_catalog" column="product_id" referenceTable="sequence_product" referenceColumn="sequence_value" onDelete="CASCADE"/>
++        <!-- END PATCH -->
+         <index referenceId="EMAIL_CATALOG_PRODUCT_ID" indexType="btree">
+             <column name="product_id"/>
+         </index>
+diff --git a/etc/db_schema_whitelist.json b/etc/db_schema_whitelist.json
+index 7349b08..961b467 100644
+--- a/etc/db_schema_whitelist.json
++++ b/etc/db_schema_whitelist.json
+@@ -178,7 +178,10 @@
+         },
+         "constraint": {
+             "PRIMARY": true,
+-            "EMAIL_CATALOG_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID": true
++            // BEGIN PATCH
++            // "EMAIL_CATALOG_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID": true
++            "EMAIL_CATALOG_PRODUCT_ID_SEQUENCE_PRODUCT_SEQUENCE_VALUE": true
++            // END PATCH
+         }
+     },
+     "email_rules": {
+@@ -347,4 +350,4 @@
+             "generated_by_dotmailer": true
+         }
+     }
+-}
+\ No newline at end of file
++}

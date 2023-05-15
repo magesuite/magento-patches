@@ -1239,6 +1239,13 @@
                 "version-constraint": "4.4.0"
             }
         ],
+        "dotdigital/dotdigital-magento2-extension": [
+            {
+                "description": "Replace email_catalog schema to sync with magento commerce",
+                "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/fix-dtodigital-constraint-for-magento-commerce.patch",
+                "version-constraint": ">=4.20.4"
+            }
+        ],
         "magento/module-persistent": [
             {
                 "description": "Fix issue with redirecting to login page after paypal express click by guest with persistent cart enabled",
