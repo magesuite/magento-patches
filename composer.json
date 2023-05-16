@@ -374,7 +374,7 @@
                     "description": "Fix problem with filtering orders by creation date",
                     "filename": "essential/magento/module-sales/fix-problem-with-filtering-orders-by-creatation-date.patch",
                     "version-constraint": ">=103.0.5"
-                }
+                },
                 {
                     "description": "Fix problem with wrong storeId type when reordering",
                     "filename": "essential/magento/module-sales/m245_reorder_store_id_typecast.patch",
