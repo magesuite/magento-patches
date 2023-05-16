@@ -1,0 +1,13 @@
+diff --git a/Controller/AbstractController/Reorder.php b/Controller/AbstractController/Reorder.php
+index 5eb485e..0fe6b10 100644
+--- a/Controller/AbstractController/Reorder.php
++++ b/Controller/AbstractController/Reorder.php
+@@ -84,7 +84,7 @@ abstract class Reorder extends Action\Action implements HttpPostActionInterface
+         $resultRedirect = $this->resultRedirectFactory->create();
+
+         try {
+-            $reorderOutput = $this->reorder->execute($order->getIncrementId(), $order->getStoreId());
++            $reorderOutput = $this->reorder->execute($order->getIncrementId(), (string)$order->getStoreId());
+         } catch (LocalizedException $localizedException) {
+             $this->messageManager->addErrorMessage($localizedException->getMessage());
+             return $resultRedirect->setPath('checkout/cart');
