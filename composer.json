@@ -1098,6 +1098,11 @@
                     "description": "Fix reward points amount calculation for bundle products",
                     "filename": "essential/aheadworks/module-reward-points/aheadworks-fix-reward-points-amount-for-bundles.patch",
                     "version-constraint": "1.8.0"
+                },
+                {
+                    "description": "Fix reward points. Add parsing phrase to string so strlen() could work",
+                    "filename": "essential/aheadworks/module-reward-points/description_string_parsing.patch",
+                    "version-constraint": ">=2.2.0"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [

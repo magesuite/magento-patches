@@ -1,0 +1,13 @@
+diff --git a/Model/Total/Quote/RewardPoints.php b/Model/Total/Quote/RewardPoints.php
+index b27bd10..c67bf7f 100644
+--- a/Model/Total/Quote/RewardPoints.php
++++ b/Model/Total/Quote/RewardPoints.php
+@@ -133,7 +133,7 @@ class RewardPoints extends AbstractTotal
+         $amount = $total->getAwRewardPointsAmount();
+ 
+         if ($amount != 0) {
+-            $description = $total->getAwRewardPointsDescription();
++            $description = (string)$total->getAwRewardPointsDescription();
+             $result = [
+                 'code' => $this->getCode(),
+                 'title' => strlen($description) ? __($description)
