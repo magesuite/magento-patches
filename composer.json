@@ -1947,6 +1947,11 @@
                     "description": "After update to PHP 81, string to int value 0 comparison no longer return true. To fix it the if statement has been extend",
                     "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-php-81.patch",
                     "version-constraint": ">=11.23.0"
+                },
+                {
+                    "description": "Category filter optimization",
+                    "filename": "essential/wyomind/datafeedmanager/category-filters-optimization.patch",
+                    "version-constraint": ">=11.23.0"
                 }
             ],
             "wyomind/framework": [
