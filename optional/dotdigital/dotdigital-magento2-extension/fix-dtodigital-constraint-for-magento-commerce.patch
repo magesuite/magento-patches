@@ -18,19 +18,16 @@ diff --git a/etc/db_schema_whitelist.json b/etc/db_schema_whitelist.json
 index 7349b08..961b467 100644
 --- a/etc/db_schema_whitelist.json
 +++ b/etc/db_schema_whitelist.json
-@@ -178,7 +178,10 @@
+@@ -178,7 +178,7 @@
          },
          "constraint": {
              "PRIMARY": true,
 -            "EMAIL_CATALOG_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID": true
-+            // BEGIN PATCH
-+            // "EMAIL_CATALOG_PRODUCT_ID_CATALOG_PRODUCT_ENTITY_ENTITY_ID": true
 +            "EMAIL_CATALOG_PRODUCT_ID_SEQUENCE_PRODUCT_SEQUENCE_VALUE": true
-+            // END PATCH
          }
      },
      "email_rules": {
-@@ -347,4 +350,4 @@
+@@ -347,4 +347,4 @@
              "generated_by_dotmailer": true
          }
      }
