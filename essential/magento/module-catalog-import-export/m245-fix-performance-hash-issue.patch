@@ -1,0 +1,47 @@
+diff --git a/Model/Import/Product.php b/Model/Import/Product.php
+index ac18211..2b7d3b4 100644
+--- a/Model/Import/Product.php
++++ b/Model/Import/Product.php
+@@ -1753,10 +1753,20 @@ class Product extends AbstractEntity
+                 $position = 0;
+                 foreach ($rowImages as $column => $columnImages) {
+                     foreach ($columnImages as $columnImageKey => $columnImage) {
++                        // BEGIN PATCH
++                        /*
++                         * Skipping generate hash because of performance issue
++                         * which appeared during generate hash based on file content
++                         * This is not needed for us because we are checking if image exists
++                         * in \MageSuite\Importer\Model\Import\Magento\Product::uploadMediaFiles
++                         *
+                         $hash = filter_var($columnImage, FILTER_VALIDATE_URL)
+                             ? $this->getRemoteFileHash($columnImage)
+                             : $this->getFileHash($this->joinFilePaths($this->getUploader()->getTmpDir(), $columnImage));
+                         $uploadedFile = $this->findImageByHash($rowExistingImages, $hash);
++                        */
++                        $uploadedFile = '';
++                        // END PATCH
+                         if (!$uploadedFile && !isset($uploadedImages[$columnImage])) {
+                             $uploadedFile = $this->uploadMediaFiles($columnImage);
+                             $uploadedFile = $uploadedFile ?: $this->getSystemFile($columnImage);
+@@ -1966,11 +1976,20 @@ class Product extends AbstractEntity
+     private function getFileHash(string $path): string
+     {
+         $content = '';
++        // BEGIN PATCH
++        /*
++         * Skipping generate hash because of performance issue
++         * which appeared during generate hash based on file content
++         * This is not needed for us because we are checking if image exists
++         * in \MageSuite\Importer\Model\Import\Magento\Product::uploadMediaFiles
++         *
+         if ($this->_mediaDirectory->isFile($path)
+             && $this->_mediaDirectory->isReadable($path)
+         ) {
+             $content = $this->_mediaDirectory->readFile($path);
+         }
++        */
++        // END PATCH
+         return $content ? hash(self::HASH_ALGORITHM, $content) : '';
+     }
+ 
+

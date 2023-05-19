@@ -1,0 +1,18 @@
+diff --git a/Model/Indexer/Stock.php b/Model/Indexer/Stock.php
+index 4b35bfd..a99856e 100644
+--- a/Model/Indexer/Stock.php
++++ b/Model/Indexer/Stock.php
+@@ -54,7 +54,10 @@ class Stock implements \Magento\Framework\Indexer\ActionInterface, \Magento\Fram
+     public function execute($ids)
+     {
+         $this->_productStockIndexerRows->execute($ids);
+-        $this->getCacheContext()->registerEntities(\Magento\Catalog\Model\Product::CACHE_TAG, $ids);
++        // BEGIN PATCH
++        // Fixed in 2.4.6 https://github.com/magento/magento2/commit/b3969936251e1a03427cd24c209abb6af3a0ce1b
++        // $this->getCacheContext()->registerEntities(\Magento\Catalog\Model\Product::CACHE_TAG, $ids);
++        // END PATCH
+     }
+
+     /**
+--
+2.30.1 (Apple Git-130)

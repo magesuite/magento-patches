@@ -1,0 +1,18 @@
+Without this patch tests are failing, because '$this->getCurrentUser->execute()' sometime returns null
+
+diff --git a/Model/Rule.php b/Model/Rule.php
+index b284bf6..0fd20fc 100644
+--- a/Model/Rule.php
++++ b/Model/Rule.php
+@@ -174,7 +174,10 @@ class Rule extends AbstractModel implements RuleInterface
+         }
+
+         $ruleConditions = [];
+-        $userId = $this->getCurrentUser->execute()->getId();
++        // BEGIN PATCH
++        // $userId = $this->getCurrentUser->execute()->getId();
++        $userId = is_object($this->getCurrentUser->execute()) ? $this->getCurrentUser->execute()->getId() : 0;
++        // END PATCH
+         $collection->addAttributeToSelect('amrolepermissions_owner', 'left');
+         $allowOwn = false;
+         $groupOwned = false;

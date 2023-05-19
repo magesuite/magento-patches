@@ -1,0 +1,14 @@
+diff --git a/Helper/Customer.php b/Helper/Customer.php
+index 0213f5f..31774f7 100644
+--- a/Helper/Customer.php
++++ b/Helper/Customer.php
+@@ -211,7 +211,8 @@ class Customer extends AbstractHelper
+     public function getOneCustomer(int $customerId, int $websiteId = null, bool $toArray = false)
+     {
+         $this
+-            ->initCollection($websiteId)
++        //    ->initCollection($websiteId) // PATCH: Fix for multistore customer events.
++            ->initCollection(0)
+             ->setWhere('entity_id', $customerId, $customerId, null)
+             ->joinSubscriptionStatus($websiteId)
+             ->getCustomersAttributeData($customerId, $customerId, $websiteId)

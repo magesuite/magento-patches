@@ -109,6 +109,16 @@
                     <overview>Improves listing of files in GetDirectoryTree</overview>
                     <ticket_id>RK-727</ticket_id>
                 </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Adds missing path value that is essential to edit a image</overview>
+                    <ticket_id>RK-750</ticket_id>
+                </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Add proper jquery event to trigger product video on touch devices</overview>
+                    <ticket_id>TOYS-777</ticket_id>
+                </entry>
             </tag>
         </changelog>
     </module>

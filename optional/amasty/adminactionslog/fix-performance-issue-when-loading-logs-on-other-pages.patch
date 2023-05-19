@@ -1,20 +1,26 @@
 diff --git a/Ui/DataProvider/ActionsLog/Listing.php b/Ui/DataProvider/ActionsLog/Listing.php
-index f54c0ed..618384d 100644
+index 8edf9f8..b562641 100644
 --- a/Ui/DataProvider/ActionsLog/Listing.php
 +++ b/Ui/DataProvider/ActionsLog/Listing.php
-@@ -113,9 +113,20 @@ class Listing extends DataProvider
-             return $carry;
-         }, []);
- 
--        return [
--            'items' => $logEntryItems,
--            'totalRecords' => $searchResult->getTotalCount()
--        ];
+@@ -108,15 +108,26 @@ class Listing extends DataProvider
+
+     protected function searchResultToOutput(SearchResultInterface $searchResult)
+     {
 +        //BEGIN PATCH
 +        if ($this->request->getModuleName() != 'mui') {
 +            return;
 +        }
 +
+         $logEntryItems = array_reduce($searchResult->getItems(), function (array $carry, DataObject $item): array {
+             $carry[] = $item->getData();
+
+             return $carry;
+         }, []);
+
+-        return [
+-            'items' => $logEntryItems,
+-            'totalRecords' => $searchResult->getTotalCount()
+-        ];
 +        $params = $this->request->getParams();
 +        if ($params['namespace'] == 'amaudit_actionslog_listing') {
 +            return [

@@ -1,0 +1,27 @@
+diff --git a/Model/ResourceModel/Product/Collection.php b/Model/ResourceModel/Product/Collection.php
+index 98d2578..270ccda 100644
+--- a/Model/ResourceModel/Product/Collection.php
++++ b/Model/ResourceModel/Product/Collection.php
+@@ -353,7 +353,6 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+                 $filter .= array_pop($explode);
+                 $v++;
+             }
+-            $in = $params['category_filter'] ? 'IN' : 'NOT IN';
+             $ct = '';
+             switch ($params['category_type']) {
+                 case self::CATEGORIES_FILTER_PRODUCT:
+@@ -370,8 +369,12 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+                     $ct = "categories.product_id=cpslcpe.entity_id ";
+                     break;
+             }
+-            $filter = " AND categories.category_id " . $in . "(" . $filter . ") ";
+-            $this->getSelect()->joinInner(['categories' => $tableCcpi], $ct . $filter, ["categories_ids" => "GROUP_CONCAT( DISTINCT categories.category_id)"]);
++            //BEGIN PATCH
++            $in = $params['category_filter'] ? 'IN' : 'NOT IN';
++            $where .= empty($where) ? '' : ' AND';
++            $where .= " e.entity_id ". $in ." (SELECT product_id FROM catalog_category_product WHERE category_id IN (" . $filter . ")) ";
++            //END PATCH
++            $this->getSelect()->joinInner(['categories' => $tableCcpi], $ct, ["categories_ids" => "GROUP_CONCAT( DISTINCT categories.category_id)"]);
+             $this->getSelect()->joinInner(['cce' => $tableCce], "categories.category_id=cce.entity_id AND cce.path LIKE '" . $categoryRootId . "/" . $storeRootId . "/%'", []);
+         } else {
+             $this->getSelect()->joinLeft(['categories' => $tableCcpi], "categories.product_id=e.entity_id", ["categories_ids" => "GROUP_CONCAT( DISTINCT categories.category_id)"]);

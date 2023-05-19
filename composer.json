@@ -170,6 +170,11 @@
                     "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
                     "filename": "essential/magento/framework/port-of-default-charset-fixes-for-mysql-8-0-29-from-magento-246.patch",
                     "version-constraint": ">103.0.3-p3, <103.0.6"
+                },
+                {
+                    "description": "Exclude type mixed from nullable check when generating interceptor classes.",
+                    "filename": "essential/magento/framework/php81_exclude_type_mixed_from_nullable_check.patch",
+                    "version-constraint": ">=103.0.5"
                 }
             ],
             "magento/module-asynchronous-operations": [
@@ -373,6 +378,11 @@
                 {
                     "description": "Fix problem with filtering orders by creation date",
                     "filename": "essential/magento/module-sales/fix-problem-with-filtering-orders-by-creatation-date.patch",
+                    "version-constraint": ">=103.0.5"
+                },
+                {
+                    "description": "Fix problem with wrong storeId type when reordering",
+                    "filename": "essential/magento/module-sales/m245_reorder_store_id_typecast.patch",
                     "version-constraint": ">=103.0.5"
                 }
             ],
@@ -746,6 +756,11 @@
                     "description": "Wrap cataloginventory indexer with transaction Magento 2.4.4+",
                     "filename": "essential/magento/module-catalog-inventory/m244-plus-wrap-cataloginventory-indexer-with-transaction.patch",
                     "version-constraint": ">=100.4.4"
+                },
+                {
+                    "description": "ACP2E-134: cache is cleared for the product and categories after an order is placed",
+                    "filename": "essential/magento/module-catalog-inventory/m24-fix-for-clear-product-and-category-cache-after-placing-order.patch",
+                    "version-constraint": "<100.4.6"
                 }
             ],
             "magento/module-catalog": [
@@ -937,6 +952,11 @@
                     "description": "Do not send billing address if form is invalid",
                     "filename": "essential/magento/module-checkout/m246-do-not-send-billing-address-if-invalid.patch",
                     "version-constraint": ">=100.4.6"
+                },
+                {
+                    "description": "Fix validation error with region-id on address without region",
+                    "filename": "essential/magento/module-checkout/fix-validation-error-with-region-id.patch",
+                    "version-constraint": ">=100.4.3"
                 }
             ],
             "magento/module-checkout-agreements": [
@@ -973,6 +993,11 @@
                     "description": "Fixes performance issue caused by generate file hash",
                     "filename": "essential/magento/module-catalog-import-export/m24-fix-performance-hash-issue.patch",
                     "version-constraint": ">=101.1.2,<101.1.4"
+                },
+                {
+                    "description": "Fixes performance issue caused by generate file hash - version 2.4.5 +",
+                    "filename": "essential/magento/module-catalog-import-export/m245-fix-performance-hash-issue.patch",
+                    "version-constraint": ">=101.1.5"
                 }
             ],
             "magento/module-offline-shipping": [
@@ -1088,6 +1113,11 @@
                     "description": "Fix reward points amount calculation for bundle products",
                     "filename": "essential/aheadworks/module-reward-points/aheadworks-fix-reward-points-amount-for-bundles.patch",
                     "version-constraint": "1.8.0"
+                },
+                {
+                    "description": "Fix reward points. Add parsing phrase to string so strlen() could work",
+                    "filename": "essential/aheadworks/module-reward-points/description_string_parsing.patch",
+                    "version-constraint": ">=2.2.0"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [
@@ -1625,6 +1655,11 @@
                     "description": "Port of DirectoryTree listing from Magento 2.4.6 pre release",
                     "filename": "essential/magento/module-media-gallery-ui/port-of-get-directory-tree-from-magento-246.patch",
                     "version-constraint": ">=100.4.4, <100.4.5"
+                },
+                {
+                    "description": "Added missing path value needed for image edit",
+                    "filename": "essential/magento/module-media-gallery-ui/image-path-added.patch",
+                    "version-constraint": ">=100.4.4"
                 }
             ],
             "seven-senders/shipments-module": [
@@ -1654,6 +1689,11 @@
                     "description": "Fix infinite loop in checkout",
                     "filename": "essential/sendinblue/module-sendinblue/sendinblue-fix-infinite-loop-in-checkout.patch",
                     "version-constraint": ">=2.1.10"
+                },
+                {
+                    "description": "Fix for not not set transport object (breaking transactional email)",
+                    "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object.patch",
+                    "version-constraint": ">=2.1.22,<2.1.23"
                 }
             ],
             "zendframework/zend-mail": [
@@ -1725,6 +1765,13 @@
                     "description": "Fixing issue with multiple giftcard codes generated when invoice is updated (DOG-530)",
                     "filename": "essential/magento/module-gift-card/m23c-fix-duplicated-giftcard-codes-after-edit-invoice.patch",
                     "version-constraint": ">=101.2.5,<101.3.2"
+                }
+            ],
+            "magento/module-gift-card-account": [
+                {
+                    "description": "Fixing issue giftcard balance not restored after order cancelation (DOG-1602)",
+                    "filename": "essential/magento/module-gift-card-account/fix-giftcard-can-not-be-used-after-order-cancelation.patch",
+                    "version-constraint": ">=101.2.5"
                 }
             ],
             "payone-gmbh/magento-2": [
@@ -1924,6 +1971,11 @@
                 {
                     "description": "After update to PHP 81, string to int value 0 comparison no longer return true. To fix it the if statement has been extend",
                     "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-php-81.patch",
+                    "version-constraint": ">=11.23.0"
+                },
+                {
+                    "description": "Category filter optimization",
+                    "filename": "essential/wyomind/datafeedmanager/category-filters-optimization.patch",
                     "version-constraint": ">=11.23.0"
                 }
             ],
@@ -2130,6 +2182,13 @@
                     "description": "Use new Magento indexer for created product type",
                     "filename": "essential/sharplogicians/giftwrap/use-new-indexer-for-created-product-type.patch",
                     "version-constraint": "*"
+                }
+            ],
+            "magento/module-product-video": [
+                {
+                    "description": "Add touch event for fotorama to have video working on touch devices",
+                    "filename": "essential/magento/module-product-video/fotorama-video-add-touchend-event-on-mobile.patch",
+                    "version-constraint": ">=100.4.0"
                 }
             ]
         }

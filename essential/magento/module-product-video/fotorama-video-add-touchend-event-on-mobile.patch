@@ -1,0 +1,15 @@
+Adds missing event to trigger product video on mobile
+
+--- a/view/frontend/web/js/fotorama-add-video-events.js	2023-04-25 18:41:56.000000000 +0200
++++ b/view/frontend/web/js/fotorama-add-video-events.js	2023-04-25 18:41:40.000000000 +0200
+@@ -617,8 +617,8 @@
+         _setVideoEvent: function ($image, PV, fotorama, number) {
+             $image.find('.magnify-lens').remove();
+             $image
+-                .off('click tap', $.proxy(this._clickHandler, this))
+-                .on('click tap', $.proxy(this._clickHandler, this));
++                .off('click tap touchend', $.proxy(this._clickHandler, this))
++                .on('click tap touchend', $.proxy(this._clickHandler, this));
+             this._handleBaseVideo(fotorama, number); //check for video is it base and handle it if it's base
+         },
+

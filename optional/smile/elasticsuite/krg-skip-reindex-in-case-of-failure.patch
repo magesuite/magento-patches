@@ -1,0 +1,17 @@
+diff --git a/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php b/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
+index fdb84c2..fa3a953 100644
+--- a/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
++++ b/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
+@@ -106,6 +106,12 @@ class GenericIndexerHandler implements IndexerInterface
+
+             try {
+                 $index = $this->indexOperation->getIndexByName($this->indexName, $storeId);
++                //BEGIN PATCH
++                //if index has not been found and there is no exception skip reindex for given dimension
++                if (!$index) {
++                    continue;
++                }
++                //END PATCH
+             } catch (\Exception $exception) {
+                 $index = $this->indexOperation->createIndex($this->indexName, $storeId);
+             }
