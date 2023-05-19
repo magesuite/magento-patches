@@ -174,7 +174,7 @@
                 {
                     "description": "Exclude type mixed from nullable check when generating interceptor classes.",
                     "filename": "essential/magento/framework/php81_exclude_type_mixed_from_nullable_check.patch",
-                    "version-constraint": ">=103.0.5"
+                    "version-constraint": ">=103.0.5, <103.0.6"
                 }
             ],
             "magento/module-asynchronous-operations": [
