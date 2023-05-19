@@ -169,7 +169,7 @@
                 {
                     "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
                     "filename": "essential/magento/framework/port-of-default-charset-fixes-for-mysql-8-0-29-from-magento-246.patch",
-                    "version-constraint": ">103.0.3-p3"
+                    "version-constraint": ">103.0.3-p3, <103.0.6"
                 },
                 {
                     "description": "Exclude type mixed from nullable check when generating interceptor classes.",
@@ -358,7 +358,12 @@
                 {
                     "description": "Fix not working customer prefix translation Magento 2.4.4+",
                     "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation-m244plus.patch",
-                    "version-constraint": ">=103.0.4"
+                    "version-constraint": ">=103.0.4, <103.0.6"
+                },
+                {
+                    "description": "Fix not working customer prefix translation Magento 2.4.6",
+                    "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation-m246.patch",
+                    "version-constraint": ">=103.0.6"
                 },
                 {
                     "description": "Fix invoice grand total amount for orders with discounts",
@@ -553,6 +558,11 @@
                     "description": "Fix gallery issues with swiping items and close button on mobiles",
                     "filename": "essential/magento/magento2-base/m24-fix-gallery-swipe-and-close-button-on-mobile.patch",
                     "version-constraint": ">=2.4.0,<2.4.6"
+                },
+                {
+                    "description": "Fix gallery issues with swiping items on mobiles",
+                    "filename": "essential/magento/magento2-base/m246-fix-gallery-swipe-on-mobile.patch",
+                    "version-constraint": ">=2.4.6"
                 }
             ],
             "magento/module-search": [
@@ -588,7 +598,7 @@
                 {
                     "description": "Replace deprecated jQuery load function with .on('load')",
                     "filename": "essential/magento/module-email/m245-fix-deprecated-jquery-function.patch",
-                    "version-constraint": ">101.1.0,<101.2.0"
+                    "version-constraint": ">101.1.0,<101.1.6"
                 }
             ],
             "magento/module-config": [
@@ -802,7 +812,7 @@
                 {
                     "description": "Wrap price indexer with transaction",
                     "filename": "essential/magento/module-catalog/m242-wrap-price-indexer-with-transaction.patch",
-                    "version-constraint": ">=104.0.2"
+                    "version-constraint": ">=104.0.2, <104.0.6"
                 },
                 {
                     "description": "Remove category tag from top menu",
@@ -891,7 +901,7 @@
                 {
                     "description": "Fix incorrect customer name prefix data (gender select)",
                     "filename": "essential/magento/module-checkout/m242-fix-prefix-array-element-index.patch",
-                    "version-constraint": ">=100.4.2"
+                    "version-constraint": ">=100.4.2, <100.4.6"
                 },
                 {
                     "description": "Replace jquery-ui fade effect with jquery fadeIn/fadeOut",
@@ -936,7 +946,12 @@
                 {
                     "description": "Do not send billing address if form is invalid",
                     "filename": "essential/magento/module-checkout/m243-do-not-send-billing-address-if-invalid.patch",
-                    "version-constraint": ">=100.4.3"
+                    "version-constraint": ">=100.4.3, <100.4.6"
+                },
+                {
+                    "description": "Do not send billing address if form is invalid",
+                    "filename": "essential/magento/module-checkout/m246-do-not-send-billing-address-if-invalid.patch",
+                    "version-constraint": ">=100.4.6"
                 },
                 {
                     "description": "Fix validation error with region-id on address without region",
@@ -1175,7 +1190,7 @@
                 {
                     "description": "Fix for customer group id in order when guest",
                     "filename": "essential/magento/module-quote/m245-fix_for_customer_group_id_in_order_data_when_guest.patch",
-                    "version-constraint": ">=101.2.5"
+                    "version-constraint": ">=101.2.5, <101.2.6"
                 }
             ],
             "magento/module-quick-order": [
@@ -1265,7 +1280,12 @@
                 {
                     "description": "M2.4.3-p1 Fix adding autocomplete to user area inputs",
                     "filename": "essential/magento/module-customer/m243-autocomplete-user-area.patch",
-                    "version-constraint": ">=103.0.3-p1"
+                    "version-constraint": ">=103.0.3-p1, <103.0.6"
+                },
+                {
+                    "description": "M2.4.6 Fix adding autocomplete to user area inputs",
+                    "filename": "essential/magento/module-customer/m246-autocomplete-user-area.patch",
+                    "version-constraint": ">=103.0.6"
                 },
                 {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
@@ -1310,7 +1330,12 @@
                 {
                     "description": "Fix incorrect customer prefix data (gender select)",
                     "filename": "essential/magento/module-customer/m242-fix-prefix-options-select.patch",
-                    "version-constraint": ">=103.0.2"
+                    "version-constraint": ">=103.0.2, <103.0.6"
+                },
+                {
+                    "description": "Fix incorrect customer prefix data (gender select)",
+                    "filename": "essential/magento/module-customer/m246-fix-prefix-options-select.patch",
+                    "version-constraint": ">=103.0.6"
                 },
                 {
                     "description": "Fix not working translation for customer prefix in options",
@@ -1335,7 +1360,7 @@
                 {
                     "description": "Fix not working translation for customers",
                     "filename": "essential/magento/module-customer/fix-customer-module-prefix-translation.patch",
-                    "version-constraint": ">=102.0.5"
+                    "version-constraint": ">=102.0.5, <103.0.6"
                 },
                 {
                     "description": "Fix Customer`s Custom Attribute (Text Field) with blank value Value",
@@ -1359,7 +1384,7 @@
                 {
                     "description": "Avoid cleaning all caches in scheduled mode",
                     "filename": "essential/magento/module-inventory-cache/avoid-cleaning-all-caches-in-scheduled-mode.patch",
-                    "version-constraint": ">=1.2.3"
+                    "version-constraint": ">=1.2.3, <1.2.4"
                 }
             ],
             "magento/module-inventory-bundle-product-indexer": [
@@ -1629,7 +1654,7 @@
                 {
                     "description": "Port of DirectoryTree listing from Magento 2.4.6 pre release",
                     "filename": "essential/magento/module-media-gallery-ui/port-of-get-directory-tree-from-magento-246.patch",
-                    "version-constraint": ">=100.4.4"
+                    "version-constraint": ">=100.4.4, <100.4.5"
                 },
                 {
                     "description": "Added missing path value needed for image edit",
@@ -1876,7 +1901,7 @@
                 {
                     "description": "Fix page builder during clean install",
                     "filename": "essential/magento/module-page-builder/m24-fix-page-builder-clean-install.patch",
-                    "version-constraint": ">=2.2.0"
+                    "version-constraint": ">=2.2.0, <2.2.4"
                 }
             ],
             "trustedshops/easy_integration": [

@@ -1,0 +1,13 @@
+diff --git a/lib/web/fotorama/fotorama.js b/lib/web/fotorama/fotorama.js
+index 690c73c..d64e568 100644
+--- a/lib/web/fotorama/fotorama.js
++++ b/lib/web/fotorama/fotorama.js
+@@ -1141,7 +1141,7 @@ fotoramaVersion = '4.6.4';
+ 
+     function addEvent(el, e, fn, bool) {
+         if (!e) return;
+-        el.addEventListener ? el.addEventListener(e, fn, !!bool) : el.attachEvent('on' + e, fn);
++        el.addEventListener ? el.addEventListener(e, fn, {passive: !!bool}) : el.attachEvent('on' + e, fn);
+     }
+ 
+     /**
