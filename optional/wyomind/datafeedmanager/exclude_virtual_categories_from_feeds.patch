@@ -1,0 +1,29 @@
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index 1a25c2a..3cfc8ac 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -1215,6 +1215,24 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+             $this->categoriesFilterList = [0 => '*'];
+         }
+         $this->categoriesFilterList = array_values($this->categoriesFilterList);
++
++        //BEGIN PATCH - add all virtual categories:
++        /** @var \Magento\Eav\Model\Config $eavConfig */
++        $eavConfig = $this->objectManager->get(\Magento\Eav\Model\Config::class);
++        $attribute = $eavConfig->getAttribute(\Magento\Catalog\Model\Category::ENTITY, 'is_virtual_category');
++
++        /** @var \Magento\Framework\App\ResourceConnection $resourceConnection */
++        $resourceConnection = $this->objectManager->get(\Magento\Framework\App\ResourceConnection::class);
++        $connection = $resourceConnection->getConnection();
++        $tableName = $connection->getTableName('catalog_category_entity_int');
++        $select = $connection->select()
++            ->from($tableName, ['entity_id'])
++            ->where('attribute_id = ?', $attribute->getAttributeId())
++            ->where('value = 1');
++        $categoriesIds = $connection->fetchAssoc($select);
++
++        $this->categoriesFilterList = array_merge($this->categoriesFilterList, array_keys($categoriesIds));
++        //END PATCH
+     }
+     /**
+      * Analyse product template, then check what attributes are required

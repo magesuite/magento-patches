@@ -1115,6 +1115,11 @@
                 "description": "Set all categories in categoriesFilterList, so all categories will be used not only selected in feed configuration (IPET-1867)",
                 "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/disable-category-filter-in-feeds.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Exclude all virutal categories from feeds (KRG-2555)",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/exclude_virtual_categories_from_feeds.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-media-storage": [
