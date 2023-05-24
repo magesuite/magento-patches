@@ -1,0 +1,18 @@
+Change based on: https://github.com/magento/inventory/issues/3350#issuecomment-1306514770
+
+diff --git a/Indexer/SelectBuilder.php b/Indexer/SelectBuilder.php
+index fa52a5c..d201fa5 100644
+--- a/Indexer/SelectBuilder.php
++++ b/Indexer/SelectBuilder.php
+@@ -95,7 +95,10 @@ class SelectBuilder implements SelectBuilderInterface
+                 [
+                     IndexStructure::SKU => 'parent_product_entity.sku',
+                     IndexStructure::QUANTITY => 'SUM(stock.quantity)',
+-                    IndexStructure::IS_SALABLE => 'IF(inventory_stock_item.is_in_stock = 0, 0, MAX(stock.is_salable))',
++                    // BEGIN PATCH
++                    //IndexStructure::IS_SALABLE => 'IF(inventory_stock_item.is_in_stock = 0, 0, MAX(stock.is_salable))',
++                    IndexStructure::IS_SALABLE => 'IF(MAX(stock.is_salable),MAX(stock.is_salable),inventory_stock_item.is_in_stock)',
++                    // END PATCH
+                 ]
+             )->joinInner(
+                 ['product_entity' => $this->resourceConnection->getTableName('catalog_product_entity')],
