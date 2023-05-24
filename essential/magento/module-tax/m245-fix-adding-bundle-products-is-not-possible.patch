@@ -1,0 +1,12 @@
+diff --git a/Pricing/Render/Adjustment.php b/Pricing/Render/Adjustment.php
+index 0e5c619..71c4629 100644
+--- a/Pricing/Render/Adjustment.php
++++ b/Pricing/Render/Adjustment.php
+@@ -185,6 +185,6 @@ class Adjustment extends AbstractAdjustment
+     {
+         return $this->amountRender->getPriceType() === 'finalPrice'
+             ? 'basePrice'
+-            : 'base' . ucfirst($this->amountRender->getPriceType());
++            : 'base' . ucfirst((string) $this->amountRender->getPriceType());
+     }
+ }
