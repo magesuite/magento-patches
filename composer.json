@@ -1430,6 +1430,11 @@
                     "description": "Fix issue with empty customer atrribute page in admin panel",
                     "filename": "essential/magento/module-customer-custom-attributes/m24-fix-protected-file-extensions-in-customer-custom-attributes.patch",
                     "version-constraint": ">=100.4.2,<100.4.5"
+                },
+                {
+                    "description": "Fix issue with empty customer atrribute page in admin panel magento 2.4.5",
+                    "filename": "essential/magento/module-customer-custom-attributes/m245-fix-protected-file-extensions-in-customer-custom-attributes.patch",
+                    "version-constraint": ">=100.4.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [

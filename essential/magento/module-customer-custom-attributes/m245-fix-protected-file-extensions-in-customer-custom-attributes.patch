@@ -1,0 +1,38 @@
+diff --git a/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php b/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php
+index d721e12..025c042 100644
+--- a/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php
++++ b/Block/Adminhtml/Customer/Address/Attribute/Edit/Tab/General.php
+@@ -185,7 +185,13 @@ class General extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractM
+             'max_text_length'
+         );
+ 
+-        $forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        //BEGINNING OF PATCH
++        //$forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        $forbiddenFileExtensions = is_array($this->extensionValidator->getProtectedFileExtensions()) ?
++            implode(',', $this->extensionValidator->getProtectedFileExtensions()) :
++            $this->extensionValidator->getProtectedFileExtensions();
++        //END OF PATCH
++
+         $noteMessage ='Comma separated, alphanumeric characters. Forbidden file extensions: %1.';
+         $fieldset->addField(
+             'file_extensions',
+diff --git a/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php b/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php
+index be837ef..10ac2e9 100644
+--- a/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php
++++ b/Block/Adminhtml/Customer/Attribute/Edit/Tab/Main.php
+@@ -205,7 +205,13 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
+             'max_text_length'
+         );
+ 
+-        $forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        //BEGINNING OF PATCH
++        //$forbiddenFileExtensions = implode(',', $this->extensionValidator->getProtectedFileExtensions());
++        $forbiddenFileExtensions = is_array($this->extensionValidator->getProtectedFileExtensions()) ?
++                implode(',', $this->extensionValidator->getProtectedFileExtensions()) :
++                $this->extensionValidator->getProtectedFileExtensions();
++        //END OF PATCH
++
+         $fieldset->addField(
+             'file_extensions',
+             'text',
