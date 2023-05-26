@@ -1445,6 +1445,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/perfion/perfion-magento-connector/add-factories-in-constructor-to-console-commands.patch",
                 "version-constraint": "*"
             }
-        ]
+        ],
+       "magento/module-deploy": [
+           {
+               "description": "Quality patch ACSD-46815_2.4.5_v2.patch",
+               "filename": "vendor/creativestyle/magento-patches/optional/magento/module-deploy/ACSD-46815_2.4.5_v2.patch",
+               "version-constraint": "100.4.5"
+           }
+       ]
     }
 }
