@@ -1,0 +1,13 @@
+diff --git a/Model/Preview.php b/Model/Preview.php
+index b479be9..3696bb5 100644
+--- a/Model/Preview.php
++++ b/Model/Preview.php
+@@ -118,7 +118,7 @@ class Preview extends BasePreview
+         // if the sort order is different from position because the products are sorted in js.
+         $data = parent::getData();
+
+-        if ($this->getSortBy() != 'position') {
++        if (!str_contains($this->getSortBy(), 'position')) {
+             $products = $data['products'] ?? [];
+             array_walk($products, function (&$productData, $index) {
+                 $productData['position'] = $index;
