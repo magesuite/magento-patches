@@ -1117,7 +1117,7 @@
                 {
                     "description": "Fix reward points. Add parsing phrase to string so strlen() could work",
                     "filename": "essential/aheadworks/module-reward-points/description_string_parsing.patch",
-                    "version-constraint": ">=2.2.0"
+                    "version-constraint": "2.2.0"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [
