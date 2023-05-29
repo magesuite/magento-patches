@@ -1,0 +1,16 @@
+diff --git a/src/Setup/UpgradeData.php b/src/Setup/UpgradeData.php
+index c92839c..c26ea6f 100644
+--- a/src/Setup/UpgradeData.php
++++ b/src/Setup/UpgradeData.php
+@@ -24,6 +24,11 @@ class UpgradeData implements UpgradeDataInterface
+      */
+     private $collectionFactory;
+ 
++    /**
++     * @var StoreManagerInterface
++     */
++    private $storeManager;
++
+     /**
+      * @var WriterInterface
+      */

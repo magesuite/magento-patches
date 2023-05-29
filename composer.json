@@ -2200,6 +2200,13 @@
                     "filename": "essential/magento/module-product-video/fotorama-video-add-touchend-event-on-mobile.patch",
                     "version-constraint": ">=100.4.0"
                 }
+            ],
+            "synerise/magento2-integration": [
+                {
+                    "description": "Add missing variable declaration",
+                    "filename": "essential/synerise/magento2-integration/add-missing-variable-declaration.patch",
+                    "version-constraint": ">=2.2.2"
+                }
             ]
         }
     }
