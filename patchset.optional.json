@@ -116,6 +116,11 @@
                 "description": "Fix redirect to home after removing a product from cart (HAAR-1812)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/m22-fix-home-redirect-after-remove-from-cart.patch",
                 "version-constraint": ">=100.2.2"
+            },
+            {
+                "description": "Fix displaying error message about no active cart after placing order",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/m245-fix-customer-has-no-active-cart.patch",
+                "version-constraint": ">=100.4.5`"
             }
         ],
         "magento/module-checkout-staging": [
