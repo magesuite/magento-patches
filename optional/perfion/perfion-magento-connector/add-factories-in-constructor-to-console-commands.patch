@@ -1,8 +1,8 @@
 diff --git a/src/Console/Command/ProcessChannelCommand.php b/src/Console/Command/ProcessChannelCommand.php
-index b519ded..1909c3b 100644
+index b519ded..36ecbd8 100644
 --- a/src/Console/Command/ProcessChannelCommand.php
 +++ b/src/Console/Command/ProcessChannelCommand.php
-@@ -7,64 +7,32 @@ namespace Perfion\Connector\Console\Command;
+@@ -7,64 +7,39 @@ namespace Perfion\Connector\Console\Command;
  use Magento\Framework\Api\Filter;
  use Magento\Framework\Api\Search\FilterGroup;
  use Magento\Framework\Api\SearchCriteria;
@@ -35,6 +35,12 @@ index b519ded..1909c3b 100644
 -
 -    /** @var IndexerRegistry */
 -    private IndexerRegistry $indexerRegistry;
++    protected \Perfion\Connector\Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory;
++    protected \Perfion\Connector\Api\ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory;
++    protected \Perfion\Connector\Service\ProcessBatchFactory $processServiceFactory;
++    protected \Magento\Framework\Api\SortOrderBuilderFactory $sortOrderBuilderFactory;
++    protected \Perfion\Connector\Service\PostChannelProcessFactory $postChannelProcessFactory;
++    protected \Magento\Framework\Indexer\IndexerRegistryFactory $indexerRegistryFactory;
 
      /** @var array */
      private array $indexes;
@@ -70,16 +76,17 @@ index b519ded..1909c3b 100644
 -        $this->sortOrderBuilder = $sortOrderBuilder;
 -        $this->postChannelProcess = $postChannelProcess;
 -        $this->indexerRegistry = $indexerRegistry;
++
 +        $this->channelRepositoryFactory = $channelRepositoryFactory;
-+        $this->processServiceFactory = $processServiceFactory;
 +        $this->batchRepositoryFactory = $batchRepositoryFactory;
++        $this->processServiceFactory = $processServiceFactory;
 +        $this->sortOrderBuilderFactory = $sortOrderBuilderFactory;
 +        $this->postChannelProcessFactory = $postChannelProcessFactory;
 +        $this->indexerRegistryFactory = $indexerRegistryFactory;
          $this->indexes = $indexes;
      }
 
-@@ -115,7 +83,7 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -115,7 +90,7 @@ class ProcessChannelCommand extends Console\Command\Command
          $log = new Console\Logger\ConsoleLogger($output);
 
          try {
@@ -88,7 +95,7 @@ index b519ded..1909c3b 100644
 
              $output->writeLn(sprintf(
                  '<comment>Process batch #%s (%s)</comment>... </comment>',
-@@ -123,8 +91,8 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -123,8 +98,8 @@ class ProcessChannelCommand extends Console\Command\Command
                  $batch->getType()
              ));
 
@@ -99,7 +106,7 @@ index b519ded..1909c3b 100644
 
              $output->writeln('<info>✓</info>');
 
-@@ -149,7 +117,7 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -149,7 +124,7 @@ class ProcessChannelCommand extends Console\Command\Command
 
          foreach ($this->indexes as $index) {
              try {
@@ -108,7 +115,7 @@ index b519ded..1909c3b 100644
                  $indexer->getView()->suspend();
              } catch (\Exception $exception) {
                  $log->error($exception->getMessage());
-@@ -161,14 +129,15 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -161,14 +136,15 @@ class ProcessChannelCommand extends Console\Command\Command
                  continue;
              }
 
@@ -126,7 +133,7 @@ index b519ded..1909c3b 100644
 
                          $start = microtime(true);
                          $output->write(sprintf(
-@@ -180,14 +149,14 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -180,14 +156,14 @@ class ProcessChannelCommand extends Console\Command\Command
                          if($payload === null || $payload ===""){
                              $output->writeln("<info>Received payload did not contain any XML, skipping batch (setting complete status)</info>");
                              $batch->setStatus(1);
@@ -145,7 +152,7 @@ index b519ded..1909c3b 100644
 
                          $duration = microtime(true) - $start;
                          $output->writeln(sprintf('<info>✓</info> %.1fs', $duration));
-@@ -198,7 +167,7 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -198,7 +174,7 @@ class ProcessChannelCommand extends Console\Command\Command
                  }
              }
              try {
@@ -154,7 +161,7 @@ index b519ded..1909c3b 100644
              } catch (\Exception $exception) {
                  $output->writeln(sprintf('<error>An error encountered post channel process:</error> %s.', $exception->getMessage()));
              }
-@@ -206,7 +175,7 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -206,7 +182,7 @@ class ProcessChannelCommand extends Console\Command\Command
 
          foreach ($this->indexes as $index) {
              try {
@@ -163,7 +170,7 @@ index b519ded..1909c3b 100644
                  $indexer->getView()->resume();
              } catch (\Exception $exception) {
                  $log->error($exception->getMessage());
-@@ -239,12 +208,13 @@ class ProcessChannelCommand extends Console\Command\Command
+@@ -239,12 +215,13 @@ class ProcessChannelCommand extends Console\Command\Command
              $searchCriteria->setFilterGroups([$group]);
          }
 
@@ -181,7 +188,7 @@ index b519ded..1909c3b 100644
          return $result->getItems();
      }
 diff --git a/src/Console/Command/RunChannelCommand.php b/src/Console/Command/RunChannelCommand.php
-index 926322a..1d1bf5a 100644
+index 926322a..ce004d4 100644
 --- a/src/Console/Command/RunChannelCommand.php
 +++ b/src/Console/Command/RunChannelCommand.php
 @@ -12,82 +12,49 @@ use Magento\Framework\Api\AttributeValueFactory;
@@ -209,18 +216,18 @@ index 926322a..1d1bf5a 100644
  {
 -    /** @var Service\FetchChannel */
 -    private $fetchService;
-+    protected Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory;
-+    protected Api\ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory;
-+    protected Service\FetchChannelFactory $fetchServiceFactory;
-+    protected Service\ProcessBatchFactory $processServiceFactory;
-+    protected \Magento\Framework\Api\SortOrderBuilderFactory $sortOrderBuilderFactory;
-+    protected \Magento\Framework\Indexer\IndexerRegistryFactory $indexerRegistryFactory;
-+    protected Registry $registry;
-+    protected Service\PostChannelProcessFactory $postChannelProcessFactory;
 
 -    /** @var Api\ChannelRepositoryInterface */
 -    private $channelRepository;
--
++    protected \Perfion\Connector\Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory;
++    protected \Perfion\Connector\Api\ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory;
++    protected \Perfion\Connector\Service\FetchChannelFactory $fetchServiceFactory;
++    protected \Perfion\Connector\Service\ProcessBatchFactory $processServiceFactory;
++    protected \Magento\Framework\Api\SortOrderBuilderFactory $sortOrderBuilderFactory;
++    protected \Magento\Framework\Indexer\IndexerRegistryFactory $indexerRegistryFactory;
++    protected Registry $registry;
++    protected \Perfion\Connector\Service\PostChannelProcessFactory $postChannelProcessFactory;
+
 -    /** @var Api\ChannelBatchRepositoryInterface */
 -    private $batchRepository;
 -
@@ -261,7 +268,7 @@ index 926322a..1d1bf5a 100644
 -        Registry                                            $registry,
 -        PostChannelProcess                                  $postChannelProcess,
 -        array                                               $indexes
-+        Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory,
++        \Perfion\Connector\Api\ChannelRepositoryInterfaceFactory $channelRepositoryFactory,
 +        \Perfion\Connector\Api\ChannelBatchRepositoryInterfaceFactory $batchRepositoryFactory,
 +        \Perfion\Connector\Service\FetchChannelFactory $fetchServiceFactory,
 +        \Perfion\Connector\Service\ProcessBatchFactory $processServiceFactory,
@@ -278,7 +285,6 @@ index 926322a..1d1bf5a 100644
 -        $this->fetchService = $fetchService;
 -        $this->sortOrderBuilder = $sortOrderBuilder;
 -        $this->indexerRegistry = $indexerRegistry;
-+
 +        $this->channelRepositoryFactory = $channelRepositoryFactory;
 +        $this->batchRepositoryFactory = $batchRepositoryFactory;
 +        $this->fetchServiceFactory = $fetchServiceFactory;
