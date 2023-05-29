@@ -1,0 +1,33 @@
+Fix issue with invalid category model instance
+
+diff --git a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
+index 95c0cef..d3f7a6d 100644
+--- a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
++++ b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
+@@ -109,14 +109,17 @@ class Ajax extends \Magento\Framework\App\Action\Action
+     {
+         $this->layerResolver->create($this->getLayerType());
+
+-        if ($this->getRequest()->getParam('cat')) {
+-            $category = $this->categoryRepository->create()->get(
+-                $this->getRequest()->getParam('cat'),
+-                $this->layerResolver->get()->getCurrentStore()->getId()
+-            );
+-
+-            $this->layerResolver->get()->setCurrentCategory($category);
++        // BEGIN PATCH
++        //if ($this->getRequest()->getParam('cat')) {
++        $categoryId = (int)$this->getRequest()->getParam('cat');
++        if ($categoryId) {
++            //$category = $this->categoryRepository->create()->get(
++            //    $this->getRequest()->getParam('cat'),
++            //    $this->layerResolver->get()->getCurrentStore()->getId()
++            //);
++            $this->layerResolver->get()->setCurrentCategory($categoryId);
+         }
++        // END PATCH
+
+         $this->applyFilters();
+
+--
+2.30.1 (Apple Git-130)
