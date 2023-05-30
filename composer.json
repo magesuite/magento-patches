@@ -1704,6 +1704,11 @@
                     "description": "Fix for not not set transport object (breaking transactional email)",
                     "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object.patch",
                     "version-constraint": ">=2.1.22,<2.1.23"
+                },
+                {
+                    "description": "Fix for not not set transport object (breaking transactional email)",
+                    "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object-2.1.23.patch",
+                    "version-constraint": ">=2.1.23"
                 }
             ],
             "zendframework/zend-mail": [
