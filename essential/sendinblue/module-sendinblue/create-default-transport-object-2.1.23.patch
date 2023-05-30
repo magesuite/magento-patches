@@ -1,0 +1,13 @@
+diff --git a/Model/Transport.php b/Model/Transport.php
+index 7bc466b..b90f5f3 100644
+--- a/Model/Transport.php
++++ b/Model/Transport.php
+@@ -47,6 +47,8 @@ class Transport implements TransportInterface
+ 			        ],
+ 		        ]));
+ 	        }
++        } else {
++            $this->transport = new \Laminas\Mail\Transport\Sendmail(null);
+         }
+     }
+     /**
