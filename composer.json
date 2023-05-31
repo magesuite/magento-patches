@@ -833,6 +833,11 @@
                     "description": "Fixes price-box issues, related to priceConfig and tier prices calculations",
                     "filename": "essential/magento/module-catalog/m24-price-box-fixes.patch",
                     "version-constraint": ">=104.0.5"
+                },
+                {
+                    "description": "Fixes price-box issues, related to priceConfig and tier prices calculations",
+                    "filename": "essential/magento/module-catalog/m24-breadcrumbs-path-cache.patch",
+                    "version-constraint": ">=104.0.5"
                 }
             ],
             "magento/module-catalog-search": [
