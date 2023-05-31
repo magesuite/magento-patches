@@ -1,0 +1,48 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index 3a55164..17d528b 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -285,19 +285,31 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+             $path = [];
+             $category = $this->getCategory();
+             if ($category) {
+-                $pathInStore = $category->getPathInStore();
+-                $pathIds = array_reverse(explode(',', $pathInStore));
+-
+-                $categories = $category->getParentCategories();
+-
+-                // add category path breadcrumb
+-                foreach ($pathIds as $categoryId) {
+-                    if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
+-                        $path['category' . $categoryId] = [
+-                            'label' => $categories[$categoryId]->getName(),
+-                            'link' => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getUrl() : ''
+-                        ];
++                //BEGIN PATCH
++                $cache = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\CacheInterface::class);
++                $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Store\Model\StoreManagerInterface::class);
++                $cacheKey = sprintf('breadcrumb_path_%s_%s', $category->getId(), $storeManager->getStore()->getStoreId());
++
++                if(($fromCache = $cache->load($cacheKey))) {
++                    $path = json_decode($fromCache, true);
++                } else {
++                    $pathInStore = $category->getPathInStore();
++                    $pathIds = array_reverse(explode(',', $pathInStore));
++
++                    $categories = $category->getParentCategories();
++
++                    // add category path breadcrumb
++                    foreach ($pathIds as $categoryId) {
++                        if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
++                            $path['category' . $categoryId] = [
++                                'label' => $categories[$categoryId]->getName(),
++                                'link' => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getUrl() : ''
++                            ];
++                        }
+                     }
++
++                    $cache->save(json_encode($path), $cacheKey, $category->getIdentities());
++                    //END PATCH
+                 }
+             }
+ 
