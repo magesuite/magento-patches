@@ -1421,11 +1421,6 @@
                     "description": "Wrap inventory configurable product indexer (MSI) with transaction",
                     "filename": "essential/magento/module-inventory-configurable-product-indexer/wrap-inventory-configurable-indexer-with-transaction.patch",
                     "version-constraint": ">=1.1.0,<1.2.0"
-                },
-                {
-                    "description": "Fix configurable parent product in stock status indexing",
-                    "filename": "essential/magento/module-inventory-configurable-product-indexer/m244plus-fix-configurable-parent-product-in-stock-status-indexing.patch",
-                    "version-constraint": ">=1.2.3"
                 }
             ],
             "magento/module-inventory-grouped-product-indexer": [
