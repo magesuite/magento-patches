@@ -1371,6 +1371,11 @@
                 "description": "Fix error when add to cart - added additional buyRequest check for splitted lenses in quote",
                 "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/lensplaza-fix-add-to-cart-action.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix Mollie payment - related to improper applying discount from coupon code to shipping costs",
+                "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/mollie-fix-shipping-discount.patch",
+                "version-constraint": "*"
             }
         ],
         "mage_delight/specialpromo": [
