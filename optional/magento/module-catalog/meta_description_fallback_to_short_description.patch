@@ -1,0 +1,18 @@
+diff --git a/Helper/Product/View.php b/Helper/Product/View.php
+index 46f6bf1..bad6d5c 100644
+--- a/Helper/Product/View.php
++++ b/Helper/Product/View.php
+@@ -133,8 +133,12 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
+         if ($description) {
+             $pageConfig->setDescription($description);
+         } else {
+-            $productDescription = is_string($product->getShortDescription()) ?
+-                $this->string->substr(strip_tags($product->getDescription()), 0, 255) : '';
++            $productDescription = $this->string->substr(strip_tags($product->getShortDescription() ?? ''), 0, 255);
++
++            if (empty($productDescription)) {
++                $productDescription = $this->string->substr(strip_tags($product->getDescription() ?? ''), 0, 255);
++            }
++
+             $pageConfig->setDescription($productDescription);
+         }
