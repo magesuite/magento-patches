@@ -1,0 +1,21 @@
+diff --git a/Model/Total/Invoice/RewardPoints.php b/Model/Total/Invoice/RewardPoints.php
+index a7ddd17..4470a55 100644
+--- a/Model/Total/Invoice/RewardPoints.php
++++ b/Model/Total/Invoice/RewardPoints.php
+@@ -126,6 +126,16 @@ class RewardPoints extends AbstractTotal
+                 ? $order->getAwRewardPoints()
+                 : $usedPoints;
+ 
++            // BEGIN PATCH
++            $totalPointsAmount = $totalPointsAmount > -$order->getAwRewardPointsAmount()
++                ? -$order->getAwRewardPointsAmount()
++                : $totalPointsAmount;
++
++            $baseTotalPointsAmount = $baseTotalPointsAmount > -$order->getBaseAwRewardPointsAmount()
++                ? -$order->getBaseAwRewardPointsAmount()
++                : $baseTotalPointsAmount;
++            // END PATCH
++
+             if ($usedPoints > 0) {
+                 $invoice->setAwUseRewardPoints($order->getAwUseRewardPoints());
+                 $invoice->setAwRewardPoints($usedPoints);
