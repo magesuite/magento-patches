@@ -2086,6 +2086,11 @@
                     "description": "Avoid loading product for a second time",
                     "filename": "essential/magepal/magento2-enhanced-ecommerce/avoid-loading-product-second-time.patch",
                     "version-constraint": ">=1.7.1,<1.7.3"
+                },
+                {
+                    "description": "Fix error when adding product to cart",
+                    "filename": "essential/magepal/magento2-enhanced-ecommerce/add-to-cart-error-fix.patch",
+                    "version-constraint": "1.7.5"
                 }
             ],
             "magepal/magento2-google-analytics4": [
