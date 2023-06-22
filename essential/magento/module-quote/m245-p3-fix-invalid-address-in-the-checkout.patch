@@ -1,0 +1,16 @@
+diff --git a/Model/QuoteAddressValidator.php b/Model/QuoteAddressValidator.php
+index 5b100d5..bc8e0f4 100644
+--- a/Model/QuoteAddressValidator.php
++++ b/Model/QuoteAddressValidator.php
+@@ -157,7 +157,10 @@ class QuoteAddressValidator
+         if ($cart->getCustomerIsGuest()) {
+             $this->doValidateForGuestQuoteAddress($address, $cart);
+         }
+-        $this->doValidate($address, $cart->getCustomerIsGuest() ? null : (int) $cart->getCustomer()->getId());
++        // PATCH BEGIN
++        // $this->doValidate($address, $cart->getCustomerIsGuest() ? null : (int) $cart->getCustomer()->getId());
++        $this->doValidate($address, $cart->getCustomerId() ? (int) $cart->getCustomer()->getId() : null);
++        // PATCH END
+     }
+ 
+     /**
