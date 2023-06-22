@@ -1206,7 +1206,7 @@
                 {
                     "description": "Fix invalid address in the checkout",
                     "filename": "essential/magento/module-quote/m245-p3-fix-invalid-address-in-the-checkout.patch",
-                    "version-constraint": ">=101.2.5-p3"
+                    "version-constraint": ">=101.2.5-p3, <101.2.6"
                 },
                 {
                     "description": "Fix for customer group id in order when guest",
