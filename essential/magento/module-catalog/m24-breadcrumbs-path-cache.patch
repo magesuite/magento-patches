@@ -1,8 +1,8 @@
 diff --git a/Helper/Data.php b/Helper/Data.php
-index 3a55164..17d528b 100644
+index 3a55164..1117f4b 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
-@@ -285,19 +285,31 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -285,23 +285,41 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
              $path = [];
              $category = $this->getCategory();
              if ($category) {
@@ -44,5 +44,15 @@ index 3a55164..17d528b 100644
 +                    $cache->save(json_encode($path), $cacheKey, $category->getIdentities());
 +                    //END PATCH
                  }
+             }
+ 
+             if ($this->getProduct()) {
++                //BEGIN PATCH
++                if ($category) {
++                    $path['category' . $category->getId()]['link'] = $category->getUrl();
++                }
++                //END PATCH
++
+                 $path['product'] = ['label' => $this->getProduct()->getName()];
              }
  
