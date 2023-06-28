@@ -322,6 +322,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report/use-columns-value-instead-of-expresions.patch"
             }
         ],
+        "mirasvit/module-report-api": [
+            {
+                "description": "Don't skip filter fields for tmp tables (IPET-2074)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report-api/do-not-skip-filter-fields-for-tmp-tables.patch",
+                "version-constraint": ">=1.0.60"
+            }
+        ],
         "amasty/adminactionslog": [
             {
                 "description": "Fix performance issue by removing pagination on pages were amount of logs is very low",
