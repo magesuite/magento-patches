@@ -1722,7 +1722,7 @@
                     "version-constraint": ">=2.1.22,<2.1.23"
                 },
                 {
-                    "description": "Fix for not not set transport object (breaking transactional email)",
+                    "description": "Fix for unset transport object and SMTP configuration",
                     "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object-2.1.23.patch",
                     "version-constraint": ">=2.1.23"
                 }

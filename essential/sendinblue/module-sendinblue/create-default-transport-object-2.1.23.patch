@@ -1,7 +1,16 @@
 diff --git a/Model/Transport.php b/Model/Transport.php
-index 7bc466b..b90f5f3 100644
+index 7bc466b..e53377d 100644
 --- a/Model/Transport.php
 +++ b/Model/Transport.php
+@@ -35,7 +35,7 @@ class Transport implements TransportInterface
+             $smtpPort = $scopeConfig->getValue('sendinblue/smtp_port', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+             $smtpUsername = $scopeConfig->getValue('sendinblue/smtp_username', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+             $smtpPassword = $scopeConfig->getValue('sendinblue/smtp_password', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+-	        if ($message instanceof Message ) {
++	        if ($message instanceof \Magento\Framework\Mail\EmailMessage ) {
+ 		        $this->transport = new Smtp(new SmtpOptions([
+ 			        'host' => $smtpHost,
+ 			        'port' => $smtpPort,
 @@ -47,6 +47,8 @@ class Transport implements TransportInterface
  			        ],
  		        ]));
