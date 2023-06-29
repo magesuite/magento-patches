@@ -1,0 +1,68 @@
+Issue is related to improper applying discount from coupon code to shipping costs, when using Mollie payment.
+Mollie module is not checking if any discount has been applied to shipping costs in Magento
+
+Patch prepared by Mollie
+
+diff --git a/Service/Order/Lines/Generator/ShippingDiscount.php b/Service/Order/Lines/Generator/ShippingDiscount.php
+new file mode 100644
+index 0000000..0317180
+--- /dev/null
++++ b/Service/Order/Lines/Generator/ShippingDiscount.php
+@@ -0,0 +1,44 @@
++<?php
++
++namespace Mollie\Payment\Service\Order\Lines\Generator;
++
++use Magento\Sales\Api\Data\OrderInterface;
++use Mollie\Api\Types\OrderLineType;
++use Mollie\Payment\Helper\General;
++
++class ShippingDiscount implements GeneratorInterface
++{
++    /**
++     * @var General
++     */
++    private $mollieHelper;
++
++    public function __construct(
++        General $mollieHelper
++    ) {
++        $this->mollieHelper = $mollieHelper;
++    }
++
++    public function process(OrderInterface $order, array $orderLines): array
++    {
++        if (!$order->getShippingDiscountAmount()) {
++            return $orderLines;
++        }
++
++        $forceBaseCurrency = (bool)$this->mollieHelper->useBaseCurrency($order->getStoreId());
++        $currency = $forceBaseCurrency ? $order->getBaseCurrencyCode() : $order->getOrderCurrencyCode();
++        $amount = abs($order->getData(($forceBaseCurrency ? 'base_' : '') . 'shipping_discount_amount'));
++
++        $orderLines[] = [
++            'type' => OrderLineType::TYPE_DISCOUNT,
++            'name' => __('Magento Discount'),
++            'quantity' => 1,
++            'unitPrice' => $this->mollieHelper->getAmountArray($currency, -$amount),
++            'totalAmount' => $this->mollieHelper->getAmountArray($currency, -$amount),
++            'vatRate' => '0.00',
++            'vatAmount' => $this->mollieHelper->getAmountArray($currency, '0.00'),
++        ];
++
++        return $orderLines;
++    }
++}
++
+diff --git a/etc/di.xml b/etc/di.xml
+index 3fa66fc..573987a 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -148,6 +148,7 @@
+                 <item name="magento_giftcard" xsi:type="object">Mollie\Payment\Service\Order\Lines\Generator\MagentoGiftCard</item>
+                 <item name="magento_giftwrapping" xsi:type="object">Mollie\Payment\Service\Order\Lines\Generator\MagentoGiftWrapping</item>
+                 <item name="geissweb_euvat" xsi:type="object">Mollie\Payment\Service\Order\Lines\Generator\GeisswebEuvat</item>
++                <item name="cart_rule_discount" xsi:type="object">Mollie\Payment\Service\Order\Lines\Generator\ShippingDiscount</item>
+             </argument>
+         </arguments>
+     </type>

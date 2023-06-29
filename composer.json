@@ -169,7 +169,7 @@
                 {
                     "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
                     "filename": "essential/magento/framework/port-of-default-charset-fixes-for-mysql-8-0-29-from-magento-246.patch",
-                    "version-constraint": ">103.0.3-p3, <103.0.6"
+                    "version-constraint": ">103.0.3-p3, <103.0.5-p3"
                 },
                 {
                     "description": "Exclude type mixed from nullable check when generating interceptor classes.",
@@ -833,6 +833,11 @@
                     "description": "Fixes price-box issues, related to priceConfig and tier prices calculations",
                     "filename": "essential/magento/module-catalog/m24-price-box-fixes.patch",
                     "version-constraint": ">=104.0.5"
+                },
+                {
+                    "description": "Add cache for breadcrumbs ",
+                    "filename": "essential/magento/module-catalog/m24-breadcrumbs-path-cache.patch",
+                    "version-constraint": ">=104.0.5"
                 }
             ],
             "magento/module-catalog-search": [
@@ -1122,7 +1127,13 @@
                 {
                     "description": "Fix reward points. Add parsing phrase to string so strlen() could work",
                     "filename": "essential/aheadworks/module-reward-points/description_string_parsing.patch",
+
                     "version-constraint": "2.2.0"
+                },
+                {
+                    "description": "Fixed reward points are higher on the invoice than on the order",
+                    "filename": "essential/aheadworks/module-reward-points/fix-invoice-reward-poits-greater-than-order-reward-points.patch",
+                    "version-constraint": "2.1.0"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [
@@ -1190,7 +1201,12 @@
                 {
                     "description": "Fix invalid address in the checkout",
                     "filename": "essential/magento/module-quote/m24-fix-invalid-address-in-the-checkout.patch",
-                    "version-constraint": ">=101.2.3"
+                    "version-constraint": ">=101.2.3, <101.2.5-p3"
+                },
+                {
+                    "description": "Fix invalid address in the checkout",
+                    "filename": "essential/magento/module-quote/m245-p3-fix-invalid-address-in-the-checkout.patch",
+                    "version-constraint": ">=101.2.5-p3, <101.2.6"
                 },
                 {
                     "description": "Fix for customer group id in order when guest",
@@ -1416,11 +1432,6 @@
                     "description": "Wrap inventory configurable product indexer (MSI) with transaction",
                     "filename": "essential/magento/module-inventory-configurable-product-indexer/wrap-inventory-configurable-indexer-with-transaction.patch",
                     "version-constraint": ">=1.1.0,<1.2.0"
-                },
-                {
-                    "description": "Fix configurable parent product in stock status indexing",
-                    "filename": "essential/magento/module-inventory-configurable-product-indexer/m244plus-fix-configurable-parent-product-in-stock-status-indexing.patch",
-                    "version-constraint": ">=1.2.3"
                 }
             ],
             "magento/module-inventory-grouped-product-indexer": [
@@ -1435,6 +1446,11 @@
                     "description": "Fix issue with empty customer atrribute page in admin panel",
                     "filename": "essential/magento/module-customer-custom-attributes/m24-fix-protected-file-extensions-in-customer-custom-attributes.patch",
                     "version-constraint": ">=100.4.2,<100.4.5"
+                },
+                {
+                    "description": "Fix issue with empty customer atrribute page in admin panel magento 2.4.5",
+                    "filename": "essential/magento/module-customer-custom-attributes/m245-fix-protected-file-extensions-in-customer-custom-attributes.patch",
+                    "version-constraint": ">=100.4.5"
                 }
             ],
             "magento/module-inventory-sales-frontend-ui": [
@@ -2081,6 +2097,11 @@
                     "description": "Avoid loading product for a second time",
                     "filename": "essential/magepal/magento2-enhanced-ecommerce/avoid-loading-product-second-time.patch",
                     "version-constraint": ">=1.7.1,<1.7.3"
+                },
+                {
+                    "description": "Fix error when adding product to cart",
+                    "filename": "essential/magepal/magento2-enhanced-ecommerce/add-to-cart-error-fix.patch",
+                    "version-constraint": "1.7.5"
                 }
             ],
             "magepal/magento2-google-analytics4": [
@@ -2211,13 +2232,6 @@
                     "description": "Add touch event for fotorama to have video working on touch devices",
                     "filename": "essential/magento/module-product-video/fotorama-video-add-touchend-event-on-mobile.patch",
                     "version-constraint": ">=100.4.0"
-                }
-            ],
-            "synerise/magento2-integration": [
-                {
-                    "description": "Add missing variable declaration",
-                    "filename": "essential/synerise/magento2-integration/add-missing-variable-declaration.patch",
-                    "version-constraint": ">=2.2.2"
                 }
             ]
         }

@@ -1,0 +1,34 @@
+diff --git a/Model/IsProductSalableForRequestedQtyCondition/IsProductSalableForRequestedQtyConditionChain.php b/Model/IsProductSalableForRequestedQtyCondition/IsProductSalableForRequestedQtyConditionChain.php
+index 2c8ccb4..64ce6cb 100644
+--- a/Model/IsProductSalableForRequestedQtyCondition/IsProductSalableForRequestedQtyConditionChain.php
++++ b/Model/IsProductSalableForRequestedQtyCondition/IsProductSalableForRequestedQtyConditionChain.php
+@@ -154,15 +154,20 @@ class IsProductSalableForRequestedQtyConditionChain implements IsProductSalableF
+         }
+ 
+         try {
+-            $requiredConditionsErrors = $this->processRequiredConditions($sku, $stockId, $requestedQty);
+-            if (count($requiredConditionsErrors)) {
+-                return $this->productSalableResultFactory->create(['errors' => $requiredConditionsErrors]);
+-            }
+-
+-            $sufficientConditionsErrors = $this->processSufficientConditions($sku, $stockId, $requestedQty);
+-            if (count($sufficientConditionsErrors)) {
+-                return $this->productSalableResultFactory->create(['errors' => $sufficientConditionsErrors]);
+-            }
++            // $requiredConditionsErrors = $this->processRequiredConditions($sku, $stockId, $requestedQty);
++            // if (count($requiredConditionsErrors)) {
++            //     return $this->productSalableResultFactory->create(['errors' => $requiredConditionsErrors]);
++            // }
++            //
++            // $sufficientConditionsErrors = $this->processSufficientConditions($sku, $stockId, $requestedQty);
++            // if (count($sufficientConditionsErrors)) {
++            //     return $this->productSalableResultFactory->create(['errors' => $sufficientConditionsErrors]);
++            // }
++            // BEGIN PATCH
++            $errors = $this->processRequiredConditions($sku, $stockId, $requestedQty);
++            $errors = array_merge($errors, $this->processSufficientConditions($sku, $stockId, $requestedQty));
++            return $this->productSalableResultFactory->create(['errors' => $errors]);
++            // END PATCH
+         } catch (SkuIsNotAssignedToStockException $e) {
+             $errors = [
+                 $this->productSalabilityErrorFactory->create([

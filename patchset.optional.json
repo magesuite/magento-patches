@@ -322,6 +322,13 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report/use-columns-value-instead-of-expresions.patch"
             }
         ],
+        "mirasvit/module-report-api": [
+            {
+                "description": "Don't skip filter fields for tmp tables (IPET-2074)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report-api/do-not-skip-filter-fields-for-tmp-tables.patch",
+                "version-constraint": ">=1.0.60"
+            }
+        ],
         "amasty/adminactionslog": [
             {
                 "description": "Fix performance issue by removing pagination on pages were amount of logs is very low",
@@ -1370,6 +1377,11 @@
             {
                 "description": "Fix error when add to cart - added additional buyRequest check for splitted lenses in quote",
                 "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/lensplaza-fix-add-to-cart-action.patch",
+                "version-constraint": "*"
+            },
+            {
+                "description": "Fix Mollie payment - related to improper applying discount from coupon code to shipping costs",
+                "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/mollie-fix-shipping-discount.patch",
                 "version-constraint": "*"
             }
         ],

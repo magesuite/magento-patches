@@ -1,0 +1,16 @@
+diff --git a/Plugin/Controller/Cart/Add.php b/Plugin/Controller/Cart/Add.php
+index af434e0..d0d542e 100644
+--- a/Plugin/Controller/Cart/Add.php
++++ b/Plugin/Controller/Cart/Add.php
+@@ -90,7 +90,10 @@ class Add
+      */
+     public function afterExecute(Action $subject, $result)
+     {
+-        if ($product = $this->getProduct() && !$this->moduleManager->isEnabled('MagePal_GoogleAnalytics4')) {
++        //BEGIN PATCH
++        $product = $this->getProduct();
++        if ($product && !$this->moduleManager->isEnabled('MagePal_GoogleAnalytics4')) {
++        //END PATCH
+             $response = $this->response->getBody();
+             $responseArray = (array) json_decode($response, true);
+             $this->addTrackingData($product, $responseArray);
