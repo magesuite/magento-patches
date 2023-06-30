@@ -1,0 +1,13 @@
+diff --git a/lib/web/mage/utils/compare.js b/lib/web/mage/utils/compare.js
+index bfc2027..0709529 100644
+--- a/lib/web/mage/utils/compare.js
++++ b/lib/web/mage/utils/compare.js
+@@ -43,7 +43,7 @@ define([
+             }
+ 
+             return array.every(function (value, index) {
+-                return target[index] === value;
++                return target[index] == value;
+             });
+         });
+     }
