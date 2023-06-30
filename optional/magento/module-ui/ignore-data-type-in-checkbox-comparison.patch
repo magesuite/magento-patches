@@ -1,0 +1,13 @@
+diff --git a/view/base/web/js/form/element/single-checkbox.js b/view/base/web/js/form/element/single-checkbox.js
+index 29ee6b8..4c2f0d0 100644
+--- a/view/base/web/js/form/element/single-checkbox.js
++++ b/view/base/web/js/form/element/single-checkbox.js
+@@ -100,7 +100,7 @@ define([
+             var bool = false;
+ 
+             _.some(this.valueMap, function (iValue, iBool) {
+-                if (iValue === value) {
++                if (iValue == value) {
+                     bool = iBool === 'true';
+ 
+                     return true;
