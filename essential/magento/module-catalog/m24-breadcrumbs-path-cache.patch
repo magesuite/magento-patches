@@ -48,7 +48,7 @@ index 3a55164..1117f4b 100644
  
              if ($this->getProduct()) {
 +                //BEGIN PATCH
-+                if ($category) {
++                if ($category && $category->getIsActive()) {
 +                    $path['category' . $category->getId()]['link'] = $category->getUrl();
 +                }
 +                //END PATCH
