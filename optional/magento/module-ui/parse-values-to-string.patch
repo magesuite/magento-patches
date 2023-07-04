@@ -1,0 +1,14 @@
+diff --git a/view/base/web/js/form/element/multiselect.js b/view/base/web/js/form/element/multiselect.js
+index b80a440..e86e6ea 100644
+--- a/view/base/web/js/form/element/multiselect.js
++++ b/view/base/web/js/form/element/multiselect.js
+@@ -41,6 +41,9 @@ define([
+                 value = [];
+             }
+
++            // BEGIN PATCH
++            value = value.map(val => String(val));
++            // END PATCH
+             return _.isString(value) ? value.split(',') : value;
+         },
+
