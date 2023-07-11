@@ -1,0 +1,15 @@
+diff --git a/magento/framework/DB/Adapter/Pdo/Mysql.php b/magento/framework/DB/Adapter/Pdo/Mysql.php
+index 35c3eea..9b12c09 100644
+--- a/magento/framework/DB/Adapter/Pdo/Mysql.php
++++ b/magento/framework/DB/Adapter/Pdo/Mysql.php
+@@ -547,6 +547,10 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
+             $this->_config['driver_options'][\PDO::MYSQL_ATTR_MULTI_STATEMENTS] = false;
+         }
+
++        if (!isset($this->_config['driver_options'][\PDO::ATTR_STRINGIFY_FETCHES])) {
++            $this->_config['driver_options'][\PDO::ATTR_STRINGIFY_FETCHES] = true;
++        }
++
+         if (!isset($this->_config['charset'])) {
+             $this->_config['charset'] = 'utf8';
+         }

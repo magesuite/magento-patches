@@ -2233,6 +2233,13 @@
                     "filename": "essential/magento/module-product-video/fotorama-video-add-touchend-event-on-mobile.patch",
                     "version-constraint": ">=100.4.0"
                 }
+            ],
+            "skynix/m2-mysql-cluster": [
+                {
+                    "description": "Add stringify fetches flag to PDO in order to backward compatibility with Magento frontend after upgrading to 2.4.5.",
+                    "filename": "essential/skynix/m2-mysql-cluster/m245_aurora_skynix_force_stringify_fetches.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
