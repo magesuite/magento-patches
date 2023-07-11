@@ -2238,7 +2238,7 @@
                 {
                     "description": "Add stringify fetches flag to PDO in order to backward compatibility with Magento frontend after upgrading to 2.4.5.",
                     "filename": "essential/skynix/m2-mysql-cluster/m245_aurora_skynix_force_stringify_fetches.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<1.0.8"
                 }
             ]
         }
