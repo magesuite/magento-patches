@@ -1,0 +1,17 @@
+diff --git a/Plugin/Catalog/UpdateMultiselectAttributes.php b/Plugin/Catalog/UpdateMultiselectAttributes.php
+index 7ce34b6..a647f2d 100644
+--- a/Plugin/Catalog/UpdateMultiselectAttributes.php
++++ b/Plugin/Catalog/UpdateMultiselectAttributes.php
+@@ -29,7 +29,11 @@ class UpdateMultiselectAttributes
+         $attributes = $product->getAttributes();
+         foreach ($attributes as $attrKey => $attribute) {
+             if ($attribute->getFrontendInput() === 'multiselect') {
+-                if (array_key_exists($attrKey, $productData) && $productData[$attrKey] == null) {
++                // BEGIN PATCH
++                // DOG-1647 multiselect atrributes "use daefault" not working on store view
++                // if (array_key_exists($attrKey, $productData) && $productData[$attrKey] == null) {
++                if (array_key_exists($attrKey, $productData) && $productData[$attrKey] === null) {
++                // END PATCH
+                     $product->setData($attrKey, '');
+                 }
+             }

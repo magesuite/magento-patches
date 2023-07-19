@@ -246,6 +246,11 @@
                 "description": "Patch for skipping address_type when converting address to quote",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer-custom-attributes/gnp-fix-for-address-type-override.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Patch for issue with multiselect attribute can not be default on store view",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer-custom-attributes/fix-issue-with-saving-attributes-on-store-view-use-default.patch",
+                "version-constraint": ">=100.4.5-p1"
             }
         ],
         "magento/module-quote": [
