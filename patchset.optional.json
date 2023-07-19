@@ -120,7 +120,7 @@
             {
                 "description": "Fix displaying error message about no active cart after placing order",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/m245-fix-customer-has-no-active-cart.patch",
-                "version-constraint": ">=100.4.5`"
+                "version-constraint": ">=100.4.5"
             }
         ],
         "magento/module-checkout-staging": [
