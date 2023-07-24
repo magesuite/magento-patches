@@ -384,6 +384,11 @@
                     "description": "Fix problem with wrong storeId type when reordering",
                     "filename": "essential/magento/module-sales/m245_reorder_store_id_typecast.patch",
                     "version-constraint": ">=103.0.5"
+                },
+                {
+                    "description": "Fix problem with division by zero when creating creditmemo with free shipping. Magento patch ACSD-50814_2.4.6",
+                    "filename": "essential/magento/module-sales/m246-fix-division-by-zero-when-creating-creditmemo.patch",
+                    "version-constraint": ">=103.0.6"
                 }
             ],
             "magento/module-store": [
