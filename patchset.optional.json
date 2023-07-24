@@ -42,6 +42,11 @@
               "description": "Skip reindex of given dimension if index has not been provided and exception was not thrown",
               "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/krg-skip-reindex-in-case-of-failure.patch",
               "version-constraint": "*"
+            },
+            {
+              "description": "Added retires in case elasticsearch is returning 429 error.",
+              "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/elastisearch-error-429.patch",
+              "version-constraint": "*"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [

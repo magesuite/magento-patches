@@ -1,0 +1,46 @@
+diff --git a/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php b/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
+index fdb84c2..dc59cfa 100644
+--- a/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
++++ b/src/module-elasticsuite-core/Indexer/GenericIndexerHandler.php
+@@ -105,7 +105,12 @@ class GenericIndexerHandler implements IndexerInterface
+             $storeId   = $dimension->getValue();
+
+             try {
+-                $index = $this->indexOperation->getIndexByName($this->indexName, $storeId);
++                //BEGIN PATCH
++                $index = $this->getIndexByName($this->indexName, $storeId);
++                if (!$index) {
++                    continue;
++                }
++                //END PATCH
+             } catch (\Exception $exception) {
+                 $index = $this->indexOperation->createIndex($this->indexName, $storeId);
+             }
+@@ -144,6 +149,27 @@ class GenericIndexerHandler implements IndexerInterface
+         return $this;
+     }
+
++    //BEGIN PATCH
++    protected function getIndexByName($indexName, $storeId)
++    {
++        $index = null;
++        $numberOfTries = 0;
++        while ($numberOfTries < 10) {
++            try {
++                $index = $this->indexOperation->getIndexByName($indexName, $storeId);
++                break;
++            } catch (\Exception $exception) {
++                if (!str_contains($exception->getMessage(), 'Unknown 429 error from Elasticsearch')) {
++                    throw $exception;
++                }
++            }
++            sleep(3);
++            $numberOfTries++;
++        }
++        return $index;
++    }
++    //END PATCH
++
+     /**
+      * {@inheritDoc}
+      */
