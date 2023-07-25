@@ -2245,6 +2245,13 @@
                     "filename": "essential/skynix/m2-mysql-cluster/m245_aurora_skynix_force_stringify_fetches.patch",
                     "version-constraint": "<1.0.8"
                 }
+            ],
+            "synerise/magento2-integration": [
+                {
+                    "description": "Add missing variable declaration",
+                    "filename": "essential/synerise/magento2-integration/add-missing-variable-to-observer.patch",
+                    "version-constraint": ">=2.2.5"
+                }
             ]
         }
     }
