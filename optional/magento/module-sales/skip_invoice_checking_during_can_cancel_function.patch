@@ -1,0 +1,35 @@
+diff --git a/Order.php b/Order.php
+index 9d5310d..b408f94 100644
+--- a/Order.php
++++ b/Order.php
+@@ -615,17 +615,19 @@ class Order extends AbstractModel implements EntityInterface, OrderInterface
+             return false;
+         }
+ 
+-        $allInvoiced = true;
+-        foreach ($this->getAllItems() as $item) {
+-            if ($item->getQtyToInvoice()) {
+-                $allInvoiced = false;
+-                break;
+-            }
+-        }
+-
+-        if ($allInvoiced) {
+-            return false;
+-        }
++//        BEGIN PATCH
++//        $allInvoiced = true;
++//        foreach ($this->getAllItems() as $item) {
++//            if ($item->getQtyToInvoice()) {
++//                $allInvoiced = false;
++//                break;
++//            }
++//        }
++//
++//        if ($allInvoiced) {
++//            return false;
++//        }
++//        END PATCH
+ 
+         $state = $this->getState();
+         if ($this->isCanceled() || $state === self::STATE_COMPLETE || $state === self::STATE_CLOSED) {
