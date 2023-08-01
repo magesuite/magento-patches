@@ -42,6 +42,11 @@
               "description": "Skip reindex of given dimension if index has not been provided and exception was not thrown",
               "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/krg-skip-reindex-in-case-of-failure.patch",
               "version-constraint": "*"
+            },
+            {
+              "description": "Added retires in case elasticsearch is returning 429 error.",
+              "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/elastisearch-error-429.patch",
+              "version-constraint": "*"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
@@ -246,6 +251,11 @@
                 "description": "Patch for skipping address_type when converting address to quote",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer-custom-attributes/gnp-fix-for-address-type-override.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Patch for issue with multiselect attribute can not be default on store view",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer-custom-attributes/fix-issue-with-saving-attributes-on-store-view-use-default.patch",
+                "version-constraint": ">=100.4.5-p1"
             }
         ],
         "magento/module-quote": [

@@ -1,0 +1,32 @@
+diff --git a/Block/Config.php b/Block/Config.php
+index 61fd631..dd6f86b 100644
+--- a/Block/Config.php
++++ b/Block/Config.php
+@@ -55,6 +55,11 @@ class Config extends TrackerConfig
+         $this->urlBuilder = $urlBuilder;
+     }
+
++    public function isEnabled()
++    {
++        return $this->_scopeConfig->isSetFlag('smile_elasticsuite_ab_campaign/scenarios_tracking/enabled');
++    }
++
+     /**
+      * Get generic tracker and specific campaigns cookie config.
+      *
+diff --git a/etc/config.xml b/etc/config.xml
+new file mode 100644
+index 0000000..9a04005
+--- /dev/null
++++ b/etc/config.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0"?>
++<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
++    <default>
++        <smile_elasticsuite_ab_campaign>
++            <scenarios_tracking>
++                <enabled>0</enabled>
++            </scenarios_tracking>
++        </smile_elasticsuite_ab_campaign>
++    </default>
++</config>

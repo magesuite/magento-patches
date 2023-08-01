@@ -384,6 +384,11 @@
                     "description": "Fix problem with wrong storeId type when reordering",
                     "filename": "essential/magento/module-sales/m245_reorder_store_id_typecast.patch",
                     "version-constraint": ">=103.0.5"
+                },
+                {
+                    "description": "Fix problem with division by zero when creating creditmemo with free shipping. Magento patch ACSD-50814_2.4.6",
+                    "filename": "essential/magento/module-sales/m246-fix-division-by-zero-when-creating-creditmemo.patch",
+                    "version-constraint": ">=103.0.6"
                 }
             ],
             "magento/module-store": [
@@ -2239,6 +2244,13 @@
                     "description": "Add stringify fetches flag to PDO in order to backward compatibility with Magento frontend after upgrading to 2.4.5.",
                     "filename": "essential/skynix/m2-mysql-cluster/m245_aurora_skynix_force_stringify_fetches.patch",
                     "version-constraint": "<1.0.8"
+                }
+            ],
+            "synerise/magento2-integration": [
+                {
+                    "description": "Add missing variable declaration",
+                    "filename": "essential/synerise/magento2-integration/add-missing-variable-to-observer.patch",
+                    "version-constraint": ">=2.2.5"
                 }
             ]
         }

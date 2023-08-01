@@ -1,0 +1,12 @@
+diff --git a/src/Observer/WishlistRemoveProduct.php b/src/Observer/WishlistRemoveProduct.php
+index fd76ddf..926cb5b 100644
+--- a/src/Observer/WishlistRemoveProduct.php
++++ b/src/Observer/WishlistRemoveProduct.php
+@@ -12,6 +12,7 @@ class WishlistRemoveProduct implements ObserverInterface
+ 
+     protected $apiHelper;
+     protected $trackingHelper;
++    protected $catalogHelper;
+     protected $logger;
+ 
+     public function __construct(
