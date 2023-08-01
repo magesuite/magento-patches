@@ -2026,7 +2026,7 @@
                 {
                     "description": "Fix string divided by int php 8 error",
                     "filename": "essential/wyomind/framework/fix-php-8-error-with-string-divided-by-int.patch",
-                    "version-constraint": ">=7.2.4"
+                    "version-constraint": ">=7.2.4,<7.2.11"
                 }
             ],
             "xtento/pdfcustomizer": [
