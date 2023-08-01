@@ -1,19 +1,51 @@
-diff --git a/Model/Feeds.php b/Model/Feeds.php
-index 1a25c2a..3cfc8ac 100644
---- a/Model/Feeds.php
-+++ b/Model/Feeds.php
-@@ -1215,6 +1215,24 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
-             $this->categoriesFilterList = [0 => '*'];
-         }
-         $this->categoriesFilterList = array_values($this->categoriesFilterList);
+diff --git a/Helper/AttributesCategories.php b/Helper/AttributesCategories.php
+index 0fdbdbf..80cf3df 100644
+--- a/Helper/AttributesCategories.php
++++ b/Helper/AttributesCategories.php
+@@ -80,7 +80,10 @@ class AttributesCategories extends \Magento\Framework\App\Helper\AbstractHelper
+         $path = 0;
+         $categoriesList = [];
+
+-        foreach (explode(',', (string)$item->getCategoriesIds()) as $key => $category) {
++        //BEGIN PATCH
++        $itemCategories = $this->getItemCategories($item);
++        foreach (explode(',', (string)$itemCategories) as $key => $category) {
++        //END PATCH
+             $isInCategoryFilter = $model->params['category_filter'] && isset($model->categories[$category]) && isset($model->categories[$category]['path']);
+             $isOutCategoryFilter = !$model->params['category_filter'] && isset($model->categories[$category]) && isset($model->categories[$category]['path']);
+
+@@ -146,6 +149,47 @@ class AttributesCategories extends \Magento\Framework\App\Helper\AbstractHelper
+         return implode($separator, array_slice($category, $from, $length));
+     }
+
++    //BEGIN PATCH
++    protected static array $virtualCategoriesIds = [];
 +
-+        //BEGIN PATCH - add all virtual categories:
-+        /** @var \Magento\Eav\Model\Config $eavConfig */
-+        $eavConfig = $this->objectManager->get(\Magento\Eav\Model\Config::class);
++    protected function getItemCategories($item)
++    {
++        if ($item instanceof \Magento\Catalog\Model\Product) {
++            $virtualCategoriesIds = $this->getVirtualCategoriesIds();
++            $productCategoriesIds = explode(',', $item->getCategoriesIds());
++
++            return implode(',', array_diff($productCategoriesIds, $virtualCategoriesIds));
++        }
++
++        return $item->getCategoriesIds();
++    }
++
++    protected function getVirtualCategoriesIds(): array
++    {
++        if (!empty(self::$virtualCategoriesIds)) {
++            return self::$virtualCategoriesIds;
++        }
++
++        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
++
++        $eavConfig = $objectManager->get(\Magento\Eav\Model\Config::class);
 +        $attribute = $eavConfig->getAttribute(\Magento\Catalog\Model\Category::ENTITY, 'is_virtual_category');
 +
 +        /** @var \Magento\Framework\App\ResourceConnection $resourceConnection */
-+        $resourceConnection = $this->objectManager->get(\Magento\Framework\App\ResourceConnection::class);
++        $resourceConnection = $objectManager->get(\Magento\Framework\App\ResourceConnection::class);
 +        $connection = $resourceConnection->getConnection();
 +        $tableName = $connection->getTableName('catalog_category_entity_int');
 +        $select = $connection->select()
@@ -22,8 +54,11 @@ index 1a25c2a..3cfc8ac 100644
 +            ->where('value = 1');
 +        $categoriesIds = $connection->fetchAssoc($select);
 +
-+        $this->categoriesFilterList = array_merge($this->categoriesFilterList, array_keys($categoriesIds));
-+        //END PATCH
-     }
++        self::$virtualCategoriesIds = array_keys($categoriesIds);
++        return self::$virtualCategoriesIds;
++    }
++    //END PATCH
++
      /**
-      * Analyse product template, then check what attributes are required
+      * {category_mapping} attribute processing
+      * @param \Wyomind\DataFeedManager\Model\Feeds $model
