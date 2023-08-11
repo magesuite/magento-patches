@@ -1,0 +1,24 @@
+diff --git a/Plugin/Block/Product/ListProduct.php b/Plugin/Block/Product/ListProduct.php
+index eb5e2b8..d27d210 100644
+--- a/Plugin/Block/Product/ListProduct.php
++++ b/Plugin/Block/Product/ListProduct.php
+@@ -19,6 +19,7 @@ use Magento\Framework\Registry;
+ use Magento\Store\Model\StoreManagerInterface;
+ use Smile\ElasticsuiteConfigurableProduct\Helper\Data as EsCatalogHelper;
+ use Smile\ElasticsuiteConfigurableProduct\Model\Search\Configurable\BestPerformingChildrenProvider;
++use function PHPUnit\Framework\isInstanceOf;
+ 
+ /**
+  * Class ListProduct.
+@@ -81,6 +82,11 @@ class ListProduct
+      */
+     public function beforeFetchView(BaseListProduct $subject): void
+     {
++        // BEGIN PATCH
++        if ($subject instanceof \MageSuite\ProductTile\Block\Tile\Fragment) {
++            return;
++        }
++        // END PATCH
+         if (!$this->esCatalogHelper->isBestPerformingChildImageEnabled()) {
+             return;
+         }
