@@ -2255,7 +2255,7 @@
                 {
                     "description": "Add missing variable declaration",
                     "filename": "essential/synerise/magento2-integration/add-missing-variable-to-observer.patch",
-                    "version-constraint": ">=2.2.5"
+                    "version-constraint": "2.2.5"
                 }
             ]
         }
