@@ -461,7 +461,7 @@
                 {
                     "description": "Avoid duplicates in the indexer",
                     "filename": "essential/amasty/module-special-promo-pro/avoid-duplicates-in-the-indexer.patch",
-                    "version-constraint": ">=2.11.0"
+                    "version-constraint": ">=2.11.0,<2.12.2"
                 }
             ],
             "amasty/shippingtablerates": [
