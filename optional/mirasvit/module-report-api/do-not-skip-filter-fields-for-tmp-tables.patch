@@ -1,27 +1,29 @@
 diff --git a/src/ReportApi/Service/SelectService.php b/src/ReportApi/Service/SelectService.php
-index ac3ce60..35016e2 100644
+index f083d5d..4e078a8 100644
 --- a/src/ReportApi/Service/SelectService.php
 +++ b/src/ReportApi/Service/SelectService.php
-@@ -236,14 +236,17 @@ class SelectService implements SelectServiceInterface
+@@ -242,15 +242,18 @@ class SelectService implements SelectServiceInterface
          $select->where($baseTable->getPkField()->toDbExpr() . '>0');
  
          foreach ($request->getFilters() as $filter) {
+-            // with some additional filters not all products might de present in tmp tables.
+-            // so we apply only primary filters (toolbar) and internal filters (report builder)
 -            if (
--                strpos($filter->getColumn(), 'created_at') === false
--                && strpos($filter->getColumn(), 'updated_at') === false
+-                $report
+-                && !in_array($filter->getColumn(), $report->getPrimaryFilters())
+-                && !in_array($filter->getColumn(), $report->getInternalFilters())
 -            ) {
--                // some filters in queries for TMP tables can result in not all needed products present in TMP tables
--                // we apply only date filters to TMP tables
 -                continue;
 -            }
 +            // BEGIN PATCH
 +            // Revert changes introduced in versions 1.0.59 and 1.0.60 because of wrong result of reports used by iPet
++            // // with some additional filters not all products might de present in tmp tables.
++            // // so we apply only primary filters (toolbar) and internal filters (report builder)
 +            // if (
-+            //     strpos($filter->getColumn(), 'created_at') === false
-+            //     && strpos($filter->getColumn(), 'updated_at') === false
++            //     $report
++            //     && !in_array($filter->getColumn(), $report->getPrimaryFilters())
++            //     && !in_array($filter->getColumn(), $report->getInternalFilters())
 +            // ) {
-+            //     // some filters in queries for TMP tables can result in not all needed products present in TMP tables
-+            //     // we apply only date filters to TMP tables
 +            //     continue;
 +            // }
 +            // END PATCH
