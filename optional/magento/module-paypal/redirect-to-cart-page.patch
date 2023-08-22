@@ -1,0 +1,20 @@
+diff --git a/Controller/Express/AbstractExpress/PlaceOrder.php b/Controller/Express/AbstractExpress/PlaceOrder.php
+index 54bc438..47a2291 100644
+--- a/Controller/Express/AbstractExpress/PlaceOrder.php
++++ b/Controller/Express/AbstractExpress/PlaceOrder.php
+@@ -141,7 +141,14 @@ class PlaceOrder extends \Magento\Paypal\Controller\Express\AbstractExpress
+         } catch (ApiProcessableException $e) {
+             $this->_processPaypalApiError($e);
+         } catch (LocalizedException $e) {
+-            $this->processException($e, $e->getRawMessage());
++            // BEGIN PATCH
++            // If "skip review" option is enabled, redirect to cart, not to paypal review page
++            if ($this->_checkout->canSkipOrderReviewStep()) {
++                $this->_redirectToCartAndShowError($e->getMessage());
++            } else {
++                $this->processException($e, $e->getRawMessage());
++            }
++            // END PATCH
+         } catch (\Exception $e) {
+             $this->processException($e, 'We can\'t place the order.');
+         }
