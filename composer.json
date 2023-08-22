@@ -424,8 +424,13 @@
                     "version-constraint": ">=2.0.0,<2.0.2"
                 },
                 {
-                    "description": "Performance improvement for deleting sessions",
-                    "filename": "essential/amasty/adminactionslog/amasty-adminactionlog-performance-improvement-for-deleting-sessions.patch",
+                    "description": "Performance improvement for deleting log entries",
+                    "filename": "essential/amasty/adminactionslog/amasty-adminactionlog-performance-improvement-for-deleting-log-entries.patch",
+                    "version-constraint": ">=2.0.0"
+                },
+                {
+                    "description": "Performance improvement for getting inactive sessions",
+                    "filename": "essential/amasty/adminactionslog/amasty-adminactionlog-performance-improvement-for-getting-inactive-sessions.patch",
                     "version-constraint": ">=2.0.0"
                 }
             ],

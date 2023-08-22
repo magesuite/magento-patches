@@ -1,0 +1,23 @@
+---
+ Model/ActiveSession/ActiveSessionManager.php | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/Model/ActiveSession/ActiveSessionManager.php b/Model/ActiveSession/ActiveSessionManager.php
+index 45bdb44..a886d35 100644
+--- a/Model/ActiveSession/ActiveSessionManager.php
++++ b/Model/ActiveSession/ActiveSessionManager.php
+@@ -139,7 +139,11 @@ class ActiveSessionManager implements ActiveSessionManagerInterface
+         $activeSessionCollection->addFieldToFilter(
+             ActiveSession::RECENT_ACTIVITY,
+             ['lteq' => $this->dateTime->gmtDate('Y-m-d H:i:s', "- $sessionLifeTime seconds") ]
+-        );
++        )
++            // BEGIN PATCH
++            ->setPageSize(100)
++            ->setCurPage(1);
++            // END PATCH
+
+         return $activeSessionCollection->getColumnValues(ActiveSession::SESSION_ID);
+     }
+--
+2.30.1 (Apple Git-130)
