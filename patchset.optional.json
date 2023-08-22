@@ -1,5 +1,12 @@
 {
     "patchset": {
+        "bluepayment-plugin/module-bluepayment": [
+            {
+                "description": "Process order status update correctly (KRA-420)",
+                "filename": "vendor/creativestyle/magento-patches/optional/bluepayment-plugin/module-bluepayment/process-status-update-correctly.patch",
+                "version-constraint": "*"
+            }
+        ],
         "iways/module-pay-pal-plus": [
             {
                 "description": "Fix invalid object requested in object constructor",

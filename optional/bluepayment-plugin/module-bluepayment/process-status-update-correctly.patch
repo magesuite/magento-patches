@@ -1,0 +1,40 @@
+diff --git a/Model/Payment.php b/Model/Payment.php
+index 54b9aa3..1ef3eaa 100644
+--- a/Model/Payment.php
++++ b/Model/Payment.php
+@@ -854,6 +854,11 @@ class Payment extends AbstractMethod
+             $formattedAmount = number_format(round($amount, 2), 2, '.', '');
+ 
+             $changeable = $updateOrders;
++            // BEGIN PATCH
++            // Process order status update correctly (not ignored)
++            $orderAlreadyPaid = false;
++            // END PATCH
++
+ 
+             if ($changeable) {
+                 if (in_array($order->getStatus(), $unchangeableStatuses)) {
+@@ -862,6 +867,9 @@ class Payment extends AbstractMethod
+                 foreach ($order->getAllStatusHistory() as $historyStatus) {
+                     if ($historyStatus->getStatus() == $statusSuccess && $order->getTotalDue() == 0) {
+                         $changeable = false;
++                        // BEGIN PATCH
++                        $orderAlreadyPaid = true;
++                        // END PATCH
+                     }
+                 }
+             }
+@@ -869,7 +877,12 @@ class Payment extends AbstractMethod
+             try {
+                 $eventToCall = null;
+ 
+-                if ($changeable && $orderPaymentState != $paymentStatus) {
++                // BEGIN PATCH
++                // if ($changeable && $orderPaymentState != $paymentStatus) {
++                if (($changeable || $paymentStatus == self::PAYMENT_STATUS_SUCCESS)
++                    && $orderPaymentState != $paymentStatus && !$orderAlreadyPaid
++                ) {
++                // END PATCH
+                     $orderComment =
+                         '[BM] Transaction ID: ' . $remoteId
+                         . ' | Amount: ' . $formattedAmount . ' ' . $currency
