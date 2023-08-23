@@ -1,0 +1,32 @@
+Removes jQuery deprecated methods warnings from dev console.
+
+diff --git a/lib/web/jquery/jquery-migrate.js b/lib/web/jquery/jquery-migrate.js
+index 6803838..ac290b0 100644
+--- a/lib/web/jquery/jquery-migrate.js
++++ b/lib/web/jquery/jquery-migrate.js
+@@ -64,12 +64,6 @@
+         if ( jQuery.migrateWarnings ) {
+             window.console.log( "JQMIGRATE: Migrate plugin loaded multiple times" );
+         }
+-
+-        // Show a message on the console so devs know we're active
+-        window.console.log( "JQMIGRATE: Migrate is installed" +
+-            ( jQuery.migrateMute ? "" : " with logging active" ) +
+-            ", version " + jQuery.migrateVersion );
+-
+     } )();
+
+     var warnedAbout = {};
+@@ -96,12 +90,6 @@
+         if ( !jQuery.migrateDeduplicateWarnings || !warnedAbout[ msg ] ) {
+             warnedAbout[ msg ] = true;
+             jQuery.migrateWarnings.push( msg );
+-            if ( console && console.warn && !jQuery.migrateMute ) {
+-                console.warn( "JQMIGRATE: " + msg );
+-                if ( jQuery.migrateTrace && console.trace ) {
+-                    console.trace();
+-                }
+-            }
+         }
+     }
+
