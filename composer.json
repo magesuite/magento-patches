@@ -982,6 +982,11 @@
                     "description": "Fix validation error with region-id on address without region",
                     "filename": "essential/magento/module-checkout/fix-validation-error-with-region-id.patch",
                     "version-constraint": ">=100.4.3"
+                },
+                {
+                    "description": "Adds domReady! dependency to Magento_Checkout/js/model/url-builder, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/magento/module-checkout/m246-url-builder-with-domReady.patch",
+                    "version-constraint": ">=100.4.6"
                 }
             ],
             "magento/module-checkout-agreements": [
@@ -2051,6 +2056,13 @@
                     "description": "Fix for errors related to log table - increase table size, remove filtering by not existing field",
                     "filename": "essential/klarna/module-core/fix-klarna-logs.patch",
                     "version-constraint": ">=6.2.0"
+                }
+            ],
+            "klarna/module-payments": [
+                {
+                    "description": "Adds domReady! dependency to Klarna_Kp/js/model/config, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/klarna/module-payments/klarna-config-with-domReady.patch",
+                    "version-constraint": ">=9.0.13"
                 }
             ],
             "mollie/magento2": [

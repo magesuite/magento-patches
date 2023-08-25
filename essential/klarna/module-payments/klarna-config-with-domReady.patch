@@ -1,0 +1,16 @@
+Added domReady! to dependencies, so window.checkoutConfig is loaded.
+
+diff --git a/view/frontend/web/js/model/config.js b/view/frontend/web/js/model/config.js
+index 75b0d06..720c6d7 100644
+--- a/view/frontend/web/js/model/config.js
++++ b/view/frontend/web/js/model/config.js
+@@ -6,7 +6,8 @@
+  */
+ define(
+     [
+-        'ko'
++        'ko',
++        'domReady!'
+     ],
+     function (ko) {
+         'use strict';
