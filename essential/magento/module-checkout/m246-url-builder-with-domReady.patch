@@ -1,0 +1,15 @@
+Added domReady! to dependencies, so window.checkoutConfig is loaded.
+
+diff --git a/view/frontend/web/js/model/url-builder.js b/view/frontend/web/js/model/url-builder.js
+index bbe4b44..abeef75 100644
+--- a/view/frontend/web/js/model/url-builder.js
++++ b/view/frontend/web/js/model/url-builder.js
+@@ -3,7 +3,7 @@
+  * See COPYING.txt for license details.
+  */
+ 
+-define(['jquery'], function ($) {
++define(['jquery', 'domReady!'], function ($) {
+     'use strict';
+ 
+     return {
