@@ -582,7 +582,7 @@
                 {
                     "description": "Remove jQuery deprecated methods warnings to not have them reported in the console.",
                     "filename": "essential/magento/magento2-base/remove-console-info-and-warnings.patch",
-                    "version-constraint": ">=2.4.0"
+                    "version-constraint": ">=2.4.0,<2.4.6"
                 }
             ],
             "magento/module-search": [
