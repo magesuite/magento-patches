@@ -578,6 +578,11 @@
                     "description": "Fix gallery issues with swiping items on mobiles",
                     "filename": "essential/magento/magento2-base/m246-fix-gallery-swipe-on-mobile.patch",
                     "version-constraint": ">=2.4.6"
+                },
+                {
+                    "description": "Remove jQuery deprecated methods warnings to not have them reported in the console.",
+                    "filename": "essential/magento/magento2-base/remove-console-info-and-warnings.patch",
+                    "version-constraint": ">=2.4.0"
                 }
             ],
             "magento/module-search": [
