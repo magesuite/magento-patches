@@ -1412,6 +1412,11 @@
                     "description": "Fix Customer`s Custom Attribute (Text Field) with blank value Value",
                     "filename": "essential/magento/module-customer/fix-customer-custom-attribute-set-blank.patch",
                     "version-constraint": "103.0.5-p1"
+                },
+                {
+                    "description": "Adds domReady! dependency to Magento_Customer/js/model/customer, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/magento/module-customer/m246-customer-data-with-domReady.patch",
+                    "version-constraint": ">=103.0.6"
                 }
             ],
             "magento/module-inventory-indexer": [

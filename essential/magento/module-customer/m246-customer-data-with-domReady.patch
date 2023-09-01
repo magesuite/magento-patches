@@ -1,0 +1,14 @@
+diff --git a/view/frontend/web/js/model/customer.js b/view/frontend/web/js/model/customer.js
+index 76dd1e3..e04db60 100644
+--- a/view/frontend/web/js/model/customer.js
++++ b/view/frontend/web/js/model/customer.js
+@@ -10,7 +10,8 @@ define([
+     'jquery',
+     'ko',
+     'underscore',
+-    './address-list'
++    './address-list',
++    'domReady!'
+ ], function ($, ko, _, addressList) {
+     'use strict';
+ 
