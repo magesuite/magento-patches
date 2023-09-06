@@ -1052,6 +1052,11 @@
                     "description": "Fix category no such entity with id",
                     "filename": "essential/magento/module-review/m22-magento-reviews-category-no-such-entity.patch",
                     "version-constraint": "100.2.*"
+                },
+                {
+                    "description": "Forcing int value for Block/Form::getProductId() return (IPET-2176)",
+                    "filename": "essential/magento/module-review/force-int-in-block-getproductid-method.patch",
+                    "version-constraint": "100.4.*"
                 }
             ],
             "aheadworks/module-advanced-reports": [

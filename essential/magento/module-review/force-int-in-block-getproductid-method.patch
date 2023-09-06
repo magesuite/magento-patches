@@ -1,0 +1,20 @@
+[IPET-2176] The getProductId() method should return an int otherwise an error will occur
+Warning: Undefined array key "(provided-string-id)" in vendor/magento/module-catalog/Model/ProductRepository.php on line 332
+
+diff --git a/Block/Form.php b/Block/Form.php
+index c6dfad8..cbf6a1d 100644
+--- a/Block/Form.php
++++ b/Block/Form.php
+@@ -217,6 +217,9 @@ class Form extends \Magento\Framework\View\Element\Template
+      */
+     protected function getProductId()
+     {
+-        return $this->getRequest()->getParam('id', false);
++        // BEGIN PATCH
++        // return $this->getRequest()->getParam('id', false);
++        return (int) $this->getRequest()->getParam('id', false);
++        // END PATCH
+     }
+ }
+--
+2.30.1 (Apple Git-130)
