@@ -2125,11 +2125,6 @@
                     "description": "Fix error in controller while unsubscribing from notifications",
                     "filename": "essential/mirasvit/module-rewards/fix-error-in-unsubscribe-controller.patch",
                     "version-constraint": ">=3.0.40"
-                },
-                {
-                    "description": "Fix for the issue reported by error: Exception message: Infinite loop detected (IPET-2176)",
-                    "filename": "essential/mirasvit/module-rewards/fix-infinitive-loop-on-getting-quote.patch",
-                    "version-constraint": ">=3.0.57"
                 }
             ],
             "iways/module-pay-pal-plus": [
