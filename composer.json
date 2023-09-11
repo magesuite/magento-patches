@@ -1164,6 +1164,11 @@
                     "description": "Fixed reward points are higher on the invoice than on the order",
                     "filename": "essential/aheadworks/module-reward-points/fix-invoice-reward-poits-greater-than-order-reward-points.patch",
                     "version-constraint": "2.1.0"
+                },
+                {
+                    "description": "Fixed reward points are higher on the invoice than on the order",
+                    "filename": "essential/aheadworks/module-reward-points/fix-invoice-reward-poits-greater-than-order-reward-points-v222.patch",
+                    "version-constraint": "2.2.2"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [
