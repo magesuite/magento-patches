@@ -2299,6 +2299,13 @@
                     "filename": "essential/synerise/magento2-integration/add-missing-variable-to-observer.patch",
                     "version-constraint": "2.2.5"
                 }
+            ],
+            "smartmage/inpost": [
+                {
+                    "description": "Fix critical error if order post data is empty",
+                    "filename": "essential/smartmage/inpost/fix-error-when-post-data-is-empty.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
