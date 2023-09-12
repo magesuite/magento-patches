@@ -466,12 +466,12 @@
                 {
                     "description": "Fix php notice errors (Trying to access array offset on value of type null)",
                     "filename": "essential/amasty/module-special-promo-pro/amasty-special-promo-pro-fix-notice-errors.patch",
-                    "version-constraint": ">=2.8.6"
+                    "version-constraint": ">=2.8.6, <2.12.2"
                 },
                 {
                     "description": "Avoid duplicates in the indexer",
                     "filename": "essential/amasty/module-special-promo-pro/avoid-duplicates-in-the-indexer.patch",
-                    "version-constraint": ">=2.11.0,<2.12.2"
+                    "version-constraint": ">=2.11.0, <2.12.2"
                 }
             ],
             "amasty/shippingtablerates": [
@@ -2161,11 +2161,6 @@
                     "description": "Disable price calculation on the category page",
                     "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page.patch",
                     "version-constraint": ">=1.7.0, <1.7.8"
-                },
-                {
-                    "description": "Disable price calculation on the category page (>=v1.7.8)",
-                    "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page-v178.patch",
-                    "version-constraint": ">=1.7.8"
                 }
             ],
             "magepal/magento2-googletagmanager": [
