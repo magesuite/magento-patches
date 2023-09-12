@@ -1,0 +1,17 @@
+Change of Order Date format on "Sales Detailed" grid from "Aug 4, 2023 1:09:22 PM" format to "2023-08-04 13:09:22" format according to [HAKA-1830].
+
+diff --git a/view/adminhtml/ui_component/aw_arep_salesdetailed_grid.xml b/view/adminhtml/ui_component/aw_arep_salesdetailed_grid.xml
+index c0a8899..9fb26ab 100644
+--- a/view/adminhtml/ui_component/aw_arep_salesdetailed_grid.xml
++++ b/view/adminhtml/ui_component/aw_arep_salesdetailed_grid.xml
+@@ -388,10 +388,7 @@
+         <column name="order_date" class="Magento\Ui\Component\Listing\Columns\Date">
+             <argument name="data" xsi:type="array">
+                 <item name="config" xsi:type="array">
+-                    <item name="dataType" xsi:type="string">date</item>
+-                    <item name="dataExportType" xsi:type="string">date</item>
+                     <item name="filter" xsi:type="string">dateRange</item>
+-                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                     <item name="label" xsi:type="string" translate="true">Order Date</item>
+                 </item>
+             </argument>
