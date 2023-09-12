@@ -1,0 +1,21 @@
+diff --git a/Observer/SalesOrderBeforeSaveObserver.php b/Observer/SalesOrderBeforeSaveObserver.php
+index 68aee75..bfc7a9b 100644
+--- a/Observer/SalesOrderBeforeSaveObserver.php
++++ b/Observer/SalesOrderBeforeSaveObserver.php
+@@ -24,6 +24,16 @@ class SalesOrderBeforeSaveObserver implements ObserverInterface
+         $order = $observer->getEvent()->getOrder();
+ 
+         $orderPostData = $this->request->getPostValue('order');
++
++        // BEGIN PATCH
++        // skip if postData is empty
++
++        if (empty($orderPostData)) {
++            return $this;
++        }
++
++        // END PATCH
++
+         $order->setData('inpost_locker_id', $orderPostData['inpost_locker_id']);
+ 
+         return $this;
