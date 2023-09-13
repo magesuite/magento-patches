@@ -1814,7 +1814,7 @@
                 {
                     "description": "Fix dotmailer problem with Http class",
                     "filename": "essential/dotdigital/dotdigital-magento2-extension/use-laminas-lib-instead-of-zend.patch",
-                    "version-constraint": ">=4.19.4"
+                    "version-constraint": ">=4.19.4,<4.22.0"
                 }
             ],
             "dotmailer/dotmailer-magento2-extension-sms": [
