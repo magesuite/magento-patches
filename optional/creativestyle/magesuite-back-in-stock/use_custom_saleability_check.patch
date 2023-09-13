@@ -1,0 +1,51 @@
+[TT-1449] Added custom saleability check for back in stock modal.
+
+diff --git a/Model/ProductResolver/Configurable.php b/Model/ProductResolver/Configurable.php
+index 6eec854..c54754f 100644
+--- a/Model/ProductResolver/Configurable.php
++++ b/Model/ProductResolver/Configurable.php
+@@ -11,8 +11,10 @@ class Configurable implements ProductResolverInterface
+      */
+     protected $stockStatusFactory;
+ 
+-    public function __construct(\Magento\CatalogInventory\Model\ResourceModel\Stock\StatusFactory $stockStatusFactory)
+-    {
++    public function __construct(
++        \Magento\CatalogInventory\Model\ResourceModel\Stock\StatusFactory $stockStatusFactory,
++        protected \Creativestyle\CustomizationTitolo\Api\ProductSaleabilityInterface $productSaleability
++    ) {
+         $this->stockStatusFactory = $stockStatusFactory;
+     }
+ 
+@@ -32,7 +34,7 @@ class Configurable implements ProductResolverInterface
+         }
+ 
+         foreach ($simpleProductCollection as $simpleProduct) {
+-            if (!$simpleProduct->isSaleable()) {
++            if (!$this->productSaleability->isSaleable($simpleProduct)) {
+                 return true;
+             }
+         }
+diff --git a/Model/ProductResolver/Simple.php b/Model/ProductResolver/Simple.php
+index 41751fd..c8ee524 100644
+--- a/Model/ProductResolver/Simple.php
++++ b/Model/ProductResolver/Simple.php
+@@ -4,6 +4,10 @@ namespace MageSuite\BackInStock\Model\ProductResolver;
+ 
+ class Simple implements ProductResolverInterface
+ {
++    public function __construct(
++        protected \Creativestyle\CustomizationTitolo\Api\ProductSaleabilityInterface $productSaleability
++    ) {}
++
+     public function isApplicable($productTypeId)
+     {
+         return $productTypeId == \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE;
+@@ -11,7 +15,7 @@ class Simple implements ProductResolverInterface
+ 
+     public function canRenderForm($product)
+     {
+-        if (!$product->isSalable()) {
++        if (!$this->productSaleability->isSaleable($product)) {
+             return true;
+         }
