@@ -1,10 +1,10 @@
 [TT-1449] Added custom saleability check for back in stock modal.
 
 diff --git a/Model/ProductResolver/Configurable.php b/Model/ProductResolver/Configurable.php
-index 6eec854..c54754f 100644
+index 6eec854..f145d7f 100644
 --- a/Model/ProductResolver/Configurable.php
 +++ b/Model/ProductResolver/Configurable.php
-@@ -11,8 +11,10 @@ class Configurable implements ProductResolverInterface
+@@ -11,8 +11,11 @@ class Configurable implements ProductResolverInterface
       */
      protected $stockStatusFactory;
  
@@ -12,40 +12,49 @@ index 6eec854..c54754f 100644
 -    {
 +    public function __construct(
 +        \Magento\CatalogInventory\Model\ResourceModel\Stock\StatusFactory $stockStatusFactory,
-+        protected \Creativestyle\CustomizationTitolo\Api\ProductSaleabilityInterface $productSaleability
++        protected \Creativestyle\CustomizationTitolo\Api\ProductSaleabilityInterface $productSaleability,
++        protected \Creativestyle\CustomizationTitolo\Helper\Configuration\ProductSaleability $saleabilityConfig,
 +    ) {
          $this->stockStatusFactory = $stockStatusFactory;
      }
  
-@@ -32,7 +34,7 @@ class Configurable implements ProductResolverInterface
+@@ -32,6 +35,12 @@ class Configurable implements ProductResolverInterface
          }
  
          foreach ($simpleProductCollection as $simpleProduct) {
--            if (!$simpleProduct->isSaleable()) {
-+            if (!$this->productSaleability->isSaleable($simpleProduct)) {
++            if ($this->saleabilityConfig->useAdvancedSaleabilityCheck()) {
++                if (!$this->productSaleability->isSaleable($product)) {
++                    return true;
++                }
++            }
++
+             if (!$simpleProduct->isSaleable()) {
                  return true;
              }
-         }
 diff --git a/Model/ProductResolver/Simple.php b/Model/ProductResolver/Simple.php
-index 41751fd..c8ee524 100644
+index 41751fd..4e8bc48 100644
 --- a/Model/ProductResolver/Simple.php
 +++ b/Model/ProductResolver/Simple.php
-@@ -4,6 +4,10 @@ namespace MageSuite\BackInStock\Model\ProductResolver;
+@@ -4,6 +4,11 @@ namespace MageSuite\BackInStock\Model\ProductResolver;
  
  class Simple implements ProductResolverInterface
  {
 +    public function __construct(
-+        protected \Creativestyle\CustomizationTitolo\Api\ProductSaleabilityInterface $productSaleability
++        protected \Creativestyle\CustomizationTitolo\Api\ProductSaleabilityInterface $productSaleability,
++        protected \Creativestyle\CustomizationTitolo\Helper\Configuration\ProductSaleability $saleabilityConfig,
 +    ) {}
 +
      public function isApplicable($productTypeId)
      {
          return $productTypeId == \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE;
-@@ -11,7 +15,7 @@ class Simple implements ProductResolverInterface
+@@ -11,6 +16,10 @@ class Simple implements ProductResolverInterface
  
      public function canRenderForm($product)
      {
--        if (!$product->isSalable()) {
-+        if (!$this->productSaleability->isSaleable($product)) {
++        if ($this->saleabilityConfig->useAdvancedSaleabilityCheck()) {
++            return !$this->productSaleability->isSaleable($product);
++        }
++
+         if (!$product->isSalable()) {
              return true;
          }
