@@ -133,6 +133,11 @@
                 "description": "Fix displaying error message about no active cart after placing order",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/m245-fix-customer-has-no-active-cart.patch",
                 "version-constraint": ">=100.4.5`"
+            },
+            {
+                "description": "Fix for cart model, reload quote from a session if the cart has been replaced. (IPET-2176)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/fix-for-cart-if-quote-has-been-replaced.patch",
+                "version-constraint": ">=100.4.5"
             }
         ],
         "magento/module-checkout-staging": [
@@ -331,7 +336,12 @@
                 "description": "Fix compatibility with test from magesuite-free-gift",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-compatibility-with-free-gift.patch",
                 "version-constraint": "*"
-            }
+            },
+            {
+                "description": "Fix for the issue reported by error: Exception message: Infinite loop detected (IPET-2176)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-infinitive-loop-on-getting-quote.patch",
+                "version-constraint": ">=3.0.57"
+             }
         ],
         "mirasvit/module-report": [
             {
