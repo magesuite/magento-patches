@@ -1,0 +1,24 @@
+[IPET-2176] Fix for cart model, reload quote from a session if the cart has been replaced.
+
+diff --git a/Model/Cart.php b/Model/Cart.php
+index 3c1a70e..2ae1e88 100644
+--- a/Model/Cart.php
++++ b/Model/Cart.php
+@@ -221,6 +221,15 @@ class Cart extends DataObject implements CartInterface
+         if (!$this->hasData('quote')) {
+             $this->setData('quote', $this->_checkoutSession->getQuote());
+         }
++
++        // BEGIN PATCH
++        $quote = $this->_getData('quote');
++
++        if ($this->_checkoutSession->getQuoteId() != $quote->getId()) {
++            $this->setData('quote', $this->_checkoutSession->getQuote());
++        }
++        // END PATCH
++
+         return $this->_getData('quote');
+     }
+
+--
+2.30.1 (Apple Git-130)
