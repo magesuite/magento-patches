@@ -492,7 +492,7 @@
                 {
                     "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",
                     "filename": "essential/magento/magento2-base/m245-jquery-storage-dependencies-fix.patch",
-                    "version-constraint": ">=2.4.5,<=2.4.5-p1"
+                    "version-constraint": ">=2.4.5,<=2.4.5-p4"
                 },
                 {
                     "description": "Fix fullscreen product gallery touch swiping",
