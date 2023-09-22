@@ -1299,7 +1299,12 @@
             {
                 "description": "Replace email_catalog schema to sync with magento commerce",
                 "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/fix-dtodigital-constraint-for-magento-commerce.patch",
-                "version-constraint": ">=4.20.4"
+                "version-constraint": ">=4.20.4,<4.22.0"
+            },
+            {
+                "description": "Replace email_catalog schema to sync with magento commerce",
+                "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/fix-dtodigital-constraint-for-magento-commerce-4-22.patch",
+                "version-constraint": ">=4.22.0"
             }
         ],
         "magento/module-persistent": [
