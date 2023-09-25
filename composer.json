@@ -2217,7 +2217,12 @@
                 {
                     "description": "Fix image ID while generating product url",
                     "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api.patch",
-                    "version-constraint": ">=8.7.0"
+                    "version-constraint": ">=8.7.0, <8.22.0"
+                },
+                {
+                    "description": "Fix image ID while generating product url (moved to new file)",
+                    "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api-updated.patch",
+                    "version-constraint": ">=8.22.0"
                 }
             ],
             "firegento/fastsimpleimport": [
