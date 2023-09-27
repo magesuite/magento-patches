@@ -100,7 +100,7 @@
             {
                 "description": "Use jquery slideUp instead of jquery-ui blind effect. Patch cannot be essential because theme-cs > 11.2.0 is needed",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-ui/remove-jquery-ui-blind-effect.patch",
-                "version-constraint": "*"
+                "version-constraint": "<2.4.6"
             }
         ],
         "magento/module-eav": [
