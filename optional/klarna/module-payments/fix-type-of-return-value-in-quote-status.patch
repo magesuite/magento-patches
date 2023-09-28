@@ -1,0 +1,13 @@
+diff --git a/Controller/Klarna/QuoteStatus.php b/Controller/Klarna/QuoteStatus.php
+index 82c61d1..34bf856 100644
+--- a/Controller/Klarna/QuoteStatus.php
++++ b/Controller/Klarna/QuoteStatus.php
+@@ -95,7 +95,7 @@ class QuoteStatus extends CsrfAbstract implements HttpPostActionInterface
+         }
+ 
+         $magentoQuote = $this->magentoQuoteRepository->get($klarnaQuote->getQuoteId());
+-        $result['is_active'] = $magentoQuote->getIsActive() && $klarnaQuote->isAuthCallbackFailedOrNotStarted();
++        $result['is_active'] = ($magentoQuote->getIsActive() && $klarnaQuote->isAuthCallbackFailedOrNotStarted()) ? '1' : '0';
+ 
+         return $this->result->getJsonResult(200, $result);
+     }

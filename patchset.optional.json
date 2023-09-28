@@ -1295,6 +1295,13 @@
                 "version-constraint": "6.5.1"
             }
         ],
+        "klarna/module-payments": [
+            {
+                "description": "Fix type of return value in QuoteStatus.php controller",
+                "filename": "vendor/creativestyle/magento-patches/optional/klarna/module-payments/fix-type-of-return-value-in-quote-status.patch",
+                "version-constraint": "9.0.15"
+            }
+        ],
         "dotmailer/dotmailer-magento2-extension": [
             {
                 "description": "Update return type in CouponAttributeInterface for a coupon expiration date getter",
