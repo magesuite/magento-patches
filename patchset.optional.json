@@ -5,6 +5,11 @@
                 "description": "Process order status update correctly (KRA-420)",
                 "filename": "vendor/creativestyle/magento-patches/optional/bluepayment-plugin/module-bluepayment/process-status-update-correctly.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Removes fake frame-type payment methods that shows meaningless data (KRA-682).",
+                "filename": "vendor/creativestyle/magento-patches/optional/bluepayment-plugin/module-bluepayment/removed-prepend-frames.patch",
+                "version-constraint": "*"
             }
         ],
         "creativestyle/magesuite-autocomplete": [
