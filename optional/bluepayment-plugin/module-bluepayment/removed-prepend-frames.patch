@@ -1,0 +1,39 @@
+Removes prepend and append fake payment methods that causes js error when magento tries to remove them
+(they're simple uiComponents instead Magento_Checkout/js/view/payment/default).
+diff --git a/view/frontend/web/js/view/payment/bluepayment.js b/view/frontend/web/js/view/payment/bluepayment.js
+index 9cb21f4..d40a55a 100644
+--- a/view/frontend/web/js/view/payment/bluepayment.js
++++ b/view/frontend/web/js/view/payment/bluepayment.js
+@@ -16,16 +16,6 @@ define([
+         return method === bluepaymentType;
+     }
+ 
+-    // Prepend - only frame
+-    rendererList.push({
+-        type: bluepaymentType + '-prepend',
+-        component: 'uiComponent',
+-        config: {
+-            template: 'BlueMedia_BluePayment/payment/bluepayment-prepend',
+-        },
+-        typeComparatorCallback: comparator
+-    });
+-
+     let baseRendered = false;
+ 
+     if (bluepaymentConfig.separated) {
+@@ -84,15 +74,5 @@ define([
+         baseRendered = true;
+     }
+ 
+-    // Append - only frame
+-    rendererList.push({
+-        type: bluepaymentType + '-append',
+-        component: 'uiComponent',
+-        config: {
+-            template: 'BlueMedia_BluePayment/payment/bluepayment-append',
+-        },
+-        typeComparatorCallback: comparator
+-    });
+-
+     return Component.extend({});
+ });
