@@ -1,0 +1,16 @@
+KRA-489 Add products with visibility `Search, Direct Link` to category indexer
+
+diff --git a/Model/Indexer/Category/Product/AbstractAction.php b/Model/Indexer/Category/Product/AbstractAction.php
+index 49d8336..e873620 100644
+--- a/Model/Indexer/Category/Product/AbstractAction.php
++++ b/Model/Indexer/Category/Product/AbstractAction.php
+@@ -844,7 +844,8 @@ abstract class AbstractAction
+                 [
+                     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+                     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
+-                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
++                    \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
++                    \Creativestyle\CustomizationKratkiCatalog\Model\Product\Visibility::VISIBILITY_SEARCH_DIRECT_LINK
+                 ]
+             )->group(
+                 'cp.entity_id'

@@ -829,6 +829,11 @@
                 "description": "Fix for casting category-root-id which breaks indexer otherwise. See TT-1329",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/fixed-casting-for-category-root-id.patch",
                 "version-constraint": ">=104.0.5"
+            },
+            {
+                "description": "Add custom visibility type to indexer. See KRA-489",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/kratki-add-visibility-search-direct-link-to-indexer.patch",
+                "version-constraint": ">=104.0.6"
             }
         ],
         "magento/module-catalog-url-rewrite": [
