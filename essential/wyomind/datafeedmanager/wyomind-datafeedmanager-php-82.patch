@@ -1,0 +1,15 @@
+diff --git a/Helper/Parser.php b/Helper/Parser.php
+index 630663e..7dfaf39 100644
+--- a/Helper/Parser.php
++++ b/Helper/Parser.php
+@@ -12,6 +12,10 @@ namespace Wyomind\DataFeedManager\Helper;
+  */
+ class Parser extends \Magento\Framework\App\Helper\AbstractHelper
+ {
++    //BEGIN PATCH
++    protected $attributeOptions;
++    //END PATCH
++
+     /**
+      * @var string
+      */
