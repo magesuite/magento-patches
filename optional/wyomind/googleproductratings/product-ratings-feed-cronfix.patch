@@ -1,0 +1,13 @@
+diff --git a/etc/crontab.xml b/etc/crontab.xml
+index b87edc9..1588ccd 100644
+--- a/etc/crontab.xml
++++ b/etc/crontab.xml
+@@ -6,7 +6,7 @@
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+     <group id="default">
+         <job name="googleplroductratings_run" instance="Wyomind\GoogleProductRatings\Cron\Run" method="run">
+-            <schedule>*/30 * * * *</schedule>
++            <schedule>0 10 * * *</schedule>
+         </job>
+     </group>
+ </config>

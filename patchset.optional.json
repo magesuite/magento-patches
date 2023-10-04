@@ -1128,6 +1128,13 @@
                 "version-constraint": "101.1.3"
             }
         ],
+        "wyomind/googleproductratings": [
+        {
+          "description": "Replaces cron declaration to run at 10.00 - otherwise it is being generated every 30 minutes.",
+          "filename": "vendor/wyomind/googleproductratings/magento-patches/optional/wyomind/googleproductratings/product-ratings-feed-cronfix.patch",
+          "version-constraint": "*"
+        }
+      ],
         "wyomind/datafeedmanager": [
             {
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI.",
