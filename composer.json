@@ -2176,6 +2176,11 @@
                     "description": "Disable price calculation on the category page",
                     "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page.patch",
                     "version-constraint": ">=1.7.0, <1.7.8"
+                },
+                {
+                    "description": "Disable price calculation on the category page (>=v1.7.8)",
+                    "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page-v178.patch",
+                    "version-constraint": ">=1.7.8"
                 }
             ],
             "magepal/magento2-googletagmanager": [
