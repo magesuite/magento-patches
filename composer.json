@@ -2064,7 +2064,7 @@
                 {
                     "description": "After update to PHP 82, dynamic class propery creation is deprecated",
                     "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-php-82.patch",
-                    "version-constraint": ">=11.23.0"
+                    "version-constraint": ">=11.23.0,<14.0.2"
                 }
             ],
             "wyomind/framework": [
