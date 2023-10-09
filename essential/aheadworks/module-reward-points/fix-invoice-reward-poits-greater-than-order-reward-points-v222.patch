@@ -7,11 +7,11 @@ index fadd517..25ef2e0 100644
                  : $usedPoints;
 
 +            // BEGIN PATCH
-+            $totalPointsAmount = $totalPointsAmount > -$order->getAwRewardPointsAmount()
++            $totalPointsAmount = $totalPointsAmount != -$order->getAwRewardPointsAmount()
 +                ? -$order->getAwRewardPointsAmount()
 +                : $totalPointsAmount;
 +
-+            $baseTotalPointsAmount = $baseTotalPointsAmount > -$order->getBaseAwRewardPointsAmount()
++            $baseTotalPointsAmount = $baseTotalPointsAmount != -$order->getBaseAwRewardPointsAmount()
 +                ? -$order->getBaseAwRewardPointsAmount()
 +                : $baseTotalPointsAmount;
 +            // END PATCH
