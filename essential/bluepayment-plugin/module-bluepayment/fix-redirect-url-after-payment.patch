@@ -29,7 +29,7 @@ index 023c821..714776e 100644
                      }
                  } else {
 diff --git a/Controller/Processing/Create.php b/Controller/Processing/Create.php
-index d0f8105..c5b5310 100644
+index d0f8105..7a0d9e9 100644
 --- a/Controller/Processing/Create.php
 +++ b/Controller/Processing/Create.php
 @@ -355,7 +355,7 @@ class Create extends Action
@@ -49,3 +49,11 @@ index d0f8105..c5b5310 100644
                      '_query' => [
                          'ServiceID' => $serviceId,
                          'OrderID' => $orderId,
+@@ -414,6 +415,7 @@ class Create extends Action
+
+             return $this->_redirect('bluepayment/processing/back', [
+                 '_secure' => true,
++                '_scope' => $order->getStoreId(),
+                 '_query' => [
+                     'ServiceID' => $serviceId,
+                     'OrderID' => $orderId,
