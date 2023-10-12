@@ -2331,6 +2331,13 @@
                     "filename": "essential/smartmage/inpost/fix-error-when-post-data-is-empty.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "bluepayment-plugin/module-bluepayment": [
+                {
+                    "description": "Fix critical error if order post data is empty",
+                    "filename": "essential/bluepayment-plugin/module-bluepayment/fix-redirect-url-after-payment.patch",
+                    "version-constraint": ">=2.22.0"
+                }
             ]
         }
     }
