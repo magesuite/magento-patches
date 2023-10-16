@@ -1,0 +1,15 @@
+diff --git a/Controller/Index/Index.php b/Controller/Index/Index.php
+index 3a16885..2aa3a28 100644
+--- a/Controller/Index/Index.php
++++ b/Controller/Index/Index.php
+@@ -137,7 +137,9 @@ class Index extends \Magento\Framework\App\Action\Action
+                         $error = false;
+                         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+                         $storeId = $this->storeManager->getStore()->getId();
+-                        $templateId = $this->_helper->getTemplateId() ?: 'deleteaccount_general_template';
++                        //BEGIN PATCH
++                        $templateId = $this->helper->getTemplateId() ?: 'deleteaccount_general_template';
++                        //END PATCH
+                         $transport = $this->_transportBuilder
+                         ->setTemplateIdentifier($templateId)
+                         ->setTemplateOptions(

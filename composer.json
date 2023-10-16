@@ -2257,6 +2257,11 @@
                     "description": "Send correct template based on the configuration",
                     "filename": "essential/mageants/deleteaccount/fix-use-configuration-to-send-correct-template-updated.patch",
                     "version-constraint": ">=2.0.3"
+                },
+                {
+                    "description": "Fix an error that is occuring while deleting an account from fronend",
+                    "filename": "essential/mageants/deleteaccount/fix-error-while-removing-account.patch",
+                    "version-constraint": ">=2.0.3"
                 }
             ],
             "magento/module-user": [
