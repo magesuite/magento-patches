@@ -1174,6 +1174,11 @@
                     "description": "Fixed reward points are higher on the invoice than on the order",
                     "filename": "essential/aheadworks/module-reward-points/fix-invoice-reward-poits-greater-than-order-reward-points-v222.patch",
                     "version-constraint": "2.2.2"
+                },
+                {
+                    "description": "Add missing jquery ui widget dependency (P2G-2285)",
+                    "filename": "essential/aheadworks/module-reward-points/aw-reward-points-add-jquery-ui-widget-dependencies.patch",
+                    "version-constraint": ">=2.1.0"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [

@@ -1,0 +1,15 @@
+Adds missing jquery-ui-modules/widget dependency to avoid race condition errors.
+
+diff --git a/view/frontend/web/js/aw-reward-points-ajax.js b/view/frontend/web/js/aw-reward-points-ajax.js
+index 792a6ba..cd9ee9c 100644
+--- a/view/frontend/web/js/aw-reward-points-ajax.js
++++ b/view/frontend/web/js/aw-reward-points-ajax.js
+@@ -5,7 +5,8 @@
+  * @method replacePlaceholder(placeholder, html)
+  */
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function($) {
+     "use strict";
