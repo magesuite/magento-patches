@@ -1,0 +1,16 @@
+Added domReady! to dependencies, so window.checkoutConfig is loaded.
+
+diff --git a/view/frontend/web/js/model/customer-addresses.js b/view/frontend/web/js/model/customer-addresses.js
+index 16c9591..c50e769 100644
+--- a/view/frontend/web/js/model/customer-addresses.js
++++ b/view/frontend/web/js/model/customer-addresses.js
+@@ -9,7 +9,8 @@
+ define([
+     'jquery',
+     'ko',
+-    './customer/address'
++    './customer/address',
++    'domReady!'
+ ], function ($, ko, Address) {
+     'use strict';
+ 

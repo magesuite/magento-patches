@@ -1437,6 +1437,11 @@
                     "description": "Adds domReady! dependency to Magento_Customer/js/model/customer, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/magento/module-customer/m246-customer-data-with-domReady.patch",
                     "version-constraint": ">=103.0.6"
+                },
+                {
+                    "description": "Adds domReady! dependency to Magento_Customer/js/model/customer-addresses.js, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/magento/module-customer/customer-addresses-domReady.patch",
+                    "version-constraint": ">=103.0.6"
                 }
             ],
             "magento/module-inventory-indexer": [
