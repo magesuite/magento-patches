@@ -1,0 +1,16 @@
+diff --git a/Model/Mollie.php b/Model/Mollie.php
+index 2c7af59..e613fc3 100644
+--- a/Model/Mollie.php
++++ b/Model/Mollie.php
+@@ -493,7 +493,10 @@ class Mollie extends Adapter
+          */
+         $checkoutType = $this->mollieHelper->getCheckoutType($order);
+         if ($checkoutType == 'order') {
+-            $this->registry->register('online_refund', true);
++            //BEGIN PATCH
++//            $this->registry->register('online_refund', true);
++            $this->registry->register('online_refund', true, true);
++            //END PATCH
+             return $this;
+         }
+ 

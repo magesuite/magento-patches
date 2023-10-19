@@ -1463,6 +1463,11 @@
                 "description": "Fix Mollie payment - related to improper applying discount from coupon code to shipping costs",
                 "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/mollie-fix-shipping-discount.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Fix Mollie creditmemo - added flag to prevent throwing error when 'online_refund' registry key already exist during multiple creditmemo creation",
+              "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/fix-existing-registry-key-for-multiple-creditmemo.patch",
+              "version-constraint": "*"
             }
         ],
         "mage_delight/specialpromo": [
