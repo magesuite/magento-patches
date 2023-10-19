@@ -834,11 +834,16 @@
                 "description": "Add custom visibility type to indexer. See KRA-489",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/kratki-add-visibility-search-direct-link-to-indexer.patch",
                 "version-constraint": ">=104.0.6"
+            },
+            {
+                "description": "Fix for getting watermark config",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/fix-for-getting-watermark-config.patch",
+                "version-constraint": "104.0.6-p2"
             }
         ],
         "magento/module-catalog-url-rewrite": [
             {
-                "description": "Force generation of url_path per storeviews for categories",
+                "description": "Force generation of url_path per storeviews for categories (P2G-2294)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-url-rewrite/force-url-path-generation-per-storeviews-for-categories.patch",
                 "version-constraint": ">=100.4.3"
             }
