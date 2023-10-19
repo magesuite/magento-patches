@@ -1,0 +1,22 @@
+The attribute called `availability` exists in kratki's project
+
+diff --git a/Helper/AttributesInventory.php b/Helper/AttributesInventory.php
+index df1d774..2ea65eb 100644
+--- a/Helper/AttributesInventory.php
++++ b/Helper/AttributesInventory.php
+@@ -65,7 +65,7 @@ class AttributesInventory extends \Magento\Framework\App\Helper\AbstractHelper
+      * @param string $reference
+      * @return string the availability of the product enclosed between tags
+      */
+-    public function availability($model, $options, $product, $reference)
++    public function availability2($model, $options, $product, $reference)
+     {
+         $item = $model->checkReference($reference, $product);
+         if ($item == null) {
+@@ -219,4 +219,4 @@ class AttributesInventory extends \Magento\Framework\App\Helper\AbstractHelper
+     {
+         return null;
+     }
+-}
+\ No newline at end of file
++}
