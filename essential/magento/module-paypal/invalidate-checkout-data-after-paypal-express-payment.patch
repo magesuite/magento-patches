@@ -1,0 +1,17 @@
+Invalidate checkout-data section after Paypal payment in order to avoid duplication of the shipping address when ordering again [KRA-735].
+
+diff --git a/view/frontend/web/js/view/payment/method-renderer/paypal-express-abstract.js b/view/frontend/web/js/view/payment/method-renderer/paypal-express-abstract.js
+index e9c7968..f2ac410 100644
+--- a/view/frontend/web/js/view/payment/method-renderer/paypal-express-abstract.js
++++ b/view/frontend/web/js/view/payment/method-renderer/paypal-express-abstract.js
+@@ -78,7 +78,9 @@ define([
+                 //update payment method information if additional data was changed
+                 setPaymentMethodAction(this.messageContainer).done(
+                     function () {
+-                        customerData.invalidate(['cart']);
++                        // BEGIN PATCH
++                        customerData.invalidate(['cart', 'checkout-data']);
++                        // END PATCH
+                         $.mage.redirect(
+                             window.checkoutConfig.payment.paypalExpress.redirectUrl[quote.paymentMethod().method]
+                         );

@@ -1722,6 +1722,11 @@
                     "description": "Add possibility to define billing address for packstation and paypal",
                     "filename": "essential/magento/module-paypal/m24-fix-paypal-billing-address.patch",
                     "version-constraint": ">=101.0.3"
+                },
+                {
+                    "description": "Invalidate checkout-data section after Paypal payment in order to avoid duplication of the shipping address when ordering again [KRA-735].",
+                    "filename": "essential/magento/module-paypal/invalidate-checkout-data-after-paypal-express-payment.patch",
+                    "version-constraint": ">=101.0.6"
                 }
             ],
             "magento/module-banner": [
