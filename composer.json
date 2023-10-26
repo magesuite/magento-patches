@@ -1173,6 +1173,11 @@
                     "description": "Fix non existing logger class",
                     "filename": "essential/aheadworks/module-giftcard/non-existing-class-fix.patch",
                     "version-constraint": ">=1.2.9,<1.4.7"
+                },
+                {
+                    "description": "Add missing mage validation and jquery ui widget dependencies (RK-1047)",
+                    "filename": "essential/aheadworks/module-giftcard/aw_giftcard_missing_jquery_ui_widget_and_mage_validation_dependencies_fix.patch",
+                    "version-constraint": ">=1.4.9"
                 }
             ],
             "aheadworks/module-product-question": [
