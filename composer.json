@@ -396,6 +396,11 @@
                     "description": "Change current store to fix URL building in store switcher",
                     "filename": "essential/magento/module-store/m23-store-switcher-fix.patch",
                     "version-constraint": ">=101.0.0,<=101.0.4"
+                },
+                {
+                    "description": "Update before_auth_url in customer session when store is swithced.",
+                    "filename": "essential/magento/module-store/update-before-auth-url-on-store-switch.patch",
+                    "version-constraint": ">=101.1.4"
                 }
             ],
             "amasty/module-advanced-permissions": [

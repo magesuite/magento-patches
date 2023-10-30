@@ -1,0 +1,70 @@
+Update 'before_auth_url' in customer session when store view is switched to fix redirect to wrong store after account creation.
+Issue appeared in ticket: IPET-2226
+
+index bea7dbb..2be0d30 100644
+--- a/Controller/Store/SwitchAction.php
++++ b/Controller/Store/SwitchAction.php
+@@ -21,6 +21,9 @@ use Magento\Store\Model\StoreSwitcherInterface;
+ use Magento\Framework\App\Action\HttpPostActionInterface;
+ use Magento\Framework\App\Action\HttpGetActionInterface;
+ use Magento\Store\Controller\Store\SwitchAction\CookieManager;
++// BEGIN PATCH
++use Magento\Customer\Model\Session;
++// END PATCH
+
+ /**
+  * Handles store switching url and makes redirect.
+@@ -61,6 +64,13 @@ class SwitchAction extends Action implements HttpGetActionInterface, HttpPostAct
+      */
+     private $cookieManager;
+
++    // BEGIN PATCH
++    /**
++     * @var Session
++     */
++    private $customerSession;
++    // END PATCH
++
+     /**
+      * Initialize dependencies.
+      *
+@@ -71,6 +81,7 @@ class SwitchAction extends Action implements HttpGetActionInterface, HttpPostAct
+      * @param StoreManagerInterface $storeManager
+      * @param StoreSwitcherInterface $storeSwitcher
+      * @param CookieManager $cookieManager
++     * @param Session $customerSession
+      */
+     public function __construct(
+         ActionContext $context,
+@@ -79,7 +90,10 @@ class SwitchAction extends Action implements HttpGetActionInterface, HttpPostAct
+         StoreRepositoryInterface $storeRepository,
+         StoreManagerInterface $storeManager,
+         StoreSwitcherInterface $storeSwitcher,
+-        CookieManager $cookieManager
++        CookieManager $cookieManager,
++        // BEGIN PATCH
++        Session $customerSession
++        // END PATCH
+     ) {
+         parent::__construct($context);
+         $this->storeCookieManager = $storeCookieManager;
+@@ -89,6 +103,9 @@ class SwitchAction extends Action implements HttpGetActionInterface, HttpPostAct
+         $this->messageManager = $context->getMessageManager();
+         $this->storeSwitcher = $storeSwitcher;
+         $this->cookieManager = $cookieManager;
++        // BEGIN PATCH
++        $this->customerSession = $customerSession;
++        // END PATCH
+     }
+
+     /**
+@@ -125,6 +142,9 @@ class SwitchAction extends Action implements HttpGetActionInterface, HttpPostAct
+         } else {
+             $redirectUrl = $this->storeSwitcher->switch($fromStore, $targetStore, $requestedUrlToRedirect);
+             $this->cookieManager->setCookieForStore($targetStore);
++            // BEGIN PATCH
++            $this->customerSession->setBeforeAuthUrl($targetStore->getBaseUrl());
++            // END PATCH
+         }
+
+         $this->getResponse()->setRedirect($redirectUrl);
