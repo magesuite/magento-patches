@@ -1,0 +1,26 @@
+diff --git a/Plugin/Locale/Format.php b/Plugin/Locale/Format.php
+index 0c1d59a..dcea9f9 100644
+--- a/Plugin/Locale/Format.php
++++ b/Plugin/Locale/Format.php
+@@ -81,6 +81,8 @@ class Format extends AbstractFormat
+             $config['show_symbol'],
+             $config['symbol']
+         );
++
++        $result['currencyFormatterEnabled'] = true;
+         $result['pattern']           = $localeShowSymbol;
+         $result['precision']         = $config['decimal_number'];
+         $result['requiredPrecision'] = $config['decimal_number'];
+diff --git a/view/frontend/web/js/view/summary/abstract-total.js b/view/frontend/web/js/view/summary/abstract-total.js
+index 29bc398..6199205 100644
+--- a/view/frontend/web/js/view/summary/abstract-total.js
++++ b/view/frontend/web/js/view/summary/abstract-total.js
+@@ -41,7 +41,7 @@ define([
+                 newPattern = null,
+                 newPrice   = null;
+ 
+-            if (price >= 0) {
++            if (!format.currencyFormatterEnabled || price >= 0) {
+                 return this._super(price);
+             }
+ 

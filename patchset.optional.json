@@ -901,6 +901,16 @@
                 "description": "Prevents triggering JS logic when extension is disabled",
                 "filename": "vendor/creativestyle/magento-patches/optional/mageplaza/module-currency-formatter/mageplaza-currency-formatter-js-fix.patch",
                 "version-constraint": "^1.0"
+            },
+            {
+                "description": "Prevents triggering JS logic when extension is disabled",
+                "filename": "vendor/creativestyle/magento-patches/optional/mageplaza-currency-formatter-js-fix-101.patch",
+                "version-constraint": ">=1.0.1,<=1.0.2"
+            },
+            {
+                "description": "Prevents triggering JS logic when extension is disabled (for ^4.0.7)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mageplaza/module-currency-formatter/mageplaza-currency-formatter-js-fix-407.patch",
+                "version-constraint": "^4.0.7"
             }
         ],
         "mageprince/magento2-paymentfee": [
