@@ -1,0 +1,30 @@
+diff --git a/Gateway/Request/RefundDataBuilder.php b/Gateway/Request/RefundDataBuilder.php
+index bdded19..d3540d5 100644
+--- a/Gateway/Request/RefundDataBuilder.php
++++ b/Gateway/Request/RefundDataBuilder.php
+@@ -191,11 +191,22 @@ class RefundDataBuilder implements BuilderInterface
+                 AdyenHppDataAssignObserver::BRAND_CODE
+             );
+ 
++            //BEGIN PATCH RK-1080
++//            if ($this->adyenHelper->isPaymentMethodOpenInvoiceMethod($brandCode)) {
++//                $openInvoiceFieldsCreditMemo = $this->openInvoiceHelper->getOpenInvoiceData($creditMemo->getOrder());
++//                //There is only one payment, so we add the fields to the first(and only) result
++//                $requestBody[0] =  array_merge($requestBody[0], $openInvoiceFieldsCreditMemo);
++//            }
+             if ($this->adyenHelper->isPaymentMethodOpenInvoiceMethod($brandCode)) {
+-                $openInvoiceFieldsCreditMemo = $this->openInvoiceHelper->getOpenInvoiceData($creditMemo->getOrder());
+-                //There is only one payment, so we add the fields to the first(and only) result
+-                $requestBody[0] =  array_merge($requestBody[0], $openInvoiceFieldsCreditMemo);
++                try {
++                    $openInvoiceFieldsCreditMemo = $this->openInvoiceHelper->getOpenInvoiceData($creditMemo->getOrder());
++                    //There is only one payment, so we add the fields to the first(and only) result
++                    $requestBody[0] =  array_merge($requestBody[0], $openInvoiceFieldsCreditMemo);
++                } catch (\Magento\Framework\Exception\NoSuchEntityException $exception) {
++
++                }
+             }
++            //END PATCH
+         }
+         $request['clientConfig'] = ["storeId" => $payment->getOrder()->getStoreId()];
+         $request['body'] = $requestBody;
