@@ -1,0 +1,13 @@
+diff --git a/Model/Transport.php b/Model/Transport.php
+index 2696cbe..58d3618 100644
+--- a/Model/Transport.php
++++ b/Model/Transport.php
+@@ -45,6 +45,8 @@ class Transport implements TransportInterface
+                     'ssl' => $smtpTls,
+                 ],
+             ]));
++        } else {
++            $this->transport = new \Laminas\Mail\Transport\Sendmail(null);
+         }
+     }
+     /**
