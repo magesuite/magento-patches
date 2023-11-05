@@ -1,0 +1,26 @@
+diff --git a/Controller/Transaction/Success.php b/Controller/Transaction/Success.php
+index e3c2abf..6d505fa 100644
+--- a/Controller/Transaction/Success.php
++++ b/Controller/Transaction/Success.php
+@@ -53,6 +53,21 @@ class Success extends \Wallee\Payment\Controller\Transaction
+     public function execute()
+     {
+         $order = $this->getOrder();
++
++        // BEGIN PATCH
++        // Sometimes a request from Wallee comes with a short delay and Magento doesn't have all necessary information,
++        // so it return false in $this->successValidator->isValid(). We added wait to ensure that request from Wallee was processed.
++        // This waitForTransactionState() was in previous versions, was removed by Wallee in 1.3.20 version.
++
++        $transactionService = \Magento\Framework\App\ObjectManager::getInstance()->get(\Wallee\Payment\Model\Service\Order\TransactionService::class);
++        $transactionService->waitForTransactionState($order,
++            [
++                TransactionState::AUTHORIZED,
++                TransactionState::COMPLETED,
++                TransactionState::FULFILL
++            ], 5);
++        // END PATCH
++
+         if (! $this->successValidator->isValid()) {
+             $this->messageManager->addErrorMessage(
+                 \__(
