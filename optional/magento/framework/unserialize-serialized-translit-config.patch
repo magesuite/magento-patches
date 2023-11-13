@@ -1,0 +1,18 @@
+diff --git a/Filter/Translit.php b/Filter/Translit.php
+index 19b5b5e..7945a69 100644
+--- a/Filter/Translit.php
++++ b/Filter/Translit.php
+@@ -506,6 +506,13 @@ class Translit implements \Zend_Filter_Interface
+     public function __construct(\Magento\Framework\App\Config\ScopeConfigInterface $config)
+     {
+         $convertConfig = $config->getValue('url/convert', 'default');
++
++        // PATCH START RK-1110
++        if (is_string($convertConfig)) {
++            $convertConfig = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Serialize\Serializer\Serialize::class)->unserialize($convertConfig);
++        }
++        // PATCH END
++
+         if ($convertConfig) {
+             foreach ($convertConfig as $configValue) {
+                 $this->convertTable[(string)$configValue['from']] = (string)$configValue['to'];
