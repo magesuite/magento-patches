@@ -1,0 +1,45 @@
+diff --git a/Serialize/Serializer/Json.php b/Serialize/Serializer/Json.php
+index 368e960..8bddfec 100644
+--- a/Serialize/Serializer/Json.php
++++ b/Serialize/Serializer/Json.php
+@@ -40,6 +40,16 @@ class Json implements SerializerInterface
+                 'Unable to unserialize value. Error: Parameter must be a string type, null given.'
+             );
+         }
++        // PATCH START PART 1/2
++        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
++        $configuration = $objectManager->get(\Magento\Framework\App\Config\ScopeConfigInterface::class);
++        $jsonSizeToLog = $configuration->getValue('json_size_to_log') ?? 10000;
++
++        if (strlen($string) >= $jsonSizeToLog) {
++            $logger = $objectManager->get(\Psr\Log\LoggerInterface::class);
++            $logger->warning($this->getStackTrace(strlen($string)));
++        }
++        // PATCH END PART 1/2
+         $result = json_decode($string, true);
+
+         if (json_last_error() !== JSON_ERROR_NONE) {
+@@ -47,4 +57,23 @@ class Json implements SerializerInterface
+         }
+         return $result;
+     }
++
++    // PATCH START PART 2/2
++    protected function getStackTrace(int $strlen): string
++    {
++        $calls = debug_backtrace();
++        $stacktrace = "Warning: A $strlen character json is about to be unserialized.\n";
++
++        foreach ($calls as $callNumber => $call) {
++            $class = $call['class'] ?? '[missing_class]]';
++            $function = $call['function'] ?? '[missing_function]]';
++            $file = $call['file'] ?? '[missing_file]]';
++            $line = $call['line'] ?? '[missing_line]';
++
++            $stacktrace .= "Call #$callNumber: $class->$function in $file:$line\n";
++        }
++
++        return $stacktrace;
++    }
++    //PATCH END PART 2/2
+ }
