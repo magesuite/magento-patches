@@ -2368,6 +2368,13 @@
                     "filename": "essential/bluepayment-plugin/module-bluepayment/fix-redirect-url-after-payment.patch",
                     "version-constraint": ">=2.22.0"
                 }
+            ],
+            "mailchimp/mc-magento2": [
+                {
+                    "description": "Fix the issue with loading the subscription in the SaveAfter plugin. (IPET-2264)",
+                    "filename": "essential/mailchimp/mc-magento2/fix-subscription-load-in-mailchimp-save-after-plugin.patch",
+                    "version-constraint": ">=103.4.56"
+                }
             ]
         }
     }
