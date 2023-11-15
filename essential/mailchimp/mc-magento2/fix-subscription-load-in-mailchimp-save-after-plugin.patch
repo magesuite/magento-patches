@@ -1,0 +1,52 @@
+Replace store id with website id to correctly get customer by email.
+Ticket number: IPET-2264
+
+diff --git a/Observer/Subscriber/SaveAfter.php b/Observer/Subscriber/SaveAfter.php
+index db745ba..abc7683 100644
+--- a/Observer/Subscriber/SaveAfter.php
++++ b/Observer/Subscriber/SaveAfter.php
+@@ -33,6 +33,10 @@ class SaveAfter implements \Magento\Framework\Event\ObserverInterface
+      */
+     protected $_subscriberFactory;
+
++    // BEGIN PATCH
++    protected \Magento\Store\Model\StoreManagerInterface $storeManager;
++    // END PATCH
++
+     /**
+      * SaveBefore constructor.
+      * @param \Ebizmarts\MailChimp\Model\MailChimpSyncEcommerce $ecommerce
+@@ -44,13 +48,19 @@ class SaveAfter implements \Magento\Framework\Event\ObserverInterface
+         \Ebizmarts\MailChimp\Model\MailChimpSyncEcommerce $ecommerce,
+         \Ebizmarts\MailChimp\Helper\Data $helper,
+         \Ebizmarts\MailChimp\Model\Api\Subscriber $subscriberApi,
+-        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
++        \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
++        // BEGIN PATCH
++        \Magento\Store\Model\StoreManagerInterface $storeManager
++        // END PATCH
+     ) {
+
+         $this->_ecommerce           = $ecommerce;
+         $this->_helper              = $helper;
+         $this->_subscriberApi       = $subscriberApi;
+         $this->_subscriberFactory   = $subscriberFactory;
++        // BEGIN PATCH
++        $this->storeManager = $storeManager;
++        // END PATCH
+     }
+
+     public function execute(\Magento\Framework\Event\Observer $observer)
+@@ -62,7 +72,11 @@ class SaveAfter implements \Magento\Framework\Event\ObserverInterface
+         $subscriber = $observer->getSubscriber();
+         $isCustomer = $subscriber->getCustomerId();
+         if ($isCustomer) {
+-            $subscriberOld = $factory->loadBySubscriberEmail($subscriber->getCustomerId(), $subscriber->getStoreId());
++            //BEGIN PATCH
++            //Change the way of getting subscriber because original logic is broken.
++            //$subscriberOld = $factory->loadBySubscriberEmail($subscriber->getCustomerId(), $subscriber->getStoreId());
++            $subscriberOld = $factory->loadBySubscriberEmail($subscriber->getEmail(), $this->storeManager->getStore($subscriber->getStoreId())->getWebsiteId());
++            //END PATCH
+         }
+         if ($this->_helper->isMailChimpEnabled($subscriber->getStoreId())&&$isCustomer&&
+             $subscriberOld->getEmail()&&$subscriber->getEmail()!=$subscriberOld->getEmail()) {
