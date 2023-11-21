@@ -1,0 +1,62 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index dd257de..beca221 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -196,17 +196,56 @@ class Data
+             $usedProducts = $configurableProduct->getTypeInstance()->getUsedProducts($configurableProduct);
+ 
+             foreach ($usedProducts as $simpleProduct) {
+-                if (!array_diff_assoc($requiredAttributes, $simpleProduct->getData())
++                //BEGIN PATCH
++                if ($this->isSimpleProductMatchFilter($requiredAttributes, $simpleProduct)
+                     && $this->isMediaAvailable($simpleProduct, $attributeCode)
+                 ) {
+                     return $simpleProduct;
+                 }
++//                if (!array_diff_assoc($requiredAttributes, $simpleProduct->getData())
++//                    && $this->isMediaAvailable($simpleProduct, $attributeCode)
++//                ) {
++//                    return $simpleProduct;
++//                }
++                //END PATCH
+             }
+         }
+ 
+         return false;
+     }
+ 
++    //BEGIN PATCH
++    private function isSimpleProductMatchFilter($requiredAttributes, $simpleProduct)
++    {
++        foreach ($requiredAttributes as $attributeCode => $values) {
++            if (!is_array($values)) {
++                if (!array_diff_assoc($requiredAttributes, $simpleProduct->getData())) {
++                    return true;
++                }
++
++                return false;
++            }
++
++            $ids = array_pop($values);
++
++            if (!is_array($ids)) {
++                return false;
++            }
++
++            if (!isset($simpleProduct->getData()[$attributeCode])) {
++                return false;
++            }
++
++            $attributeValue = $simpleProduct->getData()[$attributeCode];
++            if (!in_array($attributeValue, $ids)) {
++                return false;
++            }
++        }
++
++        return true;
++    }
++    //END PATCH
++
+     /**
+      * Load first variation with swatch image
+      *
