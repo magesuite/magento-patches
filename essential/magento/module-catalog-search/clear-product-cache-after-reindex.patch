@@ -1,0 +1,55 @@
+diff --git a/Model/Indexer/Fulltext.php b/Model/Indexer/Fulltext.php
+index 24b0fed..61f5766 100644
+--- a/Model/Indexer/Fulltext.php
++++ b/Model/Indexer/Fulltext.php
+@@ -94,6 +94,13 @@ class Fulltext implements
+      */
+     private $deploymentConfig;
+ 
++    // PATCH START
++    /**
++     * @var \Magento\Framework\Indexer\CacheContext
++     */
++    protected $cacheContext;
++    // PATCH END
++
+     /**
+      * Deployment config path
+      *
+@@ -122,6 +129,9 @@ class Fulltext implements
+         IndexSwitcherInterface $indexSwitcher,
+         StateFactory $indexScopeStateFactory,
+         DimensionProviderInterface $dimensionProvider,
++        // PATCH START
++        \Magento\Framework\Indexer\CacheContext $cacheContext,
++        // PATCH END
+         array $data,
+         ProcessManager $processManager = null,
+         ?int $batchSize = null,
+@@ -137,6 +147,9 @@ class Fulltext implements
+         $this->processManager = $processManager ?: ObjectManager::getInstance()->get(ProcessManager::class);
+         $this->batchSize = $batchSize ?? self::BATCH_SIZE;
+         $this->deploymentConfig = $deploymentConfig ?: ObjectManager::getInstance()->get(DeploymentConfig::class);
++        // PATCH START
++        $this->cacheContext = $cacheContext;
++        // PATCH END
+     }
+ 
+     /**
+@@ -192,10 +205,16 @@ class Fulltext implements
+                     $this->processBatch($saveHandler, $dimensions, $currentBatch);
+                     $i = 0;
+                     $currentBatch = [];
++                    // PATCH START
++                    $this->cacheContext->registerEntities(\Magento\Catalog\Model\Product::CACHE_TAG, $entityIds);
++                    // PATCH END
+                 }
+             }
+             if (!empty($currentBatch)) {
+                 $this->processBatch($saveHandler, $dimensions, $currentBatch);
++                // PATCH START
++                $this->cacheContext->registerEntities(\Magento\Catalog\Model\Product::CACHE_TAG, $entityIds);
++                // PATCH END
+             }
+         }
+     }

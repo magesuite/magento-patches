@@ -595,6 +595,11 @@
                     "description": "Fix focus being lost after in search input after JS init (Magento 2.2.0-2.2.4)",
                     "filename": "essential/magento/module-search/m22-mini-search-focus-fix.patch",
                     "version-constraint": "~100.2.0,<=100.2.3"
+                },
+                {
+                    "description": "Fix focus being lost after in search input after JS init (Magento 2.2.0-2.2.4)",
+                    "filename": "essential/magento/module-search/m22-mini-search-focus-fix.patch",
+                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-elasticsearch": [
@@ -738,6 +743,11 @@
                     "description": "Improves performance of virtual category query generation.",
                     "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v.2.10.x.patch",
                     "version-constraint": ">=2.10.0,<2.10.11"
+                },
+                {
+                    "description": "Adds stracktrace to missing index exception message.",
+                    "filename": "essential/smile/elasticsuite/add-stacktrace-to-exception-message.patch",
+                    "version-constraint": ">=2.10.0"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
@@ -752,6 +762,11 @@
                     "description": "Fix for invalid subject type in after plugin",
                     "filename": "essential/smile/module-elasticsuite-merchandiser/fix_issue_with_subject_type.patch",
                     "version-constraint": ">=2.10.12.1"
+                },
+                {
+                    "description": "Fix for manual sorting products on a different stores",
+                    "filename": "essential/smile/module-elasticsuite-merchandiser/fix-of-sorting-for-different-stores.patch",
+                    "version-constraint": ">=2.10.18.2"
                 }
             ],
             "smile/module-elasticsuite-recommender": [
@@ -1167,7 +1182,6 @@
                 {
                     "description": "Fix reward points. Add parsing phrase to string so strlen() could work",
                     "filename": "essential/aheadworks/module-reward-points/description_string_parsing.patch",
-
                     "version-constraint": "2.2.0"
                 },
                 {
