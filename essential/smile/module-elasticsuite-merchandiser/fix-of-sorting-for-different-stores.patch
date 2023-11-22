@@ -1,0 +1,40 @@
+diff --git a/Model/Preview.php b/Model/Preview.php
+index a443642..da77b1a 100644
+--- a/Model/Preview.php
++++ b/Model/Preview.php
+@@ -119,7 +119,10 @@ class Preview extends BasePreview
+         // if the sort order is different from position because the products are sorted in js.
+         $data = parent::getData();
+
+-        if ($this->getSortBy() != 'position') {
++        // PATCH START
++        // if ($this->getSortBy() != 'position') {
++        if (!str_contains($this->getSortBy(), 'position')) {
++            // PATCH END
+             $products = $data['products'] ?? [];
+             array_walk($products, function (&$productData, $index) {
+                 $productData['position'] = $index;
+@@ -140,7 +143,10 @@ class Preview extends BasePreview
+         $collection = parent::prepareProductCollection($collection);
+         $collection
+             ->setOrder($sortBy, $sortBy != 'position' ? Collection::SORT_ORDER_ASC : Collection::SORT_ORDER_DESC)
+-            ->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->storeManager->getWebsite()->getId());
++            // PATCH START
++            // ->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->storeManager->getWebsite()->getId());
++            ->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->storeManager->getStore($this->category->getStoreId())->getWebsiteId());
++            // PATCH END
+
+         return $collection;
+     }
+@@ -156,7 +162,10 @@ class Preview extends BasePreview
+             $useConfig = $this->request->getParam('use_config', []);
+             $useConfig = array_key_exists('default_sort_by', $useConfig) && $useConfig['default_sort_by'] == 'true';
+             $defaultSortBy = $this->categoryConfig->getProductListDefaultSortBy();
+-            $this->sortBy = $useConfig ? $defaultSortBy : $this->request->getParam('default_sort_by');
++            // PATCH START
++            // $this->sortBy = $useConfig ? $defaultSortBy : $this->request->getParam('default_sort_by');
++            $this->sortBy = $useConfig || empty($this->request->getParam('default_sort_by')) ? $defaultSortBy : $this->request->getParam('default_sort_by');
++            // PATCH END
+         }
+
+         return $this->sortBy;

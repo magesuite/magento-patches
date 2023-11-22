@@ -1,0 +1,25 @@
+diff --git a/src/module-elasticsuite-core/Index/IndexOperation.php b/src/module-elasticsuite-core/Index/IndexOperation.php
+index 915d4d1..846dd7b 100644
+--- a/src/module-elasticsuite-core/Index/IndexOperation.php
++++ b/src/module-elasticsuite-core/Index/IndexOperation.php
+@@ -115,9 +115,19 @@ class IndexOperation implements IndexOperationInterface
+ 
+         if (!isset($this->indicesByIdentifier[$indexAlias])) {
+             if (!$this->indexExists($indexIdentifier, $store)) {
++                // PATCH START
++                //throw new \LogicException(
++                //    "{$indexIdentifier} index does not exist yet. Make sure everything is reindexed."
++                //);
++                try {
++                    throw new \Exception();
++                } catch (\Exception $e) {
++                    $stacktrace = $e->getTraceAsString();
++                }
+                 throw new \LogicException(
+-                    "{$indexIdentifier} index does not exist yet. Make sure everything is reindexed."
++                    "{$indexIdentifier} index does not exist yet. Make sure everything is reindexed. Stacktrace: {$stacktrace}"
+                 );
++                // PATCH END
+             }
+             $this->initIndex($indexIdentifier, $store, true);
+         }
