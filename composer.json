@@ -595,11 +595,6 @@
                     "description": "Fix focus being lost after in search input after JS init (Magento 2.2.0-2.2.4)",
                     "filename": "essential/magento/module-search/m22-mini-search-focus-fix.patch",
                     "version-constraint": "~100.2.0,<=100.2.3"
-                },
-                {
-                    "description": "Fix focus being lost after in search input after JS init (Magento 2.2.0-2.2.4)",
-                    "filename": "essential/magento/module-search/m22-mini-search-focus-fix.patch",
-                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-elasticsearch": [
@@ -900,6 +895,11 @@
                     "description": "Disable reindex of elasticsearch inside category_products indexer",
                     "filename": "essential/magento/module-catalog-search/disable-elasticsearch-reindex-in-category-product-indexer.patch",
                     "version-constraint": ">=101.0.5"
+                },
+                {
+                    "description": "Clear product cache after reindex",
+                    "filename": "essential/magento/module-catalog-search/clear-product-cache-after-reindex.patch",
+                    "version-constraint": ">=102.0.5"
                 }
             ],
             "magento/module-checkout": [
