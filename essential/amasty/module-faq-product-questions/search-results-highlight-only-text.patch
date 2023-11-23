@@ -1,17 +1,20 @@
 diff --git a/Block/Lists/QuestionsList.php b/Block/Lists/QuestionsList.php
-index 8c4ea6a..df83bd3 100644
+index b9d7773..fc72d46 100644
 --- a/Block/Lists/QuestionsList.php
 +++ b/Block/Lists/QuestionsList.php
-@@ -90,10 +90,15 @@ class QuestionsList extends \Amasty\Faq\Block\AbstractBlock implements IdentityI
+@@ -95,11 +95,17 @@ class QuestionsList extends \Amasty\Faq\Block\AbstractBlock implements IdentityI
      public function highlight($text)
      {
          if ($this->toHighlight) {
+-            $pattern = '/((?:^|>)[^<]*)(' . implode('|', $this->toHighlight) . ')/isu';
 -
--            return preg_replace_callback('/(' . implode('|', $this->toHighlight) . ')/isu', function ($match) {
--                return '<span class="amfaq-highlight">' . $match[0] . '</span>';
+-            return preg_replace_callback($pattern, function ($match) {
+-                return $match[1] . '<span class="amfaq-highlight">' . $match[2] . '</span>';
 +            // PATCH BEGIN
-+            //return preg_replace_callback('/(' . implode('|', $this->toHighlight) . ')/isu', function ($match) {
-+            //    return '<span class="amfaq-highlight">' . $match[0] . '</span>';
++            //$pattern = '/((?:^|>)[^<]*)(' . implode('|', $this->toHighlight) . ')/isu';
++            //
++            //return preg_replace_callback($pattern, function ($match) {
++            //    return $match[1] . '<span class="amfaq-highlight">' . $match[2] . '</span>';
 +            //}, $text);
 +            $highlightWhat = implode('|', $this->toHighlight);
 +            $text = preg_replace_callback('#((?:(?!<[/a-z]).)*)([^>]*>|$)#si', function($m) use ($highlightWhat) {
