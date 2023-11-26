@@ -720,6 +720,11 @@
                 "version-constraint": "*"
           },
           {
+            "description": "Patch for disabling contacts synchro",
+            "filename": "vendor/creativestyle/magento-patches/optional/emartech/disable-contacts-sync.patch",
+            "version-constraint": "*"
+          },
+          {
             "description": "Patch fet multistore support",
             "filename": "vendor/creativestyle/magento-patches/optional/emartech/emarsys-magento2-extension/multiwebsite-support-patch-245.patch",
             "version-constraint": "*"

@@ -1,0 +1,38 @@
+diff --git a/Model/Api/CustomersApi.php b/Model/Api/CustomersApi.php
+index f99b0b3..d572d29 100644
+--- a/Model/Api/CustomersApi.php
++++ b/Model/Api/CustomersApi.php
+@@ -253,6 +253,9 @@ class CustomersApi implements CustomersApiInterface
+      */
+     private function handleCustomers(): array
+     {
++        // PATCH BEGIN - do not return any customers to subscribe
++        return [];
++        // PATCH END
+         $customerArray = [];
+         foreach ($this->customerHelper->getCustomerCollection() as $customer) {
+             $customerArray[] = $this->customerHelper->buildCustomerObject($customer, $this->websiteId);
+diff --git a/Model/Api/SubscriptionsApi.php b/Model/Api/SubscriptionsApi.php
+index 58b8e04..2768b81 100644
+--- a/Model/Api/SubscriptionsApi.php
++++ b/Model/Api/SubscriptionsApi.php
+@@ -169,6 +169,9 @@ class SubscriptionsApi implements SubscriptionsApiInterface
+      */
+     public function update(array $subscriptions): StatusResponseInterface
+     {
++        // PATCH BEGIN - do not process any customers
++        return $this->handleResponse();
++        // PATCH END
+         /** @var SubscriptionInterface $subscription */
+         foreach ($subscriptions as $subscription) {
+             try {
+@@ -264,6 +267,9 @@ class SubscriptionsApi implements SubscriptionsApiInterface
+      */
+     private function handleSubscriptions(): array
+     {
++        // PATCH BEGIN - do not return any subscribers to subscribe
++        return [];
++        // PATCH END
+         $subscriptionArray = [];
+         foreach ($this->subscriptionCollection as $subscription) {
+             $subscriptionArray[] = $this->parseSubscription($subscription);
