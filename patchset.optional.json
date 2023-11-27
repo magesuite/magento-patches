@@ -1,5 +1,12 @@
 {
     "patchset": {
+        "akeneo/magento2-connector-enterprise": [
+            {
+                "description": "Skip associate item when identifier is missing (FR-105)",
+                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/skip-associate-item-with-missing-identifier.patch",
+                "version-constraint": "*"
+            }
+        ],
         "bluepayment-plugin/module-bluepayment": [
             {
                 "description": "Process order status update correctly (KRA-420)",

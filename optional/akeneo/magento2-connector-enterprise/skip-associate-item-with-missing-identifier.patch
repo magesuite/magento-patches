@@ -1,0 +1,18 @@
+diff --git a/Helper/Import/Product.php b/Helper/Import/Product.php
+index c28783b..bfc58fd 100644
+--- a/Helper/Import/Product.php
++++ b/Helper/Import/Product.php
+@@ -280,6 +280,13 @@ class Product extends Entities
+                         if ($this->isProductUuidEdition()) {
+                             $key = 'uuid';
+                         }
++
++                        // PATCH BEGIN: skip product if key is missing
++                        if (!isset($product[$key])) {
++                            continue;
++                        }
++                        // PATCH END
++
+                         $finalProducts[] = $product[$key] . ';' . $product['quantity'];
+                     }
+                     $products = $finalProducts;
