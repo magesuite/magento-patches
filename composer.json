@@ -1808,7 +1808,7 @@
                 {
                     "description": "Fix for unset transport object",
                     "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object-2.1.27.patch",
-                    "version-constraint": ">=2.1.27"
+                    "version-constraint": ">=2.1.27,<2.1.29"
                 }
             ],
             "zendframework/zend-mail": [
