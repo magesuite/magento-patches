@@ -1,0 +1,32 @@
+diff --git a/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php b/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php
+index 46cf36e..fa4b5b7 100644
+--- a/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php
++++ b/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php
+@@ -34,12 +34,24 @@ class InjectLazyLoadingIntoImages
+ 
+         try {
+             $dom = new \DomDocument();
+-            $dom->loadHTML(mb_encode_numericentity('<html>' . $result . '</html>', [0x80, 0x10FFFF, 0, ~0], 'UTF-8'), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
++            // PATCH START
++            //$dom->loadHTML(
++            //    mb_encode_numericentity('<html>' . $result . '</html>', [0x80, 0x10FFFF, 0, ~0], 'UTF-8'),
++            //    LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
++            //);
++            $html = str_replace('&', '＆', html_entity_decode($result)); // unicode ampersand
++            $dom->loadHTML(
++                mb_encode_numericentity('<html>' . $html . '</html>', [0x80, 0x10FFFF, 0, ~0], 'UTF-8'),
++                LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
++            );
++            // PATCH END
+         } catch (\Exception $e) {
+-
+             if ($this->configuration->isLoggerEnabled()) {
+                 $this->logger->warning(
+-                    sprintf('Issue when adjusting CMS block images to be lazy loaded. Provided HTML code is incorrect, base64 of HTML: %s', base64_encode($result))
++                    sprintf(
++                        'Issue when adjusting CMS block images to be lazy loaded. Provided HTML code is incorrect, base64 of HTML: %s',
++                        base64_encode($result)
++                    )
+                 );
+             }
+ 
