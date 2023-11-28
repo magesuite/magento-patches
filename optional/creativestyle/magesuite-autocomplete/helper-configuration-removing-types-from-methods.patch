@@ -1,31 +1,31 @@
 diff --git a/Helper/Configuration.php b/Helper/Configuration.php
-index 0ab7af1..0a39723 100644
+index 28ca284..876948f 100644
 --- a/Helper/Configuration.php
 +++ b/Helper/Configuration.php
 @@ -16,22 +16,22 @@ class Configuration
          $this->scopeConfig = $scopeConfig;
      }
- 
+
 -    public function isGenerationEnabled(): bool
 +    public function isGenerationEnabled()
      {
          return $this->scopeConfig->isSetFlag(self::GENERATION_ENABLED_XML_PATH);
      }
- 
--    public function isBoldingOfSearchQueryEnabled(): mixed
+
+-    public function isBoldingOfSearchQueryEnabled(): bool
 +    public function isBoldingOfSearchQueryEnabled()
      {
-         return $this->scopeConfig->getValue(self::BOLD_SEARCHED_TEXT_IN_RESULTS_ENABLED_XML_PATH);
+         return $this->scopeConfig->isSetFlag(self::BOLD_SEARCHED_TEXT_IN_RESULTS_ENABLED_XML_PATH);
      }
- 
+
 -    public function isEnabledTopSearchResultCache(): bool
 +    public function isEnabledTopSearchResultCache()
      {
          return $this->scopeConfig->isSetFlag(self::TOP_SEARCH_RESULT_CACHE_ENABLED_XML_PATH);
      }
- 
--    public function getTopSearchResultCacheTTL(): mixed
+
+-    public function getTopSearchResultCacheTTL(): int
 +    public function getTopSearchResultCacheTTL()
      {
-         return $this->scopeConfig->getValue(self::TOP_SEARCH_RESULT_CACHE_TTL_XML_PATH);
+         return (int)$this->scopeConfig->getValue(self::TOP_SEARCH_RESULT_CACHE_TTL_XML_PATH);
      }
