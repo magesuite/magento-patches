@@ -219,8 +219,8 @@
             },
             {
                 "description": "Allow dot in query order's field validation process",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-allow-dot-in-validating-process.patch ",
-                "version-constraint": "103.0.3-p1"
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-allow-dot-in-validating-process.patch",
+                "version-constraint": ">=103.0.3"
             },
             {
                 "description": "Change the replacement for umlaut signs in URL key",
@@ -247,7 +247,7 @@
             {
                 "description": "Allow to add multi selections with qty higher than 1",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m245-bundle-allow-multi-selections-with-qty.patch",
-                "version-constraint": ">=103.0.0"
+                "version-constraint": ">=101.0.5"
             },
             {
                 "description": "Allow to translate attribute option label in line 29 of Magento_Bundle::frontend/order/items/renderer.phtml template ",
