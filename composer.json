@@ -902,6 +902,13 @@
                     "version-constraint": ">=102.0.5"
                 }
             ],
+            "magento/module-inventory-catalog-search": [
+                {
+                    "description": "Disable forced catalog search reindex",
+                    "filename": "essential/magento/module-inventory-catalog-search/disable-forced-catalog-search-reindex.patch",
+                    "version-constraint": ">=1.2.3"
+                }
+            ],
             "magento/module-checkout": [
                 {
                     "description": "Fixes undefined string being displayed when shipping method has no title.",
