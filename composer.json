@@ -1934,7 +1934,7 @@
                 {
                     "description": "Fix bug adding bundle products is not possible in admin panel, string type is required.",
                     "filename": "essential/magento/module-tax/m245-fix-adding-bundle-products-is-not-possible.patch",
-                    "version-constraint": "100.4.5"
+                    "version-constraint": ">=100.4.5"
                 }
             ],
             "vertex/module-tax": [
