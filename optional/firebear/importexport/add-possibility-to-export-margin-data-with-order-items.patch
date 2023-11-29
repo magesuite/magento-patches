@@ -7,7 +7,7 @@ index 7396f0c..608deef 100644
          <item name="sales_order_tax_item" label="Tax Items" model="\Magento\Sales\Model\Order\Tax\Item" parent="sales_order_tax" parent_field="tax_id" main_field="tax_id"/>
          <item name="customer_entity" label="Customer" model="Magento\Customer\Model\Customer" parent="sales_order" parent_field="entity_id" main_field="entity_id"/>
 +        <!-- BEGIN PATCH -->
-+        <!-- Entry added to add a possibility to export Order Data during export order wth order items. (IPET-2327) -->
++        <!-- Entry added to add a possibility to export calculated Margin Data during export order wth order items. (IPET-2327) -->
 +        <item name="margin_calculation_erp_order_item_attributes" label="Margin Calculation Data" model="Creativestyle\CustomizationIpetMargin\Model\MarginErpOrderItemAttributes" parent="sales_order_item" parent_field="order_item_id" main_field="id"/>
 +        <!-- END PATCH -->
      </entity>
