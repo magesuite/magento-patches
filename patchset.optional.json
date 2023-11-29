@@ -1488,6 +1488,11 @@
                 "description": "Add possibility for additional file validation (IPET-1889)",
                 "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/add-possibility-for-additional-file-validation.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Add possibility to export Margin Data with Order Items (IPET-2327)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/add-possibility-to-export-margin-data-with-order-items.patch",
+                "version-constraint": "*"
             }
         ],
         "mollie/magento2": [
