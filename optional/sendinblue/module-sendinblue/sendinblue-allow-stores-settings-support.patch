@@ -11,3 +11,17 @@ index 4a1e57f..339b95c 100644
          $this->_storeId = $defaultStoreId::DEFAULT_STORE_ID;
          $this->_dir = $dir;
          $this->_customers = $customers;
+
+diff --git a/Plugin/CustomTransportPlugin.php b/Plugin/CustomTransportPlugin.php
+index 89dd3c0..b44eda5 100644
+--- a/Plugin/CustomTransportPlugin.php
++++ b/Plugin/CustomTransportPlugin.php
+@@ -32,7 +32,7 @@ class CustomTransportPlugin
+                 return null;
+             }
+
+-            $smtpHost = "smtp-relay.brevo.com";
++            $smtpHost = $this->scopeConfig->getValue('sendinblue/smtp_host', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+             $smtpAuthentication = $this->scopeConfig->getValue('sendinblue/smtp_authentication', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+             $smtpTls = $this->scopeConfig->getValue('sendinblue/smtp_tls', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+             $smtpPort = $this->scopeConfig->getValue('sendinblue/smtp_port', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
