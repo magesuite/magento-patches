@@ -1,0 +1,13 @@
+diff --git a/Block/Product/ListProduct.php b/Block/Product/ListProduct.php
+index 25a8439..9c6f3fa 100644
+--- a/Block/Product/ListProduct.php
++++ b/Block/Product/ListProduct.php
+@@ -216,7 +216,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
+      *
+      * @param Collection $collection
+      */
+-    private function addToolbarBlock(Collection $collection)
++    public function addToolbarBlock(Collection $collection)
+     {
+         $toolbarLayout = $this->getToolbarFromLayout();
+ 
