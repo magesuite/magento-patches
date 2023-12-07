@@ -1,0 +1,13 @@
+diff --git a/Model/Import/Product.php b/Model/Import/Product.php
+index 60791f3..c45bc47 100644
+--- a/Model/Import/Product.php
++++ b/Model/Import/Product.php
+@@ -1929,7 +1929,7 @@ class Product extends AbstractEntity
+                         }
+                     }
+                     foreach ($storeIds as $storeId) {
+-                        if (!isset($attributes[$attrTable][$rowSku][$attrId][$storeId])) {
++                        if (!isset($attributes[$attrTable][$rowSku][$attrId][$storeId]) && !($attrCode == 'url_key' && empty($attrValue))) {
+                             $attributes[$attrTable][$rowSku][$attrId][$storeId] = $attrValue;
+                         }
+                     }
