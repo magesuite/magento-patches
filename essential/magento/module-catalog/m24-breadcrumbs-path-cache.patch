@@ -1,8 +1,8 @@
 diff --git a/Helper/Data.php b/Helper/Data.php
-index 3a55164..1117f4b 100644
+index 3a55164..406147e 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
-@@ -285,23 +285,41 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -285,23 +285,42 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
              $path = [];
              $category = $this->getCategory();
              if ($category) {
@@ -22,6 +22,7 @@ index 3a55164..1117f4b 100644
 +                $cache = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\CacheInterface::class);
 +                $storeManager = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Store\Model\StoreManagerInterface::class);
 +                $cacheKey = sprintf('breadcrumb_path_%s_%s', $category->getId(), $storeManager->getStore()->getStoreId());
++                $cacheKey .= $this->getProduct() ? '_' . $this->getProduct()->getId() : '';
 +
 +                if(($fromCache = $cache->load($cacheKey))) {
 +                    $path = json_decode($fromCache, true);
@@ -45,7 +46,7 @@ index 3a55164..1117f4b 100644
 +                    //END PATCH
                  }
              }
- 
+
              if ($this->getProduct()) {
 +                //BEGIN PATCH
 +                if ($category && $category->getIsActive()) {
