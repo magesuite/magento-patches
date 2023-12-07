@@ -1,0 +1,17 @@
+IPET-2334. Remove amasty created_at filter modifications to avoid Unknown column 'main_table.main_table.created_at' in 'where clause' error.
+diff --git a/Plugin/OrderDataProvider.php b/Plugin/OrderDataProvider.php
+index fb82642..e3c3b9c 100644
+--- a/Plugin/OrderDataProvider.php
++++ b/Plugin/OrderDataProvider.php
+@@ -342,7 +342,10 @@ class OrderDataProvider
+             }
+
+             $this->applyOrderItemFilters($collection);
+-            $this->whereResolver($collection);
++            //BEGIN PATCH
++            //Remove amasty created_at filter modifications to avoid Unknown column 'main_table.main_table.created_at' in 'where clause' error.
++            //$this->whereResolver($collection);
++            //END PATCH
+         }
+
+         if (method_exists($collection, 'isLoaded') && $collection->isLoaded()) {
