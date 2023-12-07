@@ -1,0 +1,22 @@
+diff --git a/Block/Elasticsearch/ProductList.php b/Block/Elasticsearch/ProductList.php
+index 78a4742..6d5d3fe 100644
+--- a/Block/Elasticsearch/ProductList.php
++++ b/Block/Elasticsearch/ProductList.php
+@@ -88,7 +88,7 @@ class ProductList extends \Magento\Catalog\Block\Product\ListProduct
+         return $this;
+     }
+ 
+-    protected function addToolbarBlock(\Magento\Catalog\Model\ResourceModel\Product\Collection $collection): void
++    public function addToolbarBlock(\Magento\Catalog\Model\ResourceModel\Product\Collection $collection): void
+     {
+         $toolbarLayout = $this->getToolbarFromLayout();
+ 
+@@ -176,7 +176,7 @@ class ProductList extends \Magento\Catalog\Block\Product\ListProduct
+ 
+         $docIds = array_map(
+             function (\Magento\Framework\Api\Search\Document $doc) {
+-                return (int) $doc->getId();
++                return (int)$doc->getId();
+             },
+             $queryResponse->getIterator()->getArrayCopy()
+         );
