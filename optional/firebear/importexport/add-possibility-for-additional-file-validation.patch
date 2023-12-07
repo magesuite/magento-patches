@@ -1,16 +1,16 @@
 This patch introduces an event to allow implementing additional file validation before import.
 Unfortunately we can't use after plugin because the logic is in the controller method "execute"
 and this method returns \Magento\Framework\Controller\Result\Json which doesn't have any access property, it can be only rendered as response.
-Issue appeared in ticket: IPET-1889
+Issue appeared in ticket: IPET-1889. Patch was modified during solving of issue IPET-2291
 
 diff --git a/Controller/Adminhtml/Job/Loadmap.php b/Controller/Adminhtml/Job/Loadmap.php
-index ff715e9..2838c3f 100644
+index ff715e9..9f19a08 100644
 --- a/Controller/Adminhtml/Job/Loadmap.php
 +++ b/Controller/Adminhtml/Job/Loadmap.php
 @@ -47,6 +47,8 @@ class Loadmap extends JobController
       */
      private $importSource;
- 
+
 +    protected \Magento\Framework\Event\ManagerInterface $eventManagerInterface;
 +
      /**
@@ -20,10 +20,10 @@ index ff715e9..2838c3f 100644
          $this->platforms = $platforms;
          $this->processor = $processor;
          $this->options = $options;
-+        
++
 +        $this->eventManagerInterface = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\Event\ManagerInterface::class);
      }
- 
+
      /**
 @@ -154,6 +158,12 @@ class Loadmap extends JobController
                  }
@@ -32,9 +32,9 @@ index ff715e9..2838c3f 100644
 +        // BEGIN PATCH
 +        // This patch introduces an event to allow implementing additional file validation before import.
 +        $resultDataObject = new \Magento\Framework\DataObject(['result_data' => $resultData]);
-+        $this->eventManagerInterface->dispatch('firebear_import_additional_validation', ['result_data_object' => $resultDataObject]);
++        $this->eventManagerInterface->dispatch('firebear_import_additional_validation', ['result_data_object' => $resultDataObject, 'entity' => $importData['entity']]);
 +        $resultData = $resultDataObject->getResultData();
 +        // END PATCH
          return $resultJson->setData($resultData);
      }
- 
+
