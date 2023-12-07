@@ -467,6 +467,13 @@
                     "version-constraint": ">=1.10.17"
                 }
             ],
+            "amasty/ogrid": [
+                {
+                    "description": "Remove amasty created_at filter modifications to prevent filter error.",
+                    "filename": "essential/amasty/ogrid/fix-order-grid-created-at-filter.patch",
+                    "version-constraint": ">=1.5.0"
+                }
+            ],
             "amasty/module-special-promo-pro": [
                 {
                     "description": "Fix php notice errors (Trying to access array offset on value of type null)",
