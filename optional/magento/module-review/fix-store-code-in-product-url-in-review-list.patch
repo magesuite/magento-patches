@@ -1,0 +1,14 @@
+diff --git a/Model/ResourceModel/Rating.php b/Model/ResourceModel/Rating.php
+index 81f732f..df29459 100644
+--- a/Model/ResourceModel/Rating.php
++++ b/Model/ResourceModel/Rating.php
+@@ -461,6 +461,9 @@ class Rating extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+         if ($onlyForCurrentStore) {
+             foreach ($data as $row) {
+                 if ($row['store_id'] !== $currentStore) {
++                    //BEGIN PATCH
++                    unset($row['store_id']);
++                    //END PATCH
+                     $object->addData($row);
+                 }
+             }

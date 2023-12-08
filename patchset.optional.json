@@ -1166,7 +1166,14 @@
           "filename": "vendor/creativestyle/magento-patches/optional/wyomind/googleproductratings/product-ratings-feed-cronfix.patch",
           "version-constraint": "*"
         }
-      ],
+        ],
+        "magento/module-review": [
+            {
+                "description": "Use current store code for products URLs in review list on frontend review list page",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-review/fix-store-code-in-product-url-in-review-list.patch",
+                "version-constraint": "*"
+            }
+        ],
         "wyomind/datafeedmanager": [
             {
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI.",
