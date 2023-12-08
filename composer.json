@@ -2291,6 +2291,11 @@
                     "description": "Fix image ID while generating product url (moved to new file)",
                     "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api-updated.patch",
                     "version-constraint": ">=8.22.0"
+                },
+                {
+                    "description": "Added Factory classes into CLI Command classes to prevent breaking installation of Magento",
+                    "filename": "essential/adyen/module-payment/add_factory_classes_to_cli_command.patch",
+                    "version-constraint": ">=9.0.0"
                 }
             ],
             "firegento/fastsimpleimport": [
