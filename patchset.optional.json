@@ -10,7 +10,7 @@
         "twig/twig": [
             {
                 "description": "Einhell deprecated functionality fix for php 8.1",
-                "filename": "vendor/creativestyle/magento-patches/optional/twig/twig/deprecated-functionality-fix-for-php-81.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/twig/twig/twig-deprecated-functionality-fix-for-php-81.patch",
                 "version-constraint": "*"
             }
         ],
