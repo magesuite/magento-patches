@@ -7,6 +7,13 @@
                 "version-constraint": "*"
             }
         ],
+        "twig/twig": [
+            {
+                "description": "Einhell deprecated functionality fix for php 8.1",
+                "filename": "vendor/creativestyle/magento-patches/optional/twig/twig/deprecated-functionality-fix-for-php-81.patch",
+                "version-constraint": "*"
+            }
+        ],
         "bluepayment-plugin/module-bluepayment": [
             {
                 "description": "Process order status update correctly (KRA-420)",
