@@ -738,7 +738,7 @@
                 },
                 {
                     "description": "Improves performance of virtual category query generation.",
-                    "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v.2.9.x.patch",
+                    "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v2.9.x.patch",
                     "version-constraint": ">=2.9.0,<2.10.0"
                 },
                 {
