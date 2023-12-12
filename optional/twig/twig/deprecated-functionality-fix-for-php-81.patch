@@ -1,32 +1,32 @@
 diff --git a/src/Loader/FilesystemLoader.php b/src/Loader/FilesystemLoader.php
-index e72bdc5..54303ff 100644
+index 54303ff..e72bdc5 100644
 --- a/src/Loader/FilesystemLoader.php
 +++ b/src/Loader/FilesystemLoader.php
 @@ -37,7 +37,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
      public function __construct($paths = [], $rootPath = null)
      {
          $this->rootPath = (null === $rootPath ? getcwd() : $rootPath).\DIRECTORY_SEPARATOR;
--        if (false !== $realPath = realpath((string) $rootPath)) {
-+        if (false !== $realPath = realpath($rootPath)) {
+-        if (false !== $realPath = realpath($rootPath)) {
++        if (false !== $realPath = realpath((string) $rootPath)) {
              $this->rootPath = $realPath.\DIRECTORY_SEPARATOR;
          }
  
 diff --git a/src/Node/Node.php b/src/Node/Node.php
-index 0108061..5ec7a73 100644
+index 5ec7a73..0108061 100644
 --- a/src/Node/Node.php
 +++ b/src/Node/Node.php
 @@ -207,12 +207,12 @@ class Node implements \Twig_NodeInterface
          unset($this->nodes[$name]);
      }
  
--    public function count(): int
-+    public function count()
+-    public function count()
++    public function count(): int
      {
          return \count($this->nodes);
      }
  
--    public function getIterator(): \Traversable
-+    public function getIterator()
+-    public function getIterator()
++    public function getIterator(): \Traversable
      {
          return new \ArrayIterator($this->nodes);
      }
