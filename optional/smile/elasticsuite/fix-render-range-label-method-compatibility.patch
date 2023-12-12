@@ -1,0 +1,13 @@
+diff --git a/src/module-elasticsuite-catalog/Model/Layer/Filter/Price.php b/src/module-elasticsuite-catalog/Model/Layer/Filter/Price.php
+index 6f0d2bc..cdaa03e 100644
+--- a/src/module-elasticsuite-catalog/Model/Layer/Filter/Price.php
++++ b/src/module-elasticsuite-catalog/Model/Layer/Filter/Price.php
+@@ -114,7 +114,7 @@ class Price extends \Magento\CatalogSearch\Model\Layer\Filter\Price
+      *
+      * {@inheritDoc}
+      */
+-    protected function _renderRangeLabel($fromPrice, $toPrice)
++    protected function _renderRangeLabel($fromPrice, $toPrice, $isLast = false)
+     {
+         $formattedPrice = $this->priceCurrency->format((float) $fromPrice * $this->getCurrencyRate());
+ 
