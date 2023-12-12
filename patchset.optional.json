@@ -73,6 +73,11 @@
               "description": "Added retires in case elasticsearch is returning 429 error.",
               "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/elastisearch-error-429.patch",
               "version-constraint": "*"
+            },
+            {
+                "description": "Fixing Einhell elastic suite render range label method compatibility",
+                "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-render-range-label-method-compatibility.patch",
+                "version-constraint": "*"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
