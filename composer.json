@@ -2190,7 +2190,7 @@
                 {
                     "description": "Add translations of hardcoded literals (updated file name).",
                     "filename": "essential/mirasvit/module-affiliate/add_translations_of_hardcoded_literals_1_14_24.patch",
-                    "version-constraint": ">=1.4.24"
+                    "version-constraint": ">=1.4.24,<1.4.29"
                 }
             ],
             "mirasvit/module-rewards": [
