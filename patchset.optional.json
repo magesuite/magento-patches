@@ -392,6 +392,11 @@
                 "description": "Fix performance issue by removing pagination on pages were amount of logs is very low",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/adminactionslog/fix-performance-issue-when-loading-logs-on-other-pages.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Optimize Admin Session Deletion Process in ActiveSessionManager (P2G-2312)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/adminactionslog/fix-performance-issue-use-collection-instead-of-getting-session-object-by-repository.patch",
+                "version-constraint": "*"
             }
         ],
         "amasty/module-xcoupon": [

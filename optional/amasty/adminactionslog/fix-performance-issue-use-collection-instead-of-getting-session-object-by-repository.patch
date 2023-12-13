@@ -1,0 +1,188 @@
+Optimize Admin Session Deletion Process in ActiveSessionManager (P2G-2312)
+
+diff --git a/Api/ActiveSessionManagerInterface.php b/Api/ActiveSessionManagerInterface.php
+index 56b74f7..4517573 100644
+--- a/Api/ActiveSessionManagerInterface.php
++++ b/Api/ActiveSessionManagerInterface.php
+@@ -16,9 +16,13 @@ interface ActiveSessionManagerInterface
+
+     public function update(): void;
+
+-    public function terminate(string $sessionId = null): void;
++    // BEGIN PATCH
++    //public function terminate(string $sessionId = null): void;
++    public function terminate($sessionItem = null): void;
+
+-    public function getInactiveSessions(): array;
++    //public function getInactiveSessions(): array;
++    public function getInactiveSessions();
++    // END PATCH
+
+     public function terminateAll(): void;
+ }
+diff --git a/Api/VisitHistoryManagerInterface.php b/Api/VisitHistoryManagerInterface.php
+index 7f926a3..808eadc 100644
+--- a/Api/VisitHistoryManagerInterface.php
++++ b/Api/VisitHistoryManagerInterface.php
+@@ -20,9 +20,12 @@ interface VisitHistoryManagerInterface
+     /**
+      * Track Visit History end time, i.e. admin logout or session destroy.
+      *
+-     * @param string|null $sessionId
++     * @param string|null $visitItem
+      */
+-    public function endVisit(string $sessionId = null): void;
++    // BEGIN PATCH
++    // public function endVisit(string $sessionId = null): void;
++    public function endVisit($visitItem = null): void;
++    // END PATCH
+
+     /**
+      * Clear whole Visit History storage.
+diff --git a/Cron/UpdateActiveSessions.php b/Cron/UpdateActiveSessions.php
+index 804c40a..4b4d343 100644
+--- a/Cron/UpdateActiveSessions.php
++++ b/Cron/UpdateActiveSessions.php
+@@ -25,11 +25,21 @@ class UpdateActiveSessions
+      */
+     private $visitHistoryManager;
+
++    // BEGIN PATCH
++    protected \Amasty\AdminActionsLog\Model\VisitHistoryEntry\ResourceModel\CollectionFactory $visitHistoryEntryCollectionFactory;
++    // END PATCH
++
+     public function __construct(
+         ActiveSessionManagerInterface $activeSessionManager,
+-        VisitHistoryManagerInterface $visitHistoryManager
++        VisitHistoryManagerInterface $visitHistoryManager,
++        // BEGIN PATCH
++        \Amasty\AdminActionsLog\Model\VisitHistoryEntry\ResourceModel\CollectionFactory $visitHistoryEntryCollectionFactory
++        // END PATCH
+     ) {
+         $this->activeSessionManager = $activeSessionManager;
++        // BEGIN PATCH
++        $this->visitHistoryEntryCollectionFactory = $visitHistoryEntryCollectionFactory;
++        // END PATCH
+         $this->visitHistoryManager = $visitHistoryManager;
+     }
+
+@@ -37,9 +47,28 @@ class UpdateActiveSessions
+     {
+         $inactiveSessions = $this->activeSessionManager->getInactiveSessions();
+
+-        foreach ($inactiveSessions as $sessionId) {
+-            $this->activeSessionManager->terminate($sessionId);
+-            $this->visitHistoryManager->endVisit($sessionId);
++        // BEGIN PATCH
++        // foreach ($inactiveSessions as $sessionId) {
++        //    $this->activeSessionManager->terminate($sessionId);
++        //    $this->visitHistoryManager->endVisit($sessionId);
++        // }
++
++        foreach ($inactiveSessions->getItems() as $sessionItem) {
++            $this->activeSessionManager->terminate($sessionItem);
++        }
++
++
++        $sessionIds = $inactiveSessions->getColumnValues(\Amasty\AdminActionsLog\Model\ActiveSession\ActiveSession::SESSION_ID);
++
++        $collection = $this->visitHistoryEntryCollectionFactory->create();
++        $collection->addFieldToFilter(
++            \Amasty\AdminActionsLog\Model\ActiveSession\ActiveSession::SESSION_ID,
++            ['in' => $sessionIds]
++        );
++
++        foreach ($collection->getItems() as $visit) {
++            $this->visitHistoryManager->endVisit($visit);
+         }
++        // END PATCH
+     }
+ }
+diff --git a/Model/ActiveSession/ActiveSessionManager.php b/Model/ActiveSession/ActiveSessionManager.php
+index 357efdb..3cf8466 100644
+--- a/Model/ActiveSession/ActiveSessionManager.php
++++ b/Model/ActiveSession/ActiveSessionManager.php
+@@ -117,14 +117,23 @@ class ActiveSessionManager implements ActiveSessionManagerInterface
+         }
+     }
+
+-    public function terminate(string $sessionId = null): void
++    // BEGIN PATCH
++    // public function terminate(string $sessionId = null): void
++    public function terminate($sessionItem = null): void
+     {
+-        if ($sessionId === null) {
++        if ($sessionItem === null) {
+             $sessionId = $this->sessionUserDataProvider->getSessionId();
+         }
+
+         try {
+-            $activeSessionModel = $this->activeSessionRepository->getBySessionId($sessionId);
++            // BEGIN PATCH
++            // $activeSessionModel = $this->activeSessionRepository->getBySessionId($sessionId);
++            if ($sessionItem instanceof \Amasty\AdminActionsLog\Api\Data\ActiveSessionInterface) {
++                    $activeSessionModel = $sessionItem;
++            } else {
++                $activeSessionModel = $this->activeSessionRepository->getBySessionId($sessionItem);
++            }
++            // END PATCH
+             $this->activeSessionRepository->delete($activeSessionModel);
+         } catch (NoSuchEntityException $e) {
+             return;
+@@ -139,7 +148,8 @@ class ActiveSessionManager implements ActiveSessionManagerInterface
+         }
+     }
+
+-    public function getInactiveSessions(): array
++    // public function getInactiveSessions(): array
++    public function getInactiveSessions()
+     {
+         $sessionLifeTime =  $this->scopeConfig->getValue(self::SESSION_LIFETIME_CONFIG_PATH);
+         if (empty($sessionLifeTime)) {
+@@ -155,8 +165,10 @@ class ActiveSessionManager implements ActiveSessionManagerInterface
+             ->setCurPage(1);
+             // END PATCH
+
+-        return $activeSessionCollection->getColumnValues(ActiveSession::SESSION_ID);
++       // return $activeSessionCollection->getColumnValues(ActiveSession::SESSION_ID);
++       return $activeSessionCollection;
+     }
++    // END PATCH
+
+     public function terminateAll(): void
+     {
+diff --git a/Model/VisitHistoryEntry/VisitHistoryManager.php b/Model/VisitHistoryEntry/VisitHistoryManager.php
+index a52608b..76de76e 100644
+--- a/Model/VisitHistoryEntry/VisitHistoryManager.php
++++ b/Model/VisitHistoryEntry/VisitHistoryManager.php
+@@ -61,14 +61,25 @@ class VisitHistoryManager implements VisitHistoryManagerInterface
+         $this->visitHistoryEntryRepository->save($visitHistoryEntryModel);
+     }
+
+-    public function endVisit(string $sessionId = null): void
++    // BEGIN PATCH
++    // public function endVisit(string $sessionId = null): void
++    public function endVisit($visitItem = null): void
+     {
+-        $sessionId = $sessionId ?: $this->sessionUserDataProvider->getSessionId();
++        // $sessionId = $sessionId ?: $this->sessionUserDataProvider->getSessionId();
++        $sessionId = $visitItem ?: $this->sessionUserDataProvider->getSessionId();
++
+         /** @var  $visitHistoryEntryModel VisitHistoryEntryInterface */
+-        $visitHistoryEntryModel = $this->visitHistoryEntryRepository->getBySessionId($sessionId);
++        // $visitHistoryEntryModel = $this->visitHistoryEntryRepository->getBySessionId($sessionId);
++        if ($visitItem instanceof VisitHistoryEntryInterface) {
++            $visitHistoryEntryModel = $visitItem;
++        } else {
++            $visitHistoryEntryModel = $this->visitHistoryEntryRepository->getBySessionId($sessionId);
++        }
++
+         $visitHistoryEntryModel->setSessionEnd($this->dateTime->date());
+         $this->visitHistoryEntryRepository->save($visitHistoryEntryModel);
+     }
++    // END PATH
+
+     public function clear(int $period = null): void
+     {
+--
+2.30.1 (Apple Git-130)
