@@ -1,0 +1,17 @@
+diff --git a/etc/adminhtml/system.xml b/etc/adminhtml/system.xml
+index c1437c7..04b5840 100644
+--- a/etc/adminhtml/system.xml
++++ b/etc/adminhtml/system.xml
+@@ -24,9 +24,11 @@
+                 <field id="recipient_email" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                     <label>Send Emails To</label>
+                     <validate>validate-email</validate>
++                    <!-- PATCH START
++                    Remove to work with Magento\Variable\Model\Config\Structure\AvailableVariables
+                     <depends>
+                         <field id="*/contact/enabled">1</field>
+-                    </depends>
++                    </depends>  PATCH END -->
+                 </field>
+                 <field id="sender_email_identity" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                     <label>Email Sender</label>

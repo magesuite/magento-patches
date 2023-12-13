@@ -1615,6 +1615,13 @@
                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-deploy/ACSD-46815_2.4.5_v2.patch",
                "version-constraint": "100.4.5"
            }
-       ]
+       ],
+      "magento/module-contact": [
+        {
+          "description": "Remove depends from system config (kratki only)",
+          "filename": "vendor/creativestyle/magento-patches/optional/magento/module-contact/remove-depends-from-system-config-kratki-only.patch",
+          "version-constraint": "*"
+        }
+      ]
     }
 }
