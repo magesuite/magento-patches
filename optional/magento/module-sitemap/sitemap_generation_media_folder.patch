@@ -1,0 +1,59 @@
+TOYS-855. Two fixes.
+1. Issue with emulating app area from cron, in case if no app area has been defined yet (emulation cannot store it and throws an exception).
+2. Issue with returning invalid base path when using CLI, that results in generating sitemap outside of medial subdirectory.
+
+diff --git a/Model/Observer.php b/Model/Observer.php
+index 4333c71..ad1bdca 100644
+--- a/Model/Observer.php
++++ b/Model/Observer.php
+@@ -115,19 +115,23 @@ class Observer
+         $collection = $this->collectionFactory->create();
+         /* @var $collection \Magento\Sitemap\Model\ResourceModel\Sitemap\Collection */
+         foreach ($collection as $sitemap) {
++            // BEGIN PATCH
+             /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
+             try {
+-                $this->appEmulation->startEnvironmentEmulation(
+-                    $sitemap->getStoreId(),
+-                    Area::AREA_FRONTEND,
+-                    true
+-                );
+-                $sitemap->generateXml();
++//                $this->appEmulation->startEnvironmentEmulation(x
++//                    $sitemap->getStoreId(),
++//                    Area::AREA_FRONTEND,
++//                    true
++//                );
++                $state = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\State::class);
++                $state->emulateAreaCode('frontend', [$sitemap, 'generateXml']);
++//                $sitemap->generateXml();
+             } catch (\Exception $e) {
+                 $errors[] = $e->getMessage();
+             } finally {
+-                $this->appEmulation->stopEnvironmentEmulation();
++//                $this->appEmulation->stopEnvironmentEmulation();
+             }
++            // END PATCH
+         }
+         if ($errors && $recipient) {
+             $this->emailNotification->sendErrors($errors);
+diff --git a/Model/Sitemap.php b/Model/Sitemap.php
+index b88ff70..a8438e6 100644
+--- a/Model/Sitemap.php
++++ b/Model/Sitemap.php
+@@ -929,6 +929,15 @@ class Sitemap extends \Magento\Framework\Model\AbstractModel implements \Magento
+         } else {
+             $documentRoot = null;
+         }
++
++        // BEGIN PATCH
++        if (!empty($documentRoot)) {
++            $documentRoot = rtrim($documentRoot, '/');
++            $documentRoot = rtrim($documentRoot, \Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
++            $documentRoot = rtrim($documentRoot, '/');
++        }
++        // END PATCH
++
+         return $documentRoot;
+     }
+ }
