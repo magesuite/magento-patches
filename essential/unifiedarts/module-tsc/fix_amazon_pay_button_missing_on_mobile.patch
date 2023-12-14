@@ -1,0 +1,29 @@
+fix: [TOYS-1169] - Amazon Pay button missing on mobile
+
+diff --git a/view/frontend/web/js/view/express.js b/view/frontend/web/js/view/express.js
+index b200479..a37b681 100755
+--- a/view/frontend/web/js/view/express.js
++++ b/view/frontend/web/js/view/express.js
+@@ -15,7 +15,8 @@ define([
+     'Magento_Checkout/js/model/quote',
+     'Magento_Customer/js/model/customer',
+     'UnifiedArts_Tsc/js/is-mobile',
+-    'mage/translate'
++    'mage/translate',
++    'Magento_Checkout/js/model/step-navigator'
+ ], function (
+     ko,
+     _,
+@@ -67,9 +68,9 @@ define([
+                 }
+             });
+ 
+-            if (customer.isLoggedIn() && tscIsMobile.isMobile()) {
+-                any = false;
+-            }
++            // if (customer.isLoggedIn() && tscIsMobile.isMobile()) {
++            //     any = false;
++            // }
+ 
+             if (!quote.isVirtual()) {
+                 if (tscCurrentStep.getStep() !== 'shipping') {

@@ -2415,6 +2415,13 @@
                     "filename": "essential/unifiedarts/module-tsc-augment/replaced_zend_with_laminas.patch",
                     "version-constraint": ">=101.0.8"
                 }
+            ],
+            "unifiedarts/module-tsc": [
+                {
+                    "description": "fix: [TOYS-1169] Restore Amazon Pay button on shipping step (mobiles)",
+                    "filename": "essential/unifiedarts/module-tsc/fix_amazon_pay_button_missing_on_mobile.patch",
+                    "version-constraint": ">=104.0.29"
+                }
             ]
         }
     }
