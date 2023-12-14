@@ -2176,7 +2176,7 @@
             ],
             "magento/module-inventory": [
                 {
-                    "description": "Makes inventory_source name not unque",
+                    "description": "Makes inventory_source name not unique",
                     "filename": "essential/magento/module-inventory/m243_fix_stores_import_name_not_unique.patch",
                     "version-constraint": ">1.2.1"
                 }
