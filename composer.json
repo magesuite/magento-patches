@@ -2176,7 +2176,7 @@
             ],
             "magento/module-inventory": [
                 {
-                    "description": "Makes inventory_source name not unique",
+                    "description": "Makes inventory_source name not unque",
                     "filename": "essential/magento/module-inventory/m243_fix_stores_import_name_not_unique.patch",
                     "version-constraint": ">1.2.1"
                 }
@@ -2407,6 +2407,13 @@
                     "description": "Fix the issue with loading the subscription in the SaveAfter plugin. (IPET-2264)",
                     "filename": "essential/mailchimp/mc-magento2/fix-subscription-load-in-mailchimp-save-after-plugin.patch",
                     "version-constraint": ">=103.4.56"
+                }
+            ],
+            "unifiedarts/module-tsc-augment": [
+                {
+                    "description": "fix: [TOYS-1160]. Compatibility with Magento 2.4.6. Replaced Zend with Laminas.",
+                    "filename": "essential/unifiedarts/module-tsc-augment/replaced_zend_with_laminas.patch",
+                    "version-constraint": ">=101.0.8"
                 }
             ]
         }

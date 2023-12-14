@@ -1,0 +1,56 @@
+fix: [TOYS-1160]. Compatibility with Magento 2.4.6.
+
+diff --git a/Model/Mailgun/Api/EmailValidation.php b/Model/Mailgun/Api/EmailValidation.php
+index 0199a1c..1e483bd 100644
+--- a/Model/Mailgun/Api/EmailValidation.php
++++ b/Model/Mailgun/Api/EmailValidation.php
+@@ -110,7 +110,7 @@ class EmailValidation
+             $http->setConfig($config);
+
+             $http->write(
+-                \Zend_Http_Client::GET,
++                \Laminas\Http\Request::METHOD_GET,
+                 $url,
+                 '1.1',
+                 $this->headers
+@@ -180,8 +180,8 @@ class EmailValidation
+     public function parseEmail($email)
+     {
+         try {
+-            return !empty($email) && \Zend_Validate::is($email, EmailAddress::class);
+-        } catch (\Zend_Validate_Exception $e) {
++            return !empty($email) && \Magento\Framework\Validator\ValidatorChain::is($email, EmailAddress::class);
++        } catch (\Magento\Framework\Validator\ValidateException) {
+             return false;
+         }
+     }
+diff --git a/Model/Namsor/Api/BreakName.php b/Model/Namsor/Api/BreakName.php
+index fe666ff..1e4700b 100644
+--- a/Model/Namsor/Api/BreakName.php
++++ b/Model/Namsor/Api/BreakName.php
+@@ -15,7 +15,6 @@ use Magento\Framework\Serialize\Serializer\Json;
+ use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
+ use Psr\Log\LoggerInterface;
+ use UnifiedArts\TscAugment\Model\Config\Namsor;
+-use Zend_Http_Client;
+
+ /**
+  * Class Namsor Api BreakName
+@@ -208,7 +207,7 @@ class BreakName
+             $http->setConfig($config);
+
+             $http->write(
+-                Zend_Http_Client::GET,
++                \Laminas\Http\Request::METHOD_GET,
+                 $url,
+                 '1.1',
+                 $this->headers
+@@ -298,7 +297,7 @@ class BreakName
+             $http->setConfig($config);
+
+             $http->write(
+-                Zend_Http_Client::GET,
++                \Laminas\Http\Request::METHOD_GET,
+                 $url,
+                 '1.1',
+                 $this->headers
