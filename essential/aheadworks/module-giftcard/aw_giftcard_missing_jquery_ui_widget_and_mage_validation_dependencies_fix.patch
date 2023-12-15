@@ -1,0 +1,15 @@
+Adds necessary mage/validation dependency and missing jquery-ui-modules/widget dependency to avoid race condition errors.
+
+diff --git a/view/frontend/web/js/widget/giftcardManagement.js b/view/frontend/web/js/widget/giftcardManagement.js
+index 8ade101..306494a 100644
+--- a/view/frontend/web/js/widget/giftcardManagement.js
++++ b/view/frontend/web/js/widget/giftcardManagement.js
+@@ -1,5 +1,7 @@
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget',
++    'mage/validation'
+ ], function($){
+     'use strict';
+
