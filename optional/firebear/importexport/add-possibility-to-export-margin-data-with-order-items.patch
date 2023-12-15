@@ -1,14 +1,15 @@
 diff --git a/etc/di_export.xml b/etc/di_export.xml
-index 7396f0c..608deef 100644
+index 7396f0c..b96d283 100644
 --- a/etc/di_export.xml
 +++ b/etc/di_export.xml
-@@ -37,6 +37,10 @@
+@@ -37,6 +37,11 @@
          <item name="sales_order_tax" label="Tax" model="\Magento\Sales\Model\Order\Tax" parent="sales_order" parent_field="order_id" main_field="tax_id"/>
          <item name="sales_order_tax_item" label="Tax Items" model="\Magento\Sales\Model\Order\Tax\Item" parent="sales_order_tax" parent_field="tax_id" main_field="tax_id"/>
          <item name="customer_entity" label="Customer" model="Magento\Customer\Model\Customer" parent="sales_order" parent_field="entity_id" main_field="entity_id"/>
 +        <!-- BEGIN PATCH -->
 +        <!-- Entry added to add a possibility to export calculated Margin Data during export order wth order items. (IPET-2327) -->
 +        <item name="margin_calculation_erp_order_item_attributes" label="Margin Calculation Data" model="Creativestyle\CustomizationIpetMargin\Model\MarginErpOrderItemAttributes" parent="sales_order_item" parent_field="order_item_id" main_field="id"/>
++        <item name="margin_calculation_erp_order_item_attributes_archive" label="Margin Calculation Data Archive" model="Creativestyle\CustomizationIpetMargin\Model\MarginErpOrderItemAttributesArchive" parent="sales_order_item" parent_field="order_item_id" main_field="id"/>
 +        <!-- END PATCH -->
      </entity>
      <entity name="catalog_product" label="Products" model="Firebear\ImportExport\Model\Export\Product"/>
