@@ -1622,6 +1622,13 @@
           "filename": "vendor/creativestyle/magento-patches/optional/magento/module-contact/remove-depends-from-system-config-kratki-only.patch",
           "version-constraint": "*"
         }
+      ],
+      "guzzlehttp/psr7": [
+        {
+          "description": "Increase truncate at param (kratki only)",
+          "filename": "vendor/creativestyle/magento-patches/optional/guzzlehttp/psr7/increase-truncate-at-param.patch",
+          "version-constraint": "*"
+        }
       ]
     }
 }

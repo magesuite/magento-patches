@@ -1,0 +1,15 @@
+KRA-919. Increase truncateAt param to get more detailed info about request error
+
+diff --git a/src/Message.php b/src/Message.php
+index 5561a51..97a0a48 100644
+--- a/src/Message.php
++++ b/src/Message.php
+@@ -53,7 +53,7 @@ final class Message
+      * @param MessageInterface $message    The message to get the body summary
+      * @param int              $truncateAt The maximum allowed size of the summary
+      */
+-    public static function bodySummary(MessageInterface $message, int $truncateAt = 120): ?string
++    public static function bodySummary(MessageInterface $message, int $truncateAt = 2000): ?string
+     {
+         $body = $message->getBody();
+
