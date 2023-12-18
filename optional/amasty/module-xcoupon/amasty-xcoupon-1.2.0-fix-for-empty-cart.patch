@@ -1,0 +1,20 @@
+diff --git a/Observer/Controller/Action/Predispatch.php b/Observer/Controller/Action/Predispatch.php
+index 4ba4067..ba982bf 100644
+--- a/Observer/Controller/Action/Predispatch.php
++++ b/Observer/Controller/Action/Predispatch.php
+@@ -72,7 +72,14 @@ class Predispatch implements \Magento\Framework\Event\ObserverInterface
+      */
+     public function execute(\Magento\Framework\Event\Observer $observer): void
+     {
+-        $couponCode = $this->request->getParam('coupon_code');
++        // BEGIN PATCH
++        // $couponCode = $this->request->getParam('coupon_code');
++        $couponCode = $this->request->getParam('remove') ? '' : $this->request->getParam('coupon');
++        if (empty($couponCode)) {
++            $couponCode = $this->request->getParam('coupon_code');
++        }
++        // END PATCH
++
+         if (!$couponCode) {
+             return;
+         }
