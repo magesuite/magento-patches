@@ -1,0 +1,15 @@
+diff --git a/Model/Product.php b/Model/Product.php
+index 0191c02..05b655b 100644
+--- a/Model/Product.php
++++ b/Model/Product.php
+@@ -1554,7 +1554,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
+     public function getMediaGalleryImages()
+     {
+         $directory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
+-        if (!$this->hasData('media_gallery_images')) {
++        //BEGIN PATCH
++        if (!$this->hasData('media_gallery_images') || is_array($this->getData('media_gallery_images'))) {
++        //END PATCH
+             $this->setData('media_gallery_images', $this->_collectionFactory->create());
+         }
+         if (!$this->getData('media_gallery_images')->count() && is_array($this->getMediaGallery('images'))) {
