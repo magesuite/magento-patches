@@ -1,0 +1,13 @@
+diff --git a/Plugin/Eav/Model/Entity/AbstractEntity.php b/Plugin/Eav/Model/Entity/AbstractEntity.php
+index eb1444c..c70a59c 100644
+--- a/Plugin/Eav/Model/Entity/AbstractEntity.php
++++ b/Plugin/Eav/Model/Entity/AbstractEntity.php
+@@ -34,7 +34,7 @@ class AbstractEntity
+     public function __construct(
+         Data $helper,
+         RequestInterface $request,
+-        array $actionNamesToIgnoreRestrictAttributes
++        array $actionNamesToIgnoreRestrictAttributes = []
+     ) {
+         $this->helper = $helper;
+         $this->request = $request;
