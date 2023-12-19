@@ -508,6 +508,11 @@
                 "description": "Without this patch tests are failing, because '$userId = $this->_authSession->getUser()' sometime returns null",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-advanced-permissions/prevent-access-to-null-like-to-object.patch",
                 "version-constraint": ">=1.4.31, <1.5.0"
+            },
+            {
+                "description": "Fix for AbstractEntity plugin empty constructor argument ($actionNamesToIgnoreRestrictAttributes)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/module-advanced-permissions/abstract-entity-plugin-empty-method-argument-fix.patch",
+                "version-constraint": "*"
             }
         ],
         "amasty/module-advanced-permissions": [
