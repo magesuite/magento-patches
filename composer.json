@@ -1178,6 +1178,11 @@
                     "description": "Add missing mage validation and jquery ui widget dependencies (RK-1047)",
                     "filename": "essential/aheadworks/module-giftcard/aw_giftcard_missing_jquery_ui_widget_and_mage_validation_dependencies_fix.patch",
                     "version-constraint": ">=1.4.9"
+                },
+                {
+                    "description": "Makes validate functions to return bool instead of self as it is in the validate function in their parent classes (RK-1195)",
+                    "filename": "essential/aheadworks/module-giftcard/make-validate-return-bool-instead-of-object.patch",
+                    "version-constraint": ">=1.7.0"
                 }
             ],
             "aheadworks/module-product-question": [

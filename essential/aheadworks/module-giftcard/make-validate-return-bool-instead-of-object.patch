@@ -1,0 +1,26 @@
+diff --git a/Model/Product/Entity/Attribute/Backend/Amounts.php b/Model/Product/Entity/Attribute/Backend/Amounts.php
+index c4dad01..97ded54 100644
+--- a/Model/Product/Entity/Attribute/Backend/Amounts.php
++++ b/Model/Product/Entity/Attribute/Backend/Amounts.php
+@@ -36,7 +36,7 @@ class Amounts extends AbstractBackend
+         $this->validateAmounts($object);
+         $this->validateOpenAmount($object);
+ 
+-        return $this;
++        return true;
+     }
+ 
+     /**
+diff --git a/Model/Product/Entity/Attribute/Backend/Templates.php b/Model/Product/Entity/Attribute/Backend/Templates.php
+index de644a0..e74dc7e 100644
+--- a/Model/Product/Entity/Attribute/Backend/Templates.php
++++ b/Model/Product/Entity/Attribute/Backend/Templates.php
+@@ -41,7 +41,7 @@ class Templates extends AbstractBackend
+         if (count($templatesKeys) == 0) {
+             throw new LocalizedException(__('Specify template options'));
+         }
+-        return $this;
++        return true;
+     }
+ 
+     /**
