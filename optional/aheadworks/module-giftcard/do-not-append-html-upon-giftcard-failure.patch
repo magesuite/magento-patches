@@ -1,0 +1,24 @@
+diff --git a/Controller/Card/CheckCode.php b/Controller/Card/CheckCode.php
+index e8874d6..70fc8c3 100644
+--- a/Controller/Card/CheckCode.php
++++ b/Controller/Card/CheckCode.php
+@@ -66,6 +66,9 @@ class CheckCode extends Action
+             /** @var $giftcard GiftcardInterface */
+             $giftcard = $this->giftcardRepository->getByCode($giftcardCode, $websiteId);
+             $blockInstance->setGiftcard($giftcard);
++            // BEGIN PATCH
++            return $this->getResponse()->appendBody($blockInstance->toHtml());
++            // END PATCH
+         } catch (NoSuchEntityException $e) {
+             $this->messageManager->addErrorMessage(
+                 __('Gift Card code "%1" is not valid', $this->escaper->escapeHtml($giftcardCode))
+@@ -75,6 +78,8 @@ class CheckCode extends Action
+         } catch (\Exception $e) {
+             $this->messageManager->addErrorMessage($e->getMessage());
+         }
+-        return $this->getResponse()->appendBody($blockInstance->toHtml());
++        // BEGIN PATCH (line moved up)
++        // return $this->getResponse()->appendBody($blockInstance->toHtml());
++        // END PATCH
+     }
+ }
