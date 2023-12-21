@@ -5,6 +5,11 @@
                 "description": "Skip associate item when identifier is missing (FR-105)",
                 "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/skip-associate-item-with-missing-identifier.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Disable file assets type check",
+                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/disable-file-assets-type-check.patch",
+                "version-constraint": "*"
             }
         ],
         "twig/twig": [

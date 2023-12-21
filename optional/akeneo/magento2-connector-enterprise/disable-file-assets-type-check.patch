@@ -1,0 +1,23 @@
+diff --git a/Helper/Asset.php b/Helper/Asset.php
+index 2727ecc..0b6d16a 100644
+--- a/Helper/Asset.php
++++ b/Helper/Asset.php
+@@ -1023,6 +1023,9 @@ class Asset
+                 $scopableAttribute = true;
+             }
+ 
++            // PATCH BEGIN
++            // Disable check file asset types
++            /*
+             if (!isset($mainMediaAttributeData['media_type']) || !in_array(
+                     $mainMediaAttributeData['media_type'],
+                     [self::PDF_FORMAT, self::OTHER_FORMAT]
+@@ -1037,6 +1040,8 @@ class Asset
+                 ];
+                 continue;
+             }
++            */
++            // PATCH END
+ 
+             /** @var string[] $assetAttributeData */
+             $assetAttributeData = $akeneoClient->getAssetAttributeApi()->all(
