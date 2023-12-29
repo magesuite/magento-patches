@@ -1,0 +1,121 @@
+fix: [TOYS-1189] Configurable products salability status in legacy stock.
+
+diff --git a/Plugin/CatalogInventory/Api/StockRegistry/SetLegacyStockItemForConfigurable.php b/Plugin/CatalogInventory/Api/StockRegistry/SetLegacyStockItemForConfigurable.php
+new file mode 100644
+index 0000000..3d9debe
+--- /dev/null
++++ b/Plugin/CatalogInventory/Api/StockRegistry/SetLegacyStockItemForConfigurable.php
+@@ -0,0 +1,51 @@
++<?php
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++declare(strict_types=1);
++
++namespace Magento\InventoryConfigurableProduct\Plugin\CatalogInventory\Api\StockRegistry;
++
++use Magento\CatalogInventory\Api\Data\StockItemInterface;
++use Magento\CatalogInventory\Api\StockRegistryInterface;
++use Magento\CatalogInventory\Model\Stock;
++use Magento\Framework\Exception\LocalizedException;
++use Magento\InventoryConfiguration\Model\GetLegacyStockItem;
++
++class SetLegacyStockItemForConfigurable
++{
++    /**
++     * @var GetLegacyStockItem
++     */
++    private GetLegacyStockItem $getLegacyStockItem;
++
++    /**
++     * @param GetLegacyStockItem $getLegacyStockItem
++     */
++    public function __construct(GetLegacyStockItem $getLegacyStockItem)
++    {
++        $this->getLegacyStockItem = $getLegacyStockItem;
++    }
++
++    /**
++     * Set legacy stock for configurable if stock item status changed.
++     *
++     * @param StockRegistryInterface $subject
++     * @param string $productSku
++     * @param StockItemInterface $stockItem
++     * @return array
++     * @throws LocalizedException
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     */
++    public function beforeUpdateStockItemBySku(
++        StockRegistryInterface $subject,
++        string $productSku,
++        StockItemInterface $stockItem
++    ): array {
++        if ($stockItem->getIsInStock() !== Stock::STOCK_OUT_OF_STOCK) {
++            $this->getLegacyStockItem->execute($productSku);
++        }
++        return [$productSku, $stockItem];
++    }
++}
+diff --git a/Plugin/CatalogInventory/UpdateLegacyStockStatusForConfigurableProduct.php b/Plugin/CatalogInventory/UpdateLegacyStockStatusForConfigurableProduct.php
+index 160e231..6f60d63 100644
+--- a/Plugin/CatalogInventory/UpdateLegacyStockStatusForConfigurableProduct.php
++++ b/Plugin/CatalogInventory/UpdateLegacyStockStatusForConfigurableProduct.php
+@@ -97,7 +97,7 @@ class UpdateLegacyStockStatusForConfigurableProduct
+                 ->execute([$stockItem->getProductId()])[$stockItem->getProductId()];
+
+             if ($stockItem->getStockStatusChangedAuto() ||
+-                ($this->stockStatusChange($productSku) && $this->hasChildrenInStock($stockItem->getProductId()))
++                ($this->stockStatusChange($stockItem) && $this->hasChildrenInStock($stockItem->getProductId()))
+             ) {
+                 $this->setDataToLegacyStockStatus->execute(
+                     $productSku,
+@@ -113,12 +113,12 @@ class UpdateLegacyStockStatusForConfigurableProduct
+     /**
+      * Checks if configurable product stock item status was changed
+      *
+-     * @param string $sku
++     * @param StockItem $stockItem
+      * @return bool
+      */
+-    private function stockStatusChange(string $sku): bool
++    private function stockStatusChange(StockItem $stockItem): bool
+     {
+-        return $this->getLegacyStockItem->execute($sku)->getIsInStock() == Stock::STOCK_OUT_OF_STOCK;
++        return $stockItem->getOrigData('is_in_stock') == Stock::STOCK_OUT_OF_STOCK;
+     }
+
+     /**
+diff --git a/etc/di.xml b/etc/di.xml
+index f28e9b3..89181f9 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -34,7 +34,7 @@
+     </type>
+     <type name="Magento\CatalogInventory\Api\StockRegistryInterface">
+         <plugin name="inventory_catalog_add_qty_to_legacy_stock_configurable"
+-                type="Magento\InventoryConfigurableProduct\Plugin\CatalogInventory\Api\StockRegistry\SetQtyToLegacyStock"/>
++                type="Magento\InventoryConfigurableProduct\Plugin\CatalogInventory\Api\StockRegistry\SetQtyToLegacyStock" sortOrder="100"/>
+     </type>
+     <type name="Magento\CatalogInventory\Model\ResourceModel\Stock\Item">
+         <plugin name="after_update_stock_item_for_new_configurable_product"
+diff --git a/etc/webapi_rest/di.xml b/etc/webapi_rest/di.xml
+new file mode 100644
+index 0000000..bdaf6f5
+--- /dev/null
++++ b/etc/webapi_rest/di.xml
+@@ -0,0 +1,14 @@
++<?xml version="1.0"?>
++<!--
++/**
++ * Copyright © Magento, Inc. All rights reserved.
++ * See COPYING.txt for license details.
++ */
++-->
++
++<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
++    <type name="Magento\CatalogInventory\Api\StockRegistryInterface">
++        <plugin name="inventory_catalog_refresh_legacy_stock_item_configurable"
++                type="Magento\InventoryConfigurableProduct\Plugin\CatalogInventory\Api\StockRegistry\SetLegacyStockItemForConfigurable" sortOrder="200"/>
++    </type>
++</config>
