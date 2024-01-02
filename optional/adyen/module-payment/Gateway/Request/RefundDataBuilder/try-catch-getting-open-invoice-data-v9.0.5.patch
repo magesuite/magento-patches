@@ -1,0 +1,26 @@
+diff --git a/Gateway/Request/RefundDataBuilder.php b/Gateway/Request/RefundDataBuilder.php
+index d35c234..2add7cb 100644
+--- a/Gateway/Request/RefundDataBuilder.php
++++ b/Gateway/Request/RefundDataBuilder.php
+@@ -164,9 +164,18 @@ class RefundDataBuilder implements BuilderInterface
+             );
+ 
+             if ($this->adyenHelper->isPaymentMethodOpenInvoiceMethod($brandCode)) {
+-                $openInvoiceFieldsCreditMemo = $this->openInvoiceHelper->getOpenInvoiceDataForCreditMemo($payment);
+-                //There is only one payment, so we add the fields to the first(and only) result
+-                $requestBody[0] =  array_merge($requestBody[0], $openInvoiceFieldsCreditMemo);
++                // PATCH START
++                //$openInvoiceFieldsCreditMemo = $this->openInvoiceHelper->getOpenInvoiceDataForCreditMemo($payment);
++                ////There is only one payment, so we add the fields to the first(and only) result
++                //$requestBody[0] =  array_merge($requestBody[0], $openInvoiceFieldsCreditMemo);
++                try {
++                    $openInvoiceFieldsCreditMemo = $this->openInvoiceHelper->getOpenInvoiceDataForCreditMemo($payment);
++                    //There is only one payment, so we add the fields to the first(and only) result
++                    $requestBody[0] =  array_merge($requestBody[0], $openInvoiceFieldsCreditMemo);
++                } catch (\Magento\Framework\Exception\NoSuchEntityException $exception) {
++
++                }
++                // PATCH END
+             }
+         }
+ 
