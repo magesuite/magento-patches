@@ -2310,7 +2310,7 @@
                 {
                     "description": "Added Factory classes into CLI Command classes to prevent breaking installation of Magento",
                     "filename": "essential/adyen/module-payment/add_factory_classes_to_cli_command.patch",
-                    "version-constraint": ">=9.0.0"
+                    "version-constraint": ">=9.0.0, <9.0.5"
                 }
             ],
             "firegento/fastsimpleimport": [
