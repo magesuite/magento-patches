@@ -1,0 +1,34 @@
+diff --git a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+index 0d42041..29769a6 100644
+--- a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
++++ b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+@@ -239,7 +239,12 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+      */
+     public function setCurPage($page)
+     {
+-        $this->_isFiltersRendered = false;
++        // BEGIN PATCH
++        // $this->_isFiltersRendered = false;
++        if($this->_curPage != $page){
++            $this->_isFiltersRendered = false;
++        }
++        // END PATCH
+ 
+         return parent::setCurPage($page);
+     }
+@@ -254,8 +259,14 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+          * That is: no pagination, all items are expected.
+          */
+         $size = ($size === null) ? false : $size;
++        // BEGIN PATCH
++        // $this->_pageSize = $size;
++        // $this->_isFiltersRendered = false;
++        if($this->_pageSize != $size) {
++            $this->_isFiltersRendered = false;
++        }
+         $this->_pageSize = $size;
+-        $this->_isFiltersRendered = false;
++        // END PATCH
+ 
+         return $this;
+     }
