@@ -1096,6 +1096,11 @@
                 "description": "Wrap datalayer push method with gtm.js load event",
                 "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-googletagmanager/magepal-google-tag-datalayer-push-fix.patch",
                 "version-constraint": ">=2.7.0"
+            },
+            {
+                "description": "Change gtm script domain kratki only",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-googletagmanager/change-gtm-domain-kratki-only.patch",
+                "version-constraint": ">=2.7.4"
             }
         ],
         "magepal/magento2-google-analytics4": [
@@ -1108,6 +1113,11 @@
                 "description": "Disallow loading bundle child products",
                 "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-google-analytics4/m245-magepal-google-analytics4-bundle-disallow-loading-child-products.patch",
                 "version-constraint": ">=1.7.4"
+            },
+            {
+                "description": "Change gtm script domain kratki only",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-google-analytics4/change-gtm-domain-kratki-only.patch",
+                "version-constraint": ">=1.7.11"
             }
         ],
         "magento/module-gift-card-account": [
