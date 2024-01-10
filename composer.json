@@ -2442,7 +2442,15 @@
                     "filename": "essential/unifiedarts/module-tsc/fix_amazon_pay_button_missing_on_mobile.patch",
                     "version-constraint": ">=104.0.29"
                 }
+            ],
+            "ekomiltd/ekomiintegration": [
+                {
+                    "description": "Remove deprecated method in php 8.2",
+                    "filename": "essential/ekomiltd/ekomiintegration/fix-deprecated-method-php82.patch",
+                    "version-constraint": ">=2.5.12"
+                }
             ]
+
         }
     }
 }
