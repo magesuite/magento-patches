@@ -23,4 +23,16 @@ index 24bcb24..44d43b9 100644
 +            j.src = '//msr.kratki.com.com/gtm.js?id=' + i + dl + containerCode;
              f.parentNode.insertBefore(j, f);
          })(window, document, 'script', dataLayerName, accountId);
- 
+
+diff --git a/view/frontend/templates/iframe.phtml b/view/frontend/templates/iframe.phtml
+index ec06c3d..58c9860 100644
+--- a/view/frontend/templates/iframe.phtml
++++ b/view/frontend/templates/iframe.phtml
+@@ -9,6 +9,6 @@
+ ?>
+
+ <!-- Google Tag Manager by MagePal -->
+-<noscript><iframe src="<?= '/' . '/' ?>www.googletagmanager.com/ns.html?id=<?= /* @noEscape */ $block->getEmbeddedAccountId() ?>"
++<noscript><iframe src="<?= '/' . '/' ?>msr.kratki.com/ns.html?id=<?= /* @noEscape */ $block->getEmbeddedAccountId() ?>"
+ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+ <!-- End Google Tag Manager by MagePal -->
