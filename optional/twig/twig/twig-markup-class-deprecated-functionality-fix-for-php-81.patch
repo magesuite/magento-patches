@@ -1,0 +1,13 @@
+diff --git a/src/Markup.php b/src/Markup.php
+index 107941c..d1851f6 100644
+--- a/src/Markup.php
++++ b/src/Markup.php
+@@ -32,7 +32,7 @@ class Markup implements \Countable
+         return $this->content;
+     }
+ 
+-    public function count()
++    public function count(): int
+     {
+         return \function_exists('mb_get_info') ? mb_strlen($this->content, $this->charset) : \strlen($this->content);
+     }
