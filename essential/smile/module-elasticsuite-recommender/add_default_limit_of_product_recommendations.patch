@@ -1,0 +1,15 @@
+diff --git a/Ui/Product/Visitor/Listing/DataProvider.php b/Ui/Product/Visitor/Listing/DataProvider.php
+index a2e9b8d..4b1c0a4 100644
+--- a/Ui/Product/Visitor/Listing/DataProvider.php
++++ b/Ui/Product/Visitor/Listing/DataProvider.php
+@@ -214,7 +214,10 @@ class DataProvider extends \Magento\Catalog\Ui\DataProvider\Product\Listing\Data
+
+         $productIds = $this->service->getRecommendedProductIds(
+             null,
+-            $this->request->getParam('page_size', null),
++            // BEGIN PATCH
++            // $this->request->getParam('page_size', null),
++            $this->request->getParam('page_size', 6),
++            // END PATCH
+             $categories
+         );

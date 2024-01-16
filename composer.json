@@ -786,6 +786,11 @@
                     "description": "Fix for passing parameters to recommendation widget",
                     "filename": "essential/smile/module-elasticsuite-recommender/fix-parameters-passed-to-render-recommentations-widget.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "feat: [TOYS-1255] Add default limit of product recommendations.",
+                    "filename": "essential/smile/module-elasticsuite-recommender/add_default_limit_of_product_recommendations.patch",
+                    "version-constraint": ">=2.10.0"
                 }
             ],
             "magento/module-catalog-inventory": [
