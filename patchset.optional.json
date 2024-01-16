@@ -17,6 +17,11 @@
                 "description": "Einhell deprecated functionality fix for php 8.1",
                 "filename": "vendor/creativestyle/magento-patches/optional/twig/twig/twig-deprecated-functionality-fix-for-php-81.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Einhell deprecated functionality fix for twig markup class for php 8.1",
+                "filename": "vendor/creativestyle/magento-patches/optional/twig/twig/twig-markup-class-deprecated-functionality-fix-for-php-81.patch",
+                "version-constraint": "*"
             }
         ],
         "bluepayment-plugin/module-bluepayment": [
@@ -248,6 +253,11 @@
                 "description": "Fix custom attributes values (ROT-1247)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/fix-custom-attributes-value.patch",
                 "version-constraint": ">=103.0.5-p2"
+            },
+            {
+                "description": "Einhell deprecated functionality fix for db adapter pdo mysql class for php 8.1",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/db-adapter-pdo-mysql-class-deprecated-functionality-fix-for-php-81.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-bundle": [
@@ -883,6 +893,11 @@
                 "description": "Fix for getting watermark config",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/fix-for-getting-watermark-config.patch",
                 "version-constraint": "104.0.6-p2"
+            },
+            {
+                "description": "Einhell deprecated functionality fix for twig product view gallery class for php 8.1",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/product-view-gallery-class-deprecated-functionality-fix-for-php-81.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-catalog-url-rewrite": [
