@@ -1,0 +1,13 @@
+diff --git a/DB/Adapter/Pdo/Mysql.php b/DB/Adapter/Pdo/Mysql.php
+index 7004297..310644b 100644
+--- a/DB/Adapter/Pdo/Mysql.php
++++ b/DB/Adapter/Pdo/Mysql.php
+@@ -3480,7 +3480,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements AdapterInterface
+             $fields = implode('_', $fields);
+         }
+ 
+-        switch (strtolower($indexType)) {
++        switch (strtolower((string) $indexType)) {
+             case AdapterInterface::INDEX_TYPE_UNIQUE:
+                 $prefix = 'unq_';
+                 break;
