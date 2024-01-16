@@ -1,0 +1,13 @@
+diff --git a/Block/Product/View/Gallery.php b/Block/Product/View/Gallery.php
+index b6a58c0..212ea24 100644
+--- a/Block/Product/View/Gallery.php
++++ b/Block/Product/View/Gallery.php
+@@ -145,7 +145,7 @@ class Gallery extends AbstractView
+                     'caption' => ($image->getLabel() ?: $this->getProduct()->getName()),
+                     'position' => $image->getData('position'),
+                     'isMain'   => $this->isMainImage($image),
+-                    'type' => str_replace('external-', '', $image->getMediaType()),
++                    'type' => str_replace('external-', '', (string) $image->getMediaType()),
+                     'videoUrl' => $image->getVideoUrl(),
+                 ]
+             );
