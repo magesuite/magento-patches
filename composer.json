@@ -472,6 +472,11 @@
                     "description": "Remove amasty created_at filter modifications to prevent filter error.",
                     "filename": "essential/amasty/ogrid/fix-order-grid-created-at-filter.patch",
                     "version-constraint": ">=1.5.0"
+                },
+                {
+                  "description": "Remove <thead> & <tbody> HTML tags to fix javascript error caused broken sticky header for orders grid when filters configuration changed",
+                  "filename": "essential/amasty/ogrid/fix-display-order-grid-sticky-header.patch",
+                  "version-constraint": ">=1.5.1"
                 }
             ],
             "amasty/module-special-promo-pro": [
