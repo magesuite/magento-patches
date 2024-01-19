@@ -1,0 +1,13 @@
+diff --git a/Gateway/Config/Config.php b/Gateway/Config/Config.php
+index 30f3f97..7ae870e 100644
+--- a/Gateway/Config/Config.php
++++ b/Gateway/Config/Config.php
+@@ -93,7 +93,7 @@ class Config extends \Magento\Payment\Gateway\Config\Config
+      */
+     public function getClientId()
+     {
+-        return $this->getValue('client_id');
++        return (string)$this->getValue('client_id');
+     }
+ 
+     /**
