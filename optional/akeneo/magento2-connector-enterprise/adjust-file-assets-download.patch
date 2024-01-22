@@ -1,0 +1,42 @@
+diff --git a/Helper/Asset.php b/Helper/Asset.php
+index 2727ecc..cdc8a8e 100644
+--- a/Helper/Asset.php
++++ b/Helper/Asset.php
+@@ -1023,6 +1023,9 @@ class Asset
+                 $scopableAttribute = true;
+             }
+ 
++            // PATCH BEGIN
++            // Disable check file asset types
++            /*
+             if (!isset($mainMediaAttributeData['media_type']) || !in_array(
+                     $mainMediaAttributeData['media_type'],
+                     [self::PDF_FORMAT, self::OTHER_FORMAT]
+@@ -1037,6 +1040,8 @@ class Asset
+                 ];
+                 continue;
+             }
++            */
++            // PATCH END
+ 
+             /** @var string[] $assetAttributeData */
+             $assetAttributeData = $akeneoClient->getAssetAttributeApi()->all(
+@@ -1425,7 +1430,17 @@ class Asset
+                             }
+ 
+                             if (isset($filePath)) {
+-                                $jsonArray[$suffix][$code] = $filePath;
++                                // PATCH BEGIN
++                                // Disable check file asset types
++                                //$jsonArray[$suffix][$code] = $filePath;
++                                $labels = $assetData[$infos['akeneo_attribute']['reference_data_name']][$code]['values']['label'] ?? [];
++
++                                foreach ($labels as $label) {
++                                    $jsonArray[$suffix][$code]['label'][$label['locale']] = $label['data'];
++                                }
++
++                                $jsonArray[$suffix][$code]['value'] = $filePath;
++                                // PATCH END
+                             }
+                         }
+                     }

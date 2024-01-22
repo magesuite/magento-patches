@@ -7,8 +7,8 @@
                 "version-constraint": "*"
             },
             {
-                "description": "Disable file assets type check",
-                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/disable-file-assets-type-check.patch",
+                "description": "Adjust file assets download (FR-68)",
+                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/adjust-file-assets-download.patch",
                 "version-constraint": "*"
             }
         ],
