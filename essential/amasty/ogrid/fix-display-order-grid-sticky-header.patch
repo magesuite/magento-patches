@@ -1,0 +1,24 @@
+diff --git a/view/adminhtml/web/template/ui/grid/cells/items_ordered.html b/view/adminhtml/web/template/ui/grid/cells/items_ordered.html
+index 979fac7..4779dec 100644
+--- a/view/adminhtml/web/template/ui/grid/cells/items_ordered.html
++++ b/view/adminhtml/web/template/ui/grid/cells/items_ordered.html
+@@ -1,13 +1,9 @@
+ <table class="amogrid-table-container">
+-    <thead>
+         <tr class="amogrid-tr">
+             <!-- ko repeat: {foreach: getColumns(), item: '$subCol'} -->
+             <th class="amogrid-th" data-bind="template: $subCol().getHeader()"></th>
+             <!-- /ko -->
+         </tr>
+-    </thead>
+-
+-    <tbody>
+         <!-- ko repeat: {foreach: getItems($row()), item: '$subRow'} -->
+         <tr class="amogrid-tr">
+             <!-- ko repeat: {foreach: getColumns(), item: '$subCol'} -->
+@@ -18,5 +14,4 @@
+             <!-- /ko -->
+         </tr>
+         <!-- /ko -->
+-    </tbody>
+ </table>
