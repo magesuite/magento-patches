@@ -1,0 +1,113 @@
+diff --git a/Model/Import/Product.php b/Model/Import/Product.php
+index 966d597..01d807e 100644
+--- a/Model/Import/Product.php
++++ b/Model/Import/Product.php
+@@ -1571,6 +1571,13 @@ class Product extends AbstractEntity
+
+     // phpcs:disable Generic.Metrics.NestingLevel
+
++    //PATCH BEGIN
++    protected array $currentBunch = [];
++    protected ?array $productWebsites = null;
++    protected ?array $productCategories = null;
++    //PATCH END
++
++
+     /**
+      * Gather and save information about product entities.
+      *
+@@ -1603,6 +1610,13 @@ class Product extends AbstractEntity
+             $uploadedImages = [];
+             $existingImages = $this->getExistingImages($bunch);
+             $attributes = [];
++
++            //PATCH BEGIN
++            $this->currentBunch = $bunch;
++            $this->productCategories = null;
++            $this->productWebsites = null;
++            //PATCH END
++
+             foreach ($bunch as $rowNum => $rowData) {
+                 try {
+                     // reset category processor's failed categories array
+@@ -1764,13 +1778,38 @@ class Product extends AbstractEntity
+                 $this->websitesCache[$rowSku][$websiteId] = true;
+             }
+         } else {
+-            $product = $this->retrieveProductBySku($rowSku);
+-            if ($product) {
+-                $websiteIds = $product->getWebsiteIds();
++            //PATCH BEGIN
++            if ($this->productWebsites === null) {
++                $skus = [];
++                foreach ($this->currentBunch as $row) {
++                    $skus[] = $row[self::COL_SKU];
++                }
++
++                /** @var \Magento\Framework\App\ResourceConnection $resourceConnection */
++                $resourceConnection = ObjectManager::getInstance()->get(\Magento\Framework\App\ResourceConnection::class);
++                $connection = $resourceConnection->getConnection();
++
++                $catalogProductEntityTable = $resourceConnection->getTableName('catalog_product_entity');
++                $catalogProductWebsiteTable = $resourceConnection->getTableName('catalog_product_website');
++
++                $select = $connection->select()
++                    ->from($catalogProductEntityTable)
++                    ->join($catalogProductWebsiteTable, $catalogProductWebsiteTable . '.product_id = ' . $catalogProductEntityTable . '.entity_id')
++                    ->where($catalogProductEntityTable . '.sku IN (?)', $skus);
++
++                $productWebsites = $connection->fetchAll($select);
++                foreach ($productWebsites as $product) {
++                    $this->productWebsites[$product['sku']][] = $product['website_id'];
++                }
++            }
++
++            if (isset($this->productWebsites[$rowSku])) {
++                $websiteIds = $this->productWebsites[$rowSku];
+                 foreach ($websiteIds as $websiteId) {
+                     $this->websitesCache[$rowSku][$websiteId] = true;
+                 }
+             }
++            //PATCH END
+         }
+     }
+
+@@ -2165,10 +2204,35 @@ class Product extends AbstractEntity
+                 );
+             }
+         } else {
+-            $product = $this->retrieveProductBySku($rowData['sku']);
+-            if ($product) {
+-                $categoryIds = $product->getCategoryIds();
++            //PATCH BEGIN
++            if ($this->productCategories === null) {
++                $skus = [];
++                foreach ($this->currentBunch as $row) {
++                    $skus[] = $row[self::COL_SKU];
++                }
++
++                /** @var \Magento\Framework\App\ResourceConnection $resourceConnection */
++                $resourceConnection = ObjectManager::getInstance()->get(\Magento\Framework\App\ResourceConnection::class);
++                $connection = $resourceConnection->getConnection();
++
++                $catalogProductEntityTable = $resourceConnection->getTableName('catalog_product_entity');
++                $catalogCategoryProductTable = $resourceConnection->getTableName('catalog_category_product');
++
++                $select = $connection->select()
++                    ->from($catalogProductEntityTable)
++                    ->join($catalogCategoryProductTable, $catalogProductEntityTable . '.entity_id = ' . $catalogCategoryProductTable . '.product_id')
++                    ->where($catalogProductEntityTable . '.sku IN (?)', $skus);
++
++                $productCategories = $connection->fetchAll($select);
++                foreach ($productCategories as $product) {
++                    $this->productCategories[$product['sku']][] = $product['category_id'];
++                }
++            }
++
++            if (isset($this->productCategories[$rowData['sku']])) {
++                $categoryIds = $this->productCategories[$rowData['sku']];
+             }
++            //PATCH END
+         }
+         return $categoryIds;
+     }
