@@ -417,6 +417,13 @@
                     "version-constraint": ">=2.12.2"
                 }
             ],
+            "amasty/module-banners-lite": [
+                {
+                    "description": "Product loading optimization",
+                    "filename": "essential/amasty/module-banners-lite/product-loading-optimization.patch",
+                    "version-constraint": ">=1.1.3"
+                }
+            ],
             "amasty/adminactionslog": [
                 {
                     "description": "Handle exception raised with m2epro module",

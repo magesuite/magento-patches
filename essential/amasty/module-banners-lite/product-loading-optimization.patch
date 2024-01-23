@@ -1,0 +1,16 @@
+diff --git a/Model/ProductBannerProvider.php b/Model/ProductBannerProvider.php
+index 3bfe545..64760c0 100644
+--- a/Model/ProductBannerProvider.php
++++ b/Model/ProductBannerProvider.php
+@@ -141,8 +141,10 @@ class ProductBannerProvider
+      */
+     private function getBannerRuleIds($productId)
+     {
++        //PATCH BEGIN
+         /** @var \Magento\Catalog\Model\Product $product */
+-        $product = $this->productRepository->getById($productId);
++        $product = $this->productRepository->getById($productId, false, $this->storeManager->getStore()->getId());
++        //PATCH END
+         /** @var \Amasty\BannersLite\Model\ResourceModel\BannerRule\Collection $collection */
+         $collection = $this->bannerRuleFactory->create();
+ 
