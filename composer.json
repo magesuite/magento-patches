@@ -1512,6 +1512,11 @@
                     "description": "Adds domReady! dependency to Magento_Customer/js/model/customer-addresses.js, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/magento/module-customer/customer-addresses-domReady.patch",
                     "version-constraint": ">=103.0.6"
+                },
+                {
+                    "description": "Adds store scope to referrer url if it exists in base url to prevent redirecting to wrong store after login.",
+                    "filename": "essential/magento/module-customer/fix-customer-redirect-after-login-with-store-scope.patch",
+                    "version-constraint": ">=103.0.6"
                 }
             ],
             "magento/module-inventory-indexer": [
