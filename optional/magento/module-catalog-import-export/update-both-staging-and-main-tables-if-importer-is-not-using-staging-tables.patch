@@ -1,0 +1,191 @@
+diff --git a/Model/Import/Product.php b/Model/Import/Product.php
+index ebdf6c2..1c466e4 100644
+--- a/Model/Import/Product.php
++++ b/Model/Import/Product.php
+@@ -1899,55 +1899,66 @@ class Product extends AbstractEntity
+                 );
+                 $product = $this->_proxyProdFactory->create(['data' => $rowData]);
+ 
+-                foreach ($rowData as $attrCode => $attrValue) {
+-                    $attribute = $this->retrieveAttributeByCode($attrCode);
+-
+-                    if ('multiselect' != $attribute->getFrontendInput() && self::SCOPE_NULL == $rowScope) {
+-                        // skip attribute processing for SCOPE_NULL rows
+-                        continue;
+-                    }
+-                    $attrId = $attribute->getId();
+-                    $backModel = $attribute->getBackendModel();
+-                    $attrTable = $attribute->getBackend()->getTable();
+-                    $storeIds = [0];
+-
+-                    if ('datetime' == $attribute->getBackendType()
+-                        && (
+-                            in_array($attribute->getAttributeCode(), $this->dateAttrCodes)
+-                            || $attribute->getIsUserDefined()
+-                        )
+-                    ) {
+-                        $attrValue = $this->dateTime->formatDate($attrValue, false);
+-                    } elseif ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
+-                        $attrValue = gmdate(
+-                            'Y-m-d H:i:s',
+-                            $this->_localeDate->date($attrValue)->getTimestamp()
+-                        );
+-                    } elseif ($backModel) {
+-                        $attribute->getBackend()->beforeSave($product);
+-                        $attrValue = $product->getData($attribute->getAttributeCode());
+-                    }
+-                    if (self::SCOPE_STORE == $rowScope) {
+-                        if (self::SCOPE_WEBSITE == $attribute->getIsGlobal()) {
+-                            // check website defaults already set
+-                            if (!isset($attributes[$attrTable][$rowSku][$attrId][$rowStore])) {
+-                                $storeIds = $this->storeResolver->getStoreIdToWebsiteStoreIds($rowStore);
+-                            }
+-                        } elseif (self::SCOPE_STORE == $attribute->getIsGlobal()) {
+-                            $storeIds = [$rowStore];
+-                        }
+-                        if (!$this->isSkuExist($rowSku)) {
+-                            $storeIds[] = 0;
+-                        }
+-                    }
+-                    foreach ($storeIds as $storeId) {
+-                        if (!isset($attributes[$attrTable][$rowSku][$attrId][$storeId]) && !($attrCode == 'url_key' && empty($attrValue))) {
+-                            $attributes[$attrTable][$rowSku][$attrId][$storeId] = $attrValue;
+-                        }
+-                    }
+-                    // restore 'backend_model' to avoid 'default' setting
+-                    $attribute->setBackendModel($backModel);
++                // BEGIN PATCH
++                //foreach ($rowData as $attrCode => $attrValue) {
++                //    $attribute = $this->retrieveAttributeByCode($attrCode);
++                //
++                //    if ('multiselect' != $attribute->getFrontendInput() && self::SCOPE_NULL == $rowScope) {
++                //        // skip attribute processing for SCOPE_NULL rows
++                //        continue;
++                //    }
++                //    $attrId = $attribute->getId();
++                //    $backModel = $attribute->getBackendModel();
++                //    $attrTable = $attribute->getBackend()->getTable();
++                //    $storeIds = [0];
++                //
++                //    if ('datetime' == $attribute->getBackendType()
++                //        && (
++                //            in_array($attribute->getAttributeCode(), $this->dateAttrCodes)
++                //            || $attribute->getIsUserDefined()
++                //        )
++                //    ) {
++                //        $attrValue = $this->dateTime->formatDate($attrValue, false);
++                //    } elseif ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
++                //        $attrValue = gmdate(
++                //            'Y-m-d H:i:s',
++                //            $this->_localeDate->date($attrValue)->getTimestamp()
++                //        );
++                //    } elseif ($backModel) {
++                //        $attribute->getBackend()->beforeSave($product);
++                //        $attrValue = $product->getData($attribute->getAttributeCode());
++                //    }
++                //    if (self::SCOPE_STORE == $rowScope) {
++                //        if (self::SCOPE_WEBSITE == $attribute->getIsGlobal()) {
++                //            // check website defaults already set
++                //            if (!isset($attributes[$attrTable][$rowSku][$attrId][$rowStore])) {
++                //                $storeIds = $this->storeResolver->getStoreIdToWebsiteStoreIds($rowStore);
++                //            }
++                //        } elseif (self::SCOPE_STORE == $attribute->getIsGlobal()) {
++                //            $storeIds = [$rowStore];
++                //        }
++                //        if (!$this->isSkuExist($rowSku)) {
++                //            $storeIds[] = 0;
++                //        }
++                //    }
++                //    foreach ($storeIds as $storeId) {
++                //        if (!isset($attributes[$attrTable][$rowSku][$attrId][$storeId]) && !($attrCode == 'url_key' && empty($attrValue))) {
++                //            $attributes[$attrTable][$rowSku][$attrId][$storeId] = $attrValue;
++                //        }
++                //    }
++                //    // restore 'backend_model' to avoid 'default' setting
++                //    $attribute->setBackendModel($backModel);
++                //}
++                $this->updateAttributesArray($attributes, $product, $rowData, $rowScope, $rowSku, $rowStore);
++
++                // if staging area is enabled which means that importer is not using staging tables
++                // do the same thing once again but for staging tables
++                if (!\Creativestyle\CustomizationRiekerStaging\Model\AreaLocator::isStagingArea()) {
++                    \Creativestyle\CustomizationRiekerStaging\Model\AreaLocator::setStagingAreaFlag(true);
++                    $this->updateAttributesArray($attributes, $product, $rowData, $rowScope, $rowSku, $rowStore);
++                    \Creativestyle\CustomizationRiekerStaging\Model\AreaLocator::setStagingAreaFlag(false);
+                 }
++                // END PATCH
+             }
+ 
+             foreach ($bunch as $rowNum => $rowData) {
+@@ -1977,6 +1988,71 @@ class Product extends AbstractEntity
+ 
+     // phpcs:enable
+ 
++    // BEGIN PATCH
++    protected function updateAttributesArray(
++        array &$attributes,
++        \Magento\Catalog\Api\Data\ProductInterface $product,
++        array $rowData,
++        int $rowScope,
++        string $rowSku,
++        int $rowStore,
++    ): void {
++        foreach ($rowData as $attrCode => $attrValue) {
++            $attribute = $this->retrieveAttributeByCode($attrCode);
++
++            if ('multiselect' != $attribute->getFrontendInput() && self::SCOPE_NULL == $rowScope) {
++                // skip attribute processing for SCOPE_NULL rows
++                continue;
++            }
++
++            $attrId = $attribute->getId();
++            $backModel = $attribute->getBackendModel();
++            $attrTable = $attribute->getBackend()->getTable();
++            $storeIds = [0];
++
++            if ('datetime' == $attribute->getBackendType()
++                && (
++                    in_array($attribute->getAttributeCode(), $this->dateAttrCodes)
++                    || $attribute->getIsUserDefined()
++                )
++            ) {
++                $attrValue = $this->dateTime->formatDate($attrValue, false);
++            } elseif ('datetime' == $attribute->getBackendType() && strtotime($attrValue)) {
++                $attrValue = gmdate(
++                    'Y-m-d H:i:s',
++                    $this->_localeDate->date($attrValue)->getTimestamp()
++                );
++            } elseif ($backModel) {
++                $attribute->getBackend()->beforeSave($product);
++                $attrValue = $product->getData($attribute->getAttributeCode());
++            }
++
++            if (self::SCOPE_STORE == $rowScope) {
++                if (self::SCOPE_WEBSITE == $attribute->getIsGlobal()) {
++                    // check website defaults already set
++                    if (!isset($attributes[$attrTable][$rowSku][$attrId][$rowStore])) {
++                        $storeIds = $this->storeResolver->getStoreIdToWebsiteStoreIds($rowStore);
++                    }
++                } elseif (self::SCOPE_STORE == $attribute->getIsGlobal()) {
++                    $storeIds = [$rowStore];
++                }
++
++                if (!$this->isSkuExist($rowSku)) {
++                    $storeIds[] = 0;
++                }
++            }
++
++            foreach ($storeIds as $storeId) {
++                if (!isset($attributes[$attrTable][$rowSku][$attrId][$storeId]) && !($attrCode == 'url_key' && empty($attrValue))) {
++                    $attributes[$attrTable][$rowSku][$attrId][$storeId] = $attrValue;
++                }
++            }
++            // restore 'backend_model' to avoid 'default' setting
++            $attribute->setBackendModel($backModel);
++        }
++    }
++    // END PATCH
++
+     /**
+      * Returns image hash by path
+      *
