@@ -807,6 +807,11 @@
                 "description": "Fix products import issue with categories paths default store.",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/m222-catalog-import-export-fix-import-categories-store.patch",
                 "version-constraint": "100.2.2"
+            },
+            {
+              "description": "Reduce number of database queries during product import.",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/reduce-number-of-database-queries-during-import.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-configurable-product": [
