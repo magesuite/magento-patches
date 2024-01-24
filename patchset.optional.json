@@ -1552,6 +1552,11 @@
                 "description": "Add possibility to export Margin Data with Order Items (IPET-2327)",
                 "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/add-possibility-to-export-margin-data-with-order-items.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fixed category import and disabled creating new categories (IPET-2372)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/fix-firebear-category-import.patch",
+                "version-constraint": "*"
             }
         ],
         "mollie/magento2": [
