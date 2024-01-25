@@ -10,7 +10,8 @@
                 "description": "Adjust file assets download (FR-68)",
                 "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/adjust-file-assets-download.patch",
                 "version-constraint": "*"
-            },{
+            },
+            {
                 "description": "Fix missing label for specific locale issue (FR-215)",
                 "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/fix-missing-label-in-locale.patch",
                 "version-constraint": "*"
