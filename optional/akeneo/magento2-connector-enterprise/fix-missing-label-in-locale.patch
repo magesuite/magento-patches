@@ -1,0 +1,36 @@
+diff --git a/Helper/ProductModel.php b/Helper/ProductModel.php
+index cd68dd0..92fdabe 100644
+--- a/Helper/ProductModel.php
++++ b/Helper/ProductModel.php
+@@ -627,7 +627,12 @@ class ProductModel
+                                                 /** @var string[][] $option */
+                                                 foreach ($config['options'] as $option) {
+                                                     if ($option['code'] === $newData || $option['code'] === $label) {
+-                                                        $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale]];
++                                                        // PATCH BEGIN
++                                                        // Use default label if label for specific locale does not exist
++                                                        // $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale]];
++
++                                                        $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale] ?? $table['data'][$i][$label][$newLabel] ?? $newData];
++                                                        // PATCH END
+                                                     }
+                                                 }
+                                             }
+diff --git a/Job/Product.php b/Job/Product.php
+index bb497e0..4e7e9ac 100644
+--- a/Job/Product.php
++++ b/Job/Product.php
+@@ -1054,7 +1054,12 @@ class Product extends JobImport
+                                                 /** @var string[][] $option */
+                                                 foreach ($config['options'] as $option) {
+                                                     if ($option['code'] === $newData || $option['code'] === $label) {
+-                                                        $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale]];
++                                                        // PATCH BEGIN
++                                                        // Use default label if label for specific locale does not exist
++                                                        // $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale]];
++
++                                                        $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale] ?? $table['data'][$i][$label][$newLabel] ?? $newData];
++                                                        // PATCH END
+                                                     }
+                                                 }
+                                             }
