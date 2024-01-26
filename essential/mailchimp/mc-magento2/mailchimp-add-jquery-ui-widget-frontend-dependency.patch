@@ -1,0 +1,14 @@
+diff --git a/view/frontend/web/js/campaigncatcher.js b/view/frontend/web/js/campaigncatcher.js
+index 9ca1e80..f977ef8 100644
+--- a/view/frontend/web/js/campaigncatcher.js
++++ b/view/frontend/web/js/campaigncatcher.js
+@@ -10,7 +10,8 @@
+ define(
+     [
+         'jquery',
+-        'mage/cookies'
++        'mage/cookies',
++        'jquery-ui-modules/widget'
+     ],
+     function ($) {
+         "use strict";

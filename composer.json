@@ -2449,6 +2449,11 @@
                     "description": "Fix the issue with loading the subscription in the SaveAfter plugin. (IPET-2264)",
                     "filename": "essential/mailchimp/mc-magento2/fix-subscription-load-in-mailchimp-save-after-plugin.patch",
                     "version-constraint": ">=103.4.56"
+                },
+                {
+                    "description": "Add missing dependency to juery-ui-module/widget in JS component",
+                    "filename": "essential/mailchimp/mc-magento2/mailchimp-add-jquery-ui-widget-frontend-dependency.patch",
+                    "version-constraint": ">=103.4.56"
                 }
             ],
             "unifiedarts/module-tsc-augment": [
