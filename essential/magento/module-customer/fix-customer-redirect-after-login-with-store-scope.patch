@@ -2,10 +2,10 @@ Added store scope to referrer url if it exists in base url to prevent redirectin
 Ticket: IPET-2226
 
 diff --git a/Model/Account/Redirect.php b/Model/Account/Redirect.php
-index dc83aee..fc8ffa6 100644
+index dc83aee..b9fd100 100644
 --- a/Model/Account/Redirect.php
 +++ b/Model/Account/Redirect.php
-@@ -225,6 +225,25 @@ class Redirect
+@@ -225,6 +225,29 @@ class Redirect
              if ($referrer) {
                  $referrer = $this->urlDecoder->decode($referrer);
                  preg_match('/logoutSuccess\//', $referrer, $matches, PREG_OFFSET_CAPTURE);
@@ -13,21 +13,26 @@ index dc83aee..fc8ffa6 100644
 +                //BEGIN PATCH
 +                //Add store scope to referrer url if it exists in base url to prevent redirecting to wrong store after login.
 +                $baseUrlParsed = parse_url($this->url->getBaseUrl());
-+                if (isset($baseUrlParsed['path'])) {
-+                    $referrerParsed = parse_url($referrer);
++                $referrerParsed = parse_url($referrer);
 +
-+                    if (!isset($referrerParsed['path'])) {
-+                        $referrer = sprintf('%s/%s', rtrim($referrer, '/'), ltrim($baseUrlParsed['path'], '/'));
-+                    } else if (!str_starts_with($referrerParsed['path'], $baseUrlParsed['path'])) {
-+                        $referrer = str_replace(
-+                            $referrerParsed['path'],
-+                            sprintf('%s/%s', rtrim($baseUrlParsed['path'], '/'), ltrim($referrerParsed['path'], '/')),
-+                            $referrer
-+                        );
-+                    }
++                if (!isset($referrerParsed['path'])) {
++                    $referrer = sprintf('%s/%s', rtrim($referrer, '/'), ltrim($baseUrlParsed['path'], '/'));
++                } else if (!str_starts_with($referrerParsed['path'], $baseUrlParsed['path'])) {
++                    $referrer = str_replace(
++                        $referrerParsed['path'],
++                        sprintf('%s/%s', rtrim($baseUrlParsed['path'], '/'), ltrim($referrerParsed['path'], '/')),
++                        $referrer
++                    );
++                } else if ($baseUrlParsed['path'] == '/') {
++                    $referrer = str_replace(
++                        substr($referrerParsed['path'], 0, 3),
++                        '',
++                        $referrer
++                    );
 +                }
 +                //END PATCH
 +
                  if (!empty($matches)) {
                      $referrer = str_replace('logoutSuccess/', '', $referrer);
                  }
+
