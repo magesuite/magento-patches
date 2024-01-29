@@ -302,6 +302,11 @@
                 "description": "Change pattern for customer name validation",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/update-pattern-for-customer-name-validation.patch",
                 "version-constraint": ">=103.0.3"
+            },
+            {
+                "description": "Adds store scope to referrer url if it exists in base url to prevent redirecting to wrong store after login.",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/fix-customer-redirect-after-login-with-store-scope.patch",
+                "version-constraint": ">=103.0.5"
             }
         ],
         "magento/module-customer-custom-attributes": [
