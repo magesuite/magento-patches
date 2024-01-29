@@ -1,7 +1,7 @@
 Fixed firebear category import logic + disabled inserting new categories on import. Ticket number: IPET-2372
 
 diff --git a/Model/Import/Category.php b/Model/Import/Category.php
-index 5b4f9ed..13c2c4d 100644
+index 5b4f9ed..48d8b56 100644
 --- a/Model/Import/Category.php
 +++ b/Model/Import/Category.php
 @@ -376,7 +376,10 @@ class Category extends AbstractEntity
@@ -16,15 +16,19 @@ index 5b4f9ed..13c2c4d 100644
              foreach ($stores as $store) {
                  $this->nameToId[$store->getCode()] = $store->getId();
                  $searchStores[] = $store->getId();
-@@ -603,10 +606,32 @@ class Category extends AbstractEntity
+@@ -603,10 +606,36 @@ class Category extends AbstractEntity
              $up = 0;
              $this->categoriesCache = [];
              $bunch = $this->prepareImagesFromSource($bunch);
 +
 +            // BEGIN PATCH
 +            $categoryIds = array_map(function ($item) {
-+                return $item['entity_id'];
++                if (isset($item['entity_id'])) {
++                    return $item['entity_id'];
++                }
 +            }, $bunch);
++
++            $connection = $this->_connection;
 +
 +            $tableName = $this->_connection->getTableName('catalog_category_entity');
 +
@@ -49,7 +53,7 @@ index 5b4f9ed..13c2c4d 100644
                  $this->_processedRowsCount++;
                  if (!empty($this->_parameters['use_only_fields_from_mapping'])) {
                      $rowData = $this->useOnlyFieldsFromMapping($rowData);
-@@ -949,6 +974,11 @@ class Category extends AbstractEntity
+@@ -949,6 +978,11 @@ class Category extends AbstractEntity
          try {
              foreach (\array_keys($this->attrData) as $attrCode) {
                  if (!isset($rowData[$attrCode])) {
@@ -61,7 +65,7 @@ index 5b4f9ed..13c2c4d 100644
                      if ($category->getData($attrCode) == $defaultCategory->getData($attrCode)) {
                          if ($rowData['store_id'] != 0) {
                              $category->setData($attrCode, null);
-@@ -1101,7 +1131,10 @@ class Category extends AbstractEntity
+@@ -1101,7 +1135,10 @@ class Category extends AbstractEntity
                              );
                      }
                  }
@@ -73,7 +77,7 @@ index 5b4f9ed..13c2c4d 100644
                  if ($lastPathCategoryId && $entityId) {
                      if ((int)$lastPathCategoryId !== $entityId) {
                          $this->getErrorAggregator()
-@@ -1458,7 +1491,10 @@ class Category extends AbstractEntity
+@@ -1458,7 +1495,10 @@ class Category extends AbstractEntity
          if (!empty($rowData[self::COL_URL])) {
              $rowCategoryUrlKey = $rowData[self::COL_URL];
          } elseif (empty($rowData[self::COL_URL]) && !empty($rowData[self::COL_URL_PATH])) {
@@ -85,7 +89,7 @@ index 5b4f9ed..13c2c4d 100644
          }
          if (!empty($rowData[self::COL_PATH])) {
              $parentCategories = explode(self::DELIMITER_CATEGORY, $rowData[self::COL_PATH]);
-@@ -1468,7 +1504,10 @@ class Category extends AbstractEntity
+@@ -1468,7 +1508,10 @@ class Category extends AbstractEntity
          }
          if (isset($rowData[self::COL_NAME])) {
              $parentCategoryNames = explode(self::DELIMITER_CATEGORY, $rowData[self::COL_NAME]);
