@@ -1,0 +1,26 @@
+diff --git a/Model/Import/Category.php b/Model/Import/Category.php
+index a521c5d..331884f 100644
+--- a/Model/Import/Category.php
++++ b/Model/Import/Category.php
+@@ -556,7 +556,11 @@ class Category extends \Magento\ImportExport\Model\Import\AbstractEntity
+     {
+         $newArray = [];
+         foreach ($array as $value) {
+-            $newArray[] = str_replace($glue, '\\' . $glue, $value);
++            if ($value === null) {
++                $newArray[] = null;
++            } else {
++                $newArray[] = str_replace($glue, '\\' . $glue, $value);
++            }
+         }
+         return implode($this->_scopeConfig->getValue(Config::XML_PATH_CATEGORY_PATH_SEPERATOR), $newArray);
+     }
+@@ -1144,7 +1148,7 @@ class Category extends \Magento\ImportExport\Model\Import\AbstractEntity
+                 if (self::SCOPE_DEFAULT == $rowScope) {
+                     $parentCategory = $this->getParentCategory($rowData);
+
+-                    $time = !empty($rowData[CategoryModel::KEY_CREATED_AT]) ? strtotime($rowData[CategoryModel::KEY_CREATED_AT]) : null;
++                    $time = !empty($rowData[CategoryModel::KEY_CREATED_AT]) ? strtotime($rowData[CategoryModel::KEY_CREATED_AT]) : 'now';
+
+                     // entity table data
+                     $entityRow = [

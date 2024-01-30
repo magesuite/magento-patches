@@ -2340,6 +2340,11 @@
                     "description": "Remove default argument from method",
                     "filename": "essential/firegento/fastsimpleimport/remove-default-argument-from-method.patch",
                     "version-constraint": "<2.0.0"
+                },
+                {
+                    "description": "Compatibility with PHP 8.",
+                    "filename": "essential/firegento/fastsimpleimport/compatibility-with-php8.patch",
+                    "version-constraint": "<2.0.0"
                 }
             ],
             "mageants/deleteaccount": [
