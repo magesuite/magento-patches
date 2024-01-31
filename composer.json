@@ -2195,6 +2195,11 @@
                     "description": "Changed ApplePaySession init for button on PDP in order to support older Safari versions",
                     "filename": "essential/mollie/magento2/fix-apple-pay-button-session-init.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix abs() deprecated error order line generator for gift wrapping",
+                    "filename": "essential/mollie/magento2/fix-null-amount-in-gift-wrapping.patch",
+                    "version-constraint": "2.34.0"
                 }
             ],
             "magento/module-multiple-wishlist": [
