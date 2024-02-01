@@ -285,6 +285,11 @@
                 "description": "Allow to translate attribute option label in line 29 of Magento_Bundle::frontend/order/items/renderer.phtml template ",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m24-catalog-bundle-order-items-render-translation.patch",
                 "version-constraint": ">=101.0.3"
+            },
+            {
+                "description": "Skip check for visibility when checking if product can be displayed in bundle product (FR-200)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m246-skip-check-for-visibility.patch.patch",
+                "version-constraint": ">=101.0.6"
             }
         ],
         "magento/module-customer": [
