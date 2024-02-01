@@ -1,0 +1,20 @@
+diff --git a/Model/Product/SelectionProductsDisabledRequired.php b/Model/Product/SelectionProductsDisabledRequired.php
+index d3f1c2f..fec02d3 100644
+--- a/Model/Product/SelectionProductsDisabledRequired.php
++++ b/Model/Product/SelectionProductsDisabledRequired.php
+@@ -109,9 +109,15 @@ class SelectionProductsDisabledRequired
+                 if (isset($products[$productId])) {
+                     /** @var Product $product */
+                     $product = $products[$productId];
++
++                    // PATCH BEGIN: skip check for status visibility
++                    /*
+                     if (in_array($product->getStatus(), $this->catalogProductStatus->getVisibleStatusIds())) {
+                         unset($selectionProductIds[$optionId]);
+                     }
++                    */
++                    unset($selectionProductIds[$optionId]);
++                    // PATCH END
+                 }
+             }
+         }
