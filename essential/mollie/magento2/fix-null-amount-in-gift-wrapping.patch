@@ -1,0 +1,17 @@
+diff --git a/Service/Order/Lines/Generator/MagentoGiftWrapping.php b/Service/Order/Lines/Generator/MagentoGiftWrapping.php
+index 4149dfe..8d33de8 100644
+--- a/Service/Order/Lines/Generator/MagentoGiftWrapping.php
++++ b/Service/Order/Lines/Generator/MagentoGiftWrapping.php
+@@ -38,6 +38,12 @@ class MagentoGiftWrapping implements GeneratorInterface
+             $extensionAttributes->getGwItemsBasePriceInclTax() :
+             $extensionAttributes->getGwItemsPriceInclTax();
+ 
++        //BEGIN PATCH
++        if ($amount === null) {
++            return $orderLines;
++        }
++        //END PATCH
++
+         if (abs($amount) < 0.01 ) {
+             return $orderLines;
+         }
