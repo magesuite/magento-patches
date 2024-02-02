@@ -1165,7 +1165,7 @@
                 {
                     "description": "Fix for relations issue in table aw_blog_product_post (IPET-1485)",
                     "filename": "essential/aheadworks/module-blog/fix-relations-in-product-post-index.patch",
-                    "version-constraint": ">=2.13.2"
+                    "version-constraint": ">=2.13.2,<=2.19.0"
                 },
                 {
                     "description": "Add missing jquery ui widget dependency (IPET-2196)",
