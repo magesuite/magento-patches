@@ -2475,13 +2475,6 @@
                     "version-constraint": ">=104.0.29"
                 }
             ],
-            "ekomiltd/ekomiintegration": [
-                {
-                    "description": "Remove deprecated method in php 8.2",
-                    "filename": "essential/ekomiltd/ekomiintegration/fix-deprecated-method-php82.patch",
-                    "version-constraint": ">=2.5.12"
-                }
-            ],
             "getkevin/kevin-magento2": [
                 {
                     "description": "Cast value to string php 8.2 compatibility",
