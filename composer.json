@@ -2447,6 +2447,11 @@
                     "description": "Fix critical error if order post data is empty",
                     "filename": "essential/bluepayment-plugin/module-bluepayment/fix-redirect-url-after-payment.patch",
                     "version-constraint": ">=2.22.0"
+                },
+                {
+                    "description": "Remove zend class from the module",
+                    "filename": "essential/bluepayment-plugin/module-bluepayment/remove-zend-class.patch",
+                    "version-constraint": ">=2.22.0"
                 }
             ],
             "mailchimp/mc-magento2": [

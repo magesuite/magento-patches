@@ -1,0 +1,16 @@
+diff --git a/Helper/Webapi.php b/Helper/Webapi.php
+index 2b40c68..b7b9374 100644
+--- a/Helper/Webapi.php
++++ b/Helper/Webapi.php
+@@ -21,7 +21,10 @@ use Magento\Store\Model\ScopeInterface;
+ use Magento\Store\Model\Store;
+ use Magento\Store\Model\StoreManagerInterface;
+ use SimpleXMLElement;
+-use Zend\Uri\Http;
++// PATCH START
++//use Zend\Uri\Http;
++use Laminas\Uri\Http;
++// PATCH END
+ 
+ /**
+  * Class Webapi
