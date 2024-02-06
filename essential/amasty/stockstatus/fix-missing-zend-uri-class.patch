@@ -1,0 +1,17 @@
+diff --git a/Ui/DataProvider/Product/Filter/RuleConditionFilter.php b/Ui/DataProvider/Product/Filter/RuleConditionFilter.php
+index 0c91bec..63bcd2b 100644
+--- a/Ui/DataProvider/Product/Filter/RuleConditionFilter.php
++++ b/Ui/DataProvider/Product/Filter/RuleConditionFilter.php
+@@ -17,7 +17,11 @@ use Magento\Catalog\Model\ResourceModel\Product\Collection as ProductCollection;
+ use Magento\Framework\Data\Collection;
+ use Magento\Framework\Serialize\Serializer\Json;
+ use Magento\Ui\DataProvider\AddFilterToCollectionInterface;
+-use Zend\Uri\Uri as ZendUri;
++// PATCH BEGIN: fix for missing Zend\Uri\Uri class
++// use Zend\Uri\Uri as ZendUri;
++
++use Laminas\Uri\Uri as ZendUri;
++// PATCH END
+ 
+ class RuleConditionFilter implements AddFilterToCollectionInterface
+ {

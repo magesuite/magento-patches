@@ -505,6 +505,13 @@
                     "version-constraint": "<1.10.5"
                 }
             ],
+            "amasty/stockstatus": [
+                {
+                    "description": "Fix for missing Zend class",
+                    "filename": "essential/amasty/stockstatus/fix-missing-zend-uri-class.patch",
+                    "version-constraint": "<=2.5.1"
+                }
+            ],
             "brickfox/import-export-data": [
                 {
                     "description": "Change column type from smallint to int",
