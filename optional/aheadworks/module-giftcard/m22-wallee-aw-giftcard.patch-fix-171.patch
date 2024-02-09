@@ -1,0 +1,18 @@
+diff --git a/Model/Sales/Totals/Invoice.php b/Model/Sales/Totals/Invoice.php
+index c9d5228..1862ac9 100644
+--- a/Model/Sales/Totals/Invoice.php
++++ b/Model/Sales/Totals/Invoice.php
+@@ -94,10 +94,12 @@ class Invoice extends AbstractTotal
+             $toInvoiceGiftcards = [];
+             /** @var GiftcardOrderInterface $orderGiftcard */
+             foreach ($orderGiftcards as $orderGiftcard) {
++                $orderGiftcardData = $orderGiftcard->getData();
++                unset($orderGiftcardData[\Magento\Framework\Api\ExtensibleDataInterface::EXTENSION_ATTRIBUTES_KEY]);
+                 $toInvoiceGiftcard = $this->giftcardInvoiceFactory->create();
+                 $this->dataObjectHelper->populateWithArray(
+                     $toInvoiceGiftcard,
+-                    $orderGiftcard->getData(),
++                    $orderGiftcardData,
+                     GiftcardInvoiceInterface::class
+                 );
+                 $toInvoiceGiftcard->setId(null)
