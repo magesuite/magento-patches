@@ -746,6 +746,11 @@
                 "description": "Fix for issue with notification about invalid giftcards. (prepared by aheadworks)",
                 "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/aheadworks-fix-invalid-giftcard-notification.patch",
                 "version-constraint": "^1.2.9"
+            },
+            {
+                "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36) [HAAR-3988]",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/m22-wallee-aw-giftcard.patch-fix-171.patch",
+                "version-constraint": "^1.7.1"
             }
         ],
         "aheadworks/module-customer-group-catalog-permissions": [
