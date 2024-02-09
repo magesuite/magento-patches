@@ -184,6 +184,11 @@
                 "description": "Fix for cart model, reload quote from a session if the cart has been replaced. (IPET-2176)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/fix-for-cart-if-quote-has-been-replaced.patch",
                 "version-constraint": ">=100.4.5"
+            },
+            {
+                "description": "Fix for infinite loop detected in model session if getTotalsCollectedFlag is not set.",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/fix-for-infinite-loop-in-model-session-for-totals-collected-flag-statement-check.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-checkout-staging": [

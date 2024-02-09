@@ -1,0 +1,14 @@
+diff --git a/Model/Session.php b/Model/Session.php
+index 0addbf0..d3a4034 100644
+--- a/Model/Session.php
++++ b/Model/Session.php
+@@ -274,9 +274,6 @@ class Session extends \Magento\Framework\Session\SessionManager
+                         $quote = $this->quoteRepository->get($this->getQuoteId());
+                     }
+ 
+-                    if ($quote->getTotalsCollectedFlag() === false) {
+-                        $quote->collectTotals();
+-                    }
+                 } catch (NoSuchEntityException $e) {
+                     $this->setQuoteId(null);
+                 }
