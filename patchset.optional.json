@@ -1141,6 +1141,11 @@
                 "description": "Wrap datalayer push method with gtm.js load event",
                 "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-googletagmanager/magepal-google-tag-datalayer-push-fix.patch",
                 "version-constraint": ">=2.7.0"
+            },
+            {
+                "description": "Add events to window (kratki-only)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-googletagmanager/add-events-to-window.patch",
+                "version-constraint": ">=2.7.0"
             }
         ],
         "magepal/magento2-google-analytics4": [

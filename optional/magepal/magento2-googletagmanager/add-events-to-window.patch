@@ -1,0 +1,17 @@
+Add events for custom scripts (kratki only)
+
+diff --git a/view/frontend/templates/js.phtml b/view/frontend/templates/js.phtml
+index 9301ab6..634229d 100644
+--- a/view/frontend/templates/js.phtml
++++ b/view/frontend/templates/js.phtml
+@@ -14,9 +14,9 @@ $containerCode = $block->getEmbeddedCode();
+ <!-- Google Tag Manager by MagePal -->
+ <script type="text/javascript">
+     window.<?= /* @noEscape */ $dataLayerName ?> = window.<?= /* @noEscape */ $dataLayerName ?> || [];
++    <?= /* @noEscape */ $block->getDataLayerJs() ?>
+
+ <?php if (!$block->isGdprEnabled() && $block->addJsInHead() && !$block->isAdvancedSettingsEnabled()): ?>
+-    <?= /* @noEscape */ $block->getDataLayerJs() ?>
+     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+             new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+         j=d.createElement(s),dl=l!='<?= /* @noEscape */ $dataLayerName ?>'?'&l='+l:'';j.async=true;j.src=
