@@ -417,6 +417,13 @@
                     "version-constraint": ">=2.12.2"
                 }
             ],
+            "amasty/module-gdpr": [
+                {
+                    "description": "Add translations to mail subjects",
+                    "filename": "essential/amasty/module-gdpr/amasty-gdpr-mail-translations.patch",
+                    "version-constraint": ">=2.9.7"
+                }
+            ],
             "amasty/module-banners-lite": [
                 {
                     "description": "Product loading optimization",
