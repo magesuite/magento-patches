@@ -1,0 +1,48 @@
+diff --git a/view/frontend/email/amasty_gdpr_anonymisation_notification_template.html b/view/frontend/email/amasty_gdpr_anonymisation_notification_template.html
+index 560b473..34f0df0 100644
+--- a/view/frontend/email/amasty_gdpr_anonymisation_notification_template.html
++++ b/view/frontend/email/amasty_gdpr_anonymisation_notification_template.html
+@@ -1,4 +1,6 @@
+-<!--@subject Your personal data has been anonymized @-->
++<!-- BEGIN PATCH -->
++<!--@subject {{trans "Your personal data has been anonymized"}} @-->
++<!-- END PATCH -->
+ {{template config_path="design/email/header_template"}}
+ 
+ {{trans "Dear %customer_name" customer_name=$customerName|escape}},
+diff --git a/view/frontend/email/amasty_gdpr_approve_request_deletion_notification_template.html b/view/frontend/email/amasty_gdpr_approve_request_deletion_notification_template.html
+index 874e67b..6222d51 100644
+--- a/view/frontend/email/amasty_gdpr_approve_request_deletion_notification_template.html
++++ b/view/frontend/email/amasty_gdpr_approve_request_deletion_notification_template.html
+@@ -1,4 +1,6 @@
+-<!--@subject Your account has been deleted @-->
++<!-- BEGIN PATCH -->
++<!--@subject {{trans "Your account has been deleted"}} @-->
++<!-- END PATCH -->
+ {{template config_path="design/email/header_template"}}
+ 
+ {{trans "Dear %customer_name" customer_name=$customerName|escape}},
+diff --git a/view/frontend/email/amasty_gdpr_request_deletion_admin_notification_template.html b/view/frontend/email/amasty_gdpr_request_deletion_admin_notification_template.html
+index ef6c04e..fcadc9f 100644
+--- a/view/frontend/email/amasty_gdpr_request_deletion_admin_notification_template.html
++++ b/view/frontend/email/amasty_gdpr_request_deletion_admin_notification_template.html
+@@ -1,4 +1,6 @@
+-<!--@subject New personal data deletion request @-->
++<!-- BEGIN PATCH -->
++<!--@subject {{trans "New personal data deletion request"}} @-->
++<!-- END PATCH -->
+ {{template config_path="design/email/header_template"}}
+ 
+ <p>{{trans "Hello"}},</p>
+diff --git a/view/frontend/email/amasty_gdpr_request_deletion_notification_template.html b/view/frontend/email/amasty_gdpr_request_deletion_notification_template.html
+index afa12cd..fd9d7e6 100644
+--- a/view/frontend/email/amasty_gdpr_request_deletion_notification_template.html
++++ b/view/frontend/email/amasty_gdpr_request_deletion_notification_template.html
+@@ -1,4 +1,6 @@
+-<!--@subject Your delete request was denied @-->
++<!-- BEGIN PATCH -->
++<!--@subject {{trans "Your delete request was denied"}} @-->
++<!-- END PATCH -->
+ {{template config_path="design/email/header_template"}}
+ 
+ <p>{{trans "Hello %customer_name" customer_name=$customerName|escape}},</p>
