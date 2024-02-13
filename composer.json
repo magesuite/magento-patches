@@ -510,6 +510,11 @@
                     "description": "Fix for missing Zend class",
                     "filename": "essential/amasty/stockstatus/fix-missing-zend-uri-class.patch",
                     "version-constraint": "<=2.5.1"
+                },
+                {
+                    "description": "Display custom status on wishlist/checkout product configure pages (FR-254)",
+                    "filename": "essential/amasty/stockstatus/display-custom-status-on-product-configure-pages.patch",
+                    "version-constraint": ">=2.5.1"
                 }
             ],
             "brickfox/import-export-data": [
