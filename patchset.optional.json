@@ -1419,9 +1419,14 @@
                 "version-constraint": "*"
             },
             {
-              "description": "Fix filtering products without images",
-              "filename": "vendor/creativestyle/magento-patches/optional/magento/swatches/fix_filtering_products_without_images.patch",
-              "version-constraint": ">=100.3.1"
+                "description": "Fix filtering products without images",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/swatches/fix_filtering_products_without_images.patch",
+                "version-constraint": ">=100.3.1"
+            },
+            {
+                "description": "Remove cache key logic for category filters (RKL-539)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/swatches/remove_cache_key_logic_for_category_filters.patch",
+                "version-constraint": ">=100.4.6"
             }
         ],
         "edrone/magento2module": [
