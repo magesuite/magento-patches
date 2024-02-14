@@ -1,0 +1,16 @@
+diff --git a/Model/ResourceModel/StockStatusExpressionForDefaultStock.php b/Model/ResourceModel/StockStatusExpressionForDefaultStock.php
+index 1966ab8..0108d6a 100644
+--- a/Model/ResourceModel/StockStatusExpressionForDefaultStock.php
++++ b/Model/ResourceModel/StockStatusExpressionForDefaultStock.php
+@@ -46,7 +46,10 @@ class StockStatusExpressionForDefaultStock implements ExpressionInterface
+         $isInStockExpression = $connection->getCheckSql(
+             'cisi.is_in_stock = 0',
+             0,
+-            $connection->getCheckSql('css.stock_status IS NOT NULL', 'css.stock_status', $stockItemInStockField)
++            // BEGIN PATCH: fix incorrect true value in SQL fragment
++            // $connection->getCheckSql('css.stock_status IS NOT NULL', 'css.stock_status', $stockItemInStockField)
++            $connection->getCheckSql('css.stock_status IS NOT NULL', 'cisi.is_in_stock', $stockItemInStockField)
++            // END PATCH
+         );
+ 
+         if ($isManageStock) {
