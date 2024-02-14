@@ -1,0 +1,44 @@
+Remove cache key logic for category filters (RKL-539)
+
+diff --git a/Block/Product/Renderer/Listing/Configurable.php b/Block/Product/Renderer/Listing/Configurable.php
+index 7127b19..5e719c1 100644
+--- a/Block/Product/Renderer/Listing/Configurable.php
++++ b/Block/Product/Renderer/Listing/Configurable.php
+@@ -105,19 +105,22 @@ class Configurable extends \Magento\Swatches\Block\Product\Renderer\Configurable
+     /**
+      * @inheritdoc
+      */
+-    public function getCacheKey()
+-    {
+-        $key = parent::getCacheKey();
+-        $configurableAttributes = $this->getLayeredAttributesIfExists(
+-            $this->getProduct(),
+-            $this->getRequest()->getQuery()->toArray()
+-        );
+-        if (!empty($configurableAttributes)) {
+-            $key .= '-' . sha1(json_encode($configurableAttributes));
+-        }
+-
+-        return $key;
+-    }
++// BEGIN PATCH
++// RKL-539
++//    public function getCacheKey()
++//    {
++//        $key = parent::getCacheKey();
++//        $configurableAttributes = $this->getLayeredAttributesIfExists(
++//            $this->getProduct(),
++//            $this->getRequest()->getQuery()->toArray()
++//        );
++//        if (!empty($configurableAttributes)) {
++//            $key .= '-' . sha1(json_encode($configurableAttributes));
++//        }
++//
++//        return $key;
++//    }
++// END PATCH
+
+     /**
+      * @inheritdoc
+--
+2.39.3 (Apple Git-145)
