@@ -1,0 +1,16 @@
+diff --git a/Pricing/Price/BundleOptions.php b/Pricing/Price/BundleOptions.php
+index e4951cc..5da3988 100644
+--- a/Pricing/Price/BundleOptions.php
++++ b/Pricing/Price/BundleOptions.php
+@@ -95,7 +95,10 @@ class BundleOptions
+         }
+         $amount = $this->calculator->calculateBundleAmount(0., $bundleProduct, $priceList);
+ 
+-        return $amount->getValue();
++        // BEGIN PATCH: always return float (issue when all bundle options have price "0")
++        // return $amount->getValue();
++        return (float)$amount->getValue();
++        // END PATCH
+     }
+ 
+     /**

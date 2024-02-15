@@ -295,6 +295,11 @@
                 "description": "Skip check for visibility when checking if product can be displayed in bundle product (FR-200)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m246-skip-check-for-visibility.patch",
                 "version-constraint": ">=101.0.6"
+            },
+            {
+                "description": "BundleOptions price: always return float (issue when all bundle options have price 0) (FR-267)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m246-fix-bundle-option-amount-always-return-float.patch",
+                "version-constraint": ">=101.0.6"
             }
         ],
         "magento/module-customer": [
