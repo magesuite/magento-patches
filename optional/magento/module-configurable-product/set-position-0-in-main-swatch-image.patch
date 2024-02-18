@@ -1,0 +1,16 @@
+diff --git a/Block/Product/View/Type/Configurable.php b/Block/Product/View/Type/Configurable.php
+index 9450eec..420c699 100644
+--- a/Block/Product/View/Type/Configurable.php
++++ b/Block/Product/View/Type/Configurable.php
+@@ -266,7 +266,10 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
+                         'img' => $image->getData('medium_image_url'),
+                         'full' => $image->getData('large_image_url'),
+                         'caption' => $image->getLabel(),
+-                        'position' => $image->getPosition(),
++                        // BEGIN PATCH: set position 0 for main image
++                        // 'position' => $image->getPosition(),
++                        'position' => $image->getFile() == $product->getImage() ? 0 : $image->getPosition() + 1,
++                        // END PATCH
+                         'isMain' => $image->getFile() == $product->getImage(),
+                         'type' =>  $image->getMediaType() ? str_replace('external-', '', $image->getMediaType()) : '',
+                         'videoUrl' => $image->getVideoUrl(),

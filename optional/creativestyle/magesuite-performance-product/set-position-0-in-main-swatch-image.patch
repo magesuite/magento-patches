@@ -1,0 +1,16 @@
+diff --git a/Plugin/ConfigurableProduct/Block/Product/View/Type/Configurable/DisableSwatchesOptionPrices.php b/Plugin/ConfigurableProduct/Block/Product/View/Type/Configurable/DisableSwatchesOptionPrices.php
+index b33dbb9..5b3536c 100644
+--- a/Plugin/ConfigurableProduct/Block/Product/View/Type/Configurable/DisableSwatchesOptionPrices.php
++++ b/Plugin/ConfigurableProduct/Block/Product/View/Type/Configurable/DisableSwatchesOptionPrices.php
+@@ -138,7 +138,10 @@ class DisableSwatchesOptionPrices
+                         'img' => $image->getData('medium_image_url'),
+                         'full' => $image->getData('large_image_url'),
+                         'caption' => $image->getLabel(),
+-                        'position' => $image->getPosition(),
++                        // BEGIN PATCH: set position 0 for main image
++                        // 'position' => $image->getPosition(),
++                        'position' => $image->getFile() == $product->getImage() ? 0 : $image->getPosition() + 1,
++                        // END PATCH
+                         'isMain' => $image->getFile() == $product->getImage(),
+                         'type' => str_replace('external-', '', $image->getMediaType()),
+                         'videoUrl' => $image->getVideoUrl(),

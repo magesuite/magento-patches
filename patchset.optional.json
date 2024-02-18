@@ -48,6 +48,13 @@
                 "version-constraint": "*"
             }
         ],
+        "creativestyle/magesuite-performance-product": [
+            {
+                "description": "Set position 0 in main swatch image (FR-275)",
+                "filename": "vendor/creativestyle/magento-patches/optional/creativestyle/magesuite-performance-product/set-position-0-in-main-swatch-image.patch",
+                "version-constraint": "*"
+            }
+        ],
         "iways/module-pay-pal-plus": [
             {
                 "description": "Fix invalid object requested in object constructor",
@@ -859,6 +866,11 @@
                 "description": "Fix sorting products when out of stock",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-configurable-product/m243-product-out-of-stock-sorting-fix.patch",
                 "version-constraint": "2.4.3-p1"
+            },
+            {
+                "description": "Set position 0 in main swatch image (FR-275)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-configurable-product/set-position-0-in-main-swatch-image.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-configurable-import-export": [
