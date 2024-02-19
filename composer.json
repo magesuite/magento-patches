@@ -2499,6 +2499,11 @@
                     "description": "Cast value to string php 8.2 compatibility",
                     "filename": "essential/getkevin/kevin-magento2/cast-to-string-php82-compatibility.patch",
                     "version-constraint": ">=1.3.4"
+                },
+                {
+                    "description": "Remove zend class and use laminas lib instead",
+                    "filename": "essential/getkevin/kevin-magento2/use_laminas_lib.patch",
+                    "version-constraint": ">=1.3.4"
                 }
             ]
         }

@@ -1,0 +1,13 @@
+diff --git a/Controller/Payment/Notify.php b/Controller/Payment/Notify.php
+index 62bc05a..4e7ea94 100644
+--- a/Controller/Payment/Notify.php
++++ b/Controller/Payment/Notify.php
+@@ -2,7 +2,7 @@
+ 
+ namespace Kevin\Payment\Controller\Payment;
+ 
+-use Zend\Json\Json;
++use Laminas\Json\Json;
+ 
+ /**
+  * Class Notify.
