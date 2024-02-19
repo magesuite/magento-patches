@@ -422,6 +422,11 @@
                     "description": "Add translations to mail subjects",
                     "filename": "essential/amasty/module-gdpr/amasty-gdpr-mail-translations.patch",
                     "version-constraint": ">=2.9.7"
+                },
+                {
+                    "description": "Check jquery consent elements length.",
+                    "filename": "essential/amasty/module-gdpr/check-consent-elements-length.patch",
+                    "version-constraint": ">=2.9.7"
                 }
             ],
             "amasty/module-banners-lite": [
