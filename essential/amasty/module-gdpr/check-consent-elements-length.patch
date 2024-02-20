@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/model/consents-assigner.js b/view/frontend/web/js/model/consents-assigner.js
+index b441113..f2560b0 100644
+--- a/view/frontend/web/js/model/consents-assigner.js
++++ b/view/frontend/web/js/model/consents-assigner.js
+@@ -10,7 +10,9 @@ define([
+         _.each(consents, function (consent) {
+             var consentElement = $('input[data-gdpr-checkbox-code="' + consent.checkbox_code + '"]:visible');
+ 
+-            if (consentElement) {
++            // BEGIN PATCH
++            if (consentElement.length) {
++            // END PATCH
+                 consentData[consent.checkbox_code] = Boolean(consentElement.prop('checked'));
+             }
+         });
