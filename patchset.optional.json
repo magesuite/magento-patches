@@ -1725,6 +1725,13 @@
           "version-constraint": "*"
         }
       ],
+      "smartmage/inpost": [
+        {
+          "description": "Disable useless logs in inpost module",
+          "filename": "vendor/creativestyle/magento-patches/optional/smartmage/inpost/disable-useless-logs.patch",
+          "version-constraint": "*"
+        }
+      ],
       "guzzlehttp/psr7": [
         {
           "description": "Increase truncate at param (kratki only)",

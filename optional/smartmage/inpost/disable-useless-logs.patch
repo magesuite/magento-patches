@@ -1,0 +1,51 @@
+Disable useless logging in checkout
+
+diff --git a/Model/Carrier/Methods/AbstractMethod.php b/Model/Carrier/Methods/AbstractMethod.php
+index f4f0b23..34c7caf 100644
+--- a/Model/Carrier/Methods/AbstractMethod.php
++++ b/Model/Carrier/Methods/AbstractMethod.php
+@@ -80,15 +80,15 @@ abstract class AbstractMethod
+     {
+         //Check if method is active
+         if (!$this->configProvider->getConfigFlag($this->carrierCode . '/' . $this->methodKey . '/active')) {
+-            $this->logger->info(print_r('Method not allowed. Method '
+-                . $this->methodKey . ' is is not active', true));
++            //$this->logger->info(print_r('Method not allowed. Method '
++            //    . $this->methodKey . ' is is not active', true));
+             return false;
+         }
+ 
+         //Check if products have disabled shipping method type
+         if ($this->isShippingDisabled()) {
+-            $this->logger->info(print_r('Method '
+-                . $this->methodKey . ' not allowed. Shipping is disabled', true));
++            //$this->logger->info(print_r('Method '
++            //    . $this->methodKey . ' not allowed. Shipping is disabled', true));
+             return false;
+         }
+ 
+@@ -97,18 +97,18 @@ abstract class AbstractMethod
+             $this->carrierCode . '/' . $this->methodKey . '/max_cart_weight'
+         );
+         if ($this->calculateWeight() > $maxWeight) {
+-            $this->logger->info(print_r('Method '
+-                . $this->methodKey . ' not allowed. Cart is too heavy.', true));
++            //$this->logger->info(print_r('Method '
++            //    . $this->methodKey . ' not allowed. Cart is too heavy.', true));
+             return false;
+         }
+ 
+         if (!$this->isWeekendSendAvailable()) {
+-            $this->logger->info(print_r('Method '
+-                . $this->methodKey . ' not allowed. Weekend send is available.', true));
++            //$this->logger->info(print_r('Method '
++            //    . $this->methodKey . ' not allowed. Weekend send is available.', true));
+             return false;
+         }
+-        $this->logger->info(print_r('Method '
+-            . $this->methodKey . ' is allowed', true));
++        //$this->logger->info(print_r('Method '
++        //    . $this->methodKey . ' is allowed', true));
+ 
+         return true;
+     }
