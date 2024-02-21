@@ -1175,6 +1175,11 @@
                 "description": "Disallow loading bundle child products",
                 "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-google-analytics4/m245-magepal-google-analytics4-bundle-disallow-loading-child-products.patch",
                 "version-constraint": ">=1.7.4"
+            },
+            {
+              "description": "Change catalog layer method visibility",
+              "filename": "vendor/creativestyle/magento-patches/optional/magepal/magento2-google-analytics4/change-catalog-layer-method-visibility.patch",
+              "version-constraint": ">=1.7.11"
             }
         ],
         "magento/module-gift-card-account": [
