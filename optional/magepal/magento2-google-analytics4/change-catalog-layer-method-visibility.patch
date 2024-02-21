@@ -1,0 +1,15 @@
+diff --git a/Block/CatalogLayer.php b/Block/CatalogLayer.php
+index 9a6a9bf..db4b004 100644
+--- a/Block/CatalogLayer.php
++++ b/Block/CatalogLayer.php
+@@ -288,7 +288,9 @@ class CatalogLayer extends DataLayer
+      * @return array
+      * @throws NoSuchEntityException
+      */
+-    protected function getProductImpressions($collection)
++    //BEGIN PATCH
++    public function getProductImpressions($collection)
++    //END PATCH
+     {
+         $products = [];
+         $position = 1;
