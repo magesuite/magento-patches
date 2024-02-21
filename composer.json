@@ -1248,6 +1248,13 @@
                     "version-constraint": "1.1.0"
                 }
             ],
+            "aheadworks/module-quick-order": [
+                {
+                    "description": "Fix search criteria for product list request",
+                    "filename": "essential/aheadworks/module-quick-order/fix-search-criteria-for-product-list.patch",
+                    "version-constraint": ">=1.1.6"
+                }
+            ],
             "aheadworks/module-reward-points": [
                 {
                     "description": "Fix reward points amount calculation for bundle products",

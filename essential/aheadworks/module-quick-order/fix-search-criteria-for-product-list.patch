@@ -1,0 +1,122 @@
+diff --git a/Model/Product/Search/Searcher.php b/Model/Product/Search/Searcher.php
+index 835ba37..706d979 100644
+--- a/Model/Product/Search/Searcher.php
++++ b/Model/Product/Search/Searcher.php
+@@ -23,7 +23,17 @@ class Searcher
+      * Page size
+      */
+     const RESULT_SIZE = 6;
++    // BEGIN PATCH
++    /**
++     * @var \Magento\Framework\Api\Search\SearchCriteriaInterfaceFactory
++     */
++    protected $searchCriteriaFactory;
+
++    /**
++     * @var \Magento\Framework\Api\Search\FilterGroupBuilder
++     */
++    protected $filterGroupBuilder;
++    // END PATCH
+     /**
+      * @var SearchCriteriaBuilder
+      */
+@@ -68,7 +78,11 @@ class Searcher
+         FilterBuilder $filterBuilder,
+         SearchResultApplierFactory $searchResultApplierFactory,
+         ProductCollectionFactory $collectionFactory,
+-        SortOrderBuilder $sortOrderBuilder
++        // BEGIN PATCH
++        SortOrderBuilder $sortOrderBuilder,
++        \Magento\Framework\Api\Search\SearchCriteriaInterfaceFactory $searchCriteriaFactory,
++        \Magento\Framework\Api\Search\FilterGroupBuilder $filterGroupBuilder
++        // END PATCH
+     ) {
+         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+         $this->search = $search;
+@@ -76,6 +90,10 @@ class Searcher
+         $this->searchResultApplierFactory = $searchResultApplierFactory;
+         $this->collectionFactory = $collectionFactory;
+         $this->sortOrderBuilder = $sortOrderBuilder;
++        // BEGIN PATCH
++        $this->searchCriteriaFactory = $searchCriteriaFactory;
++        $this->filterGroupBuilder = $filterGroupBuilder;
++        // END PATCH
+     }
+
+     /**
+@@ -111,13 +129,48 @@ class Searcher
+      * @param string $searchTerm
+      * @return SearchResultInterface
+      */
++    // BEGIN PATCH
++//    private function runSearchEngine($searchTerm)
++//    {
++//        $searchTermFilter = $this->filterBuilder->setField('search_term')
++//            ->setValue($searchTerm)
++//            ->setConditionType('eq')
++//            ->create();
++//        $visibilityFilter = $this->filterBuilder->setField('visibility')
++//            ->setValue([Visibility::VISIBILITY_IN_SEARCH, Visibility::VISIBILITY_BOTH])
++//            ->setConditionType('in')
++//            ->create();
++//        $sortOrder = $this->sortOrderBuilder
++//            ->setField('entity_id')
++//            ->setDirection('ASC')
++//            ->create();
++//
++//        $this->searchCriteriaBuilder->addFilter($searchTermFilter);
++//        $this->searchCriteriaBuilder->addFilter($visibilityFilter);
++//        $searchCriteria = $this->searchCriteriaBuilder->create();
++//        $searchCriteria
++//            ->setRequestName('quick_search_container')
++//            ->setPageSize(self::RESULT_SIZE)
++//            ->setSortOrders([$sortOrder]);
++//
++//        return $this->search->search($searchCriteria);
++//    }
+     private function runSearchEngine($searchTerm)
+     {
+-        $searchTermFilter = $this->filterBuilder->setField('search_term')
++        return $this->search->search($this->getSearchCriteria($searchTerm));
++    }
++
++    private function getSearchCriteria($searchTerm)
++    {
++        $searchCriteria = $this->searchCriteriaFactory->create();
++
++        $searchTermFilter = $this->filterBuilder
++            ->setField('search_term')
+             ->setValue($searchTerm)
+             ->setConditionType('eq')
+             ->create();
+-        $visibilityFilter = $this->filterBuilder->setField('visibility')
++        $visibilityFilter = $this->filterBuilder
++            ->setField('visibility')
+             ->setValue([Visibility::VISIBILITY_IN_SEARCH, Visibility::VISIBILITY_BOTH])
+             ->setConditionType('in')
+             ->create();
+@@ -126,14 +179,16 @@ class Searcher
+             ->setDirection('ASC')
+             ->create();
+
+-        $this->searchCriteriaBuilder->addFilter($searchTermFilter);
+-        $this->searchCriteriaBuilder->addFilter($visibilityFilter);
+-        $searchCriteria = $this->searchCriteriaBuilder->create();
+-        $searchCriteria
+-            ->setRequestName('quick_search_container')
+-            ->setPageSize(self::RESULT_SIZE)
+-            ->setSortOrders([$sortOrder]);
++        $this->filterGroupBuilder->addFilter($searchTermFilter);
++        $this->filterGroupBuilder->addFilter($visibilityFilter);
++
++        $filterGroups[] = $this->filterGroupBuilder->create();
++        $searchCriteria->setFilterGroups($filterGroups);
++        $searchCriteria->setPageSize(self::RESULT_SIZE);
++        $searchCriteria->setRequestName('quick_search_container');
++        $searchCriteria->setSortOrders([$sortOrder]);
+
+-        return $this->search->search($searchCriteria);
++        return $searchCriteria;
+     }
++    // END PATCH
+ }
