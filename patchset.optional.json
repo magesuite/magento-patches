@@ -849,11 +849,6 @@
               "description": "Reduce number of database queries during product import.",
               "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/reduce-number-of-database-queries-during-import.patch",
               "version-constraint": "*"
-            },
-            {
-              "description": "Skip removing related products while import.",
-              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/skip-removing-related-products-while-import.patch",
-              "version-constraint": "*"
             }
         ],
         "magento/module-configurable-product": [
