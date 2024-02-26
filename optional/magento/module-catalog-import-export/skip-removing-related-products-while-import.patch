@@ -1,0 +1,21 @@
+KRA-1165 skip removing related products while import
+
+diff --git a/Model/Import/Product/LinkProcessor.php b/Model/Import/Product/LinkProcessor.php
+index 47b5528..4f782bf 100644
+--- a/Model/Import/Product/LinkProcessor.php
++++ b/Model/Import/Product/LinkProcessor.php
+@@ -334,7 +334,13 @@ class LinkProcessor
+         if (Import::BEHAVIOR_APPEND != $importEntity->getBehavior() && $productIds) {
+             $importEntity->getConnection()->delete(
+                 $mainTable,
+-                $importEntity->getConnection()->quoteInto('product_id IN (?)', array_unique($productIds))
++                // PATCH START
++                // $importEntity->getConnection()->quoteInto('product_id IN (?)', array_unique($productIds))
++                implode(' AND ', [
++                    $importEntity->getConnection()->quoteInto('product_id IN (?)', array_unique($productIds)),
++                    $importEntity->getConnection()->quoteInto('link_type_id != ?', \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED),
++                ])
++                // PATCH END
+             );
+         }
+         if ($linkRows) {
