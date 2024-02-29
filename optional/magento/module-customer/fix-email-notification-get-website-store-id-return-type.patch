@@ -1,0 +1,13 @@
+diff --git a/Model/EmailNotification.php b/Model/EmailNotification.php
+index a71cf79..aca44ca 100644
+--- a/Model/EmailNotification.php
++++ b/Model/EmailNotification.php
+@@ -342,7 +342,7 @@ class EmailNotification implements EmailNotificationInterface
+             $storeIds = $this->storeManager->getWebsite($customer->getWebsiteId())->getStoreIds();
+             $defaultStoreId = reset($storeIds);
+         }
+-        return $defaultStoreId;
++        return (int) $defaultStoreId;
+     }
+ 
+     /**
