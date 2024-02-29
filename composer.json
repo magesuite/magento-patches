@@ -1737,6 +1737,11 @@
                     "description": "Fix displaying range prices",
                     "filename": "essential/magento/module-bundle/m24-bundle-fix-range-price-render.patch",
                     "version-constraint": ">=101.0.3"
+                },
+                {
+                    "description": "Fix missing float typecasting for options amount.",
+                    "filename": "essential/magento/module-bundle/m246-fix-bundle-option-amount-always-return-float.patch",
+                    "version-constraint": ">=101.0.6"
                 }
             ],
             "amzn/amazon-pay-and-login-with-amazon-core-module": [
