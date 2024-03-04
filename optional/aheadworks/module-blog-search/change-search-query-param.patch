@@ -1,0 +1,33 @@
+Change search param name to fix filters issue (IPET-2477).
+
+diff --git a/Model/Url.php b/Model/Url.php
+index d0d0885..3d47391 100644
+--- a/Model/Url.php
++++ b/Model/Url.php
+@@ -10,7 +10,10 @@ use Magento\Store\Model\StoreManagerInterface;
+ class Url
+ {
+     const SEARCH_CONTROLLER_PATH = 'aw_blog_search/search/index';
+-    const SEARCH_QUERY_PARAM = 'search';
++    //BEGIN PATCH
++    //const SEARCH_QUERY_PARAM = 'search';
++    const SEARCH_QUERY_PARAM = 'q';
++    //END PATCH
+
+     /**
+      * @var StoreManagerInterface
+diff --git a/Model/ThirdPartyModule/ElasticSuite/Adapter.php b/Model/ThirdPartyModule/ElasticSuite/Adapter.php
+index 04c7ca2..3df6ef2 100644
+--- a/Model/ThirdPartyModule/ElasticSuite/Adapter.php
++++ b/Model/ThirdPartyModule/ElasticSuite/Adapter.php
+@@ -87,7 +87,10 @@ class Adapter
+     private function getQueryText(): array
+     {
+         $terms = [];
+-        if ($query = $this->request->getParam('search')) {
++        //BEGIN PATCH
++        //if ($query = $this->request->getParam('search')) {
++        if ($query = $this->request->getParam('q')) {
++        //END PATCH
+             $terms = [$query];
+         }
