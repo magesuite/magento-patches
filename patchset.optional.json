@@ -823,6 +823,13 @@
                 "version-constraint": "^2.4.0"
             }
         ],
+        "aheadworks/module-blog-search": [
+            {
+                "description": "Fix issue with filters (IPET-2477).",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-blog-search/change-search-query-param.patch",
+                "version-constraint": "*"
+            }
+        ],
         "aheadworks/module-advanced-reviews": [
             {
                 "description": "Disable config override plugin",

@@ -1,0 +1,31 @@
+Changed search query param to fix issue with search filters (IPET-2477).
+
+diff --git a/vendor/aheadworks/module-blog-search/Model/Url.php b/vendor/aheadworks/module-blog-search/Model/Url.php
+index d0d0885..2e53594 100644
+--- a/vendor/aheadworks/module-blog-search/Model/Url.php
++++ b/vendor/aheadworks/module-blog-search/Model/Url.php
+@@ -10,7 +10,9 @@ use Magento\Store\Model\StoreManagerInterface;
+ class Url
+ {
+     const SEARCH_CONTROLLER_PATH = 'aw_blog_search/search/index';
+-    const SEARCH_QUERY_PARAM = 'search';
++    //BEGIN PATCH
++    const SEARCH_QUERY_PARAM = 'q';
++    //END PATCH
+
+     /**
+      * @var StoreManagerInterface
+diff --git a/vendor/aheadworks/module-blog-search/Model/ThirdPartyModule/ElasticSuite/Adapter.php b/vendor/aheadworks/module-blog-search/Model/ThirdPartyModule/ElasticSuite/Adapter.php
+index 04c7ca2..6f2e417 100644
+--- a/vendor/aheadworks/module-blog-search/Model/ThirdPartyModule/ElasticSuite/Adapter.php
++++ b/vendor/aheadworks/module-blog-search/Model/ThirdPartyModule/ElasticSuite/Adapter.php
+@@ -87,7 +87,9 @@ class Adapter
+     private function getQueryText(): array
+     {
+         $terms = [];
+-        if ($query = $this->request->getParam('search')) {
++        //BEGIN PATCH
++        if ($query = $this->request->getParam('search') ?? $this->request->getParam('q')) {
++            //END PATCH
+             $terms = [$query];
+         }
