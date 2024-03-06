@@ -389,6 +389,11 @@
                     "description": "Fix problem with division by zero when creating creditmemo with free shipping. Magento patch ACSD-50814_2.4.6",
                     "filename": "essential/magento/module-sales/m246-fix-division-by-zero-when-creating-creditmemo.patch",
                     "version-constraint": ">=103.0.6"
+                },
+                {
+                    "description": "Fix probelm with unable to create order from admin when instance got multiple Store Views on 2.4.6.",
+                    "filename": "essential/magento/module-sales/fix-issue-with-order-creation-and-store-selection.patch",
+                    "version-constraint": ">=103.0.6,<103.0.7"
                 }
             ],
             "magento/module-store": [
