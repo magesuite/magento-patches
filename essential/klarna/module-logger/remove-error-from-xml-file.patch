@@ -1,5 +1,5 @@
 diff --git a/etc/adminhtml/routes.xml b/etc/adminhtml/routes.xml
-index a9f1536..9b6bb96 100644
+index 64bbab4..9b6bb96 100644
 --- a/etc/adminhtml/routes.xml
 +++ b/etc/adminhtml/routes.xml
 @@ -11,9 +11,6 @@
@@ -7,7 +7,7 @@ index a9f1536..9b6bb96 100644
          <route id="klarna" frontName="klarna">
              <module name="Klarna_Logger" before="Magento_Backend" />
 -            <resources>
--                <resource ref="Klarna_Logger::system_logging" />
+-                <resorce ref="Klarna_Logger::system_logging" />
 -            </resources>
          </route>
      </router>
