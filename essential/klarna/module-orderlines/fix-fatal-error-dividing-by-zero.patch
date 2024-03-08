@@ -1,0 +1,13 @@
+diff --git a/Model/Calculator/Shipping.php b/Model/Calculator/Shipping.php
+index 1e8fa01..58fb443 100644
+--- a/Model/Calculator/Shipping.php
++++ b/Model/Calculator/Shipping.php
+@@ -46,7 +46,7 @@ class Shipping
+     public function getTaxRate(DataHolder $dataHolder): float
+     {
+         $shippingAddress = $dataHolder->getShippingAddress();
+-        if (empty($shippingAddress->getShippingAmount())) {
++        if (empty((float)$shippingAddress->getShippingAmount())) {
+             return 0;
+         }
+ 

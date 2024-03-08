@@ -2233,6 +2233,13 @@
                     "version-constraint": ">=2.0.7"
                 }
             ],
+            "klarna/module-orderlines": [
+                {
+                    "description": "Fix fatal error dividing by zero",
+                    "filename": "essential/klarna/module-orderlines/fix-fatal-error-dividing-by-zero.patch",
+                    "version-constraint": ">=2.0.17"
+                }
+            ],
             "mollie/magento2": [
                 {
                     "description": "Add a dispatch event mollie_before_build_transaction_orders_api to handle additional fee from bulk goods",
