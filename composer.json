@@ -1184,7 +1184,7 @@
                 {
                     "description": "Fixes saving incorect End Date for post",
                     "filename": "essential/aheadworks/module-blog/fix-blog-post-end-date.patch",
-                    "version-constraint": ">=2.13.0"
+                    "version-constraint": ">=2.13.0,<=2.13.3"
                 },
                 {
                     "description": "Fix for relations issue in table aw_blog_product_post (HAAR-3241)",
@@ -1200,6 +1200,11 @@
                     "description": "Add missing jquery ui widget dependency (IPET-2196)",
                     "filename": "essential/aheadworks/module-blog/aw-blog-add-jquery-ui-widget-dependencies.patch",
                     "version-constraint": ">=2.13.0"
+                },
+                {
+                    "description": "Skip invalidate whole aw_blog_product_post index after saving blog post (IPET-2491)",
+                    "filename": "essential/aheadworks/module-blog/fix-index-invalidation-after-save-blog-post.patch",
+                    "version-constraint": ">=2.14.0"
                 }
             ],
             "aheadworks/module-faq": [

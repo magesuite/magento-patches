@@ -1,0 +1,26 @@
+
+diff --git a/Model/ResourceModel/PostRepository.php b/Model/ResourceModel/PostRepository.php
+index eecbd33..8e4ca67 100644
+--- a/Model/ResourceModel/PostRepository.php
++++ b/Model/ResourceModel/PostRepository.php
+@@ -101,11 +101,17 @@ class PostRepository implements PostRepositoryInterface
+         $post = $this->convertPostConditionsToDataModel($postModel);
+         $this->postRegistry->push($post);
+         if ($this->isPostParamsChanged($post, $origPostData)) {
+-            if ($this->indexProcessor->isIndexerScheduled()) {
+-                $this->indexProcessor->markIndexerAsInvalid();
+-            } else {
++            // PATCH START
++            // Invalidating whole index is not needed, because edited blog post will be automatically added to `aw_blog_product_post_cl` and reindexed.
++            // if ($this->indexProcessor->isIndexerScheduled()) {
++            //     $this->indexProcessor->markIndexerAsInvalid();
++            // } else {
++            //     $this->indexProcessor->reindexRow($post->getId());
++            // }
++            if (!$this->indexProcessor->isIndexerScheduled()) {
+                 $this->indexProcessor->reindexRow($post->getId());
+             }
++            // PATCH END
+         }
+ 
+         return $post;
