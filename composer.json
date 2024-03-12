@@ -1207,6 +1207,13 @@
                     "version-constraint": ">=2.14.0"
                 }
             ],
+            "aheadworks/module-blog-search": [
+                {
+                    "description": "Fix breadcrumb name to remove duplicated breadcrumbs from search results page (IPET-2485)",
+                    "filename": "essential/aheadworks/module-blog-search/remove-duplicated-breadcrumbs.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "aheadworks/module-faq": [
                 {
                     "description": "Fixes bug FAQ Article with id \"\" does not exist Exception",

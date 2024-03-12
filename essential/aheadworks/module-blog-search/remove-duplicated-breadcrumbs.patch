@@ -1,0 +1,18 @@
+Removed duplicated breadcrumbs from blog search result page (IPET-2485).
+
+diff --git a/Controller/Search/Index.php b/Controller/Search/Index.php
+index 32412ae..522783e 100644
+--- a/Controller/Search/Index.php
++++ b/Controller/Search/Index.php
+@@ -94,7 +94,10 @@ class Index extends \Magento\Framework\App\Action\Action
+                     'link'=> $this->blogSearchUrl->getBaseUrl()
+                 ]
+             )->addCrumb(
+-                'blog',
++                //BEGIN PATCH
++                //'blog',
++                'blog_home',
++                //END PATCH
+                 [
+                     'label' => $this->blogConfig->getBlogTitle(),
+                     'title'=>__('Go to %1', $this->blogConfig->getBlogTitle()),
