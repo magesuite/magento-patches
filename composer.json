@@ -2509,13 +2509,6 @@
                     "version-constraint": "*"
                 }
             ],
-            "bluepayment-plugin/module-bluepayment": [
-                {
-                    "description": "Fix critical error if order post data is empty",
-                    "filename": "essential/bluepayment-plugin/module-bluepayment/fix-redirect-url-after-payment.patch",
-                    "version-constraint": ">=2.22.0"
-                }
-            ],
             "mailchimp/mc-magento2": [
                 {
                     "description": "Fix the issue with loading the subscription in the SaveAfter plugin. (IPET-2264)",
