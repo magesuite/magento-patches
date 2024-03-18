@@ -529,6 +529,11 @@
                 "description": "Fix for Amasty filter 'Availability' on product grid (IPET-1069]",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-msi-availability.patch",
                 "version-constraint": "^1.9.2"
+            },
+            {
+                "description": "Add $customFieldResolvers to provide ability to add custom resolver for certain fields. (IPET-2512)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-add-custom-field-resolvers.patch",
+                "version-constraint": "^1.9.2"
             }
         ],
         "amasty/shippingtablerates": [

@@ -1,0 +1,51 @@
+Add $customFieldResolvers to provide ability to add custom resolver for certain fields. IPET-2512
+
+diff --git a/Plugin/Ui/Model/Export/AbstractExport.php b/Plugin/Ui/Model/Export/AbstractExport.php
+index 2af54bc..71c49b9 100644
+--- a/Plugin/Ui/Model/Export/AbstractExport.php
++++ b/Plugin/Ui/Model/Export/AbstractExport.php
+@@ -120,6 +120,10 @@ abstract class AbstractExport
+      */
+     protected $imageHelper;
+
++    //BEGIN PATCH
++    protected array $customFieldResolvers;
++    //END PATCH
++
+     public function __construct(
+         RequestInterface $request,
+         Element\UiComponent\Context $context,
+@@ -132,6 +136,9 @@ abstract class AbstractExport
+         FilterManager $filterManager,
+         Random $random,
+         Image $imageHelper,
++        //BEGIN PATCH
++        array $customFieldResolvers,
++        //END PATCH
+         $pageSize = 200
+     ) {
+         $this->filter = $filter;
+@@ -146,6 +153,9 @@ abstract class AbstractExport
+         $this->filterManager = $filterManager;
+         $this->random = $random;
+         $this->imageHelper = $imageHelper;
++        //BEGIN PATCH
++        $this->customFieldResolvers = $customFieldResolvers;
++        //END PATCH
+     }
+
+     /**
+@@ -180,6 +190,13 @@ abstract class AbstractExport
+                 continue;
+             }
+
++            //BEGIN PATCH
++            if (array_key_exists($mappingField, $this->customFieldResolvers)) {
++                $row[] = $this->filterManager->stripTags($this->customFieldResolvers[$mappingField]->resolve($item[$mappingField]));
++                continue;
++            }
++            //END PATCH
++
+             switch ($mappingField) {
+                 case 'thumbnail':
+                     if (isset($item['thumbnail_src'])) {
