@@ -1,0 +1,31 @@
+diff --git a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
+index 8b4d771..fdab6b6 100644
+--- a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
++++ b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
+@@ -100,13 +100,17 @@ class Ajax extends \Magento\Framework\App\Action\Action
+     {
+         $this->layerResolver->create($this->getLayerType());
+
++        // BEGIN PATCH
++        $categoryId = (int)$this->getRequest()->getParam('cat');
+         if ($this->getRequest()->getParam('cat')) {
+-            $category = $this->categoryRepository->get(
+-                $this->getRequest()->getParam('cat'),
+-                $this->layerResolver->get()->getCurrentStore()->getId()
+-            );
+-
+-            $this->layerResolver->get()->setCurrentCategory($category);
++            // $category = $this->categoryRepository->get(
++            //    $this->getRequest()->getParam('cat'),
++            //    $this->layerResolver->get()->getCurrentStore()->getId()
++            // );
++
++            //$this->layerResolver->get()->setCurrentCategory($category);
++            $this->layerResolver->get()->setCurrentCategory($categoryId);
++            // END PATCH
+         }
+
+         $this->applyFilters();
+--
+2.39.3 (Apple Git-145)
+
