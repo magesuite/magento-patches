@@ -2249,7 +2249,7 @@
                 {
                     "description": "Fix fatal error dividing by zero",
                     "filename": "essential/klarna/module-orderlines/fix-fatal-error-dividing-by-zero.patch",
-                    "version-constraint": ">=2.0.17"
+                    "version-constraint": ">=2.0.17,<2.0.18"
                 }
             ],
             "mollie/magento2": [
