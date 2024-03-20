@@ -941,6 +941,11 @@
                     "description": "Fixes issue where media-gallery-images is an array after it has been loaded from cache.",
                     "filename": "essential/magento/module-catalog/m24-media-gallery-images-array-fix.patch",
                     "version-constraint": ">=104.0.3"
+                },
+                {
+                    "description": "Fixes double category load on category page by using category repository",
+                    "filename": "essential/magento/module-catalog/m24-category-loading-performance-fix.patch",
+                    "version-constraint": ">=104.0.0"
                 }
             ],
             "magento/module-catalog-search": [
