@@ -2340,11 +2340,6 @@
             ],
             "magepal/magento2-google-analytics4": [
                 {
-                    "description": "Preload all required categories at once instead of loading them one-by-one.",
-                    "filename": "essential/magepal/magento2-google-analytics4/mgs-5032-performance-optimization.patch",
-                    "version-constraint": ">=1.7.0"
-                },
-                {
                     "description": "Disable price calculation on the category page",
                     "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page.patch",
                     "version-constraint": ">=1.7.0, <1.7.8"
@@ -2353,13 +2348,6 @@
                     "description": "Disable price calculation on the category page (>=v1.7.8)",
                     "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page-v178.patch",
                     "version-constraint": ">=1.7.8"
-                }
-            ],
-            "magepal/magento2-googletagmanager": [
-                {
-                    "description": "Preload all required categories at once instead of loading them one-by-one.",
-                    "filename": "essential/magepal/magento2-googletagmanager/mgs-5032-performance-optimization.patch",
-                    "version-constraint": ">=2.7.0"
                 }
             ],
             "cleverzoeger/ext-magento2-cleverzoeger-paqato": [
