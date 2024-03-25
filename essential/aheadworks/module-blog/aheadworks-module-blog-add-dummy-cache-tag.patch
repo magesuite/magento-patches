@@ -1,0 +1,18 @@
+Add dummy cache tag to avoid clearing all redis cache on indexer invalidation. (IPET-2506)
+
+diff --git a/Model/ResourceModel/Indexer/ProductPost.php b/Model/ResourceModel/Indexer/ProductPost.php
+index cf22340..feb1234 100644
+--- a/Model/ResourceModel/Indexer/ProductPost.php
++++ b/Model/ResourceModel/Indexer/ProductPost.php
+@@ -343,7 +343,10 @@ class ProductPost extends AbstractResource implements IdentityInterface
+      */
+     public function getIdentities()
+     {
+-        $identities = [];
++        //BEGIN PATCH
++        //$identities = [];
++        $identities = ['aw_blog_product_dummy'];
++        //END PATCH
+         foreach ($this->entities as $entity) {
+             $postTag = Post::CACHE_TAG . '_' . $entity['post_id'];
+             if (!in_array($postTag, $identities)) {
