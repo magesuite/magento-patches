@@ -1215,6 +1215,11 @@
                     "description": "Skip invalidate whole aw_blog_product_post index after saving blog post (IPET-2491)",
                     "filename": "essential/aheadworks/module-blog/fix-index-invalidation-after-save-blog-post.patch",
                     "version-constraint": ">=2.14.0"
+                },
+                {
+                    "description": "Add dummy cache tag to avoid clearing all redis cache on indexer invalidation (IPET-2506)",
+                    "filename": "essential/aheadworks/module-blog/aheadworks-module-blog-add-dummy-cache-tag.patch",
+                    "version-constraint": ">=2.8.0"
                 }
             ],
             "aheadworks/module-blog-search": [
