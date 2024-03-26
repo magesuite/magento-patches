@@ -1,0 +1,31 @@
+From 5bf7aaf6aa2ffbe05017621c0368461e21389674 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Iwona=20J=C3=B3=C5=BAwiak?= <iwona.jozwiak@creativestyle.pl>
+Date: Mon, 25 Mar 2024 09:24:20 +0100
+Subject: [PATCH] b
+
+---
+ .../SourceItem/Strategy/Sync/PriceIndexUpdater.php        | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php b/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php
+index eb0d359..e187874 100644
+--- a/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php
++++ b/Plugin/InventoryIndexer/Indexer/SourceItem/Strategy/Sync/PriceIndexUpdater.php
+@@ -76,6 +76,14 @@ class PriceIndexUpdater
+      */
+     public function aroundExecuteList(Sync $subject, callable $proceed, array $sourceItemIds) : void
+     {
++        // In the case the source item is default source,
++        // the price indexer will be executed according to indexer.xml configuration
++
++        // BEGIN PATCH
++        // in MGP we have static bundle prices provided directly in admin area
++        // the below code is not needed
++        return;
++        // END PATCH
+         $customSourceItemIds = [];
+         $defaultSourceCode = $this->defaultSourceProvider->getCode();
+         foreach ($this->getSourceCodesBySourceItemIds->execute($sourceItemIds) as $sourceItemId => $sourceCode) {
+-- 
+2.39.3 (Apple Git-145)
+
