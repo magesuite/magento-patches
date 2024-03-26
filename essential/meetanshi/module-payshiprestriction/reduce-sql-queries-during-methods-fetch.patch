@@ -1,55 +1,52 @@
 diff --git a/Helper/Data.php b/Helper/Data.php
-index 8726ffd..a8158a4 100644
+index 8726ffd..7141dca 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
-@@ -20,6 +20,12 @@ use Magento\Store\Model\ScopeInterface;
+@@ -20,6 +20,10 @@ use Magento\Store\Model\ScopeInterface;
   */
  class Data extends AbstractHelper
  {
-+    // BEGINNING OF PATCH
++    // BEGIN PATCH
 +    protected $visibleShippingMethods = null;
-+
 +    protected $visiblePaymentMethods = null;
-+    // END OF PATCH
-+
++    // END PATCH
      /**
       * @var null
       */
-@@ -81,6 +87,11 @@ class Data extends AbstractHelper
+@@ -81,6 +85,11 @@ class Data extends AbstractHelper
       */
      public function getMethodsVisibility($type, $websiteId, $method = null)
      {
-+        // BEGINNING OF PATCH
++        // BEGIN PATCH
 +        $storeId = $this->storeManager->getWebsite($websiteId)->getDefaultStore()->getId();
 +        $this->storeManager->setCurrentStore($storeId);
-+        // END OF PATCH
++        // END PATCH
 +
          $collection = $this->collectionFactory->create();
          $collection->addFieldToFilter('type', ['eq' => $type]);
          if ($method !== null) {
-@@ -113,7 +124,7 @@ class Data extends AbstractHelper
+@@ -113,7 +122,7 @@ class Data extends AbstractHelper
      {
          return $this->customerGroupCollection->create();
      }
--
+-    
 +
      /**
       * @return bool
       */
-@@ -122,7 +133,7 @@ class Data extends AbstractHelper
+@@ -122,7 +131,6 @@ class Data extends AbstractHelper
          if (strpos($method, "klarna_pay") !== false) {
              $method = "klarna_kp";
          }
--
-+
+-        
          if ($this->isEnabled() == 0) {
              return true;
          }
-@@ -134,16 +145,19 @@ class Data extends AbstractHelper
+@@ -134,18 +142,26 @@ class Data extends AbstractHelper
          }
          return true;
      }
--
+-    
 +
      /**
       * @return bool
@@ -60,46 +57,62 @@ index 8726ffd..a8158a4 100644
 -        $type = 'shipping';
 -        $flag = false;
 -        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
-+        // BEGINNING OF PATCH
-+//        $websiteId = $this->storeManager->getStore()->getWebsiteId();
-+//        $type = 'shipping';
-+//        $flag = false;
-+//        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
++        // BEGIN PATCH
++        //$websiteId = $this->storeManager->getStore()->getWebsiteId();
++        //$type = 'shipping';
++        //$flag = false;
++        //$collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +        $collection = $this->getVisibleShippingMethods();
-+        // END OF PATCH
-
++        // END PATCH
+ 
          foreach ($collection as $methods) {
++            // BEGIN PATCH
++            if ($methods->getMethod() != $method) {
++                continue;
++            }
++            // END PATCH
              if ($methods->getRestrictionId()) {
-@@ -168,17 +182,19 @@ class Data extends AbstractHelper
-
+                 if ($methods->getCustomerGroupIds() != '') {
+                     $allowedGroups = explode(',', $methods->getCustomerGroupIds());
+@@ -168,19 +184,27 @@ class Data extends AbstractHelper
+ 
          return false;
      }
--
+-    
 +
      /**
       * @return bool
       */
      protected function _canUsePaymentMethod($method)
      {
--
+-        
 -        $websiteId = $this->storeManager->getStore()->getWebsiteId();
 -        $type = 'payment';
 -        $flag = false;
 -        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
-+        // BEGINNING OF PATCH
-+//        $websiteId = $this->storeManager->getStore()->getWebsiteId();
-+//        $type = 'payment';
-+//        $flag = false;
-+//        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
++
++        // BEGIN PATCH
++        //$websiteId = $this->storeManager->getStore()->getWebsiteId();
++        //$type = 'payment';
++        //$flag = false;
++        //$collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +        $collection = $this->getVisiblePaymentMethods();
-+        // END OF PATCH
-
++        // END PATCH
+ 
          foreach ($collection as $methods) {
++            // BEGIN PATCH
++            if ($methods->getMethod() != $method) {
++                continue;
++            }
++            // END PATCH
              if ($methods->getRestrictionId()) {
-@@ -204,6 +220,31 @@ class Data extends AbstractHelper
-         return false;
+                 if ($methods->getCustomerGroupIds() != '') {
+                     $allowedGroups = explode(',', $methods->getCustomerGroupIds());
+@@ -231,4 +255,28 @@ class Data extends AbstractHelper
+     {
+         return $this->scopeConfig->getValue('psrestrict/general/enabled', ScopeInterface::SCOPE_STORE);
      }
-
++
 +    // BEGINNING OF PATCH
 +    protected function getVisibleShippingMethods()
 +    {
@@ -112,7 +125,6 @@ index 8726ffd..a8158a4 100644
 +        return $this->visibleShippingMethods;
 +    }
 +
-+
 +    protected function getVisiblePaymentMethods()
 +    {
 +        if (empty($this->visiblePaymentMethods)) {
@@ -124,7 +136,4 @@ index 8726ffd..a8158a4 100644
 +        return $this->visiblePaymentMethods;
 +    }
 +    // END OF PATCH
-+
-     /**
-      * @return int|null
-      */
+ }
