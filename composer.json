@@ -2548,7 +2548,7 @@
             "meetanshi/module-payshiprestriction": [
                 {
                     "description": "Reduce sql queries during shipping an payment methods fetch",
-                    "filename": "vendor/creativestyle/magento-patches/essential/meetanshi/module-payshiprestriction/reduce-sql-queries-during-methods-fetch.patch",
+                    "filename": "essential/meetanshi/module-payshiprestriction/reduce-sql-queries-during-methods-fetch.patch",
                     "version-constraint": ">=1.0.6"
                 }
             ]
