@@ -1,5 +1,5 @@
 diff --git a/Helper/Data.php b/Helper/Data.php
-index 8726ffd..087bd29 100644
+index 8726ffd..a8158a4 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
 @@ -20,6 +20,12 @@ use Magento\Store\Model\ScopeInterface;
@@ -96,7 +96,7 @@ index 8726ffd..087bd29 100644
 
          foreach ($collection as $methods) {
              if ($methods->getRestrictionId()) {
-@@ -204,6 +220,32 @@ class Data extends AbstractHelper
+@@ -204,6 +220,31 @@ class Data extends AbstractHelper
          return false;
      }
 
@@ -124,7 +124,6 @@ index 8726ffd..087bd29 100644
 +        return $this->visiblePaymentMethods;
 +    }
 +    // END OF PATCH
-+
 +
      /**
       * @return int|null
