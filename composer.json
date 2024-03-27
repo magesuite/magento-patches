@@ -1217,8 +1217,8 @@
                     "version-constraint": ">=2.14.0"
                 },
                 {
-                    "description": "Add dummy cache tag to avoid clearing all redis cache on indexer invalidation (IPET-2506)",
-                    "filename": "essential/aheadworks/module-blog/aheadworks-module-blog-add-dummy-cache-tag.patch",
+                    "description": "Removed logic that sends empty tags when deferred cache is enabled (IPET-2506)",
+                    "filename": "essential/aheadworks/module-blog/fix-clearing-cache-after-blog-reindex.patch",
                     "version-constraint": ">=2.8.0"
                 }
             ],
