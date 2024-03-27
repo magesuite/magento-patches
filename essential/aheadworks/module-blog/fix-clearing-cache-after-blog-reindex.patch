@@ -1,0 +1,21 @@
+Removed logic that sends empty tags when deferred cache is enabled (IPET-2506)
+
+diff --git a/Model/Indexer/Cache/Processor/Cleaner.php b/Model/Indexer/Cache/Processor/Cleaner.php
+index e66dc9a..2160e4b 100644
+--- a/Model/Indexer/Cache/Processor/Cleaner.php
++++ b/Model/Indexer/Cache/Processor/Cleaner.php
+@@ -46,9 +46,11 @@ class Cleaner
+                 'object' => $identity
+             ]
+         );
+-        $this->appCache->clean(
+-            $identity->getIdentities()
+-        );
++        //BEGIN PATCH
++        //$this->appCache->clean(
++        //    $identity->getIdentities()
++        //);
++        //END PATCH
+         return $this;
+     }
+ }
