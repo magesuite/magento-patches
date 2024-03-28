@@ -1,5 +1,5 @@
 diff --git a/Helper/Data.php b/Helper/Data.php
-index 8726ffd..7141dca 100644
+index 8726ffd..1fb6e30 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
 @@ -20,6 +20,10 @@ use Magento\Store\Model\ScopeInterface;
@@ -29,7 +29,7 @@ index 8726ffd..7141dca 100644
      {
          return $this->customerGroupCollection->create();
      }
--
+-    
 +
      /**
       * @return bool
@@ -38,7 +38,7 @@ index 8726ffd..7141dca 100644
          if (strpos($method, "klarna_pay") !== false) {
              $method = "klarna_kp";
          }
--
+-        
          if ($this->isEnabled() == 0) {
              return true;
          }
@@ -46,7 +46,7 @@ index 8726ffd..7141dca 100644
          }
          return true;
      }
--
+-    
 +
      /**
       * @return bool
@@ -55,16 +55,15 @@ index 8726ffd..7141dca 100644
      {
 -        $websiteId = $this->storeManager->getStore()->getWebsiteId();
 -        $type = 'shipping';
--        $flag = false;
--        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +        // BEGIN PATCH
 +        //$websiteId = $this->storeManager->getStore()->getWebsiteId();
 +        //$type = 'shipping';
-+        $flag = false;
+         $flag = false;
+-        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +        //$collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +        $collection = $this->getVisibleShippingMethods();
 +        // END PATCH
-
+ 
          foreach ($collection as $methods) {
 +            // BEGIN PATCH
 +            if ($methods->getMethod() != $method) {
@@ -75,30 +74,29 @@ index 8726ffd..7141dca 100644
                  if ($methods->getCustomerGroupIds() != '') {
                      $allowedGroups = explode(',', $methods->getCustomerGroupIds());
 @@ -168,19 +184,27 @@ class Data extends AbstractHelper
-
+ 
          return false;
      }
--
+-    
 +
      /**
       * @return bool
       */
      protected function _canUsePaymentMethod($method)
      {
--
+-        
 -        $websiteId = $this->storeManager->getStore()->getWebsiteId();
 -        $type = 'payment';
--        $flag = false;
--        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +
 +        // BEGIN PATCH
 +        //$websiteId = $this->storeManager->getStore()->getWebsiteId();
 +        //$type = 'payment';
-+        $flag = false;
+         $flag = false;
+-        $collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +        //$collection = $this->getMethodsVisibility($type, $websiteId, $method);
 +        $collection = $this->getVisiblePaymentMethods();
 +        // END PATCH
-
+ 
          foreach ($collection as $methods) {
 +            // BEGIN PATCH
 +            if ($methods->getMethod() != $method) {
