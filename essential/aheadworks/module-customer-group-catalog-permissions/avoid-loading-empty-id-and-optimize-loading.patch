@@ -1,0 +1,55 @@
+diff --git a/Model/ProductPermission/Resolver/CurrentCategory.php b/Model/ProductPermission/Resolver/CurrentCategory.php
+index 66e3a55..d199c5b 100644
+--- a/Model/ProductPermission/Resolver/CurrentCategory.php
++++ b/Model/ProductPermission/Resolver/CurrentCategory.php
+@@ -19,6 +19,10 @@ use Magento\Catalog\Model\Category;
+  */
+ class CurrentCategory
+ {
++    //BEGIN PATCH
++    protected \Magento\Store\Model\StoreManagerInterface $storeManager;
++    //END PATCH
++
+     /**
+      * @var CategoryRepositoryInterface
+      */
+@@ -68,13 +72,15 @@ class CurrentCategory
+      * @param CategoryCollectionFactory $categoryCollectionFactory
+      * @param UrlInterface $url
+      */
++    //BEGIN PATCH
+     public function __construct(
+         CategoryRepositoryInterface $categoryRepository,
+         CatalogSession $catalogSession,
+         RequestInterface $request,
+         RedirectInterface $redirect,
+         CategoryCollectionFactory $categoryCollectionFactory,
+-        UrlInterface $url
++        UrlInterface $url,
++        \Magento\Store\Model\StoreManagerInterface $storeManager
+     ) {
+         $this->categoryRepository = $categoryRepository;
+         $this->catalogSession = $catalogSession;
+@@ -82,7 +88,9 @@ class CurrentCategory
+         $this->redirect = $redirect;
+         $this->categoryCollectionFactory = $categoryCollectionFactory;
+         $this->url = $url;
++        $this->storeManager = $storeManager;
+     }
++    //END PATCH
+
+     /**
+      * Retrieve current category object
+@@ -96,7 +104,11 @@ class CurrentCategory
+         $currentCategoryId = $product->getCategoryId();
+
+         try {
+-            $currentCategory = $this->categoryRepository->get($currentCategoryId);
++            //BEGIN PATCH
++            if ($currentCategoryId) {
++                $currentCategory = $this->categoryRepository->get($currentCategoryId, $this->storeManager->getStore()->getId());
++            }
++            //END PATCH
+         } catch (NoSuchEntityException $e) {
+             $currentCategory = null;
+         }
