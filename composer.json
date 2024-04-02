@@ -2549,6 +2549,13 @@
                     "filename": "essential/getkevin/kevin-magento2/use_laminas_lib.patch",
                     "version-constraint": ">=1.3.4"
                 }
+            ],
+            "meetanshi/module-payshiprestriction": [
+                {
+                    "description": "Reduce sql queries during shipping and payment methods fetch",
+                    "filename": "essential/meetanshi/module-payshiprestriction/reduce-sql-queries-during-methods-fetch.patch",
+                    "version-constraint": ">=1.0.6"
+                }
             ]
         }
     }
