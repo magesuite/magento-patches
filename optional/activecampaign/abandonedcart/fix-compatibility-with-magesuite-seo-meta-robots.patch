@@ -1,0 +1,15 @@
+diff --git a/Plugin/Checkout/Controller/Cart/Index.php b/Plugin/Checkout/Controller/Cart/Index.php
+index 9ab10c2..542bf81 100644
+--- a/Plugin/Checkout/Controller/Cart/Index.php
++++ b/Plugin/Checkout/Controller/Cart/Index.php
+@@ -46,6 +46,10 @@ class Index extends AbstractHelper
+      */
+     public function aroundExecute($subject, callable $proceed)
+     {
++        if(! $this->scopeConfig->getValue('active_campaign/abandoned_cart/enable_checkout_customer_session_check')) {
++            return $proceed();
++        }
++
+         if((empty($this->cart->getItems()) || $this->cart->getItems()->count() == 0) && !$this->customerSession->isLoggedIn()){
+             $this->customerSession->setAfterAuthUrl($this->urlInterface->getCurrentUrl());
+             $this->customerSession->authenticate();

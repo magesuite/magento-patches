@@ -1,5 +1,12 @@
 {
     "patchset": {
+        "activecampaign/abandonedcart": [
+            {
+                "description": "Fix ActiveCampaign Abandoned Cart checkout restriction plugin to work with Magesuite Seo Meta Robots integration tests (RKL-639)",
+                "filename": "vendor/creativestyle/magento-patches/optional/activecampaign/abandonedcart/fix-compatibility-with-magesuite-seo-meta-robots.patch",
+                "version-constraint": "*"
+            }
+        ],
         "akeneo/magento2-connector-enterprise": [
             {
                 "description": "Skip associate item when identifier is missing (FR-105)",
