@@ -1,0 +1,18 @@
+Cast base pricing amount to float to avoid "0" strings when bundle option price is 0. (IPET-2521)
+
+diff --git a/Pricing/Amount/Base.php b/Pricing/Amount/Base.php
+index d055819..0fe1dc8 100644
+--- a/Pricing/Amount/Base.php
++++ b/Pricing/Amount/Base.php
+@@ -46,7 +46,10 @@ class Base implements AmountInterface
+         $amount,
+         array $adjustmentAmounts = []
+     ) {
+-        $this->amount = $amount;
++        //BEGIN PATCH
++        //$this->amount = $amount;
++        $this->amount = (float)$amount;
++        //END PATCH
+         $this->adjustmentAmounts = $adjustmentAmounts;
+     }
+
