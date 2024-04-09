@@ -175,6 +175,11 @@
                     "description": "Exclude type mixed from nullable check when generating interceptor classes.",
                     "filename": "essential/magento/framework/php81_exclude_type_mixed_from_nullable_check.patch",
                     "version-constraint": ">=103.0.5, <103.0.6"
+                },
+                {
+                    "description": "Cast base pricing amount to float to avoid \"0\" strings when bundle option price is 0.",
+                    "filename": "essential/magento/framework/cast-base-pricing-amount-to-float.patch",
+                    "version-constraint": ">=103.0.5"
                 }
             ],
             "magento/module-asynchronous-operations": [
