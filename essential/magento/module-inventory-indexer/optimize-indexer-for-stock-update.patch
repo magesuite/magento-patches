@@ -1,15 +1,15 @@
 diff --git a/Model/GetProductsIdsToProcess.php b/Model/GetProductsIdsToProcess.php
-index caa30a2..9ddb279 100644
+index caa30a2..41c8099 100644
 --- a/Model/GetProductsIdsToProcess.php
 +++ b/Model/GetProductsIdsToProcess.php
-@@ -54,7 +54,9 @@ class GetProductsIdsToProcess
-             array_diff(array_keys($after), array_keys($before))
-         );
+@@ -56,7 +56,9 @@ class GetProductsIdsToProcess
          foreach ($before as $sku => $salableData) {
--            if (!in_array($sku, $productSkus)) {
-+            //BEGIN PATCH
-+            if (!isset($sku, $productSkus)) {
-+            //END PATCH
+             if (!in_array($sku, $productSkus)) {
                  foreach ($salableData as $stockId => $isSalable) {
-                     if (empty($after[$sku][$stockId])
+-                    if (empty($after[$sku][$stockId])
++                    //BEGIN PATCH
++                    if (!isset($after[$sku][$stockId])
++                    //END PATCH
                          || $before[$sku][$stockId] !== $after[$sku][$stockId]
+                         || ($stockId === $this->defaultStockProvider->getId() && $forceDefaultStockProcessing)) {
+                         $productSkus[] = $sku;
