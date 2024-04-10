@@ -1592,6 +1592,11 @@
                     "description": "Wrap inventory indexer (MSI) with transaction, Magento 2.4.4+",
                     "filename": "essential/magento/module-inventory-indexer/m244-plus-wrap-inventory-indexer-with-transaction.patch",
                     "version-constraint": ">=2.1.2"
+                },
+                {
+                    "description": "Avoid price reindex if saleable status of the product is not changed",
+                    "filename": "essential/magento/module-inventory-indexer/optimize-indexer-for-stock-update.patch",
+                    "version-constraint": "2.2.1"
                 }
             ],
             "magento/module-inventory-cache": [
