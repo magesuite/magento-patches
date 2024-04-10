@@ -2262,7 +2262,7 @@
                 {
                     "description": "Remove error from xml file",
                     "filename": "essential/klarna/module-logger/remove-error-from-xml-file.patch",
-                    "version-constraint": ">=2.0.7"
+                    "version-constraint": ">=2.0.7,<2.0.8"
                 }
             ],
             "klarna/module-orderlines": [
