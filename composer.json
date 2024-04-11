@@ -2415,6 +2415,11 @@
                     "version-constraint": ">=8.22.0"
                 },
                 {
+                    "description": "Added missing variable delcaration (php82)",
+                    "filename": "essential/adyen/module-payment/add-missing-variable-declaration.patch",
+                    "version-constraint": "9.0.7"
+                },
+                {
                     "description": "Added Factory classes into CLI Command classes to prevent breaking installation of Magento",
                     "filename": "essential/adyen/module-payment/add_factory_classes_to_cli_command.patch",
                     "version-constraint": ">=9.0.0, <9.0.5"
