@@ -1,0 +1,16 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index 25b0472..e704549 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -53,7 +53,10 @@ class Data extends AbstractHelper
+         \Magento\Framework\ObjectManagerInterface $objectManager,
+         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
+         \Magento\Framework\App\Cache\Frontend\Pool $cacheFrontendPool,
+-        \Zend\Uri\Http $http,
++        // BEGIN PATCH: use laminas instead of zend class
++        // \Zend\Uri\Http $http,
++        \Laminas\Uri\Http $http,
++        // END PATCH
+         \Magento\Framework\App\Request\Http $request,
+         \Magento\Framework\App\ProductMetadataInterface $productMetadata
+     ) {

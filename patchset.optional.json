@@ -401,6 +401,13 @@
                 "version-constraint": "*"
             }
         ],
+        "makewebbetter/hubspot-magento-2-integration": [
+            {
+                "description": "Use Laminas class instead of Zend",
+                "filename": "vendor/creativestyle/magento-patches/optional/makewebbetter/hubspot-magento-2-integration/use-laminas-class-instead-of-zend.patch",
+                "version-constraint": "*"
+            }
+        ],
         "mirasvit/module-rewards": [
             {
                 "description": "Fix refund proportion calculation (IPET-825) and skip grandtotal adjustments (IPET-1184 + IPET-1206)",
