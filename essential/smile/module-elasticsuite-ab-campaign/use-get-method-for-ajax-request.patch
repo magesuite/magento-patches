@@ -1,0 +1,62 @@
+diff --git a/Controller/Campaign/Scenarios.php b/Controller/Campaign/Scenarios.php
+index 7a40e1f..a588f31 100644
+--- a/Controller/Campaign/Scenarios.php
++++ b/Controller/Campaign/Scenarios.php
+@@ -17,6 +17,7 @@ namespace Smile\ElasticsuiteAbCampaign\Controller\Campaign;
+ 
+ use Magento\Framework\App\Action\Action;
+ use Magento\Framework\App\Action\Context;
++use Magento\Framework\App\Action\HttpGetActionInterface;
+ use Magento\Framework\App\Http\Context as HttpContext;
+ use Magento\Framework\Controller\ResultFactory;
+ use Smile\ElasticsuiteAbCampaign\Api\CampaignServiceInterface;
+@@ -28,7 +29,7 @@ use Smile\ElasticsuiteAbCampaign\Api\CampaignServiceInterface;
+  * @package  Smile\ElasticsuiteAbCampaign
+  * @author   Richard Bayet <richard.bayet@smile.fr>
+  */
+-class Scenarios extends Action
++class Scenarios extends Action implements HttpGetActionInterface
+ {
+     /** @var HttpContext */
+     private $httpContext;
+@@ -58,6 +59,11 @@ class Scenarios extends Action
+         $scenarios = $this->campaignService->getCampaignScenarios();
+         $this->httpContext->setValue(CampaignServiceInterface::CONTEXT_AB_CAMPAIGN, $scenarios, []);
+ 
+-        return $this->resultFactory->create(ResultFactory::TYPE_JSON)->setData(array_values($scenarios));
++        $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
++        $resultJson->setHeader('Cache-Control', 'max-age=0, must-revalidate, no-cache, no-store', true)
++            ->setHeader('Pragma', 'no-cache', true)
++            ->setData(array_values($scenarios));
++        
++        return $resultJson;
+     }
+ }
+diff --git a/view/frontend/web/js/scenarios.js b/view/frontend/web/js/scenarios.js
+index 2142622..f48fd36 100644
+--- a/view/frontend/web/js/scenarios.js
++++ b/view/frontend/web/js/scenarios.js
+@@ -20,7 +20,7 @@ define([
+     'domReady'
+ ],
+ function ($, domReady) {
+-    "use strict";
++    'use strict';
+ 
+     function setCookie(cookieName, cookieValue, expiresAt, path) {
+         let expires = "expires=" + expiresAt.toUTCString();
+@@ -33,9 +33,11 @@ function ($, domReady) {
+             let expireAt = new Date();
+             let path = config['path'] || '/';
+ 
+-            $.ajax(
+-                {method: "POST", url : this.config.beaconUrl, global: false}
+-            ).done(
++            $.ajax({
++                    url : this.config.beaconUrl,
++                    type: 'get',
++                    global: false
++                }).done(
+                 function (response) {
+                     expireAt.setSeconds(expireAt.getSeconds() + parseInt(config['visit_cookie_lifetime'], 10));
+                     setCookie(config['campaigns_cookie_name'], encodeURIComponent(JSON.stringify(response)), expireAt, path);
