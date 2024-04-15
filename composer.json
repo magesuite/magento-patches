@@ -798,11 +798,6 @@
                     "version-constraint": ">=2.10.0,<2.10.11"
                 },
                 {
-                    "description": "Adds stracktrace to missing index exception message.",
-                    "filename": "essential/smile/elasticsuite/add-stacktrace-to-exception-message.patch",
-                    "version-constraint": ">=2.10.0"
-                },
-                {
                     "description": "Remove rendundant request to ElasticSearch",
                     "filename": "essential/smile/elasticsuite/remove-redundant-request-to-elasticsearch.patch",
                     "version-constraint": ">=2.10.0"
