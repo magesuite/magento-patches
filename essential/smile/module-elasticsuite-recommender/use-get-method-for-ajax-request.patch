@@ -1,0 +1,73 @@
+diff --git a/Controller/Recommender/Ajax.php b/Controller/Recommender/Ajax.php
+index 4843bf9..e7e4dac 100644
+--- a/Controller/Recommender/Ajax.php
++++ b/Controller/Recommender/Ajax.php
+@@ -16,17 +16,17 @@
+ 
+ namespace Smile\ElasticsuiteRecommender\Controller\Recommender;
+ 
+-use Magento\Framework\App\ResponseInterface;
+-use Magento\Framework\Controller\ResultInterface;
+-use Magento\Framework\View\Result\Layout;
+-use Magento\Framework\Controller\ResultFactory;
+-use Magento\Framework\App\Action\HttpPostActionInterface;
++use Magento\Catalog\Api\ProductRepositoryInterface;
+ use Magento\Framework\App\Action\Action;
+ use Magento\Framework\App\Action\Context;
++use Magento\Framework\App\Action\HttpGetActionInterface;
++use Magento\Framework\App\ResponseInterface;
++use Magento\Framework\Controller\ResultFactory;
++use Magento\Framework\Controller\ResultInterface;
++use Magento\Framework\Exception\NoSuchEntityException;
+ use Magento\Framework\Registry;
+-use Magento\Catalog\Api\ProductRepositoryInterface;
++use Magento\Framework\View\Result\Layout;
+ use Magento\Store\Model\StoreManagerInterface;
+-use Magento\Framework\Exception\NoSuchEntityException;
+ 
+ /**
+  * Ajax upsell and related products renderer
+@@ -34,7 +34,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
+  * @category Smile
+  * @package  Smile\ElasticsuiteRecommender
+  */
+-class Ajax extends Action implements HttpPostActionInterface
++class Ajax extends Action implements HttpGetActionInterface
+ {
+     /**
+      * Core registry
+diff --git a/view/frontend/layout/elasticsuite_recommender_ajax.xml b/view/frontend/layout/elasticsuite_recommender_ajax.xml
+index 1b65c11..9a145d3 100644
+--- a/view/frontend/layout/elasticsuite_recommender_ajax.xml
++++ b/view/frontend/layout/elasticsuite_recommender_ajax.xml
+@@ -19,7 +19,7 @@
+     <update handle="empty"/>
+     <container name="root">
+         <block class="Magento\Framework\View\Element\FormKey" name="formkey"/>
+-        <block class="Smile\ElasticsuiteRecommender\Block\Product\Related" name="catalog.product.related" template="Magento_Catalog::product/list/items.phtml">
++        <block class="Smile\ElasticsuiteRecommender\Block\Product\Related" name="catalog.product.related" template="Magento_Catalog::product/list/items.phtml" cacheable="false">
+             <arguments>
+                 <argument name="type" xsi:type="string">related-rule</argument>
+                 <argument name="view_model" xsi:type="object">Magento\Catalog\ViewModel\Product\Listing\PreparePostData</argument>
+@@ -35,7 +35,7 @@
+             </block>
+         </block>
+ 
+-        <block class="Smile\ElasticsuiteRecommender\Block\Product\Upsell" name="product.info.upsell" template="Magento_Catalog::product/list/items.phtml">
++        <block class="Smile\ElasticsuiteRecommender\Block\Product\Upsell" name="product.info.upsell" template="Magento_Catalog::product/list/items.phtml" cacheable="false">
+             <arguments>
+                 <argument name="type" xsi:type="string">upsell-rule</argument>
+                 <argument name="view_model" xsi:type="object">Magento\Catalog\ViewModel\Product\Listing\PreparePostData</argument>
+diff --git a/view/frontend/web/js/loader.js b/view/frontend/web/js/loader.js
+index 4bac974..68fd007 100644
+--- a/view/frontend/web/js/loader.js
++++ b/view/frontend/web/js/loader.js
+@@ -27,7 +27,7 @@ define([
+         var data = {'uenc': redirectUrl};
+         $.ajax({
+             url: url,
+-            type: 'post',
++            type: 'get',
+             data: data,
+             cache: false,
+             dataType: 'html',
