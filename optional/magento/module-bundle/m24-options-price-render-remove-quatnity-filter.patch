@@ -1,0 +1,17 @@
+Remove quantity filter for bundle price list provider to include prices of all bundle options even if their qty is not enough for purchase (TOYS-1019)
+
+diff --git a/Pricing/Adjustment/DefaultSelectionPriceListProvider.php b/Pricing/Adjustment/DefaultSelectionPriceListProvider.php
+index d09215b..d09fb31 100644
+--- a/Pricing/Adjustment/DefaultSelectionPriceListProvider.php
++++ b/Pricing/Adjustment/DefaultSelectionPriceListProvider.php
+@@ -85,7 +85,9 @@ class DefaultSelectionPriceListProvider implements SelectionPriceListProviderInt
+                 $bundleProduct
+             );
+             $selectionsCollection->removeAttributeToSelect();
+-            $selectionsCollection->addQuantityFilter();
++            //PATCH START
++            //$selectionsCollection->addQuantityFilter();
++            //PATCH END
+
+             if (!$useRegularPrice) {
+                 $selectionsCollection->addAttributeToSelect('special_price');

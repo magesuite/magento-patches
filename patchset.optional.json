@@ -314,6 +314,11 @@
                 "description": "BundleOptions price: always return float (issue when all bundle options have price 0) (FR-267)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m246-fix-bundle-option-amount-always-return-float.patch",
                 "version-constraint": ">=101.0.6"
+            },
+            {
+                "description": "Remove quantity filter for bundle price list provider to include prices of all bundle options even if their qty is not enough for purchase (TOYS-1019)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m24-options-price-render-remove-quatnity-filter.patch",
+                "version-constraint": ">=101.0.3"
             }
         ],
         "magento/module-customer": [
