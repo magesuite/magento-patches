@@ -1,0 +1,17 @@
+RK-1261
+
+diff --git a/src/module-elasticsuite-core/Index/IndexOperation.php b/src/module-elasticsuite-core/Index/IndexOperation.php
+index 7662ccd..dd50507 100644
+--- a/src/module-elasticsuite-core/Index/IndexOperation.php
++++ b/src/module-elasticsuite-core/Index/IndexOperation.php
+@@ -114,7 +114,9 @@ class IndexOperation implements IndexOperationInterface
+         $indexAlias = $this->indexSettings->getIndexAliasFromIdentifier($indexIdentifier, $store);
+
+         if (!isset($this->indicesByIdentifier[$indexAlias])) {
+-            if (!$this->indexExists($indexIdentifier, $store)) {
++            // BEGIN PATCH - added `&& $indexIdentifier !== 'tracking_log_event'`
++            if (!$this->indexExists($indexIdentifier, $store) && $indexIdentifier !== 'tracking_log_event') {
++                // END PATCH
+                 throw new \LogicException(
+                     "{$indexIdentifier} index does not exist yet. Make sure everything is reindexed."
+                 );
