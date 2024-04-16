@@ -1,0 +1,14 @@
+diff --git a/view/frontend/web/js/ui/quick-order/toolbar/tab/abstract-form.js b/view/frontend/web/js/ui/quick-order/toolbar/tab/abstract-form.js
+index b7ba40d..9630dc3 100644
+--- a/view/frontend/web/js/ui/quick-order/toolbar/tab/abstract-form.js
++++ b/view/frontend/web/js/ui/quick-order/toolbar/tab/abstract-form.js
+@@ -4,7 +4,8 @@ define([
+     'Aheadworks_QuickOrder/js/action/show-error-popup',
+     'Aheadworks_QuickOrder/js/action/send-request',
+     'Aheadworks_QuickOrder/js/action/update-product-list',
+-    'Aheadworks_QuickOrder/js/ui/quick-order/message/manager'
++    'Aheadworks_QuickOrder/js/ui/quick-order/message/manager',
++    'mage/validation'
+ ], function (
+     $,
+     Component,
