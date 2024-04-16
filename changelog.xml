@@ -119,6 +119,11 @@
                     <overview>Add proper jquery event to trigger product video on touch devices</overview>
                     <ticket_id>TOYS-777</ticket_id>
                 </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fix missing js mage/validate dependency in form validation script</overview>
+                    <ticket_id>EMT-79</ticket_id>
+                </entry>
             </tag>
         </changelog>
     </module>

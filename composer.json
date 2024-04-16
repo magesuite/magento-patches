@@ -1297,6 +1297,11 @@
                     "description": "Fix search criteria for product list request",
                     "filename": "essential/aheadworks/module-quick-order/fix-search-criteria-for-product-list.patch",
                     "version-constraint": ">=1.1.6"
+                },
+                {
+                    "description": "Fix missing js mage/validate dependency in form validation script",
+                    "filename": "essential/aheadworks/module-quick-order/fix-missing-js-validate-dependency.patch",
+                    "version-constraint": ">=1.1.6"
                 }
             ],
             "aheadworks/module-reward-points": [
