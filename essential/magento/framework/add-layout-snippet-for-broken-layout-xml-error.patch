@@ -1,0 +1,31 @@
+feat: [MGS-5280] Add layout code snippet for error message about broken layout xml structure.
+
+diff --git a/Config/Dom.php b/Config/Dom.php
+index a5cdbf7..b492ed2 100644
+--- a/Config/Dom.php
++++ b/Config/Dom.php
+@@ -458,6 +458,24 @@ class Dom
+         if ($this->validationState->isValidationRequired() && $this->schema) {
+             $errors = $this->validateDomDocument($dom, $this->schema, $this->errorFormat);
+             if (count($errors)) {
++                // BEGIN PATCH
++                $xmlArray = explode("\n", $xml);
++                $result = [];
++                foreach ($errors as $error) {
++                    $snippetOffset = 5;
++                    $lineNumber = (int)trim(substr($error, strpos($error, 'Line: ') + strlen('Line: ')));
++
++                    $startIndex = max($lineNumber - $snippetOffset - 1, 0);
++                    $endIndex = min($lineNumber + $snippetOffset, count($xmlArray) - 1);
++
++                    $errorSnippet = array_slice($xmlArray, $startIndex, $endIndex - $startIndex);
++                    $midIndex = $lineNumber - $startIndex - 1;
++
++                    $errorSnippet[$midIndex] = sprintf('-----> %s', str_replace("       ", "", $errorSnippet[$midIndex]));
++                    $result[] = "\n\n" . $error . "\n" . implode("\n", $errorSnippet) . "\n";
++                }
++                $errors = $result;
++                // END PATCH
+                 throw new \Magento\Framework\Config\Dom\ValidationException(implode("\n", $errors));
+             }
+         }
