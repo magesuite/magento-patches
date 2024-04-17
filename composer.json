@@ -180,6 +180,11 @@
                     "description": "Cast base pricing amount to float to avoid \"0\" strings when bundle option price is 0.",
                     "filename": "essential/magento/framework/cast-base-pricing-amount-to-float.patch",
                     "version-constraint": ">=103.0.5"
+                },
+                {
+                    "description": "feat: [MGS-5280] Add layout code snippet for error message about broken layout xml structure.",
+                    "filename": "essential/magento/framework/add-layout-snippet-for-broken-layout-xml-error.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-asynchronous-operations": [
