@@ -1,0 +1,23 @@
+This patch addresses a critical issue identified in the error log as
+"main.CRITICAL: Exception: Deprecated Functionality: strpos(): Passing null to parameter #1 ($haystack) of type string".
+The update modifies the relevant function to ensure that the 'strpos()' function is no longer passed a null value for the 'haystack' parameter.
+This change prevents the deprecated functionality exception and improves the overall stability of the system.
+
+
+diff --git a/Plugin/AppInterfacePlugin.php b/Plugin/AppInterfacePlugin.php
+index 5729fc0..a9d05d7 100644
+--- a/Plugin/AppInterfacePlugin.php
++++ b/Plugin/AppInterfacePlugin.php
+@@ -103,7 +103,9 @@ class AppInterfacePlugin
+     private function sanitizeUri($uri = null)
+     {
+         if ($uri === null) {
+-            $uri = $this->request->getRequestUri();
++            // BEGIN PATCH
++            $uri = (string) $this->request->getRequestUri();
++            // END PATCH
+         }
+
+         $uri = filter_var($uri, FILTER_SANITIZE_URL);
+--
+2.39.3 (Apple Git-145)
