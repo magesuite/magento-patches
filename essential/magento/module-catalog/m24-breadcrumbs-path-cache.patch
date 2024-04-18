@@ -49,7 +49,7 @@ index 3a55164..406147e 100644
 
              if ($this->getProduct()) {
 +                //BEGIN PATCH
-+                $categoryKey = 'category' . $category->getId();
++                $categoryKey = $category ? 'category' . $category->getId() : null;
 +                if ($category && $category->getIsActive() && isset($path[$categoryKey]['label'])) {
 +                    $path[$categoryKey]['link'] = $category->getUrl();
 +                }
