@@ -1829,6 +1829,13 @@
                     "version-constraint": ">=5.9.1,<5.11.2"
                 }
             ],
+            "msp/adminrestriction": [
+                {
+                    "description": "The update modifies the relevant function to ensure that the 'strpos()' function is no longer passed a null value for the 'haystack' parameter.",
+                    "filename": "essential/msp/adminrestriction/fix-deprecated-strpos-null-parameter.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "msp/cashondelivery": [
                 {
                     "description": "Remove not defined method from webapi.xml which crashed API",
