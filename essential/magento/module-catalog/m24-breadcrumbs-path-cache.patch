@@ -2,7 +2,7 @@ diff --git a/Helper/Data.php b/Helper/Data.php
 index 3a55164..406147e 100644
 --- a/Helper/Data.php
 +++ b/Helper/Data.php
-@@ -285,23 +285,42 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -285,23 +285,43 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
              $path = [];
              $category = $this->getCategory();
              if ($category) {
@@ -49,11 +49,12 @@ index 3a55164..406147e 100644
 
              if ($this->getProduct()) {
 +                //BEGIN PATCH
-+                if ($category && $category->getIsActive()) {
-+                    $path['category' . $category->getId()]['link'] = $category->getUrl();
++                $categoryKey = 'category' . $category->getId();
++                if ($category && $category->getIsActive() && isset($path[$categoryKey]['label'])) {
++                    $path[$categoryKey]['link'] = $category->getUrl();
 +                }
 +                //END PATCH
 +
                  $path['product'] = ['label' => $this->getProduct()->getName()];
              }
- 
+
