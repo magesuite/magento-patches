@@ -3,12 +3,22 @@ This patch addresses a critical issue identified in the error log as
 The update modifies the relevant function to ensure that the 'strpos()' function is no longer passed a null value for the 'haystack' parameter.
 This change prevents the deprecated functionality exception and improves the overall stability of the system.
 
-
 diff --git a/Plugin/AppInterfacePlugin.php b/Plugin/AppInterfacePlugin.php
-index 5729fc0..a9d05d7 100644
+index 5729fc0..08e5b9d 100644
 --- a/Plugin/AppInterfacePlugin.php
 +++ b/Plugin/AppInterfacePlugin.php
-@@ -103,7 +103,9 @@ class AppInterfacePlugin
+@@ -89,7 +89,9 @@ class AppInterfacePlugin
+         $backendPath = $backendConfigData['frontName'];
+
+         // @codingStandardsIgnoreStart
+-        $uri = parse_url($uri, PHP_URL_PATH);
++        // BEGIN PATCH
++        $uri = (string) parse_url($uri, PHP_URL_PATH);
++        // END PATCH
+         // @codingStandardsIgnoreEnd
+
+         return (strpos($uri, "/$backendPath/") === 0) || preg_match("|/$backendPath$|", $uri);
+@@ -103,7 +105,9 @@ class AppInterfacePlugin
      private function sanitizeUri($uri = null)
      {
          if ($uri === null) {
