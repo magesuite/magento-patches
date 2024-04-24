@@ -1,0 +1,26 @@
+Remove bundle options prices from PDP (IPET-2568)
+
+diff --git a/Helper/Catalog/Product/Configuration.php b/Helper/Catalog/Product/Configuration.php
+index d657da6..30d457e 100644
+--- a/Helper/Catalog/Product/Configuration.php
++++ b/Helper/Catalog/Product/Configuration.php
+@@ -153,11 +153,14 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
+                             $qty = $this->getSelectionQty($product, $bundleSelection->getSelectionId()) * 1;
+                             if ($qty) {
+                                 $option['value'][] = $qty . ' x '
+-                                    . $this->escaper->escapeHtml($bundleSelection->getName())
+-                                    . ' '
+-                                    . $this->pricingHelper->currency(
+-                                        $this->getSelectionFinalPrice($item, $bundleSelection)
+-                                    );
++                                    //BEGIN PATCH
++                                    //Remove option price from value
++                                    . $this->escaper->escapeHtml($bundleSelection->getName());
++                                    //. ' '
++                                    //. $this->pricingHelper->currency(
++                                    //$this->getSelectionFinalPrice($item, $bundleSelection)
++                                    //);
++                                    //END PATCH
+                                 $option['has_html'] = true;
+                             }
+                         }
