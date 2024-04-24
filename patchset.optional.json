@@ -318,7 +318,7 @@
             {
                 "description": "Remove bundle options prices from PDP (IPET-2568)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m24-remove-bundle-options-prices-from-pdp.patch",
-                "version-constraint": ">=101.0.6"
+                "version-constraint": ">=101.0.5"
             },
             {
                 "description": "Remove quantity filter for bundle price list provider to include prices of all bundle options even if their qty is not enough for purchase (TOYS-1019)",
