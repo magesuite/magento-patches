@@ -1535,6 +1535,11 @@
                 "description": "Replace email_catalog schema to sync with magento commerce",
                 "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/fix-dtodigital-constraint-for-magento-commerce-4-22.patch",
                 "version-constraint": ">=4.22.0"
+            },
+            {
+                "description": "[TOYS-1220] Remove needless 'Your subscription preferences have been saved.' message. ",
+                "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/TOYS-1220_remove_needless_confirmation_message.patch",
+                "version-constraint": ">=4.25.2"
             }
         ],
         "magento/module-persistent": [

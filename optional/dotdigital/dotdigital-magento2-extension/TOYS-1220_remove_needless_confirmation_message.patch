@@ -1,0 +1,21 @@
+diff --git a/Controller/Customer/Newsletter.php b/Controller/Customer/Newsletter.php
+index 9232fe1..2ba1cee 100644
+--- a/Controller/Customer/Newsletter.php
++++ b/Controller/Customer/Newsletter.php
+@@ -192,10 +192,12 @@ class Newsletter implements HttpPostActionInterface
+                             'An error occurred while saving your subscription preferences.'
+                         )
+                     );
+-                } else {
+-                    $this->messageManager->addSuccessMessage(
+-                        __('Your subscription preferences have been saved.')
+-                    );
++                // PATCH START TOYS-1220
++                //} else {
++                //    $this->messageManager->addSuccessMessage(
++                //        __('Your subscription preferences have been saved.')
++                //    );
++                // PATCH END TOYS-1220
+                 }
+             } else {
+                 $this->messageManager->addErrorMessage(
