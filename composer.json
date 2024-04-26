@@ -2270,7 +2270,7 @@
                 {
                     "description": "Fix for large pdf file size when xtento pdfcustomizer runs on message queue consumer",
                     "filename": "essential/xtento/pdfcustomizer/xtento-pdfcustomizer-fix-large-pdf-file-size.patch",
-                    "version-constraint": ">=2.13.6"
+                    "version-constraint": ">=2.13.6,<2.15.3"
                 }
             ],
             "klarna/module-core": [
