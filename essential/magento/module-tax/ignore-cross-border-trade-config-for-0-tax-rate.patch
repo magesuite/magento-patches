@@ -1,0 +1,17 @@
+diff --git a/Model/Calculation/AbstractCalculator.php b/Model/Calculation/AbstractCalculator.php
+index 8cfe307..1b80c3d 100644
+--- a/Model/Calculation/AbstractCalculator.php
++++ b/Model/Calculation/AbstractCalculator.php
+@@ -276,7 +276,11 @@ abstract class AbstractCalculator
+      */
+     protected function isSameRateAsStore($rate, $storeRate)
+     {
+-        if ((bool)$this->config->crossBorderTradeEnabled($this->storeId)) {
++        // BEGIN PATCH: do not use cross border trade if tax rate is 0%
++
++        // if ((bool)$this->config->crossBorderTradeEnabled($this->storeId)) {
++        if ((bool)$this->config->crossBorderTradeEnabled($this->storeId) && $rate > 0.0) {
++        // END PATCH
+             return true;
+         } else {
+             return (abs($rate - $storeRate) < 0.00001);
