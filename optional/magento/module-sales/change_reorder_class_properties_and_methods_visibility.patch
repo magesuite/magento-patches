@@ -1,0 +1,184 @@
+diff --git a/Model/Reorder/Reorder.php b/Model/Reorder/Reorder.php
+index 83e7c9a..4133031 100644
+--- a/Model/Reorder/Reorder.php
++++ b/Model/Reorder/Reorder.php
+@@ -33,17 +33,21 @@ class Reorder
+     /**#@+
+      * Error message codes
+      */
+-    private const ERROR_PRODUCT_NOT_FOUND = 'PRODUCT_NOT_FOUND';
+-    private const ERROR_INSUFFICIENT_STOCK = 'INSUFFICIENT_STOCK';
+-    private const ERROR_NOT_SALABLE = 'NOT_SALABLE';
+-    private const ERROR_REORDER_NOT_AVAILABLE = 'REORDER_NOT_AVAILABLE';
+-    private const ERROR_UNDEFINED = 'UNDEFINED';
++    //BEGIN PATCH
++    protected const ERROR_PRODUCT_NOT_FOUND = 'PRODUCT_NOT_FOUND';
++    protected const ERROR_INSUFFICIENT_STOCK = 'INSUFFICIENT_STOCK';
++    protected const ERROR_NOT_SALABLE = 'NOT_SALABLE';
++    protected const ERROR_REORDER_NOT_AVAILABLE = 'REORDER_NOT_AVAILABLE';
++    protected const ERROR_UNDEFINED = 'UNDEFINED';
++    //END PATCH
+     /**#@-*/
+ 
+     /**
+      * List of error messages and codes.
+      */
+-    private const MESSAGE_CODES = [
++    //BEGIN PATCH
++    protected const MESSAGE_CODES = [
++    //END PATCH
+         'The required options you selected are not available' => self::ERROR_NOT_SALABLE,
+         'Product that you are trying to add is not available' => self::ERROR_NOT_SALABLE,
+         'This product is out of stock' => self::ERROR_NOT_SALABLE,
+@@ -56,47 +60,65 @@ class Reorder
+     /**
+      * @var OrderFactory
+      */
+-    private $orderFactory;
++    //BEGIN PATCH
++    protected $orderFactory;
++    //END PATCH
+ 
+     /**
+      * @var ReorderHelper
+      */
+-    private $reorderHelper;
++    //BEGIN PATCH
++    protected $reorderHelper;
++    //END PATCH
+ 
+     /**
+      * @var LoggerInterface
+      */
+-    private $logger;
++    //BEGIN PATCH
++    protected $logger;
++    //END PATCH
+ 
+     /**
+      * @var CartRepositoryInterface
+      */
+-    private $cartRepository;
++    //BEGIN PATCH
++    protected $cartRepository;
++    //END PATCH
+ 
+     /**
+      * @var Data\Error[]
+      */
+-    private $errors = [];
++    //BEGIN PATCH
++    protected $errors = [];
++    //END PATCH
+ 
+     /**
+      * @var CustomerCartResolver
+      */
+-    private $customerCartProvider;
++    //BEGIN PATCH
++    protected $customerCartProvider;
++    //END PATCH
+ 
+     /**
+      * @var ProductCollectionFactory
+      */
+-    private $productCollectionFactory;
++    //BEGIN PATCH
++    protected $productCollectionFactory;
++    //END PATCH
+ 
+     /**
+      * @var GuestCartResolver
+      */
+-    private $guestCartResolver;
++    //BEGIN PATCH
++    protected $guestCartResolver;
++    //END PATCH
+ 
+     /**
+      * @var OrderInfoBuyRequestGetter
+      */
+-    private $orderInfoBuyRequestGetter;
++    //BEGIN PATCH
++    protected $orderInfoBuyRequestGetter;
++    //END PATCH
+ 
+     /**
+      * @param OrderFactory $orderFactory
+@@ -180,7 +202,9 @@ class Reorder
+      * @param string $storeId
+      * @return void
+      */
+-    private function addItemsToCart(Quote $cart, ItemCollection $orderItems, string $storeId): void
++    //BEGIN PATCH
++    protected function addItemsToCart(Quote $cart, ItemCollection $orderItems, string $storeId): void
++    //END PATCH
+     {
+         $orderItemProductIds = [];
+         /** @var \Magento\Sales\Model\Order\Item[] $orderItemsByProductId */
+@@ -227,7 +251,9 @@ class Reorder
+      * @return Product[]
+      * @throws \Magento\Framework\Exception\LocalizedException
+      */
+-    private function getOrderProducts(string $storeId, array $orderItemProductIds): array
++    //BEGIN PATCH
++    protected function getOrderProducts(string $storeId, array $orderItemProductIds): array
++    //END PATCH
+     {
+         /** @var Collection $collection */
+         $collection = $this->productCollectionFactory->create();
+@@ -250,7 +276,9 @@ class Reorder
+      * @param ProductInterface $product
+      * @return void
+      */
+-    private function addItemToCart(OrderItemInterface $orderItem, Quote $cart, ProductInterface $product): void
++    //BEGIN PATCH
++    protected function addItemToCart(OrderItemInterface $orderItem, Quote $cart, ProductInterface $product): void
++    //END PATCH
+     {
+         $infoBuyRequest = $this->orderInfoBuyRequestGetter->getInfoBuyRequest($orderItem);
+ 
+@@ -280,7 +308,9 @@ class Reorder
+      * @param string|null $code
+      * @return void
+      */
+-    private function addError(string $message, string $code = null): void
++    //BEGIN PATCH
++    protected function addError(string $message, string $code = null): void
++    //END PATCH
+     {
+         $this->errors[] = new Data\Error(
+             $message,
+@@ -294,7 +324,9 @@ class Reorder
+      * @param string $message
+      * @return string
+      */
+-    private function getErrorCode(string $message): string
++    //BEGIN PATCH
++    protected function getErrorCode(string $message): string
++    //END PATCH
+     {
+         $code = self::ERROR_UNDEFINED;
+ 
+@@ -319,7 +351,9 @@ class Reorder
+      * @param CartInterface $cart
+      * @return Data\ReorderOutput
+      */
+-    private function prepareOutput(CartInterface $cart): Data\ReorderOutput
++    //BEGIN PATCH
++    protected function prepareOutput(CartInterface $cart): Data\ReorderOutput
++    //END PATCH
+     {
+         $output = new Data\ReorderOutput($cart, $this->errors);
+         $this->errors = [];
+@@ -336,7 +370,9 @@ class Reorder
+      * @param string|null $message
+      * @return string
+      */
+-    private function getCartItemErrorMessage(Item $item, Product $product, string $message = null): string
++    //BEGIN PATCH
++    protected function getCartItemErrorMessage(Item $item, Product $product, string $message = null): string
++    //END PATCH
+     {
+         // try to get sku from line-item first.
+         // for complex product type: if custom option is not available it can cause error
