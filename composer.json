@@ -806,6 +806,11 @@
                     "description": "Remove rendundant request to ElasticSearch",
                     "filename": "essential/smile/elasticsuite/remove-redundant-request-to-elasticsearch.patch",
                     "version-constraint": ">=2.10.0"
+                },
+                {
+                    "description": "Prevent null clause query for virtual category",
+                    "filename": "essential/smile/elasticsuite/prevent_null_clause_query.patch",
+                    "version-constraint": ">=2.11.0"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [

@@ -1,0 +1,34 @@
+diff --git a/src/module-elasticsuite-virtual-category/Model/Rule.php b/src/module-elasticsuite-virtual-category/Model/Rule.php
+index 71f3193..e07cf29 100644
+--- a/src/module-elasticsuite-virtual-category/Model/Rule.php
++++ b/src/module-elasticsuite-virtual-category/Model/Rule.php
+@@ -177,7 +177,7 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+     public function getCategorySearchQuery($category, $excludedCategories = []): ?QueryInterface
+     {
+         \Magento\Framework\Profiler::start('ES:Virtual Rule ' . __FUNCTION__);
+-        $categoryId = (int) !is_object($category) ? $category : $category->getId();
++        $categoryId = (int) (!is_object($category) ? $category : $category->getId());
+         $cacheKey = implode(
+             '|',
+             [
+@@ -416,16 +416,16 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+         CategoryInterface $category,
+         $excludedCategories = []
+     ): ?QueryInterface {
+-        $query        = $category->getVirtualRule()->getConditions()->getSearchQuery($excludedCategories);
+         $rootCategory = $this->getVirtualRootCategory($category);
+-
+         if ($rootCategory && in_array($rootCategory->getId(), $excludedCategories)) {
+-            $query = null;
++            return null;
+         }
++
++        $query = $category->getVirtualRule()->getConditions()->getSearchQuery($excludedCategories);
+         if ($rootCategory && $rootCategory->getId()) {
+             $rootQuery = $this->getCategorySearchQuery($rootCategory, $excludedCategories);
+             if ($rootQuery) {
+-                $query = $this->queryFactory->create(QueryInterface::TYPE_BOOL, ['must' => [$query, $rootQuery]]);
++                $query = $this->queryFactory->create(QueryInterface::TYPE_BOOL, ['must' => array_filter([$query, $rootQuery])]);
+             }
+         }
+ 
