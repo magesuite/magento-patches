@@ -1,0 +1,16 @@
+diff --git a/Model/FullTextIndexUpdateProcessor.php b/Model/FullTextIndexUpdateProcessor.php
+index c1c7d60..9c7175b 100644
+--- a/Model/FullTextIndexUpdateProcessor.php
++++ b/Model/FullTextIndexUpdateProcessor.php
+@@ -65,7 +65,10 @@ class FullTextIndexUpdateProcessor implements CompositeProductProcessorInterface
+         );
+ 
+         if (!empty($productsIdsToProcess)) {
+-            $this->fulltextIndexProcessor->reindexList($productsIdsToProcess, true);
++            // $this->fulltextIndexProcessor->reindexList($productsIdsToProcess, true);
++            // BEGIN PATCH
++            $this->fulltextIndexProcessor->reindexList($productsIdsToProcess, false);
++            // END PATCH
+         }
+     }
+ 

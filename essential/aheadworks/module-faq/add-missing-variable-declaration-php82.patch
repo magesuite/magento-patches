@@ -1,0 +1,18 @@
+diff --git a/Model/ImageUploader.php b/Model/ImageUploader.php
+index 4de157a..652e85b 100644
+--- a/Model/ImageUploader.php
++++ b/Model/ImageUploader.php
+@@ -34,6 +34,13 @@ class ImageUploader
+      */
+     private $uploaderFactory;
+ 
++    /**
++     * Filesystem
++     *
++     * @var Filesystem
++     */
++    private $filesystem;
++
+     /**
+      * Store manager
+      *

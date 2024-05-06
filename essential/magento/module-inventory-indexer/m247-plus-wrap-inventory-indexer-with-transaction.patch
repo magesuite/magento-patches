@@ -1,0 +1,90 @@
+diff --git a/Indexer/SourceItem/Strategy/Sync.php b/Indexer/SourceItem/Strategy/Sync.php
+index 6f921ea..9beefdf 100644
+--- a/Indexer/SourceItem/Strategy/Sync.php
++++ b/Indexer/SourceItem/Strategy/Sync.php
+@@ -83,6 +83,11 @@ class Sync
+      */
+     private array $saleabilityChangesProcessorsPool;
+ 
++    /**
++     * @var \Magento\Framework\App\ResourceConnection
++     */
++    protected $connection;
++
+     /**
+      * $indexStructure is reserved name for construct variable (in index internal mechanism)
+      *
+@@ -123,6 +128,8 @@ class Sync
+         $this->prepareReservationsIndexData = $prepareReservationsIndexData;
+         $this->getSalableStatuses = $getSalableStatuses;
+         $this->saleabilityChangesProcessorsPool = $saleabilityChangesProcessorsPool;
++        $resourceConnection = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Framework\App\ResourceConnection::class);
++        $this->connection = $resourceConnection->getConnection();
+     }
+ 
+     /**
+@@ -155,23 +162,48 @@ class Sync
+                 $this->indexStructure->create($mainIndexName, ResourceConnection::DEFAULT_CONNECTION);
+             }
+ 
+-            $this->indexHandler->cleanIndex(
+-                $mainIndexName,
+-                new ArrayIterator($skuList),
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
++            // BEGIN PATCH
++            // $this->indexHandler->cleanIndex(
++            //     $mainIndexName,
++            //     new ArrayIterator($skuList),
++            //     ResourceConnection::DEFAULT_CONNECTION
++            // );
++            //
++            // $this->reservationsIndexTable->createTable($stockId);
++            // $this->prepareReservationsIndexData->execute($stockId);
++            //
++            // $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
++            // $this->indexHandler->saveIndex(
++            //     $mainIndexName,
++            //     $indexData,
++            //     ResourceConnection::DEFAULT_CONNECTION
++            // );
++            //
++            // $this->reservationsIndexTable->dropTable($stockId);
+ 
+-            $this->reservationsIndexTable->createTable($stockId);
+-            $this->prepareReservationsIndexData->execute($stockId);
+-
+-            $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
+-            $this->indexHandler->saveIndex(
+-                $mainIndexName,
+-                $indexData,
+-                ResourceConnection::DEFAULT_CONNECTION
+-            );
+-
+-            $this->reservationsIndexTable->dropTable($stockId);
++            try {
++                $this->reservationsIndexTable->createTable($stockId);
++                $this->connection->beginTransaction();
++                $this->indexHandler->cleanIndex(
++                    $mainIndexName,
++                    new ArrayIterator($skuList),
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++                $this->prepareReservationsIndexData->execute($stockId);
++                $indexData = $this->indexDataBySkuListProvider->execute($stockId, $skuList);
++                $this->indexHandler->saveIndex(
++                    $mainIndexName,
++                    $indexData,
++                    ResourceConnection::DEFAULT_CONNECTION
++                );
++                $this->connection->commit();
++            } catch(\Exception $e) {
++                $this->connection->rollBack();
++                throw $e;
++            } finally {
++                $this->reservationsIndexTable->dropTable($stockId);
++            }
++            // END PATCH
+         }
+ 
+         // Store products salable statuses after reindex
