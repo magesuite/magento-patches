@@ -5,7 +5,7 @@
     "license": "OSL-3.0",
     "type": "patchset",
     "require": {
-        "creativestyle/composer-plugin-patchset": "^2.0"
+        "creativestyle/composer-plugin-patchset": "^2.0 || ^3.0"
     },
     "extra": {
         "patchset": {
@@ -114,7 +114,7 @@
                 {
                     "description": "Fix merged assets generation to avoid broken CSS and JS",
                     "filename": "essential/magento/framework/fix-merged-assets-generation-to-avoid-broken-css-and-js.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<103.0.7"
                 },
                 {
                     "description": "Fix file uploader, filename is too long exception",
@@ -134,7 +134,7 @@
                 {
                     "description": "Fix fetching IDs from changelog to prevent duplicate reindexing",
                     "filename": "essential/magento/framework/m243plus-mview-fix-fetching-ids-from-changelog.patch",
-                    "version-constraint": ">=103.0.3"
+                    "version-constraint": ">=103.0.3,<103.0.7"
                 },
                 {
                     "description": "Security patch MDVA-43395 and MDVA-43443",
@@ -324,7 +324,7 @@
                 {
                     "description": "Fixes an empty mini-cart bug after adding products to the cart from the wishlist by making messages observable",
                     "filename": "essential/magento/module-theme/fix-make-messages-observable.patch",
-                    "version-constraint": ">=101.1.0"
+                    "version-constraint": ">=101.1.0,<101.1.7"
                 },
                 {
                     "description": "Remove redundant COUNT() call for 1st page of results",
@@ -398,7 +398,7 @@
                 {
                     "description": "Fix problem with division by zero when creating creditmemo with free shipping. Magento patch ACSD-50814_2.4.6",
                     "filename": "essential/magento/module-sales/m246-fix-division-by-zero-when-creating-creditmemo.patch",
-                    "version-constraint": ">=103.0.6"
+                    "version-constraint": ">=103.0.6,<103.0.7"
                 },
                 {
                     "description": "Fix probelm with unable to create order from admin when instance got multiple Store Views on 2.4.6.",
@@ -640,7 +640,7 @@
                 {
                     "description": "Fix gallery issues with swiping items on mobiles",
                     "filename": "essential/magento/magento2-base/m246-fix-gallery-swipe-on-mobile.patch",
-                    "version-constraint": ">=2.4.6"
+                    "version-constraint": ">=2.4.6,<2.4.7"
                 },
                 {
                     "description": "Remove jQuery deprecated methods warnings to not have them reported in the console.",
@@ -664,7 +664,7 @@
                 {
                     "description": "Disable products elasticsearch reindex after category change",
                     "filename": "essential/magento/module-elasticsearch/m244-plus-disable-products-es-reindex-after-category-change.patch",
-                    "version-constraint": ">=101.0.4"
+                    "version-constraint": ">=101.0.4,<101.0.7"
                 }
             ],
             "magento/module-email": [
@@ -979,12 +979,17 @@
                 {
                     "description": "Remove deletion of products in partial indexing, Magento >= 2.4.3",
                     "filename": "essential/magento/module-catalog-search/m243plus-remove-deletion-of-products-in-partial-indexing.patch",
-                    "version-constraint": ">=102.0.3"
+                    "version-constraint": ">=102.0.3,<102.0.7"
+                },
+                {
+                    "description": "Remove deletion of products in partial indexing, Magento >= 2.4.7",
+                    "filename": "essential/magento/module-catalog-search/m247plus-remove-deletion-of-products-in-partial-indexing.patch",
+                    "version-constraint": ">=102.0.7"
                 },
                 {
                     "description": "Disable reindex of elasticsearch inside category_products indexer",
                     "filename": "essential/magento/module-catalog-search/disable-elasticsearch-reindex-in-category-product-indexer.patch",
-                    "version-constraint": ">=101.0.5"
+                    "version-constraint": ">=101.0.5,<102.0.6"
                 },
                 {
                     "description": "Clear product cache after reindex",
@@ -996,7 +1001,12 @@
                 {
                     "description": "Disable forced catalog search reindex",
                     "filename": "essential/magento/module-inventory-catalog-search/disable-forced-catalog-search-reindex.patch",
-                    "version-constraint": ">=1.2.3"
+                    "version-constraint": ">=1.2.3,<1.2.5"
+                },
+                {
+                    "description": "Disable forced catalog search reindex, Magento >=2.4.7",
+                    "filename": "essential/magento/module-inventory-catalog-search/m247-plus-disable-forced-catalog-search-reindex.patch",
+                    "version-constraint": ">=1.2.5"
                 }
             ],
             "magento/module-checkout": [
@@ -1261,6 +1271,11 @@
                     "description": "Compatibility with PHP 8.1",
                     "filename": "essential/aheadworks/module-faq/m245plus-compatibility-with-php-8-1.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Compatibility with PHP 8.2",
+                    "filename": "essential/aheadworks/module-faq/add-missing-variable-declaration-php82.patch",
+                    "version-constraint": "<2.0.0"
                 }
             ],
             "aheadworks/module-giftcard": [
@@ -1576,7 +1591,7 @@
                 {
                     "description": "Fix js errors in customer data when component not initialized, Magento 2.4.4+",
                     "filename": "essential/magento/module-customer/m244-plus-customer-data-initialization-fix.patch",
-                    "version-constraint": ">=103.0.4"
+                    "version-constraint": ">=103.0.4,<103.0.7"
                 },
                 {
                     "description": "Fix not working translation for customers",
@@ -1608,7 +1623,12 @@
                 {
                     "description": "Wrap inventory indexer (MSI) with transaction, Magento 2.4.4+",
                     "filename": "essential/magento/module-inventory-indexer/m244-plus-wrap-inventory-indexer-with-transaction.patch",
-                    "version-constraint": ">=2.1.2"
+                    "version-constraint": ">=2.1.2,<2.2.2"
+                },
+                {
+                    "description": "Wrap inventory indexer (MSI) with transaction, Magento 2.4.7+",
+                    "filename": "essential/magento/module-inventory-indexer/m247-plus-wrap-inventory-indexer-with-transaction.patch",
+                    "version-constraint": ">=2.2.2"
                 },
                 {
                     "description": "Avoid price reindex if saleable status of the product is not changed",
@@ -1876,7 +1896,7 @@
                 {
                     "description": "Fix promo codes are not getting re-activated when order is canceled",
                     "filename": "essential/magento/module-sales-rule/fix-coupon-can-not-be-used-after-order-cancelation.patch",
-                    "version-constraint": ">=101.2.5"
+                    "version-constraint": ">=101.2.5,<101.2.7"
                 }
             ],
             "magento/module-paypal": [
