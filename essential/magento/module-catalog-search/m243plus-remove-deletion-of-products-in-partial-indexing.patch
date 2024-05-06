@@ -1,8 +1,8 @@
 diff --git a/Model/Indexer/Fulltext.php b/Model/Indexer/Fulltext.php
-index 603a5c8..8733ad8 100644
+index 33ef89e..261d2c3 100644
 --- a/Model/Indexer/Fulltext.php
 +++ b/Model/Indexer/Fulltext.php
-@@ -216,7 +216,17 @@ class Fulltext implements
+@@ -217,7 +217,17 @@ class Fulltext implements
              array_merge($entityIds, $this->fulltextResource->getRelationsByChild($entityIds))
          );
          if ($saveHandler->isAvailable($dimensions)) {
@@ -12,7 +12,7 @@ index 603a5c8..8733ad8 100644
 +            // That way we minimize gap when products data is missing inside ElasticSearch
 +            // $saveHandler->deleteIndex($dimensions, new \ArrayIterator($productIds));
 +            // Following code covers case of deleted products that should be removed from index
-+            $deletedIds = $this->getDeletedIds($productIds);
++            $deletedIds = $this->getDeletedIds($productIds, $storeId);
 +
 +            if(!empty($deletedIds)) {
 +                $saveHandler->deleteIndex($dimensions, new \ArrayIterator($deletedIds));
@@ -21,7 +21,7 @@ index 603a5c8..8733ad8 100644
              $saveHandler->saveIndex($dimensions, $this->fullAction->rebuildStoreIndex($storeId, $productIds));
          }
      }
-@@ -259,4 +269,20 @@ class Fulltext implements
+@@ -260,4 +270,27 @@ class Fulltext implements
      {
          $this->execute([$id]);
      }
@@ -30,13 +30,20 @@ index 603a5c8..8733ad8 100644
 +     * @param int[] $productIdsForReindex
 +     * @return int[]
 +     */
-+    public function getDeletedIds($productIdsForReindex) {
++    public function getDeletedIds($productIdsForReindex, $storeId)
++    {
++        $catagoryIndexTable = ObjectManager::getInstance()
++            ->get(\Magento\Catalog\Model\Indexer\Category\Product\TableMaintainer::class)
++            ->getMainTable($storeId);
 +        $connection = $this->fulltextResource->getConnection();
 +        $select = $connection->select();
-+
-+        $select->from($connection->getTableName('catalog_product_entity'), 'entity_id');
++        $select->from(['e' => $connection->getTableName('catalog_product_entity')], 'entity_id');
++        $select->join(
++            ['ccp' => $catagoryIndexTable],
++            'ccp.product_id = e.entity_id AND ccp.store_id = ' . $storeId,
++            []
++        );
 +        $select->where('entity_id IN (?)', $productIdsForReindex);
-+
 +        $foundProductIds = $connection->fetchCol($select);
 +
 +        return array_diff($productIdsForReindex, $foundProductIds);
