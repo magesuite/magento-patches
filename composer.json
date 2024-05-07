@@ -829,7 +829,7 @@
                 {
                     "description": "Fix for manual sorting products on a different stores",
                     "filename": "essential/smile/module-elasticsuite-merchandiser/fix-of-sorting-for-different-stores.patch",
-                    "version-constraint": ">=2.10.18.2"
+                    "version-constraint": ">=2.10.18.2, <2.11.6.1"
                 }
             ],
             "smile/module-elasticsuite-recommender": [
