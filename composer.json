@@ -1302,7 +1302,7 @@
                 {
                     "description": "Makes validate functions to return bool instead of self as it is in the validate function in their parent classes (RK-1195)",
                     "filename": "essential/aheadworks/module-giftcard/make-validate-return-bool-instead-of-object.patch",
-                    "version-constraint": ">=1.7.0"
+                    "version-constraint": ">=1.7.0, <1.8.0"
                 }
             ],
             "aheadworks/module-product-question": [
