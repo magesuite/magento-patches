@@ -403,6 +403,11 @@
                 "description": "Fix function Order getItemByID returns null (DOG-1600)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-order-get-item-by-id-function.patch",
                 "version-constraint": ">=103.0.5-p1"
+            },
+            {
+              "description": "Change reorder class properties and methods visibility",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/change_reorder_class_properties_and_methods_visibility.patch",
+              "version-constraint": ">=103.0.5-p5,<=103.0.6"
             }
         ],
         "magento/module-shipping": [
