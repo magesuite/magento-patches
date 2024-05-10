@@ -1,0 +1,14 @@
+diff --git a/Model/Sales/Totals/Invoice.php b/Model/Sales/Totals/Invoice.php
+index 26816e8..e30f640 100644
+--- a/Model/Sales/Totals/Invoice.php
++++ b/Model/Sales/Totals/Invoice.php
+@@ -110,6 +110,9 @@ class Invoice extends AbstractTotal
+             $toInvoiceGiftcards = [];
+             /** @var GiftcardOrderInterface $orderGiftcard */
+             foreach ($orderGiftcards as $orderGiftcard) {
++                // PATCH START
++                $orderGiftcard->unsetData('extension_attributes');
++                // PATCH END
+                 $toInvoiceGiftcard = $this->giftcardInvoiceFactory->create();
+                 $this->dataObjectHelper->populateWithArray(
+                     $toInvoiceGiftcard,
