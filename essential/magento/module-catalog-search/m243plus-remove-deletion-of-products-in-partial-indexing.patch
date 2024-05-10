@@ -1,33 +1,33 @@
 diff --git a/Model/Indexer/Fulltext.php b/Model/Indexer/Fulltext.php
-index 33ef89e..261d2c3 100644
+index 33ef89e..67ddf8f 100644
 --- a/Model/Indexer/Fulltext.php
 +++ b/Model/Indexer/Fulltext.php
-@@ -217,7 +217,17 @@ class Fulltext implements
+@@ -217,7 +217,16 @@ class Fulltext implements
              array_merge($entityIds, $this->fulltextResource->getRelationsByChild($entityIds))
          );
          if ($saveHandler->isAvailable($dimensions)) {
 -            $saveHandler->deleteIndex($dimensions, new \ArrayIterator($productIds));
 +            // BEGIN PATCH
-+            // We are removing full delete in order for it to happen directly during indexing done by ElasticSuite
 +            // That way we minimize gap when products data is missing inside ElasticSearch
 +            // $saveHandler->deleteIndex($dimensions, new \ArrayIterator($productIds));
 +            // Following code covers case of deleted products that should be removed from index
-+            $deletedIds = $this->getDeletedIds($productIds, $storeId);
 +
-+            if(!empty($deletedIds)) {
++            $deletedIds = $this->getDeletedIds($productIds, $storeId);
++            if (!empty($deletedIds)) {
 +                $saveHandler->deleteIndex($dimensions, new \ArrayIterator($deletedIds));
 +            }
 +            // END PATCH
              $saveHandler->saveIndex($dimensions, $this->fullAction->rebuildStoreIndex($storeId, $productIds));
          }
      }
-@@ -260,4 +270,27 @@ class Fulltext implements
+@@ -260,4 +269,28 @@ class Fulltext implements
      {
          $this->execute([$id]);
      }
 +
 +    /**
 +     * @param int[] $productIdsForReindex
++     * @param int $storeId
 +     * @return int[]
 +     */
 +    public function getDeletedIds($productIdsForReindex, $storeId)
@@ -43,7 +43,7 @@ index 33ef89e..261d2c3 100644
 +            'ccp.product_id = e.entity_id AND ccp.store_id = ' . $storeId,
 +            []
 +        );
-+        $select->where('entity_id IN (?)', $productIdsForReindex);
++        $select->where('e.entity_id IN (?)', $productIdsForReindex);
 +        $foundProductIds = $connection->fetchCol($select);
 +
 +        return array_diff($productIdsForReindex, $foundProductIds);

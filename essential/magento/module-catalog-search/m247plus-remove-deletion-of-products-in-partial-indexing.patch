@@ -1,8 +1,8 @@
 diff --git a/Model/Indexer/Fulltext.php b/Model/Indexer/Fulltext.php
-index 996da03..a92ec0f 100644
+index 996da03..425a3b5 100644
 --- a/Model/Indexer/Fulltext.php
 +++ b/Model/Indexer/Fulltext.php
-@@ -223,7 +223,17 @@ class Fulltext implements
+@@ -223,17 +223,39 @@ class Fulltext implements
              if (in_array(StackedActionsIndexerInterface::class, class_implements($saveHandler))) {
                  try {
                      $saveHandler->enableStackedActions();
@@ -14,14 +14,38 @@ index 996da03..a92ec0f 100644
 +                    // Following code covers case of deleted products that should be removed from index
 +                    $deletedIds = $this->getDeletedIds($productIds, $storeId);
 +
-+                    if(!empty($deletedIds)) {
++                    if (!empty($deletedIds)) {
 +                        $saveHandler->deleteIndex($dimensions, new \ArrayIterator($deletedIds));
 +                    }
 +                    // END PATCH
                      $saveHandler->saveIndex($dimensions, $this->fullAction->rebuildStoreIndex($storeId, $productIds));
                      $saveHandler->triggerStackedActions();
                      $saveHandler->disableStackedActions();
-@@ -277,4 +287,29 @@ class Fulltext implements
+                 } catch (\Throwable $exception) {
+                     $saveHandler->disableStackedActions();
+-                    $saveHandler->deleteIndex($dimensions, new \ArrayIterator($productIds));
++                    // BEGIN PATCH
++                    $deletedIds = $this->getDeletedIds($productIds, $storeId);
++
++                    if (!empty($deletedIds)) {
++                        $saveHandler->deleteIndex($dimensions, new \ArrayIterator($deletedIds));
++                    }
++                    // END PATCH
+                     $saveHandler->saveIndex($dimensions, $this->fullAction->rebuildStoreIndex($storeId, $productIds));
+                 }
+             } else {
+-                $saveHandler->deleteIndex($dimensions, new \ArrayIterator($productIds));
++                // BEGIN PATCH
++                $deletedIds = $this->getDeletedIds($productIds, $storeId);
++
++                if (!empty($deletedIds)) {
++                    $saveHandler->deleteIndex($dimensions, new \ArrayIterator($deletedIds));
++                }
++                // END PATCH
+                 $saveHandler->saveIndex($dimensions, $this->fullAction->rebuildStoreIndex($storeId, $productIds));
+             }
+         }
+@@ -277,4 +299,28 @@ class Fulltext implements
      {
          $this->execute([$id]);
      }
@@ -39,14 +63,13 @@ index 996da03..a92ec0f 100644
 +            ->getMainTable($storeId);
 +        $connection = $this->fulltextResource->getConnection();
 +        $select = $connection->select();
-+        $select->from($connection->getTableName('catalog_product_entity'), 'entity_id');
 +        $select->from(['e' => $connection->getTableName('catalog_product_entity')], 'entity_id');
 +        $select->join(
 +            ['ccp' => $catagoryIndexTable],
 +            'ccp.product_id = e.entity_id AND ccp.store_id = ' . $storeId,
 +            []
 +        );
-+        $select->where('entity_id IN (?)', $productIdsForReindex);
++        $select->where('e.entity_id IN (?)', $productIdsForReindex);
 +        $foundProductIds = $connection->fetchCol($select);
 +
 +        return array_diff($productIdsForReindex, $foundProductIds);
