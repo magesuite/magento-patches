@@ -1,0 +1,20 @@
+diff --git a/src/module-elasticsuite-virtual-category/Model/Rule.php b/src/module-elasticsuite-virtual-category/Model/Rule.php
+index e39f57f..ba46d38 100644
+--- a/src/module-elasticsuite-virtual-category/Model/Rule.php
++++ b/src/module-elasticsuite-virtual-category/Model/Rule.php
+@@ -311,9 +311,12 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+             } elseif ($category->getId() && $category->getIsActive()) {
+                 $query = $this->getStandardCategoryQuery($category, $excludedCategories);
+             }
+-            if ($query && $category->hasChildren()) {
+-                $query = $this->addChildrenQueries($query, $category, $excludedCategories);
+-            }
++            // PATCH START
++            // Disable to avoid heavy queries to elasticsearch
++            //if ($query && $category->hasChildren()) {
++            //    $query = $this->addChildrenQueries($query, $category, $excludedCategories);
++            //}
++            // PATCH END
+         }
+ 
+         return $query;

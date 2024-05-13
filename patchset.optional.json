@@ -114,6 +114,11 @@
                 "description": "Fixing Einhell elastic suite render range label method compatibility",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-render-range-label-method-compatibility.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Prevent adding virtual category children queries",
+                "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/prevent-adding-virtual-category-children-queries.patch",
+                "version-constraint": ">=2.10.0"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
