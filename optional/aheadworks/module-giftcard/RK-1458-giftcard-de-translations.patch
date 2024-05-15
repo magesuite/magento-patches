@@ -1,0 +1,131 @@
+diff --git a/Model/Giftcard/Validator.php b/Model/Giftcard/Validator.php
+index 279f229..f6d9a50 100644
+--- a/Model/Giftcard/Validator.php
++++ b/Model/Giftcard/Validator.php
+@@ -23,13 +23,13 @@ class Validator extends AbstractValidator
+         $this->_clearMessages();
+ 
+         if ($giftcard->getState() == Status::DEACTIVATED) {
+-            $this->_addMessages([__('The specified Gift Card code deactivated')]);
++            $this->_addMessages([__('Gift Card %1 is deactivated', $giftcard->getCode())]);
+         }
+         if ($giftcard->getState() == Status::EXPIRED) {
+-            $this->_addMessages([__('The specified Gift Card code expired')]);
++            $this->_addMessages([__('Gift Card %1 has expired', $giftcard->getCode())]);
+         }
+         if ($giftcard->getState() == Status::USED) {
+-            $this->_addMessages([__('The specified Gift Card code used')]);
++            $this->_addMessages([__('Gift Card %1 is already used', $giftcard->getCode())]);
+         }
+ 
+         return empty($this->getMessages());
+diff --git a/Model/Service/GiftcardCartService.php b/Model/Service/GiftcardCartService.php
+index b2bf7ea..48cf826 100644
+--- a/Model/Service/GiftcardCartService.php
++++ b/Model/Service/GiftcardCartService.php
+@@ -97,7 +97,7 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+             ? $this->quoteRepository->getActive($cartId)
+             : $this->quoteRepository->get($cartId);
+         if (!$quote->getItemsCount()) {
+-            throw new NoSuchEntityException(__('Cart %1 doesn\'t contain products', $cartId));
++            throw new NoSuchEntityException(__("Cart %1 doesn't contain products", $cartId));
+         }
+         $giftcards = [];
+         if ($quote->getExtensionAttributes() && $quote->getExtensionAttributes()->getAwGiftcardCodes()) {
+@@ -117,7 +117,7 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+             ? $this->quoteRepository->getActive($cartId)
+             : $this->quoteRepository->get($cartId);
+         if (!$quote->getItemsCount()) {
+-            throw new NoSuchEntityException(__('Cart %1 doesn\'t contain products', $cartId));
++            throw new NoSuchEntityException(__("Cart %1 doesn't contain products", $cartId));
+         }
+ 
+         /** @var QuoteItem[] $quoteItems */
+@@ -137,14 +137,14 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+         try {
+             $giftcard = $this->giftcardRepository->getByCode($giftcardCode, $quote->getStore()->getWebsiteId());
+         } catch (NoSuchEntityException $e) {
+-            throw new NoSuchEntityException(__('The specified Gift Card code is not valid'));
++            throw new NoSuchEntityException(__('Gift Card %1 is not valid', $giftcardCode));
+         }
+ 
+         if (!$this->giftcardValidator->isValid($giftcard)) {
+             $messages = $this->giftcardValidator->getMessages();
+             throw new LocalizedException(__($messages[0]));
+         }
+-        
++
+         $isExistProductValidByCondition = false;
+         foreach ($quoteItems as $quoteItem) {
+             if ($this->giftcardQuoteItemValidator->isValid(
+@@ -155,9 +155,9 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+                 break;
+             }
+         }
+-        
++
+         if (!$isExistProductValidByCondition) {
+-            throw new LocalizedException(__('Gift card code cannot be applied to these products'));
++            throw new LocalizedException(__('Gift Card %1 cannot be applied to these products', $giftcardCode));
+         }
+ 
+         $giftcardQuoteItems = $this->giftcardQuoteCollectionFactory->create()
+@@ -166,9 +166,9 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+             ->load()
+             ->getItems();
+         if ($giftcardQuoteItems) {
+-            throw new LocalizedException(__('The specified Gift Card code already in the quote'));
++            throw new LocalizedException(__('Gift Card %1 already in the cart', $giftcardCode));
+         }
+-        
++
+         if ($giftcard->getIsVerifyTaxRateActive()) {
+             $rateIsEqual = false;
+             foreach ($quote->getAllVisibleItems() as $quoteItem) {
+@@ -178,7 +178,7 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+                 }
+             }
+             if (!$rateIsEqual) {
+-                throw new LocalizedException(__('The specified Gift Card code is not valid for this type of products'));
++                throw new LocalizedException(__('Gift Card %1 is not valid for this type of products', $giftcardCode));
+             }
+         }
+ 
+@@ -192,14 +192,14 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+                 /** @var GiftcardQuoteInterface $giftcard */
+                 foreach ($giftcards as $giftcard) {
+                     if ($giftcard->getGiftcardCode() == $giftcardCode && $giftcard->isRemove()) {
+-                        throw new LocalizedException(__('The specified gift card code has been removed'));
++                        throw new LocalizedException(__('Gift Card %1 has been removed', $giftcardCode));
+                     }
+                 }
+             }
+         } catch (LocalizedException $e) {
+             throw $e;
+         } catch (\Exception $e) {
+-            throw new CouldNotSaveException(__('The specified Gift Card code not be added'));
++            throw new CouldNotSaveException(__('Gift Card %1 cannot be added'));
+         }
+         return true;
+     }
+@@ -215,17 +215,17 @@ class GiftcardCartService implements GiftcardCartManagementInterface
+             ? $this->quoteRepository->getActive($cartId)
+             : $this->quoteRepository->get($cartId);
+         if (!$quote->getItemsCount()) {
+-            throw new NoSuchEntityException(__('Cart %1 doesn\'t contain products', $cartId));
++            throw new NoSuchEntityException(__("Cart %1 doesn't contain products", $cartId));
+         }
+ 
+         $quote->getShippingAddress()->setCollectShippingRates(true);
+         try {
+             if (!$this->removeGiftcardFromQuote($giftcardCode, $quote)) {
+-                throw new NoSuchEntityException(__('The specified Gift Card code is not valid'));
++                throw new NoSuchEntityException(__('Gift Card %1 is not valid', $giftcardCode));
+             }
+             $this->quoteRepository->save($quote->collectTotals());
+         } catch (\Exception $e) {
+-            throw new CouldNotSaveException(__('The specified Gift Card code not be removed'));
++            throw new CouldNotSaveException(__('Gift Card %1 cannot be removed', $giftcardCode));
+         }
+         return true;
+     }
