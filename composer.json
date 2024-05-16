@@ -1223,7 +1223,7 @@
                 },
                 {
                     "description": "Fix for duplicated products in collection query that are crashing loading process.",
-                    "filename": "essential/aheadworks/module-automatic-related-products/add_group_by_sku_at_product_collection_v5.16.1.patch",
+                    "filename": "essential/aheadworks/module-automatic-related-products/add_group_by_sku_at_product_collection_v2.5.2.patch",
                     "version-constraint": ">=2.5.0"
                 }
             ],
