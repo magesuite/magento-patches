@@ -483,7 +483,12 @@
             {
                 "description": "Optimize Admin Session Deletion Process in ActiveSessionManager (P2G-2312)",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/adminactionslog/fix-performance-issue-use-collection-instead-of-getting-session-object-by-repository.patch",
-                "version-constraint": "*"
+                "version-constraint": "<2.3.0"
+            },
+            {
+                "description": "Optimize Admin Session Deletion Process in ActiveSessionManager (P2G-2415)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/adminactionslog/fix-performance-issue-use-collection-instead-of-getting-session-object-by-repository-v2.3.0.patch",
+                "version-constraint": ">=2.3.0"
             }
         ],
         "amasty/module-xcoupon": [
