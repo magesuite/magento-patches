@@ -1,0 +1,26 @@
+diff --git a/view/base/web/js/form/element/file-uploader.js b/view/base/web/js/form/element/file-uploader.js
+index e7dc245..9cf811c 100644
+--- a/view/base/web/js/form/element/file-uploader.js
++++ b/view/base/web/js/form/element/file-uploader.js
+@@ -130,9 +130,19 @@ define([
+         addFile: function (file) {
+             file = this.processFile(file);
+ 
+-            this.isMultipleFiles ?
+-                this.value.push(file) :
++            if (this.isMultipleFiles) {
++                if (file.type == null) {
++                    return;
++                }
++
++                if (this.value().some((element) => element.id === file.id)) {
++                    return;
++                }
++
++                this.value.push(file);
++            } else {
+                 this.value([file]);
++            }
+ 
+             return this;
+         },
