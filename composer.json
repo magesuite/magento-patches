@@ -251,6 +251,11 @@
                     "description": "Remove validation for color in order to avoid loading tinycolor library",
                     "filename": "essential/magento/module-ui/m245-remove-color-validation-rule.patch",
                     "version-constraint": ">=101.2.5"
+                },
+                {
+                    "description": "Remove duplicated images when adding images in multiple file uploader",
+                    "filename": "essential/magento/module-ui/remove-duplicates-in-multiple-file-uploader.patch",
+                    "version-constraint": ">=101.2.0"
                 }
             ],
             "magento/module-persistent": [
