@@ -1311,7 +1311,7 @@
                 },
                 {
                     "description": "Add missing jquery ui widget dependency (RK-133)",
-                    "filename": "essential/aheadworks/module-giftcard/aw_giftcard_missing_jquery_ui_widget_dependency_fix.patch",
+                    "filename": "essential/aheadworks/module-giftcard/aw_giftcard_missing_jquery_ui_widget_dependency.patch",
                     "version-constraint": ">=1.8.0"
                 },
                 {
