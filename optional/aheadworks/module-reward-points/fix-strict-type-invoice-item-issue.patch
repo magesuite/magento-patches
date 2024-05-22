@@ -1,0 +1,17 @@
+diff --git a/Model/Calculator/Earning/EarnItemResolver/RawItemProcessor/InvoiceItemsResolver.php b/Model/Calculator/Earning/EarnItemResolver/RawItemProcessor/InvoiceItemsResolver.php
+index f2ef09c..e41035d 100644
+--- a/Model/Calculator/Earning/EarnItemResolver/RawItemProcessor/InvoiceItemsResolver.php
++++ b/Model/Calculator/Earning/EarnItemResolver/RawItemProcessor/InvoiceItemsResolver.php
+@@ -76,7 +76,11 @@ class InvoiceItemsResolver
+      * @param InvoiceItemInterface[] $invoiceItems
+      * @return InvoiceItemInterface|null
+      */
+-    private function getInvoiceItemByOrderItemId(int $orderItemId, array $invoiceItems): ?InvoiceItemInterface
++    // BEGIN PATCH: remove strict type declaration for $invoiceItems (in some cases it can be collection, not array)
++
++    //private function getInvoiceItemByOrderItemId(int $orderItemId, array $invoiceItems): ?InvoiceItemInterface
++    private function getInvoiceItemByOrderItemId(int $orderItemId, $invoiceItems): ?InvoiceItemInterface
++    // END PATCH
+     {
+         foreach ($invoiceItems as $invoiceItem) {
+             if ($invoiceItem->getOrderItemId() == $orderItemId) {

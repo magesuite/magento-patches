@@ -1499,6 +1499,13 @@
                 "version-constraint": "^1.0.4"
             }
         ],
+        "aheadworks/module-reward-points": [
+            {
+                "description": "Fix strict type invoice item issue (LOWA-235)",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-reward-points/fix-strict-type-invoice-item-issue.patch",
+                "version-constraint": ">=2.4.1"
+            }
+        ],
         "tig/persistent-shopping-cart-magento2": [
             {
                 "description": "Adding a dedicated admin field for persistant guest cart cookie lifetime",
