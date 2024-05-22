@@ -1,0 +1,24 @@
+diff --git a/view/base/web/js/widget/product/change-amount.js b/view/base/web/js/widget/product/change-amount.js
+index aff22e1..7e0368e 100644
+--- a/view/base/web/js/widget/product/change-amount.js
++++ b/view/base/web/js/widget/product/change-amount.js
+@@ -1,5 +1,6 @@
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function($){
+     'use strict';
+ 
+diff --git a/view/base/web/js/widget/product/show-custom-price.js b/view/base/web/js/widget/product/show-custom-price.js
+index 3015258..9f54171 100644
+--- a/view/base/web/js/widget/product/show-custom-price.js
++++ b/view/base/web/js/widget/product/show-custom-price.js
+@@ -1,5 +1,6 @@
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function ($) {
+     'use strict';
+ 

@@ -1315,6 +1315,11 @@
                     "version-constraint": ">=1.4.9"
                 },
                 {
+                    "description": "Add missing jquery ui widget dependency (RK-133)",
+                    "filename": "essential/aheadworks/module-giftcard/aw_giftcard_missing_jquery_ui_widget_dependency.patch",
+                    "version-constraint": ">=1.8.0"
+                },
+                {
                     "description": "Makes validate functions to return bool instead of self as it is in the validate function in their parent classes (RK-1195)",
                     "filename": "essential/aheadworks/module-giftcard/make-validate-return-bool-instead-of-object.patch",
                     "version-constraint": ">=1.7.0, <1.8.0"
