@@ -1379,6 +1379,11 @@
                     "description": "Add missing jquery ui widget dependency (P2G-2285)",
                     "filename": "essential/aheadworks/module-reward-points/aw-reward-points-add-jquery-ui-widget-dependencies.patch",
                     "version-constraint": ">=2.1.0"
+                },
+                {
+                    "description": "Add translations to email templates",
+                    "filename": "essential/aheadworks/module-reward-points/emails-translations.patch",
+                    "version-constraint": ">=2.4.1"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [

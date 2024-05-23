@@ -1,0 +1,34 @@
+Added string translations.
+diff --git a/view/frontend/email/balance_update.html b/view/frontend/email/balance_update.html
+index 77ccebf..283dbd4 100755
+--- a/view/frontend/email/balance_update.html
++++ b/view/frontend/email/balance_update.html
+@@ -6,7 +6,7 @@
+ 
+ {{template config_path="design/email/header_template"}}
+ 
+-<p class="greeting">Dear {{var customer_name}}</p>
++<p class="greeting">{{trans "Dear"}} {{var customer_name}}</p>
+ <p>{{trans "Your %reward_points_label_name balance at" reward_points_label_name=$reward_points_label_name}} <a href="{{var store_url}}">{{var store_name|escape}}</a> {{trans "has just been changed:" }}
+ {{var points}} {{trans "%points_label_name balance added" points_label_name=$points_label_name}}{{depend comment}} ({{var comment}}){{/depend}}.
+ {{depend expire_date}}{{trans "These %points_label_name will expire on" points_label_name=$points_label_name}} {{var expire_date}} ({{if expire_in_days}}{{var expire_in_days}} {{trans "days left" }}{{else}}{{trans "today" }}{{/if}}).{{/depend}}</p>
+diff --git a/view/frontend/email/expiration_reminder.html b/view/frontend/email/expiration_reminder.html
+index be4bac7..b37ac13 100755
+--- a/view/frontend/email/expiration_reminder.html
++++ b/view/frontend/email/expiration_reminder.html
+@@ -6,10 +6,10 @@
+ 
+ {{template config_path="design/email/header_template"}}
+ 
+-<p class="greeting">Dear {{var customer_name}}</p>
+-<p>This letter informs you, that your {{var points}} {{var reward_points_label_name}} will expire on {{var expire_date}} ({{if expire_in_days}}{{var expire_in_days}} days left{{else}}today{{/if}}).</p>
+-<p>Currently, you have {{var points_balance}} {{var points_label_name}} in your account, which equals to {{var money_balance}} worth of discount. Hurry up before it's gone!</p>
+-<p>Click <a href="{{var rp_program_url}}">here</a> to learn more about our loyalty program.</p>
+-<p>Click here to <a href="{{var unsubscribe_url}}">unsubscribe</a></p>
++<p class="greeting">{{trans "Dear"}} {{var customer_name}}</p>
++<p>{{trans "This letter informs you, that your %points %reward_points_label_name will expire on %expire_date" points=$points reward_points_label_name=$reward_points_label_name expire_date=$expire_date }} ({{if expire_in_days}}{{var expire_in_days}} {{trans "days left"}}{{else}}{{trans "today"}}{{/if}}).</p>
++<p>{{trans "Currently, you have %points_balance %points_label_name in your account, which equals to %money_balance worth of discount. Hurry up before it's gone!" points_balance=$points_balance points_label_name=$points_label_name money_balance=$money_balance}}</p>
++<p>{{trans 'Click <a href="%rp_program_url">here</a> to learn more about our loyalty program.' rp_program_url=$rp_program_url |raw}}</p>
++<p>{{trans 'Click here to <a href="%unsubscribe_url">unsubscribe</a>' unsubscribe_url=$unsubscribe_url |raw}}</p>
+ 
+ {{template config_path="design/email/footer_template"}}
