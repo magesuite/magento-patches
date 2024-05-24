@@ -1,0 +1,16 @@
+diff --git a/Model/Design.php b/Model/Design.php
+index 3db91aa..81913ea 100644
+--- a/Model/Design.php
++++ b/Model/Design.php
+@@ -124,7 +124,10 @@ class Design extends \Magento\Framework\Model\AbstractModel
+     public function applyCustomDesign($design)
+     {
+         $this->_design->setDesignTheme($design);
+-        $this->translator->loadData(null, true);
++        // BEGIN PATCH (TOYS-1287)
++        //$this->translator->loadData(null, true);
++        $this->translator->loadData();
++        // END PATCH
+         return $this;
+     }
+
