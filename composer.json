@@ -983,7 +983,7 @@
                     "description": "Disable forced translator reload [TOYS-1287]",
                     "filename": "essential/magento/module-catalog/disable_forced_translator_reload.patch",
                     "version-constraint": ">=104.0.5"
-                },
+                }
             ],
             "magento/module-catalog-search": [
                 {
