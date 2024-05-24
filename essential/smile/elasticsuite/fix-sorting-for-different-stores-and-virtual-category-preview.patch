@@ -1,11 +1,25 @@
+Fixed sorting for different stores + fixed virtual category preview
+
 diff --git a/src/module-elasticsuite-virtual-category/Model/Preview.php b/src/module-elasticsuite-virtual-category/Model/Preview.php
-index db75a15..685d505 100644
+index 32efa02..300b0bb 100644
 --- a/src/module-elasticsuite-virtual-category/Model/Preview.php
 +++ b/src/module-elasticsuite-virtual-category/Model/Preview.php
-@@ -143,7 +143,10 @@ class Preview extends AbstractPreview
+@@ -121,7 +121,10 @@ class Preview extends AbstractPreview
+         $directionFallback = $sortBy !== 'position' ? Collection::SORT_ORDER_ASC : Collection::SORT_ORDER_DESC;
+
+         $collection->setOrder($sortBy, $this->request->getParam('sort_direction', $directionFallback));
+-        $collection->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->category->getStoreId());
++        // PATCH START
++        //$collection->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->category->getStoreId());
++        $collection->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->category->getStore()->getWebsiteId());
++        // PATCH END
+
+         return $collection;
+     }
+@@ -143,7 +146,10 @@ class Preview extends AbstractPreview
      {
          $items = parent::preparePreviewItems($products);
- 
+
 -        if ($this->getSortBy() !== 'position') {
 +        // PATCH START
 +        // if ($this->getSortBy() !== 'position') {
@@ -14,7 +28,7 @@ index db75a15..685d505 100644
              // In order to sort the product in admin category grid, we need to set the position value
              // if the sort order is different from position because the products are sorted in js.
              // We also disable manual sorting when sort order is not position.
-@@ -218,7 +221,10 @@ class Preview extends AbstractPreview
+@@ -218,7 +224,10 @@ class Preview extends AbstractPreview
              $useConfig = $this->request->getParam('use_config', []);
              $useConfig = array_key_exists('default_sort_by', $useConfig) && $useConfig['default_sort_by'] == 'true';
              $defaultSortBy = $this->categoryConfig->getProductListDefaultSortBy();
@@ -24,5 +38,5 @@ index db75a15..685d505 100644
 +            $this->sortBy = $useConfig || empty($this->request->getParam('default_sort_by')) ? $defaultSortBy : $this->request->getParam('default_sort_by');
 +            // PATCH END
          }
- 
+
          return $this->sortBy;
