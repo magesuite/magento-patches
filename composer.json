@@ -818,8 +818,8 @@
                     "version-constraint": "2.11.6"
                 },
                 {
-                    "description": "Fix for manual sorting products on a different stores",
-                    "filename": "essential/smile/elasticsuite/fix-of-sorting-for-different-stores.patch",
+                    "description": "Fix for manual sorting products on a different stores + Fix virtual category preview",
+                    "filename": "essential/smile/elasticsuite/fix-sorting-for-different-stores-and-virtual-category-preview.patch",
                     "version-constraint": ">=2.10.20.1,<2.11.0 || >=2.11.6.1"
                 }
             ],
