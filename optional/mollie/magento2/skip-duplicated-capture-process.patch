@@ -1,0 +1,17 @@
+diff --git a/Model/Client/Payments/CapturePayment.php b/Model/Client/Payments/CapturePayment.php
+index 858158d..c07343f 100644
+--- a/Model/Client/Payments/CapturePayment.php
++++ b/Model/Client/Payments/CapturePayment.php
+@@ -96,6 +96,12 @@ class CapturePayment
+             );
+         }
+ 
++        // BEGIN PATCH: If the payment was captured in Mollie, the attempt to capture the payment in Magento needs to be skipped
++        if (!isset($data['amount']) && $captureAmount > 0 && $captureAmount == $order->getBaseGrandTotal()) {
++            return;
++        }
++        // END PATCH
++
+         $capture = $mollieApi->paymentCaptures->createForId($mollieTransactionId, $data);
+         $payment->setTransactionId($capture->id);
+ 

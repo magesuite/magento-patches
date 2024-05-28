@@ -1715,6 +1715,11 @@
               "description": "Fix Mollie creditmemo - added flag to prevent throwing error when 'online_refund' registry key already exist during multiple creditmemo creation",
               "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/fix-existing-registry-key-for-multiple-creditmemo.patch",
               "version-constraint": "*"
+            },
+            {
+                "description": "If the payment was captured in Mollie, the attempt to capture the payment in Magento needs to be skipped (LOWA-145)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/skip-duplicated-capture-process.patch",
+                "version-constraint": "*"
             }
         ],
         "mage_delight/specialpromo": [
