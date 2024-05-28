@@ -1062,6 +1062,11 @@
                 "description": "Add additional fees to aggregated taxes (iPet)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-tax/add-additional-fees-tax-to-aggregated-taxes.patch",
                 "version-constraint": ">=100.4.3"
+            },
+            {
+                "description": "Ignore Cross Border Trade config if tax rate is 0% (LOWA-154)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-tax/ignore-cross-border-trade-config-for-0-tax-rate.patch",
+                "version-constraint": ">=100.2.0"
             }
         ],
         "mageplaza/module-currency-formatter": [

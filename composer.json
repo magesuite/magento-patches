@@ -2162,11 +2162,6 @@
                     "description": "Fix bug adding bundle products is not possible in admin panel, string type is required.",
                     "filename": "essential/magento/module-tax/m245-fix-adding-bundle-products-is-not-possible.patch",
                     "version-constraint": ">=100.4.5,<100.4.6"
-                },
-                {
-                    "description": "Ignore Cross Border Trade config if tax rate is 0% (LOWA-154)",
-                    "filename": "essential/magento/module-tax/ignore-cross-border-trade-config-for-0-tax-rate.patch",
-                    "version-constraint": ">=100.2.0"
                 }
             ],
             "vertex/module-tax": [
