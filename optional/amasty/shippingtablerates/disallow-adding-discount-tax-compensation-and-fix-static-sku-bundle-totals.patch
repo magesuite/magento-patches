@@ -1,0 +1,39 @@
+Dissalow adding discount tax compensation (IPET-1404) + fix bundle total calculation for bundles with static SKU (IPET-2602)
+
+diff --git a/Model/Rate/ItemsTotalCalculator.php b/Model/Rate/ItemsTotalCalculator.php
+index a0a83ea..18f94f2 100644
+--- a/Model/Rate/ItemsTotalCalculator.php
++++ b/Model/Rate/ItemsTotalCalculator.php
+@@ -80,7 +80,9 @@ class ItemsTotalCalculator
+
+             // Fix for correct calculation subtotal for shipping method
+             if ($afterDiscount || $includingTax) {
+-                $this->itemsTotals['not_free_price'] += $item->getBaseDiscountTaxCompensationAmount();
++                // BEGIN PATCH
++                // $this->itemsTotals['not_free_price'] += $item->getBaseDiscountTaxCompensationAmount();
++                // PATCH END
+             }
+         }
+
+@@ -202,12 +204,15 @@ class ItemsTotalCalculator
+             $price = $item->getBasePrice();
+         }
+
+-        if ($item->getProduct()->getSkuType() == 1) {
+-            if ($includingTax) {
+-                $price = $item->getBasePriceInclTax();
+-            }
+-            $this->itemsTotals['discount_amount'] += $item->getBaseDiscountAmount();
+-        }
++        //BEGIN PATCH
++        //Removed this part of code because it overrides item price with a base price that doesn't include qty multiplier and special price
++        //if ($item->getProduct()->getSkuType() == 1) {
++        //    if ($includingTax) {
++        //        $price = $item->getBasePriceInclTax();
++        //    }
++        //    $this->itemsTotals['discount_amount'] += $item->getBaseDiscountAmount();
++        //}
++        //END PATCH
+
+         $notFreeQty = $this->itemValidator->getNotFreeQty($item, $qty);
+         $this->itemsTotals['qty'] += $qty;
