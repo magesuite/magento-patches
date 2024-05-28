@@ -588,8 +588,8 @@
                 "version-constraint": ">=1.10.6"
             },
             {
-                "description": "Disallow adding discount tax compensation",
-                "filename": "vendor/creativestyle/magento-patches/optional/amasty/shippingtablerates/disallow-adding-discount-tax-compensation.patch",
+                "description": "Disallow adding discount tax compensation (IPET-1404) + fix bundle total calculation for bundles with static SKU (IPET-2602)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/shippingtablerates/disallow-adding-discount-tax-compensation-and-fix-static-sku-bundle-totals.patch",
                 "version-constraint": ">=1.10.6"
             }
         ],
