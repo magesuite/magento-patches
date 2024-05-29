@@ -1,5 +1,5 @@
 diff --git a/src/Rewards/Helper/Balance/Spend.php b/src/Rewards/Helper/Balance/Spend.php
-index d713e22..f8e66a3 100644
+index d069944..2d45006 100644
 --- a/src/Rewards/Helper/Balance/Spend.php
 +++ b/src/Rewards/Helper/Balance/Spend.php
 @@ -256,6 +256,13 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
@@ -40,8 +40,27 @@ index d713e22..f8e66a3 100644
                  } else {
                      $itemPrice = $item->getBasePrice() * $item->getQty() - $item->getBaseDiscountAmount();
                  }
+@@ -322,7 +334,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
+                     $subtotal += $itemPrice;
+                 }
+ 
+-                $this->validItems[$rule->getId()][] = $item->getId();
++                // BEGIN PATCH: use bundle children for discount calculation, not parent
++                // $this->validItems[$rule->getId()][] = $item->getId();
++
++                if ($item->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
++                    foreach ($item->getChildren() as $child) {
++                        $this->validItems[$rule->getId()][] = $child->getId();
++                    }
++                } else {
++                    $this->validItems[$rule->getId()][] = $item->getId();
++                }
++                // END PATCH
+             }
+         }
+ 
 diff --git a/src/Rewards/Service/Discount/ItemDiscountService.php b/src/Rewards/Service/Discount/ItemDiscountService.php
-index 430d0d1..47a34e9 100644
+index 0bb8bb6..ade74ef 100644
 --- a/src/Rewards/Service/Discount/ItemDiscountService.php
 +++ b/src/Rewards/Service/Discount/ItemDiscountService.php
 @@ -71,6 +71,8 @@ class ItemDiscountService
