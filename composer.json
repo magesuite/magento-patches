@@ -423,6 +423,13 @@
                     "version-constraint": ">=101.1.4"
                 }
             ],
+            "magento/module-configurable-product": [
+                {
+                    "description": "Fix gallery upload URL for Magento_InventoryConfigurableProductAdminUi",
+                    "filename": "essential/magento/module-configurable-product/admin-bulk-gallery-upload-url.patch",
+                    "version-constraint": ">=100.4.7"
+                }
+            ],
             "amasty/module-advanced-permissions": [
                 {
                     "description": "Fix module loading order",
