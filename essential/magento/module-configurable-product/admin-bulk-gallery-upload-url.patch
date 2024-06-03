@@ -1,0 +1,19 @@
+Magento_InventoryConfigurableProductAdminUi::catalog/product/edit/attribute/steps/bulk.phtml still uses old markup for the image upload field.
+This patch fixes the selector to use the correct field.
+Magento issue: https://github.com/magento/inventory/issues/3409
+
+diff --git a/view/adminhtml/web/js/variations/steps/bulk.js b/view/adminhtml/web/js/variations/steps/bulk.js
+index da49a52..574bf3b 100644
+--- a/view/adminhtml/web/js/variations/steps/bulk.js
++++ b/view/adminhtml/web/js/variations/steps/bulk.js
+@@ -371,7 +371,9 @@ define([
+             $('[data-role=bulk-step] [data-role=gallery]').each(function (index, element) {
+                 var gallery = $(element),
+                     uploadInput = $(gallery.find('.uploader'))[0],
+-                    uploadUrl = $(gallery.find('.browse-file')).attr('data-url'),
++                    // BEGIN PATCH
++                    uploadUrl = $(gallery.find('.browse-file, [name="image"]')).attr('data-url'),
++                    // END PATCH
+                     dropZone = $(gallery).find('.image-placeholder')[0];
+ 
+                 if (!gallery.data('gallery-initialized')) {
