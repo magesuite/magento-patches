@@ -1,8 +1,8 @@
 diff --git a/Model/Layer/Filter/DataProvider/Category.php b/Model/Layer/Filter/DataProvider/Category.php
-index 8bc552d..6cedcb0 100644
+index 8bc552d..599b7ba 100644
 --- a/Model/Layer/Filter/DataProvider/Category.php
 +++ b/Model/Layer/Filter/DataProvider/Category.php
-@@ -112,13 +112,18 @@ class Category
+@@ -112,13 +112,29 @@ class Category
              /** @var CategoryModel|null $category */
              $category = null;
              if ($this->categoryId !== null) {
@@ -14,17 +14,30 @@ index 8bc552d..6cedcb0 100644
 -                    )
 -                    ->load($this->categoryId);
 +                // BEGIN PATCH
-+    //
-+    // $category = $this->categoryFactory->create()
-+    // ->setStoreId(
-+    //     $this->getLayer()->getCurrentStore->getId()
-+    // )
-+    // ->load($this->categoryId);
++                //$category = $this->categoryFactory->create()
++                //    ->setStoreId(
++                //        $this->getLayer()
++                //            ->getCurrentStore()
++                //            ->getId()
++                //    )
++                //    ->load($this->categoryId);
++
 +                // category is loaded from repository in order to use already existing internally cached object
 +                $categoryRepository = \Magento\Framework\App\ObjectManager::getInstance()
 +                    ->get(\Magento\Catalog\Api\CategoryRepositoryInterface::class);
-+                $category = $categoryRepository->get($this->categoryId, $this->getLayer()->getCurrentStore()->getId());
++                try {
++                    $category = $categoryRepository->get($this->categoryId, $this->getLayer()->getCurrentStore()->getId());
++                } catch (\Exception $e) {
++                    $category = $this->categoryFactory->create()
++                        ->setStoreId(
++                            $this->getLayer()
++                                ->getCurrentStore()
++                                ->getId()
++                        );
++                }
 +                // END PATCH
              }
- 
+
              if ($category === null || !$category->getId()) {
+--
+2.39.3 (Apple Git-146)
