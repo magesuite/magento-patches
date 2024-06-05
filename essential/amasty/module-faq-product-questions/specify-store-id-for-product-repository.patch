@@ -1,0 +1,49 @@
+Specify store id for product repository getById method to avoid additional product entity load. (IPET-2628)
+
+diff --git a/Model/ResourceModel/Question/Collection.php b/Model/ResourceModel/Question/Collection.php
+index b1afb6d..3886dd0 100644
+--- a/Model/ResourceModel/Question/Collection.php
++++ b/Model/ResourceModel/Question/Collection.php
+@@ -56,6 +56,10 @@ class Collection extends AbstractCollection
+      */
+     private $productRepository;
+
++    //BEGIN PATCH
++    protected \Magento\Store\Model\StoreManagerInterface $storeManager;
++    //END PATCH
++
+     public function __construct(
+         EntityFactoryInterface $entityFactory,
+         LoggerInterface $logger,
+@@ -64,6 +68,9 @@ class Collection extends AbstractCollection
+         ManagerInterface $eventManager,
+         ConfigProvider $configProvider,
+         ProductRepositoryInterface $productRepository,
++        //BEGIN PATCH
++        \Magento\Store\Model\StoreManagerInterface $storeManager,
++        //END PATCH
+         AdapterInterface $connection = null,
+         AbstractDb $resource = null
+     ) {
+@@ -72,6 +79,9 @@ class Collection extends AbstractCollection
+         $this->configProvider = $configProvider;
+         $this->fulltext = $fulltext;
+         $this->productRepository = $productRepository;
++        //BEGIN PATCH
++        $this->storeManager = $storeManager;
++        //END PATCH
+     }
+
+     public function _construct()
+@@ -123,7 +133,10 @@ class Collection extends AbstractCollection
+
+         foreach ($preparedProductIds as $productId) {
+             try {
+-                $product = $this->productRepository->getById((int)$productId);
++                //BEGIN PATCH
++                //$product = $this->productRepository->getById((int)$productId);
++                $product = $this->productRepository->getById((int)$productId, false, $this->storeManager->getStore()->getId());
++                //END PATCH
+
+                 foreach ($product->getCategoryIds() as $categoryId) {
+                     $categoryIds[] = $categoryId;

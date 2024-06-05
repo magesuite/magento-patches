@@ -442,6 +442,11 @@
                     "description": "Fix highlighted text in search results",
                     "filename": "essential/amasty/module-faq-product-questions/search-results-highlight-only-text.patch",
                     "version-constraint": ">=2.12.2"
+                },
+                {
+                    "description": "Specify store id for product repository getById method to avoid additional product entity load. (IPET-2628)",
+                    "filename": "essential/amasty/module-faq-product-questions/specify-store-id-for-product-repository.patch",
+                    "version-constraint": ">=2.12.2"
                 }
             ],
             "amasty/module-gdpr": [
