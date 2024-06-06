@@ -2667,6 +2667,13 @@
                     "filename": "essential/meetanshi/module-payshiprestriction/reduce-sql-queries-during-methods-fetch.patch",
                     "version-constraint": ">=1.0.6"
                 }
+            ],
+            "plumrocket/module-psloginpro": [
+                {
+                    "description": "Fix missing storeId and websiteId during create new customer account (IPET-2544)",
+                    "filename": "essential/plumrocket/module-psloginpro/fix-missing-store-and-website-for-new-account.patch",
+                    "version-constraint": ">=4.6.6"
+                }
             ]
         }
     }

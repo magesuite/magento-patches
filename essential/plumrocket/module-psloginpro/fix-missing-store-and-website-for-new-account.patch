@@ -1,0 +1,48 @@
+diff --git a/Model/Customer/CreateFromNetworkAccount.php b/Model/Customer/CreateFromNetworkAccount.php
+index 24b65a8..c71ec67 100644
+--- a/Model/Customer/CreateFromNetworkAccount.php
++++ b/Model/Customer/CreateFromNetworkAccount.php
+@@ -69,6 +69,10 @@ class CreateFromNetworkAccount implements CreateCustomerFromNetworkAccountInterf
+      */
+     private $config;
+ 
++    //BEGIN PATCH
++    protected \Magento\Store\Model\StoreManagerInterface $storeManager;
++    //END PATCH
++
+     /**
+      * @param \Magento\Customer\Model\CustomerFactory                         $customerFactory
+      * @param \Magento\Eav\Model\Config                                       $eavConfig
+@@ -87,7 +91,8 @@ class CreateFromNetworkAccount implements CreateCustomerFromNetworkAccountInterf
+         CustomerRepositoryInterface $customerRepository,
+         FakeDataGenerator $fakeDataGenerator,
+         EmailValidator $emailValidator,
+-        Config $config
++        Config $config,
++        \Magento\Store\Model\StoreManagerInterface $storeManager
+     ) {
+         $this->customerFactory = $customerFactory;
+         $this->eavConfig = $eavConfig;
+@@ -97,6 +102,9 @@ class CreateFromNetworkAccount implements CreateCustomerFromNetworkAccountInterf
+         $this->fakeDataGenerator = $fakeDataGenerator;
+         $this->emailValidator = $emailValidator;
+         $this->config = $config;
++        // PATCH BEGIN
++        $this->storeManager = $storeManager;
++        // PATCH END
+     }
+ 
+     /**
+@@ -122,6 +130,12 @@ class CreateFromNetworkAccount implements CreateCustomerFromNetworkAccountInterf
+         $customer->setData('is_active', 1);
+         $customer->getGroupId();
+ 
++        // PATCH BEGIN
++        $store = $this->storeManager->getStore();
++        $customer->setWebsiteId($store->getWebsiteId());
++        $customer->setStoreId($store->getId());
++        // END BEGIN
++
+         if (isset($password)) {
+             $customer->setPassword($password);
+             $customer->setPasswordConfirmation($password);
