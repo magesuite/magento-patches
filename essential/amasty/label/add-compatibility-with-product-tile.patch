@@ -1,0 +1,17 @@
+diff --git a/Plugin/Catalog/Product/ListProduct.php b/Plugin/Catalog/Product/ListProduct.php
+index 8bb0a01..914cbb2 100644
+--- a/Plugin/Catalog/Product/ListProduct.php
++++ b/Plugin/Catalog/Product/ListProduct.php
+@@ -40,6 +40,12 @@ class ListProduct
+         $subject,
+         $result
+     ) {
++        // PATCH START
++        if ($subject instanceof \MageSuite\ProductTile\Block\Tile\Fragment) {
++            return $result;
++        }
++        // PATCH END
++        
+         if (!$this->registry->registry('amlabel_category_observer') && !$subject->getIsAmLabelObserved()) {
+             $products = $subject->getLoadedProductCollection();
+             if (!$products) {

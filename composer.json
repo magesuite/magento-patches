@@ -497,6 +497,13 @@
                     "version-constraint": ">=1.4.0,<1.4.6"
                 }
             ],
+            "amasty/label": [
+                {
+                    "description": "Add compatibility with magesuite product tile",
+                    "filename": "essential/amasty/label/add-compatibility-with-product-tile.patch",
+                    "version-constraint": ">=2.3.8"
+                }
+            ],
             "amasty/product-attachment": [
                 {
                     "description": "Fix product category attachments",
