@@ -1,0 +1,40 @@
+Patch requires second part for module-eav.
+"magento/module-eav": [
+    {
+        "description": "Fix for iconv issue in customer address validation",
+        "filename": "essential/magento/module-eav/patch-iconv-issue-magento-eb34e347.patch",
+        "version-constraint": ">=103.0.6,<103.0.7"
+    }
+],
+diff --git a/etc/di.xml b/etc/di.xml
+index b178f51..fee8fae 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -578,6 +578,9 @@
+                     <item name="store_id" xsi:type="string">store_id</item>
+                     <item name="group_id" xsi:type="string">group_id</item>
+                     <item name="dob" xsi:type="string">dob</item>
++                    <!-- BEGIN PATCH -->
++                    <item name="rp_token" xsi:type="string">rp_token</item>
++                    <!-- END PATCH -->
+                 </item>
+                 <item name="customer_address" xsi:type="array">
+                     <item name="country_id" xsi:type="string">country_id</item>
+@@ -585,4 +588,15 @@
+             </argument>
+         </arguments>
+     </type>
++    <!-- BEGIN PATCH -->
++    <type name="Magento\Eav\Model\Attribute\Data\Text">
++        <arguments>
++            <argument name="allowDiacriticsForAttributes" xsi:type="array">
++                <item name="customer" xsi:type="array">
++                    <item name="email" xsi:type="string">email</item>
++                </item>
++            </argument>
++        </arguments>
++    </type>
++    <!-- END PATCH -->
+ </config>
+--
+2.39.3 (Apple Git-146)
