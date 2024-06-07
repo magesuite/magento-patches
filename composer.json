@@ -2693,6 +2693,13 @@
                     "filename": "essential/plumrocket/module-psloginpro/fix-missing-store-and-website-for-new-account.patch",
                     "version-constraint": ">=4.6.6"
                 }
+            ],
+            "comwrap/module-elasticsuite-blog-search": [
+                {
+                    "description": "Add compatibility with Magento 2.4",
+                    "filename": "essential/comwrap/module-elasticsuite-blog-search/compatibility-with-magento24.patch",
+                    "version-constraint": ">=2.0.0"
+                }
             ]
         }
     }
