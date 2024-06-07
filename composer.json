@@ -1664,6 +1664,18 @@
                     "description": "Adds domReady! dependency to Magento_Customer/js/model/customer-addresses.js, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/magento/module-customer/customer-addresses-domReady.patch",
                     "version-constraint": ">=103.0.6"
+                },
+                {
+                    "description": "Fix for iconv issue in customer address validation",
+                    "filename": "essential/magento/module-customer/patch-iconv-issue-magento-eb34e347.patch",
+                    "version-constraint": ">=103.0.6,<103.0.7"
+                }
+            ],
+            "magento/module-eav": [
+                {
+                    "description": "Fix for iconv issue in customer address validation",
+                    "filename": "essential/magento/module-eav/patch-iconv-issue-magento-eb34e347.patch",
+                    "version-constraint": ">=102.1.6,<102.1.7"
                 }
             ],
             "magento/module-inventory-indexer": [
