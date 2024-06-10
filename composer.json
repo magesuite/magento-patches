@@ -2375,7 +2375,12 @@
                 {
                     "description": "Adds domReady! dependency to Klarna_Kp/js/model/config, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/klarna/module-payments/klarna-config-with-domReady.patch",
-                    "version-constraint": ">=9.0.13"
+                    "version-constraint": ">=9.0.13,<9.0.28"
+                },
+                {
+                    "description": "Adds domReady! dependency to Klarna_Kp/js/model/config, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/klarna/module-payments/klarna-config-with-domReady-v2.patch",
+                    "version-constraint": ">=9.0.28"
                 }
             ],
             "klarna/module-logger": [
