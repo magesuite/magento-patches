@@ -1,0 +1,14 @@
+diff --git a/view/frontend/web/js/model/config.js b/view/frontend/web/js/model/config.js
+index 4624194..ddee4d3 100644
+--- a/view/frontend/web/js/model/config.js
++++ b/view/frontend/web/js/model/config.js
+@@ -6,7 +6,8 @@
+  */
+ define(
+     [
+-        'ko'
++        'ko',
++        'domReady!'
+     ], function (ko) {
+         'use strict';
+ 
