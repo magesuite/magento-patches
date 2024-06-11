@@ -3,6 +3,38 @@ This patch is fixing two issues:
 - Website ID and Store ID are not set in customer entity which causing issues with 3rd party modules like Mailchimp.
 Related tickets: IPET-2544, IPET-2641
 
+diff --git a/Controller/Account/Login.php b/Controller/Account/Login.php
+index 90cde2a..b50ac6e 100644
+--- a/Controller/Account/Login.php
++++ b/Controller/Account/Login.php
+@@ -421,7 +421,10 @@ class Login extends \Magento\Framework\App\Action\Action
+                         $customer,
+                         EmailNotificationInterface::NEW_ACCOUNT_EMAIL_REGISTERED,
+                         '',
+-                        $this->storeManager->getStore()->getId()
++                        // BEGIN PATCH
++                        //$this->storeManager->getStore()->getId()
++                        $this->apiCallParamsPersistor->get('current_store_id')
++                        // END PATCH
+                     );
+                 }
+
+diff --git a/Controller/Account/Register.php b/Controller/Account/Register.php
+index ca0bb20..3262fd1 100644
+--- a/Controller/Account/Register.php
++++ b/Controller/Account/Register.php
+@@ -237,7 +237,10 @@ class Register extends \Magento\Framework\App\Action\Action
+                     $customer,
+                     EmailNotificationInterface::NEW_ACCOUNT_EMAIL_REGISTERED,
+                     '',
+-                    $this->storeManager->getStore()->getId()
++                    // BEGIN PATCH
++                    //$this->storeManager->getStore()->getId()
++                    $this->apiCallParamsPersistor->get('current_store_id')
++                    // END PATCH
+                 );
+             }
+
 diff --git a/Controller/Modal/InitOauth.php b/Controller/Modal/InitOauth.php
 index fef6be1..c900cde 100644
 --- a/Controller/Modal/InitOauth.php
