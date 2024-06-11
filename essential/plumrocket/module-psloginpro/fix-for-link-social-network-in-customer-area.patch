@@ -1,0 +1,50 @@
+This patch is fixing issue with linking social network account in customer area.
+The issue is caused by the fact that the persistent parameters stored in session are not cleared after linking the account.
+This causes the persistent parameters to be reused when user try to login via social network, which cause error with wrong action be triggered.
+Related tickets: IPET-2656
+
+diff --git a/Controller/Account/LinkAction.php b/Controller/Account/LinkAction.php
+index ac85e86..033ede1 100644
+--- a/Controller/Account/LinkAction.php
++++ b/Controller/Account/LinkAction.php
+@@ -41,6 +41,11 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+      */
+     private $customerSession;
+ 
++    // BEGIN PATCH
++    protected \Plumrocket\SocialLoginPro\Model\Network\ApiCallParamsPersistorInterface $apiCallParamsPersistor;
++    // END PATCH
++
++
+     /**
+      * @param \Magento\Framework\App\Action\Context                           $context
+      * @param \Magento\Framework\Session\SessionManagerInterface              $customerSession
+@@ -51,12 +56,16 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+         Context $context,
+         SessionManagerInterface $customerSession,
+         CustomerNetworksManagerInterface $customerNetworksManager,
+-        LoggerInterface $logger
++        LoggerInterface $logger,
++        \Plumrocket\SocialLoginPro\Model\Network\ApiCallParamsPersistorInterface $apiCallParamsPersistor
+     ) {
+         parent::__construct($context);
+         $this->customerNetworksManager = $customerNetworksManager;
+         $this->logger = $logger;
+         $this->customerSession = $customerSession;
++        // BEGIN PATCH
++        $this->apiCallParamsPersistor = $apiCallParamsPersistor;
++        // END PATCH
+     }
+ 
+     /**
+@@ -71,6 +80,10 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+         $userId = $userData['user_id'] ?? '0';
+         $userPhoto = $userData['photo'] ?? null;
+ 
++        // BEGIN PATCH
++        $this->apiCallParamsPersistor->clear();
++        // END PATCH
++
+         try {
+             $this->customerNetworksManager->linkNetworkToCustomer($type, $userId, $customerId, $userPhoto);
+         } catch (AlreadyExistsException $alreadyExistsException) {
