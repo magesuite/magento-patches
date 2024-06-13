@@ -1,3 +1,5 @@
+Github issue: https://github.com/magento/magento2/issues/23618
+
 diff --git a/Model/QuoteAddressValidator.php b/Model/QuoteAddressValidator.php
 index ff57cb2..adba429 100644
 --- a/Model/QuoteAddressValidator.php
@@ -9,7 +11,7 @@ index ff57cb2..adba429 100644
 -        $this->doValidate($address, $cart->getCustomerIsGuest() ? null : (int) $cart->getCustomer()->getId());
 +        //BEGIN
 +        //$this->doValidate($address, $cart->getCustomerIsGuest() ? null : (int) $cart->getCustomer()->getId());
-+        $this->doValidate($address, $cart->getCustomerId() ? $cart->getCustomer()->getId() : null);
++        $this->doValidate($address, $cart->getCustomerId() ? (int) $cart->getCustomer()->getId() : null);
 +        //END
      }
  
