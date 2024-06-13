@@ -1,0 +1,22 @@
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index c41cbf1..3d504dd 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -1575,7 +1575,7 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+ // 2. all categories available
+         $listOfCategories = $this->categoryFactory->create()->getCollection()
+             ->setStoreId($this->params['store_id'])
+-            ->addAttributeToSelect(['name', 'store_id', 'is_active', 'include_in_menu']);
++            ->addAttributeToSelect(['name', 'store_id', 'is_active', 'include_in_menu', 'include_in_mobile_navigation']);
+         $this->categories = [];
+
+         foreach ($listOfCategories as $category) {
+@@ -1588,7 +1588,7 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+             if ($this->_includeInMenu) {
+                 $this->categories[$category->getId()]['include_in_menu'] = true;
+             } else {
+-                $this->categories[$category->getId()]['include_in_menu'] = $category->getIncludeInMenu();
++                $this->categories[$category->getId()]['include_in_menu'] = $category->getIncludeInMenu() || $category->getIncludeInMobileNavigation();
+             }
+         }
+
