@@ -2717,6 +2717,11 @@
                     "description": "Setting proper storeId and websiteId during create new customer account from social network (IPET-2544, IPET-2641)",
                     "filename": "essential/plumrocket/module-psloginpro/set-proper-store-and-website-ids-in-new-account.patch",
                     "version-constraint": ">=4.6.6"
+                },
+                {
+                    "description": "Fix for link social network from customer area (IPET-2656)",
+                    "filename": "essential/plumrocket/module-psloginpro/fix-for-link-social-network-in-customer-area.patch",
+                    "version-constraint": ">=4.6.6"
                 }
             ]
         }
