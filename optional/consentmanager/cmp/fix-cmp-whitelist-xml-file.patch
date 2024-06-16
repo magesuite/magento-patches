@@ -1,0 +1,24 @@
+diff --git a/etc/csp_whitelist.xml b/etc/csp_whitelist.xml
+index 8680fac..4a79f55 100644
+--- a/etc/csp_whitelist.xml
++++ b/etc/csp_whitelist.xml
+@@ -44,7 +44,6 @@
+ 				<value id="cmphost-sub" type="host">https://c.delivery.consentmanager.net</value>
+ 				<value id="cmphost-sub" type="host">https://d.delivery.consentmanager.net</value>
+             </values>
+-            </values>
+         </policy>
+         <policy id="media-src">
+             <values>
+@@ -55,7 +54,6 @@
+ 				<value id="cmphost-sub" type="host">https://c.delivery.consentmanager.net</value>
+ 				<value id="cmphost-sub" type="host">https://d.delivery.consentmanager.net</value>
+             </values>
+-            </values>
+         </policy>
+     </policies>
+-</csp_whitelist>
+\ No newline at end of file
++</csp_whitelist>
+--
+2.39.3 (Apple Git-146)
