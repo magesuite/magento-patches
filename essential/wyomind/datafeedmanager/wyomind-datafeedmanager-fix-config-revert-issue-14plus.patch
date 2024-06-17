@@ -2,13 +2,12 @@ diff --git a/Model/Feeds.php b/Model/Feeds.php
 index 8558e74..c41cbf1 100644
 --- a/Model/Feeds.php
 +++ b/Model/Feeds.php
-@@ -1182,9 +1182,12 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+@@ -857,8 +857,12 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
              if ($this->_isPreview) {
                  return $display;
              } else {
 -                $this->setUpdatedAt($this->coreDate->gmtDate('Y-m-d H:i:s'));
 -                $this->save();
--
 +                $currentDate = $this->coreDate->gmtDate('Y-m-d H:i:s');
 +                $this->getResource()->getConnection()->update(
 +                    $this->getResource()->getTable('datafeedmanager_feeds'),
