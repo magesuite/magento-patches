@@ -502,6 +502,11 @@
                     "description": "Add compatibility with magesuite product tile",
                     "filename": "essential/amasty/label/add-compatibility-with-product-tile.patch",
                     "version-constraint": ">=2.3.8"
+                },
+                {
+                    "description": "Avoid table dropping",
+                    "filename": "essential/amasty/label/avoid-table-dropping.patch",
+                    "version-constraint": ">=2.3.8"
                 }
             ],
             "amasty/product-attachment": [
