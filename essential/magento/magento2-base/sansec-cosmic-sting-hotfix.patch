@@ -1,0 +1,19 @@
+diff --git a/app/bootstrap.php b/app/bootstrap.php
+index a7aea80..0f9470a 100644
+--- a/app/bootstrap.php
++++ b/app/bootstrap.php
+@@ -13,6 +13,14 @@ if (in_array('phar', \stream_get_wrappers())) {
+ }
+ #ini_set('display_errors', 1);
+ 
++// BEGIN PATCH
++if (strpos(file_get_contents('php://input'), 'dataIsURL') !== false) {
++    header('HTTP/1.1 503 Service Temporarily Unavailable');
++    header('Status: 503 Service Temporarily Unavailable');
++    exit;
++}
++// END PATCH
++
+ /* PHP version validation */
+ if (!defined('PHP_VERSION_ID') || PHP_VERSION_ID < 80100) {
+     if (PHP_SAPI == 'cli') {
