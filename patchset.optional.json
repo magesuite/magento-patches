@@ -810,6 +810,11 @@
                 "version-constraint": "^1.2.9"
             },
             {
+                "description": "Fix problem with this data patch never finish when lots of gift cards are present in the database",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/use-update-query-for-UpdateGiftCardStoreId-data-patch.patch",
+                "version-constraint": "^1.5.1"
+            },
+            {
                 "description": "Temporary patch prepared by Computop to fix their wallee payment module (1.0.36) [HAAR-3988]",
                 "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/m22-wallee-aw-giftcard.patch-fix-171.patch",
                 "version-constraint": "^1.7.1"

@@ -1,0 +1,17 @@
+diff --git a/Setup/Patch/Data/UpdateGiftCardStoreId.php b/Setup/Patch/Data/UpdateGiftCardStoreId.php
+--- a/Setup/Patch/Data/UpdateGiftCardStoreId.php
++++ b/Setup/Patch/Data/UpdateGiftCardStoreId.php	(date 1718883257616)
+@@ -76,6 +76,13 @@
+     public function apply(): self
+     {
+         $this->moduleDataSetup->getConnection()->startSetup();
++        // BEGIN PATCH
++        $connection = $this->moduleDataSetup->getConnection();
++        $connection->query("UPDATE aw_giftcard SET store_id=(select default_store_id from store_group where code = 'main_website_store') where order_id is null or order_id = 0;");
++        $connection->query("UPDATE aw_giftcard awg join sales_order so ON awg.order_id = so.entity_id set awg.store_id = so.store_id;");
++        $this->moduleDataSetup->getConnection()->endSetup();
++        return $this;
++        // END PATCH
+
+         $this->state->emulateAreaCode(Area::AREA_GLOBAL, function () {
+             try {
