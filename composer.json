@@ -1840,6 +1840,11 @@
                     "description": "Disable checking image mime type",
                     "filename": "essential/magento/module-cms/m24-cms-disable-checking-image-mime-type.patch",
                     "version-constraint": ">=103.0.3-p1"
+                },
+                {
+                    "description": "fix: [TOYS-1348] Uploading image in file manager does not preview image",
+                    "filename": "essential/magento/module-cms/return-full-url-to-uploaded-wysiwyg-image.patch",
+                    "version-constraint": ">=104.0.6-p6"
                 }
             ],
             "magento/module-payment": [
