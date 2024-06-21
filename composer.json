@@ -1849,7 +1849,7 @@
                 {
                     "description": "fix: [TOYS-1348] Uploading image in file manager does not preview image",
                     "filename": "essential/magento/module-cms/return-full-url-to-uploaded-wysiwyg-image.patch",
-                    "version-constraint": ">=104.0.6-p6"
+                    "version-constraint": ">=104.0.6-p4"
                 }
             ],
             "magento/module-payment": [
