@@ -1,9 +1,9 @@
 diff --git a/Model/Import/Product.php b/Model/Import/Product.php
-index ebdf6c2..d71678c 100644
+index 24e96a8..038c48d 100644
 --- a/Model/Import/Product.php
 +++ b/Model/Import/Product.php
-@@ -1949,6 +1949,16 @@ class Product extends AbstractEntity
-                     $attribute->setBackendModel($backModel);
+@@ -1672,6 +1672,17 @@ class Product extends AbstractEntity
+                     // Product is skipped.  Go on to the next one.
                  }
              }
 +            // PATCH BEGIN
@@ -16,6 +16,7 @@ index ebdf6c2..d71678c 100644
 +                }
 +            }
 +            // PATCH END
- 
++
              foreach ($bunch as $rowNum => $rowData) {
                  if ($this->getErrorAggregator()->isRowInvalid($rowNum)) {
+                     unset($bunch[$rowNum]);
