@@ -1,0 +1,18 @@
+fix: [TOYS-1348] Uploading image in file manager does not preview image
+
+diff --git a/Model/Wysiwyg/Images/GetInsertImageContent.php b/Model/Wysiwyg/Images/GetInsertImageContent.php
+index 305d73f..a531824 100644
+--- a/Model/Wysiwyg/Images/GetInsertImageContent.php
++++ b/Model/Wysiwyg/Images/GetInsertImageContent.php
+@@ -54,8 +54,9 @@ class GetInsertImageContent
+         $this->imagesHelper->setStoreId($storeId);
+
+         if ($forceStaticPath) {
+-            // phpcs:ignore Magento2.Functions.DiscouragedFunction
+-            return parse_url($this->imagesHelper->getCurrentUrl() . $filename, PHP_URL_PATH);
++            // BEGIN PATCH
++            return $this->imagesHelper->getCurrentUrl() . $filename;
++            // END PATCH
+         }
+
+         return $this->imagesHelper->getImageHtmlDeclaration($filename, $renderAsTag);
