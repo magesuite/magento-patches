@@ -1,0 +1,17 @@
+diff --git a/Psr18Client.php b/Psr18Client.php
+index b389dfe..303829b 100644
+--- a/Psr18Client.php
++++ b/Psr18Client.php
+@@ -102,6 +102,12 @@ final class Psr18Client implements ClientInterface, RequestFactoryInterface, Str
+                 $options['http_version'] = '1.0';
+             }
+ 
++            // BEGIN PATCH: add proxy from request header
++            if ($request->getHeader('proxy')) {
++                $options['proxy'] = $request->getHeader('proxy')[0] ?? null;
++            }
++            // END PATCH
++
+             $response = $this->client->request($request->getMethod(), (string) $request->getUri(), $options);
+ 
+             return HttplugWaitLoop::createPsr7Response($this->responseFactory, $this->streamFactory, $this->client, $response, false);

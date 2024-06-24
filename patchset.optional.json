@@ -7,6 +7,13 @@
                 "version-constraint": "*"
             }
         ],
+        "akeneo/api-php-client": [
+            {
+                "description": "Add proxy from uri to request header (LOWA-160)",
+                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/api-php-client/add-proxy-to-request-header.patch",
+                "version-constraint": "*"
+            }
+        ],
         "akeneo/magento2-connector-enterprise": [
             {
                 "description": "Skip associate item when identifier is missing (FR-105)",
@@ -140,6 +147,13 @@
                 "description": "Allow in elasticsuite to filter less than or equal range price",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/change-query-condition.patch",
                 "version-constraint": "1.6.3"
+            }
+        ],
+        "symfony/http-client": [
+            {
+                "description": "Add proxy from request header (LOWA-160)",
+                "filename": "vendor/creativestyle/magento-patches/optional/symfony/http-client/add-proxy-from-request-header.patch",
+                "version-constraint": "*"
             }
         ],
         "aromicon/module-deepl": [
