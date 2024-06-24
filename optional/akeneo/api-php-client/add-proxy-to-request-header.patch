@@ -1,0 +1,44 @@
+diff --git a/src/Client/HttpClient.php b/src/Client/HttpClient.php
+index 58e86f6..d1ef270 100644
+--- a/src/Client/HttpClient.php
++++ b/src/Client/HttpClient.php
+@@ -45,8 +45,17 @@ class HttpClient implements HttpClientInterface
+      */
+     public function sendRequest(string $httpMethod, $uri, array $headers = [], $body = null): ResponseInterface
+     {
++        // BEGIN PATCH: extract proxy from uri and add it to the request headers
++        // $request = $this->requestFactory->createRequest($httpMethod, $uri);
++
++        list($uri, $proxy) = $this->excludeProxyFromUri($uri);
+         $request = $this->requestFactory->createRequest($httpMethod, $uri);
+ 
++        if ($proxy) {
++            $request = $request->withHeader('proxy', $proxy);
++        }
++        // END PATCH
++
+         if (null !== $body && is_string($body)) {
+             $request = $request->withBody($this->streamFactory->createStream($body));
+         }
+@@ -68,4 +77,21 @@ class HttpClient implements HttpClientInterface
+ 
+         return $this->httpExceptionHandler->transformResponseToException($request, $response);
+     }
++
++    // BEGIN PATCH
++    protected function excludeProxyFromUri(string $uri): array
++    {
++        if (!str_contains($uri, '@')) {
++            return [$uri, null];
++        }
++
++        $proxyStartPosition = strpos($uri, '//') + 2;
++        $proxyEndPosition = strpos($uri, '@');
++
++        $proxy = substr($uri, $proxyStartPosition, $proxyEndPosition - $proxyStartPosition);
++        $uri = str_replace($proxy . '@', '', $uri);
++
++        return [$uri, $proxy];
++    }
++    // END PATCH
+ }
