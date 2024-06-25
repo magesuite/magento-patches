@@ -1,16 +1,17 @@
 diff --git a/Helper/Product/View.php b/Helper/Product/View.php
-index e1b6952..771acb8 100644
+index e1b6952..a977e40 100644
 --- a/Helper/Product/View.php
 +++ b/Helper/Product/View.php
-@@ -130,7 +130,12 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
+@@ -130,7 +130,11 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
              $pageConfig->setKeywords($product->getName());
          }
+
 -        $pageConfig->setDescription($product->getMetaDescription());
 +        // BEGIN PATCH
 +        // $pageConfig->setDescription($product->getMetaDescription());
-+
 +        $description = $product->getMetaDescription() ?? $product->getShortDescription() ?? $product->getDescription();
 +        $pageConfig->setDescription($description);
 +        // END PATCH
+
          if ($this->_catalogProduct->canUseCanonicalTag()) {
              $pageConfig->addRemotePageAsset(
