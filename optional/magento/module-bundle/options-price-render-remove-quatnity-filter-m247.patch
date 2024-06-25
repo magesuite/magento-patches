@@ -1,0 +1,19 @@
+diff --git a/Pricing/Adjustment/DefaultSelectionPriceListProvider.php b/Pricing/Adjustment/DefaultSelectionPriceListProvider.php
+index ac78051..8b62c60 100644
+--- a/Pricing/Adjustment/DefaultSelectionPriceListProvider.php
++++ b/Pricing/Adjustment/DefaultSelectionPriceListProvider.php
+@@ -144,9 +144,11 @@ class DefaultSelectionPriceListProvider implements SelectionPriceListProviderInt
+     private function addMiniMaxPriceList(Product $bundleProduct, $selectionsCollection, $searchMin, $useRegularPrice)
+     {
+         $selectionsCollection->addPriceFilter($bundleProduct, $searchMin, $useRegularPrice);
+-        if ($bundleProduct->isSalable()) {
+-            $selectionsCollection->addQuantityFilter();
+-        }
++        // BEGIN PATCH
++        // if ($bundleProduct->isSalable()) {
++        //     $selectionsCollection->addQuantityFilter();
++        // }
++        // END PATCH
+         $selectionsCollection->setPage(0, 1);
+
+         $selection = $selectionsCollection->getFirstItem();
