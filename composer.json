@@ -2029,6 +2029,11 @@
                     "description": "Added missing path value needed for image edit",
                     "filename": "essential/magento/module-media-gallery-ui/image-path-added.patch",
                     "version-constraint": ">=100.4.4"
+                },
+                {
+                    "description": "Correction of getting relative path for remote URLs",
+                    "filename": "essential/magento/module-media-gallery-ui/get-image-relative-path.patch",
+                    "version-constraint": ">=100.4.5"
                 }
             ],
             "seven-senders/shipments-module": [
