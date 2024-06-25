@@ -1,0 +1,76 @@
+diff --git a/Observer/ProcessLayoutRenderElement.php b/Observer/ProcessLayoutRenderElement.php
+index d885964..b58c0e3 100644
+--- a/Observer/ProcessLayoutRenderElement.php
++++ b/Observer/ProcessLayoutRenderElement.php
+@@ -136,25 +136,55 @@ class ProcessLayoutRenderElement implements ObserverInterface
+         $event = $observer->getEvent();
+         /** @var \Magento\Framework\View\Layout $layout */
+         $layout = $event->getLayout();
+-        if ($this->isFullPageCacheEnabled() && $layout->isCacheable()) {
+-            $name = $event->getElementName();
++
++        // BEGIN PATCH
++        //        if ($this->isFullPageCacheEnabled() && $layout->isCacheable()) {
++        //            $name = $event->getElementName();
++        //            /** @var \Magento\Framework\View\Element\AbstractBlock $block */
++        //            $block = $layout->getBlock($name);
++        //            $transport = $event->getTransport();
++        //            if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
++        //                $blockTtl = $block->getTtl();
++        //                $output = $transport->getData('output');
++        //                if (isset($blockTtl) && $this->isVarnishEnabled()) {
++        //                    $output = $this->_wrapEsi($block, $layout);
++        //                } elseif ($block->isScopePrivate()) {
++        //                    $output = sprintf(
++        //                        '<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->',
++        //                        $block->getNameInLayout(),
++        //                        $output
++        //                    );
++        //                }
++        //                $transport->setData('output', $output);
++        //            }
++        //        }
++        $name = $event->getElementName();
++        $block = $layout->getBlock($name);
++
++        // Performance optimisation: checks of getTtl or scopePrivate must happen first before $layout->isCacheable
++        // in order to avoid its performance intensive execution when both return false
++        if (
++            $this->isFullPageCacheEnabled() &&
++            $block instanceof \Magento\Framework\View\Element\AbstractBlock &&
++            (($block->getTtl() && $this->isVarnishEnabled()) || $block->isScopePrivate()) &&
++            $layout->isCacheable()
++        ) {
+             /** @var \Magento\Framework\View\Element\AbstractBlock $block */
+-            $block = $layout->getBlock($name);
+             $transport = $event->getTransport();
+-            if ($block instanceof \Magento\Framework\View\Element\AbstractBlock) {
+-                $blockTtl = $block->getTtl();
+-                $output = $transport->getData('output');
+-                if (isset($blockTtl) && $this->isVarnishEnabled()) {
+-                    $output = $this->_wrapEsi($block, $layout);
+-                } elseif ($block->isScopePrivate()) {
+-                    $output = sprintf(
+-                        '<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->',
+-                        $block->getNameInLayout(),
+-                        $output
+-                    );
+-                }
+-                $transport->setData('output', $output);
++            $blockTtl = $block->getTtl();
++            $output = $transport->getData('output');
++            if (isset($blockTtl) && $this->isVarnishEnabled()) {
++                $output = $this->_wrapEsi($block, $layout);
++            } elseif ($block->isScopePrivate()) {
++                $output = sprintf(
++                    '<!-- BLOCK %1$s -->%2$s<!-- /BLOCK %1$s -->',
++                    $block->getNameInLayout(),
++                    $output
++                );
+             }
++            $transport->setData('output', $output);
+         }
++
++        // END PATCH
+     }
+ }

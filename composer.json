@@ -347,6 +347,11 @@
                     "description": "Do not try to send vary if headers already sent",
                     "filename": "essential/magento/module-page-cache/m23-do-not-send-vary-if-headers-already-sent.patch",
                     "version-constraint": ">=100.3.0,<100.4.0"
+                },
+                {
+                    "description": "Optimise performance of ProcessLayoutRender observer",
+                    "filename": "essential/magento/module-page-cache/process-layout-render-performance-optimisation.patch",
+                    "version-constraint":">=100.4.5"
                 }
             ],
             "magento/module-sales": [
