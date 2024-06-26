@@ -1,0 +1,15 @@
+fix: [RK-1479] Invoice for giftcard order cannot be created
+
+diff --git a/Model/Order/Invoice/InvoiceHelper.php b/Model/Order/Invoice/InvoiceHelper.php
+index cfd929d..5e3cb2f 100644
+--- a/Model/Order/Invoice/InvoiceHelper.php
++++ b/Model/Order/Invoice/InvoiceHelper.php
+@@ -183,7 +183,7 @@ class InvoiceHelper
+                                 ->getData(ProductAttributeInterface::CODE_AW_GC_CONDITION)
+                         )->setTaxPercent((float)$item->getOrderItem()->getTaxPercent())
+                         ->setApplyToShipping(
+-                            $item->getOrderItem()
++                            (string)$item->getOrderItem()
+                                 ->getProduct()
+                                 ->getData(ProductAttributeInterface::CODE_AW_GC_APPLY_TO_SHIPPING)
+                         );

@@ -1362,6 +1362,11 @@
                     "description": "Fix zero subtotal checkout (RK-1192)",
                     "filename": "essential/aheadworks/module-giftcard/fix-zero-subtotal-checkout.patch",
                     "version-constraint": ">=1.8.1"
+                },
+                {
+                    "description": "fix: [RK-1479] Invoice for giftcard order cannot be created",
+                    "filename": "essential/aheadworks/module-giftcard/typecast-null-to-string-when-applying-gc-to-shipping-costs.patch",
+                    "version-constraint": ">=1.8.1"
                 }
             ],
             "aheadworks/module-product-question": [
