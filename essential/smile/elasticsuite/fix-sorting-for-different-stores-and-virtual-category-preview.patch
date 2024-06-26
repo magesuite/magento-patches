@@ -1,7 +1,5 @@
-Fixed sorting for different stores + fixed virtual category preview
-
 diff --git a/src/module-elasticsuite-virtual-category/Model/Preview.php b/src/module-elasticsuite-virtual-category/Model/Preview.php
-index 32efa02..300b0bb 100644
+index db75a15..04f31da 100644
 --- a/src/module-elasticsuite-virtual-category/Model/Preview.php
 +++ b/src/module-elasticsuite-virtual-category/Model/Preview.php
 @@ -121,7 +121,10 @@ class Preview extends AbstractPreview
@@ -16,7 +14,19 @@ index 32efa02..300b0bb 100644
 
          return $collection;
      }
-@@ -143,7 +146,10 @@ class Preview extends AbstractPreview
+@@ -133,7 +136,10 @@ class Preview extends AbstractPreview
+      */
+     protected function getSortedProductIds() : array
+     {
+-        return ($this->getSortBy() === 'position') ? $this->category->getSortedProductIds() : [];
++        // PATCH START
++        // return ($this->getSortBy() === 'position') ? $this->category->getSortedProductIds() : [];
++        return str_contains($this->getSortBy(), 'position') ? $this->category->getSortedProductIds() : [];
++        // PATCH END
+     }
+
+     /**
+@@ -143,7 +149,10 @@ class Preview extends AbstractPreview
      {
          $items = parent::preparePreviewItems($products);
 
@@ -28,7 +38,7 @@ index 32efa02..300b0bb 100644
              // In order to sort the product in admin category grid, we need to set the position value
              // if the sort order is different from position because the products are sorted in js.
              // We also disable manual sorting when sort order is not position.
-@@ -218,7 +224,10 @@ class Preview extends AbstractPreview
+@@ -218,7 +227,10 @@ class Preview extends AbstractPreview
              $useConfig = $this->request->getParam('use_config', []);
              $useConfig = array_key_exists('default_sort_by', $useConfig) && $useConfig['default_sort_by'] == 'true';
              $defaultSortBy = $this->categoryConfig->getProductListDefaultSortBy();
