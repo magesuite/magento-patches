@@ -78,6 +78,28 @@ index 2905471..fecedcd 100644
 -}
 \ No newline at end of file
 +}
+diff --git a/Observer/MollieStartTransaction/SavePendingOrder.php b/Observer/MollieStartTransaction/SavePendingOrder.php
+index adba860..c0a83e9 100644
+--- a/Observer/MollieStartTransaction/SavePendingOrder.php
++++ b/Observer/MollieStartTransaction/SavePendingOrder.php
+@@ -55,10 +55,15 @@ class SavePendingOrder implements ObserverInterface
+         /** @var OrderInterface $order */
+         $order = $observer->getData('order');
+ 
+-        if (!$this->config->automaticallySendSecondChanceEmails($order->getStoreId()) ||
+-            $order->getPayment()->getMethod() == Banktransfer::CODE) {
++        // PATCH BEGIN
++        //if (!$this->config->automaticallySendSecondChanceEmails($order->getStoreId()) ||
++        //    $order->getPayment()->getMethod() == Banktransfer::CODE) {
++        //    return;
++        //}
++        if (!$this->config->automaticallySendSecondChanceEmails($order->getStoreId())) {
+             return;
+         }
++        // PATCH END
+ 
+         try {
+             // If this succeeds there already exists a reminder.
 diff --git a/Service/Order/SecondChanceEmail.php b/Service/Order/SecondChanceEmail.php
 index 8c3afb1..81cd82d 100644
 --- a/Service/Order/SecondChanceEmail.php
