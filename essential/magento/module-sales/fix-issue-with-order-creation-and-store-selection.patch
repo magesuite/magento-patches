@@ -2,18 +2,16 @@ Original issue: https://github.com/magento/magento2/issues/37452
 PR: https://github.com/magento/magento2/commit/6c93c056f3a1fae9d8eef628f664593b2b0e3d4f
 
 diff --git a/view/adminhtml/web/order/create/scripts.js b/view/adminhtml/web/order/create/scripts.js
-index c09b9df..ed93c9d 100644
+index c09b9df..18893b3 100644
 --- a/view/adminhtml/web/order/create/scripts.js
 +++ b/view/adminhtml/web/order/create/scripts.js
-@@ -157,8 +157,18 @@
+@@ -157,8 +157,16 @@
              this.sidebarShow();
              //this.loadArea(['header', 'sidebar','data'], true);
              this.dataShow();
 -            this.loadArea(['header', 'data'], true);
 -            location.reload();
-+            // BEGIN PATCH DOG-1766
-+            //this.loadArea(['header', 'data'], true);
-+            //location.reload();
++            // PATCH START
 +            this.loadArea(
 +                ['header', 'data'],
 +                true,
@@ -22,31 +20,19 @@ index c09b9df..ed93c9d 100644
 +                    location.reload();
 +                }
 +            );
-+            // END PATCH
++            // PATCH END
          },
- 
+
          setCurrencyId: function (id) {
-@@ -1067,6 +1077,11 @@
-             productConfigure.addListType(listType, {urlSubmit: url});
-             productConfigure.setOnLoadIFrameCallback(listType, function (response) {
-                 this.loadAreaResponseHandler(response);
-+                // BEGIN PATCH DOG-1766
-+                if (callback instanceof Function) {
-+                    callback();
-+                }
-+                // END PATCH
-             }.bind(this));
-             productConfigure.submit(listType);
-             // clean
-@@ -1164,7 +1179,10 @@
-             }
-         },
- 
--        loadArea: function (area, indicator, params) {
-+        // BEGIN PATCH DOG-1766
-+        //loadArea: function (area, indicator, params) {
-+        loadArea: function (area, indicator, params, callback) {
-+        // END PATCH
-             var deferred = new jQuery.Deferred();
-             var url = this.loadBaseUrl;
-             if (area) {
+@@ -1183,6 +1189,11 @@
+                     onSuccess: function (transport) {
+                         var response = transport.responseText.evalJSON();
+                         this.loadAreaResponseHandler(response);
++                        // PATCH START
++                        if (callback instanceof Function) {
++                            callback();
++                        }
++                        // PATCH END
+                         deferred.resolve();
+                     }.bind(this)
+                 });
