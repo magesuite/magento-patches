@@ -13,7 +13,7 @@ index 1f4ebe5..6c772e9 100644
 +            // PATCH END
              $this->builder->addFilter(Order::CREATED_AT, $date, 'lt');
              $this->builder->setPageSize(10);
- 
+
 diff --git a/Model/Adminhtml/Source/SecondChanceEmailDelay.php b/Model/Adminhtml/Source/SecondChanceEmailDelay.php
 index 2905471..fecedcd 100644
 --- a/Model/Adminhtml/Source/SecondChanceEmailDelay.php
@@ -44,7 +44,7 @@ index 2905471..fecedcd 100644
 +            'label' => __('1 hour'),
              'value' => 1,
          ];
- 
+
 -        for ($i = 2; $i <= 8; $i++) {
 +        for ($i = 2; $i < 8; $i++) {
 +            $output[] = [
@@ -59,7 +59,7 @@ index 2905471..fecedcd 100644
                  'value' => $i,
              ];
          }
- 
+
 +        $output[] = [
 +            'label' => __('1 day'),
 +            'value' => 24,
@@ -85,7 +85,7 @@ index adba860..c0a83e9 100644
 @@ -55,10 +55,15 @@ class SavePendingOrder implements ObserverInterface
          /** @var OrderInterface $order */
          $order = $observer->getData('order');
- 
+
 -        if (!$this->config->automaticallySendSecondChanceEmails($order->getStoreId()) ||
 -            $order->getPayment()->getMethod() == Banktransfer::CODE) {
 +        // PATCH BEGIN
@@ -97,43 +97,6 @@ index adba860..c0a83e9 100644
              return;
          }
 +        // PATCH END
- 
+
          try {
              // If this succeeds there already exists a reminder.
-diff --git a/Service/Order/SecondChanceEmail.php b/Service/Order/SecondChanceEmail.php
-index 8c3afb1..81cd82d 100644
---- a/Service/Order/SecondChanceEmail.php
-+++ b/Service/Order/SecondChanceEmail.php
-@@ -141,6 +141,22 @@ class SecondChanceEmail
-             $token = $this->paymentToken->forOrder($order);
-         }
- 
-+        // PATCH BEGIN
-+        //return [
-+        //    'link' => $this->getUrl($order, $token),
-+        //    'customer' => [
-+        //        'name' => $order->getCustomerName(),
-+        //        'email' => $order->getCustomerEmail(),
-+        //    ],
-+        //    'order' => $order,
-+        //    'order_id' => $order->getEntityId(),
-+        //    'store' => $this->storeManager->getStore($order->getStoreId()),
-+        //    'payment_token' => $token->getToken(),
-+        //];
-+        $additionalInfo = $order->getPayment()->getAdditionalInformation();
-+        $details = $additionalInfo['details'] ?? '{}';
-+        $paymentReference = json_decode($details, true)['transferReference'] ?? '-';
-+
-         return [
-             'link' => $this->getUrl($order, $token),
-             'customer' => [
-@@ -151,7 +167,9 @@ class SecondChanceEmail
-             'order_id' => $order->getEntityId(),
-             'store' => $this->storeManager->getStore($order->getStoreId()),
-             'payment_token' => $token->getToken(),
-+            'payment_reference' => $paymentReference,
-         ];
-+        // PATCH END
-     }
- 
-     /**
