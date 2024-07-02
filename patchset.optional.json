@@ -928,7 +928,7 @@
             },
             {
                 "description": "Prevent removing of related/upsell/crosssell products during import when add_update behavior is used.",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/prevent-removing-related-products-during-import.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/prevent-removing-related-upsell-crosssell-products.patch",
                 "version-constraint": "*"
             }
         ],
