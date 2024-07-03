@@ -1,0 +1,15 @@
+diff --git a/Model/Import/Product/LinkProcessor.php b/Model/Import/Product/LinkProcessor.php
+index f8633a8..7673578 100644
+--- a/Model/Import/Product/LinkProcessor.php
++++ b/Model/Import/Product/LinkProcessor.php
+@@ -320,7 +320,9 @@ class LinkProcessor
+      *
+      * @throws LocalizedException
+      */
+-    private function saveLinksData(
++    //BEGIN PATCH
++    public function saveLinksData(
++    //END PATCH
+         Product $importEntity,
+         Link $resource,
+         array $productIds,
