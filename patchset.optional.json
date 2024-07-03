@@ -395,6 +395,11 @@
                 "description": "Add company field to rate request in quote module",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-quote/m22-add-company-to-rate-request.patch",
                 "version-constraint": "101.0.*"
+            },
+            {
+              "description": "Correct error messages so they can be easily translated",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-quote/RK-1556-missing-giftcard-translations.patch",
+              "version-constraint": ">=101.2.6-p1"
             }
         ],
         "magento/module-sales": [

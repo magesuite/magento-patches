@@ -1,0 +1,16 @@
+diff --git a/Model/CouponManagement.php b/Model/CouponManagement.php
+index c9cf5f9..b7a5f93 100644
+--- a/Model/CouponManagement.php
++++ b/Model/CouponManagement.php
+@@ -75,7 +75,10 @@ class CouponManagement implements CouponManagementInterface
+             $quote->setCouponCode($couponCode);
+             $this->quoteRepository->save($quote->collectTotals());
+         } catch (LocalizedException $e) {
+-            throw new CouldNotSaveException(__('The coupon code couldn\'t be applied: ' .$e->getMessage()), $e);
++            // PATCH BEGIN
++            // throw new CouldNotSaveException(__('The coupon code couldn\'t be applied: ' .$e->getMessage()), $e);
++            throw new CouldNotSaveException(__("The coupon code couldn't be applied: %1", $e->getMessage()), $e);
++            // PATCH END
+         } catch (\Exception $e) {
+             throw new CouldNotSaveException(
+                 __("The coupon code couldn't be applied. Verify the coupon code and try again."),
