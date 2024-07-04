@@ -932,8 +932,8 @@
               "version-constraint": "*"
             },
             {
-                "description": "Prevent removing of related/upsell/crosssell products during import when add_update behavior is used.",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/prevent-removing-related-upsell-crosssell-products.patch",
+                "description": "Make saveLinksData method public",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/make-save-links-data-method-public.patch",
                 "version-constraint": "*"
             }
         ],
