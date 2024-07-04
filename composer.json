@@ -1295,7 +1295,7 @@
                 {
                     "description": "Skip invalidate whole aw_blog_product_post index after saving blog post (IPET-2491)",
                     "filename": "essential/aheadworks/module-blog/fix-index-invalidation-after-save-blog-post.patch",
-                    "version-constraint": ">=2.14.0"
+                    "version-constraint": ">=2.14.0,<=2.21.1"
                 },
                 {
                     "description": "Removed logic that sends empty tags when deferred cache is enabled (IPET-2506)",
