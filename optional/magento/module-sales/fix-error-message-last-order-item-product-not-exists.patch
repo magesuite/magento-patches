@@ -1,0 +1,16 @@
+diff --git a/CustomerData/LastOrderedItems.php b/CustomerData/LastOrderedItems.php
+index 91164da..402bd3d 100644
+--- a/CustomerData/LastOrderedItems.php
++++ b/CustomerData/LastOrderedItems.php
+@@ -149,7 +149,10 @@ class LastOrderedItems implements SectionSourceInterface
+                         $this->_storeManager->getStore()->getId()
+                     );
+                 } catch (NoSuchEntityException $noEntityException) {
+-                    $this->logger->critical($noEntityException);
++                    //$this->logger->critical($noEntityException);
++                    // BEGIN PATCH
++                    $this->logger->info($noEntityException);
++                    // END PATCH
+                     continue;
+                 }
+                 if (in_array($website, $product->getWebsiteIds())) {

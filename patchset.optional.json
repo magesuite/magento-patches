@@ -432,6 +432,11 @@
               "description": "Change reorder class properties and methods visibility",
               "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/change_reorder_class_properties_and_methods_visibility.patch",
               "version-constraint": ">=103.0.5-p5,<=103.0.6"
+            },
+            {
+                "description": "Change error to info message for the last order item product does not exist",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-error-message-last-order-item-product-not-exists.patch",
+                "version-constraint": ">=103.0.6-p6"
             }
         ],
         "magento/module-shipping": [
