@@ -1,31 +1,33 @@
 This patch is fixing issue with linking social network account in customer area.
 The issue is caused by the fact that the persistent parameters stored in session are not cleared after linking the account.
 This causes the persistent parameters to be reused when user try to login via social network, which cause error with wrong action be triggered.
-Related tickets: IPET-2656
+IPET-2681: Added redirect url with store specified to fix redirecting to wrong store view issue.
+Related tickets: IPET-2656, IPET-2681
 
 diff --git a/Controller/Account/LinkAction.php b/Controller/Account/LinkAction.php
-index ac85e86..033ede1 100644
+index ac85e86..7ed91c9 100644
 --- a/Controller/Account/LinkAction.php
 +++ b/Controller/Account/LinkAction.php
-@@ -41,6 +41,11 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+@@ -41,6 +41,10 @@ class LinkAction extends \Magento\Framework\App\Action\Action
       */
      private $customerSession;
- 
+
 +    // BEGIN PATCH
 +    protected \Plumrocket\SocialLoginPro\Model\Network\ApiCallParamsPersistorInterface $apiCallParamsPersistor;
 +    // END PATCH
 +
-+
      /**
       * @param \Magento\Framework\App\Action\Context                           $context
       * @param \Magento\Framework\Session\SessionManagerInterface              $customerSession
-@@ -51,12 +56,16 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+@@ -51,12 +55,18 @@ class LinkAction extends \Magento\Framework\App\Action\Action
          Context $context,
          SessionManagerInterface $customerSession,
          CustomerNetworksManagerInterface $customerNetworksManager,
 -        LoggerInterface $logger
++        // BEGIN PATCH
 +        LoggerInterface $logger,
 +        \Plumrocket\SocialLoginPro\Model\Network\ApiCallParamsPersistorInterface $apiCallParamsPersistor
++        // END PATCH
      ) {
          parent::__construct($context);
          $this->customerNetworksManager = $customerNetworksManager;
@@ -35,16 +37,22 @@ index ac85e86..033ede1 100644
 +        $this->apiCallParamsPersistor = $apiCallParamsPersistor;
 +        // END PATCH
      }
- 
+
      /**
-@@ -71,6 +80,10 @@ class LinkAction extends \Magento\Framework\App\Action\Action
-         $userId = $userData['user_id'] ?? '0';
-         $userPhoto = $userData['photo'] ?? null;
- 
+@@ -81,7 +91,15 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+             $this->messageManager->addErrorMessage(__('Sorry, but something went wrong.'));
+         }
+
+-        $redirectUrl = $this->_url->getUrl('pslogin/account/view', []);
 +        // BEGIN PATCH
++        //$redirectUrl = $this->_url->getUrl('pslogin/account/view', []);
++        if ($this->apiCallParamsPersistor->get('current_store_id')) {
++            $redirectUrl = $this->_url->getUrl('pslogin/account/view', ['_scope' => $this->apiCallParamsPersistor->get('current_store_id')]);
++        } else {
++            $redirectUrl = $this->_url->getUrl('pslogin/account/view', []);
++        }
 +        $this->apiCallParamsPersistor->clear();
 +        // END PATCH
-+
-         try {
-             $this->customerNetworksManager->linkNetworkToCustomer($type, $userId, $customerId, $userPhoto);
-         } catch (AlreadyExistsException $alreadyExistsException) {
+         $this->getResponse()->setBody(
+             $this->jsWrap(
+                 'if(window.opener && window.opener.location &&  !window.opener.closed) { ' .
