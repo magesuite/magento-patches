@@ -2739,7 +2739,7 @@
                     "version-constraint": ">=4.6.6"
                 },
                 {
-                    "description": "Fix for link social network from customer area (IPET-2656)",
+                    "description": "Fix for link social network from customer area (IPET-2656, IPET-2681)",
                     "filename": "essential/plumrocket/module-psloginpro/fix-for-link-social-network-in-customer-area.patch",
                     "version-constraint": ">=4.6.6"
                 }
