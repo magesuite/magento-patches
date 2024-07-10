@@ -368,6 +368,11 @@
                 "version-constraint": ">=103.0.5"
             },
             {
+                "description": "Fix referrer url after customer login.",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/fix-customer-redirect-after-login.patch",
+                "version-constraint": ">=103.0.5"
+            },
+            {
                 "description": "Fix email notification getWebsiteStoreId method return type",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/fix-email-notification-get-website-store-id-return-type.patch",
                 "version-constraint": "103.0.4"

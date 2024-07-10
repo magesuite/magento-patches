@@ -1,0 +1,21 @@
+diff --git a/Model/Account/Redirect.php b/Model/Account/Redirect.php
+index dc83aee..0b18d50 100644
+--- a/Model/Account/Redirect.php
++++ b/Model/Account/Redirect.php
+@@ -224,6 +224,16 @@ class Redirect
+             $referrer = $this->request->getParam(CustomerUrl::REFERER_QUERY_PARAM_NAME);
+             if ($referrer) {
+                 $referrer = $this->urlDecoder->decode($referrer);
++                // PATCH START
++                $referrerParsed = parse_url($referrer);
++                $urlPath = $referrerParsed['path'];
++
++                if ($this->storeManager->getStore()->isUseStoreInUrl()) {
++                    $urlPath = preg_replace('/^\/\w+/','', $urlPath);
++                }
++
++                $referrer = $this->url->getUrl(ltrim($urlPath, '/'));
++                // PATCH END
+                 preg_match('/logoutSuccess\//', $referrer, $matches, PREG_OFFSET_CAPTURE);
+                 if (!empty($matches)) {
+                     $referrer = str_replace('logoutSuccess/', '', $referrer);
