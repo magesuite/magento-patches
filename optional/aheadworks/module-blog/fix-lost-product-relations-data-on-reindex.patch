@@ -1,0 +1,19 @@
+Replaced multithread reindex with singlethread because first one has a bug which losts every product relation except last batch. IPET-2707
+
+diff --git a/Model/Indexer/ProductPost/Action/Full.php b/Model/Indexer/ProductPost/Action/Full.php
+index 945f570..c9902b0 100644
+--- a/Model/Indexer/ProductPost/Action/Full.php
++++ b/Model/Indexer/ProductPost/Action/Full.php
+@@ -60,7 +60,11 @@ class Full extends AbstractAction
+     {
+         $magentoVersion = $this->productMetadata->getVersion();
+         if (version_compare($magentoVersion, '2.2.6', '>=')) {
+-            $this->multiThreadProcessor->execute($ids);
++            //BEGIN PATCH
++            //Execute single thread reindex because multi thread has an issue that overrides everything in 'aw_blog_product_post' table except last batch
++            //$this->multiThreadProcessor->execute($ids);
++            $this->singleThreadProcessor->execute($ids);
++            //END PATCH
+         } else {
+             $this->singleThreadProcessor->execute($ids);
+         }
