@@ -2377,12 +2377,7 @@
                 {
                     "description": "Category filter optimization",
                     "filename": "essential/wyomind/datafeedmanager/category-filters-optimization.patch",
-                    "version-constraint": ">=11.23.0,<14.0.6"
-                },
-                {
-                    "description": "Category filter optimization",
-                    "filename": "essential/wyomind/datafeedmanager/category-filters-optimization-14plus.patch",
-                    "version-constraint": ">=14.0.6"
+                    "version-constraint": ">=11.23.0"
                 },
                 {
                     "description": "After update to PHP 82, dynamic class propery creation is deprecated",
