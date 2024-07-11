@@ -900,6 +900,11 @@
                 "description": "Fix problem with index on HAAR",
                 "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-blog/m22-aheadworks-module-blog-fix-indexer-haar.patch",
                 "version-constraint": "^2.4.0"
+            },
+            {
+              "description": "Fix lost product relations on reindex",
+              "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-blog/fix-lost-product-relations-data-on-reindex.patch",
+              "version-constraint": "^2.4.0"
             }
         ],
         "aheadworks/module-blog-search": [
