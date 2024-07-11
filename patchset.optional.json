@@ -902,7 +902,7 @@
                 "version-constraint": "^2.4.0"
             },
             {
-              "description": "Fix lost product relations on reindex",
+              "description": "Fix lost product relations on reindex (IPET-2707)",
               "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-blog/fix-lost-product-relations-data-on-reindex.patch",
               "version-constraint": "^2.4.0"
             }
