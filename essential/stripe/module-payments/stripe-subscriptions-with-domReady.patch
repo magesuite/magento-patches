@@ -1,0 +1,13 @@
+diff --git a/view/frontend/web/js/helper/subscriptions.js b/view/frontend/web/js/helper/subscriptions.js
+index b1b9ea3..849e5b7 100644
+--- a/view/frontend/web/js/helper/subscriptions.js
++++ b/view/frontend/web/js/helper/subscriptions.js
+@@ -1,6 +1,7 @@
+ define(
+     [
+-        'ko'
++        'ko',
++        'domReady!'
+     ],
+     function (
+         ko

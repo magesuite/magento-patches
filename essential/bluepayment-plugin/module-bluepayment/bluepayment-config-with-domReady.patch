@@ -1,0 +1,12 @@
+diff --git a/view/frontend/web/js/model/checkout/bluepayment-config.js b/view/frontend/web/js/model/checkout/bluepayment-config.js
+index 5d55c49..b02386a 100644
+--- a/view/frontend/web/js/model/checkout/bluepayment-config.js
++++ b/view/frontend/web/js/model/checkout/bluepayment-config.js
+@@ -1,4 +1,6 @@
+-define(function () {
++define([
++    'domReady!'
++], function () {
+     'use strict';
+ 
+     const config = window.checkoutConfig.payment.bluepayment;
