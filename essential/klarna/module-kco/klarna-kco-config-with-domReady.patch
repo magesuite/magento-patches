@@ -1,0 +1,13 @@
+diff --git a/view/frontend/web/js/model/config.js b/view/frontend/web/js/model/config.js
+index c5c9721..5d56f22 100644
+--- a/view/frontend/web/js/model/config.js
++++ b/view/frontend/web/js/model/config.js
+@@ -4,7 +4,7 @@
+  * For the full copyright and license information, please view the NOTICE
+  * and LICENSE files that were distributed with this source code.
+  */
+-define(['ko'], function (ko) {
++define(['ko', 'domReady!'], function (ko) {
+     'use strict';
+ 
+     return {

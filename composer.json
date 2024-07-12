@@ -2432,6 +2432,13 @@
                     "version-constraint": ">=2.0.17,<2.0.18"
                 }
             ],
+            "klarna/module-kco": [
+                {
+                    "description": "Adds domReady! dependency to Klarna_Kco/js/model/config, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/klarna/module-kco/klarna-kco-config-with-domReady.patch",
+                    "version-constraint": ">=11.0.18"
+                }
+            ],
             "mollie/magento2": [
                 {
                     "description": "Add a dispatch event mollie_before_build_transaction_orders_api to handle additional fee from bulk goods",
@@ -2680,6 +2687,11 @@
                     "description": "Fix critical error if order post data is empty",
                     "filename": "essential/smartmage/inpost/fix-error-when-post-data-is-empty.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Adds domReady! dependency to Smartmage_Inpost/web/js/inpost-paczkomaty, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/smartmage/inpost/paczkomaty-inpost-with-domReady.patch",
+                    "version-constraint": ">=1.13"
                 }
             ],
             "mailchimp/mc-magento2": [
@@ -2737,6 +2749,20 @@
                     "description": "Fix for link social network from customer area (IPET-2656, IPET-2681)",
                     "filename": "essential/plumrocket/module-psloginpro/fix-for-link-social-network-in-customer-area.patch",
                     "version-constraint": ">=4.6.6"
+                }
+            ],
+            "stripe/module-payments": [
+                {
+                    "description": "Adds domReady! dependency to StripeIntegration_Payments/js/helper/subscriptions, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/stripe/module-payments/stripe-subscriptions-with-domReady.patch",
+                    "version-constraint": ">=4.0.8"
+                }
+            ],
+            "bluepayment-plugin/module-bluepayment": [
+                {
+                    "description": "Adds domReady! dependency to BlueMedia_BluePayment/js/model/checkout/bluepayment-config, so window.checkoutConfig is 100% loaded",
+                    "filename": "essential/bluepayment-plugin/module-bluepayment/bluepayment-config-with-domReady.patch",
+                    "version-constraint": ">=2.22.8"
                 }
             ]
         }

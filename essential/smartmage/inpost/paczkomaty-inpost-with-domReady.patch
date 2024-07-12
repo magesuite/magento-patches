@@ -1,0 +1,12 @@
+diff --git a/view/frontend/web/js/inpost-paczkomaty.js b/view/frontend/web/js/inpost-paczkomaty.js
+index 12980e4..54fb4ed 100644
+--- a/view/frontend/web/js/inpost-paczkomaty.js
++++ b/view/frontend/web/js/inpost-paczkomaty.js
+@@ -7,6 +7,7 @@ define([
+     'Magento_Checkout/js/checkout-data',
+     'Magento_Checkout/js/model/full-screen-loader',
+     'inPostSdk',
++    'domReady!'
+ ], function ($, Component, quote, shippingService, $t, checkoutData, fullScreenLoader) {
+     'use strict';
+ 
