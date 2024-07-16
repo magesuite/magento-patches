@@ -1,0 +1,20 @@
+diff --git a/Model/InsertImageData/GetInsertImageData.php b/Model/InsertImageData/GetInsertImageData.php
+index 6f1d399..c5e5c79 100644
+--- a/Model/InsertImageData/GetInsertImageData.php
++++ b/Model/InsertImageData/GetInsertImageData.php
+@@ -151,8 +151,12 @@ class GetInsertImageData
+      */
+     private function getImageRelativePath(string $content): string
+     {
+-        // phpcs:ignore Magento2.Functions.DiscouragedFunction
+-        $mediaPath = parse_url($this->imagesHelper->getCurrentUrl(), PHP_URL_PATH);
+-        return substr($content, strlen($mediaPath));
++        // PATCH BEGIN
++        //// phpcs:ignore Magento2.Functions.DiscouragedFunction
++        //$mediaPath = parse_url($this->imagesHelper->getCurrentUrl(), PHP_URL_PATH);
++        //return substr($content, strlen($mediaPath));
++        $path = parse_url($content, PHP_URL_PATH);
++        return ltrim($path, '/');
++        // PATCH END
+     }
+ }
