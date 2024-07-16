@@ -55,6 +55,13 @@
                 "version-constraint": "*"
             }
         ],
+        "consentmanager/cmp": [
+            {
+              "description": "Fix cmp_whitelist,xml file.",
+              "filename": "vendor/creativestyle/magento-patches/optional/consentmanager/cmp/fix-cmp-whitelist-xml-file.patch",
+              "version-constraint": "*"
+            }
+        ],
         "creativestyle/magesuite-autocomplete": [
             {
                 "description": "Fixing Einhell build test errors",
