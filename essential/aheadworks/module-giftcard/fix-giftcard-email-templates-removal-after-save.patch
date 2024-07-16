@@ -1,0 +1,17 @@
+diff --git a/Model/ResourceModel/Product/Relation/Templates/ReadHandler.php b/Model/ResourceModel/Product/Relation/Templates/ReadHandler.php
+--- a/Model/ResourceModel/Product/Relation/Templates/ReadHandler.php
++++ b/Model/ResourceModel/Product/Relation/Templates/ReadHandler.php	(date 1714556137000)
+@@ -82,11 +82,8 @@
+             $metadata->getEavEntityType(),
+             ProductAttributeInterface::CODE_AW_GC_EMAIL_TEMPLATES
+         );
+-        $storeId = null;
+-        if (isset($entityData['store_id'])) {
+-            $storeId = $entityData['store_id'];
+-        }
+-        $templates = $this->getTemplatesByProduct($entityData['entity_id'], $storeId);
++
++        $templates = $this->getTemplatesByProduct($entityData['entity_id']);
+         $entityData[$attribute->getAttributeCode()] = $templates;
+         $entity = $hydrator->hydrate($entity, $entityData);
+         return $entity;
