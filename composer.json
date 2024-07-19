@@ -1129,6 +1129,11 @@
                     "description": "Adds domReady! dependency to Magento_Checkout/js/model/url-builder, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/magento/module-checkout/m246-url-builder-with-domReady.patch",
                     "version-constraint": ">=100.4.6"
+                },
+                {
+                    "description": "Remove unwanted force call to update unvalidated billing-address",
+                    "filename": "essential/magento/module-checkout/m246-fix-billing-address-validation.patch",
+                    "version-constraint": ">=100.4.6"
                 }
             ],
             "magento/module-checkout-agreements": [
