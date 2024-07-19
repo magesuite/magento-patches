@@ -1,0 +1,18 @@
+Removed additional (duplicated) call with "force" flag and prevent sending a address update request when the address form
+is not valid. Prevents getting "%field% is a required field" error message when the address form is not valid.
+
+Originated here: https://github.com/magento/magento2/commit/aa01f649e6c2d9f8a63dbaef7612fe1e55d0fb2c
+Valid for magento/module-checkout >= 100.4.6
+
+diff --git a/view/frontend/web/js/view/billing-address.js b/view/frontend/web/js/view/billing-address.js
+index 3437a42..cdfb592 100644
+--- a/view/frontend/web/js/view/billing-address.js
++++ b/view/frontend/web/js/view/billing-address.js
+@@ -176,7 +176,6 @@ function (
+                     this.updateAddresses();
+                 }
+             }
+-            this.updateAddresses(true);
+         },
+
+         /**
