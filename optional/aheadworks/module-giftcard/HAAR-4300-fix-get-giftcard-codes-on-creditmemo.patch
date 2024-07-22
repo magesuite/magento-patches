@@ -1,0 +1,13 @@
+diff --git a/ViewModel/Adminhtml/Order/Creditmemo/RefundPriority.php b/ViewModel/Adminhtml/Order/Creditmemo/RefundPriority.php
+index 8697919..ad649c5 100644
+--- a/ViewModel/Adminhtml/Order/Creditmemo/RefundPriority.php
++++ b/ViewModel/Adminhtml/Order/Creditmemo/RefundPriority.php
+@@ -121,7 +121,7 @@ class RefundPriority implements ArgumentInterface
+                 $itemsToFilter[] = $item;
+             }
+         }
+-        $giftCardCodes = $this->getCreditmemo()->getOrder()->getExtensionAttributes()->getAwGiftcardCodes();
++        $giftCardCodes = $this->getCreditmemo()->getOrder()->getExtensionAttributes()->getAwGiftcardCodes() ?: [];
+         foreach ($giftCardCodes as $giftCardCode) {
+             if (!empty($this->giftcardUsedAmount->filterItemsByGiftCard($itemsToFilter, $giftCardCode))) {
+                 return true;
