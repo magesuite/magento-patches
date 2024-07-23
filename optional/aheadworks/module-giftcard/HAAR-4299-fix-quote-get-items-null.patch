@@ -1,0 +1,13 @@
+diff --git a/Plugin/Model/PaymentMethodListPlugin.php b/Plugin/Model/PaymentMethodListPlugin.php
+index 8c3136a..f6b363a 100644
+--- a/Plugin/Model/PaymentMethodListPlugin.php
++++ b/Plugin/Model/PaymentMethodListPlugin.php
+@@ -40,7 +40,7 @@ class PaymentMethodListPlugin
+     ) {
+         $allowedMethods = $this->config->getAvailablePaymentList();
+         $hasAwGiftCard = false;
+-        $items = $quote->getItems();
++        $items = $quote->getItems() ?: [];
+         foreach ($items as $item) {
+             if ($item->getProductType() == Giftcard::TYPE_CODE) {
+                 $hasAwGiftCard = true;

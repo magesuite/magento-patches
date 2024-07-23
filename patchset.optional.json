@@ -859,6 +859,11 @@
               "description": "fix: [HAAR-4300] Fix null given on foreach when getting giftcard codes from order",
               "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/HAAR-4300-fix-get-giftcard-codes-on-creditmemo.patch",
               "version-constraint": "1.8.1"
+            },
+            {
+              "description": "fix: [HAAR-4299] Fix null given on foreach when getting quote items",
+              "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/HAAR-4299-fix-quote-get-items-null.patch",
+              "version-constraint": "1.8.1"
             }
         ],
         "aheadworks/module-customer-group-catalog-permissions": [
