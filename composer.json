@@ -2567,6 +2567,13 @@
                     "version-constraint": ">=1.7.8"
                 }
             ],
+            "magepal/magento2-googletagmanager": [
+                {
+                    "description": "Wrap script with renderer CSP",
+                    "filename": "essential/magepal/magento2-googletagmanager/wrap_script_with_renderer_csp.patch",
+                    "version-constraint": ">=2.7.8"
+                }
+            ],
             "cleverzoeger/ext-magento2-cleverzoeger-paqato": [
                 {
                     "description": "Add store emulation for getting product image url",

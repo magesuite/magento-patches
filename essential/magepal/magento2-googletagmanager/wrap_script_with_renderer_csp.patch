@@ -1,0 +1,123 @@
+Github issue: https://github.com/magepal/magento2-google-tag-manager/issues/87
+
+diff --git a/view/frontend/templates/js.phtml b/view/frontend/templates/js.phtml
+index b6d42fe..c37a269 100755
+--- a/view/frontend/templates/js.phtml
++++ b/view/frontend/templates/js.phtml
+@@ -6,60 +6,70 @@
+  */
+
+ /** @var $block MagePal\GoogleTagManager\Block\DataLayer **/
+-$dataLayerName = $block->getDataLayerName();
+-$accountId = $block->getAccountId();
+-$containerCode = $block->getEmbeddedCode();
+-?>
++$dataLayerName = $escaper->escapeJs($block->getDataLayerName());
++$accountId = $escaper->escapeJs($block->getAccountId());
++$containerCode = $block->getEmbeddedCode() ? "+'{$block->getEmbeddedCode()}'" : '';
+
+-<!-- Google Tag Manager by MagePal -->
+-<script type="text/javascript">
+-    window.<?= /* @noEscape */ $dataLayerName ?> = window.<?= /* @noEscape */ $dataLayerName ?> || [];
++$gtmScript = <<<SCRIPT
++    window.{$dataLayerName} = window.{$dataLayerName} || [];
++    SCRIPT;
+
+-<?php if (!$block->isGdprEnabled() && $block->addJsInHead() && !$block->isAdvancedSettingsEnabled()): ?>
+-    <?= /* @noEscape */ $block->getDataLayerJs() ?>
+-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+-        j=d.createElement(s),dl=l!='<?= /* @noEscape */ $dataLayerName ?>'?'&l='+l:'';j.async=true;j.src=
+-        'https://www.googletagmanager.com/gtm.js?id='+i+dl<?= /* @noEscape */ $containerCode ? "+'{$containerCode}'" : '' ?>;f.parentNode.insertBefore(j,f);
+-    })(window,document,'script','<?= /* @noEscape */ $dataLayerName ?>','<?= /* @noEscape */ $accountId ?>');
+-<?php endif; ?>
+-</script>
++if (!$block->isGdprEnabled() && $block->addJsInHead() && !$block->isAdvancedSettingsEnabled()) {
++    $dataLayerJs = $block->getDataLayerJs();
++    $gtmScript .= <<<SCRIPT
++            {$dataLayerJs}
++            (function(w,d,s,l,i){
++            w[l]=w[l]||[];
++            w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});
++            var f=d.getElementsByTagName(s)[0],
++                j=d.createElement(s),
++                dl=l!='{$dataLayerName}'?'&l='+l:'';
++            j.async=true;
++            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl'{$containerCode}';
++            f.parentNode.insertBefore(j,f);
++        })(window,document,'script','{$dataLayerName}','{$accountId}');
++        SCRIPT;
++}
+
+-<?php if ($block->isAdvancedSettingsEnabled()): ?>
+-<script type="text/javascript">
+-    <?= /* @noEscape */ $block->getDataLayerJs() ?>
+-</script>
+-    <?= /* @noEscape */ $block->getAdvancedSettingsJsCode() ?>
+-<?php endif; ?>
++if ($block->isAdvancedSettingsEnabled()) {
++    $advancedSettingsJsCode = $block->getAdvancedSettingsJsCode();
++    $gtmScript .= <<<SCRIPT
++            {$dataLayerJs}
++            {$advancedSettingsJsCode}
++            SCRIPT;
++}
+
+-<?php if (($block->isGdprEnabled() || !$block->addJsInHead()) && !$block->isAdvancedSettingsEnabled()) : ?>
+-<script type="text/x-magento-init">
+-    {
+-        "*": {
+-            "magepalGtmDatalayer": {
+-                "isCookieRestrictionModeEnabled": <?= /* @noEscape */ $block->isCookieRestrictionModeEnabled() ?>,
+-                "currentWebsite": <?= /* @noEscape */ $block->getCurrentWebsiteId() ?>,
+-                "cookieName": "<?= /* @noEscape */ $block->getCookieRestrictionName() ?>",
+-                "dataLayer": "<?= /* @noEscape */ $block->getDataLayerName() ?>",
+-                "accountId": "<?= /* @noEscape */ $block->getAccountId() ?>",
+-                "data": <?= /* @noEscape */ $block->getDataLayerJson() ?>,
+-                "isGdprEnabled": <?= /* @noEscape */ $block->isGdprEnabled() ?>,
+-                "gdprOption": <?= /* @noEscape */ $block->getGdprOption() ?>,
+-                "addJsInHeader": <?= /* @noEscape */ $block->addJsInHead() ?>,
+-                "containerCode": "<?= /* @noEscape */ $block->getEmbeddedCode() ?>"
++// phpcs:ignore
++echo /* @noEscape */ $secureRenderer->renderTag('script', [], $gtmScript, false); ?>
++
++<?php if (($block->isGdprEnabled() || !$block->addJsInHead()) && !$block->isAdvancedSettingsEnabled()): ?>
++    <script type="text/x-magento-init">
++        {
++            "*": {
++                "magepalGtmDatalayer": {
++                    "isCookieRestrictionModeEnabled": <?= /* @noEscape */ $block->isCookieRestrictionModeEnabled() ?>,
++                    "currentWebsite": <?= /* @noEscape */ $block->getCurrentWebsiteId() ?>,
++                    "cookieName": "<?= /* @noEscape */ $block->getCookieRestrictionName() ?>",
++                    "dataLayer": "<?= /* @noEscape */ $block->getDataLayerName() ?>",
++                    "accountId": "<?= /* @noEscape */ $block->getAccountId() ?>",
++                    "data": <?= /* @noEscape */ $block->getDataLayerJson() ?>,
++                    "isGdprEnabled": <?= /* @noEscape */ $block->isGdprEnabled() ?>,
++                    "gdprOption": <?= /* @noEscape */ $block->getGdprOption() ?>,
++                    "addJsInHeader": <?= /* @noEscape */ $block->addJsInHead() ?>,
++                    "containerCode": "<?= /* @noEscape */ $block->getEmbeddedCode() ?>"
++                }
+             }
+         }
+-    }
+-</script>
++    </script>
+ <?php else : ?>
+-<script type="text/x-magento-init">
+-    {
+-        "*": {
+-            "magepalGtmDatalayer": {
+-                "dataLayer": "<?= /* @noEscape */ $block->getDataLayerName() ?>"
++    <script type="text/x-magento-init">
++        {
++            "*": {
++                "magepalGtmDatalayer": {
++                    "dataLayer": "<?= /* @noEscape */ $block->getDataLayerName() ?>"
+             }
+         }
+     }
+-</script>
++    </script>
+ <?php endif; ?>
+ <!-- End Google Tag Manager by MagePal -->
+
