@@ -1,0 +1,94 @@
+diff --git a/view/frontend/web/js/model/cart-metadata.js b/view/frontend/web/js/model/cart-metadata.js
+index ee702d7..41a7a92 100644
+--- a/view/frontend/web/js/model/cart-metadata.js
++++ b/view/frontend/web/js/model/cart-metadata.js
+@@ -1,7 +1,8 @@
+ define([
+     'ko',
++    'mage/translate',
+     'domReady!'
+-], function (ko) {
++], function (ko, $t) {
+     'use strict';
+ 
+     var rewardPointsBalanceQty = ko.observable(0),
+@@ -11,8 +12,10 @@ define([
+         areRewardPointsApplied = ko.observable(false),
+         appliedRewardPointsQty = ko.observable(0),
+         appliedRewardPointsAmount = ko.observable(0),
+-        rewardPointsTabLabelName =  ko.observable('Reward Points'),
+-        rewardPointsLabelName =  ko.observable('Reward Points')
++        // BEGIN PATCH
++        rewardPointsTabLabelName =  ko.observable($t('Reward Points')),
++        rewardPointsLabelName =  ko.observable($t('Reward Points'))
++        // END PATCH
+     ;
+ 
+     return {
+diff --git a/view/frontend/web/js/view/payment/reward-points.js b/view/frontend/web/js/view/payment/reward-points.js
+index b3faa86..ddbe5d9 100644
+--- a/view/frontend/web/js/view/payment/reward-points.js
++++ b/view/frontend/web/js/view/payment/reward-points.js
+@@ -232,7 +232,9 @@ define([
+          * @return {string}
+          */
+         getConversionRateText: function() {
+-            let label = this.isNeedToChangeLabelName() ? this.rewardPointsLabelName() : 'point'
++            // BEGIN PATCH
++            let label = this.isNeedToChangeLabelName() ? this.rewardPointsLabelName() : $t('point')
++            // END PATCH
+             return $t('1 ' + label + ' = ')
+                 + this.getFormattedPrice(
+                     this.rewardPointsConversionRatePointToCurrencyValue()
+@@ -268,7 +270,9 @@ define([
+          */
+         getMaxAllowedQtyToApplyText: function () {
+             if (this.rewardPointsMaxAllowedQtyToApply() > 0) {
+-                 let label = this.isNeedToChangeLabelName() ? this.rewardPointsLabelName() : 'point(s)'
++                // BEGIN PATCH
++                 let label = this.isNeedToChangeLabelName() ? this.rewardPointsLabelName() : $t('point(s)')
++                // END PATCH
+                 return $t('You can apply up to ') + this.rewardPointsMaxAllowedQtyToApply()
+                     + $t(' ' + label);
+             } else {
+@@ -346,7 +350,9 @@ define([
+          * @return {String}
+          */
+         getPointsLabelNameText: function() {
+-            return $t(this.isNeedToChangeLabelName() ? this.rewardPointsLabelName() : 'point(s)');
++            // BEGIN PATCH
++            return $t(this.isNeedToChangeLabelName() ? this.rewardPointsLabelName() : $t('point(s)'));
++            // END PATCH
+         },
+ 
+         /**
+diff --git a/view/frontend/web/template/payment/reward-points.html b/view/frontend/web/template/payment/reward-points.html
+index c672485..7907966 100644
+--- a/view/frontend/web/template/payment/reward-points.html
++++ b/view/frontend/web/template/payment/reward-points.html
+@@ -93,7 +93,10 @@
+                                         'value': $t('Use ' + getRewardPointsLabelNameText()),
+                                         click: applyRewardPoints
+                             ">
+-                                <span data-bind="i18n: 'Use ' + getRewardPointsLabelNameText()"></span>
++                                <!-- BEGIN PATCH -->
++                                <!-- ko i18n: 'Use '--><!-- /ko -->
++                                <!-- ko text: getRewardPointsLabelNameText() --><!-- /ko -->
++                                <!-- END PATCH -->
+                             </button>
+                         <!--/ko-->
+                         <!-- ko if: areRewardPointsApplied() -->
+@@ -103,7 +106,12 @@
+                                         'value': $t('Remove ' + getRewardPointsLabelNameText()),
+                                         click: removeRewardPoints
+                             ">
+-                                <span data-bind="i18n: 'Remove ' + getRewardPointsLabelNameText()"></span>
++                                <!-- BEGIN PATCH -->
++                                <span>
++                                    <!-- ko i18n: 'Remove '--><!-- /ko -->
++                                    <!-- ko text: getRewardPointsLabelNameText() --><!-- /ko -->
++                                </span>
++                                <!-- END PATCH -->
+                             </button>
+                         <!--/ko-->
+                     </div>
