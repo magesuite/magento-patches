@@ -308,6 +308,11 @@
                 "description": "Einhell deprecated functionality fix for db adapter pdo mysql class for php 8.1",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/db-adapter-pdo-mysql-class-deprecated-functionality-fix-for-php-81.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Increase max cookie number",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-increase-max-cookie-number.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-bundle": [
