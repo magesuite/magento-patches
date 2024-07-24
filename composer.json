@@ -1458,6 +1458,11 @@
                     "description": "Add translations to email templates",
                     "filename": "essential/aheadworks/module-reward-points/emails-translations.patch",
                     "version-constraint": ">=2.4.1"
+                },
+                {
+                    "description": "Add translations in checkout",
+                    "filename": "essential/aheadworks/module-reward-points/checkout_translations.patch",
+                    "version-constraint": ">=2.4.1"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [
