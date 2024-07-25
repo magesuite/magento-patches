@@ -1,0 +1,34 @@
+diff --git a/Model/Payment/Method/Adapter.php b/Model/Payment/Method/Adapter.php
+index 292e9f1..2272517 100644
+--- a/Model/Payment/Method/Adapter.php
++++ b/Model/Payment/Method/Adapter.php
+@@ -236,6 +236,16 @@ class Adapter extends \Magento\Payment\Model\Method\Adapter
+                 $payment_options_response = $this->transactionService->getPossiblePaymentMethods($quote);
+                 $quote->setData('wallee_payment_payment_options_response', $payment_options_response);
+                 $quote->setData('wallee_payment_payment_tmp_currency', $quote->getQuoteCurrencyCode());
++                
++                //BEGIN PATCH
++                if ($quote->getIsVirtual() && $quote->getWalleeTransactionId() === null) {
++                    $transactionArray = $this->transactionService->getTransactionArrayFromSession();
++                    $transaction = $transactionArray[$quote->getId()] ?? null;
++                    $quote->setWalleeTransactionId($transaction?->getId());
++                    $quote->setWalleeSpaceId($transaction?->getLinkedSpaceId());
++                }
++                //END PATCH
++                
+                 $quote->save();
+             }
+ 
+diff --git a/Model/Service/Quote/TransactionService.php b/Model/Service/Quote/TransactionService.php
+index 1150f85..d43ba3b 100644
+--- a/Model/Service/Quote/TransactionService.php
++++ b/Model/Service/Quote/TransactionService.php
+@@ -576,7 +576,7 @@ class TransactionService extends AbstractTransactionService
+      * If it doesn't exist, an empty one will be initialized
+      * @return array
+      */
+-    private function getTransactionArrayFromSession()
++    public function getTransactionArrayFromSession()
+     {
+         $transactionArray = [];
+         try {

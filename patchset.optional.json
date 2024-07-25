@@ -825,6 +825,11 @@
                 "description": "Wait for Wallee request before validate checkoutSession (IPET-1930)",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/w2-wait-for-wallee-request-before-success-page.patch",
                 "version-constraint": ">=2.1.5"
+            },
+            {
+              "description": "fix: [HAAR-3509] Save transaction data to virtual quote",
+              "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/HAAR-3509-fix-save-transaction-data-to-virtual-quote.patch",
+              "version-constraint": ">=2.1.13"
             }
         ],
         "aheadworks/module-advanced-reports": [
