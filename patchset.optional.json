@@ -1385,6 +1385,11 @@
                 "description": "Fix for not working layered navigation when there is trailing slash in url",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-url-rewrite/m233-url-rewrite-trailing-slash-fix.patch",
                 "version-constraint": "101.1.3"
+            },
+            {
+                "description": "Always remove store code from redirect URL (LOWA-413)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-url-rewrite/always-remove-store-code-from-redirect-url.patch",
+                "version-constraint": "*"
             }
         ],
         "wyomind/googleproductratings": [
