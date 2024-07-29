@@ -1,0 +1,20 @@
+fix: [RK-1599] Database downtimes due to long query execution
+Automatically terminate long query in products collection.
+
+diff --git a/Model/ResourceModel/Product/Collection.php b/Model/ResourceModel/Product/Collection.php
+index 79636c5..cf945d6 100644
+--- a/Model/ResourceModel/Product/Collection.php
++++ b/Model/ResourceModel/Product/Collection.php
+@@ -1968,6 +1968,12 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Collection\Abstrac
+         //Clean duplicated fields
+         $this->_resourceHelper->prepareColumnsList($select);
+
++        // BEGIN PATCH
++        $columns = $select->getPart(\Zend_Db_Select::COLUMNS);
++        array_unshift($columns, [null, new Zend_Db_Expr('/*+ MAX_EXECUTION_TIME(10) */ 10'), 'timeout-limit-for-this-query']);
++        $select->setPart(\Zend_Db_Select::COLUMNS, $columns);
++        // END PATCH
++
+         return $this;
+     }
+
