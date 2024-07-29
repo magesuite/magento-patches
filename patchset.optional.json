@@ -590,6 +590,13 @@
                 "version-constraint": ">=2.12.2"
             }
         ],
+        "amasty/paction": [
+            {
+                "description": "Save category in default scope (IPET-2359)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/paction/save-category-in-default-scope.patch",
+                "version-constraint": "*"
+            }
+        ],
         "amasty/pgrid": [
             {
                 "description": "Disable set url_path on inline url_key editor to fix an error with duplicated URL during product save",
