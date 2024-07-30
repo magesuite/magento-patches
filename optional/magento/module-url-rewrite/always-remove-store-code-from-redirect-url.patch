@@ -1,8 +1,8 @@
 diff --git a/Model/StoreSwitcher/RewriteUrl.php b/Model/StoreSwitcher/RewriteUrl.php
-index 873eed4..81b3a03 100644
+index 873eed4..f129ec1 100644
 --- a/Model/StoreSwitcher/RewriteUrl.php
 +++ b/Model/StoreSwitcher/RewriteUrl.php
-@@ -55,7 +55,10 @@ class RewriteUrl implements StoreSwitcherInterface
+@@ -55,9 +55,13 @@ class RewriteUrl implements StoreSwitcherInterface
  
          $urlPath = ltrim($request->getPathInfo(), '/');
  
@@ -10,7 +10,11 @@ index 873eed4..81b3a03 100644
 +        // BEGIN PATCH: always remove store code from redirect URL
 +        // if ($targetStore->isUseStoreInUrl()) {
 +        if (true) {
-+        // END PATCH
              // Remove store code in redirect url for correct rewrite search
-             $storeCode = preg_quote($targetStore->getCode() . '/', '/');
+-            $storeCode = preg_quote($targetStore->getCode() . '/', '/');
++            // $storeCode = preg_quote($targetStore->getCode() . '/', '/');
++            $storeCode = preg_quote(str_replace('_', '-', $targetStore->getCode()) . '/', '/');
++            // END PATCH
              $pattern = "@^($storeCode)@";
+             $urlPath = preg_replace($pattern, '', $urlPath);
+         }
