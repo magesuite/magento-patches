@@ -11,7 +11,7 @@ index 79636c5..cf945d6 100644
 
 +        // BEGIN PATCH
 +        $columns = $select->getPart(\Zend_Db_Select::COLUMNS);
-+        array_unshift($columns, [null, new Zend_Db_Expr('/*+ MAX_EXECUTION_TIME(10) */ 10'), 'timeout-limit-for-this-query']);
++        array_unshift($columns, [null, new Zend_Db_Expr('/*+ MAX_EXECUTION_TIME(5) */ 5'), 'timeout-limit-for-this-query']);
 +        $select->setPart(\Zend_Db_Select::COLUMNS, $columns);
 +        // END PATCH
 +
