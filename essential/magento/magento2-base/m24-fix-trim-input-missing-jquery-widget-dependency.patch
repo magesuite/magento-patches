@@ -1,0 +1,20 @@
+Fix missing jQuery widget dependency.
+
+Bug confirmed present in 2.4.0. The fix should be officially released with 2.4.7. Fixed by Magento Open Source Maintainer.
+ 
+Commit: https://github.com/magento/magento2/pull/37302/commits/997213d019c7e2c6133a6daf4b95e6876b66b3f2
+
+diff --git a/lib/web/mage/trim-input.js b/lib/web/mage/trim-input.js
+index d077dad..97ad144 100644
+--- a/lib/web/mage/trim-input.js
++++ b/lib/web/mage/trim-input.js
+@@ -4,7 +4,8 @@
+  */
+ 
+ define([
+-    'jquery'
++    'jquery',
++    'jquery-ui-modules/widget'
+ ], function ($) {
+     'use strict';
+ 

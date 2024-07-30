@@ -700,6 +700,11 @@
                     "description": "sansec cosmic sting hotfix https://sansec.io/research/cosmicsting",
                     "filename": "essential/magento/magento2-base/sansec-cosmic-sting-hotfix.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "Fix missing jQuery widget dependency in trim-input.js",
+                    "filename": "essential/magento/magento2-base/m24-fix-trim-input-missing-jquery-widget-dependency.patch",
+                    "version-constraint": ">=2.4.0,<2.4.7"
                 }
             ],
             "magento/module-search": [

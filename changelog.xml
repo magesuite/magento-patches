@@ -129,6 +129,11 @@
                     <overview>Remove duplicates when adding images with multiple file uploader</overview>
                     <ticket_id>EMT-79</ticket_id>
                 </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Fix missing jQuery widget dependency in trim-input.js</overview>
+                    <ticket_id>KRG-2801</ticket_id>
+                </entry>
             </tag>
         </changelog>
     </module>
