@@ -543,7 +543,7 @@
             {
                 "description": "Add extra field image_2x to join (zumstein only)",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/label/add-image2x-field-to-join-zumstein-only.patch",
-                "version-constraint": ">2.3.8"
+                "version-constraint": ">=2.3.8"
             }
         ],
         "amasty/promo": [
