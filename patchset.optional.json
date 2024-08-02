@@ -539,6 +539,13 @@
                 "version-constraint": "^1.1.0"
             }
         ],
+        "amasty/label": [
+            {
+                "description": "Add extra field image_2x to join (zumstein only)",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/label/add-image2x-field-to-join-zumstein-only.patch",
+                "version-constraint": ">2.3.8"
+            }
+        ],
         "amasty/promo": [
             {
                 "description": "Fix from temporary version released for haarshop",

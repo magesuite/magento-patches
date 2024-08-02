@@ -1,0 +1,16 @@
+Join custom field added only in zumstein project
+
+diff --git a/etc/extension_attributes.xml b/etc/extension_attributes.xml
+index 62137b3..42f0898 100644
+--- a/etc/extension_attributes.xml
++++ b/etc/extension_attributes.xml
+@@ -18,6 +18,9 @@
+                 <field>position</field>
+                 <field>style</field>
+                 <field>alt_tag</field>
++                <!-- PATCH START -->
++                <field>image_2x</field>
++                <!-- PATCH END -->
+             </join>
+         </attribute>
+ 
