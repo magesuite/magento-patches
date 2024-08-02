@@ -1075,6 +1075,11 @@
                 "description": "Einhell deprecated functionality fix for twig product view gallery class for php 8.1",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/product-view-gallery-class-deprecated-functionality-fix-for-php-81.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Always assign products to category in default scope (IPET-2359)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/always-assign-product-to-default-scope-category.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-catalog-url-rewrite": [
