@@ -1,7 +1,7 @@
 Github issue: https://github.com/magepal/magento2-google-tag-manager/issues/87
 
 diff --git a/view/frontend/templates/js.phtml b/view/frontend/templates/js.phtml
-index b6d42fe..c37a269 100755
+index b6d42fe..3ad2ef0 100755
 --- a/view/frontend/templates/js.phtml
 +++ b/view/frontend/templates/js.phtml
 @@ -6,60 +6,70 @@
@@ -12,8 +12,8 @@ index b6d42fe..c37a269 100755
 -$accountId = $block->getAccountId();
 -$containerCode = $block->getEmbeddedCode();
 -?>
-+$dataLayerName = $escaper->escapeJs($block->getDataLayerName());
-+$accountId = $escaper->escapeJs($block->getAccountId());
++$dataLayerName = $escaper->escapeHtml($block->getDataLayerName());
++$accountId = $escaper->escapeHtml($block->getAccountId());
 +$containerCode = $block->getEmbeddedCode() ? "+'{$block->getEmbeddedCode()}'" : '';
 
 -<!-- Google Tag Manager by MagePal -->
@@ -43,7 +43,7 @@ index b6d42fe..c37a269 100755
 +                j=d.createElement(s),
 +                dl=l!='{$dataLayerName}'?'&l='+l:'';
 +            j.async=true;
-+            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl'{$containerCode}';
++            j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl{$containerCode};
 +            f.parentNode.insertBefore(j,f);
 +        })(window,document,'script','{$dataLayerName}','{$accountId}');
 +        SCRIPT;
@@ -119,5 +119,6 @@ index b6d42fe..c37a269 100755
 -</script>
 +    </script>
  <?php endif; ?>
- <!-- End Google Tag Manager by MagePal -->
-
+-<!-- End Google Tag Manager by MagePal -->
++<!-- End Google Tag Manager by MagePal -->
+\ No newline at end of file
