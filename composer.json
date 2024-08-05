@@ -1551,6 +1551,11 @@
                     "description": "Fix for customer group id in order when guest",
                     "filename": "essential/magento/module-quote/m245-fix_for_customer_group_id_in_order_data_when_guest.patch",
                     "version-constraint": ">=101.2.5, <101.2.6"
+                },
+                {
+                    "description": "Fix error redirect action for virtual products",
+                    "filename": "essential/magento/module-quote/fix-error-redirect-action.patch",
+                    "version-constraint": ">=101.2.7"
                 }
             ],
             "magento/module-quick-order": [
