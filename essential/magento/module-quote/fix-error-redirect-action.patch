@@ -1,0 +1,19 @@
+If error occurs customer is being redirected to the cart page instead of the payment step. This patch fixes the issue.
+
+diff --git a/Model/QuoteValidator.php b/Model/QuoteValidator.php
+index 87d010d..60e43bf 100644
+--- a/Model/QuoteValidator.php
++++ b/Model/QuoteValidator.php
+@@ -115,7 +115,11 @@ class QuoteValidator
+                 $defaultMessage .= ' %1';
+             }
+             if ($defaultMessage) {
+-                $this->_response->setHeader('errorRedirectAction', '#shipping');
++                // PATCH START
++                //$this->_response->setHeader('errorRedirectAction', '#shipping');
++                $redirectAction = $quote->getIsVirtual() ? '#payment' : '#shipping';
++                $this->_response->setHeader('errorRedirectAction', $redirectAction);
++                // PATCH END
+                 throw new ValidatorException(__($defaultMessage, implode(' ', $messages)));
+             }
+         }
