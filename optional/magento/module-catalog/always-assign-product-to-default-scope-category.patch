@@ -1,5 +1,5 @@
 diff --git a/Model/CategoryLinkRepository.php b/Model/CategoryLinkRepository.php
-index f8de9a3..2e9760c 100644
+index f8de9a3..2ca69ee 100644
 --- a/Model/CategoryLinkRepository.php
 +++ b/Model/CategoryLinkRepository.php
 @@ -55,7 +55,10 @@ class CategoryLinkRepository implements CategoryLinkRepositoryInterface, Categor
@@ -14,3 +14,15 @@ index f8de9a3..2e9760c 100644
          $product = $this->productRepository->get($productLink->getSku());
          $productPositions = $category->getProductsPosition();
          $productPositions[$product->getId()] = $productLink->getPosition();
+@@ -89,7 +92,10 @@ class CategoryLinkRepository implements CategoryLinkRepositoryInterface, Categor
+      */
+     public function deleteByIds($categoryId, $sku)
+     {
+-        $category = $this->categoryRepository->get($categoryId);
++        // BEGIN PATCH: always unassign products to category in default scope
++        // $category = $this->categoryRepository->get($categoryId);
++        $category = $this->categoryRepository->get($categoryId, \Magento\Store\Model\Store::DEFAULT_STORE_ID);
++        // END PATCH
+         $product = $this->productRepository->get($sku);
+         $productPositions = $category->getProductsPosition();
+ 
