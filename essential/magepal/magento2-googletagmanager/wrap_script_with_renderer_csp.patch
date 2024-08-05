@@ -58,7 +58,7 @@ index b6d42fe..3ad2ef0 100755
 +if ($block->isAdvancedSettingsEnabled()) {
 +    $advancedSettingsJsCode = $block->getAdvancedSettingsJsCode();
 +    $gtmScript .= <<<SCRIPT
-+            {$dataLayerJs}
++            {$block->getDataLayerJs()}
 +            {$advancedSettingsJsCode}
 +            SCRIPT;
 +}
