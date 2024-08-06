@@ -1,0 +1,24 @@
+diff --git a/Model/Indexer/Product/Price/TableMaintainer.php b/Model/Indexer/Product/Price/TableMaintainer.php
+index 5eed262..157b2d3 100644
+--- a/Model/Indexer/Product/Price/TableMaintainer.php
++++ b/Model/Indexer/Product/Price/TableMaintainer.php
+@@ -214,6 +214,19 @@ class TableMaintainer extends AbstractIndexerResource
+         $templateTableName = $this->_resources->getTableName(self::MAIN_INDEX_TABLE . '_tmp');
+         $temporaryTableName = $this->getMainTableByDimensions($dimensions) . $this->tmpTableSuffix;
+         $this->getConnection()->createTemporaryTableLike($temporaryTableName, $templateTableName, true);
++        // BEGIN PATCH
++        if (str_contains($temporaryTableName, 'staging')) {
++            $tableDescribe = $this->getConnection()->fetchAll('DESCRIBE staging_catalog_product_index_price_temp');
++            $rowId = array_search('entity_id', array_column($tableDescribe, 'Field'));
++            $entityIdDescribe = $tableDescribe[$rowId];
++            $alreadyHasIndex = !empty($entityIdDescribe['Key']);
++            if (!$alreadyHasIndex) {
++                $this->getConnection()->query(
++                    sprintf('ALTER TABLE %s ADD INDEX `mul_index_price_temp` (entity_id, customer_group_id, website_id);', $temporaryTableName)
++                );
++            }
++        }
++        // END PATCH
+         $this->mainTmpTable[$this->getArrayKeyForTmpTable($dimensions)] = $temporaryTableName;
+     }
+ 
