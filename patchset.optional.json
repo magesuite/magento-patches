@@ -472,7 +472,7 @@
                 "version-constraint": "*"
             },
             {
-                "description": "Fix discount amount calculation (IPET-1380) and adjust reward point name in discount description (IPET-1616) and fix reward points rounding per item (IPET-2721)",
+                "description": "Fix discount amount calculation (IPET-1380 + IPET-1884) and adjust reward point name in discount description (IPET-1616)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-reward-point-discount-amount-and-description.patch",
                 "version-constraint": "*"
             },
