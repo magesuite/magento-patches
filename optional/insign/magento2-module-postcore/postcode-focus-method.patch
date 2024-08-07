@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/form/element/suggestions-mixin.js b/view/frontend/web/js/form/element/suggestions-mixin.js
+index face93f..51bb6a1 100644
+--- a/view/frontend/web/js/form/element/suggestions-mixin.js
++++ b/view/frontend/web/js/form/element/suggestions-mixin.js
+@@ -59,6 +59,10 @@ define([
+         focusSuggestionsInput: function() {
+             this.showSuggestionsDropdown(true);
+ 
++            if (this.value() === undefined) {
++                return;
++            }
++
+             if (this.selectedCountry() === this.suggestionsCountry && this.value().length >= this.minValueLength && this.suggestions().length == 0) { // load suggestions on focus, when empty
+                 clearTimeout(this.suggestionsTimeout);
+                 this.suggestionsTimeout = setTimeout(this.getSuggestions.bind(this, this.value()), this.suggestionsDelay);
