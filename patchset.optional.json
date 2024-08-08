@@ -1782,7 +1782,12 @@
             {
                 "description": "Fixed category import and disabled creating new categories (IPET-2372)",
                 "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/fix-firebear-category-import.patch",
-                "version-constraint": "*"
+                "version-constraint": "<3.8.7"
+            },
+            {
+                "description": "Disabled creating new categories during import (IPET-2372)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/disabled-creating-new-category-during-import.patch",
+                "version-constraint": ">=3.8.7"
             }
         ],
         "mollie/magento2": [
