@@ -462,6 +462,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "amasty/module-advanced-conditions": [
+                {
+                    "description": "Adds existing shipping address's extension attributes to payload so e.g. pickup location point is not missing.",
+                    "filename": "essential/amasty/module-advanced-conditions/add-missing-shipping-address-extension-attributes.patch",
+                    "version-constraint": ">=1.5.10"
+                }
+            ],
             "amasty/module-faq-product-questions": [
                 {
                     "description": "Fix highlighted text in search results",

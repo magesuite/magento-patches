@@ -1,0 +1,16 @@
+Adds existing shipping address's extension attributes to payload so e.g. pickup location point is not missing.
+
+diff --git a/view/frontend/web/js/action/recollect-totals.js b/view/frontend/web/js/action/recollect-totals.js
+index 8e01c01..a85b64f 100644
+--- a/view/frontend/web/js/action/recollect-totals.js
++++ b/view/frontend/web/js/action/recollect-totals.js
+@@ -38,6 +38,9 @@ define([
+         }
+ 
+         address.extension_attributes = {
++            // BEGIN PATCH
++            ...quote?.shippingAddress()?.extensionAttributes ? quote.shippingAddress().extensionAttributes : {},
++            // END PATCH
+             advanced_conditions: {
+                 custom_attributes: quote.shippingAddress() ? quote.shippingAddress().custom_attributes : [],
+                 payment_method: paymentMethod,
