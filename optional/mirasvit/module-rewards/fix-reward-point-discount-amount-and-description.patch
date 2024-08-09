@@ -138,7 +138,7 @@ index 0bb8bb6..9d275f4 100644
 +        }
 +
 +        if ($this->totalRewardBaseDiscount + $baseDiscount > $this->pointsInfo['spendAmount']) {
-+            $baseDiscount -= $this->totalRewardDiscount + $baseDiscount - $this->pointsInfo['spendAmount'];
++            $baseDiscount -= $this->totalRewardBaseDiscount + $baseDiscount - $this->pointsInfo['spendAmount'];
 +            $this->totalRewardBaseDiscount = 0;
 +        } else {
 +            $this->totalRewardBaseDiscount += $baseDiscount;
