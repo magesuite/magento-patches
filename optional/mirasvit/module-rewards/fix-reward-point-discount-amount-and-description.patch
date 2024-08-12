@@ -17,7 +17,7 @@ index d069944..2d45006 100644
              $subtotal = $quote->getBaseSubtotalWithDiscount();
              if ($this->config->getGeneralIsSpendShipping() && !$quote->isVirtual()) {
 @@ -306,12 +313,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
-
+ 
              if ($rule->getActions()->validate($item)) {
                  if ($priceIncludesTax) {
 -                    $itemPrice = $item->getBasePrice();
@@ -43,7 +43,7 @@ index d069944..2d45006 100644
 @@ -322,7 +334,17 @@ class Spend extends \Magento\Framework\App\Helper\AbstractHelper
                      $subtotal += $itemPrice;
                  }
-
+ 
 -                $this->validItems[$rule->getId()][] = $item->getId();
 +                // BEGIN PATCH: use bundle children for discount calculation, not parent
 +                // $this->validItems[$rule->getId()][] = $item->getId();
@@ -58,101 +58,67 @@ index d069944..2d45006 100644
 +                // END PATCH
              }
          }
-
+ 
 diff --git a/src/Rewards/Service/Discount/ItemDiscountService.php b/src/Rewards/Service/Discount/ItemDiscountService.php
-index 0bb8bb6..9d275f4 100644
+index 0bb8bb6..ade74ef 100644
 --- a/src/Rewards/Service/Discount/ItemDiscountService.php
 +++ b/src/Rewards/Service/Discount/ItemDiscountService.php
-@@ -71,6 +71,12 @@ class ItemDiscountService
-
+@@ -71,6 +71,8 @@ class ItemDiscountService
+ 
      private $taxData;
-
-+    //BEGIN PATCH
+ 
 +    protected $ruleCollectionFactory;
-+    protected float $totalRewardDiscount = 0;
-+    protected float $totalRewardBaseDiscount = 0;
-+    //END PATCH
 +
      public function __construct(
          SpendHelper $spendHelper,
          PurchaseHelper $rewardsPurchase,
-@@ -81,6 +87,9 @@ class ItemDiscountService
+@@ -81,6 +83,7 @@ class ItemDiscountService
          TaxCalculation $taxCalculation,
          TaxConfig $taxConfig,
          TaxDataHelper $taxData
-+        //BEGIN PATCH
 +        , ?\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory $ruleCollectionFactory = null
-+        //END PATCH
      ) {
          $this->spendHelper      = $spendHelper;
          $this->rewardsPurchase  = $rewardsPurchase;
-@@ -91,6 +100,9 @@ class ItemDiscountService
+@@ -91,6 +94,8 @@ class ItemDiscountService
          $this->taxCalculation   = $taxCalculation;
          $this->taxConfig        = $taxConfig;
          $this->taxData          = $taxData;
-+        //BEGIN PATCH
++
 +        $this->ruleCollectionFactory = $ruleCollectionFactory ?? \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\SalesRule\Model\ResourceModel\Rule\CollectionFactory::class);
-+        //END PATCH
      }
-
+ 
      /**
-@@ -122,7 +134,10 @@ class ItemDiscountService
-
+@@ -122,7 +127,10 @@ class ItemDiscountService
+ 
              $this->process();
          }
 -        $this->config->setDisableRewardsCalculation(false);
-+        //BEGIN PATCH
++        // BEGIN PATCH
 +        // Disabled flag because it stops discount calculation for additional fees
-+        //$this->config->setDisableRewardsCalculation(false);
-+        //END PATCH
-
++        // $this->config->setDisableRewardsCalculation(false);
++        // END PATCH
+ 
          \Magento\Framework\Profiler::stop(__CLASS__ . ':' . __METHOD__);
      }
-@@ -143,7 +158,11 @@ class ItemDiscountService
+@@ -143,7 +151,11 @@ class ItemDiscountService
          $purchase = $this->rewardsPurchase->getByQuote($quote);
-
+ 
          if ($purchase && $purchase->getSpendAmount() > 0) {
 -            $descriptions[] = $this->rewardsData->getPointsName();
-+            //BEGIN PATCH
++            // BEGIN PATCH
 +            // Add amount of spend points to the description
-+            //$descriptions[] = $this->rewardsData->getPointsName();
++            // $descriptions[] = $this->rewardsData->getPointsName();
 +            $descriptions[] = $this->rewardsData->formatPoints($purchase->getSpendPoints());
-+            //END PATCH
++            // END PATCH
          }
-
+ 
          $address->setDiscountDescriptionArray($descriptions);
-@@ -205,6 +224,26 @@ class ItemDiscountService
-         $itemsRewardsDiscount     = $this->item->getQuote()->getItemsRewardsDiscount();
-         $baseItemsRewardsDiscount = $this->item->getQuote()->getBaseItemsRewardsDiscount();
-
-+        //BEGIN PATCH
-+        //Fix reward points rounding to avoid issues with decimals in discount amount that can lead to wrong order totals
-+        $discount = ceil($discount * 100) / 100;
-+        $baseDiscount = ceil($baseDiscount * 100) / 100;
-+
-+        if ($this->totalRewardDiscount + $discount > $this->pointsInfo['spendAmount']) {
-+            $discount -= $this->totalRewardDiscount + $discount - $this->pointsInfo['spendAmount'];
-+            $this->totalRewardDiscount = 0;
-+        } else {
-+            $this->totalRewardDiscount += $discount;
-+        }
-+
-+        if ($this->totalRewardBaseDiscount + $baseDiscount > $this->pointsInfo['spendAmount']) {
-+            $baseDiscount -= $this->totalRewardDiscount + $baseDiscount - $this->pointsInfo['spendAmount'];
-+            $this->totalRewardBaseDiscount = 0;
-+        } else {
-+            $this->totalRewardBaseDiscount += $baseDiscount;
-+        }
-+        //END PATCH
-+
-         $this->item->getQuote()->setItemsRewardsDiscount($itemsRewardsDiscount + $discount);
-         $this->item->getQuote()->setBaseItemsRewardsDiscount($baseItemsRewardsDiscount + $baseDiscount);
-
-@@ -271,6 +310,12 @@ class ItemDiscountService
+@@ -271,6 +283,12 @@ class ItemDiscountService
          $purchase        = $this->rewardsPurchase->getByQuote($this->item->getQuote());
          $baseSpendAmount = $purchase->getSpendAmount();
-
-+        //BEGIN PATCH
+ 
++        // BEGIN PATCH
 +        // In some cases, module returns value with applied reward point discount and in some cases without (when additional discount is added and grandTotal == 0)
 +        $quote = $this->item->getQuote();
 +        $baseSpendAmount = $this->adjustBaseSpendAmount($quote, $baseSpendAmount);
@@ -161,10 +127,10 @@ index 0bb8bb6..9d275f4 100644
          if (!$baseTotal) {
              $baseTotal = $total;
          }
-@@ -297,6 +342,29 @@ class ItemDiscountService
+@@ -297,6 +315,30 @@ class ItemDiscountService
          ];
      }
-
+ 
 +    // BEGIN PATCH
 +    // Method to adjust reward points variable - baseSpendAmount. This value contain grand total with all discounts without reward point discount
 +    protected function adjustBaseSpendAmount($quote, $baseSpendAmount)
@@ -187,7 +153,8 @@ index 0bb8bb6..9d275f4 100644
 +
 +        return min($baseSpendAmount, $subtotalWithoutDiscount);
 +    }
-+    //END PATCH
-
++    // END PATCH
++
+ 
      /**
       * We need this because Faonni_Price changes total without basetotal
