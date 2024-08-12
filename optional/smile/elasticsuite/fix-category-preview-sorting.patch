@@ -1,0 +1,27 @@
+diff --git a/src/module-elasticsuite-virtual-category/Model/Preview.php b/src/module-elasticsuite-virtual-category/Model/Preview.php
+index c21fb59..685e2f0 100644
+--- a/src/module-elasticsuite-virtual-category/Model/Preview.php
++++ b/src/module-elasticsuite-virtual-category/Model/Preview.php
+@@ -120,7 +120,21 @@ class Preview extends AbstractPreview
+         $sortBy            = $this->getSortBy() ?? 'position';
+         $directionFallback = $sortBy !== 'position' ? Collection::SORT_ORDER_ASC : Collection::SORT_ORDER_DESC;
+
+-        $collection->setOrder($sortBy, $this->request->getParam('sort_direction', $directionFallback));
++        // PATCH START
++        // $collection->setOrder($sortBy, $this->request->getParam('sort_direction', $directionFallback));
++        $fields = explode('_direction_', $sortBy);
++        $sortBy = $fields[0] ?? 'position';
++        $direction = $fields[1] ?? null;
++        $sortDirection = $this->request->getParam('sort_direction', $directionFallback);
++
++        if ($direction) {
++            $oppositeDirection = strtoupper($direction) === Collection::SORT_ORDER_ASC ? Collection::SORT_ORDER_DESC : Collection::SORT_ORDER_ASC;
++            $direction = strtoupper($sortDirection) === Collection::SORT_ORDER_ASC ? $direction : $oppositeDirection;
++        }
++
++        $collection->setOrder($sortBy, $direction ?? $sortDirection);
++        // PATCH END
++
+         $collection->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->category->getStore()->getWebsiteId());
+
+         return $collection;
