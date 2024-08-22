@@ -1,0 +1,15 @@
+diff --git a/Model/Indexer/ProductStructuredData/IndexBuilder.php b/Model/Indexer/ProductStructuredData/IndexBuilder.php
+index e1badeb..0073cd5 100644
+--- a/Model/Indexer/ProductStructuredData/IndexBuilder.php
++++ b/Model/Indexer/ProductStructuredData/IndexBuilder.php
+@@ -49,6 +49,10 @@ class IndexBuilder
+                 continue;
+             }
+ 
++            //BEGIN PATCH
++            $this->storeManager->setCurrentStore($store->getId());
++            //END PATCH
++
+             foreach ($this->getProducts($productIds, $store) as $products) {
+                 $this->buildIndex($products, $store);
+             }
