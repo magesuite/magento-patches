@@ -76,6 +76,13 @@
                 "version-constraint": "*"
             }
         ],
+        "creativestyle/magesuite-google-structured-data": [
+          {
+            "description": "Set store before structured data indexing",
+            "filename": "vendor/creativestyle/magento-patches/optional/creativestyle/magesuite-google-structured-data/set-store-before-structured-data-index.patch",
+            "version-constraint": ">3.0.0"
+          }
+        ],
         "iways/module-pay-pal-plus": [
             {
                 "description": "Fix invalid object requested in object constructor",
