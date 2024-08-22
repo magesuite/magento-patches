@@ -2833,6 +2833,13 @@
                     "filename": "essential/bluepayment-plugin/module-bluepayment/bluepayment-config-with-domReady.patch",
                     "version-constraint": ">=2.22.8"
                 }
+            ],
+            "mageprince/magento2-paymentfee": [
+                {
+                    "description": "Fix compatibility with PHP 8.3",
+                    "filename": "essential/mageprince/magento2-paymentfee/fix-compatibility-with-php83.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
