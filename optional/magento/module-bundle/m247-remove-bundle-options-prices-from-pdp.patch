@@ -1,0 +1,35 @@
+Remove bundle options prices from PDP (IPET-2568)
+
+diff --git a/Helper/Catalog/Product/Configuration.php b/Helper/Catalog/Product/Configuration.php
+index d17e8e0..c59c331 100644
+--- a/Helper/Catalog/Product/Configuration.php
++++ b/Helper/Catalog/Product/Configuration.php
+@@ -210,15 +210,19 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
+                 $selectionFinalPrice = $this->taxHelper->getTaxPrice($item->getProduct(), $selectionPrice);
+             }
+             $option['value'][] = $qty . ' x '
+-                . $this->escaper->escapeHtml($bundleSelection->getName())
+-                . ' '
+-                . $this->pricingHelper->currency(
+-                    $selectionFinalPrice
+-                )
+-                . ($displayCartPricesBoth ? ' ' . __('Excl. tax:') . ' '
+-                    . $this->pricingHelper->currency(
+-                        $selectionFinalPriceExclTax
+-                    ) : '');
++                // BEGIN PATCH
++                // Remove option price from value
++                . $this->escaper->escapeHtml($bundleSelection->getName());
++                //. $this->escaper->escapeHtml($bundleSelection->getName())
++                //. ' '
++                //. $this->pricingHelper->currency(
++                //    $selectionFinalPrice
++                //)
++                //. ($displayCartPricesBoth ? ' ' . __('Excl. tax:') . ' '
++                //    . $this->pricingHelper->currency(
++                //        $selectionFinalPriceExclTax
++                //    ) : '');
++                // END PATCH
+             $option['has_html'] = true;
+         }
+         return $option;

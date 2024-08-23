@@ -356,7 +356,12 @@
             {
                 "description": "Remove bundle options prices from PDP (IPET-2568)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m24-remove-bundle-options-prices-from-pdp.patch",
-                "version-constraint": ">=101.0.5"
+                "version-constraint": ">=101.0.5,<101.0.7"
+            },
+            {
+                "description": "Remove bundle options prices from PDP (IPET-2568)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m247-remove-bundle-options-prices-from-pdp.patch",
+                "version-constraint": ">=101.0.7"
             },
             {
                 "description": "Remove quantity filter for bundle price list provider to include prices of all bundle options even if their qty is not enough for purchase (TOYS-1019)",
@@ -1141,7 +1146,12 @@
             {
                 "description": "Fix shipping discount ration calculation",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/m245-fix-shipping-discount-ratio-calculation.patch",
-                "version-constraint": ">=101.2.5"
+                "version-constraint": ">=101.2.5,<101.2.7"
+            },
+            {
+                "description": "Fix shipping discount ration calculation",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales-rule/m247-fix-shipping-discount-ratio-calculation.patch",
+                "version-constraint": ">=101.2.7"
             },
             {
                 "description": "Use default discount calculation (IPET-1808)",
