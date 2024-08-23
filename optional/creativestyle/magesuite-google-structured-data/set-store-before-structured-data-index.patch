@@ -1,8 +1,17 @@
 diff --git a/Model/Indexer/ProductStructuredData/IndexBuilder.php b/Model/Indexer/ProductStructuredData/IndexBuilder.php
-index e1badeb..0073cd5 100644
+index e1badeb..b15ffd2 100644
 --- a/Model/Indexer/ProductStructuredData/IndexBuilder.php
 +++ b/Model/Indexer/ProductStructuredData/IndexBuilder.php
-@@ -49,6 +49,10 @@ class IndexBuilder
+@@ -44,15 +44,27 @@ class IndexBuilder
+ 
+     public function reindexList(array $productIds): void
+     {
++        //BEGIN PATCH
++        $currentStore = $this->storeManager->getStore();
++        //END PATCH
++
+         foreach ($this->storeManager->getStores(false) as $store) {
+             if (!$store->isActive()) {
                  continue;
              }
  
@@ -13,3 +22,11 @@ index e1badeb..0073cd5 100644
              foreach ($this->getProducts($productIds, $store) as $products) {
                  $this->buildIndex($products, $store);
              }
+         }
++
++        //BEGIN PATCH
++        $this->storeManager->setCurrentStore($currentStore->getId());
++        //END PATCH
+     }
+ 
+     /**
