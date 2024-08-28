@@ -1,0 +1,18 @@
+diff --git a/Plugin/Catalog/Helper/Product/ChangeProductPrice.php b/Plugin/Catalog/Helper/Product/ChangeProductPrice.php
+index e213b44..cc58463 100644
+--- a/Plugin/Catalog/Helper/Product/ChangeProductPrice.php
++++ b/Plugin/Catalog/Helper/Product/ChangeProductPrice.php
+@@ -35,7 +35,12 @@ class ChangeProductPrice
+         $this->googleDiscountsProvider = $googleDiscountsProvider;
+     }
+
+-    public function afterInitProduct(Product $productHelper, ?ProductInterface $product): ?ProductInterface
++    /**
++     * @param Product $productHelper
++     * @param ProductInterface|bool $product
++     * @return ProductInterface|bool
++     */
++    public function afterInitProduct(Product $productHelper, $product)
+     {
+         if ((!$pv2 = $this->http->getParam(GoogleDiscountsProvider::PV2_KEY)) || !$product) {
+             return $product;
