@@ -581,6 +581,13 @@
                     "version-constraint": "<1.10.5"
                 }
             ],
+            "amasty/module-google-automated-discounts": [
+                {
+                    "description": "TOYS-1484: Proper result type. It returns ProductInterface|bool not ?ProductInterface",
+                    "filename": "essential/amasty/module-google-automated-discounts/TOYS-1484-proper-result-type.patch",
+                    "version-constraint": ">=0.1.1"
+                }
+            ],
             "amasty/stockstatus": [
                 {
                     "description": "Fix for missing Zend class",
