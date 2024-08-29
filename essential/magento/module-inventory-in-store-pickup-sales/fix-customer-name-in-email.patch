@@ -15,7 +15,7 @@ index 36c1fe9..922d071 100644
              'formattedShippingAddress' => $this->getFormattedShippingAddress($order),
          ];
 diff --git a/view/frontend/email/order_ready_for_pickup.html b/view/frontend/email/order_ready_for_pickup.html
-index 1298a04..913a78b 100644
+index 1298a04..060fa50 100644
 --- a/view/frontend/email/order_ready_for_pickup.html
 +++ b/view/frontend/email/order_ready_for_pickup.html
 @@ -7,13 +7,12 @@
@@ -31,14 +31,14 @@ index 1298a04..913a78b 100644
 -"var order.getCustomerName()":"Customer Name"
 +"var order_data.customer_name":"Customer Name",
  } @-->
- 
+
  {{template config_path="design/email/header_template"}}
 @@ -21,7 +20,7 @@
  <table>
      <tr class="email-intro">
          <td>
 -            <p class="greeting">{{trans "%customer_name," customer_name=$order.getCustomerName()}}</p>
-+            <p class="greeting">{{trans "%customer_name," customer_name=$order_data.customer_name()}}</p>
++            <p class="greeting">{{trans "%customer_name," customer_name=$order_data.customer_name}}</p>
              <p>
                  {{trans "Your order placed from %store_name is ready for pickup." store_name=$store.getFrontendName()}}
              </p>
