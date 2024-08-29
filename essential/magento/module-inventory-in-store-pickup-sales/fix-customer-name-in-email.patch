@@ -1,0 +1,44 @@
+diff --git a/Model/Order/Email/ReadyForPickupSender.php b/Model/Order/Email/ReadyForPickupSender.php
+index 36c1fe9..922d071 100644
+--- a/Model/Order/Email/ReadyForPickupSender.php
++++ b/Model/Order/Email/ReadyForPickupSender.php
+@@ -109,6 +109,11 @@ class ReadyForPickupSender extends Sender
+     {
+         $transport = [
+             'order' => $order,
++            // PATCH START
++            'order_data' => [
++                'customer_name' => $order->getCustomerName()
++            ],
++            // PATCH END
+             'store' => $order->getStore(),
+             'formattedShippingAddress' => $this->getFormattedShippingAddress($order),
+         ];
+diff --git a/view/frontend/email/order_ready_for_pickup.html b/view/frontend/email/order_ready_for_pickup.html
+index 1298a04..913a78b 100644
+--- a/view/frontend/email/order_ready_for_pickup.html
++++ b/view/frontend/email/order_ready_for_pickup.html
+@@ -7,13 +7,12 @@
+ <!--@subject {{trans "Your %store_name order is ready for pickup" store_name=$store.getFrontendName()}} @-->
+ <!--@vars {
+ "var order.getEmailCustomerNote()":"Email Order Note",
+-"var order.getCustomerName()":"Customer Name",
+ "var store.getFrontendName()":"Store Name",
+ "var order.increment_id":"Order Id",
+ "var formattedShippingAddress|raw":"Shipping Address",
+ "var order.getShippingDescription()":"Shipping Description",
+ "var store.getFrontendName()|escape":"Store Name",
+-"var order.getCustomerName()":"Customer Name"
++"var order_data.customer_name":"Customer Name",
+ } @-->
+ 
+ {{template config_path="design/email/header_template"}}
+@@ -21,7 +20,7 @@
+ <table>
+     <tr class="email-intro">
+         <td>
+-            <p class="greeting">{{trans "%customer_name," customer_name=$order.getCustomerName()}}</p>
++            <p class="greeting">{{trans "%customer_name," customer_name=$order_data.customer_name()}}</p>
+             <p>
+                 {{trans "Your order placed from %store_name is ready for pickup." store_name=$store.getFrontendName()}}
+             </p>
