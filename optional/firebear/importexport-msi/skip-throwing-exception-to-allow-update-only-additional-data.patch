@@ -1,18 +1,17 @@
 diff --git a/Model/Import/StockSourceQty.php b/Model/Import/StockSourceQty.php
-index b503d8e..f890c1a 100644
+index b503d8e..aafdeb1 100644
 --- a/Model/Import/StockSourceQty.php
 +++ b/Model/Import/StockSourceQty.php
-@@ -163,8 +163,11 @@ class StockSourceQty extends AbstractEntity implements ImportAdapterInterface
+@@ -163,7 +163,11 @@ class StockSourceQty extends AbstractEntity implements ImportAdapterInterface
                  $sourceItems = $this->sourceItemConvert->convert($bunch);
  
                  if (empty($sourceItems)) {
 -                    throw new InputException(__('Input Source QTY data is empty'));
--                }
 +                    // BEGIN PATCH
 +                    // Skip throwing exception to allow importing only Source Items Additional Data without update quantity in Source Items Qty
 +                    // throw new InputException(__('Input Source QTY data is empty'));
 +                    continue;
-+                    // END PATCH                }
++                    // END PATCH
+                 }
  
                  switch ($this->getBehavior()) {
-                     case 'replace':
