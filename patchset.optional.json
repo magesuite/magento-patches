@@ -1812,6 +1812,13 @@
                 "version-constraint": ">=3.8.7"
             }
         ],
+        "firebear/importexport-msi": [
+            {
+                "description": "Import Stock Sources Qty - skip throwing exception to allow import only Additional Data (IPET-2795)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport-msi/skip-throwing-exception-to-allow-update-only-additional-data.patch",
+                "version-constraint": ">=1.1.4"
+            }
+        ],
         "mollie/magento2": [
             {
                 "description": "Fix error when add to cart - added additional buyRequest check for splitted lenses in quote",
