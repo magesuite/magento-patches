@@ -1430,6 +1430,11 @@
                     "version-constraint": ">=1.8.1"
                 },
                 {
+                    "description": "fix: [HAAR-4253] Invoice repository plugin wrong return type fix",
+                    "filename": "essential/aheadworks/module-giftcard/invoice-repository-plugin-return-type-error-fix.patch",
+                    "version-constraint": ">=1.8.1"
+                },
+                {
                     "description": "fix: [HAAR-3907] Email templates for storeviews are removed when giftcard save on non All store view scope",
                     "filename": "essential/aheadworks/module-giftcard/fix-giftcard-email-templates-removal-after-save.patch",
                     "version-constraint": "1.8.1"
