@@ -1,0 +1,18 @@
+diff --git a/Plugin/Model/Order/InvoiceRepositoryPlugin.php b/Plugin/Model/Order/InvoiceRepositoryPlugin.php
+--- a/Plugin/Model/Order/InvoiceRepositoryPlugin.php
++++ b/Plugin/Model/Order/InvoiceRepositoryPlugin.php
+@@ -35,12 +35,11 @@
+      *
+      * @param InvoiceRepositoryInterface $subject
+      * @param InvoiceSearchResultInterface $invoices
+-     * @return InvoiceInterface
+-     */
++    */
+     public function afterGetList(
+         InvoiceRepositoryInterface $subject,
+         InvoiceSearchResultInterface $invoices
+-    ): InvoiceInterface {
++    ) {
+         /** @var InvoiceInterface $order */
+         foreach ($invoices->getItems() as $invoice) {
+             $this->invoiceHelper->addGiftcardDataToInvoice($invoice);
