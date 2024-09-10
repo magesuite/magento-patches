@@ -145,6 +145,11 @@
                 "description": "Fix category preview sorting when field includes direction",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-category-preview-sorting.patch",
                 "version-constraint": ">=2.11.7"
+            },
+            {
+                "description": "Change indices pattern (add microsecond)",
+                "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/change-indices-pattern.patch",
+                "version-constraint": ">=2.11.7"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [

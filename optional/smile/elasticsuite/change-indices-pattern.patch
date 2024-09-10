@@ -1,0 +1,13 @@
+diff --git a/src/module-elasticsuite-core/etc/config.xml b/src/module-elasticsuite-core/etc/config.xml
+index 4946f74..21bd1a3 100644
+--- a/src/module-elasticsuite-core/etc/config.xml
++++ b/src/module-elasticsuite-core/etc/config.xml
+@@ -29,7 +29,7 @@
+             </es_client>
+             <indices_settings>
+                 <alias>magento2</alias>
+-                <indices_pattern>{{Ymd}}_{{His}}</indices_pattern>
++                <indices_pattern>{{Ymd}}_{{Hisu}}</indices_pattern>
+                 <number_of_shards>1</number_of_shards>
+                 <number_of_replicas>0</number_of_replicas>
+                 <batch_indexing_size>1000</batch_indexing_size>
