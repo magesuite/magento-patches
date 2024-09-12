@@ -1,0 +1,20 @@
+diff --git a/Service/Order/Items/Add.php b/Service/Order/Items/Add.php
+index effce17..d3552cd 100644
+--- a/Service/Order/Items/Add.php
++++ b/Service/Order/Items/Add.php
+@@ -72,6 +72,15 @@ class Add
+                 $product = $this->getProductById((int)$item['PRODUCT_ID']['SUPPLIER_PID'], $storeId);
+                 $price = $this->getProductPrice($item, $storeId);
+                 $product = $this->setProductData($product, $price);
++
++                //BEGIN PATCH
++                /**
++                 * At this point, quantity and stock status has been checked only for the default stock.
++                 * We remove is_salable flag, so Magento will check quantity and stock status also for other stocks (MSI issue)
++                 */
++                $product->unsetData('is_salable');
++                // END PATCH
++
+                 $addedItem = $quote->addProduct($product, (int)$item['QUANTITY']);
+ 
+                 if (is_string($addedItem)) {
