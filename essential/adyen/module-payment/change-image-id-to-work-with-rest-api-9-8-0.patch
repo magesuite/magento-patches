@@ -1,0 +1,16 @@
+diff --git a/Helper/OpenInvoice.php b/Helper/OpenInvoice.php
+index 85558ad..0167f5c 100644
+--- a/Helper/OpenInvoice.php
++++ b/Helper/OpenInvoice.php
+@@ -128,7 +128,10 @@ class OpenInvoice
+         $imageUrl = "";
+
+         if ($product && $image = $product->getSmallImage()) {
+-            $imageUrl = $this->imageHelper->init($product, 'product_page_image_small')
++            // PATCH BEGIN
++            // $imageUrl = $this->imageHelper->init($product, 'product_page_image_small')
++            $imageUrl = $this->imageHelper->init($product, 'product_base_image')
++            // PATCH END
+                 ->setImageFile($image)
+                 ->getUrl();
+         }
