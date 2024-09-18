@@ -1,0 +1,19 @@
+Ticket https://creativestyle.atlassian.net/browse/P2G-2497
+
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index 1a25c2a..9a96350 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -1048,7 +1048,11 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+             return $this->_configurable[$productId];
+         } elseif (($reference == 'parent' || $reference == 'grouped') && isset($this->_grouped[$productId])) {
+             return $this->_grouped[$productId];
+-        } elseif (($reference == 'parent' || $reference == 'bundle') && isset($this->_bundle[$productId])) {
++        } elseif ((
++            // BEGIN PATCH
++            // $reference == 'parent' ||
++            // END PATCH
++                $reference == 'bundle') && isset($this->_bundle[$productId])) {
+             return $this->_bundle[$productId];
+         } elseif ($reference == 'product') {
+             return $product;
