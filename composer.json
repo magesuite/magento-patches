@@ -2874,6 +2874,13 @@
                     "filename": "essential/mageprince/magento2-paymentfee/fix-compatibility-with-php83.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "extendware/module-deepltranslatorautosync": [
+                {
+                    "description": "Fix for initialize product translation CLI",
+                    "filename": "essential/extendware/module-deepltranslatorautosync/fix-for-initialize-product-translation-cli.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
