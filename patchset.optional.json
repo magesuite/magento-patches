@@ -476,6 +476,11 @@
                 "description": "Change error to info message for the last order item product does not exist",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-error-message-last-order-item-product-not-exists.patch",
                 "version-constraint": ">=103.0.6-p6"
+            },
+            {
+                "description": "Fix isVisibleCustomerPrefix method in Order model, when config is set to 'No' null value is in dabatase. (RKL-597)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-is-visible-customer-prefix-method.patch",
+                "version-constraint": ">=103.0.6-p6"
             }
         ],
         "magento/module-shipping": [

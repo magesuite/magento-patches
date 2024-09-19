@@ -1,0 +1,20 @@
+[RKL-597] Fix isVisibleCustomerPrefix method in Order model, when config is set to 'No' null value is in dabatase.
+
+diff --git a/Model/Order.php b/Model/Order.php
+index 9d5310d..093c53b 100644
+--- a/Model/Order.php
++++ b/Model/Order.php
+@@ -4646,7 +4646,10 @@ class Order extends AbstractModel implements EntityInterface, OrderInterface
+             ScopeInterface::SCOPE_STORE
+         );
+
+-        return $prefixShowValue !== Nooptreq::VALUE_NO;
++        // BEGIN PATCH
++        // return $prefixShowValue !== Nooptreq::VALUE_NO;
++        return $prefixShowValue != Nooptreq::VALUE_NO;
++        // END PATCH
+     }
+
+     /**
+--
+2.39.3 (Apple Git-146)
