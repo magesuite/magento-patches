@@ -1532,6 +1532,11 @@
               "description": "Rename availability method name",
               "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/rename-availability-method-name-kratki-only.patch",
               "version-constraint": "*"
+            },
+            {
+              "description": "Fix the issue when a simple product is treated as bundle if it is in relation",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/fix-error-simple-product-treated-as-bundle",
+              "version-constraint": "11.24.6"
             }
         ],
         "magento/module-media-storage": [
