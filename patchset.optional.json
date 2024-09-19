@@ -1535,7 +1535,7 @@
             },
             {
               "description": "Fix the issue when a simple product is treated as bundle if it is in relation",
-              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/fix-error-simple-product-treated-as-bundle",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/fix-error-simple-product-treated-as-bundle.patch",
               "version-constraint": "11.24.6"
             }
         ],
