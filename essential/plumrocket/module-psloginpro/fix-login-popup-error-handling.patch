@@ -1,0 +1,32 @@
+Add handling for all error types for getNetworkAccount method call (IPET-2771).
+
+diff --git a/Controller/Account/Login.php b/Controller/Account/Login.php
+index b50ac6e..b78a969 100644
+--- a/Controller/Account/Login.php
++++ b/Controller/Account/Login.php
+@@ -308,8 +308,25 @@ class Login extends \Magento\Framework\App\Action\Action
+             $result = $this->modalWindowManager->showCollectedErrors();
+             $this->debugLogger->clear();
+
++            return $result;
++        //PATCH START
++        } catch (\Exception $exception) {
++            $this->debugLogger->addException($type, $exception);
++            $this->messageManager->addErrorMessage(__('Sorry, but something went wrong while connecting social account.'));
++            $this->debugLogger->recordLogs();
++            $this->debugLogger->clear();
++
++            if ($isAjax) {
++                $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
++                $result->setData(['windowClose' => true, 'reloadPage' => true]);
++            } else {
++                $result = $this->resultFactory->create(ResultFactory::TYPE_RAW);
++                $result->setContents($this->modalWindowManager->wrapJs('window.close(); window.location.reload();'));
++            }
++
+             return $result;
+         }
++        //PATCH END
+
+         // API.
+         if ($callTarget) {
