@@ -1,0 +1,29 @@
+diff --git a/Controller/Adminhtml/AbstractAction.php b/Controller/Adminhtml/AbstractAction.php
+index a19ec2d..c3ba4b4 100644
+--- a/Controller/Adminhtml/AbstractAction.php
++++ b/Controller/Adminhtml/AbstractAction.php
+@@ -13,6 +13,9 @@ namespace Wyomind\DataFeedManager\Controller\Adminhtml;
+  */
+ abstract class AbstractAction extends \Magento\Backend\App\Action
+ {
++    // BEGIN PATCH
++    protected $_config;
++    // END PATCH
+ 
+     /**
+      * @var \Magento\Framework\Registry|null
+diff --git a/Helper/Parser.php b/Helper/Parser.php
+index 8c798e6..a47afb2 100644
+--- a/Helper/Parser.php
++++ b/Helper/Parser.php
+@@ -12,6 +12,10 @@ namespace Wyomind\DataFeedManager\Helper;
+  */
+ class Parser extends \Magento\Framework\App\Helper\AbstractHelper
+ {
++    // BEGIN PATCH
++    protected $attributeOptions;
++    // END PATCH
++
+     /**
+      * @var string
+      */
