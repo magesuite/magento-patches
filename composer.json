@@ -2882,8 +2882,8 @@
             ],
             "extendware/module-deepltranslatorautosync": [
                 {
-                    "description": "Fix for initialize product translation CLI",
-                    "filename": "essential/extendware/module-deepltranslatorautosync/fix-for-initialize-product-translation-cli.patch",
+                    "description": "Fix compatibility with MAgeSuite (CLI initialization, missing paramaters in Observers)",
+                    "filename": "essential/extendware/module-deepltranslatorautosync/fix-compatibility-with-magesuite.patch",
                     "version-constraint": "*"
                 }
             ]
