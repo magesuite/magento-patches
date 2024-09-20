@@ -1,0 +1,36 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 36decbc..100664d 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -1645,6 +1645,9 @@
+         <constraint xsi:type="primary" referenceId="PRIMARY">
+             <column name="id"/>
+         </constraint>
++        <index referenceId="CATALOG_PRODUCT_INDEX_PRICE_TMP_ENTITY_ID" indexType="btree">
++            <column name="entity_id"/>
++        </index>
+     </table>
+     <table name="catalog_category_product_index_tmp" resource="default" engine="innodb"
+            comment="Catalog Category Product Indexer temporary table">
+
+diff --git a/etc/db_schema_whitelist.json b/etc/db_schema_whitelist.json
+index fd33260..1c6ab0b 100644
+--- a/etc/db_schema_whitelist.json
++++ b/etc/db_schema_whitelist.json
+@@ -987,12 +987,14 @@
+             "final_price": true,
+             "min_price": true,
+             "max_price": true,
+-            "tier_price": true
++            "tier_price": true,
++            "id": true
+         },
+         "index": {
+             "CATALOG_PRODUCT_INDEX_PRICE_TMP_CUSTOMER_GROUP_ID": true,
+             "CATALOG_PRODUCT_INDEX_PRICE_TMP_WEBSITE_ID": true,
+-            "CATALOG_PRODUCT_INDEX_PRICE_TMP_MIN_PRICE": true
++            "CATALOG_PRODUCT_INDEX_PRICE_TMP_MIN_PRICE": true,
++            "CATALOG_PRODUCT_INDEX_PRICE_TMP_ENTITY_ID": true
+         },
+         "constraint": {
+             "PRIMARY": true
