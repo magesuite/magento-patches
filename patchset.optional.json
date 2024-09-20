@@ -1454,11 +1454,11 @@
             }
         ],
         "wyomind/googleproductratings": [
-        {
-          "description": "Replaces cron declaration to run at 10.00 - otherwise it is being generated every 30 minutes.",
-          "filename": "vendor/creativestyle/magento-patches/optional/wyomind/googleproductratings/product-ratings-feed-cronfix.patch",
-          "version-constraint": "*"
-        }
+            {
+                "description": "Replaces cron declaration to run at 10.00 - otherwise it is being generated every 30 minutes.",
+                "filename": "vendor/creativestyle/magento-patches/optional/wyomind/googleproductratings/product-ratings-feed-cronfix.patch",
+                "version-constraint": "*"
+            }
         ],
         "magento/module-review": [
             {
@@ -1536,7 +1536,7 @@
             {
               "description": "Fix the issue when a simple product is treated as bundle if it is in relation",
               "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/fix-error-simple-product-treated-as-bundle.patch",
-              "version-constraint": "11.24.6"
+              "version-constraint": ">=11.24.6"
             }
         ],
         "magento/module-media-storage": [
