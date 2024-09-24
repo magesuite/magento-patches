@@ -14,6 +14,13 @@
                 "version-constraint": "*"
             }
         ],
+        "akeneo/module-magento2-connector-community": [
+            {
+                "description": "Use code as label for attribute and option when label is missing (ZJ-159)",
+                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/module-magento2-connector-community/when-label-is-missing-use-code-as-label.patch",
+                "version-constraint": "*"
+            }
+        ],
         "akeneo/magento2-connector-enterprise": [
             {
                 "description": "Skip associate item when identifier is missing (FR-105)",

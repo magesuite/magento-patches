@@ -1,0 +1,34 @@
+diff --git a/Job/Attribute.php b/Job/Attribute.php
+index aa8f0c8..51921be 100644
+--- a/Job/Attribute.php
++++ b/Job/Attribute.php
+@@ -313,6 +313,12 @@ class Attribute extends Import
+         $query = $connection->query($select);
+         /** @var array $row */
+         while (($row = $query->fetch())) {
++            // BEGIN PATCH: use code as label when label is empty
++            if (empty($row['label'])) {
++                $row['label'] = $row['code'] ?? null;
++            }
++            // END PATCH
++            
+             if (!isset($row['label']) || $row['label'] === null) {
+                 $this->jobExecutor->setAdditionalMessage(
+                     __(
+diff --git a/Job/Option.php b/Job/Option.php
+index f3ba26b..c79656b 100644
+--- a/Job/Option.php
++++ b/Job/Option.php
+@@ -281,6 +281,12 @@ class Option extends Import
+             $query = $connection->query($select);
+             /** @var array $row */
+             while (($row = $query->fetch())) {
++                // BEGIN PATCH: use code as label when label is empty
++                if (empty($row['label'])) {
++                    $row['label'] = $row['code'] ?? null;
++                }
++                // END PATCH
++
+                 if (!isset($row['label']) || $row['label'] === null) {
+                     $connection->delete($tmpTable, ['code = ?' => $row['code'], 'attribute = ?' => $row['attribute']]);
+                     $this->jobExecutor->setAdditionalMessage(
