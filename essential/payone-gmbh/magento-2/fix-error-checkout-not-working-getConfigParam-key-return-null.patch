@@ -1,0 +1,27 @@
+Ticket: https://creativestyle.atlassian.net/browse/P2G-2502
+
+Fix exception: Deprecated Functionality:
+hash_hmac(): Passing null to parameter #3 ($key) of type string is deprecated in
+/vendor/payone-gmbh/magento-2/Helper/Toolkit.php on line 272
+
+diff --git a/Helper/Toolkit.php b/Helper/Toolkit.php
+index fa9451a..ae4c0f8 100644
+--- a/Helper/Toolkit.php
++++ b/Helper/Toolkit.php
+@@ -268,9 +268,14 @@ class Toolkit extends \Payone\Core\Helper\Base
+      */
+     public function hashString($sString, $sAlgorithm = 'sha384', $sKey = false)
+     {
+-        if ($sAlgorithm == "sha384" && $sKey !== false) {
+-            return hash_hmac($sAlgorithm, $sString, $sKey);
++        // BEGIN PATCH
++        // if ($sAlgorithm == "sha384" && $sKey !== false) {
++        //     return hash_hmac($sAlgorithm, $sString, $sKey);
++        // }
++        if ($sAlgorithm == "sha384" && $sKey !== false && $sKey !== null) {
++            return hash_hmac($sAlgorithm, $sString, (string) $sKey);
+         }
++        //END PATCH
+         return hash($sAlgorithm, $sString);
+     }
+ }
