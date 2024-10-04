@@ -1,0 +1,53 @@
+Fix for issue related to PHP Intl library.
+The issue is caused by the fact that the `AmPmMarkers` and `AmPmMarkersAbbr` keys are not guaranteed to exist in the ICU data.
+The patch adds a fallback to `null` if neither key exists.
+
+Bug confirmed present in 2.4.5 and 2.4.7. The fix is merged but not yet released.
+
+Original issue: https://github.com/magento/magento2/issues/38214
+PR: https://github.com/magento/magento2/pull/38364/files
+
+
+diff --git a/View/Element/Html/Calendar.php b/View/Element/Html/Calendar.php
+index 884488d..b2068a9 100644
+--- a/View/Element/Html/Calendar.php
++++ b/View/Element/Html/Calendar.php
+@@ -111,8 +111,11 @@ class Calendar extends \Magento\Framework\View\Element\Template
+         $this->assignFieldsValues($localeData);
+ 
+         // get "am" & "pm" words
+-        $this->assign('am', $this->encoder->encode($localeData['calendar']['gregorian']['AmPmMarkers']['0']));
+-        $this->assign('pm', $this->encoder->encode($localeData['calendar']['gregorian']['AmPmMarkers']['1']));
++        // BEGIN PATCH
++        // $this->assign('am', $this->encoder->encode($localeData['calendar']['gregorian']['AmPmMarkers']['0']));
++        // $this->assign('pm', $this->encoder->encode($localeData['calendar']['gregorian']['AmPmMarkers']['1']));
++        $this->assignAmPmWords($localeData);
++        // END PATCH
+ 
+         // get first day of week and weekend days
+         $this->assign(
+@@ -209,4 +212,24 @@ class Calendar extends \Magento\Framework\View\Element\Template
+             $this->assign('week', $this->encoder->encode($localeData['fields']['week']['dn']));
+         }
+     }
++    // BEGIN PATCH
++    /**
++     * Assign "am" & "pm" words from the ICU data
++     *
++     * @param \ResourceBundle $localeData
++     */
++    private function assignAmPmWords(\ResourceBundle $localeData): void
++    {
++        // AmPmMarkers and AmPmMarkersAbbr aren't guaranteed to exist, so fallback to null if neither exist
++        $amWord = $localeData['calendar']['gregorian']['AmPmMarkers'][0] ??
++            $localeData['calendar']['gregorian']['AmPmMarkersAbbr'][0] ??
++            null;
++        $pmWord = $localeData['calendar']['gregorian']['AmPmMarkers'][1] ??
++            $localeData['calendar']['gregorian']['AmPmMarkersAbbr'][1] ??
++            null;
++
++        $this->assign('am', $this->encoder->encode($amWord));
++        $this->assign('pm', $this->encoder->encode($pmWord));
++    }
++    // END PATCH
+ }
