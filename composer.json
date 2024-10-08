@@ -588,6 +588,13 @@
                     "version-constraint": "<1.10.5"
                 }
             ],
+            "amasty/shiprestriction": [
+                {
+                    "description": "Fix error with str_replace and null argument [FR-455]",
+                    "filename": "essential/amasty/shiprestriction/fix-error-with-str_replace-argument-null.patch",
+                    "version-constraint": ">=2.11.0"
+                }
+            ],
             "amasty/module-google-automated-discounts": [
                 {
                     "description": "TOYS-1484: Proper result type. It returns ProductInterface|bool not ?ProductInterface",

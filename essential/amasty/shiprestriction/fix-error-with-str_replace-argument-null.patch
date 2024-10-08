@@ -1,0 +1,19 @@
+diff --git a/Model/Message/MessageBuilderProcessors/LastProductProcessor.php b/Model/Message/MessageBuilderProcessors/LastProductProcessor.php
+index 16029c8..2b42c99 100644
+--- a/Model/Message/MessageBuilderProcessors/LastProductProcessor.php
++++ b/Model/Message/MessageBuilderProcessors/LastProductProcessor.php
+@@ -29,6 +29,13 @@ class LastProductProcessor implements MessageBuilderProcessorInterface
+     {
+         $products = $this->productRegistry->getProducts();
+
+-        return str_replace('{last-product}', end($products), $message);
++        return str_replace(
++            '{last-product}',
++            // BEGIN PATCH
++            // end($products),
++            (string) end($products),
++            // END PATCH
++            $message
++        );
+     }
+ }
