@@ -616,7 +616,12 @@
                 {
                     "description": "Display custom status on wishlist/checkout product configure pages (FR-254)",
                     "filename": "essential/amasty/stockstatus/display-custom-status-on-product-configure-pages.patch",
-                    "version-constraint": ">=2.5.1"
+                    "version-constraint": ">=2.5.1,<2.5.3"
+                },
+                {
+                    "description": "Display custom status on wishlist/checkout product configure pages (FR-397)",
+                    "filename": "essential/amasty/stockstatus/display-custom-status-on-product-configure-pages-v1.5.3.patch",
+                    "version-constraint": ">=2.5.3"
                 }
             ],
             "brickfox/import-export-data": [
