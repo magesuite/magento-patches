@@ -1,0 +1,54 @@
+diff --git a/src/module-elasticsuite-tracker/Model/ResourceModel/EventQueue.php b/src/module-elasticsuite-tracker/Model/ResourceModel/EventQueue.php
+index a531e81..de4f7a3 100644
+--- a/src/module-elasticsuite-tracker/Model/ResourceModel/EventQueue.php
++++ b/src/module-elasticsuite-tracker/Model/ResourceModel/EventQueue.php
+@@ -243,24 +243,30 @@ class EventQueue extends AbstractDb
+      */
+     protected function isEventInvalid($data)
+     {
+-        $isEventInvalid = true;
+-
+-        if (isset($data['page']['store_id']) && is_numeric($data['page']['store_id'])) {
+-            if (array_key_exists('session', $data)) {
+-                if (array_key_exists('uid', $data['session']) && array_key_exists('vid', $data['session'])) {
+-                    $isEventInvalid = false;
+-                    $sessionUid = trim($data['session']['uid']);
+-                    $sessionVid = trim($data['session']['vid']);
+-                    if (empty($sessionUid) || ("null" === $sessionUid)) {
+-                        $isEventInvalid = true;
+-                    }
+-                    if (empty($sessionVid) || ("null" === $sessionVid)) {
+-                        $isEventInvalid = true;
+-                    }
+-                }
+-            }
+-        }
+-
+-        return $isEventInvalid;
++        //PATCH BEGIN
++        //$isEventInvalid = true;
++        //
++        //if (isset($data['page']['store_id']) && is_numeric($data['page']['store_id'])) {
++        //    if (array_key_exists('session', $data)) {
++        //        if (array_key_exists('uid', $data['session']) && array_key_exists('vid', $data['session'])) {
++        //            $isEventInvalid = false;
++        //            $sessionUid = trim($data['session']['uid']);
++        //            $sessionVid = trim($data['session']['vid']);
++        //            if (empty($sessionUid) || ("null" === $sessionUid)) {
++        //                $isEventInvalid = true;
++        //            }
++        //            if (empty($sessionVid) || ("null" === $sessionVid)) {
++        //                $isEventInvalid = true;
++        //            }
++        //        }
++        //    }
++        //}
++        //
++        //return $isEventInvalid;
++        return
++            empty($data['page']['store_id']) || !is_numeric((int)$data['page']['store_id']) ||
++            empty($data['session']['uid']) || trim($data['session']['uid']) === 'null' ||
++            empty($data['session']['vid']) || trim($data['session']['vid']) === 'null';
++        // PATCH END
+     }
+ }
