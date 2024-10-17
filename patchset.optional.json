@@ -443,9 +443,14 @@
                 "version-constraint": "101.0.*"
             },
             {
-              "description": "Correct error messages so they can be easily translated",
-              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-quote/RK-1556-missing-giftcard-translations.patch",
-              "version-constraint": ">=101.2.6-p1"
+                "description": "Correct error messages so they can be easily translated",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-quote/RK-1556-missing-giftcard-translations.patch",
+                "version-constraint": ">=101.2.6-p1"
+            },
+            {
+                "description": "Fix the error with mysql Integrity constraint violation for quote_item_option table",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-quote/fix-error-with-quote-item-option-constraint-DOG-1931.patch",
+                "version-constraint": ">=101.2.7-p1"
             }
         ],
         "magento/module-sales": [

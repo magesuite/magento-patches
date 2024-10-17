@@ -1,0 +1,17 @@
+diff --git a/Model/ResourceModel/Quote/Item.php b/Model/ResourceModel/Quote/Item.php
+index 2430b73..68da4d8 100644
+--- a/Model/ResourceModel/Quote/Item.php
++++ b/Model/ResourceModel/Quote/Item.php
+@@ -36,7 +36,11 @@ class Item extends AbstractDb
+ 
+         $result = parent::save($object);
+ 
+-        if (!$object->isOptionsSaved() && ($hasDataChanges || $this->hasOptionsChanged($object))) {
++        if (
++            // BEGIN PACH
++            !$object->isDeleted() &&
++            // END PATCH
++            !$object->isOptionsSaved() && ($hasDataChanges || $this->hasOptionsChanged($object))) {
+             $object->saveItemOptions();
+         }
+         return $result;
