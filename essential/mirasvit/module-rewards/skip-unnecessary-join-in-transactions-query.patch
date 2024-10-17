@@ -1,0 +1,40 @@
+diff --git a/src/Rewards/Model/ResourceModel/Transaction/Collection.php b/src/Rewards/Model/ResourceModel/Transaction/Collection.php
+index 936cc73..d855090 100644
+--- a/src/Rewards/Model/ResourceModel/Transaction/Collection.php
++++ b/src/Rewards/Model/ResourceModel/Transaction/Collection.php
+@@ -158,7 +158,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
+     protected function _initSelect()
+     {
+         parent::_initSelect();
+-        $this->initFields();
++        // BEGIN PATCH
++        // $this->initFields();
++        // END PATCH
+     }
+ 
+     /**
+diff --git a/src/RewardsAdminUi/Ui/Transaction/Listing/DataProvider.php b/src/RewardsAdminUi/Ui/Transaction/Listing/DataProvider.php
+index fb6cd59..e837672 100644
+--- a/src/RewardsAdminUi/Ui/Transaction/Listing/DataProvider.php
++++ b/src/RewardsAdminUi/Ui/Transaction/Listing/DataProvider.php
+@@ -150,6 +150,20 @@ class DataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvi
+     protected function getPreparedCollection($fieldName, $fieldNameValue, $fieldEmail, $fieldEmailValue)
+     {
+         $collection = $this->reporting->search($this->getSearchCriteria());
++
++        // BEGIN PATCH
++        $collection->getSelect()->joinLeft(
++            ['customer' => 'customer_entity'],
++            'main_table.customer_id = customer.entity_id',
++            [
++                'customer_email' => 'customer.email',
++                'customer.firstname',
++                'customer.lastname',
++                'CONCAT(customer.firstname, " ", customer.lastname) as customer_name'
++            ]
++        );
++        // END PATCH
++
+         /** @var \Mirasvit\Rewards\Model\ResourceModel\Transaction\Grid\Collection $collection */
+         if ($fieldNameValue && $fieldName == 'customer_name') {
+             $customerIds = $this->getCustomerNameIds($fieldNameValue);
