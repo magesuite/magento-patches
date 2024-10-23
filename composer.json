@@ -910,7 +910,12 @@
                 {
                     "description": "Fix virtual category preview",
                     "filename": "essential/smile/elasticsuite/fix-virtual-category-preview.patch",
-                    "version-constraint": ">=2.10.22, <2.11.0 || >=2.11.8"
+                    "version-constraint": ">=2.10.22, <2.10.23.1 || >=2.11.8,<2.11.9.1"
+                },
+                {
+                    "description": "Fix virtual category preview",
+                    "filename": "essential/smile/elasticsuite/fix-virtual-category-preview-2.11.9.1.patch",
+                    "version-constraint": ">=2.10.23.1, <2.11.0 || >=2.11.9.1"
                 },
                 {
                     "description": "Fix: [RK-1687] Fix trim() call on null value",
