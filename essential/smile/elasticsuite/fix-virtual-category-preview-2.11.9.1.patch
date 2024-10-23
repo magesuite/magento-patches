@@ -1,0 +1,28 @@
+diff --git a/src/module-elasticsuite-virtual-category/Model/Preview.php b/src/module-elasticsuite-virtual-category/Model/Preview.php
+index c56002f..05fa495 100644
+--- a/src/module-elasticsuite-virtual-category/Model/Preview.php
++++ b/src/module-elasticsuite-virtual-category/Model/Preview.php
+@@ -137,7 +137,10 @@ class Preview extends AbstractPreview
+      */
+     protected function getSortedProductIds() : array
+     {
+-        return ($this->getSortBy() === 'position') ? $this->category->getSortedProductIds() : [];
++        // PATCH START
++        // return ($this->getSortBy() === 'position') ? $this->category->getSortedProductIds() : [];
++        return str_contains($this->getSortBy(), 'position') ? $this->category->getSortedProductIds() : [];
++        // PATCH END
+     }
+ 
+     /**
+@@ -147,7 +150,10 @@ class Preview extends AbstractPreview
+     {
+         $items = parent::preparePreviewItems($products);
+ 
+-        if ($this->getSortBy() !== 'position') {
++        // PATCH START
++        // if ($this->getSortBy() !== 'position') {
++        if (!str_contains($this->getSortBy(), 'position')) {
++        // PATCH END
+             // In order to sort the product in admin category grid, we need to set the position value
+             // if the sort order is different from position because the products are sorted in js.
+             // We also disable manual sorting when sort order is not position.
