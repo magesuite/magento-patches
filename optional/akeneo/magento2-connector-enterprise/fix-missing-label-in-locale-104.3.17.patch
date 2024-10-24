@@ -1,0 +1,21 @@
+After upgrading Akeneo Connector to the 104.3.17 version, the fix-missing-label-in-locale.patch patch is not applicable any more [FR-487]
+
+diff --git a/Helper/ProductModel.php b/Helper/ProductModel.php
+index 9d2da8d..c11b485 100644
+--- a/Helper/ProductModel.php
++++ b/Helper/ProductModel.php
+@@ -627,7 +627,11 @@ class ProductModel
+                                                 /** @var string[][] $option */
+                                                 foreach ($config['options'] as $option) {
+                                                     if ($option['code'] === $newData || $option['code'] === $label) {
+-                                                        $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale] ?? ''];
++                                                        // PATCH BEGIN
++                                                        // Use default label if label for specific locale does not exist
++                                                        // $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale] ?? ''];
++                                                        $table['data'][$i][$label] = [$newLabel => $option['labels'][$locale] ?? $table['data'][$i][$label][$newLabel] ?? $newData];
++                                                        // PATCH END
+                                                     }
+                                                 }
+                                             }
+--
+2.39.5 (Apple Git-154)

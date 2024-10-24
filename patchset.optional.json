@@ -35,7 +35,12 @@
             {
                 "description": "Fix missing label for specific locale issue (FR-215)",
                 "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/fix-missing-label-in-locale.patch",
-                "version-constraint": "*"
+                "version-constraint": "<104.3.17"
+            },
+            {
+              "description": "Fix missing label for specific locale issue (FR-487)",
+              "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/fix-missing-label-in-locale-104.3.17.patch",
+              "version-constraint": ">=104.3.17"
             }
         ],
         "twig/twig": [
