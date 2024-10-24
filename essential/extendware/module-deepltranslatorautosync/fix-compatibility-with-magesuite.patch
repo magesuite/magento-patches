@@ -37,10 +37,10 @@ index 37d1d1a..fa45ba7 100755
      }
  
 diff --git a/Observer/AddBlockTranslation.php b/Observer/AddBlockTranslation.php
-index cc5074e..3243182 100755
+index 675f8a5..47ac356 100755
 --- a/Observer/AddBlockTranslation.php
 +++ b/Observer/AddBlockTranslation.php
-@@ -128,12 +128,16 @@ class AddBlockTranslation implements ObserverInterface
+@@ -119,10 +119,14 @@ class AddBlockTranslation implements ObserverInterface
              }
          } else {
              // Save Translation Date When Save Block
@@ -48,9 +48,7 @@ index cc5074e..3243182 100755
 +            // if ($postData['block_id']) {
 +            if (!empty($postData['block_id'])) {
 +            // END PATCH
-                 $sourceBlock = $this->_blockRepository->getById($postData['block_id']);
-                 $sourceBlock->setTranslationDate($dateTime);
-                 $sourceBlock->save();
+                 $this->deeplAddonConfig->updateBlockTranslationDate($postData['block_id'], $dateTime);
              } else {
 -                if ($postData['identifier']) {
 +                // if ($postData['identifier']) {
@@ -60,10 +58,10 @@ index cc5074e..3243182 100755
                          $postData['identifier'],
                          $postData['store_id'][0]
 diff --git a/Observer/AddPageTranslation.php b/Observer/AddPageTranslation.php
-index cf2f0dd..f1ddadb 100755
+index 2e3f107..6608505 100755
 --- a/Observer/AddPageTranslation.php
 +++ b/Observer/AddPageTranslation.php
-@@ -153,12 +153,17 @@ class AddPageTranslation implements ObserverInterface
+@@ -144,10 +144,15 @@ class AddPageTranslation implements ObserverInterface
                  }
              }
          } else {
@@ -72,9 +70,7 @@ index cf2f0dd..f1ddadb 100755
 +            // if ($postData['page_id']) {
 +            if (!empty($postData['page_id']) ) {
 +            // END PATCH
-                 $pageData = $this->_pageRepository->getById($postData['page_id']);
-                 $pageData->setTranslationDate($dateTime);
-                 $this->_pageRepository->save($pageData);
+                 $this->deeplAddonConfig->updatePageTranslationDate($postData['page_id'], $dateTime);
              } else {
 -                if ($postData['unique_identifier']) {
 +                // if ($postData['unique_identifier']) {

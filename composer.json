@@ -2919,7 +2919,7 @@
             ],
             "extendware/module-deepltranslatorautosync": [
                 {
-                    "description": "Fix compatibility with MAgeSuite (CLI initialization, missing paramaters in Observers)",
+                    "description": "Fix compatibility with MageSuite (CLI initialization, missing paramaters in Observers)",
                     "filename": "essential/extendware/module-deepltranslatorautosync/fix-compatibility-with-magesuite.patch",
                     "version-constraint": "*"
                 }
