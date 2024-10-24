@@ -1,0 +1,22 @@
+This patch was added because there is real posibility for $this->getMaxRegularAmount() to be 'false'
+when there are no in stock options for configurable product and it will result in error at $this->getMaxRegularAmount()->getValue()
+Related ticket: JZ-183
+
+diff --git a/Pricing/Price/ConfigurableRegularPrice.php b/Pricing/Price/ConfigurableRegularPrice.php
+index 1ac5329..e165d11 100644
+--- a/Pricing/Price/ConfigurableRegularPrice.php
++++ b/Pricing/Price/ConfigurableRegularPrice.php
+@@ -213,9 +213,12 @@ class ConfigurableRegularPrice extends AbstractPrice implements
+         $items = $attributes->getItems();
+         $options = reset($items);
+         $maxPrice = $this->configurableMaxPriceCalculator->getMaxPriceForConfigurableProduct($productId);
+-        if ($maxPrice == 0) {
++        //BEGIN PATCH
++        //if ($maxPrice == 0 && ) {
++        if ($maxPrice == 0 && $this->getMaxRegularAmount()) {
+             $maxPrice = $this->getMaxRegularAmount()->getValue();
+         }
++        //END PATCH
+         return (count($options->getOptions()) > 1) && $minPrice == $maxPrice;
+     }
+ }

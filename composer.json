@@ -458,6 +458,11 @@
                     "description": "Fix gallery upload URL for Magento_InventoryConfigurableProductAdminUi",
                     "filename": "essential/magento/module-configurable-product/admin-bulk-gallery-upload-url.patch",
                     "version-constraint": ">=100.4.7"
+                },
+                {
+                    "description": "Fix get max price error for configurable with no available options",
+                    "filename": "essential/magento/module-configurable-product/check-max-regular-amount-before-getting-max-price.patch",
+                    "version-constraint": ">=100.4.7"
                 }
             ],
             "amasty/module-advanced-permissions": [
