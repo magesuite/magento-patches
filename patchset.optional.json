@@ -1000,6 +1000,11 @@
               "description": "Fix lost product relations on reindex (IPET-2707)",
               "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-blog/fix-lost-product-relations-data-on-reindex.patch",
               "version-constraint": "^2.4.0"
+            },
+            {
+              "description": "Reduce getPosts queries in PostList block (HAAR-4472)",
+              "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-blog/HAAR-4472-optimize-get-posts.patch",
+              "version-constraint": "^2.21.0"
             }
         ],
         "aheadworks/module-blog-search": [

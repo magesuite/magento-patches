@@ -1,0 +1,37 @@
+diff --git a/Block/Product/PostList.php b/Block/Product/PostList.php
+index 4556a4b..7bbd90f 100755
+--- a/Block/Product/PostList.php
++++ b/Block/Product/PostList.php
+@@ -21,6 +21,7 @@ class PostList extends Template implements IdentityInterface
+      * @var string
+      */
+     protected $_template = 'Aheadworks_Blog::product/post/list.phtml';
++    protected array $posts = [];
+ 
+     /**
+      * @param Context $context
+@@ -53,10 +54,20 @@ class PostList extends Template implements IdentityInterface
+     {
+         if ($this->config->isDisplayPostsOnProductPage()) {
+             if ($productId = $this->getRequest()->getParam('id')) {
+-                $this->postListing->getSearchCriteriaBuilder()->addFilter(
+-                    'product_id',
+-                    $productId
+-                );
++//                $this->postListing->getSearchCriteriaBuilder()->addFilter(
++//                    'product_id',
++//                    $productId
++//                );
++                // BEGIN PATCH
++                if (!isset($this->posts[$productId])) {
++                    $this->postListing->getSearchCriteriaBuilder()->addFilter(
++                        'product_id',
++                        $productId
++                    );
++                    $this->posts[$productId] = $this->postListing->getPosts(true);
++                }
++                return $this->posts[$productId];
++                // END PATCH
+             }
+             return $this->postListing->getPosts(true);
+         }
