@@ -934,7 +934,7 @@
                 {
                     "description": "Fix for invalid subject type in after plugin",
                     "filename": "essential/smile/module-elasticsuite-merchandiser/fix_issue_with_subject_type.patch",
-                    "version-constraint": ">=2.10.12.1"
+                    "version-constraint": ">=2.10.12.1, <2.11.9.2"
                 },
                 {
                     "description": "Fix for manual sorting products on a different stores",
