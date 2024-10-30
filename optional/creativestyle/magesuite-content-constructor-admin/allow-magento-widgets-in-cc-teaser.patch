@@ -1,0 +1,26 @@
+diff --git a/view/adminhtml/src/components/_teaser/configurator/teaser.ts b/view/adminhtml/src/components/_teaser/configurator/teaser.ts
+index 0833564..e3f8996 100644
+--- a/view/adminhtml/src/components/_teaser/configurator/teaser.ts
++++ b/view/adminhtml/src/components/_teaser/configurator/teaser.ts
+@@ -734,20 +734,7 @@ const teaserConfigurator: vuejs.ComponentOption = {
+         },
+         wysiwygConfig: {
+             type: Object,
+-            default: {
+-                'plugins': [],
+-                'add_directives': false,
+-                'add_images': false,
+-                'add_variables': false,
+-                'add_widgets': false,
+-                'tinymce': {
+-                    'toolbar': 'undo redo | styleselect | fontsizeselect | lineheight | forecolor backcolor | bold italic underline | alignleft aligncenter alignright | numlist bullist | link',
+-                    'plugins': [
+-                        'lists',
+-                        'link',
+-                    ],
+-                },
+-            },
++            default: {},
+         },
+         isSloganEditorInitialized: {
+             type: Boolean,

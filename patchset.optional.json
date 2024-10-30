@@ -88,6 +88,13 @@
                 "version-constraint": "*"
             }
         ],
+        "creativestyle/magesuite-content-constructor-admin": [
+            {
+                "description": "Add support for magento widgets for wysiwyg edutor in teaser edit view (FZ-409)",
+                "filename": "vendor/creativestyle/magento-patches/optional/creativestyle/magesuite-content-constructor-admin/allow-magento-widgets-in-cc-teaser.patch",
+                "version-constraint": ">=4.12.3"
+            }
+        ],
         "creativestyle/magesuite-google-structured-data": [
           {
             "description": "Set store before structured data indexing",
