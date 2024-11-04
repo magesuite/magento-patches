@@ -1,0 +1,13 @@
+diff --git a/view/adminhtml/web/js/media-uploader.js b/view/adminhtml/web/js/media-uploader.js
+index 03ad09d..c694982 100644
+--- a/view/adminhtml/web/js/media-uploader.js
++++ b/view/adminhtml/web/js/media-uploader.js
+@@ -42,7 +42,7 @@ define([
+                 targetElement = this.element.find('.fileinput-button.form-buttons')[0],
+                 uploadUrl = $(uploaderElement).attr('data-url'),
+                 fileId = null,
+-                allowedExt = ['jpeg', 'jpg', 'png', 'gif'],
++                allowedExt = ['jpeg', 'jpg', 'png', 'gif', 'mp4'],
+                 allowedResize = false,
+                 options = {
+                     proudlyDisplayPoweredByUppy: false,
