@@ -163,12 +163,17 @@
             {
                 "description": "Fix category preview sorting when field includes direction",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-category-preview-sorting.patch",
-                "version-constraint": ">=2.11.7"
+                "version-constraint": ">=2.11.7, <2.11.9.2"
             },
             {
                 "description": "Change indices pattern (add microsecond)",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/change-indices-pattern.patch",
                 "version-constraint": ">=2.11.7"
+            },
+            {
+              "description": "Fix category preview sorting when field includes direction (>=v2.11.9.2)",
+              "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-category-preview-sorting-v2_11_9_2.patch",
+              "version-constraint": ">=2.11.9.2"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
