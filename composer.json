@@ -612,6 +612,13 @@
                     "version-constraint": ">=0.1.1"
                 }
             ],
+            "amasty/payrestriction": [
+                {
+                    "description": "Avoid multiple requests in checkout",
+                    "filename": "essential/amasty/payrestriction/avoid-multiple-ajax-requests.patch",
+                    "version-constraint": ">=2.4.0"
+                }
+            ],
             "amasty/stockstatus": [
                 {
                     "description": "Fix for missing Zend class",

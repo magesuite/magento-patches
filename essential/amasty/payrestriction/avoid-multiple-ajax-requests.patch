@@ -1,0 +1,122 @@
+diff --git a/view/frontend/web/js/payment-service-mixin.js b/view/frontend/web/js/payment-service-mixin.js
+index f7863a6a9c1ee198e46438d10c5cfd3f0a016c55..523fb7bcef7f2e9e352ff6ca582bbd99b1bebc23 100644
+--- a/view/frontend/web/js/payment-service-mixin.js
++++ b/view/frontend/web/js/payment-service-mixin.js
+@@ -1,20 +1,60 @@
+ define([
++    'jquery',
+     'Magento_Checkout/js/model/payment/method-list',
+-    'mage/utils/wrapper'
+-], function (methodList, wrapper) {
++    'mage/utils/wrapper',
++    'uiRegistry'
++], function ($, methodList, wrapper, registry) {
+     'use strict';
+ 
+     return function (target) {
++        registry.set('paymentData', {});
+ 
+-        target.setPaymentMethods = wrapper.wrapSuper(target.setPaymentMethods, function (methods) {
+-            this._super(methods);
++        target.setPaymentMethods = wrapper.wrap(target.setPaymentMethods, function (originalMethod, methods) {
++            var self = this;
++
++            return getPaymentMassege().then(() => {
++                originalMethod.call(self, methods);
++                updateMethodList(methods);
++            });
++        });
++
++        function updateMethodList(methods) {
+             methodList([]);
+             if (methods.length) {
+                 methodList.push(methods);
+             }
+-
+             methodList(methods);
+-        });
++        }
++
++        function getPaymentMassege() {
++            return new Promise((resolve) => {
++                $.ajax({
++                    url: window.location.origin + '/restriction/message/message',
++                    type: 'POST',
++                    dataType: 'json',
++                    success: function (response) {
++                        if (!response.length) {
++                            resolve();
++                            return;
++                        }
++
++                        response.forEach(function (item) {
++                            var method = Object.keys(item)[0];
++                            var methodData = item[method];
++
++                            if (methodData) {
++                                registry.get('paymentData')[method] = methodData;
++                            }
++                        });
++
++                        resolve();
++                    },
++                    error: function () {
++                        resolve();
++                    }
++                });
++            });
++        }
+ 
+         return target;
+     };
+diff --git a/view/frontend/web/js/view/payment/list-mixin.js b/view/frontend/web/js/view/payment/list-mixin.js
+index e3a45fe8ab5c6ed17d9979c9ce7645ecbe116c1f..92b3cb93b5de69317a981ecebf1640989be06479 100644
+--- a/view/frontend/web/js/view/payment/list-mixin.js
++++ b/view/frontend/web/js/view/payment/list-mixin.js
+@@ -1,11 +1,10 @@
+ define([
+-    'jquery',
+     'Amasty_Payrestriction/js/view/payment/restriction',
+     'uiRegistry',
+     'Magento_Checkout/js/model/payment/method-list',
+     'Magento_Checkout/js/model/checkout-data-resolver',
+     'underscore'
+-], function ($, restriction, registry, paymentMethods, checkoutDataResolver, _) {
++], function (restriction, registry, paymentMethods, checkoutDataResolver, _) {
+         'use strict';
+ 
+         var mixin = {
+@@ -43,28 +42,11 @@ define([
+              * @returns
+              */
+             createComponent: function (payment) {
+-                $.ajax({
+-                    url: window.location.origin + '/restriction/message/message',
+-                    type: 'POST',
+-                    dataType: 'json',
+-                    async: false,
+-                    data: payment,
+-                    success: function (response) {
+-                        if (!response.length) {
+-                            return;
+-                        }
+-
+-                        var index = response.findIndex(
+-                            e =>
+-                                Object.keys(e)[0] === payment.name
+-                        );
+-
+-                        if (index !== -1) {
+-                            payment.component = 'Amasty_Payrestriction/js/view/payment/restriction';
+-                            registry.set('amRest' + payment.method, response[index][payment.method]);
+-                        }
+-                    }
+-                });
++                var paymentData = registry.get('paymentData');
++                if (paymentData[payment.method]) {
++                    payment.component = 'Amasty_Payrestriction/js/view/payment/restriction';
++                    registry.set('amRest' + payment.method, paymentData[payment.method]);
++                }
+ 
+                 return this._super(payment);
+             },
