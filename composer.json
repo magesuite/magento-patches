@@ -2938,7 +2938,7 @@
             ],
             "magento/module-payment-services-paypal": [
                 {
-                    "description": "Fix compatibility with MageSuite (CLI initialization, missing paramaters in Observers)",
+                    "description": "Cast variable to string to avoid fatal error in checkout",
                     "filename": "essential/magento/module-payment-services-paypal/cast-variable-to-string.patch",
                     "version-constraint": ">=2.9.0"
                 }
