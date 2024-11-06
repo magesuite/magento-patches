@@ -1,0 +1,22 @@
+diff --git a/Controller/GraphQl.php b/Controller/GraphQl.php
+index f209564..7ee330e 100644
+--- a/Controller/GraphQl.php
++++ b/Controller/GraphQl.php
+@@ -191,6 +191,17 @@ class GraphQl implements FrontControllerInterface
+             /** @var Http $request */
+             $this->requestProcessor->validateRequest($request);
+             $query = $data['query'] ?? '';
++
++            // BEGIN PATCH
++            if($query === '' ) {
++                $jsonResult->setHttpResponseCode($statusCode);
++                $jsonResult->setData([]);
++                $jsonResult->renderResult($this->httpResponse);
++
++                return $this->httpResponse;
++            }
++            // END PATCH
++
+             $parsedQuery = $this->queryParser->parse($query);
+             $data['parsedQuery'] = $parsedQuery;
+ 

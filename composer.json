@@ -2078,7 +2078,7 @@
                 {
                     "description": "Reduces fetching of product entity when passed attribute code is not a product attribute",
                     "filename": "essential/magento/module-advanced-sales-rule/m23-advanced-rule-condition-product-fetching-performance-fix.patch",
-                    "version-constraint": ">=100.3.0"
+                    "version-constraint": ">=100.3.0,<100.4.4"
                 }
             ],
             "magento/module-sales-rule": [
