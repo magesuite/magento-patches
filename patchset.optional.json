@@ -431,6 +431,13 @@
                 "version-constraint": "103.0.4"
             }
         ],
+        "magento/module-graph-ql": [
+            {
+                "description": "Fix error log with empty graphql query",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-graph-ql/fix-error-with-empty-graphql-query-DOG-1932.patch",
+                "version-constraint": ">=100.4.7"
+            }
+        ],
         "magento/module-customer-custom-attributes": [
             {
                 "description": "Change destination folder for customer attribute pet_image - Dogma",
@@ -445,7 +452,7 @@
             {
                 "description": "Patch for issue with multiselect attribute can not be default on store view",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer-custom-attributes/fix-issue-with-saving-attributes-on-store-view-use-default.patch",
-                "version-constraint": ">=100.4.5-p1"
+                "version-constraint": ">=100.4.5-p1,<100.4.7"
             }
         ],
         "magento/module-quote": [
