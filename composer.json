@@ -2935,6 +2935,13 @@
                     "filename": "essential/extendware/module-deepltranslatorautosync/fix-compatibility-with-magesuite.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "magento/module-payment-services-paypal": [
+                {
+                    "description": "Fix compatibility with MageSuite (CLI initialization, missing paramaters in Observers)",
+                    "filename": "essential/magento/module-payment-services-paypal/cast-variable-to-string.patch",
+                    "version-constraint": ">=2.9.0"
+                }
             ]
         }
     }

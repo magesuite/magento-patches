@@ -1,0 +1,13 @@
+diff --git a/Plugin/OrderUpdate.php b/Plugin/OrderUpdate.php
+index d2ca080..4cf1547 100644
+--- a/Plugin/OrderUpdate.php
++++ b/Plugin/OrderUpdate.php
+@@ -133,7 +133,7 @@ class OrderUpdate
+      */
+     private function doesRequirePriceUpdate(\Magento\Quote\Api\Data\CartInterface $quote) : bool
+     {
+-        if (!str_starts_with($quote->getPayment()->getMethod(), Config::PAYMENTS_SERVICES_PREFIX)) {
++        if (!str_starts_with((string)$quote->getPayment()->getMethod(), Config::PAYMENTS_SERVICES_PREFIX)) {
+             return false;
+         }
+ 
