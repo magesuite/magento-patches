@@ -748,6 +748,11 @@
                     "description": "Fix missing jQuery widget dependency in trim-input.js",
                     "filename": "essential/magento/magento2-base/m24-fix-trim-input-missing-jquery-widget-dependency.patch",
                     "version-constraint": ">=2.4.0,<2.4.7"
+                },
+                {
+                    "description": "Prevents opening minicart when clicking on 'close fullscreen' icon in fotorama fullscreen modal.",
+                    "filename": "essential/magento/magento2-base/prevent-openeing-minicart-after-fotorama-fullscreen-close.patch",
+                    "version-constraint": ">=2.4.6"
                 }
             ],
             "magento/module-search": [
