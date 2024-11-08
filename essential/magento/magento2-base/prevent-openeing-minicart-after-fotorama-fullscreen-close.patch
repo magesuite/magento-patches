@@ -1,0 +1,22 @@
+Prevents opening minicart when clicking on 'close fullscreen' icon in fotorama.
+Only for touch devices (browser triggers PointerEvent after TouchEvent).
+github issue: https://github.com/magento/magento2/issues/34886
+
+diff --git a/lib/web/fotorama/fotorama.js b/lib/web/fotorama/fotorama.js
+index 15a8433..c0ee333 100644
+--- a/lib/web/fotorama/fotorama.js
++++ b/lib/web/fotorama/fotorama.js
+@@ -1506,7 +1506,12 @@ fotoramaVersion = '4.6.4';
+             tail.flow = true;
+         }
+ 
+-        function onOtherEnd() {
++        // BEGIN PATCH
++        function onOtherEnd(e) {
++            if (e.target?.classList?.contains('fotorama__fullscreen-icon')) {
++                e.preventDefault();
++            }
++        // END PATCH
+             if (!tail.flow) return;
+             tail.flow = false;
+         }
