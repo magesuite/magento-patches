@@ -1,0 +1,42 @@
+diff --git a/Observer/AddCheckoutComponents.php b/Observer/AddCheckoutComponents.php
+index 0de45c3..732550b 100644
+--- a/Observer/AddCheckoutComponents.php
++++ b/Observer/AddCheckoutComponents.php
+@@ -13,9 +13,11 @@ use Magento\Framework\Event;
+ use Magento\PaymentServicesPaypal\Block\SmartButtons;
+ use Magento\PaymentServicesPaypal\Block\Message;
+ use Magento\Checkout\Block\QuoteShortcutButtons;
++use Magento\PaymentServicesPaypal\Model\Config;
+ 
+ class AddCheckoutComponents implements ObserverInterface
+ {
++    private $config;
+     /**
+      * @var array
+      */
+@@ -24,8 +26,11 @@ class AddCheckoutComponents implements ObserverInterface
+     /**
+      * @param array $blocks
+      */
+-    public function __construct(array $blocks = [])
+-    {
++    public function __construct(
++        Config $config,
++        array $blocks = []
++    ) {
++        $this->config = $config;
+         $this->blocks = $blocks;
+     }
+ 
+@@ -34,6 +39,11 @@ class AddCheckoutComponents implements ObserverInterface
+      */
+     public function execute(EventObserver $observer)
+     {
++        // PATCH START
++        if (!$this->config->isEnabled()) {
++            return;
++        }
++        // PATCH END
+         /** @var QuoteShortcutButtons $shortcutButtons */
+         $shortcutButtons = $observer->getEvent()->getContainer();
+         $smartButtons = $shortcutButtons->getLayout()->createBlock(

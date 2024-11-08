@@ -2946,6 +2946,11 @@
                     "description": "Cast variable to string to avoid fatal error in checkout",
                     "filename": "essential/magento/module-payment-services-paypal/cast-variable-to-string.patch",
                     "version-constraint": ">=2.9.0"
+                },
+                {
+                    "description": "Skip creating blocks in checkout block",
+                    "filename": "essential/magento/module-payment-services-paypal/skip-creating-blocks-in-checkout.patch",
+                    "version-constraint": ">=2.9.0"
                 }
             ]
         }
