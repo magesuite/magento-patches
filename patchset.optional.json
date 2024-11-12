@@ -351,6 +351,13 @@
               "version-constraint": "*"
             }
         ],
+        "magento/module-backend": [
+            {
+              "description": "Allow video (mp4) to be added as product image",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-backend/allow_mp4_file_as_product_image.patch",
+              "version-constraint": ">=102.0.7"
+            },
+        ],
         "magento/module-bundle": [
             {
                 "description": "Disable checking stock during price indexing for bundle products with dynamic price (KRG-1841)",
