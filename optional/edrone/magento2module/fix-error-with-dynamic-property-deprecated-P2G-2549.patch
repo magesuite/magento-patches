@@ -1,0 +1,35 @@
+diff --git a/Observer/NewsletterSubscriberDelete.php b/Observer/NewsletterSubscriberDelete.php
+index 0c7e396..6b0d1b6 100644
+--- a/Observer/NewsletterSubscriberDelete.php
++++ b/Observer/NewsletterSubscriberDelete.php
+@@ -9,6 +9,8 @@ use Edrone\Magento2module\Helper\EdroneEventSubscribe;
+ 
+ class NewsletterSubscriberDelete implements ObserverInterface {
+ 
++    protected $edrone;
++
+     public function __construct(EdroneIns $edrone) {
+         $this->edrone = $edrone;
+     }
+@@ -26,7 +28,7 @@ class NewsletterSubscriberDelete implements ObserverInterface {
+ 
+     private function configureAndSendTrace($subscriberStatus, $subscriberEmail) {
+         $edrone = $this->edrone;
+-        
++
+         $edrone->setCallbacks(
+                 function ($obj) {
+             error_log("EDRONEPHPSDK ERROR - wrong request:" . json_encode($obj->getLastRequest()));
+diff --git a/Observer/NewsletterSubscriberStatusChange.php b/Observer/NewsletterSubscriberStatusChange.php
+index 0d0d890..e6ce94a 100644
+--- a/Observer/NewsletterSubscriberStatusChange.php
++++ b/Observer/NewsletterSubscriberStatusChange.php
+@@ -10,6 +10,8 @@ use Edrone\Magento2module\Helper\EdroneEventSubscribe;
+ 
+ class NewsletterSubscriberStatusChange implements ObserverInterface {
+ 
++    protected $edrone;
++
+     public function __construct(EdroneIns $edrone) {
+         $this->edrone = $edrone;
+     }
