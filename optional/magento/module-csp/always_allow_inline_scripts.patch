@@ -1,0 +1,16 @@
+diff --git a/Model/Policy/FetchPolicy.php b/Model/Policy/FetchPolicy.php
+index 2ed69a0..bb8e895 100644
+--- a/Model/Policy/FetchPolicy.php
++++ b/Model/Policy/FetchPolicy.php
+@@ -172,7 +172,10 @@ class FetchPolicy implements SimplePolicyInterface
+      */
+     public function isInlineAllowed(): bool
+     {
+-        return $this->inlineAllowed;
++        // BEGIN PATCH
++        // return $this->inlineAllowed;
++        return true;
++        // END PATCH
+     }
+
+     /**
