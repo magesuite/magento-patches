@@ -1927,17 +1927,17 @@
                 {
                     "description": "Fix wrong url (remove change https to http)",
                     "filename": "essential/clever/magento2/m22-cleverreach-url-fix.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<3.4.0"
                 },
                 {
                     "description": "Fix cleverreach initial auth issue (CSRF validation)",
                     "filename": "essential/clever/magento2/m23-cleverreach-csrf-validation-issue.patch",
-                    "version-constraint": ">=2.2.1"
+                    "version-constraint": ">=2.2.1,<3.4.0"
                 },
                 {
                     "description": "Fix the way website param is acquired to solve the error that occurs in tests",
                     "filename": "essential/clever/magento2/m23-cleverreach-website-param-in-test.patch",
-                    "version-constraint": ">=2.2.1"
+                    "version-constraint": ">=2.2.1,<3.4.0"
                 }
             ],
             "magento/module-cms": [
