@@ -1,0 +1,199 @@
+This patch fixes issue with error messages visibility in wallee payment methods [HAAR-4361].
+See reported issue: https://github.com/wallee-payment/magento-2/issues/41
+
+
+diff --git a/view/frontend/web/js/view/payment/method-renderer/wallee-method.js b/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
+index ab0b601..f599d0d 100644
+--- a/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
++++ b/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
+@@ -35,24 +35,27 @@ define([
+ 		redirectAfterPlaceOrder: false,
+ 		loadingIframe: false,
+ 		checkoutHandler: null,
+-
++
+ 		/**
+ 		 * @override
+ 		 */
+ 		initialize: function(){
+ 			this._super();
+-
++
+ 			if (window.checkoutConfig.wallee.integrationMethod == 'iframe') {
+ 				this.checkoutHandler = checkoutHandler(this.getFormId(), this.isActive.bind(this), this.createIframeHandler.bind(this));
+ 				var methods = methodList();
+-
++
+ 				//When there is only 1 active payment method magento's behaviour is not to display the iframe,
+ 				//until the user selects the payment method by clicking on the icon.
+ 				//These lines allow to trigger the iframe to show it by default if there is only one payment method active.
+ 				if (methods !== null && methods.length === 1) {
+-					this.checkoutHandler.updateAddresses(this._super.bind(this));
++                    // BEGIN PATCH
++                    this.cleanupMessagesComponents();
++                    // END PATCH
++                    this.checkoutHandler.updateAddresses(this._super.bind(this));
+ 				}
+-
++
+ 				//Every time the checkout page is initialised/refreshed
+ 				//here we are checking if there is at least one chekbox selected,
+ 				//if the condition is met, then we will update the iframe with the user's billing address,
+@@ -64,11 +67,14 @@ define([
+ 					let checkboxId = this.getCode();
+ 					let checkoutHandler = this.checkoutHandler;
+ 					var updateAddressesCallback = function() {
+-						checkoutHandler.updateAddresses(_super.bind(_this));
++                        // BEGIN PATCH
++                        this.cleanupMessagesComponents();
++                        // END PATCH
++						checkoutHandler.updateAddresses(_super.bind(_this));
+ 					};
+ 					let intervalId = setInterval(function () {
+ 						// stop loader when frame will be loaded
+-						if ($('#' + checkboxId).length >= 1 && $('#' + checkboxId).is(':checked')) {
++						if ($('#' + checkboxId).length >= 1 && $('#' + checkboxId).is(':checked')) {
+ 							clearInterval(intervalId);
+ 							fullScreenLoader.startLoader();
+ 							updateAddressesCallback();
+@@ -78,35 +84,35 @@ define([
+ 				}
+ 			}
+ 		},
+-
++
+ 		getFormId: function(){
+ 			return this.getCode() + '-payment-form';
+ 		},
+-
++
+ 		getConfigurationId: function(){
+ 			return window.checkoutConfig.payment[this.getCode()].configurationId;
+ 		},
+-
++
+ 		isActive: function(){
+ 			return quote.paymentMethod() ? quote.paymentMethod().method == this.getCode() : false;
+ 		},
+-
++
+ 		isShowDescription: function(){
+ 			return window.checkoutConfig.payment[this.getCode()].showDescription;
+ 		},
+-
++
+ 		getDescription: function(){
+ 			return window.checkoutConfig.payment[this.getCode()].description;
+ 		},
+-
++
+ 		isShowImage: function(){
+ 			return window.checkoutConfig.payment[this.getCode()].showImage;
+ 		},
+-
++
+ 		getImageUrl: function(){
+ 			return window.checkoutConfig.payment[this.getCode()].imageUrl;
+ 		},
+-
++
+ 		createIframeHandler: function(){
+ 			if (this.handler) {
+ 				this.checkoutHandler.selectPaymentMethod();
+@@ -114,7 +120,7 @@ define([
+ 				if (this.checkoutHandler.canReplacePrimaryAction()) {
+ 					window.IframeCheckoutHandler.configure('replacePrimaryAction', true);
+ 				}
+-
++
+ 				this.loadingIframe = true;
+ 				fullScreenLoader.startLoader();
+ 				this.handler = window.IframeCheckoutHandler(this.getConfigurationId());
+@@ -143,20 +149,23 @@ define([
+ 				}).bind(this));
+ 			}
+ 		},
+-
++
+ 		getSubmitButton: function(){
+ 			return $('#' + this.getFormId()).parents('.payment-method-content').find('button.checkout');
+ 		},
+-
++
+ 		selectPaymentMethod: function(){
+ 			if (this.checkoutHandler) {
++                // BEGIN PATCH
++                this.cleanupMessagesComponents();
++                // END PATCH
+ 				this.checkoutHandler.updateAddresses(this._super.bind(this));
+ 				return true;
+ 			} else {
+ 				return this._super();
+ 			}
+ 		},
+-
++
+ 		validateWhitelabelmachinename: function(){
+ 			if (window.checkoutConfig.wallee.integrationMethod == 'iframe') {
+ 				if (this.loadingIframe) {
+@@ -175,7 +184,7 @@ define([
+ 				this.placeOrder();
+ 			}
+ 		},
+-
++
+         placeOrder: function (data, event) {
+             var self = this;
+
+@@ -211,14 +220,14 @@ define([
+
+             return false;
+         },
+-
++
+ 		afterPlaceOrder: function(){
+ 			var self = this;
+-
++
+ 			window.history.pushState({}, document.title, window.checkoutConfig.wallee.restoreCartUrl);
+-
++
+ 			fullScreenLoader.startLoader();
+-
++
+ 			if (window.checkoutConfig.wallee.integrationMethod == 'iframe' && this.handler) {
+ 				this.handler.submit();
+ 			} else if (window.checkoutConfig.wallee.integrationMethod == 'lightbox' && typeof window.LightboxCheckoutHandler != 'undefined') {
+@@ -229,7 +238,7 @@ define([
+ 				this.fallbackToPaymentPage();
+ 			}
+ 		},
+-
++
+ 		fallbackToPaymentPage: function(){
+ 			fullScreenLoader.startLoader();
+ 			if (window.checkoutConfig.wallee.paymentPageUrl) {
+@@ -238,9 +247,20 @@ define([
+ 				window.location.replace(urlBuilder.build("wallee_payment/checkout/failure"));
+ 			}
+ 		},
+-
++
+ 		stripHtml: function(input){
+ 			return $('<div>' + input + '</div>').text();
+-		}
++		},
++
++        // BEGIN PATCH
++        cleanupMessagesComponents: function() {
++            const childComponents = this.elems() || [];
++            childComponents.forEach(component => {
++                if (component.displayArea === 'messages') {
++                    component.destroy();
++                }
++            });
++        },
++        // END PATCH
+ 	});
+ });
+\ No newline at end of file

@@ -919,6 +919,11 @@
               "description": "fix: [HAAR-3509] Save transaction data to virtual quote",
               "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/HAAR-3509-fix-save-transaction-data-to-virtual-quote.patch",
               "version-constraint": ">=2.1.13"
+            },
+            {
+                "description": "fix: [HAAR-4361] Restore error messages visibility in wallee payment methods",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-payments-error-messages-visibility.patch",
+                "version-constraint": ">=2.1.12"
             }
         ],
         "aheadworks/module-advanced-reports": [
