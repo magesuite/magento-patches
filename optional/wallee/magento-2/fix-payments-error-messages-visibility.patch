@@ -20,7 +20,7 @@ index ab0b601..9f57c3d 100644
  					let checkoutHandler = this.checkoutHandler;
  					var updateAddressesCallback = function() {
 +                        // BEGIN PATCH
-+                        this.cleanupMessagesComponents();
++                        _this.cleanupMessagesComponents();
 +                        // END PATCH
  						checkoutHandler.updateAddresses(_super.bind(_this));	
  					};
