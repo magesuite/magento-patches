@@ -1273,6 +1273,11 @@
                     "description": "Remove unwanted force call to update unvalidated billing-address",
                     "filename": "essential/magento/module-checkout/m246-fix-billing-address-validation.patch",
                     "version-constraint": ">=100.4.6"
+                },
+                {
+                    "description": "Set shipping service loader to false after validate fields",
+                    "filename": "essential/magento/module-checkout/m247-shipping-rates-validator.patch",
+                    "version-constraint": ">=100.4.7,<100.4.8"
                 }
             ],
             "magento/module-checkout-agreements": [

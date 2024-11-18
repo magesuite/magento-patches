@@ -1,0 +1,18 @@
+Fixes issue of infinite loading of shipping methods which occur when the only available shipping method
+does not use country_id which is a required field. In such state there is no possibility to continue the checkout process.
+In order to fix this behavior shipping service loader will be set to false after validating fields.
+Commit: https://github.com/magento/magento2/commit/341f8c0a51938414c32bf5d28a3a84b353f87b65
+
+diff --git a/view/frontend/web/js/model/shipping-rates-validator.js b/view/frontend/web/js/model/shipping-rates-validator.js
+index 8edb5d2..789bc09 100644
+--- a/view/frontend/web/js/model/shipping-rates-validator.js
++++ b/view/frontend/web/js/model/shipping-rates-validator.js
+@@ -202,6 +202,8 @@ define([
+                 addressFlat = uiRegistry.get('checkoutProvider').shippingAddress;
+                 address = addressConverter.formAddressDataToQuoteAddress(addressFlat);
+                 selectShippingAddress(address);
++            } else {
++                shippingService.isLoading(false);
+             }
+         },
+ 

@@ -134,6 +134,16 @@
                     <overview>Fix missing jQuery widget dependency in trim-input.js</overview>
                     <ticket_id>KRG-2801</ticket_id>
                 </entry>
+                <entry>
+                    <type>FIX</type>
+                    <overview>Set shipping service loader to false after validate fields</overview>
+                    <description>
+                    Fixes issue of infinite loading of shipping methods which occur when the only available shipping method
+                    does not use country_id which is a required field. In such state there is no possibility to continue the checkout process.
+                    In order to fix this behavior shipping service loader will be set to false after validating fields.
+                    </description>
+                    <ticket_id>KRG-2939</ticket_id>
+                </entry>
             </tag>
         </changelog>
     </module>
