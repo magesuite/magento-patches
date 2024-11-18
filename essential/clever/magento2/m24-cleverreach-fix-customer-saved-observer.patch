@@ -1,0 +1,19 @@
+Add a check if customer exists to avoid errors when saving new customers (ZJ-156).
+
+diff --git a/Observer/CustomerSavedObserver.php b/Observer/CustomerSavedObserver.php
+index fd47fef..4296018 100644
+--- a/Observer/CustomerSavedObserver.php
++++ b/Observer/CustomerSavedObserver.php
+@@ -43,6 +43,11 @@ class CustomerSavedObserver extends BaseObserver
+
+
+         if ($event->getName() === 'customer_save_before') {
++            //BEGIN PATCH: Add a check if customer exists to avoid errors when saving new customers
++            if (!$this->customerFactory->create()->addFieldToFilter('entity_id', $customer->getId())->getSize()) {
++                return;
++            }
++            //END PATCH
+             self::$beforeEmail = $this->getCurrentEmail($customer->getId());
+             $this->saveActualCustomerGroup($customer->getId());
+         } else {
+

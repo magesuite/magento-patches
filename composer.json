@@ -1938,6 +1938,11 @@
                     "description": "Fix the way website param is acquired to solve the error that occurs in tests",
                     "filename": "essential/clever/magento2/m23-cleverreach-website-param-in-test.patch",
                     "version-constraint": ">=2.2.1,<3.4.0"
+                },
+                {
+                    "description": "Fix customer saved observer to not throw errors on new customer save (ZJ-156)",
+                    "filename": "essential/clever/magento2/m24-cleverreach-fix-customer-saved-observer.patch",
+                    "version-constraint": ">=3.4.0"
                 }
             ],
             "magento/module-cms": [
