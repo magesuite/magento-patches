@@ -1,0 +1,13 @@
+diff --git a/etc/payment.xml b/etc/payment.xml
+index fbcdef6..353b094 100644
+--- a/etc/payment.xml
++++ b/etc/payment.xml
+@@ -45,7 +45,7 @@
+         </method>
+         <method name="payone_paypalv2">
+             <allow_multiple_address>0</allow_multiple_address>
+-        </method>v
++        </method>
+         <method name="payone_advance_payment">
+             <allow_multiple_address>0</allow_multiple_address>
+         </method>
