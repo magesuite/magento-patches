@@ -2328,6 +2328,11 @@
                     "description": "Fixes error in the checkout: Deprecated Functionality: hash_hmac(): Passing null to parameter #3 ($key) of type string is deprecated [P2G-2502]",
                     "filename": "essential/payone-gmbh/magento-2/fix-error-checkout-not-working-getConfigParam-key-return-null.patch",
                     "version-constraint": ">=3.11.0,<=3.12.0"
+                },
+                {
+                    "description": "Fix for typo in payment.xml file",
+                    "filename": "essential/payone-gmbh/magento-2/fix-for-typo-in-xml-file.patch",
+                    "version-constraint": "3.13.1"
                 }
             ],
             "vertex/module-address-validation": [
