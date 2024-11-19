@@ -362,7 +362,12 @@
             {
                 "description": "Disable checking stock during price indexing for bundle products with dynamic price (KRG-1841)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m242-disable-checking-stock-during-price-indexing.patch",
-                "version-constraint": ">=101.0.2"
+                "version-constraint": ">=101.0.2,<101.0.7"
+            },
+            {
+                "description": "Disable checking stock during price indexing for bundle products with dynamic price (IPET-2870)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m247-disable-checking-stock-during-price-indexing.patch",
+                "version-constraint": ">=101.0.7"
             },
             {
                 "description": "Allow to add multi selections with qty higher than 1",
