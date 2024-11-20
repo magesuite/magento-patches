@@ -1,0 +1,19 @@
+diff --git a/etc/config.xml b/etc/config.xml
+index d2f8f82..186e73c 100644
+--- a/etc/config.xml
++++ b/etc/config.xml
+@@ -22,12 +22,14 @@
+                 <minify_files>0</minify_files>
+                 <minify_exclude>
+                     <tiny_mce>/tiny_mce/</tiny_mce>
++                    <tiny_mce_7>/tiny_mce_7/</tiny_mce_7>
+                 </minify_exclude>
+             </js>
+             <css>
+                 <minify_files>0</minify_files>
+                 <minify_exclude>
+                     <tiny_mce>/tiny_mce/</tiny_mce>
++                    <tiny_mce_7>/tiny_mce_7/</tiny_mce_7>
+                 </minify_exclude>
+             </css>
+             <image>

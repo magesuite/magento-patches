@@ -451,6 +451,11 @@
                     "description": "Update before_auth_url in customer session when store is swithced.",
                     "filename": "essential/magento/module-store/update-before-auth-url-on-store-switch.patch",
                     "version-constraint": ">=101.1.4"
+                },
+                {
+                    "description": "Disable javascript minifying of TinyMCE 7 library",
+                    "filename": "essential/magento/module-store/disable-javascript-minifying-of-TinyMCE-7-library.patch",
+                    "version-constraint": ">=101.1.7"
                 }
             ],
             "magento/module-configurable-product": [
