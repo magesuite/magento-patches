@@ -2448,6 +2448,11 @@
                     "description": "Fix page builder during clean install",
                     "filename": "essential/magento/module-page-builder/m24-fix-page-builder-clean-install.patch",
                     "version-constraint": ">=2.2.0, <2.2.4"
+                },
+                {
+                    "description": "Add font size to wysiwyg editor",
+                    "filename": "essential/magento/module-page-builder/add-font-size-to-wysiwyg-editor.patch",
+                    "version-constraint": ">=2.2.3-p10"
                 }
             ],
             "trustedshops/easy_integration": [
