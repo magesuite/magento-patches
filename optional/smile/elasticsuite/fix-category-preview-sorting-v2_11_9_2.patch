@@ -1,0 +1,25 @@
+diff --git a/src/module-elasticsuite-virtual-category/Model/Preview.php b/src/module-elasticsuite-virtual-category/Model/Preview.php
+index 05fa495..14dd8c9 100644
+--- a/src/module-elasticsuite-virtual-category/Model/Preview.php
++++ b/src/module-elasticsuite-virtual-category/Model/Preview.php
+@@ -124,6 +124,20 @@ class Preview extends AbstractPreview
+         if (empty($direction) || ((string) $direction === '')) {
+             $direction = $directionFallback;
+         }
++
++        // PATCH START
++        $fields = explode('_direction_', $sortBy);
++        $sortBy = $fields[0] ?? 'position';
++        $directionFromField = $fields[1] ?? null;
++
++        if ($directionFromField) {
++            $oppositeDirection = strtoupper($directionFromField) === Collection::SORT_ORDER_ASC ? Collection::SORT_ORDER_DESC : Collection::SORT_ORDER_ASC;
++            $directionFromField = strtoupper($direction) === Collection::SORT_ORDER_ASC ? $directionFromField : $oppositeDirection;
++        }
++
++        $direction = $directionFromField ?? $direction;
++        // PATCH END
++
+         $collection->setOrder($sortBy, $direction);
+         $collection->addPriceData(self::DEFAULT_CUSTOMER_GROUP_ID, $this->category->getStore()->getWebsiteId());
+ 
