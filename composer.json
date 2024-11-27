@@ -2981,6 +2981,11 @@
                     "description": "Skip creating blocks in checkout block",
                     "filename": "essential/magento/module-payment-services-paypal/skip-creating-blocks-in-checkout.patch",
                     "version-constraint": ">=2.9.0"
+                },
+                {
+                    "description": "Skip sending tracking when module is disabled",
+                    "filename": "essential/magento/module-payment-services-paypal/skip-sending-tracking-when-module-is-disabled.patch",
+                    "version-constraint": ">=2.9.0"
                 }
             ]
         }
