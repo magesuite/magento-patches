@@ -1,0 +1,16 @@
+diff --git a/Model/ResourceModel/InventoryStock.php b/Model/ResourceModel/InventoryStock.php
+index 50685a0..1c93a47 100644
+--- a/Model/ResourceModel/InventoryStock.php
++++ b/Model/ResourceModel/InventoryStock.php
+@@ -63,7 +63,10 @@ class InventoryStock extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
+                 //                    ->joinLeft(["ir" => $this->inventoryReservationTable], "ir.sku = inventory_stock.sku", [])
+                 //                    ->joinLeft(["cpe" => $this->catalogProductEntityTable], "inventory_stock.sku = cpe.sku", [])
+                 //                    ->group(["cpe.entity_id"]);
+-                $select->from(["inventory_stock" => $inventoryStockTable])->reset('columns')->columns(["cpe.entity_id", new \Zend_Db_Expr("inventory_stock.quantity + IF(ISNULL(ir_sum.quantity), 0, ir_sum.quantity)AS quantity"), new \Zend_Db_Expr("MAX(is_salable) as is_salable")])->joinLeft(["ir_sum" => new \Zend_Db_Expr("(SELECT sku, SUM(quantity) as quantity FROM `inventory_reservation` GROUP BY sku)")], "ir_sum.sku = inventory_stock.sku", [])->joinLeft(["cpe" => $this->catalogProductEntityTable], "inventory_stock.sku = cpe.sku", [])->group(["cpe.entity_id"]);
++                // BEGIN PATCH
++                // $select->from(["inventory_stock" => $inventoryStockTable])->reset('columns')->columns(["cpe.entity_id", new \Zend_Db_Expr("inventory_stock.quantity + IF(ISNULL(ir_sum.quantity), 0, ir_sum.quantity)AS quantity"), new \Zend_Db_Expr("MAX(is_salable) as is_salable")])->joinLeft(["ir_sum" => new \Zend_Db_Expr("(SELECT sku, SUM(quantity) as quantity FROM `inventory_reservation` GROUP BY sku)")], "ir_sum.sku = inventory_stock.sku", [])->joinLeft(["cpe" => $this->catalogProductEntityTable], "inventory_stock.sku = cpe.sku", [])->group(["cpe.entity_id"]);
++                $select->from(["inventory_stock" => $inventoryStockTable])->reset('columns')->columns(["cpe.entity_id", new \Zend_Db_Expr("inventory_stock.quantity + IF(ISNULL(ir_sum.quantity), 0, ir_sum.quantity)AS quantity"), new \Zend_Db_Expr("MAX(is_salable) as is_salable")])->joinLeft(["ir_sum" => new \Zend_Db_Expr(sprintf("(SELECT sku, SUM(quantity) as quantity FROM `inventory_reservation` WHERE stock_id = %s GROUP BY sku)", $stockId))], "ir_sum.sku = inventory_stock.sku", [])->joinLeft(["cpe" => $this->catalogProductEntityTable], "inventory_stock.sku = cpe.sku", [])->group(["cpe.entity_id"]);
++                // END PATCH
+                 $data = $this->getConnection()->fetchAll($select);
+                 foreach ($data as $product) {
+                     $stocks[$stockId][$product["entity_id"]] = ["quantity" => $product["quantity"], "is_salable" => $product["is_salable"]];

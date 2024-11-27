@@ -2548,6 +2548,11 @@
                     "description": "After update to PHP 82, dynamic class propery creation is deprecated - fix for older verion",
                     "filename": "essential/wyomind/datafeedmanager/fix-error-attributeOptions-is-deprecated.patch",
                     "version-constraint": "11.24.6"
+                },
+                {
+                    "description": "fix: [FZ-498] Use stock id for fetching reservations quantity",
+                    "filename": "essential/wyomind/datafeedmanager/use-stock-id-for-fetching-reservations-quantity.patch",
+                    "version-constraint": "14.0.10"
                 }
             ],
             "wyomind/framework": [
