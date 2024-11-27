@@ -1,0 +1,44 @@
+diff --git a/Observer/SendTrackingInformation.php b/Observer/SendTrackingInformation.php
+index ec4e3c3..ad45cf9 100644
+--- a/Observer/SendTrackingInformation.php
++++ b/Observer/SendTrackingInformation.php
+@@ -55,6 +55,10 @@ class SendTrackingInformation implements ObserverInterface
+      */
+     private LoggerInterface $logger;
+ 
++    // BEGIN PATCH
++    protected \Magento\PaymentServicesPaypal\Model\Config $config;
++    // END PATCH
++
+     /**
+      * @param TransactionRepositoryInterface $transactionRepository
+      * @param TrackingInformationProvider $trackingInformationProvider
+@@ -66,11 +70,15 @@ class SendTrackingInformation implements ObserverInterface
+         TrackingInformationProvider    $trackingInformationProvider,
+         OrderService                   $orderService,
+         LoggerInterface                $logger,
++        \Magento\PaymentServicesPaypal\Model\Config $config
+     ) {
+         $this->transactionRepository = $transactionRepository;
+         $this->trackingInformationProvider = $trackingInformationProvider;
+         $this->orderService = $orderService;
+         $this->logger = $logger;
++        // BEGIN PATCH
++        $this->config = $config;
++        // END PATCH
+     }
+ 
+     /**
+@@ -84,6 +92,12 @@ class SendTrackingInformation implements ObserverInterface
+     public function execute(EventObserver $observer): void
+     {
+         try {
++            // BEGIN PATCH
++            if (!$this->config->isEnabled()) {
++                return;
++            }
++            // END PATCH
++
+             /** @var ShipmentInterface $shipment */
+             $shipment = $observer->getEvent()->getShipment();
+             if (empty($shipment->getTracks())) {
