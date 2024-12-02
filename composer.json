@@ -1953,6 +1953,11 @@
                     "description": "Fix customer saved observer to not throw errors on new customer save (ZJ-156)",
                     "filename": "essential/clever/magento2/m24-cleverreach-fix-customer-saved-observer.patch",
                     "version-constraint": ">=3.4.0"
+                },
+                {
+                    "description": "Fix store save observer to not throw errors on new store save (ZJ-156)",
+                    "filename": "essential/clever/magento2/m24-cleverreach-store-save-observer-fix.patch",
+                    "version-constraint": ">=3.4.0"
                 }
             ],
             "magento/module-cms": [
