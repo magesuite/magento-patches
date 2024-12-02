@@ -1,0 +1,18 @@
+Add a check if store ID exists before using it in "saveValuesForUpdate" to avoid errors when creating new store (ZJ-156)
+
+diff --git a/Observer/StoreSavedObserver.php b/Observer/StoreSavedObserver.php
+index ab453fc..18be39f 100644
+--- a/Observer/StoreSavedObserver.php
++++ b/Observer/StoreSavedObserver.php
+@@ -58,7 +58,10 @@ class StoreSavedObserver extends BaseObserver
+         $store = $observer->getData('store');
+         $params = $this->request->getParam('store');
+ 
+-        if ($event->getName() === 'store_save_before') {
++        //BEGIN PATCH
++        //if ($event->getName() === 'store_save_before') {
++        if ($event->getName() === 'store_save_before' && $store->getId()) {
++        //END PATCH
+             $this->saveValuesForUpdate($store->getId());
+         } else {
+             if (!empty($params['store_id'])) {
