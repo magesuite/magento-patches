@@ -1,0 +1,30 @@
+diff --git a/Model/Stack.php b/Model/Stack.php
+index 7aeef0b..c180ef8 100644
+--- a/Model/Stack.php
++++ b/Model/Stack.php
+@@ -23,6 +23,10 @@ class Stack
+     protected $use_last_breadcrumb = false;
+     protected $data = array();
+ 
++    // BEGIN PATCH: add missing property
++    protected $categoryFactory;
++    // END PATCH
++
+     public function __construct(
+         \Magento\Framework\Session\SessionManager $session,
+         \Magento\Framework\Registry $registry,
+diff --git a/Observer/Checkout/Qp.php b/Observer/Checkout/Qp.php
+index c328bb1..b9153af 100644
+--- a/Observer/Checkout/Qp.php
++++ b/Observer/Checkout/Qp.php
+@@ -15,6 +15,10 @@ class Qp implements ObserverInterface
+ 
+     protected $productFactory;
+ 
++    // BEGIN PATCH: add missing property
++    protected $_checkoutSession;
++    // END PATCH
++
+     public function __construct(
+         \Econda\System\Model\Stack $stack,
+         \Magento\Framework\App\Request\Http $request,

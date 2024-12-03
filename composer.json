@@ -2981,6 +2981,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "econda/magento2-tracking-extension": [
+                {
+                    "description": "Add missing properties (ZJ-153)",
+                    "filename": "essential/econda/magento2-tracking-extension/add-missing-properties.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "magento/module-payment-services-paypal": [
                 {
                     "description": "Cast variable to string to avoid fatal error in checkout",
