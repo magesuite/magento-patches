@@ -1,0 +1,17 @@
+diff --git a/Model/Plugin/ProductLinks.php b/Model/Plugin/ProductLinks.php
+index d215145..729370b 100644
+--- a/Model/Plugin/ProductLinks.php
++++ b/Model/Plugin/ProductLinks.php
+@@ -44,7 +44,11 @@ class ProductLinks
+     public function afterGetProductCollection(Link $subject, Collection $collection)
+     {
+         if ($this->configuration->isShowOutOfStock() != 1) {
+-            $this->stockHelper->addInStockFilterToCollection($collection);
++            // PATCH START
++            // https://github.com/magento/magento2/issues/36667#issuecomment-1790246996
++            // $this->stockHelper->addInStockFilterToCollection($collection);
++            $this->stockHelper->addIsInStockFilterToCollection($collection);
++            // PATCH END
+         }
+         return $collection;
+     }

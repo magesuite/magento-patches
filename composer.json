@@ -1018,6 +1018,11 @@
                     "description": "ACP2E-134: cache is cleared for the product and categories after an order is placed",
                     "filename": "essential/magento/module-catalog-inventory/m24-fix-for-clear-product-and-category-cache-after-placing-order.patch",
                     "version-constraint": "<100.4.6"
+                },
+                {
+                    "description": "Remove second join to inventory table",
+                    "filename": "essential/magento/module-catalog-inventory/remove-second-join-to-inventory-table.patch",
+                    "version-constraint": ">=100.4.7"
                 }
             ],
             "magento/module-catalog": [
