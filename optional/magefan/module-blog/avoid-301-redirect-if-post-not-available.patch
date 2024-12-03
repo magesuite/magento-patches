@@ -1,0 +1,14 @@
+diff --git a/Controller/Post/View.php b/Controller/Post/View.php
+index 51f3172..5e4acf2 100755
+--- a/Controller/Post/View.php
++++ b/Controller/Post/View.php
+@@ -54,6 +54,9 @@ class View extends \Magefan\Blog\App\Action\Action
+         $post = $this->_initPost();
+ 
+         if (!$post) {
++            // PATCH START
++            return $this->_forwardNoroute();
++            // PATCH END
+             $resultRedirect = $this->resultRedirectFactory->create();
+             $resultRedirect->setHttpResponseCode(301);
+             $resultRedirect->setPath($this->url->getBaseUrl());

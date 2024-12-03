@@ -1530,6 +1530,13 @@
                 "version-constraint": "*"
             }
         ],
+        "magefan/module-blog": [
+            {
+                "description": "Avoid 301 redirect if post not available",
+                "filename": "vendor/creativestyle/magento-patches/optional/magefan/module-blog/avoid-301-redirect-if-post-not-available.patch",
+                "version-constraint": "*"
+            }
+        ],
         "wyomind/datafeedmanager": [
             {
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI.",
