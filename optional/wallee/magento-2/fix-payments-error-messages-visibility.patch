@@ -2,7 +2,7 @@ This patch fixes issue with error messages visibility in wallee payment methods 
 See reported issue: https://github.com/wallee-payment/magento-2/issues/41
 
 diff --git a/view/frontend/web/js/view/payment/method-renderer/wallee-method.js b/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
-index ab0b601..9f57c3d 100644
+index ab0b601..2ef0020 100644
 --- a/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
 +++ b/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
 @@ -50,6 +50,9 @@ define([
@@ -20,22 +20,12 @@ index ab0b601..9f57c3d 100644
  					let checkoutHandler = this.checkoutHandler;
  					var updateAddressesCallback = function() {
 +                        // BEGIN PATCH
-+                        _this.cleanupMessagesComponents();
++                        this.cleanupMessagesComponents();
 +                        // END PATCH
  						checkoutHandler.updateAddresses(_super.bind(_this));	
  					};
  					let intervalId = setInterval(function () {
-@@ -150,6 +156,9 @@ define([
- 		
- 		selectPaymentMethod: function(){
- 			if (this.checkoutHandler) {
-+                // BEGIN PATCH
-+                this.cleanupMessagesComponents();
-+                // END PATCH
- 				this.checkoutHandler.updateAddresses(this._super.bind(this));
- 				return true;
- 			} else {
-@@ -241,6 +250,16 @@ define([
+@@ -241,6 +247,16 @@ define([
  		
  		stripHtml: function(input){
  			return $('<div>' + input + '</div>').text();
