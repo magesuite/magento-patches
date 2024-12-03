@@ -1,0 +1,43 @@
+diff --git a/src/Econda/Tracking/PageView.php b/src/Econda/Tracking/PageView.php
+index 2336160..6f24eb7 100644
+--- a/src/Econda/Tracking/PageView.php
++++ b/src/Econda/Tracking/PageView.php
+@@ -66,6 +66,8 @@ class PageView extends BaseObject {
+     public function getGlobalDataLayer() {
+         $layer = array();
+ 
++        // BEGIN PATCH: fix for empty values
++        /*
+         // typensicher !
+         if($this->countryId !== false) {
+             $layer['countryid'] = trim($this->countryId);
+@@ -74,6 +76,15 @@ class PageView extends BaseObject {
+         if($this->langId !== false) {
+             $layer['langid'] = trim($this->langId);
+         }
++        */
++
++        if(!empty($this->countryId)) {
++            $layer['countryid'] = trim($this->countryId);
++        }
++        if(!empty($this->langId)) {
++            $layer['langid'] = trim($this->langId);
++        }
++        // END PATCH
+         if(!empty($this->siteId)) {
+             $layer['siteid'] = trim($this->siteId);
+         }
+@@ -83,7 +94,12 @@ class PageView extends BaseObject {
+         if(!empty($this->pageId)) {
+             $layer['pageId'] = $this->pageId;
+         } else {
+-            $layer['pageId'] = md5($this->contentLabel);
++            // BEGIN PATCH: add pageId if not set
++            // $layer['pageId'] = md5($this->contentLabel);
++            if (!empty($this->contentLabel)) {
++                $layer['pageId'] = md5($this->contentLabel);
++            }
++            // END PATCH
+         }
+ 
+         if(!empty($this->property)) {

@@ -1,5 +1,5 @@
 diff --git a/Model/Stack.php b/Model/Stack.php
-index 7aeef0b..c180ef8 100644
+index 7aeef0b..7defde9 100644
 --- a/Model/Stack.php
 +++ b/Model/Stack.php
 @@ -23,6 +23,10 @@ class Stack
@@ -13,6 +13,18 @@ index 7aeef0b..c180ef8 100644
      public function __construct(
          \Magento\Framework\Session\SessionManager $session,
          \Magento\Framework\Registry $registry,
+@@ -64,6 +68,11 @@ class Stack
+ 
+     public function addPageData($object, $name = 'econda_pagedata')
+     {
++        // BEGIN PATCH: fix for missing registry
++        if ($this->econdaRegistry->registry($name)) {
++            $this->econdaRegistry->unregister($name);
++        }
++        // END PATCH
+         $this->econdaRegistry->register($name, $object);
+     }
+ 
 diff --git a/Observer/Checkout/Qp.php b/Observer/Checkout/Qp.php
 index c328bb1..b9153af 100644
 --- a/Observer/Checkout/Qp.php

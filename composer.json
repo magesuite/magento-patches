@@ -2988,6 +2988,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "econda/tracking": [
+                {
+                    "description": "Fixed empty values (ZJ-153)",
+                    "filename": "essential/econda/tracking/fix-empty-values.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "magento/module-payment-services-paypal": [
                 {
                     "description": "Cast variable to string to avoid fatal error in checkout",
