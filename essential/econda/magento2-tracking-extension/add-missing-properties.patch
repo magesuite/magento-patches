@@ -86,7 +86,7 @@ index f7ccab0..4c5801c 100644
      public function __construct(
          \Econda\System\Model\Stack $stack,
 diff --git a/Observer/Product/Purchase.php b/Observer/Product/Purchase.php
-index 65c85a6..a3e8e90 100644
+index 65c85a6..bc0454c 100644
 --- a/Observer/Product/Purchase.php
 +++ b/Observer/Product/Purchase.php
 @@ -15,6 +15,10 @@ class Purchase implements ObserverInterface
@@ -100,3 +100,15 @@ index 65c85a6..a3e8e90 100644
      public function __construct(
          \Econda\System\Model\Stack $stack,
          \Magento\Framework\App\Request\Http $request,
+@@ -63,7 +67,10 @@ class Purchase implements ObserverInterface
+         $obj = new \Econda\Tracking\Order(array(
+             'number' => $ii,
+             'value' => $of->getGrandTotal(),
+-            'customerId' => md5($of->getCustomerId()),
++            // BEGIN PATCH: fix for null customer id
++            //'customerId' => md5($of->getCustomerId()),
++            'customerId' => md5($of->getCustomerId() ?? 0),
++            // END PATCH
+             'products' => $orderedProducts,
+         ));
+ 
