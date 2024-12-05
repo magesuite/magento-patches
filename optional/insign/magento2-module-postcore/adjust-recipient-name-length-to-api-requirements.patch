@@ -1,0 +1,41 @@
+diff --git a/Observer/BarcodeGeneration.php b/Observer/BarcodeGeneration.php
+index f66e137..2a7bc21 100644
+--- a/Observer/BarcodeGeneration.php
++++ b/Observer/BarcodeGeneration.php
+@@ -171,6 +171,14 @@ class BarcodeGeneration implements ObserverInterface
+                 throw new Exception("Service Code is not set.");
+             }
+
++            // PATCH BEGIN
++            $recipientName1 = $address->getFirstName() . ' ' . $address->getLastName();
++
++            if (strlen($recipientName1) > 25) {
++                $recipientName1 = substr($address->getLastname(), 0, 25);
++            }
++            // PATCH END
++
+             $barcodePayload = [
+                 'language' => 'DE',
+                 'frankingLicense' => $this->barcodeHelper->getFrankingLicense($websiteId),
+@@ -191,7 +199,10 @@ class BarcodeGeneration implements ObserverInterface
+                 'item' => [
+                     'itemID' => $shipment->getIncrementId(),
+                     'recipient' => [
+-                        'name1' => $address->getFirstName() . ' ' . $address->getLastName(),
++                        // PATCH BEGIN
++                        // 'name1' => $address->getFirstName() . ' ' . $address->getLastName(),
++                        'name1' => $recipientName1,
++                        // PATCH END
+                         'street' => $recipientStreet,
+                         'houseNo' => $recipientStreetNumber,
+                         'zip' => $address->getPostcode(),
+@@ -235,7 +246,9 @@ class BarcodeGeneration implements ObserverInterface
+             $company = $address->getCompany();
+             if (!empty($company)) {
+                 $firstname = $barcodePayload['item']['recipient']['name1'];
+-                $barcodePayload['item']['recipient']['name1'] = $company;
++                // PATCH BEGIN
++                $barcodePayload['item']['recipient']['name1'] = substr($company, 0, 25);
++                // PATCH END
+                 $barcodePayload['item']['recipient']['name2'] = $firstname;
+             }
