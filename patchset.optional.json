@@ -1992,7 +1992,7 @@
             },
             {
                 "description": "Adjust recipient name length to API requirements",
-                "filename": "vendor/creativestyle/magento-patches/optional/insign/adjust-recipient-name-length-to-api-requirements.patch ",
+                "filename": "vendor/creativestyle/magento-patches/optional/insign/magento2-module-postcore/adjust-recipient-name-length-to-api-requirements.patch",
                 "version-constraint": ">=1.0.14"
             }
         ],
