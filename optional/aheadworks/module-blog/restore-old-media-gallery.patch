@@ -1,0 +1,52 @@
+diff --git a/Ui/Component/Form/Element/ImageField.php b/Ui/Component/Form/Element/ImageField.php
+index df36690..e58f5b9 100644
+--- a/Ui/Component/Form/Element/ImageField.php
++++ b/Ui/Component/Form/Element/ImageField.php
+@@ -63,7 +63,10 @@ class ImageField extends Field
+             $currentTreePath = $this->imagesHelper->idEncode(Config::IMAGE_DIRECTORY);
+             if ($config['elementId'] == 'featured_image_file') {
+                 $dialogUrl = $this->urlBuilder->getUrl(
+-                    'media_gallery/index/index',
++                    // BEGIN PATCH
++                    // 'media_gallery/index/index',
++                    'cms/wysiwyg_images/index',
++                    // END PATCH
+                     [
+                         'current_tree_path' => $currentTreePath,
+                         'target_element_id' => 'featured_image_file_url',
+@@ -73,7 +76,10 @@ class ImageField extends Field
+                 $config['elementUrlId'] = 'featured_image_file_url';
+             } elseif ($config['elementId'] == 'featured_image_mobile_file') {
+                 $dialogUrl = $this->urlBuilder->getUrl(
+-                    'media_gallery/index/index',
++                    // BEGIN PATCH
++                    // 'media_gallery/index/index',
++                    'cms/wysiwyg_images/index',
++                    // END PATCH
+                     [
+                         'current_tree_path' => $currentTreePath,
+                         'target_element_id' => 'featured_image_mobile_file_url',
+@@ -83,7 +89,10 @@ class ImageField extends Field
+                 $config['elementUrlId'] = 'featured_image_mobile_file_url';
+             } elseif ($config['elementId'] == 'image_file_name') {
+                 $dialogUrl = $this->urlBuilder->getUrl(
+-                    'media_gallery/index/index',
++                    // BEGIN PATCH
++                    // 'media_gallery/index/index',
++                    'cms/wysiwyg_images/index',
++                    // END PATCH
+                     [
+                         'current_tree_path' => $currentTreePath,
+                         'target_element_id' => 'image_file_name_url',
+@@ -93,7 +102,10 @@ class ImageField extends Field
+                 $config['elementUrlId'] = 'image_file_name_url';
+             } else {
+                 $dialogUrl = $this->urlBuilder->getUrl(
+-                    'media_gallery/index/index',
++                    // BEGIN PATCH
++                    // 'media_gallery/index/index',
++                    'cms/wysiwyg_images/index',
++                    // END PATCH
+                     [
+                         'current_tree_path' => $currentTreePath,
+                         'target_element_id' => 'image_file_url',
