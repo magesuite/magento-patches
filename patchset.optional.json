@@ -358,10 +358,10 @@
         ],
         "magento/module-backend": [
             {
-              "description": "Allow video (mp4) to be added as product image",
-              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-backend/allow_mp4_file_as_product_image.patch",
+              "description": "Allow more filetypes in media uploader",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-backend/add-support-for-more-file-types-in-media-uploader.patch",
               "version-constraint": ">=102.0.7"
-            },
+            }
         ],
         "magento/module-bundle": [
             {

@@ -7,7 +7,7 @@ index 03ad09d..c694982 100644
                  uploadUrl = $(uploaderElement).attr('data-url'),
                  fileId = null,
 -                allowedExt = ['jpeg', 'jpg', 'png', 'gif'],
-+                allowedExt = ['jpeg', 'jpg', 'png', 'gif', 'mp4'],
++                allowedExt = ['jpeg', 'jpg', 'png', 'gif', 'svg', 'webp', 'webm', 'avif', 'mp4', 'pdf'],
                  allowedResize = false,
                  options = {
                      proudlyDisplayPoweredByUppy: false,
