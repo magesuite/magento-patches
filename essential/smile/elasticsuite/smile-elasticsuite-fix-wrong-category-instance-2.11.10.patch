@@ -1,0 +1,33 @@
+diff --git a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
+index a9fb206..5f7f843 100644
+--- a/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
++++ b/src/module-elasticsuite-catalog/Controller/Navigation/Filter/Ajax.php
+@@ -108,14 +108,19 @@ class Ajax extends \Magento\Framework\App\Action\Action
+     {
+         $this->layerResolver->create($this->getLayerType());
+
+-        if ($this->getRequest()->getParam('cat')) {
+-            try {
+-                $category = $this->categoryRepository->get(
+-                    $this->getRequest()->getParam('cat'),
+-                    $this->layerResolver->get()->getCurrentStore()->getId()
+-                );
++        // BEGIN PATCH
++        $categoryId = (int)$this->getRequest()->getParam('cat');
+
+-                $this->layerResolver->get()->setCurrentCategory($category);
++        if ($categoryId) {
++            try {
++                // $category = $this->categoryRepository->get(
++                //     $this->getRequest()->getParam('cat'),
++                //     $this->layerResolver->get()->getCurrentStore()->getId()
++                // );
++
++                // $this->layerResolver->get()->setCurrentCategory($category);
++                $this->layerResolver->get()->setCurrentCategory($categoryId);
++                // END PATCH
+             } catch (\Magento\Framework\Exception\NoSuchEntityException $exception) {
+                 $this->logger->critical($exception->getMessage());
+             }
+--
+2.39.5 (Apple Git-154)
