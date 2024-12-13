@@ -1,0 +1,24 @@
+diff --git a/view/adminhtml/ui_component/sales_rule_form.xml b/view/adminhtml/ui_component/sales_rule_form.xml
+index 810a63c..b597d48 100644
+--- a/view/adminhtml/ui_component/sales_rule_form.xml
++++ b/view/adminhtml/ui_component/sales_rule_form.xml
+@@ -43,9 +43,6 @@
+                     <item name="source" xsi:type="string">sales_rule</item>
+                     <item name="dataScope" xsi:type="string">extension_attributes.amrules.eachm</item>
+                     <item name="sortOrder" xsi:type="number">13</item>
+-                    <item name="validation" xsi:type="array">
+-                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+-                    </item>
+                 </item>
+             </argument>
+         </field>
+@@ -71,9 +68,6 @@
+                     <item name="source" xsi:type="string">sales_rule</item>
+                     <item name="dataScope" xsi:type="string">extension_attributes.amrules.nqty</item>
+                     <item name="sortOrder" xsi:type="number">19</item>
+-                    <item name="validation" xsi:type="array">
+-                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+-                    </item>
+                 </item>
+             </argument>
+         </field>
