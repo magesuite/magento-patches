@@ -1,0 +1,29 @@
+diff --git a/Model/Thesaurus/Index.php b/Model/Thesaurus/Index.php
+index 204fff8..53fb01a 100644
+--- a/Model/Thesaurus/Index.php
++++ b/Model/Thesaurus/Index.php
+@@ -21,6 +21,7 @@ use Smile\ElasticsuiteCore\Helper\IndexSettings as IndexSettingsHelper;
+ use Smile\ElasticsuiteThesaurus\Api\Data\ThesaurusInterface;
+ use Smile\ElasticsuiteThesaurus\Config\ThesaurusConfigFactory;
+ use Smile\ElasticsuiteThesaurus\Model\Index as ThesaurusIndex;
++use Smile\ElasticsuiteThesaurus\Config\ThesaurusCacheConfig;
+
+ /**
+  * Thesaurus index.
+@@ -63,13 +64,14 @@ class Index extends ThesaurusIndex
+         ClientInterface $client,
+         IndexSettingsHelper $indexSettingsHelper,
+         CacheHelper $cacheHelper,
+-        ThesaurusConfigFactory $thesaurusConfigFactory
++        ThesaurusConfigFactory $thesaurusConfigFactory,
++        ThesaurusCacheConfig $thesaurusCacheConfig
+     ) {
+         $this->client                 = $client;
+         $this->indexSettingsHelper    = $indexSettingsHelper;
+         $this->thesaurusConfigFactory = $thesaurusConfigFactory;
+         $this->cacheHelper            = $cacheHelper;
+-        parent::__construct($client, $indexSettingsHelper, $cacheHelper, $thesaurusConfigFactory);
++        parent::__construct($client, $indexSettingsHelper, $cacheHelper, $thesaurusConfigFactory, $thesaurusCacheConfig);
+     }
+
+     /**

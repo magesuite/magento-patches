@@ -969,6 +969,13 @@
                     "version-constraint": "<2.2.3"
                 }
             ],
+            "smile/module-elasticsuite-explain": [
+                {
+                    "description": "Fix missing argument in parent constructor",
+                    "filename": "essential/smile/module-elasticsuite-explain/missing-arg-in-parent-constructor.patch",
+                    "version-constraint": "2.11.9.2"
+                }
+            ],
             "smile/module-elasticsuite-merchandiser": [
                 {
                     "description": "Fix for invalid subject type in after plugin",
