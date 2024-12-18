@@ -1,5 +1,5 @@
 diff --git a/view/adminhtml/ui_component/sales_rule_form.xml b/view/adminhtml/ui_component/sales_rule_form.xml
-index 810a63c..b597d48 100644
+index 810a63c..c8aa4b0 100644
 --- a/view/adminhtml/ui_component/sales_rule_form.xml
 +++ b/view/adminhtml/ui_component/sales_rule_form.xml
 @@ -43,9 +43,6 @@
@@ -12,7 +12,18 @@ index 810a63c..b597d48 100644
                  </item>
              </argument>
          </field>
-@@ -71,9 +68,6 @@
+@@ -54,10 +51,6 @@
+                 <item name="config" xsi:type="array">
+                     <item name="notice" xsi:type="string" translate="true">For the rule `Buy 2X, get 5Y` it is 2</item>
+                     <item name="sortOrder" xsi:type="number">16</item>
+-                    <item name="validation" xsi:type="array">
+-                        <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+-                        <item name="validate-no-empty" xsi:type="boolean">true</item>
+-                    </item>
+                 </item>
+             </argument>
+         </field>
+@@ -71,9 +64,6 @@
                      <item name="source" xsi:type="string">sales_rule</item>
                      <item name="dataScope" xsi:type="string">extension_attributes.amrules.nqty</item>
                      <item name="sortOrder" xsi:type="number">19</item>
