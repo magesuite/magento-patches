@@ -1,0 +1,38 @@
+Related issue: https://github.com/magento/magento2/issues/39089
+Introduced in: https://github.com/magento/magento2/issues/37028
+
+diff --git a/Model/AdminOrder/Create.php b/Model/AdminOrder/Create.php
+index 4b1868e..a791e2f 100644
+--- a/Model/AdminOrder/Create.php
++++ b/Model/AdminOrder/Create.php
+@@ -2044,10 +2044,8 @@ class Create extends \Magento\Framework\DataObject implements \Magento\Checkout\
+     private function beforeSubmit(Quote $quote)
+     {
+         $orderData = [];
+-        if ($this->getSession()->getReordered() || $this->getSession()->getOrder()->getId()) {
++        if ($this->getSession()->getOrder()->getId()) {
+             $oldOrder = $this->getSession()->getOrder();
+-            $oldOrder = $oldOrder->getId() ?
+-                $oldOrder : $this->orderRepositoryInterface->get($this->getSession()->getReordered());
+             $originalId = $oldOrder->getOriginalIncrementId();
+             if (!$originalId) {
+                 $originalId = $oldOrder->getIncrementId();
+@@ -2074,16 +2072,12 @@ class Create extends \Magento\Framework\DataObject implements \Magento\Checkout\
+      */
+     private function afterSubmit(Order $order)
+     {
+-        if ($this->getSession()->getReordered() || $this->getSession()->getOrder()->getId()) {
++        if ($this->getSession()->getOrder()->getId()) {
+             $oldOrder = $this->getSession()->getOrder();
+-            $oldOrder = $oldOrder->getId() ?
+-                $oldOrder : $this->orderRepositoryInterface->get($this->getSession()->getReordered());
+             $oldOrder->setRelationChildId($order->getId());
+             $oldOrder->setRelationChildRealId($order->getIncrementId());
+             $oldOrder->save();
+-            if ($this->getSession()->getOrder()->getId()) {
+-                $this->orderManagement->cancel($oldOrder->getEntityId());
+-            }
++            $this->orderManagement->cancel($oldOrder->getEntityId());
+             $order->save();
+         }
+     }

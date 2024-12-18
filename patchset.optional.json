@@ -529,6 +529,11 @@
                 "description": "Fix isVisibleCustomerPrefix method in Order model, when config is set to 'No' null value is in dabatase. (RKL-597)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/fix-is-visible-customer-prefix-method.patch",
                 "version-constraint": ">=103.0.6-p6"
+            },
+            {
+                "description": "Revert Magento change related to order increment ID for order created via admin panel reorder (IPET-2912)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/revert-change-for-reorder-increment-id.patch",
+                "version-constraint": ">=103.0.7"
             }
         ],
         "magento/module-shipping": [
