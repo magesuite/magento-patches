@@ -1,11 +1,13 @@
 --- a/Package/Processor/PostProcessor/Map.php	2023-02-23 15:11:00
 +++ b/Package/Processor/PostProcessor/Map.php	2024-12-16 09:49:57
-@@ -139,7 +139,7 @@
+@@ -139,7 +139,9 @@
      {
          $jsonMap = [];
          foreach ($map as $fileId => $fileInfo) {
 -            if (!in_array(pathinfo($fileId, PATHINFO_EXTENSION), ['js', 'html'])) {
++            // PATCH START
 +            if (!in_array(pathinfo($fileId, PATHINFO_EXTENSION), ['js', 'html', 'png', 'gif', 'jpg', 'jpeg', 'svg', 'ico'])) {
++            // PATCH END
                  continue;
              }
 
