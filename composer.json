@@ -1129,6 +1129,11 @@
                     "version-constraint": ">=104.0.5"
                 },
                 {
+                    "description": "Fix the way of retrieving subcategories for the admin category tree",
+                    "filename": "essential/magento/module-catalog/m247-fix-redis-issues-for-admin-category-tree.patch",
+                    "version-constraint": ">=104.0.7,<104.0.8"
+                },
+                {
                     "description": "ACSD-54972: Canonical category URL doesn’t update after changing category URL",
                     "filename": "essential/magento/module-catalog/ACSD-54972_2.4.6-p2.patch",
                     "version-constraint": ">=104.0.2,<104.0.7"
