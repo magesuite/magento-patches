@@ -3039,17 +3039,10 @@
                     "version-constraint": ">=2.9.0"
                 }
             ],
-            "gbg-loqate/loqate-integration": [
-                {
-                    "description": "Fix improper ACL declaration",
-                    "filename": "essential/gbg-loqate/loqate-integration/fix-improper-acl-declaration.patch",
-                    "version-constraint": ">=1.1.10"
-                }
-            ],
             "lqt/loqate-integration": [
                 {
                     "description": "Fix improper ACL declaration",
-                    "filename": "essential/gbg-loqate/loqate-integration/fix-improper-acl-declaration.patch",
+                    "filename": "essential/lqt/loqate-integration/fix-improper-acl-declaration.patch",
                     "version-constraint": ">=1.1.10"
                 }
             ]
