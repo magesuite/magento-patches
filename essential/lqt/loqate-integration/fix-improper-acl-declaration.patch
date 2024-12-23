@@ -1,5 +1,4 @@
 diff --git a/loqate-integration/etc/adminhtml/acl.xml b/loqate-integration/etc/acl.xml
-similarity index 64%
 rename from loqate-integration/etc/adminhtml/acl.xml
 rename to loqate-integration/etc/acl.xml
 index dc87193..4470309 100644
