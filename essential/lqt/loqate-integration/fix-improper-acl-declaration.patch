@@ -1,8 +1,11 @@
 diff --git a/loqate-integration/etc/adminhtml/acl.xml b/loqate-integration/etc/acl.xml
+similarity index 100%
 rename from loqate-integration/etc/adminhtml/acl.xml
 rename to loqate-integration/etc/acl.xml
+                                                                                                                                                                                                              ✔  15:51:36 
+diff --git a/loqate-integration/etc/acl.xml b/loqate-integration/etc/acl.xml
 index dc87193..4470309 100644
---- a/loqate-integration/etc/adminhtml/acl.xml
+--- a/loqate-integration/etc/acl.xml
 +++ b/loqate-integration/etc/acl.xml
 @@ -2,10 +2,10 @@
  <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
