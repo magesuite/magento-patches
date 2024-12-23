@@ -1,0 +1,16 @@
+diff --git a/Plugin/Sales/OrderManagement/DeductSourceItemQuantityOnRefundPlugin.php b/Plugin/Sales/OrderManagement/DeductSourceItemQuantityOnRefundPlugin.php
+index 54e5d95..f1f6096 100644
+--- a/Plugin/Sales/OrderManagement/DeductSourceItemQuantityOnRefundPlugin.php
++++ b/Plugin/Sales/OrderManagement/DeductSourceItemQuantityOnRefundPlugin.php
+@@ -184,6 +184,10 @@ class DeductSourceItemQuantityOnRefundPlugin
+         return $this->isSourceItemManagementAllowedForProductType->execute($productType)
+                 && $item->getQty() > 0
+                 && !$item->getBackToStock()
+-                && !$orderItem->getIsVirtual();
++                // BEGIN PATCH
++                // && !$orderItem->getIsVirtual();
++                && !$orderItem->getIsVirtual()
++                && !$orderItem->getProcessedByErpAt();
++                // END PATCH
+     }
+ }
