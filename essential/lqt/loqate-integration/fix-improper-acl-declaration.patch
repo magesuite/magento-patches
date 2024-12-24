@@ -1,8 +1,8 @@
-diff --git a/loqate-integration/etc/acl.xml b/loqate-integration/etc/acl.xml
+diff --git a/etc/acl.xml b/etc/acl.xml
 new file mode 100644
 index 0000000..4470309
 --- /dev/null
-+++ b/loqate-integration/etc/acl.xml
++++ b/etc/acl.xml
 @@ -0,0 +1,16 @@
 +<?xml version="1.0"?>
 +<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
@@ -20,3 +20,26 @@ index 0000000..4470309
 +        </resources>
 +    </acl>
 +</config>
+
+diff --git a/etc/adminhtml/acl.xml b/etc/adminhtml/acl.xml
+deleted file mode 100644
+index dc87193..0000000
+--- a/etc/adminhtml/acl.xml
++++ /dev/null
+@@ -1,16 +0,0 @@
+-<?xml version="1.0"?>
+-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+-    <acl>
+-        <resources>
+-            <resource id="Magento_Adminhtml::admin">
+-                <resource id="Magento_Adminhtml::stores">
+-                    <resource id="Magento_Adminhtml::stores_settings">
+-                        <resource id="Magento_Adminhtml::config">
+-                            <resource id="Loqate_ApiIntegration::loqate_settings" title="Loqate Settings"/>
+-                        </resource>
+-                    </resource>
+-                </resource>
+-            </resource>
+-        </resources>
+-    </acl>
+-</config>
