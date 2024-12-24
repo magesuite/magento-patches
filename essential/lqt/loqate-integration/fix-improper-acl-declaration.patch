@@ -1,24 +1,46 @@
-diff --git a/loqate-integration/etc/adminhtml/acl.xml b/loqate-integration/etc/acl.xml
-similarity index 100%
-rename from loqate-integration/etc/adminhtml/acl.xml
-rename to loqate-integration/etc/acl.xml
-
 diff --git a/loqate-integration/etc/acl.xml b/loqate-integration/etc/acl.xml
-index dc87193..4470309 100644
---- a/loqate-integration/etc/acl.xml
+new file mode 100644
+index 0000000..4470309
+--- /dev/null
 +++ b/loqate-integration/etc/acl.xml
-@@ -2,10 +2,10 @@
- <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
-     <acl>
-         <resources>
--            <resource id="Magento_Adminhtml::admin">
--                <resource id="Magento_Adminhtml::stores">
--                    <resource id="Magento_Adminhtml::stores_settings">
--                        <resource id="Magento_Adminhtml::config">
+@@ -0,0 +1,16 @@
++<?xml version="1.0"?>
++<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
++    <acl>
++        <resources>
 +            <resource id="Magento_Backend::admin">
 +                <resource id="Magento_Backend::stores">
 +                    <resource id="Magento_Backend::stores_settings">
 +                        <resource id="Magento_Config::config">
-                             <resource id="Loqate_ApiIntegration::loqate_settings" title="Loqate Settings"/>
-                         </resource>
-                     </resource>
++                            <resource id="Loqate_ApiIntegration::loqate_settings" title="Loqate Settings"/>
++                        </resource>
++                    </resource>
++                </resource>
++            </resource>
++        </resources>
++    </acl>
++</config>
+
+diff --git a/loqate-integration/etc/adminhtml/acl.xml b/loqate-integration/etc/adminhtml/acl.xml
+deleted file mode 100644
+index dc87193..0000000
+--- a/loqate-integration/etc/adminhtml/acl.xml
++++ /dev/null
+@@ -1,16 +0,0 @@
+-<?xml version="1.0"?>
+-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+-    <acl>
+-        <resources>
+-            <resource id="Magento_Adminhtml::admin">
+-                <resource id="Magento_Adminhtml::stores">
+-                    <resource id="Magento_Adminhtml::stores_settings">
+-                        <resource id="Magento_Adminhtml::config">
+-                            <resource id="Loqate_ApiIntegration::loqate_settings" title="Loqate Settings"/>
+-                        </resource>
+-                    </resource>
+-                </resource>
+-            </resource>
+-        </resources>
+-    </acl>
+-</config>
+
