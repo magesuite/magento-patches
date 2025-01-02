@@ -1310,6 +1310,11 @@
                     "description": "Set shipping service loader to false after validate fields",
                     "filename": "essential/magento/module-checkout/m247-shipping-rates-validator.patch",
                     "version-constraint": ">=100.4.7,<100.4.8"
+                },
+                {
+                    "description": "Fix issue with email validation with login step and pick in store method.",
+                    "filename": "essential/magento/module-checkout/validate-only-visible-email.patch",
+                    "version-constraint": ">=100.4.7"
                 }
             ],
             "magento/module-checkout-agreements": [

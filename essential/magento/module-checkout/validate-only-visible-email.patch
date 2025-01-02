@@ -1,0 +1,18 @@
+As we have MageSuite_LoginOrGuestCheckoutStep module installed, there are two forms with the same selector.
+JQuery took the first one, which is hidden, and the validation was not working properly with the pickup in store shipping method.
+
+diff --git a/view/frontend/web/js/view/form/element/email.js b/view/frontend/web/js/view/form/element/email.js
+index 495c117..2aec982 100644
+--- a/view/frontend/web/js/view/form/element/email.js
++++ b/view/frontend/web/js/view/form/element/email.js
+@@ -146,7 +146,9 @@ define([
+          * @returns {Boolean} - validation result.
+          */
+         validateEmail: function (focused) {
+-            var loginFormSelector = 'form[data-role=email-with-possible-login]',
++            // BEGIN PATCH
++            var loginFormSelector = 'form[data-role=email-with-possible-login]:visible',
++                // END PATCH
+                 usernameSelector = loginFormSelector + ' input[name=username]',
+                 loginForm = $(loginFormSelector),
+                 validator,
