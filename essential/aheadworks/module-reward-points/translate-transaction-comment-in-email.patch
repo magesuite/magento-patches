@@ -1,0 +1,20 @@
+diff --git a/Model/Service/CustomerRewardPointsService.php b/Model/Service/CustomerRewardPointsService.php
+index d9894af..c61d139 100644
+--- a/Model/Service/CustomerRewardPointsService.php
++++ b/Model/Service/CustomerRewardPointsService.php
+@@ -1410,9 +1410,15 @@ class CustomerRewardPointsService implements CustomerRewardPointsManagementInter
+             $transaction->setCurrentBalance($pointsBalance);
+ 
+             $balanceUpdateActions = explode(',', $this->config->getBalanceUpdateActions() ?? '');
++
++            //BEGIN PATCH
++            $emulation = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Store\Model\App\Emulation::class);
++            $emulation->startEnvironmentEmulation($this->getCustomer()->getStoreId(), \Magento\Framework\App\Area::AREA_FRONTEND, true);
+             $commentToCustomer = $commentToCustomer instanceof \Magento\Framework\Phrase
+                 ? $commentToCustomer->render()
+                 : $commentToCustomer;
++            $emulation->stopEnvironmentEmulation();
++            //END PATCH
+ 
+             if ($result && in_array($transactionType, $balanceUpdateActions) && !$this->transactionChecker->isOnHold($transaction)) {
+                 $data = [
