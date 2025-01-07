@@ -1,0 +1,16 @@
+diff --git a/Ui/Component/Listing/Column/Giftcard/Recipient.php b/Ui/Component/Listing/Column/Giftcard/Recipient.php
+index fe4e204..b3695d1 100644
+--- a/Ui/Component/Listing/Column/Giftcard/Recipient.php
++++ b/Ui/Component/Listing/Column/Giftcard/Recipient.php
+@@ -66,7 +66,10 @@ class Recipient extends \Magento\Ui\Component\Listing\Columns\Column
+                     ['id' => $customer->getId()]
+                 );
+             } catch (NoSuchEntityException $exception) {
+-                $this->logger->critical($exception->getMessage());
++//                $this->logger->critical($exception->getMessage());
++                // BEGIN PATCH
++                // do nothing if customer not found
++                // END PATCH
+             }
+             $item[$fieldName . '_label'] = $item[$fieldName];
+         }
