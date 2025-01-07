@@ -1,0 +1,13 @@
+diff --git a/Model/Import/Product/LinkProcessor.php b/Model/Import/Product/LinkProcessor.php
+index 9e62925..77fa819 100644
+--- a/Model/Import/Product/LinkProcessor.php
++++ b/Model/Import/Product/LinkProcessor.php
+@@ -332,7 +332,7 @@ class LinkProcessor
+         array $positionRows
+     ): void {
+         $mainTable = $resource->getMainTable();
+-        if (Import::BEHAVIOR_APPEND != $importEntity->getBehavior() && $productIds) {
++        if (!in_array($importEntity->getBehavior(), [Import::BEHAVIOR_APPEND, Import::BEHAVIOR_ADD_UPDATE]) && $productIds) {
+             $importEntity->getConnection()->delete(
+                 $mainTable,
+                 $importEntity->getConnection()->quoteInto('product_id IN (?)', array_unique($productIds))
