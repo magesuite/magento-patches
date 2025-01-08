@@ -1,0 +1,48 @@
+diff --git a/Model/ResourceModel/Import/Data.php b/Model/ResourceModel/Import/Data.php
+index 76fecf1..3acb0de 100755
+--- a/Model/ResourceModel/Import/Data.php
++++ b/Model/ResourceModel/Import/Data.php
+@@ -91,6 +91,43 @@ class Data extends \Magento\ImportExport\Model\ResourceModel\Import\Data
+         return $iterator;
+     }
+ 
++    // BEGIN PATCH
++    // The missing method was added to fix incompatibility with MSI module.
++    public function getIteratorForCustomQuery($ids)
++    {
++        $connection = $this->getConnection();
++        $select = $connection->select()->from($this->getMainTable(), ['data'])
++            ->order('id ASC')
++            ->limit(1, $this->getOffset());
++
++        if ($ids) {
++            $select = $select->where('id IN (?)', $ids);
++        }
++
++        if ($this->getJobId()) {
++            $select->where('job_id=?', $this->getJobId());
++        } else {
++            $select->where('job_id=?', -1);
++        }
++
++        if ($this->getFile()) {
++            $select->where('file=?', $this->getFile());
++        }
++
++        $stmt = $connection->query($select);
++        $stmt->setFetchMode(\Zend_Db::FETCH_NUM);
++        if ($stmt instanceof \IteratorAggregate) {
++            $iterator = $stmt->getIterator();
++        } else {
++            // Statement doesn't support iterating, so fetch all records and create iterator ourself
++            $rows = $stmt->fetchAll();
++            $iterator = new \ArrayIterator($rows);
++        }
++
++        return $iterator;
++    }
++    // END PATCH
++
+     /**
+      * Clean all bunches from table.
+      *
