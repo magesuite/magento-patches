@@ -2833,6 +2833,13 @@
                     "version-constraint": "<2.0.0"
                 }
             ],
+            "firebear/importexport": [
+                {
+                    "description": "Fix incompatibility with MSI stock import (IPET-2926)",
+                    "filename": "essential/firebear/importexport/fix-incompatibility-with-msi-stock-import.patch",
+                    "version-constraint": ">=3.8.7"
+                }
+            ],
             "mageants/deleteaccount": [
                 {
                     "description": "Send correct template based on the configuration",
