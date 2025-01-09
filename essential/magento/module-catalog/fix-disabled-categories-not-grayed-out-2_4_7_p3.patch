@@ -1,0 +1,17 @@
+diff --git a/Block/Adminhtml/Category/Tree.php b/Block/Adminhtml/Category/Tree.php
+index 824703a..a91bcdd 100644
+--- a/Block/Adminhtml/Category/Tree.php
++++ b/Block/Adminhtml/Category/Tree.php
+@@ -393,7 +393,11 @@ class Tree extends AbstractCategory
+         $item['store'] = (int)$this->getStore()->getId();
+         $item['path'] = $node->getData('path');
+ 
+-        $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
++        // $item['cls'] = 'folder ' . ($node->getIsActive() ? 'active-category' : 'no-active-category');
++        // BEGIN PATCH
++        $item['a_attr'] = ['class' => $node->getIsActive() ? 'active-category' : 'not-active-category'];
++        // END PATCH
++
+         //$item['allowDrop'] = ($level<3) ? true : false;
+         $allowMove = $this->_isCategoryMoveable($node);
+         $item['allowDrop'] = $allowMove;

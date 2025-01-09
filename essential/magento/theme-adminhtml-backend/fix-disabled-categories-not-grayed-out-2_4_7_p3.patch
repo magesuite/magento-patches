@@ -1,0 +1,19 @@
+diff --git a/Magento_Catalog/web/css/source/_module.less b/Magento_Catalog/web/css/source/_module.less
+index 0bd7264..76e3b9b 100644
+--- a/Magento_Catalog/web/css/source/_module.less
++++ b/Magento_Catalog/web/css/source/_module.less
+@@ -121,3 +121,14 @@
+         }
+     }
+ }
++
++//  BEGIN PATCH
++//  Catalog Category Tree
++//  ---------------------------------------------
++
++.jstree-children {
++    .not-active-category {
++        color: #aaa !important;
++    }
++}
++// END PATCH

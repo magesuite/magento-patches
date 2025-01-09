@@ -1137,6 +1137,11 @@
                     "description": "ACSD-54972: Canonical category URL doesn’t update after changing category URL",
                     "filename": "essential/magento/module-catalog/ACSD-54972_2.4.6-p2.patch",
                     "version-constraint": ">=104.0.2,<104.0.7"
+                },
+                {
+                    "description": "Fix disabled categories not grayed out (2.4.7-p3)",
+                    "filename": "essential/magento/module-catalog/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
+                    "version-constraint": "104.0.7-p2"
                 }
             ],
             "magento/module-catalog-search": [
@@ -3066,6 +3071,13 @@
                     "description": "Fix improper ACL declaration",
                     "filename": "essential/lqt/loqate-integration/fix-improper-acl-declaration.patch",
                     "version-constraint": ">=1.1.10"
+                }
+            ],
+            "magento/theme-adminhtml-backend": [
+                {
+                    "description": "Fix disabled categories not grayed out (2.4.7-p3)",
+                    "filename": "essential/magento/theme-adminhtml-backend/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
+                    "version-constraint": "100.4.7-p3"
                 }
             ]
         }
