@@ -1,0 +1,68 @@
+diff --git a/etc/communication.xml b/etc/communication.xml
+index be8c77e..07fd518 100644
+--- a/etc/communication.xml
++++ b/etc/communication.xml
+@@ -1,5 +1,7 @@
+ <?xml version="1.0"?>
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Communication/etc/communication.xsd">
+     <topic name="import_export.import_db" request="string"/>
+-    <topic name="import_export.import_amqp" request="string" />
++    <!-- BEGIN PATCH -->
++    <!--<topic name="import_export.import_amqp" request="string" />-->
++    <!-- END PATCH -->
+ </config>
+diff --git a/etc/queue_consumer.xml b/etc/queue_consumer.xml
+index 0366a61..cea190a 100644
+--- a/etc/queue_consumer.xml
++++ b/etc/queue_consumer.xml
+@@ -1,9 +1,11 @@
+ <?xml version="1.0"?>
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/consumer.xsd">
+-    <consumer name="import_export.import_amqp"
+-              queue="import_export_import_amqp"
+-              consumerInstance="Magento\Framework\MessageQueue\Consumer"
+-              handler="Firebear\ImportExport\Model\QueueMessage\Image\ImportQueue::process"
+-              connection="amqp"
+-    />
++    <!-- BEGIN PATCH -->
++    <!--<consumer name="import_export.import_amqp"-->
++    <!--          queue="import_export_import_amqp"-->
++    <!--          consumerInstance="Magento\Framework\MessageQueue\Consumer"-->
++    <!--          handler="Firebear\ImportExport\Model\QueueMessage\Image\ImportQueue::process"-->
++    <!--          connection="amqp"-->
++    <!--/>-->
++    <!-- END PATCH -->
+ </config>
+diff --git a/etc/queue_publisher.xml b/etc/queue_publisher.xml
+index 2c6da25..9a8d822 100644
+--- a/etc/queue_publisher.xml
++++ b/etc/queue_publisher.xml
+@@ -3,7 +3,9 @@
+     <publisher topic="import_export.import_db">
+         <connection name="db" exchange="magento-db" />
+     </publisher>
+-    <publisher topic="import_export.import_amqp">
+-        <connection name="amqp" exchange="magento-amqp" />
+-    </publisher>
++    <!-- BEGIN PATCH -->
++    <!--<publisher topic="import_export.import_amqp">-->
++    <!--    <connection name="amqp" exchange="magento-amqp" />-->
++    <!--</publisher>-->
++    <!-- END PATCH -->
+ </config>
+diff --git a/etc/queue_topology.xml b/etc/queue_topology.xml
+index 40dabe3..74a18cb 100644
+--- a/etc/queue_topology.xml
++++ b/etc/queue_topology.xml
+@@ -1,6 +1,8 @@
+ <?xml version="1.0"?>
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd" >
+-    <exchange name="magento-amqp" type="topic" connection="amqp">
+-        <binding id="import_export_amqp"   topic="import_export.import_amqp"  destinationType="queue" destination="import_export_import_amqp"/>
+-    </exchange>
++    <!-- BEGIN PATCH -->
++    <!--<exchange name="magento-amqp" type="topic" connection="amqp">-->
++    <!--    <binding id="import_export_amqp"   topic="import_export.import_amqp"  destinationType="queue" destination="import_export_import_amqp"/>-->
++    <!--</exchange>-->
++    <!-- END PATCH -->
+ </config>

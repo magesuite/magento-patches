@@ -1927,6 +1927,11 @@
                 "description": "Disabled creating new categories during import (IPET-2372)",
                 "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/disabled-creating-new-category-during-import.patch",
                 "version-constraint": ">=3.8.7"
+            },
+            {
+                "description": "Disabled using amqp queue (IPET-2926)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/disable-amqp-queue.patch",
+                "version-constraint": "*"
             }
         ],
         "firebear/importexport-msi": [
