@@ -2612,6 +2612,11 @@
                     "description": "Fix string divided by int php 8 error",
                     "filename": "essential/wyomind/framework/fix-php-8-error-with-string-divided-by-int.patch",
                     "version-constraint": ">=7.2.4,<7.2.11"
+                },
+                {
+                    "description": "Fix array notice for menu item url",
+                    "filename": "essential/wyomind/framework/fix-array-notice.patch",
+                    "version-constraint": ">=7.2.12"
                 }
             ],
             "xtento/pdfcustomizer": [

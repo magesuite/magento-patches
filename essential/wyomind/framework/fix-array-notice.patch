@@ -1,0 +1,13 @@
+diff --git a/Plugin/Backend/Model/Menu/Item.php b/Plugin/Backend/Model/Menu/Item.php
+index 3ad5fc2..a6458b4 100644
+--- a/Plugin/Backend/Model/Menu/Item.php
++++ b/Plugin/Backend/Model/Menu/Item.php
+@@ -55,7 +55,7 @@ class Item
+         } elseif (strpos($id, '::discover_') !== false && strpos($id, '::discover_group') === false
+             && strpos($id, 'Wyomind') !== false) {
+             $module = str_replace('Wyomind_Framework::discover_', '', $id);
+-            $url = $allExtensions['by_code'][strtoupper($module)]['user-guide'];
++            $url = $allExtensions['by_code'][strtoupper($module)]['user-guide'] ?? null;
+             if (Builder::MARKETPLACE && isset($allExtensions['by_code'][strtoupper($module)]['namespace'])) {
+                 $url = "https://marketplace.magento.com/wyomind-" . $allExtensions['by_code'][strtoupper($module)]['namespace'] . "-meta.html";
+             }
