@@ -1,0 +1,15 @@
+FC-84: On Lensplaza we have mix content in dutch and english. DeepL api will detect language automatically
+
+diff --git a/Model/Client/Deepl.php b/Model/Client/Deepl.php
+index a68b1d8..61acbd7 100644
+--- a/Model/Client/Deepl.php
++++ b/Model/Client/Deepl.php
+@@ -131,7 +131,7 @@ class Deepl implements TranslatorInterface
+         $post = $request->getPost();
+
+         $post->set('text', $text)
+-            ->set('source_lang', $sourceLanguage)
++//            ->set('source_lang', $sourceLanguage)
+             ->set('target_lang', $targetLanguage)
+             ->set('tag_handling', $this->config->getTagHandling())
+             ->set('preserve_formatting', 1)

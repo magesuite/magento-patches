@@ -209,6 +209,11 @@
                 "description": "Inject product to helper",
                 "filename": "vendor/creativestyle/magento-patches/optional/aromicon/module-deepl/inject-product-variable.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Skip source lang in the request",
+                "filename": "vendor/creativestyle/magento-patches/optional/aromicon/module-deepl/skip-source-lang-in-the-request.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-ui": [
