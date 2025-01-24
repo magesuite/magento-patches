@@ -3010,6 +3010,11 @@
                     "description": "Fix login error handling (IPET-2771)",
                     "filename": "essential/plumrocket/module-psloginpro/fix-login-popup-error-handling.patch",
                     "version-constraint": ">=4.6.6"
+                },
+                {
+                    "description": "Fix for missing customer data when customer account is created after login by Apple account (IPET-2941)",
+                    "filename": "essential/plumrocket/module-psloginpro/fix-for-missing-customer-data-after-login-with-apple.patch",
+                    "version-constraint": ">=4.6.6"
                 }
             ],
             "stripe/module-payments": [
