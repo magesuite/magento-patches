@@ -1,0 +1,35 @@
+diff --git a/Model/Apple.php b/Model/Apple.php
+index 62df4fa..6fffd02 100644
+--- a/Model/Apple.php
++++ b/Model/Apple.php
+@@ -93,6 +93,29 @@ class Apple extends Account
+             return false;
+         }
+
+-        return parent::_prepareData($data);
++        // BEGIN PATCH
++        // Fix for missing customer data when customer account is created after login by Apple account
++        // return parent::_prepareData($data);
++        $data = parent::_prepareData($data);
++        try {
++            $userParam = $this->request->getParam('user');
++            if (!$userParam) {
++                return $data;
++            }
++
++            $userData = json_decode($userParam, true);
++            if (isset($userData['name']['firstname']) || isset($userData['name']['lastname'])) {
++                return $data;
++            }
++
++            $data['firstname'] = $userData['name']['firstName'] ?? $data['firstname'];
++            $data['lastname'] = $userData['name']['lastName'] ?? $data['lastname'];
++        } catch (\Exception $e) {
++            \Magento\Framework\App\ObjectManager::getInstance()->get(\Psr\Log\LoggerInterface::class)->error($e->getMessage());
++            return $data;
++        }
++
++        return $data;
++        // END PATCH
+     }
+ }
