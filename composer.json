@@ -493,7 +493,7 @@
                 {
                     "description": "Specify store id for product repository getById method to avoid additional product entity load. (IPET-2628)",
                     "filename": "essential/amasty/module-faq-product-questions/specify-store-id-for-product-repository.patch",
-                    "version-constraint": ">=2.12.2"
+                    "version-constraint": ">=2.12.2,<2.13.2"
                 }
             ],
             "amasty/module-gdpr": [
