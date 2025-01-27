@@ -3038,6 +3038,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "mageworx/module-geoip": [
+                {
+                    "description": "Fix for empty IP variable (ZJ-354)",
+                    "filename": "essential/mageworx/module-geoip/fix-for-empty-ip-variable.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "extendware/module-deepltranslatorautosync": [
                 {
                     "description": "Fix compatibility with MageSuite (CLI initialization, missing paramaters in Observers)",

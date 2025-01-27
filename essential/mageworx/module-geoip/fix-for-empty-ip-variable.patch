@@ -1,0 +1,17 @@
+diff --git a/Helper/Customer.php b/Helper/Customer.php
+index ffda403..ce83bb6 100644
+--- a/Helper/Customer.php
++++ b/Helper/Customer.php
+@@ -139,6 +139,12 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
+             $ip = $this->_getRequest()->getServer('REMOTE_ADDR');
+         }
+ 
++        // BEGIN PATCH: fix for empty $ip
++        if (empty($ip)) {
++            return '';
++        }
++        // END PATCH
++
+         $ipArr = explode(',', $ip);
+         $ip    = $ipArr[count($ipArr) - 1];
+ 
