@@ -3045,6 +3045,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "mageworx/module-shippingrules": [
+                {
+                    "description": "Remove default value for column model (ZJ-354)",
+                    "filename": "essential/mageworx/module-shippingrules/remove-default-value.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "extendware/module-deepltranslatorautosync": [
                 {
                     "description": "Fix compatibility with MageSuite (CLI initialization, missing paramaters in Observers)",

@@ -1,0 +1,16 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 2de024e..d68e24e 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -69,7 +69,10 @@
+         <column xsi:type="varchar" name="carrier_code" nullable="true" length="64" comment="Carrier Code"/>
+         <column xsi:type="smallint" name="active" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="Is Active"/>
+         <column xsi:type="smallint" name="sallowspecific" padding="6" unsigned="false" nullable="false" identity="false" default="0" comment="sallowspecific"/>
+-        <column xsi:type="varchar" name="model" nullable="true" length="47" default="MageWorx\\ShippingRules\\Model\\Carrier\\Artificial" comment="Corresponding Model"/>
++        <!-- BEGIN PATCH: remove default value -->
++        <!-- <column xsi:type="varchar" name="model" nullable="true" length="47" default="MageWorx\\ShippingRules\\Model\\Carrier\\Artificial" comment="Corresponding Model"/> -->
++        <column xsi:type="varchar" name="model" nullable="true" length="47" comment="Corresponding Model"/>
++        <!-- END PATCH: remove default value -->
+         <column xsi:type="text" name="name" nullable="true" comment="Carrier Name"/>
+         <column xsi:type="text" name="title" nullable="true" comment="Carrier Title"/>
+         <column xsi:type="text" name="type" nullable="true" comment="Carrier Type"/>
