@@ -2135,6 +2135,11 @@
                     "description": "Fix visibility of billing address form",
                     "filename": "essential/amzn/amazon-pay-magento-2-module/amazon-pay-fix-billing-form-visibility.patch",
                     "version-constraint": ">=5.9.1,<5.11.2"
+                },
+                {
+                    "description": "TOYS-1601: Fix for proper order cancellation",
+                    "filename": "essential/amzn/amazon-pay-magento-2-module/TOYS-1601-amazon-pay-proper-order-canellation-fix.patch",
+                    "version-constraint": ">=5.9.1"
                 }
             ],
             "msp/adminrestriction": [
