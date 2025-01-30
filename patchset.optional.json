@@ -2061,6 +2061,11 @@
                "description": "Quality patch ACSD-46815_2.4.5_v2.patch",
                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-deploy/ACSD-46815_2.4.5_v2.patch",
                "version-constraint": "100.4.5"
+           },
+           {
+             "description": "Feat: [KRA-1974] Additional extensions in deploy map",
+             "filename": "vendor/creativestyle/magento-patches/optional/magento/module-deploy/additional-extensions-in-deploy-map.patch",
+             "version-constraint": "*"
            }
        ],
       "magento/module-contact": [
