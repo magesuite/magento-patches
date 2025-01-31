@@ -1,0 +1,13 @@
+diff --git a/Model/Queue/Handler/AddNotificationToQueue.php b/Model/Queue/Handler/AddNotificationToQueue.php
+index 8e86621..9217ed5 100644
+--- a/Model/Queue/Handler/AddNotificationToQueue.php
++++ b/Model/Queue/Handler/AddNotificationToQueue.php
+@@ -82,7 +82,7 @@ class AddNotificationToQueue implements \MageSuite\Queue\Api\Queue\HandlerInterf
+             }
+ 
+             if ($isProductSalableItem->wasSalable() || !$isProductSalableItem->isSalable()) {
+-                continue;
++                // continue;
+             }
+ 
+             $result[] = $subscription;
