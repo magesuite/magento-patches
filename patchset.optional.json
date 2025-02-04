@@ -43,6 +43,13 @@
               "version-constraint": ">=104.3.17"
             }
         ],
+        "almapay/alma-monthlypayments-magento2": [
+            {
+              "description": "Remove throwing an exceptionw when getAreaCode is called in the wrong context",
+              "filename": "vendor/creativestyle/magento-patches/optional/almapay/alma-monthlypayments-magento2/remove-throwing-exception-in-get-area-code-method.patch",
+              "version-constraint": ">=5.4.0"
+            }
+        ],
         "twig/twig": [
             {
                 "description": "Einhell deprecated functionality fix for php 8.1",
