@@ -1,0 +1,24 @@
+diff --git a/Helpers/StoreHelper.php b/Helpers/StoreHelper.php
+index f98ba4b..9620626 100644
+--- a/Helpers/StoreHelper.php
++++ b/Helpers/StoreHelper.php
+@@ -62,12 +62,15 @@ class StoreHelper extends AbstractHelper
+      */
+     public function getAreaCode(): string
+     {
+-        try {
++        // PATCH START
++        /*try {
+             return $this->state->getAreaCode();
+         } catch (LocalizedException $e) {
+             $this->logger->error('Error in getAreaCode', [$e->getMessage()]);
+             return 'frontend';
+-        }
++        }*/
++        return $this->state->getAreaCode() ?? 'frontend';
++        // END PATCH
+     }
+
+     /**
+--
+2.39.5 (Apple Git-154)
