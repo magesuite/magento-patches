@@ -1,0 +1,17 @@
+diff --git a/Model/Newsletter/Resubscriber.php b/Model/Newsletter/Resubscriber.php
+index 1ecb132..1161dec 100644
+--- a/Model/Newsletter/Resubscriber.php
++++ b/Model/Newsletter/Resubscriber.php
+@@ -101,6 +101,12 @@ class Resubscriber implements ContactUpdaterInterface
+      */
+     private function getLastSubscribedAt(?DataFieldCollection $dataFields)
+     {
++        // BEGIN PATCH
++        if($dataFields === null) {
++            return false;
++        }
++        // END PATCH
++
+         foreach ($dataFields->all() as $dataField) {
+             if ($dataField->getKey() === 'LASTSUBSCRIBED') {
+                 return $dataField->getValue();

@@ -2330,6 +2330,11 @@
                     "description": "Fix dotmailer problem with Http class",
                     "filename": "essential/dotdigital/dotdigital-magento2-extension/use-laminas-lib-instead-of-zend.patch",
                     "version-constraint": ">=4.19.4,<4.22.0"
+                },
+                {
+                    "description": "Fix dotmailer problem with the cron ddg_automation_platform_modified_contacts",
+                    "filename": "essential/dotdigital/fix-error-with-cron-ddg_automation_platform_modified_contacts-DOG-1966.patch",
+                    "version-constraint": ">=4.28.0"
                 }
             ],
             "dotmailer/dotmailer-magento2-extension-sms": [
