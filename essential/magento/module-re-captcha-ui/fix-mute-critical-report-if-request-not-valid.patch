@@ -1,0 +1,17 @@
+diff --git a/Model/RequestHandler.php b/Model/RequestHandler.php
+index 52c4b8a..60180b8 100644
+--- a/Model/RequestHandler.php
++++ b/Model/RequestHandler.php
+@@ -111,7 +111,9 @@ class RequestHandler implements RequestHandlerInterface
+         try {
+             $reCaptchaResponse = $this->captchaResponseResolver->resolve($request);
+         } catch (InputException $e) {
+-            $this->logger->error($e);
++            // BEGIN PATCH
++            // $this->logger->error($e);
++            // END PATCH
+             $this->processError($response, [], $redirectOnFailureUrl, $key);
+             return;
+         }
+--
+2.39.5 (Apple Git-154)

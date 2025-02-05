@@ -2465,6 +2465,13 @@
                     "version-constraint": ">=1.2.1"
                 }
             ],
+            "magento/module-re-captcha-ui": [
+                {
+                    "description": "Mute critical report if request is not valid",
+                    "filename": "essential/magento/module-re-captcha-ui/fix-mute-critical-report-if-request-not-valid.patch",
+                    "version-constraint": ">=1.1.3"
+                }
+            ],
             "magento/module-re-captcha-checkout": [
                 {
                     "description": "Fix error in checkout when reCaptcha is disabled for Checkout/Placing Order",
