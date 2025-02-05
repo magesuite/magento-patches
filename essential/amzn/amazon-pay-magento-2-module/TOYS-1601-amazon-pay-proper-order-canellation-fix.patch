@@ -1,0 +1,34 @@
+diff --git a/Model/CheckoutSessionManagement.php b/Model/CheckoutSessionManagement.php
+index 974e0cc..8b01402 100755
+--- a/Model/CheckoutSessionManagement.php
++++ b/Model/CheckoutSessionManagement.php
+@@ -690,16 +690,19 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
+             $quote = $this->getQuote($order);
+         }
+ 
+-        // set order as cancelled
+-        $order->setState(\Magento\Sales\Model\Order::STATE_CANCELED)->setStatus(
+-            \Magento\Sales\Model\Order::STATE_CANCELED
+-        );
+-        $order->getPayment()->setIsTransactionClosed(true);
+-
+-        // cancel invoices
+-        foreach ($order->getInvoiceCollection() as $invoice) {
+-            $invoice->setState(Invoice::STATE_CANCELED);
+-        }
++        // BEGIN PATCH
++        //// set order as cancelled
++        //$order->setState(\Magento\Sales\Model\Order::STATE_CANCELED)->setStatus(
++        //    \Magento\Sales\Model\Order::STATE_CANCELED
++        //);
++        //$order->getPayment()->setIsTransactionClosed(true);
++        //
++        //// cancel invoices
++        //foreach ($order->getInvoiceCollection() as $invoice) {
++        //    $invoice->setState(Invoice::STATE_CANCELED);
++        //}
++        $order->cancel();
++        // END PATCH
+ 
+         // decrement coupon usages if applicable
+         $this->updateCouponUsages->execute($order, false);
