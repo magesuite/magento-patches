@@ -1,0 +1,15 @@
+diff --git a/Model/Connector/ContactData/Customer.php b/Model/Connector/ContactData/Customer.php
+index d92826d..abc6d75 100644
+--- a/Model/Connector/ContactData/Customer.php
++++ b/Model/Connector/ContactData/Customer.php
+@@ -218,7 +218,9 @@ class Customer extends ContactData
+      *
+      * @return string
+      */
+-    protected function getGender()
++    //BEGIN PATCH
++    public function getGender()
++    //END PATCH
+     {
+         $genderId = $this->model->getGender();
+         if (is_numeric($genderId)) {
