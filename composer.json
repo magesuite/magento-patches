@@ -1688,6 +1688,18 @@
                     "description": "Fix error redirect action for virtual products",
                     "filename": "essential/magento/module-quote/fix-error-redirect-action.patch",
                     "version-constraint": ">=101.2.7"
+                },
+                {
+                    "description": "Patch for APSB25-08",
+                    "filename": "essential/magento/module-quote/vuln-28982-composer.patch",
+                    "version-constraint": ">=101.2.7,<101.2.7-p4 || >=101.2.6,<101.2.6-p9 || >=101.2.5,<101.2.5-p11 || >=101.2.4,<101.2.4-p12"
+                }
+            ],
+            "magento/module-webapi-async": [
+                {
+                    "description": "Patch for APSB25-08",
+                    "filename": "essential/magento/module-webapi-async/vuln-28982-composer.patch",
+                    "version-constraint": ">=100.4.5,<100.4.5-p4 || >=100.4.4,<100.4.4-p9 || >=100.4.3,<100.4.3-p11 || >=100.4.2,<100.4.2-p12"
                 }
             ],
             "magento/module-quick-order": [
@@ -1878,6 +1890,11 @@
                     "description": "Fix for iconv issue in customer address validation",
                     "filename": "essential/magento/module-customer/patch-iconv-issue-magento-eb34e347.patch",
                     "version-constraint": ">=103.0.6,<103.0.7"
+                },
+                {
+                    "description": "Patch for APSB25-08",
+                    "filename": "essential/magento/module-customer/vuln-28982-composer.patch",
+                    "version-constraint": ">=103.0.7,<103.0.7-p4 || >=103.0.6,<103.0.6-p9 || >=103.0.5,<103.0.5-p11 || >=103.0.4,<103.0.4-p12"
                 }
             ],
             "magento/module-eav": [
