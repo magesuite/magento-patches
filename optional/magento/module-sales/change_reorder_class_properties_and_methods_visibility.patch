@@ -1,8 +1,16 @@
 diff --git a/Model/Reorder/Reorder.php b/Model/Reorder/Reorder.php
-index 83e7c9a..4133031 100644
+index cbf281a..3283e6a 100644
 --- a/Model/Reorder/Reorder.php
 +++ b/Model/Reorder/Reorder.php
-@@ -33,17 +33,21 @@ class Reorder
+@@ -34,22 +34,27 @@ class Reorder
+     /**
+      * Forbidden reorder item properties
+      */
+-    private const FORBIDDEN_REORDER_PROPERTIES = ['custom_price'];
++    //BEGIN PATCH
++    protected const FORBIDDEN_REORDER_PROPERTIES = ['custom_price'];
++    //END PATCH
+ 
      /**#@+
       * Error message codes
       */
@@ -26,11 +34,15 @@ index 83e7c9a..4133031 100644
 -    private const MESSAGE_CODES = [
 +    //BEGIN PATCH
 +    protected const MESSAGE_CODES = [
-+    //END PATCH
          'The required options you selected are not available' => self::ERROR_NOT_SALABLE,
          'Product that you are trying to add is not available' => self::ERROR_NOT_SALABLE,
          'This product is out of stock' => self::ERROR_NOT_SALABLE,
-@@ -56,47 +60,65 @@ class Reorder
+@@ -58,51 +63,70 @@ class Reorder
+         'The most you may purchase is' => self::ERROR_INSUFFICIENT_STOCK,
+         'The requested qty is not available' => self::ERROR_INSUFFICIENT_STOCK,
+     ];
++    //END PATCH
+ 
      /**
       * @var OrderFactory
       */
@@ -105,7 +117,7 @@ index 83e7c9a..4133031 100644
  
      /**
       * @param OrderFactory $orderFactory
-@@ -180,7 +202,9 @@ class Reorder
+@@ -186,7 +210,9 @@ class Reorder
       * @param string $storeId
       * @return void
       */
@@ -116,7 +128,7 @@ index 83e7c9a..4133031 100644
      {
          $orderItemProductIds = [];
          /** @var \Magento\Sales\Model\Order\Item[] $orderItemsByProductId */
-@@ -227,7 +251,9 @@ class Reorder
+@@ -233,7 +259,9 @@ class Reorder
       * @return Product[]
       * @throws \Magento\Framework\Exception\LocalizedException
       */
@@ -127,7 +139,7 @@ index 83e7c9a..4133031 100644
      {
          /** @var Collection $collection */
          $collection = $this->productCollectionFactory->create();
-@@ -250,7 +276,9 @@ class Reorder
+@@ -257,7 +285,9 @@ class Reorder
       * @param ProductInterface $product
       * @return void
       */
@@ -137,8 +149,19 @@ index 83e7c9a..4133031 100644
 +    //END PATCH
      {
          $infoBuyRequest = $this->orderInfoBuyRequestGetter->getInfoBuyRequest($orderItem);
- 
-@@ -280,7 +308,9 @@ class Reorder
+         $this->sanitizeBuyRequest($infoBuyRequest);
+@@ -287,7 +317,9 @@ class Reorder
+      * @param DataObject $dataObject
+      * @return void
+      */
+-    private function sanitizeBuyRequest(DataObject $dataObject): void
++    //BEGIN PATCH
++    protected function sanitizeBuyRequest(DataObject $dataObject): void
++    //END PATCH
+     {
+         foreach (self::FORBIDDEN_REORDER_PROPERTIES as $forbiddenProp) {
+             if ($dataObject->hasData($forbiddenProp)) {
+@@ -303,7 +335,9 @@ class Reorder
       * @param string|null $code
       * @return void
       */
@@ -149,7 +172,7 @@ index 83e7c9a..4133031 100644
      {
          $this->errors[] = new Data\Error(
              $message,
-@@ -294,7 +324,9 @@ class Reorder
+@@ -317,7 +351,9 @@ class Reorder
       * @param string $message
       * @return string
       */
@@ -160,7 +183,7 @@ index 83e7c9a..4133031 100644
      {
          $code = self::ERROR_UNDEFINED;
  
-@@ -319,7 +351,9 @@ class Reorder
+@@ -342,7 +378,9 @@ class Reorder
       * @param CartInterface $cart
       * @return Data\ReorderOutput
       */
@@ -171,7 +194,7 @@ index 83e7c9a..4133031 100644
      {
          $output = new Data\ReorderOutput($cart, $this->errors);
          $this->errors = [];
-@@ -336,7 +370,9 @@ class Reorder
+@@ -359,7 +397,9 @@ class Reorder
       * @param string|null $message
       * @return string
       */
