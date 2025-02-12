@@ -1,0 +1,14 @@
+diff --git a/etc/webapi.xml b/etc/webapi.xml
+index 79d9896..a7cce5b 100644
+--- a/etc/webapi.xml
++++ b/etc/webapi.xml
+@@ -98,6 +98,9 @@
+         <resources>
+             <resource ref="self" />
+         </resources>
++        <data>
++            <parameter name="customerId" force="true">%customer_id%</parameter>
++        </data>
+     </route>
+     <route url="/V1/guest-carts/:cartId/order" method="PUT">
+         <service class="Magento\Quote\Api\GuestCartManagementInterface" method="placeOrder"/>
