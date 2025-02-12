@@ -2236,7 +2236,7 @@
                 {
                     "description": "Fix promo codes are not getting re-activated when order is canceled",
                     "filename": "essential/magento/module-sales-rule/fix-coupon-can-not-be-used-after-order-cancelation.patch",
-                    "version-constraint": ">=101.2.5,<101.2.7"
+                    "version-constraint": ">=101.2.5,<101.2.5-p11 || >=101.2.6,<101.2.7"
                 }
             ],
             "magento/module-paypal": [
