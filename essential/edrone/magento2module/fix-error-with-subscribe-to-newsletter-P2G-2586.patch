@@ -1,0 +1,15 @@
+diff --git a/Model/Plugin/Subscriber.php b/Model/Plugin/Subscriber.php
+index 6fc761e..aa76b64 100644
+--- a/Model/Plugin/Subscriber.php
++++ b/Model/Plugin/Subscriber.php
+@@ -12,6 +12,10 @@ class Subscriber
+     protected $_customer;
+     protected $_customerSession;
+     protected $_storeManager;
++    // BEGIN PATCH
++    protected $_scopeConfig;
++    protected $edrone;
++    //END PATCH
+ 
+     public function __construct(
+         Config $configHelper,

@@ -3167,6 +3167,13 @@
                     "filename": "essential/magento/theme-adminhtml-backend/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
                     "version-constraint": "100.4.7-p3"
                 }
+            ],
+            "edrone/magento2module": [
+                {
+                    "description": "Fix deprecated functionality for creation of dynamic property which prevents newsletter subsription",
+                    "filename": "essential/edrone/magento2module/fix-error-with-subscribe-to-newsletter-P2G-2586.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
