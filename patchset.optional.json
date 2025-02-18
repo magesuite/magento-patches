@@ -271,7 +271,7 @@
             {
                 "description": "Fix displaying error message about no active cart after placing order",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-checkout/m245-fix-customer-has-no-active-cart.patch",
-                "version-constraint": ">=100.4.5`"
+                "version-constraint": ">=100.4.5"
             },
             {
                 "description": "Fix for cart model, reload quote from a session if the cart has been replaced. (IPET-2176)",
