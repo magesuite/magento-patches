@@ -463,6 +463,11 @@
                 "description": "Fix email notification getWebsiteStoreId method return type",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/fix-email-notification-get-website-store-id-return-type.patch",
                 "version-constraint": "103.0.4"
+            },
+            {
+                "description": "Fix saving custom attributes in customers not created in default website",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/update-custom-attributes-in-customers-not-created-in-default-store.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-graph-ql": [

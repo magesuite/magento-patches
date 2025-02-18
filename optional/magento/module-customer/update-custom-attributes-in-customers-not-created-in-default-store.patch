@@ -1,0 +1,134 @@
+diff --git a/Controller/Adminhtml/Index/Save.php b/Controller/Adminhtml/Index/Save.php
+index 858ff81..7f79267 100644
+--- a/Controller/Adminhtml/Index/Save.php
++++ b/Controller/Adminhtml/Index/Save.php
+@@ -47,6 +47,7 @@ use Magento\Framework\View\Result\PageFactory;
+ use Magento\Newsletter\Model\SubscriberFactory;
+ use Magento\Newsletter\Model\SubscriptionManagerInterface;
+ use Magento\Store\Model\StoreManagerInterface;
++use Magento\Customer\Model\SetCustomerStore;
+ 
+ /**
+  * Save customer action.
+@@ -75,6 +76,11 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index implements HttpP
+      */
+     private $storeManager;
+ 
++    /**
++     * @var SetCustomerStore|null
++     */
++    private $customerStore;
++
+     /**
+      * Constructor
+      *
+@@ -136,7 +142,8 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index implements HttpP
+         JsonFactory $resultJsonFactory,
+         SubscriptionManagerInterface $subscriptionManager,
+         AddressRegistry $addressRegistry = null,
+-        ?StoreManagerInterface $storeManager = null
++        ?StoreManagerInterface $storeManager = null,
++        ?SetCustomerStore $setCustomerStore = null
+     ) {
+         parent::__construct(
+             $context,
+@@ -168,6 +175,7 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index implements HttpP
+         $this->subscriptionManager = $subscriptionManager;
+         $this->addressRegistry = $addressRegistry ?: ObjectManager::getInstance()->get(AddressRegistry::class);
+         $this->storeManager = $storeManager ?? ObjectManager::getInstance()->get(StoreManagerInterface::class);
++        $this->customerStore = $customerStore ?? ObjectManager::getInstance()->get(SetCustomerStore::class);
+     }
+ 
+     /**
+@@ -333,6 +341,10 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index implements HttpP
+ 
+         if ($this->getRequest()->getPostValue()) {
+             try {
++                $this->customerStore->setStore(
++                    $this->getRequest()->getPostValue(CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER)
++                );
++
+                 // optional fields might be set in request for future processing by observers in other modules
+                 $customerData = $this->_extractCustomerData();
+ 
+@@ -368,13 +380,6 @@ class Save extends \Magento\Customer\Controller\Adminhtml\Index implements HttpP
+                     }
+                 }
+ 
+-                $storeId = $customer->getStoreId();
+-                if (empty($storeId)) {
+-                    $website = $this->storeManager->getWebsite($customer->getWebsiteId());
+-                    $storeId = current($website->getStoreIds());
+-                }
+-                $this->storeManager->setCurrentStore($storeId);
+-
+                 // Save customer
+                 if ($customerId) {
+                     $this->_customerRepository->save($customer);
+diff --git a/Controller/Adminhtml/Index/Validate.php b/Controller/Adminhtml/Index/Validate.php
+index 41ca037..b626d00 100644
+--- a/Controller/Adminhtml/Index/Validate.php
++++ b/Controller/Adminhtml/Index/Validate.php
+@@ -20,6 +20,8 @@ use Magento\Framework\DataObjectFactory as ObjectFactory;
+ use Magento\Framework\Message\Error;
+ use Magento\Customer\Controller\Adminhtml\Index as CustomerAction;
+ use Magento\Store\Model\StoreManagerInterface;
++use Magento\Customer\Api\CustomerMetadataInterface;
++use Magento\Customer\Model\SetCustomerStore;
+ 
+ /**
+  * Class for validation of customer
+@@ -33,6 +35,12 @@ class Validate extends CustomerAction implements HttpPostActionInterface, HttpGe
+      */
+     private $storeManager;
+ 
++    /**
++     * @var SetCustomerStore|null
++     */
++    private $customerStore;
++
++
+     /**
+      * @param \Magento\Backend\App\Action\Context $context
+      * @param \Magento\Framework\Registry $coreRegistry
+@@ -88,7 +96,8 @@ class Validate extends CustomerAction implements HttpPostActionInterface, HttpGe
+         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+         \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory,
+         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+-        ?StoreManagerInterface $storeManager = null
++        ?StoreManagerInterface $storeManager = null,
++        ?SetCustomerStore $customerStore = null
+     ) {
+         parent::__construct(
+             $context,
+@@ -119,6 +128,7 @@ class Validate extends CustomerAction implements HttpPostActionInterface, HttpGe
+         );
+ 
+         $this->storeManager = $storeManager ?? ObjectManager::getInstance()->get(StoreManagerInterface::class);
++        $this->customerStore = $customerStore ?? ObjectManager::getInstance()->get(SetCustomerStore::class);
+     }
+ 
+     /**
+@@ -145,6 +155,10 @@ class Validate extends CustomerAction implements HttpPostActionInterface, HttpGe
+             );
+             $customerForm->setInvisibleIgnored(true);
+ 
++            $this->customerStore->setStore(
++                $this->getRequest()->getParam(CustomerMetadataInterface::ENTITY_TYPE_CUSTOMER)
++            );
++
+             $data = $customerForm->extractData($this->getRequest(), 'customer');
+ 
+             if ($customer->getWebsiteId()) {
+@@ -161,11 +175,6 @@ class Validate extends CustomerAction implements HttpPostActionInterface, HttpGe
+                 $entity_id = $submittedData['entity_id'];
+                 $customer->setId($entity_id);
+             }
+-            if (isset($data['website_id']) && is_numeric($data['website_id'])) {
+-                $website = $this->storeManager->getWebsite($data['website_id']);
+-                $storeId = current($website->getStoreIds());
+-                $this->storeManager->setCurrentStore($storeId);
+-            }
+             $errors = $this->customerAccountManagement->validate($customer)->getMessages();
+         } catch (\Magento\Framework\Validator\Exception $exception) {
+             /* @var $error Error */
