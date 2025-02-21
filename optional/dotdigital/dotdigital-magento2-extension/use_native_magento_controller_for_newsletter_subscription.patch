@@ -1,0 +1,118 @@
+diff --git a/Controller/Customer/Newsletter.php b/Controller/Customer/Newsletter.php
+index 1ebf288..b402737 100644
+--- a/Controller/Customer/Newsletter.php
++++ b/Controller/Customer/Newsletter.php
+@@ -25,7 +25,10 @@ use Magento\Newsletter\Model\SubscriberFactory;
+ use Magento\Store\Model\StoreManagerInterface;
+ use Dotdigitalgroup\Email\Model\Contact\ContactResponseHandler;
+ 
+-class Newsletter implements HttpPostActionInterface
++//BEGIN PATCH
++class Newsletter extends \Magento\Newsletter\Controller\Manage\Save implements HttpPostActionInterface
++//class Newsletter implements HttpPostActionInterface
++//END PATCH
+ {
+     /**
+      * @var Data
+@@ -62,30 +65,34 @@ class Newsletter implements HttpPostActionInterface
+      */
+     protected $resultRedirectFactory;
+ 
+-    /**
+-     * @var Validator
+-     */
+-    private $formKeyValidator;
+-
+-    /**
+-     * @var ManagerInterface
+-     */
+-    private $messageManager;
+-
+-    /**
+-     * @var CustomerRepository
+-     */
+-    private $customerRepository;
++    //BEGIN PATCH
++//    /**
++//     * @var Validator
++//     */
++//     private $formKeyValidator;
++//
++//    /**
++//     * @var ManagerInterface
++//     */
++//     private $messageManager;
++//
++//    /**
++//     * @var CustomerRepository
++//     */
++//     private $customerRepository;
++     //END PATCH
+ 
+     /**
+      * @var SubscriberFactory
+      */
+     private $subscriberFactory;
+ 
+-    /**
+-     * @var StoreManagerInterface
+-     */
+-    private $storeManager;
++    //BEGIN PATCH
++//    /**
++//     * @var StoreManagerInterface
++//     */
++//     private $storeManager;
++    //END PATCH
+ 
+     /**
+      * @var Date
+@@ -127,7 +134,10 @@ class Newsletter implements HttpPostActionInterface
+         SubscriberFactory $subscriberFactory,
+         StoreManagerInterface $storeManager,
+         Date $dateField,
+-        ContactResponseHandler $contactResponseHandler
++        ContactResponseHandler $contactResponseHandler,
++        //BEGIN PATCH
++        \Magento\Newsletter\Model\SubscriptionManagerInterface $subscriptionManager
++        //END PATCH
+     ) {
+         $this->helper = $helper;
+         $this->contactCollectionFactory = $contactCollectionFactory;
+@@ -143,6 +153,9 @@ class Newsletter implements HttpPostActionInterface
+         $this->storeManager = $storeManager;
+         $this->dateField = $dateField;
+         $this->contactResponseHandler = $contactResponseHandler;
++        //BEGIN PATCH
++        parent::__construct($context, $session, $formKeyValidator, $storeManager, $customerRepository, $subscriptionManager);
++        //END PATCH
+     }
+ 
+     /**
+@@ -159,7 +172,10 @@ class Newsletter implements HttpPostActionInterface
+                 ->setPath('customer/account/');
+         }
+ 
+-        $this->processGeneralSubscription();
++        //BEGIN PATCH
++        parent::execute();
++        // $this->processGeneralSubscription();
++        //END PATCH
+ 
+         /** @var \Magento\Store\Model\Store $store */
+         $store = $this->storeManager->getStore();
+@@ -435,10 +451,10 @@ class Newsletter implements HttpPostActionInterface
+                         "id" => $idsArray[0],
+                         "isPreference" => false,
+                         "preferences" => [$idsArray[1] => [
+-                                "id" => $idsArray[1],
+-                                "isPreference" => true,
+-                                "isOptedIn" => true
+-                            ]
++                            "id" => $idsArray[1],
++                            "isPreference" => true,
++                            "isOptedIn" => true
++                        ]
+                         ]
+                     ];
+                 }
