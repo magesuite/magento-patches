@@ -565,6 +565,13 @@
                 "version-constraint": "*"
             }
         ],
+        "magento/module-reports": [
+          {
+            "description": "Fix for export of the ordered products report",
+            "filename": "vendor/creativestyle/magento-patches/optional/magento/module-reports/fix-ordered-products-report-export.patch",
+            "version-constraint": "100.4.7-p3||100.4.7-p4"
+          }
+        ],
         "makewebbetter/hubspot-magento-2-integration": [
             {
                 "description": "Use Laminas class instead of Zend",
@@ -1834,6 +1841,11 @@
               "description": "Change visibility of customer model methods",
               "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/change_visibility_of_customer_model_methods.patch",
               "version-constraint": ">=4.28.0"
+            },
+            {
+              "description": "Use native Magento controller during newsletter subscription",
+              "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/use_native_magento_controller_for_newsletter_subscription.patch",
+              "version-constraint": ">=4.23.0,<=4.28.0"
             }
         ],
         "magento/module-persistent": [
