@@ -2381,7 +2381,7 @@
                 {
                     "description": "Fix dotmailer problem with the cron ddg_automation_platform_modified_contacts",
                     "filename": "essential/dotdigital/dotdigital-magento2-extension/fix-error-with-cron-ddg_automation_platform_modified_contacts-DOG-1966.patch",
-                    "version-constraint": ">=4.28.0"
+                    "version-constraint": "4.28.0"
                 }
             ],
             "dotmailer/dotmailer-magento2-extension-sms": [
