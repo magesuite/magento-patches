@@ -1,0 +1,13 @@
+diff --git a/src/module-elasticsuite-core/Model/Healthcheck/PackageVersionsMismatchCheck.php b/src/module-elasticsuite-core/Model/Healthcheck/PackageVersionsMismatchCheck.php
+index 8d27e40..7eaa16e 100644
+--- a/src/module-elasticsuite-core/Model/Healthcheck/PackageVersionsMismatchCheck.php
++++ b/src/module-elasticsuite-core/Model/Healthcheck/PackageVersionsMismatchCheck.php
+@@ -149,7 +149,7 @@ class PackageVersionsMismatchCheck extends AbstractCheck
+                 $corePackageVersion = $this->productMetadata->getVersion();
+                 $systemPackages = $this->composerInformationProvider->getComposerInformation()->getSystemPackages();
+                 foreach ($this->packagesToCheck as $packageName) {
+-                    $packageVersion = $systemPackages[$packageName] ?? 'N/A';
++                    $packageVersion = $systemPackages[$packageName]['version'] ?? 'N/A';
+                     if ($packageVersion !== $corePackageVersion) {
+                         $this->packagesErrors[$packageName] = $packageVersion;
+                     }
