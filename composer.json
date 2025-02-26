@@ -960,6 +960,11 @@
                     "description": "Fix: [RK-1687] Fix trim() call on null value",
                     "filename": "essential/smile/elasticsuite/fix-RK-1687-trim-on-null-fix.patch",
                     "version-constraint": "2.11.9"
+                },
+                {
+                    "description": "Hotfix: Checking version of modules in ES HealthCheck",
+                    "filename": "essential/smile/elasticsuite/smile_elasticsuite_v2_11_11_checking_version.patch",
+                    "version-constraint": "2.11.11"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
