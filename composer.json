@@ -3029,6 +3029,11 @@
                     "description": "Add missing dependency to juery-ui-module/widget in JS component",
                     "filename": "essential/mailchimp/mc-magento2/mailchimp-add-jquery-ui-widget-frontend-dependency.patch",
                     "version-constraint": ">=103.4.56"
+                },
+                {
+                    "description": "Remove empty comment for db table mailchimp_notification.",
+                    "filename": "essential/mailchimp/mc-magento2/remove_empty_comment_for_db_table.patch",
+                    "version-constraint": ">=103.4.66"
                 }
             ],
             "unifiedarts/module-tsc-augment": [
