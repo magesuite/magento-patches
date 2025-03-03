@@ -3191,6 +3191,13 @@
                     "filename": "essential/comwrap/module-elasticsuite-blog-search/fix-issue-with-mapping.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "meta/module-catalog": [
+                {
+                    "description": "Add index for facebook_catalog_update table",
+                    "filename": "essential/meta/module-catalog/add_index_for_facebook_catalog_update_table.patch",
+                    "version-constraint": ">=1.4.1"
+                }
             ]
         }
     }

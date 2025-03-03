@@ -1,0 +1,15 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 806d920..0988d41 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -11,5 +11,10 @@
+         <constraint xsi:type="primary" referenceId="PRIMARY">
+             <column name="row_id"/>
+         </constraint>
++        <index referenceId="FACEBOOK_CATALOG_UPDATE_PRODUCT_ID_METHOD_BATCH_ID" indexType="btree">
++            <column name="product_id"/>
++            <column name="method"/>
++            <column name="batch_id"/>
++        </index>
+     </table>
+ </schema>
