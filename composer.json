@@ -3184,6 +3184,13 @@
                     "filename": "essential/edrone/magento2module/fix-error-with-subscribe-to-newsletter-P2G-2586.patch",
                     "version-constraint": "*"
                 }
+            ],
+            "comwrap/module-elasticsuite-blog-search": [
+                {
+                    "description": "Fix issue with mapping for is_active field",
+                    "filename": "essential/comwrap/module-elasticsuite-blog-search/fix-issue-with-mapping.patch",
+                    "version-constraint": "*"
+                }
             ]
         }
     }
