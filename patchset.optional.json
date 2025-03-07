@@ -2102,6 +2102,13 @@
              "version-constraint": "*"
            }
        ],
+      "magento/module-inventory-in-store-pickup-sales": [
+           {
+                "description": "Fix locale in order comment for in-store pickup",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-in-store-pickup-sales/fix-locale-in-order-comment.patch",
+                "version-constraint": ">=1.1.3"
+           }
+      ],
       "magento/module-contact": [
         {
           "description": "Remove depends from system config (kratki only)",
