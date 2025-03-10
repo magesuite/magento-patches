@@ -16,6 +16,11 @@
         ],
         "akeneo/module-magento2-connector-community": [
             {
+                "description": "Optimize database disk usage during option update in product import (LOWA-613)",
+                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/module-magento2-connector-community/optimize-database-disk-usage-during-option-update.patch",
+                "version-constraint": "*"
+            },
+            {
                 "description": "Use code as label for attribute and option when label is missing (ZJ-159)",
                 "filename": "vendor/creativestyle/magento-patches/optional/akeneo/module-magento2-connector-community/when-label-is-missing-use-code-as-label.patch",
                 "version-constraint": "*"
