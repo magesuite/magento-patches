@@ -16,6 +16,11 @@
         ],
         "akeneo/module-magento2-connector-community": [
             {
+                "description": "Optimize database disk usage during option update in product import (LOWA-613)",
+                "filename": "vendor/creativestyle/magento-patches/optional/akeneo/module-magento2-connector-community/optimize-database-disk-usage-during-option-update.patch",
+                "version-constraint": "*"
+            },
+            {
                 "description": "Use code as label for attribute and option when label is missing (ZJ-159)",
                 "filename": "vendor/creativestyle/magento-patches/optional/akeneo/module-magento2-connector-community/when-label-is-missing-use-code-as-label.patch",
                 "version-constraint": "*"
@@ -643,7 +648,7 @@
             {
                 "description": "Optimize Admin Session Deletion Process in ActiveSessionManager (P2G-2415)",
                 "filename": "vendor/creativestyle/magento-patches/optional/amasty/adminactionslog/fix-performance-issue-use-collection-instead-of-getting-session-object-by-repository-v2.3.0.patch",
-                "version-constraint": ">=2.3.0"
+                "version-constraint": ">=2.3.0,<2.6.0"
             }
         ],
         "amasty/module-xcoupon": [
@@ -2107,6 +2112,13 @@
              "version-constraint": "*"
            }
        ],
+      "magento/module-inventory-in-store-pickup-sales": [
+           {
+                "description": "Fix locale in order comment for in-store pickup",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-in-store-pickup-sales/fix-locale-in-order-comment.patch",
+                "version-constraint": ">=1.1.3"
+           }
+      ],
       "magento/module-contact": [
         {
           "description": "Remove depends from system config (kratki only)",

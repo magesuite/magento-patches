@@ -1,0 +1,26 @@
+diff --git a/Model/Order/AddStorePickupAttributesToOrder.php b/Model/Order/AddStorePickupAttributesToOrder.php
+index cc2b29a..9f8947c 100644
+--- a/Model/Order/AddStorePickupAttributesToOrder.php
++++ b/Model/Order/AddStorePickupAttributesToOrder.php
+@@ -42,7 +42,8 @@ class AddStorePickupAttributesToOrder
+     public function __construct(
+         IsStorePickupOrderInterface $isStorePickupOrder,
+         OrderRepositoryInterface $orderRepository,
+-        TimezoneInterface $timezone
++        TimezoneInterface $timezone,
++        protected \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig // PATCH START
+     ) {
+         $this->orderRepository = $orderRepository;
+         $this->timezone = $timezone;
+@@ -69,7 +70,10 @@ class AddStorePickupAttributesToOrder
+         }
+ 
+         // Add order history item with In-Store Pickup information.
+-        $time = $this->timezone->formatDateTime(new \DateTime(), \IntlDateFormatter::LONG, \IntlDateFormatter::MEDIUM);
++        // PATCH START
++        $locale = $this->scopeConfig->getValue(\Magento\Directory\Helper\Data::XML_PATH_DEFAULT_LOCALE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $order->getStoreId());
++        // PATCH END
++        $time = $this->timezone->formatDateTime(new \DateTime(), \IntlDateFormatter::LONG, \IntlDateFormatter::MEDIUM, $locale);
+         $history = $order->addCommentToStatusHistory(
+             __('Order notified for pickup at: %1', $time),
+             $order->getStatus(),

@@ -1,0 +1,18 @@
+Allows to add a custom link that scrolls to some anchor. The link should have the data-role="login-href" attribute.
+
+diff --git a/view/frontend/web/js/pslogin.js b/view/frontend/web/js/pslogin.js
+index fd8a131..5b0d116 100644
+--- a/view/frontend/web/js/pslogin.js
++++ b/view/frontend/web/js/pslogin.js
+@@ -34,6 +34,11 @@ require([
+             if ($this.data('useCustomClickHandler')) {
+                 return true;
+             }
++            // BEGIN PATCH
++            if (this.getAttribute('data-role') === 'login-href') {
++                return true;
++            }
++            // END PATCH
+             psLogin($this.data('href'), $this.data('width'), $this.data('height'), $this.data('openOnPage'));
+             return false;
+         });

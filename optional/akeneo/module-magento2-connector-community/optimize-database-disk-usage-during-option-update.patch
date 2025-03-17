@@ -1,0 +1,64 @@
+diff --git a/Job/Product.php b/Job/Product.php
+index c653511..0d515dc 100644
+--- a/Job/Product.php
++++ b/Job/Product.php
+@@ -1820,6 +1820,10 @@ class Product extends JobImport
+         }
+         $except = array_merge($except, $this->excludedColumns);
+
++        //BEGIN PATCH
++        $valuesToInsert = [];
++        //END PATCH
++
+         /** @var string $column */
+         foreach ($columns as $column) {
+             if (in_array($column, $except) || preg_match('/-unit/', $column)) {
+@@ -1861,23 +1865,39 @@ class Product extends JobImport
+             /** @var Select $select */
+             $select = $connection->select()->from(
+                 ['p' => $tmpTable],
+-                ['identifier' => 'p.identifier', 'entity_id' => 'p._entity_id']
++                //BEGIN PATCH
++                ['identifier' => 'p.identifier', '_entity_id' => 'p._entity_id']
++                //END PATCH
+             )->joinInner(
+                 ['c1' => new Expr('(' . (string)$subSelect . ')')],
+                 new Expr($conditionJoin),
+                 [$column => new Expr('GROUP_CONCAT(`c1`.`entity_id` SEPARATOR ",")')]
+             )->group('p.identifier');
+
+-            /** @var string $query */
+-            $query = $connection->insertFromSelect(
+-                $select,
+-                $tmpTable,
+-                ['identifier', '_entity_id', $column],
+-                AdapterInterface::INSERT_ON_DUPLICATE
+-            );
++            //BEGIN PATCH
++            $result = $connection->fetchAll($select);
++            foreach ($result as $row) {
++                $valuesToInsert[$row['_entity_id']]['identifier'] = $row['identifier'];
++                $valuesToInsert[$row['_entity_id']]['_entity_id'] = $row['_entity_id'];
++                $valuesToInsert[$row['_entity_id']][$column] = $row[$column];
++            }
++//            /** @var string $query */
++//            $query = $connection->insertFromSelect(
++//                $select,
++//                $tmpTable,
++//                ['identifier', '_entity_id', $column],
++//                AdapterInterface::INSERT_ON_DUPLICATE
++//            );
+
+-            $connection->query($query);
++//            $connection->query($query);
++            //END PATCH
++        }
++
++        //BEGIN PATCH
++        foreach ($valuesToInsert as $values) {
++            $connection->insertOnDuplicate($tmpTable, $values, array_keys($values));
+         }
++        //END PATCH
+     }
+
+     /**
