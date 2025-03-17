@@ -1231,6 +1231,11 @@
                 "description": "Always assign products to category in default scope (IPET-2359)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/always-assign-product-to-default-scope-category.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Allow to select deeper categories in category selector (KRG-2984)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/allow-to-select-deeper-categories-in-category-selector.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-catalog-url-rewrite": [
