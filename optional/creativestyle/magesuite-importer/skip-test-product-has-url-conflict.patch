@@ -1,10 +1,8 @@
-Patch created in order to allow customization for RK-1737.
-
 diff --git a/Test/Integration/Model/Import/ProductTest.php b/Test/Integration/Model/Import/ProductTest.php
-index eb6c5d3..1ef2a69 100644
+index 610136d..da171a1 100644
 --- a/Test/Integration/Model/Import/ProductTest.php
 +++ b/Test/Integration/Model/Import/ProductTest.php
-@@ -394,6 +394,8 @@ class ProductTest extends \PHPUnit\Framework\TestCase
+@@ -423,6 +423,8 @@ class ProductTest extends \PHPUnit\Framework\TestCase
       */
      public function testProductHasUrlConflictException()
      {
@@ -12,3 +10,4 @@ index eb6c5d3..1ef2a69 100644
 +
          $productSku = 'simple';
          $productData = $this->getProductImportArray($productSku, []);
+
