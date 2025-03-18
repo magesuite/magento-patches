@@ -1146,7 +1146,7 @@
                 {
                     "description": "Fix disabled categories not grayed out (2.4.7-p3)",
                     "filename": "essential/magento/module-catalog/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
-                    "version-constraint": "104.0.7-p2"
+                    "version-constraint": ">=104.0.7-p2"
                 }
             ],
             "magento/module-catalog-search": [
@@ -3170,7 +3170,7 @@
                 {
                     "description": "Fix disabled categories not grayed out (2.4.7-p3)",
                     "filename": "essential/magento/theme-adminhtml-backend/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
-                    "version-constraint": "100.4.7-p3"
+                    "version-constraint": ">=100.4.7-p3"
                 }
             ],
             "edrone/magento2module": [
