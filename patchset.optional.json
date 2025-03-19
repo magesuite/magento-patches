@@ -978,6 +978,11 @@
                 "description": "fix: [HAAR-4361] Restore error messages visibility in wallee payment methods",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-payments-error-messages-visibility.patch",
                 "version-constraint": ">=2.1.12"
+            },
+            {
+                "description": "Skip calculating collect totlas in the checkout process",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/skip-collect-totals-in-checkout.patch",
+                "version-constraint": ">=2.1.22"
             }
         ],
         "aheadworks/module-advanced-reports": [

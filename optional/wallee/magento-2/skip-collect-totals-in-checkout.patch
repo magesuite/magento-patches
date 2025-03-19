@@ -1,0 +1,22 @@
+diff --git a/Model/Checkout/ConfigProvider.php b/Model/Checkout/ConfigProvider.php
+index ded32cb..0dbb557 100644
+--- a/Model/Checkout/ConfigProvider.php
++++ b/Model/Checkout/ConfigProvider.php
+@@ -107,7 +107,9 @@ class ConfigProvider implements ConfigProviderInterface
+         /* @var \Magento\Quote\Model\Quote $quote */
+         $quote = $this->checkoutSession->getQuote();
+         // Make sure that the quote's totals are collected before generating javascript and payment page URLs.
+-        $quote->collectTotals();
++        // PATCH START
++        //$quote->collectTotals();
++        // PATCH END
+         $integrationMethod = $this->scopeConfig->getValue('wallee_payment/checkout/integration_method',
+             ScopeInterface::SCOPE_STORE, $quote->getStoreId());
+         $config['wallee']['integrationMethod'] = $integrationMethod;
+@@ -178,4 +180,4 @@ class ConfigProvider implements ConfigProviderInterface
+             return null;
+         }
+     }
+-}
+\ No newline at end of file
++}
