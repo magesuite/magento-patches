@@ -1,0 +1,20 @@
+P2G-2609 - Workaround for bundle products to show stock status correctly
+
+diff --git a/Helper/AttributesInventory.php b/Helper/AttributesInventory.php
+index 9177182..fc9497b 100644
+--- a/Helper/AttributesInventory.php
++++ b/Helper/AttributesInventory.php
+@@ -86,6 +86,10 @@ class AttributesInventory extends \Magento\Framework\App\Helper\AbstractHelper
+                         } else {
+                             $qty = $item->getQty();
+                         }
++                    // PATCH BEGIN
++                    } elseif ($item->getTypeId() == 'bundle') {
++                        $qty = $item->getIsInStock(); // 1 if in stock, 0 if out of stock
++                    // PATCH END
+                     } else {
+                         $qty = $item->getQty();
+                     }
+--
+2.39.5 (Apple Git-154)
+

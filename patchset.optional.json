@@ -1666,6 +1666,11 @@
               "description": "Fix the issue when a simple product is treated as bundle if it is in relation",
               "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/fix-error-simple-product-treated-as-bundle.patch",
               "version-constraint": ">=11.24.6"
+            },
+            {
+              "description": "Workaround for bundle products to show stock status correctly (P2G-2609)",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/get-bundle-product-stock-status.patch",
+              "version-constraint": ">=14.0.11"
             }
         ],
         "magento/module-media-storage": [
