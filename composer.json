@@ -629,6 +629,11 @@
                     "description": "Avoid multiple requests in checkout",
                     "filename": "essential/amasty/payrestriction/avoid-multiple-ajax-requests.patch",
                     "version-constraint": "2.4.0"
+                },
+                {
+                    "description": "Fix issue with hidden payment methods error messages in checkout",
+                    "filename": "essential/amasty/payrestriction/fix-hidden-payment-error-messages.patch",
+                    "version-constraint": "^2.4"
                 }
             ],
             "amasty/stockstatus": [
