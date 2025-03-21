@@ -770,6 +770,11 @@
                     "description": "Prevents opening minicart when clicking on 'close fullscreen' icon in fotorama fullscreen modal.",
                     "filename": "essential/magento/magento2-base/prevent-openeing-minicart-after-fotorama-fullscreen-close.patch",
                     "version-constraint": ">=2.4.6"
+                },
+                {
+                    "description": "Add reflection for intercepted test config",
+                    "filename": "essential/magento/magento2-base/add-reflection-for-intercepted-test-config.patch",
+                    "version-constraint": ">=2.4.7"
                 }
             ],
             "magento/module-search": [
