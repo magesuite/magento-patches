@@ -3040,7 +3040,7 @@
                 {
                     "description": "fix: [TOYS-1160]. Compatibility with Magento 2.4.6. Replaced Zend with Laminas.",
                     "filename": "essential/unifiedarts/module-tsc-augment/replaced_zend_with_laminas.patch",
-                    "version-constraint": ">=101.0.8"
+                    "version-constraint": ">=101.0.8,<101.1.5"
                 }
             ],
             "unifiedarts/module-tsc": [
