@@ -774,7 +774,7 @@
                 {
                     "description": "Add reflection for intercepted test config",
                     "filename": "essential/magento/magento2-base/add-reflection-for-intercepted-test-config.patch",
-                    "version-constraint": ">=2.4.7"
+                    "version-constraint": ">=2.4.6"
                 }
             ],
             "magento/module-search": [
