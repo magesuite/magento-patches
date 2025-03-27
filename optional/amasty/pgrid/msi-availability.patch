@@ -3,31 +3,36 @@ Fix provided by Amasty with creativestyle adjustments
 Issue appeared in ticket: IPET-1069
 
 diff --git a/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php b/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
-index 1d6707d..0f521af 100644
+index 5364735..d7bd803 100644
 --- a/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
 +++ b/Plugin/Catalog/Ui/DataProvider/Product/ProductDataProvider.php
-@@ -193,11 +193,11 @@ class ProductDataProvider
-         if (in_array('amasty_availability', $visibleColumns)
+@@ -183,11 +183,16 @@ class ProductDataProvider
+         if (in_array(InlineEdit::AMASTY_AVAILABILITY, $visibleColumns)
              && !$subject->getCollection()->getFlag('amasty_instock_filter')
          ) {
 -            $this->addInventoryColumn(
 -                $subject->getCollection(),
--                'amasty_availability',
+-                InlineEdit::AMASTY_AVAILABILITY,
 -                $this->availabilityColumn->getAvailableExpression()
 +            // BEGIN PATCH
 +            $this->addAvailabilityColumn(
 +                $subject->getCollection()
              );
++            // $this->addInventoryColumn(
++            //     $subject->getCollection(),
++            //     InlineEdit::AMASTY_AVAILABILITY,
++            //     $this->availabilityColumn->getAvailableExpression()
++            // );
 +            // END PATCH
          }
- 
+
          if (in_array('amasty_backorders', $visibleColumns)) {
-@@ -213,6 +213,20 @@ class ProductDataProvider
+@@ -203,6 +208,20 @@ class ProductDataProvider
          }
      }
- 
+
 +    // BEGIN PATCH
-+    private function addAvailabilityColumn(Collection $collection): void
++    protected function addAvailabilityColumn(Collection $collection): void
 +    {
 +        $collection->joinField(
 +            'amasty_availability',
@@ -44,13 +49,13 @@ index 1d6707d..0f521af 100644
      {
          $collection->joinField(
 diff --git a/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php b/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
-index 5a0409e..e49d73b 100644
+index e992259..7f2cebf 100644
 --- a/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
 +++ b/Ui/DataProvider/Product/AddAvailabilityFilterToCollection.php
-@@ -32,16 +32,16 @@ class AddAvailabilityFilterToCollection implements AddFilterToCollectionInterfac
+@@ -37,16 +37,27 @@ class AddAvailabilityFilterToCollection implements AddFilterToCollectionInterfac
              return;
          }
- 
+
 +        // BEGIN PATCH
          $collection->joinField(
              'amasty_availability',
@@ -60,14 +65,26 @@ index 5a0409e..e49d73b 100644
 -            '{{table}}.stock_id=1',
 -            'left'
 -        );
+-
+-        $collection->getSelect()->where($this->availabilityColumn->getAvailableExpression() . '= ?', $condition['eq']);
 +            'inventory_source_item',
 +            'status',
 +            'sku=sku',
 +            '{{table}}.status=' . $condition['eq']
 +        )->distinct(true);
++
++        // $collection->joinField(
++        //     'amasty_availability',
++        //     'cataloginventory_stock_item',
++        //     $this->availabilityColumn->getAvailableExpression(),
++        //     'product_id=entity_id',
++        //     '{{table}}.stock_id=1',
++        //     'left'
++        // );
++
++        // $collection->getSelect()->where($this->availabilityColumn->getAvailableExpression() . '= ?', $condition['eq']);
 +        // END PATCH
- 
--        $collection->getSelect()->where($this->availabilityColumn->getAvailableExpression() . '= ?', $condition['eq']);
++
          $collection->setFlag('amasty_instock_filter', 1);
      }
  }

@@ -736,22 +736,22 @@
         "amasty/pgrid": [
             {
                 "description": "Disable set url_path on inline url_key editor to fix an error with duplicated URL during product save",
-                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-disable-set-url_path-for-product.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/disable-set-url_path-for-product.patch",
                 "version-constraint": "^1.9.2"
             },
             {
                 "description": "Fix an error with duplicated insert to amasty_pgrid_qty_sold after product save",
-                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-fix-error-with-duplicated-insert.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/fix-error-with-duplicated-insert.patch",
                 "version-constraint": "^1.9.2"
             },
             {
                 "description": "Fix for Amasty filter 'Availability' on product grid (IPET-1069]",
-                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-msi-availability.patch",
-                "version-constraint": "^1.9.2"
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/msi-availability.patch",
+                "version-constraint": "^1.13.1"
             },
             {
                 "description": "Add $customFieldResolvers to provide ability to add custom resolver for certain fields. (IPET-2512)",
-                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/amasty-pgrid-add-custom-field-resolvers.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/amasty/pgrid/add-custom-field-resolvers.patch",
                 "version-constraint": "^1.9.2"
             }
         ],
