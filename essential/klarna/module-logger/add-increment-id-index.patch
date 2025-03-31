@@ -1,0 +1,26 @@
+--- a/etc/db_schema.xml	2025-01-22 17:48:46
++++ b/etc/db_schema.xml	2025-03-31 08:52:11
+@@ -35,5 +35,10 @@
+             <column name="increment_id"/>
+             <column name="url"/>
+         </index>
++        <!-- PATCH START -->
++        <index referenceId="KLARNA_LOGS_INCREMENT_ID" indexType="btree">
++            <column name="increment_id"/>
++        </index>
++        <!-- PATCH END -->
+     </table>
+ </schema>
+
+--- a/etc/db_schema_whitelist.json	2025-01-22 17:48:46
++++ b/etc/db_schema_whitelist.json	2025-03-31 08:52:58
+@@ -16,7 +16,8 @@
+         },
+         "index": {
+             "KLARNA_LOGS_KLARNA_ID": true,
+-            "KLARNA_LOGS_ACTION_KLARNA_ID_INCREMENT_ID_URL": true
++            "KLARNA_LOGS_ACTION_KLARNA_ID_INCREMENT_ID_URL": true,
++            "KLARNA_LOGS_INCREMENT_ID": true
+         },
+         "constraint": {
+             "PRIMARY": true

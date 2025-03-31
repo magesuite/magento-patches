@@ -2724,6 +2724,11 @@
                     "description": "Remove error from xml file",
                     "filename": "essential/klarna/module-logger/remove-error-from-xml-file.patch",
                     "version-constraint": ">=2.0.7,<2.0.8"
+                },
+                {
+                    "description": "Add increment_id index to klarna_logs table",
+                    "filename": "essential/klarna/module-logger/add-increment-id-index.patch",
+                    "version-constraint": ">=3.0.0"
                 }
             ],
             "klarna/module-orderlines": [
