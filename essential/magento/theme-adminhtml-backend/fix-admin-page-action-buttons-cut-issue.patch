@@ -1,0 +1,33 @@
+Fixes the issue in the admin page where the dropdown options in action buttons are clipped inside the parent container
+(which doesn't allow them to overlap), making it difficult to view and select options.
+
+This issue is expected to be resolved in the Magento v2.4.8 release,
+as the same solution is already included in v2.4.8-beta2
+
+Commit: https://github.com/magento/magento2/commit/2ac7f56562f2890e2e39cfe4636ff0c46a9c8a59
+
+diff --git a/Magento_Backend/web/css/source/module/main/_actions-bar.less b/Magento_Backend/web/css/source/module/main/_actions-bar.less
+index 129dc93..0229e09 100644
+--- a/Magento_Backend/web/css/source/module/main/_actions-bar.less
++++ b/Magento_Backend/web/css/source/module/main/_actions-bar.less
+@@ -24,12 +24,14 @@
+     padding: @page-main-actions__padding;
+ }
+ 
+-.actions-scrollable {
+-    .page-actions {
+-        display: flex;
+-        overflow-x: auto;
+-    }
+-}
++// BEGIN PATCH
++//.actions-scrollable {
++//    .page-actions {
++//        display: flex;
++//        overflow-x: auto;
++//    }
++//}
++// END PATCH
+ 
+ .page-main-actions {
+     display: flex;
