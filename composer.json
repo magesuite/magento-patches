@@ -2197,6 +2197,11 @@
                     "description": "Fix visibility of billing address form",
                     "filename": "essential/amzn/amazon-pay-magento-2-module/amazon-pay-fix-billing-form-visibility.patch",
                     "version-constraint": ">=5.9.1,<5.11.2"
+                },
+                {
+                    "description": "Fix add nullsafe operator to avoid error for orders with no payment",
+                    "filename": "essential/amzn/amazon-pay-magento-2-module/hotfix_add_nullsafe_operator.patch",
+                    "version-constraint": ">=5.18.1"
                 }
             ],
             "msp/adminrestriction": [

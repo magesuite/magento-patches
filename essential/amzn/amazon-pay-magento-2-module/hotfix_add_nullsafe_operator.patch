@@ -1,0 +1,16 @@
+diff --git a/Plugin/SendEmail.php b/Plugin/SendEmail.php
+index faf36a6..919ecd0 100644
+--- a/Plugin/SendEmail.php
++++ b/Plugin/SendEmail.php
+@@ -56,7 +56,10 @@ class SendEmail
+      */
+     public function afterSetState(Order $subject, Order $result, string $state)
+     {
+-        if ($subject->getPayment()->getMethod() == Config::CODE) {
++        // PATCH BEGIN
++        //if ($subject->getPayment()->getMethod() == Config::CODE) {
++        if ($subject->getPayment()?->getMethod() == Config::CODE) {
++        // PATCH END
+             if ($this->scopeConfig->getValue('sales_email/order/enabled')) {
+                 $subject->setCanSendNewEmailFlag(false);
+
