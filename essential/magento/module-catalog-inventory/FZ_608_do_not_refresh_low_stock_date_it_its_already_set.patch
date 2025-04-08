@@ -1,0 +1,33 @@
+diff --git a/Model/Stock/StockItemRepository.php b/Model/Stock/StockItemRepository.php
+index 09537cd..106c5bf 100644
+--- a/Model/Stock/StockItemRepository.php
++++ b/Model/Stock/StockItemRepository.php
+@@ -176,12 +176,24 @@ class StockItemRepository implements StockItemRepositoryInterface
+             $isQty = $this->stockConfiguration->isQty($typeId);
+             if ($isQty) {
+                 $this->updateStockStatus($stockItem);
+-                // if qty is below notify qty, update the low stock date to today date otherwise set null
+-                $stockItem->setLowStockDate(null);
++                // PATCH BEGIN [FZ-608]
++                //// if qty is below notify qty, update the low stock date to today date otherwise set null
++                //$stockItem->setLowStockDate(null);
++                //if ($this->stockStateProvider->verifyNotification($stockItem)) {
++                //    $stockItem->setLowStockDate($this->dateTime->gmtDate());
++                //}
++                //
++                //if ($stockItem->hasStockStatusChangedAutomaticallyFlag()) {
++                //    $stockItem->setStockStatusChangedAuto((int)$stockItem->getStockStatusChangedAutomaticallyFlag());
++                //}
+                 if ($this->stockStateProvider->verifyNotification($stockItem)) {
+-                    $stockItem->setLowStockDate($this->dateTime->gmtDate());
++                    if (!$stockItem->getLowStockDate()) {
++                        $stockItem->setLowStockDate($this->dateTime->gmtDate());
++                    }
++                } else {
++                    $stockItem->setLowStockDate(null);
+                 }
+-
++                // PATCH END
+                 if ($stockItem->hasStockStatusChangedAutomaticallyFlag()) {
+                     $stockItem->setStockStatusChangedAuto((int)$stockItem->getStockStatusChangedAutomaticallyFlag());
+                 }

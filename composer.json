@@ -1045,6 +1045,11 @@
                     "description": "Remove second join to inventory table",
                     "filename": "essential/magento/module-catalog-inventory/remove-second-join-to-inventory-table.patch",
                     "version-constraint": ">=100.4.7"
+                },
+                {
+                    "description": "Do not refresh low stock date if it's already set",
+                    "filename": "essential/magento/module-catalog-inventory/FZ_608_do_not_refresh_low_stock_date_it_its_already_set.patch",
+                    "version-constraint": ">=100.4.7"
                 }
             ],
             "magento/module-catalog": [
