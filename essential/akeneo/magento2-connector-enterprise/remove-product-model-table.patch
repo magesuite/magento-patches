@@ -1,0 +1,12 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index a9363d1..2bad4d1 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -84,5 +84,7 @@
+       <column name="entity_id"/>
+     </constraint>
+   </table>
++  <!-- PATCH START
+   <table name="akeneo_connector_product_model" disabled="true"/>
++  PATCH END -->
+ </schema>

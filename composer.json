@@ -3218,6 +3218,13 @@
                     "filename": "essential/meta/module-catalog/add_index_for_facebook_catalog_update_table.patch",
                     "version-constraint": ">=1.4.1"
                 }
+            ],
+            "akeneo/magento2-connector-enterprise": [
+                {
+                    "description": "Remove product model table from db schema",
+                    "filename": "essential/akeneo/magento2-connector-enterprise/remove-product-model-table.patch",
+                    "version-constraint": ">=104.1.1"
+                }
             ]
         }
     }
