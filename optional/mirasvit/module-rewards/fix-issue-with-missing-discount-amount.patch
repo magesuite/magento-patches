@@ -1,16 +1,23 @@
 diff --git a/src/Rewards/Model/Total/Quote/Discount.php b/src/Rewards/Model/Total/Quote/Discount.php
-index 0b76afb..fcfc476 100644
+index 1fdaf33..7f7825d 100644
 --- a/src/Rewards/Model/Total/Quote/Discount.php
 +++ b/src/Rewards/Model/Total/Quote/Discount.php
-@@ -679,12 +679,14 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
-             ->setRewardsDiscountAmount($discount)
+@@ -681,15 +681,18 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
              ->setBaseRewardsDiscountAmount($baseDiscount)
          ;
--
--        if (!isset(self::$discountedItems[$this->item->getId()])){
+ 
+-        if (!isset(self::$discountedItems[$this->item->getId()])
+-            // StripePayments module
+-            /* @var \StripeIntegration\Payments\Helper\Quote::recollectTotals() **/
+-            || self::$discountedItems[$this->item->getId()] != $this->item->getDiscountAmount()
+-            && $this->item->getQuote()->getPayment()->getMethod() == 'stripe_payments') {
 +        // BEGIN PATCH
 +        // With this condition payment methods from Wallee are not visible in checkout because discount is missing in quote items. This is probably fix for "Rewards Item Discount is doubled in onestepcheckout" issue.
-+        // if (!isset(self::$discountedItems[$this->item->getId()])){
++        // if (!isset(self::$discountedItems[$this->item->getId()])
++        //     // StripePayments module
++        //     /* @var \StripeIntegration\Payments\Helper\Quote::recollectTotals() **/
++        //     || self::$discountedItems[$this->item->getId()] != $this->item->getDiscountAmount()
++        //     && $this->item->getQuote()->getPayment()->getMethod() == 'stripe_payments') {
              $this->item->setDiscountAmount($this->item->getDiscountAmount() + $discount);
              $this->item->setBaseDiscountAmount($this->item->getBaseDiscountAmount() + $baseDiscount);
              self::$discountedItems[$this->item->getId()] = $this->item->getDiscountAmount();
