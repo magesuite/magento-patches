@@ -1,0 +1,13 @@
+diff --git a/view/frontend/web/js/action/remove-reward-points.js b/view/frontend/web/js/action/remove-reward-points.js
+index 16a74f1..f3eb297 100644
+--- a/view/frontend/web/js/action/remove-reward-points.js
++++ b/view/frontend/web/js/action/remove-reward-points.js
+@@ -31,7 +31,7 @@ define(
+ 
+         action = function (rewardPointsLabelName) {
+             var url = urlManager.getRemoveRewardPointsUrl(),
+-                message = $t(rewardPointsLabelName + ' were successfully removed.');
++            message = $.mage.__('%1 were successfully removed.').replace('%1', rewardPointsLabelName);
+ 
+             messageContainer.clear();
+ 

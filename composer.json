@@ -1620,6 +1620,11 @@
                     "description": "Translate transaction comment in email",
                     "filename": "essential/aheadworks/module-reward-points/translate-transaction-comment-in-email.patch",
                     "version-constraint": ">=2.5.0"
+                },
+                {
+                    "description": "Translate reward points removal message",
+                    "filename": "essential/aheadworks/module-reward-points/fix-translate-remove-reward-points.patch",
+                    "version-constraint": ">=2.5.0"
                 }
             ],
             "aheadworks/module-customer-group-catalog-permissions": [
