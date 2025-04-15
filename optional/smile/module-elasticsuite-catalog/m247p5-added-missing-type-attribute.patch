@@ -1,0 +1,15 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index bb09085..60a83a1 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -99,8 +99,8 @@
+                 length="30"
+                 default="standard"
+                 comment="Default analyzer for this field"/>
+-        <column name="is_used_in_autocomplete" disabled="true"/>
+-        <column name="is_display_rel_no_follow" disabled="true"/>
++        <column name="is_used_in_autocomplete" type="tinyint" disabled="true"/>
++        <column name="is_display_rel_no_follow" type="tinyint" disabled="true"/>
+     </table>
+ 
+     <!-- add column to search_query table -->

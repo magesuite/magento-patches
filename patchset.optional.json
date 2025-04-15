@@ -212,6 +212,11 @@
                 "description": "Allow in elasticsuite to filter less than or equal range price",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/change-query-condition.patch",
                 "version-constraint": "1.6.3"
+            },
+            {
+              "description": "Fix for missing type attribute in columns",
+              "filename": "vendor/creativestyle/magento-patches/optional/smile/module-elasticsuite-catalog/m247p5-added-missing-type-attribute.patch",
+              "version-constraint": "2.11.9.2"
             }
         ],
         "symfony/http-client": [
