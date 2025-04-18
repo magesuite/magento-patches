@@ -1,0 +1,57 @@
+diff --git a/Model/IsSingleSourceMode.php b/Model/IsSingleSourceMode.php
+index e2361ee..c77b7e4 100644
+--- a/Model/IsSingleSourceMode.php
++++ b/Model/IsSingleSourceMode.php
+@@ -31,24 +31,43 @@ class IsSingleSourceMode implements IsSingleSourceModeInterface
+      * @param SourceRepositoryInterface $sourceRepository
+      * @param SearchCriteriaBuilder $searchCriteriaBuilder
+      */
++    //BEGIN PATCH
++    //public function __construct(
++    //    SourceRepositoryInterface $sourceRepository,
++    //    SearchCriteriaBuilder $searchCriteriaBuilder
++    //) {
++    //    $this->sourceRepository = $sourceRepository;
++    //    $this->searchCriteriaBuilder = $searchCriteriaBuilder;
++    //}
++
++    protected \Magento\Framework\App\ResourceConnection $resourceConnection;
++
+     public function __construct(
+-        SourceRepositoryInterface $sourceRepository,
+-        SearchCriteriaBuilder $searchCriteriaBuilder
++        \Magento\Framework\App\ResourceConnection $resourceConnection,
+     ) {
+-        $this->sourceRepository = $sourceRepository;
+-        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
++        $this->resourceConnection = $resourceConnection;
+     }
++    //END PATCH
+
+     /**
+      * @inheritdoc
+      */
+     public function execute(): bool
+     {
+-        $searchCriteria = $this->searchCriteriaBuilder
+-            ->addFilter(SourceInterface::ENABLED, true)
+-            ->create();
++        //BEGIN PATCH
++        //$searchCriteria = $this->searchCriteriaBuilder
++        //    ->addFilter(SourceInterface::ENABLED, true)
++        //    ->create();
++        //$searchResult = $this->sourceRepository->getList($searchCriteria);
++        //return $searchResult->getTotalCount() < 2;
+
+-        $searchResult = $this->sourceRepository->getList($searchCriteria);
+-        return $searchResult->getTotalCount() < 2;
++        $inventorySourceTable = $this->resourceConnection->getTableName('inventory_source');
++        $connection = $this->resourceConnection->getConnection();
++        $select = $connection->select()
++            ->from($inventorySourceTable, 'count(1) as source_count')
++            ->where('enabled = ?', 1);
++        $sourceCount = $connection->fetchOne($select);
++        return $sourceCount < 2;
++        //END PATCH
+     }
+ }
