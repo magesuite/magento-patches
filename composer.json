@@ -2005,6 +2005,11 @@
                     "description": "[TT-1324] Prevent legacy stock update using itself for product status change",
                     "filename": "essential/magento/module-inventory-catalog/m245_prevent_legacy_stock_update_using_itself_for_product_status_change.patch",
                     "version-constraint": ">=1.3.0"
+                },
+                {
+                    "description": "[LOWA-632] Optimize product quantity update thorugh API call",
+                    "filename": "essential/magento/module-inventory-catalog/m247-optimize-is-single-source-check.patch",
+                    "version-constraint": ">=1.3.2"
                 }
             ],
             "magento/module-inventory-configurable-product-indexer": [
