@@ -1580,6 +1580,13 @@
                     "version-constraint": ">=1.1.6"
                 }
             ],
+            "aheadworks/module-raf": [
+                {
+                    "description": "Fix error: Call to a member function getCumulativeAmount() on null (provided by aheadworks)",
+                    "filename": "essential/aheadworks/module-raf/fix-template-variables.patch",
+                    "version-constraint": ">=1.4.3"
+                }
+            ],
             "aheadworks/module-reward-points": [
                 {
                     "description": "Fix reward points amount calculation for bundle products",

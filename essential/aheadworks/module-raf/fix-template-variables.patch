@@ -1,0 +1,32 @@
+diff --git a/Model/Advocate/Email/Processor/Amount/TemplateVariables.php b/Model/Advocate/Email/Processor/Amount/TemplateVariables.php
+index a431b8f..303d7fe 100644
+--- a/Model/Advocate/Email/Processor/Amount/TemplateVariables.php
++++ b/Model/Advocate/Email/Processor/Amount/TemplateVariables.php
+@@ -1,4 +1,19 @@
+ <?php
++/**
++ * Aheadworks Inc.
++ *
++ * NOTICE OF LICENSE
++ *
++ * This source file is subject to the EULA
++ * that is bundled with this package in the file LICENSE.txt.
++ * It is also available through the world-wide-web at this URL:
++ * https://aheadworks.com/end-user-license-agreement/
++ *
++ * @package    Raf
++ * @version    1.4.3
++ * @copyright  Copyright (c) 2024 Aheadworks Inc. (https://aheadworks.com/)
++ * @license    https://aheadworks.com/end-user-license-agreement/
++ */
+ declare(strict_types=1);
+ 
+ namespace Aheadworks\Raf\Model\Advocate\Email\Processor\Amount;
+@@ -37,6 +52,6 @@ class TemplateVariables extends DataObject
+      */
+     protected function _underscore($name)
+     {
+-        return lcfirst($name);
++        return parent::_underscore($name);
+     }
+ }
