@@ -1655,7 +1655,12 @@
             {
               "description": "Patch for Wyomind Data Feed Manager to fix performance issues when nested loops are used by mysql",
               "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/disable-block-nested-loop-during-feed-generation.patch",
-              "version-constraint": ">=11.23.7"
+              "version-constraint": ">=11.23.7,<14.0.10.0"
+            },
+            {
+              "description": "Patch for Wyomind Data Feed Manager to fix performance issues when nested loops are used by mysql",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/disable-block-nested-loop-during-feed-generation_v3.patch",
+              "version-constraint": ">=14.0.10.0"
             },
             {
               "description": "Patch for Wyomind Data Feed Manager to fix performance issues when nested loops are used by MariaDB",
