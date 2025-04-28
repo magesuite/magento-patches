@@ -1,15 +1,27 @@
-Add handling for all error types for getNetworkAccount method call (IPET-2771).
+Add handling for all error types for getNetworkAccount method call (IPET-2771, IPET-3197).
 
 diff --git a/Controller/Account/Login.php b/Controller/Account/Login.php
-index b50ac6e..b78a969 100644
+index cc55b19..5ba56c6 100644
 --- a/Controller/Account/Login.php
 +++ b/Controller/Account/Login.php
-@@ -308,8 +308,25 @@ class Login extends \Magento\Framework\App\Action\Action
+@@ -272,7 +272,10 @@ class Login extends \Magento\Framework\App\Action\Action
+             }
+         }
+
+-        if (! $callTarget && $session->isLoggedIn()) {
++        // BEGIN PATCH
++        // if (! $callTarget && $session->isLoggedIn()) {
++        if (empty($type) && !$callTarget && $session->isLoggedIn()) {
++        // END PATCH
+             return $this->modalWindowManager->close($isAjax);
+         }
+
+@@ -308,8 +311,25 @@ class Login extends \Magento\Framework\App\Action\Action
              $result = $this->modalWindowManager->showCollectedErrors();
              $this->debugLogger->clear();
 
 +            return $result;
-+        //PATCH START
++        // BEGIN PATCH
 +        } catch (\Exception $exception) {
 +            $this->debugLogger->addException($type, $exception);
 +            $this->messageManager->addErrorMessage(__('Sorry, but something went wrong while connecting social account.'));
@@ -26,7 +38,7 @@ index b50ac6e..b78a969 100644
 +
              return $result;
          }
-+        //PATCH END
++        // END PATCH
 
          // API.
          if ($callTarget) {
