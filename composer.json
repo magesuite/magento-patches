@@ -2901,7 +2901,7 @@
             "wallee/sdk": [
                 {
                     "description": "Fix for validation empty unique_id caused by strict types (IPET-3197)",
-                    "filename": "essential/wallee/magento-2/fix-validation-empty-unique-id.patch",
+                    "filename": "essential/wallee/sdk/fix-validation-empty-unique-id.patch",
                     "version-constraint": ">=4.6.0"
                 }
             ],
