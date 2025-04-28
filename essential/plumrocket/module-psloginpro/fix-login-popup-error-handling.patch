@@ -11,7 +11,7 @@ index cc55b19..5ba56c6 100644
 -        if (! $callTarget && $session->isLoggedIn()) {
 +        // BEGIN PATCH
 +        // if (! $callTarget && $session->isLoggedIn()) {
-+        if (empty($type) && !$callTarget && $session->isLoggedIn()) {
++        if (empty($type) || (!$callTarget && $session->isLoggedIn())) {
 +        // END PATCH
              return $this->modalWindowManager->close($isAjax);
          }
