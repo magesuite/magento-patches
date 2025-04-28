@@ -4,7 +4,7 @@ index f3f7241..a53b56e 100644
 +++ b/Plugin/InventoryIndexer/Plugin/InventoryApi/ReindexAfterSourceItemsSavePlugin/AddBackInStockItemsToQueue.php
 @@ -12,23 +12,51 @@ class AddBackInStockItemsToQueue
      protected $configuration;
- 
+
      /**
 -     * @var \MageSuite\Queue\Service\Publisher
 +     * @var \MageSuite\BackInStock\Model\Data\SourceItemsToQueueContainer
@@ -14,7 +14,7 @@ index f3f7241..a53b56e 100644
 +
 +    protected \MageSuite\Queue\Api\ContainerInterface $container;
 +    protected \Magento\Framework\Serialize\SerializerInterface $serializer;
- 
+
      /**
 -     * @var \MageSuite\BackInStock\Model\Data\SourceItemsToQueueContainer
 +     * @var \Magento\Framework\MessageQueue\ExchangeRepository
@@ -36,7 +36,7 @@ index f3f7241..a53b56e 100644
 +     * @var \Magento\Framework\MessageQueue\MessageValidator
 +     */
 +    protected $messageValidator;
- 
+
      public function __construct(
          \MageSuite\BackInStock\Helper\Configuration $configuration,
 -        \MageSuite\Queue\Service\Publisher $queuePublisher,
@@ -59,12 +59,12 @@ index f3f7241..a53b56e 100644
 +        $this->messageEncoder = $messageEncoder;
 +        $this->messageValidator = $messageValidator;
      }
- 
+
      public function afterAfterExecute(\Magento\InventoryIndexer\Plugin\InventoryApi\ReindexAfterSourceItemsSavePlugin $subject, $result)
 @@ -43,9 +71,35 @@ class AddBackInStockItemsToQueue
              return $result;
          }
- 
+
 -        $this->queuePublisher->publish($this->handlerClass, $backInStockItems);
 +        $data = $this->serializer->serialize($backInStockItems);
 +
@@ -72,9 +72,9 @@ index f3f7241..a53b56e 100644
 +            ->setHandler($this->handlerClass)
 +            ->setData($data);
 +
-+        $this->publish('magesuite.consumer.db', $this->container);
++        $this->publish('magesuite.consumer', $this->container);
          $this->sourceItemsToQueueContainer->clearItems();
- 
+
          return $result;
      }
 +
