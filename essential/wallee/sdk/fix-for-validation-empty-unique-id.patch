@@ -1,0 +1,16 @@
+diff --git a/lib/Model/LineItemCreate.php b/lib/Model/LineItemCreate.php
+index df65eb4..350a29d 100644
+--- a/lib/Model/LineItemCreate.php
++++ b/lib/Model/LineItemCreate.php
+@@ -549,7 +549,10 @@ class LineItemCreate implements ModelInterface, ArrayAccess
+      */
+     public function setUniqueId($unique_id)
+     {
+-        if ((mb_strlen($unique_id) > 200)) {
++        // BEGIN PATCH
++        // if ((mb_strlen($unique_id) > 200)) {
++        if (!empty($unique_id) && mb_strlen($unique_id) > 200) {
++        // END PATCH
+             throw new \InvalidArgumentException('invalid length for $unique_id when calling LineItemCreate., must be smaller than or equal to 200.');
+         }
+

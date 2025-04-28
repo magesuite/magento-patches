@@ -2898,6 +2898,13 @@
                     "version-constraint": ">=1.2.0"
                 }
             ],
+            "wallee/sdk": [
+                {
+                    "description": "Fix for validation empty unique_id caused by strict types (IPET-3197)",
+                    "filename": "essential/wallee/magento-2/fix-validation-empty-unique-id.patch",
+                    "version-constraint": ">=4.6.0"
+                }
+            ],
             "ezimuel/ringphp": [
                 {
                     "description": "Fix compatibility with PHP 8.1",
