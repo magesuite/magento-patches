@@ -1,0 +1,12 @@
+--- a/Block/Adminhtml/Product/Edit/Tab/Conditions.php	2025-04-30 10:15:15
++++ b/Block/Adminhtml/Product/Edit/Tab/Conditions.php	2025-04-30 10:15:58
+@@ -83,6 +83,9 @@
+         $model = $this->getProduct();
+
+         if ($model->getTypeId() !== GiftCard::TYPE_GIFTCARD) {
++            /** PATCH START */
++            $this->setForm($this->_formFactory->create());
++            /** PATCH END */
+             return $this;
+         }
+

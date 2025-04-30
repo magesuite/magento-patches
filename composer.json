@@ -3249,6 +3249,13 @@
                     "filename": "essential/akeneo/magento2-connector-enterprise/remove-product-model-table.patch",
                     "version-constraint": ">=104.1.1"
                 }
+            ],
+            "mageplaza/module-gift-card": [
+                {
+                    "description": "Add missing form instance for giftcard conditions field",
+                    "filename": "essential/mageplaza/module-gift-card/product-giftcard-missing-form-instance.patch",
+                    "version-constraint": ">=4.5.1"
+                }
             ]
         }
     }
