@@ -1,0 +1,52 @@
+https://experienceleague.adobe.com/en/docs/commerce-knowledge-base/kb/troubleshooting/known-issues-patches-attached/increased-execution-time-for-bulk-asynchronous-web-endpoints-post-apsb25-08-security-patch
+
+diff --git a/Controller/Rest/Asynchronous/InputParamsResolver.php b/Controller/Rest/Asynchronous/InputParamsResolver.php
+index ef6ca7d..4c77297 100644
+--- a/Controller/Rest/Asynchronous/InputParamsResolver.php
++++ b/Controller/Rest/Asynchronous/InputParamsResolver.php
+@@ -71,6 +71,11 @@ class InputParamsResolver
+      */
+     private $methodsMap;
+
++    /**
++     * @var array
++     */
++    private array $inputData = [];
++
+     /**
+      * Initialize dependencies.
+      *
+@@ -157,8 +162,14 @@ class InputParamsResolver
+      */
+     public function getInputData()
+     {
++        if (!empty($this->inputData)) {
++            return $this->inputData;
++        }
++
+         if ($this->isBulk === false) {
+-            return [$this->inputParamsResolver->getInputData()];
++            $this->inputData = [$this->inputParamsResolver->getInputData()];
++
++            return $this->inputData;
+         }
+         $inputData = $this->request->getRequestData();
+
+@@ -168,7 +179,7 @@ class InputParamsResolver
+             $inputData = array_merge($requestBodyParams, $inputData);
+         }
+
+-        return array_map(function ($singleEntityParams) {
++        $this->inputData = array_map(function ($singleEntityParams) {
+             if (is_array($singleEntityParams)) {
+                 $singleEntityParams = $this->filterInputData($singleEntityParams);
+                 $singleEntityParams = $this->paramsOverrider->override(
+@@ -179,6 +190,8 @@ class InputParamsResolver
+
+             return $singleEntityParams;
+         }, $inputData);
++
++        return $this->inputData;
+     }
+
+     /**

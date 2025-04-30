@@ -1752,6 +1752,11 @@
                     "description": "Patch for APSB25-08 2.4.5",
                     "filename": "essential/magento/module-webapi-async/vuln-28982-2-4-5x-v2-composer.patch",
                     "version-constraint": ">=100.4.3,<100.4.3-p11"
+                },
+                {
+                    "description": "Increased execution time for all bulk asynchronous web endpoints post APSB25-08 security patch",
+                    "filename": "essential/magento/module-webapi-async/increased-execution-time-for-bulk-asynchronous-web-endpoints.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-quick-order": [
