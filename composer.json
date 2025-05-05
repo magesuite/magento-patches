@@ -975,6 +975,11 @@
                     "description": "Hotfix: Checking version of modules in ES HealthCheck",
                     "filename": "essential/smile/elasticsuite/smile_elasticsuite_v2_11_11_checking_version.patch",
                     "version-constraint": "2.11.11"
+                },
+                {
+                    "description": "Remove disabled columns from db_schema.xml",
+                    "filename": "essential/smile/elasticsuite/fix-remove-disabled-columns.patch",
+                    "version-constraint": ">=2.11.10"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
