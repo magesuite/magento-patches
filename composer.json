@@ -979,7 +979,7 @@
                 {
                     "description": "Remove disabled columns from db_schema.xml",
                     "filename": "essential/smile/elasticsuite/fix-remove-disabled-columns.patch",
-                    "version-constraint": ">=2.11.10"
+                    "version-constraint": ">=2.11.10,<2.11.13"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
