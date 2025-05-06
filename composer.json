@@ -281,6 +281,11 @@
                     "description": "Remove duplicated images when adding images in multiple file uploader",
                     "filename": "essential/magento/module-ui/remove-duplicates-in-multiple-file-uploader.patch",
                     "version-constraint": ">=101.2.0"
+                },
+                {
+                    "description": "[A11y] Fix modal focusable elements",
+                    "filename": "essential/magento/module-ui/a11y-modal-focusable-elements-fix.patch",
+                    "version-constraint": ">=101.2.7"
                 }
             ],
             "magento/module-persistent": [
@@ -1211,6 +1216,13 @@
                     "description": "Disable forced catalog search reindex, Magento >=2.4.7",
                     "filename": "essential/magento/module-inventory-catalog-search/m247-plus-disable-forced-catalog-search-reindex.patch",
                     "version-constraint": ">=1.2.5"
+                }
+            ],
+            "magento/module-inventory-in-store-pickup-frontend": [
+                {
+                    "description": "[A11y] Fix for missing autocomplete attribute in the input field",
+                    "filename": "essential/magento/module-inventory-in-store-pickup-frontend/a11y-store-selector-input-autocomplete.patch",
+                    "version-constraint": ">=1.1.5"
                 }
             ],
             "magento/module-inventory-in-store-pickup-sales": [
