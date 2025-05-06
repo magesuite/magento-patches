@@ -1,0 +1,14 @@
+Patch added to fix ARC toolkit error: "Input has missing a valid autocomplete attribute".
+
+diff --git a/view/frontend/web/template/store-selector/popup.html b/view/frontend/web/template/store-selector/popup.html
+index 0edf923..e8d0a53 100644
+--- a/view/frontend/web/template/store-selector/popup.html
++++ b/view/frontend/web/template/store-selector/popup.html
+@@ -12,6 +12,7 @@
+             </label>
+             <div class="control">
+                 <input id="store-selector-search-input"
++                       autocomplete="off"
+                        type="text"
+                        name="store-selector-search-query"
+                        class="input-text"

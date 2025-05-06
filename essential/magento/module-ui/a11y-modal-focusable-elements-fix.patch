@@ -1,0 +1,63 @@
+Patch added to fix ARC toolkit error:
+"The element has been placed in the Tab order using tabindex="0", but it lacks a specific role="..." attribute."
+
+diff --git a/view/base/web/templates/modal/modal-custom.html b/view/base/web/templates/modal/modal-custom.html
+index 7d7d4b6..114512b 100644
+--- a/view/base/web/templates/modal/modal-custom.html
++++ b/view/base/web/templates/modal/modal-custom.html
+@@ -14,7 +14,7 @@
+        data-role="modal"
+        data-type="<%- data.type %>"
+        tabindex="0">
+-    <div data-role="focusable-start" tabindex="0"></div>
++    <div data-role="focusable-start" tabindex="0" role="generic"></div>
+     <div class="modal-inner-wrap"
+          data-role="focusable-scope">
+         <header class="modal-header">
+@@ -53,5 +53,5 @@
+         </footer>
+         <% } %>
+     </div>
+-    <div data-role="focusable-end" tabindex="0"></div>
++    <div data-role="focusable-end" tabindex="0" role="generic"></div>
+ </aside>
+diff --git a/view/base/web/templates/modal/modal-popup.html b/view/base/web/templates/modal/modal-popup.html
+index 0837696..4b3c04f 100644
+--- a/view/base/web/templates/modal/modal-popup.html
++++ b/view/base/web/templates/modal/modal-popup.html
+@@ -14,7 +14,7 @@
+        data-role="modal"
+        data-type="<%- data.type %>"
+        tabindex="0">
+-    <div data-role="focusable-start" tabindex="0"></div>
++    <div data-role="focusable-start" tabindex="0" role="generic"></div>
+     <div class="modal-inner-wrap"
+          data-role="focusable-scope">
+         <header class="modal-header">
+@@ -54,5 +54,5 @@
+         </footer>
+         <% } %>
+     </div>
+-    <div data-role="focusable-end" tabindex="0"></div>
++    <div data-role="focusable-end" tabindex="0" role="generic"></div>
+ </aside>
+diff --git a/view/base/web/templates/modal/modal-slide.html b/view/base/web/templates/modal/modal-slide.html
+index 2f53716..6f4a04b 100644
+--- a/view/base/web/templates/modal/modal-slide.html
++++ b/view/base/web/templates/modal/modal-slide.html
+@@ -13,7 +13,7 @@
+        data-role="modal"
+        data-type="<%- data.type %>"
+        tabindex="0">
+-    <div data-role="focusable-start" tabindex="0"></div>
++    <div data-role="focusable-start" tabindex="0" role="generic"></div>
+     <div class="modal-inner-wrap"
+          data-role="focusable-scope">
+         <header class="modal-header">
+@@ -56,5 +56,5 @@
+         </header>
+         <div id="modal-content-<%- data.id %>" class="modal-content" data-role="content"></div>
+     </div>
+-    <div data-role="focusable-end" tabindex="0"></div>
++    <div data-role="focusable-end" tabindex="0" role="generic"></div>
+ </aside>
