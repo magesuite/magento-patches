@@ -1880,12 +1880,12 @@
             {
               "description": "Change visibility of customer model methods",
               "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/change_visibility_of_customer_model_methods.patch",
-              "version-constraint": ">=4.28.0"
+              "version-constraint": ">=4.28.0,<=4.29.0"
             },
             {
               "description": "Use native Magento controller during newsletter subscription",
               "filename": "vendor/creativestyle/magento-patches/optional/dotdigital/dotdigital-magento2-extension/use_native_magento_controller_for_newsletter_subscription.patch",
-              "version-constraint": ">=4.23.0,<=4.28.0"
+              "version-constraint": ">=4.23.0"
             }
         ],
         "magento/module-persistent": [
