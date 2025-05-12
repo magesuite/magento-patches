@@ -985,6 +985,11 @@
                     "description": "Remove disabled columns from db_schema.xml",
                     "filename": "essential/smile/elasticsuite/fix-remove-disabled-columns.patch",
                     "version-constraint": ">=2.11.10,<2.11.12"
+                },
+                {
+                    "description": "Make 'no results' message screen reader readable",
+                    "filename": "essential/smile/elasticsuite/no-results-screen-reader-readable.patch",
+                    "version-constraint": ">=2.11.12"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
