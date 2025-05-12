@@ -1155,6 +1155,11 @@
                 "description": "Make saveLinksData method public",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/make-save-links-data-method-public.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Import static product attributes",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/import-static-product-attributes.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-configurable-product": [
