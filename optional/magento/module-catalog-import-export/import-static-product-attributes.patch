@@ -1,0 +1,52 @@
+diff --git a/Model/Import/Product.php b/Model/Import/Product.php
+index e1c9c0b..003d03d 100644
+--- a/Model/Import/Product.php
++++ b/Model/Import/Product.php
+@@ -2093,13 +2093,25 @@ class Product extends AbstractEntity
+                     $storeIds[] = 0;
+                 }
+             }
+-            foreach ($storeIds as $storeId) {
+-                if (!isset($attributes[$attrTable][$rowSku][$attrId][$storeId])) {
+-                    $attributes[$attrTable][$rowSku][$attrId][$storeId] = $attrValue;
++            //BEGIN PATCH
++            if ($attribute->getBackend()->isStatic()) {
++                $connection = $attribute->getResource()->getConnection();
++                $connection->update(
++                    $attrTable,
++                    [$attrCode => $attrValue],
++                    $connection->quoteInto('sku = ?', $rowSku)
++                );
++            }
++            else {
++                //END PATCH
++                foreach ($storeIds as $storeId) {
++                    if (!isset($attributes[$attrTable][$rowSku][$attrId][$storeId])) {
++                        $attributes[$attrTable][$rowSku][$attrId][$storeId] = $attrValue;
++                    }
+                 }
++                // restore 'backend_model' to avoid 'default' setting
++                $attribute->setBackendModel($backModel);
+             }
+-            // restore 'backend_model' to avoid 'default' setting
+-            $attribute->setBackendModel($backModel);
+         }
+     }
+ 
+diff --git a/Model/Import/Product/Type/AbstractType.php b/Model/Import/Product/Type/AbstractType.php
+index 862cd89..e207564 100644
+--- a/Model/Import/Product/Type/AbstractType.php
++++ b/Model/Import/Product/Type/AbstractType.php
+@@ -623,6 +623,12 @@ abstract class AbstractType
+     {
+         $resultAttrs = [];
+         foreach ($this->_getProductAttributes($rowData) as $attrCode => $attrParams) {
++            //BEGIN PATCH
++            if ($attrCode!='sku' && $attrParams['is_static'] && isset($rowData[$attrCode])) {
++                $resultAttrs[$attrCode] = $rowData[$attrCode];
++                continue;
++            }
++            //END PATCH
+             if ($attrParams['is_static']) {
+                 continue;
+             }
