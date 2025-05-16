@@ -1,0 +1,18 @@
+Fixes 4.1.2 criterion:
+The element has been placed in the Tab order using tabindex="0", but it lacks a specific role="..." attribute.
+
+diff --git a/view/frontend/templates/product/view/options/wrapper.phtml b/view/frontend/templates/product/view/options/wrapper.phtml
+index 88ee45b..428443e 100644
+--- a/view/frontend/templates/product/view/options/wrapper.phtml
++++ b/view/frontend/templates/product/view/options/wrapper.phtml
+@@ -13,7 +13,9 @@ if ($block->hasRequiredOptions()) {
+ }
+ ?>
+ <div class="product-options-wrapper" id="product-options-wrapper"<?= /* @noEscape */ $required ?>>
+-    <div class="fieldset" tabindex="0">
++    <?php // BEGIN PATCH ?>
++    <div class="fieldset" tabindex="0" role="group">
++    <?php // END PATCH ?>
+         <?= $block->getChildHtml('', true) ?>
+     </div>
+ </div>
