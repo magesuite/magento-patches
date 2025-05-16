@@ -1,0 +1,16 @@
+Adds "secure" flag to mage-messages cookie. LP-2904
+This should be fixed by magento in newer versions: https://github.com/magento/magento2/issues/38681
+diff --git a/Controller/Result/MessagePlugin.php b/Controller/Result/MessagePlugin.php
+index 056f1b2..56a20f4 100644
+--- a/Controller/Result/MessagePlugin.php
++++ b/Controller/Result/MessagePlugin.php
+@@ -175,6 +175,9 @@ class MessagePlugin
+             $publicCookieMetadata->setPath($this->sessionConfig->getCookiePath());
+             $publicCookieMetadata->setHttpOnly(false);
+             $publicCookieMetadata->setSameSite('Strict');
++            //BEGIN PATCH
++            $publicCookieMetadata->setSecure($this->sessionConfig->getCookieSecure());
++            //END PATCH
+
+             $this->cookieManager->setPublicCookie(
+                 self::MESSAGES_COOKIES_NAME,
