@@ -3289,7 +3289,7 @@
                 {
                     "description": "Remove product model table from db schema",
                     "filename": "essential/akeneo/magento2-connector-enterprise/remove-product-model-table.patch",
-                    "version-constraint": ">=104.1.1"
+                    "version-constraint": ">=104.1.1, <104.5.4"
                 }
             ],
             "mageplaza/module-gift-card": [
