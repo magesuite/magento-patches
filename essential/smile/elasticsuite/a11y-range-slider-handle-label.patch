@@ -1,0 +1,33 @@
+Adds aria-labels to the range slider handles
+
+diff --git a/src/module-elasticsuite-catalog/view/frontend/web/js/slider.js b/src/module-elasticsuite-catalog/view/frontend/web/js/slider.js
+index e39d1f4..65262df 100644
+--- a/src/module-elasticsuite-catalog/view/frontend/web/js/slider.js
++++ b/src/module-elasticsuite-catalog/view/frontend/web/js/slider.js
+@@ -11,9 +11,14 @@
+
+ define([
+     'jquery',
++    // BEGIN PATCH
++    'mage/translate',
++    // END PATCH
+     'jquery-ui-modules/core',
+-    'jquery-ui-modules/mouse'
+-], function ($, undefined) {
++    'jquery-ui-modules/mouse',
++    // BEGIN PATCH
++], function ($, $t, undefined) {
++    // END PATCH
+
+ // number of pages in a slider
+ // (how many times can you page up/down to go through the whole range)
+@@ -93,6 +98,9 @@ define([
+
+             this.handles.each(function (i) {
+                 $(this).data("ui-slider-handle-index", i);
++                // BEGIN PATCH
++                $(this).attr('title', handleCount === 1 ? $t('Range') : i === 0 ? $t('Minimum') : $t('Maximum'));
++                // END PATCH
+             });
+         },
+
