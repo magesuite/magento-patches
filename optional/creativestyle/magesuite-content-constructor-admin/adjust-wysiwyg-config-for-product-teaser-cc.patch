@@ -1,0 +1,40 @@
+diff --git a/view/adminhtml/src/components/product-teaser/configurator/product-teaser.ts b/view/adminhtml/src/components/product-teaser/configurator/product-teaser.ts
+index 5521544..9d8eb41 100644
+--- a/view/adminhtml/src/components/product-teaser/configurator/product-teaser.ts
++++ b/view/adminhtml/src/components/product-teaser/configurator/product-teaser.ts
+@@ -135,19 +135,26 @@ const productTeaserConfigurator: vuejs.ComponentOption = {
+         },
+         wysiwygConfig: {
+             type: Object,
+-            default: {
+-                'plugins': [],
++            default: {   
+                 'add_directives': false,
+                 'add_images': false,
+-                'add_variables': false,
+-                'add_widgets': false,
++                'add_variables': true,
++                'add_widgets': true,
++                settings: {
++                    'fixed_toolbar_container': ".pagebuilder-content-type",
++                    'image_advtab': true,
++                    'menubar': true,
++                    'plugins': 'advlist autolink code directionality link preview nonbreaking pagebreak wordcount magentovariable magentowidget emoticons',
++                    'toolbar1': 'magentovariable magentowidget | blocks | styles | fontsizeinput | lineheight | forecolor backcolor | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent',
++                    'toolbar2': 'undo redo | widget | hr pagebreak | emoticons',
++                    'valid_children': "+body[style]",
++                    'promotion': false,
++                    'branding': false,
++                },
+                 'tinymce': {
+                     'toolbar': 'undo redo | styleselect | fontsizeselect | lineheight | forecolor backcolor | bold italic underline | alignleft aligncenter alignright | numlist bullist | link',
+-                    'plugins': [
+-                        'lists',
+-                        'link',
+-                    ],
+-                },
++                    'plugins': 'magentovariable magentowidget lists link'
++                }
+             },
+         },
+     },
