@@ -1,0 +1,16 @@
+diff --git a/Observer/AddPaymentRafCardItem.php b/Observer/AddPaymentRafCardItem.php
+index 47eaab5..6e0532d 100755
+--- a/Observer/AddPaymentRafCardItem.php
++++ b/Observer/AddPaymentRafCardItem.php
+@@ -19,7 +19,10 @@ class AddPaymentRafCardItem implements ObserverInterface
+         /** @var Cart $cart */
+         $cart = $observer->getEvent()->getCart();
+         $salesEntity = $cart->getSalesModel();
+-        $value = abs($salesEntity->getDataUsingMethod(TotalsInterface::BASE_AW_RAF_AMOUNT));
++        // BEGIN PATCH
++        //$value = abs($salesEntity->getDataUsingMethod(TotalsInterface::BASE_AW_RAF_AMOUNT));
++        $value = abs($salesEntity->getDataUsingMethod(TotalsInterface::BASE_AW_RAF_AMOUNT) ?: 0);
++        // END PATCH
+         if ($value > 0.0001) {
+             $cart->addDiscount((double)$value);
+         }

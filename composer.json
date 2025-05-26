@@ -1622,6 +1622,11 @@
                     "description": "Fix error: Call to a member function getCumulativeAmount() on null (provided by aheadworks)",
                     "filename": "essential/aheadworks/module-raf/fix-template-variables.patch",
                     "version-constraint": ">=1.4.3"
+                },
+                {
+                    "description": "Fix error: abs(): Passing null to parameter",
+                    "filename": "essential/aheadworks/module-raf/fix-abs-null-exception-P2G-2654.patch",
+                    "version-constraint": ">=1.4.3"
                 }
             ],
             "aheadworks/module-reward-points": [
