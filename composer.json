@@ -1418,6 +1418,11 @@
                     "description": "Fixes performance issue caused by generate file hash - version 2.4.5 +",
                     "filename": "essential/magento/module-catalog-import-export/m245-fix-performance-hash-issue.patch",
                     "version-constraint": ">=101.1.5, <101.1.6"
+                },
+                {
+                    "description": "Fix for apply_to error when importing products",
+                    "filename": "essential/magento/module-catalog-import-export/fix-for-apply-to-error.patch",
+                    "version-constraint": ">=101.1.7-p3, <101.1.8"
                 }
             ],
             "magento/module-offline-shipping": [
