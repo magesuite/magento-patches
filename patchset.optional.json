@@ -1612,6 +1612,11 @@
                 "description": "Use current store code for products URLs in review list on frontend review list page",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-review/fix-store-code-in-product-url-in-review-list.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Add additional fields to collection and resource model methods to correctly save and retrieve this data (IPET-2773)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-review/add-is-verifyed-purchase-detail-field.patch",
+                "version-constraint": "*"
             }
         ],
         "magefan/module-blog": [

@@ -1,0 +1,34 @@
+Add additional fields to collection and resource model methods to correctly save and retrieve this data (IPET-2773)
+
+diff --git a/Model/ResourceModel/Review/Collection.php b/Model/ResourceModel/Review/Collection.php
+index eebe696..7f1b0e4 100644
+--- a/Model/ResourceModel/Review/Collection.php
++++ b/Model/ResourceModel/Review/Collection.php
+@@ -118,7 +118,10 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
+         $this->getSelect()->join(
+             ['detail' => $this->getReviewDetailTable()],
+             'main_table.review_id = detail.review_id',
+-            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id']
++            //BEGIN PATCH
++            //['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id']
++            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id', 'is_verifyed_purchase', 'city']
++            //END PATCH
+         );
+         return $this;
+     }
+
+diff --git a/Model/ResourceModel/Review.php b/Model/ResourceModel/Review.php
+index b017415..7967a85 100644
+--- a/Model/ResourceModel/Review.php
++++ b/Model/ResourceModel/Review.php
+@@ -187,6 +187,10 @@ class Review extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+             'title' => $object->getTitle(),
+             'detail' => $object->getDetail(),
+             'nickname' => $object->getNickname(),
++            //BEGIN PATCH
++            'is_verifyed_purchase' => $object->getIsVerifyedPurchase() ?? 0,
++            'city' => $object->getCity()
++            //END PATCH
+         ];
+         $select = $connection->select()->from($this->_reviewDetailTable, 'detail_id')->where('review_id = :review_id');
+         $detailId = $connection->fetchOne($select, [':review_id' => $object->getId()]);
