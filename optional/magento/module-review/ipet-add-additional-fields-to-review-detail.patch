@@ -26,7 +26,7 @@ index b017415..7967a85 100644
              'detail' => $object->getDetail(),
              'nickname' => $object->getNickname(),
 +            //BEGIN PATCH
-+            'is_verified_purchase' => $object->getIsVerifyedPurchase() ?? 0,
++            'is_verified_purchase' => $object->getIsVerifiedPurchase() ?? 0,
 +            'city' => $object->getCity()
 +            //END PATCH
          ];
