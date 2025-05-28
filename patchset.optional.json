@@ -1615,7 +1615,7 @@
             },
             {
                 "description": "Add additional fields to collection and resource model methods to correctly save and retrieve this data (IPET-2773)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-review/add-is-verifyed-purchase-detail-field.patch",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-review/ipet-add-additional-fields-to-review-detail.patch",
                 "version-constraint": "*"
             }
         ],
