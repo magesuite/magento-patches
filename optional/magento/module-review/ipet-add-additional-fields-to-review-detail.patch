@@ -11,7 +11,7 @@ index eebe696..7f1b0e4 100644
 -            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id']
 +            //BEGIN PATCH
 +            //['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id']
-+            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id', 'is_verifyed_purchase', 'city']
++            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id', 'is_verified_purchase', 'city']
 +            //END PATCH
          );
          return $this;
@@ -26,7 +26,7 @@ index b017415..7967a85 100644
              'detail' => $object->getDetail(),
              'nickname' => $object->getNickname(),
 +            //BEGIN PATCH
-+            'is_verifyed_purchase' => $object->getIsVerifyedPurchase() ?? 0,
++            'is_verified_purchase' => $object->getIsVerifyedPurchase() ?? 0,
 +            'city' => $object->getCity()
 +            //END PATCH
          ];
