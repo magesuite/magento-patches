@@ -1,0 +1,23 @@
+diff --git a/Model/Rule/Discount/Calculator/ByFixedPrice/Items.php b/Model/Rule/Discount/Calculator/ByFixedPrice/Items.php
+index 3698d1a..7b50664 100644
+--- a/Model/Rule/Discount/Calculator/ByFixedPrice/Items.php
++++ b/Model/Rule/Discount/Calculator/ByFixedPrice/Items.php
+@@ -128,7 +128,18 @@ class Items implements ItemsCalculatorInterface
+             $key = $quoteItem->getId() . '_' . $metadataRule->getRule()->getRuleId();
+             if (!isset($this->percents[$key])) {
+                 $discountAmount += (float)$quoteItem->getCustomOptionsAmount();
++                // BEGIN PATCH SCAFA-1232
++                // $percent = ($quoteItem->getBasePrice() - $discountAmount) / $quoteItem->getBasePrice() * 100;
++                $basePrice = $quoteItem->getBasePrice();
++
++                if (!$basePrice) {
++                    \Magento\Framework\App\ObjectManager::getInstance()->get(\Psr\Log\LoggerInterface::class)
++                        ->critical("Base price is not set for quote item with id: {$quoteItem->getId()}. Division by zero risk!.");
++                    return $this->percents[$key] = 100;
++                }
++
+                 $percent = ($quoteItem->getBasePrice() - $discountAmount) / $quoteItem->getBasePrice() * 100;
++                // END PATCH
+                 $this->percents[$key] = min(100, $percent);
+             }
+             return $this->percents[$key];

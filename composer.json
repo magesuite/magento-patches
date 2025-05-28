@@ -1715,6 +1715,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "aheadworks/module-afptc": [
+                {
+                    "description": "Fix [SCAFA-1232] Division by 0 fix",
+                    "filename": "essential/aheadworks/module-afptc/SCAFA-1232-division-by-zero-fix.patch",
+                    "version-constraint": ">=1.11.2"
+                }
+            ],
             "customweb/module-computopcw": [
                 {
                     "description": "Module Computop Error on transaction getOrderContext() on null (UEFA-455)",
