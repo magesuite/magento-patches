@@ -995,6 +995,11 @@
                     "description": "Aftersearch nav accessibility improvements",
                     "filename": "essential/smile/elasticsuite/a11y-aftersearch-nav-adjustments.patch",
                     "version-constraint": ">=2.11.12"
+                },
+                {
+                    "description": "Adds aria-labels to the range slider handles.",
+                    "filename": "essential/smile/elasticsuite/a11y-range-slider-handle-label.patch",
+                    "version-constraint": ">=2.11.12"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
