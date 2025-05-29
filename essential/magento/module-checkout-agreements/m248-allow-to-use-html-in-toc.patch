@@ -1,0 +1,16 @@
+diff --git a/Model/AgreementsConfigProvider.php b/Model/AgreementsConfigProvider.php
+index ad63fb4..dd69fa1 100644
+--- a/Model/AgreementsConfigProvider.php
++++ b/Model/AgreementsConfigProvider.php
+@@ -101,9 +101,10 @@ class AgreementsConfigProvider implements ConfigProviderInterface
+                 'content' => $isAgreementHtmlType
+                     ? $agreement->getContent()
+                     : nl2br($this->escaper->escapeHtml($agreement->getContent())),
+-                'checkboxText' => $isAgreementHtmlType
++                'checkboxText' => /** PART START $isAgreementHtmlType
+                     ? $agreement->getCheckboxText()
+                     : nl2br($this->escaper->escapeHtml($agreement->getCheckboxText())),
++                */ $agreement->getCheckboxText(),
+                 'mode' => $agreement->getMode(),
+                 'agreementId' => $agreement->getAgreementId(),
+                 'contentHeight' => $agreement->getContentHeight()
