@@ -1,0 +1,12 @@
+diff --git a/view/frontend/web/template/payment/pm-form.html b/view/frontend/web/template/payment/pm-form.html
+index 00d42ad..739444c 100755
+--- a/view/frontend/web/template/payment/pm-form.html
++++ b/view/frontend/web/template/payment/pm-form.html
+@@ -63,6 +63,7 @@
+             <!--/ko-->
+
+             <fieldset class="fieldset" data-bind='attr: {id: "payment_fieldset_" + getCode()}'>
++                <legend class="cs-visually-hidden"><span data-bind="text: $t('Payment Method') + ' ' + getTitle()"></span></legend>
+                 <div class="checkout-component-dock" afterRender="renderPreSelected()" data-bind="attr: { id: adyenPaymentMethod().method + 'Container'}"></div>
+             </fieldset>
+

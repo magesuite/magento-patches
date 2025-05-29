@@ -2989,6 +2989,11 @@
                     "description": "Added Factory classes into CLI Command classes to prevent breaking installation of Magento",
                     "filename": "essential/adyen/module-payment/add_factory_classes_to_cli_command.patch",
                     "version-constraint": ">=9.0.0, <9.0.5"
+                },
+                {
+                    "description": "Added legend to fieldset in payment method due to accessibility reasons",
+                    "filename": "essential/adyen/module-payment/add-missing-legend-to-fieldset.patch",
+                    "version-constraint": ">=9.18.0"
                 }
             ],
             "firegento/fastsimpleimport": [
