@@ -1,0 +1,54 @@
+Allows to use the "Show more" and "Show less" buttons with the keyboard.
+Adds required aria-label to the search input field.
+Allows screen readers to read the no results message in the attribute filter.
+
+diff --git a/src/module-elasticsuite-catalog/view/frontend/templates/layer/filter/attribute.phtml b/src/module-elasticsuite-catalog/view/frontend/templates/layer/filter/attribute.phtml
+index f04140e..fe28fa7 100644
+--- a/src/module-elasticsuite-catalog/view/frontend/templates/layer/filter/attribute.phtml
++++ b/src/module-elasticsuite-catalog/view/frontend/templates/layer/filter/attribute.phtml
+@@ -22,7 +22,7 @@
+   $datascope = $this->getFilter()->getRequestVar() . 'Filter';
+ ?>
+ <?php if (!empty($filterItems)) : ?>
+-<div data-bind="scope: '<?php echo /* @escapeNotVerified */ $datascope; ?>'">
++<div data-bind="scope: '<?php echo /* @escapeNotVerified */ $datascope; ?>'" aria-live="polite" aria-atomic="true">
+     <!-- ko template: getTemplate() --> <!-- /ko -->
+ </div>
+
+diff --git a/src/module-elasticsuite-catalog/view/frontend/web/template/attribute-filter.html b/src/module-elasticsuite-catalog/view/frontend/web/template/attribute-filter.html
+index 5a93e54..79afd18 100644
+--- a/src/module-elasticsuite-catalog/view/frontend/web/template/attribute-filter.html
++++ b/src/module-elasticsuite-catalog/view/frontend/web/template/attribute-filter.html
+@@ -1,9 +1,11 @@
+ <div class="field search" data-bind="if: displaySearch">
+     <div class="control">
++        <!-- BEGIN PATCH -->
+         <input class="filter-search"
+                type="text"
+                autocomplete="off"
+-               data-bind="attr: {placeholder: searchPlaceholder}, event: {keyup: onSearchChange.bind(this), focusout: onSearchFocusOut}" />
++               data-bind="attr: {placeholder: searchPlaceholder , 'aria-label': searchPlaceholder}, event: {keyup: onSearchChange.bind(this), focusout: onSearchFocusOut}" />
++        <!-- END PATCH -->
+     </div>
+ </div>
+
+@@ -26,12 +28,16 @@
+ </ol>
+
+ <div class="no-results-message empty" data-bind="if: fulltextSearch() && !hasSearchResult()">
+-    <p data-bind="html: getSearchResultMessage()"></p>
++    <!-- BEGIN PATCH -->
++    <p data-bind="html: getSearchResultMessage()" aria-atomic="true"></p>
++    <!-- END PATCH -->
+ </div>
+
+ <div class="actions" data-bind="visible: enableExpansion()">
+     <div class="secondary">
+-        <a class="action show-more" data-bind="visible: displayShowMore(), event: {click: onShowMore}"><span data-bind="text: showMoreLabel"></span></a>
+-        <a class="action show-less" data-bind="visible: displayShowLess(), event: {click: onShowLess}"><span data-bind="text: showLessLabel"></span></a>
++        <!-- BEGIN PATCH -->
++        <a class="action show-more" href="#" data-bind="visible: displayShowMore(), event: {click: onShowMore}"><span data-bind="text: showMoreLabel"></span></a>
++        <a class="action show-less" href="#" data-bind="visible: displayShowLess(), event: {click: onShowLess}"><span data-bind="text: showLessLabel"></span></a>
++        <!-- END PATCH -->
+     </div>
+ </div>
