@@ -79,7 +79,7 @@
                 {
                     "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
                     "filename": "essential/magento/framework/m235-fix-special-chars-in-email.patch",
-                    "version-constraint": ">=102.0.4"
+                    "version-constraint": ">=102.0.4,<103.0.8"
                 },
                 {
                     "description": "Fix autoloader registry that breaks integration tests",
@@ -104,7 +104,12 @@
                 {
                     "description": "Store maintenance lockfiles in var/global",
                     "filename": "essential/magento/framework/m2x-custom-maintenance-lock-location.patch",
-                    "version-constraint": ">=101.0.0"
+                    "version-constraint": ">=101.0.0,<103.0.8"
+                },
+                {
+                    "description": "Store maintenance lockfiles in var/global",
+                    "filename": "essential/magento/framework/m248-custom-maintenance-lock-location.patch",
+                    "version-constraint": ">=103.0.8"
                 },
                 {
                     "description": "Return 500 HTTP code error when fatal error occurs so monitoring treats it as shop down, Magento < 2.4.3",
@@ -209,7 +214,7 @@
                 {
                     "description": "Port of patch for issue with missing Am/Pm markers in date format",
                     "filename": "essential/magento/framework/fix-issue-with-missing-AmPmMarkers.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<103.0.8"
                 }
             ],
             "magento/module-asynchronous-operations": [
@@ -433,7 +438,7 @@
                 {
                     "description": "Fix problem with filtering orders by creation date",
                     "filename": "essential/magento/module-sales/fix-problem-with-filtering-orders-by-creatation-date.patch",
-                    "version-constraint": ">=103.0.5"
+                    "version-constraint": ">=103.0.5,<103.0.8"
                 },
                 {
                     "description": "Fix problem with wrong storeId type when reordering",
@@ -458,14 +463,19 @@
                     "version-constraint": ">=101.0.0,<=101.0.4"
                 },
                 {
-                    "description": "Update before_auth_url in customer session when store is swithced.",
+                    "description": "Update before_auth_url in customer session when store is switched.",
                     "filename": "essential/magento/module-store/update-before-auth-url-on-store-switch.patch",
-                    "version-constraint": ">=101.1.4"
+                    "version-constraint": ">=101.1.4,<101.1.8"
+                },
+                {
+                    "description": "Update before_auth_url in customer session when store is switched.",
+                    "filename": "essential/magento/module-store/m248-update-before-auth-url-on-store-switch.patch",
+                    "version-constraint": ">=101.1.8"
                 },
                 {
                     "description": "Disable javascript minifying of TinyMCE 7 library",
                     "filename": "essential/magento/module-store/disable-javascript-minifying-of-TinyMCE-7-library.patch",
-                    "version-constraint": ">=101.1.7"
+                    "version-constraint": ">=101.1.7,<101.1.8"
                 }
             ],
             "magento/module-configurable-product": [
@@ -785,6 +795,11 @@
                     "description": "Add reflection for intercepted test config",
                     "filename": "essential/magento/magento2-base/add-reflection-for-intercepted-test-config.patch",
                     "version-constraint": ">=2.4.6"
+                },
+                {
+                    "description": "Fix datepicker position",
+                    "filename": "essential/magento/magento2-base/m248-fix-datepicker-position.patch",
+                    "version-constraint": ">=2.4.8, <2.4.9"
                 }
             ],
             "magento/module-search": [
@@ -1050,6 +1065,13 @@
                     "version-constraint": ">=2.11.0.0, <2.11.6.1"
                 }
             ],
+            "smile/module-elasticsuite-virtual-attribute": [
+                {
+                    "description": "Change value field length to be compatible with mysql 8.4 (MGS-5458)",
+                    "filename": "essential/smile/module-elasticsuite-virtual-attribute/change-value-field-length-mysql84.patch",
+                    "version-constraint": ">=2.11.0"
+                }
+            ],
             "magento/module-catalog-inventory": [
                 {
                     "description": "Fix stock indexer to correctly reindex stock using materialized views (Magento 2.2.0-2.2.4)",
@@ -1079,7 +1101,7 @@
                 {
                     "description": "Remove second join to inventory table",
                     "filename": "essential/magento/module-catalog-inventory/remove-second-join-to-inventory-table.patch",
-                    "version-constraint": ">=100.4.7"
+                    "version-constraint": ">=100.4.7,<100.4.8"
                 },
                 {
                     "description": "Do not refresh low stock date if it's already set",
@@ -1186,7 +1208,7 @@
                 {
                     "description": "Fix disabled categories not grayed out (2.4.7-p3)",
                     "filename": "essential/magento/module-catalog/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
-                    "version-constraint": ">=104.0.7-p2"
+                    "version-constraint": ">=104.0.7-p2,<104.0.8"
                 },
                 {
                     "description": "Accessibility - adds role attr to swatches container",
@@ -1223,7 +1245,7 @@
                 {
                     "description": "Clear product cache after reindex",
                     "filename": "essential/magento/module-catalog-search/clear-product-cache-after-reindex.patch",
-                    "version-constraint": ">=102.0.5"
+                    "version-constraint": ">=102.0.5,<102.0.8"
                 }
             ],
             "magento/module-inventory-catalog-search": [
@@ -1276,7 +1298,12 @@
                 {
                     "description": "M2.4.4: add autocomplete to Checkout/Cart inputs - xml config",
                     "filename": "essential/magento/module-checkout/m244-autocomplete-checkout.patch",
-                    "version-constraint": ">=100.4.4"
+                    "version-constraint": ">=100.4.4,<100.4.8"
+                },
+                {
+                    "description": "M2.4.8: add autocomplete to Checkout/Cart inputs - xml config",
+                    "filename": "essential/magento/module-checkout/m248-autocomplete-checkout.patch",
+                    "version-constraint": ">=100.4.8"
                 },
                 {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
@@ -1366,7 +1393,7 @@
                 {
                     "description": "Remove unwanted force call to update unvalidated billing-address",
                     "filename": "essential/magento/module-checkout/m246-fix-billing-address-validation.patch",
-                    "version-constraint": ">=100.4.6"
+                    "version-constraint": ">=100.4.6,<100.4.8"
                 },
                 {
                     "description": "Set shipping service loader to false after validate fields",
@@ -1383,7 +1410,12 @@
                 {
                     "description": "Allow to use HTML in checkboxText in Terms and Conditions",
                     "filename": "essential/magento/module-checkout-agreements/m23-allow-to-use-html-in-toc.patch",
-                    "version-constraint": ">=100.3.1"
+                    "version-constraint": ">=100.3.1,<100.4.7"
+                },
+                {
+                    "description": "Allow to use HTML in checkboxText in Terms and Conditions",
+                    "filename": "essential/magento/module-checkout-agreements/m248-allow-to-use-html-in-toc.patch",
+                    "version-constraint": ">=100.4.7"
                 },
                 {
                     "description": "Remove checking agreements when customer is not placing order",
@@ -1538,6 +1570,11 @@
                 {
                     "description": "Compatibility with PHP 8.1",
                     "filename": "essential/aheadworks/module-faq/m245plus-compatibility-with-php-8-1.patch",
+                    "version-constraint": "*"
+                },
+                {
+                    "description": "Compatibility with PHP 8.4",
+                    "filename": "essential/aheadworks/module-faq/m248-php84-compatibility.patch",
                     "version-constraint": "*"
                 },
                 {
@@ -1773,7 +1810,12 @@
                 {
                     "description": "Fix error redirect action for virtual products",
                     "filename": "essential/magento/module-quote/fix-error-redirect-action.patch",
-                    "version-constraint": ">=101.2.7"
+                    "version-constraint": ">=101.2.7,<101.2.8"
+                },
+                {
+                    "description": "Fix error redirect action for virtual products",
+                    "filename": "essential/magento/module-quote/m248-fix-error-redirect-action.patch",
+                    "version-constraint": ">=101.2.8"
                 },
                 {
                     "description": "Patch for APSB25-08",
@@ -1905,7 +1947,12 @@
                 {
                     "description": "M2.4.6 Fix adding autocomplete to user area inputs",
                     "filename": "essential/magento/module-customer/m246-autocomplete-user-area.patch",
-                    "version-constraint": ">=103.0.6"
+                    "version-constraint": ">=103.0.6,<103.0.8"
+                },
+                {
+                    "description": "M2.4.8 Fix adding autocomplete to user area inputs",
+                    "filename": "essential/magento/module-customer/m248-autocomplete-user-area.patch",
+                    "version-constraint": ">=103.0.8"
                 },
                 {
                     "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
@@ -2070,7 +2117,7 @@
                 {
                     "description": "[TT-1324] Prevent legacy stock update using itself for product status change",
                     "filename": "essential/magento/module-inventory-catalog/m245_prevent_legacy_stock_update_using_itself_for_product_status_change.patch",
-                    "version-constraint": ">=1.3.0"
+                    "version-constraint": ">=1.3.0,<1.3.3"
                 },
                 {
                     "description": "[LOWA-632] Optimize product quantity update thorugh API call",
@@ -2664,7 +2711,7 @@
                 {
                     "description": "Add font size to wysiwyg editor",
                     "filename": "essential/magento/module-page-builder/add-font-size-to-wysiwyg-editor.patch",
-                    "version-constraint": ">=2.2.3-p10"
+                    "version-constraint": ">=2.2.3-p10,<2.2.6"
                 }
             ],
             "trustedshops/easy_integration": [
@@ -2923,7 +2970,7 @@
                 {
                     "description": "Wrap script with renderer CSP",
                     "filename": "essential/magepal/magento2-googletagmanager/wrap_script_with_renderer_csp.patch",
-                    "version-constraint": ">=2.7.8"
+                    "version-constraint": ">=2.7.8,<3.0.0"
                 }
             ],
             "cleverzoeger/ext-magento2-cleverzoeger-paqato": [
@@ -3306,7 +3353,7 @@
                 {
                     "description": "Remove product model table from db schema",
                     "filename": "essential/akeneo/magento2-connector-enterprise/remove-product-model-table.patch",
-                    "version-constraint": ">=104.1.1, <104.5.4"
+                    "version-constraint": ">=104.1.1,<104.5.2"
                 }
             ],
             "mageplaza/module-gift-card": [
@@ -3314,6 +3361,13 @@
                     "description": "Add missing form instance for giftcard conditions field",
                     "filename": "essential/mageplaza/module-gift-card/product-giftcard-missing-form-instance.patch",
                     "version-constraint": ">=4.5.1"
+                }
+            ],
+            "erusev/parsedown": [
+                {
+                    "description": "Fix constructor parameter",
+                    "filename": "essential/erusev/parsedown/fix-constructor-parameter.patch",
+                    "version-constraint": ">=2.0.0"
                 }
             ]
         }

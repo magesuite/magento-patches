@@ -1,0 +1,13 @@
+diff --git a/src/Parsedown.php b/src/Parsedown.php
+index 2697089..1b39ac2 100644
+--- a/src/Parsedown.php
++++ b/src/Parsedown.php
+@@ -27,7 +27,7 @@ final class Parsedown
+     /** @var State */
+     private $State;
+ 
+-    public function __construct(StateBearer $StateBearer = null)
++    public function __construct(?StateBearer $StateBearer = null)
+     {
+         $State = ($StateBearer ?? new State)->state();
+ 

@@ -1,0 +1,66 @@
+diff --git a/Model/ResourceModel/Article/Grid/Collection.php b/Model/ResourceModel/Article/Grid/Collection.php
+index 4b3f367..4080ed6 100644
+--- a/Model/ResourceModel/Article/Grid/Collection.php
++++ b/Model/ResourceModel/Article/Grid/Collection.php
+@@ -53,8 +53,8 @@ class Collection extends ArticleCollection implements SearchResultInterface
+         $eventObject,
+         $resourceModel,
+         $model = Document::class,
+-        $connection = null,
+-        AbstractDb $resource = null
++        ?\Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
++        ?\Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
+     ) {
+         parent::__construct(
+             $entityFactory,
+@@ -74,7 +74,7 @@ class Collection extends ArticleCollection implements SearchResultInterface
+      * {@inheritdoc}
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
+-    public function setItems(array $items = null)
++    public function setItems(?array $items = null)
+     {
+         return $this;
+     }
+@@ -107,7 +107,7 @@ class Collection extends ArticleCollection implements SearchResultInterface
+      * {@inheritdoc}
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
+-    public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
++    public function setSearchCriteria(SearchCriteriaInterface $searchCriteria)
+     {
+         return $this;
+     }
+diff --git a/Model/ResourceModel/Category/Grid/Collection.php b/Model/ResourceModel/Category/Grid/Collection.php
+index cbb4fb8..d78f4ae 100644
+--- a/Model/ResourceModel/Category/Grid/Collection.php
++++ b/Model/ResourceModel/Category/Grid/Collection.php
+@@ -52,8 +52,8 @@ class Collection extends CategoryCollection implements SearchResultInterface
+         $eventObject,
+         $resourceModel,
+         $model = Document::class,
+-        $connection = null,
+-        AbstractDb $resource = null
++        ?\Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
++        ?\Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
+     ) {
+         parent::__construct(
+             $entityFactory,
+@@ -73,7 +73,7 @@ class Collection extends CategoryCollection implements SearchResultInterface
+      * {@inheritdoc}
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
+-    public function setItems(array $items = null)
++    public function setItems(?array $items = null)
+     {
+         return $this;
+     }
+@@ -106,7 +106,7 @@ class Collection extends CategoryCollection implements SearchResultInterface
+      * {@inheritdoc}
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
+-    public function setSearchCriteria(SearchCriteriaInterface $searchCriteria = null)
++    public function setSearchCriteria(SearchCriteriaInterface $searchCriteria)
+     {
+         return $this;
+     }

@@ -1,0 +1,16 @@
+diff --git a/Plugin/Webapi/Model/ErrorRedirectProcessor.php b/Plugin/Webapi/Model/ErrorRedirectProcessor.php
+index 321919a..ec7c0fe 100644
+--- a/Plugin/Webapi/Model/ErrorRedirectProcessor.php
++++ b/Plugin/Webapi/Model/ErrorRedirectProcessor.php
+@@ -34,7 +34,10 @@ class ErrorRedirectProcessor
+         try {
+             $result = $proceed($quote);
+         } catch (ValidatorException $e) {
+-            $this->restResponse->setHeader('errorRedirectAction', '#shipping');
++            // PATCH START
++            // $this->restResponse->setHeader('errorRedirectAction', '#shipping');
++            $this->restResponse->setHeader('errorRedirectAction',$quote->getIsVirtual() ? '#payment' : '#shipping');
++            // PATCH END
+             throw $e;
+         }
+ 

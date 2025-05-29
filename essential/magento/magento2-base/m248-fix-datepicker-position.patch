@@ -1,0 +1,12 @@
+diff --git a/lib/web/mage/calendar.js b/lib/web/mage/calendar.js
+index 2ed4de7..3cef3e3 100644
+--- a/lib/web/mage/calendar.js
++++ b/lib/web/mage/calendar.js
+@@ -81,7 +81,6 @@ define([
+             );
+             this._initPicker(this.element);
+             this._overwriteGenerateHtml();
+-            this._overwriteFindPos();
+         },
+ 
+         /**

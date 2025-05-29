@@ -1,0 +1,24 @@
+diff --git a/Controller/Store/SwitchAction.php b/Controller/Store/SwitchAction.php
+index bea7dbb..130b4a7 100644
+--- a/Controller/Store/SwitchAction.php
++++ b/Controller/Store/SwitchAction.php
+@@ -80,6 +80,9 @@ class SwitchAction extends Action implements HttpGetActionInterface, HttpPostAct
+         StoreManagerInterface $storeManager,
+         StoreSwitcherInterface $storeSwitcher,
+         CookieManager $cookieManager
++        // PATCH START
++        , protected \Magento\Customer\Model\Session $customerSession
++        // PATCH END
+     ) {
+         parent::__construct($context);
+         $this->storeCookieManager = $storeCookieManager;
+@@ -125,6 +128,9 @@ class SwitchAction extends Action implements HttpGetActionInterface, HttpPostAct
+         } else {
+             $redirectUrl = $this->storeSwitcher->switch($fromStore, $targetStore, $requestedUrlToRedirect);
+             $this->cookieManager->setCookieForStore($targetStore);
++            // BEGIN PATCH
++            $this->customerSession->setBeforeAuthUrl($targetStore->getBaseUrl());
++            // END PATCH
+         }
+ 
+         $this->getResponse()->setRedirect($redirectUrl);

@@ -1,0 +1,17 @@
+diff --git a/Model/ResourceModel/Rule/Publisher.php b/Model/ResourceModel/Rule/Publisher.php
+index b7a6406..7f7fb7c 100644
+--- a/Model/ResourceModel/Rule/Publisher.php
++++ b/Model/ResourceModel/Rule/Publisher.php
+@@ -207,7 +207,11 @@ class Publisher extends AbstractDb
+             // Length is fixed to 768 because :
+             // A maximum of 3072 bytes is allowed per column by the database engine.
+             // The index is using utf8mb4 with a 4 byte collation, so 3072 / 4 = 768.
+-            $this->getConnection()->rawQuery(sprintf("ALTER TABLE %s MODIFY COLUMN %s VARCHAR(%s)", $table, 'value', 768));
++            // PATCH START
++            //$this->getConnection()->rawQuery(sprintf("ALTER TABLE %s MODIFY COLUMN %s VARCHAR(%s)", $table, 'value', 768));
++            // compatibility with MySQL 8.4
++            $this->getConnection()->rawQuery(sprintf("ALTER TABLE %s MODIFY COLUMN %s VARCHAR(%s)", $table, 'value', 766));
++            // PATCH END
+             $this->getConnection()->resetDdlCache($table);
+ 
+             // Add index to table to manage proper insertion later.
