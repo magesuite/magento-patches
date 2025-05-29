@@ -1,0 +1,19 @@
+DOG-2063 Fix for calling protected method getCanceledMessage() in CleanUpIncompleteSessions cron job
+
+diff --git a/Model/CheckoutSessionManagement.php b/Model/CheckoutSessionManagement.php
+index d56bdab..aad53f7 100755
+--- a/Model/CheckoutSessionManagement.php
++++ b/Model/CheckoutSessionManagement.php
+@@ -897,7 +897,11 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
+      * @param mixed $amazonSession
+      * @return \Magento\Framework\Phrase|mixed
+      */
+-    protected function getCanceledMessage($amazonSession)
++    // BEGIN PATCH
++    // protected function getCanceledMessage($amazonSession)
++    // @see \Amazon\Pay\Cron\CleanUpIncompleteSessions::processTransaction
++    public function getCanceledMessage($amazonSession)
++    // END PATCH
+     {
+         if ($amazonSession['statusDetails']['reasonCode'] == 'BuyerCanceled') {
+             return $this->getTranslationString('This transaction was cancelled. Please try again.');
