@@ -1,0 +1,19 @@
+diff --git a/GraphQl/Exception/ExceptionFormatter.php b/GraphQl/Exception/ExceptionFormatter.php
+index a2ed744..55b77c9 100644
+--- a/GraphQl/Exception/ExceptionFormatter.php
++++ b/GraphQl/Exception/ExceptionFormatter.php
+@@ -62,7 +62,13 @@ class ExceptionFormatter
+             $message = "Report ID: {$reportId}; Message: {$exception->getMessage()}";
+             $code = $exception->getCode();
+             $loggedException = new Exception($message, $code, $exception);
+-            $this->logger->critical($loggedException);
++
++            // PATCH BEGIN
++            // $this->logger->critical($loggedException);
++            if (!str_ends_with($loggedException->getMessage(), "Syntax Error: Unexpected <EOF>")) {
++                $this->logger->critical($loggedException);
++            }
++            // PATCH END
+         }
+ 
+         return FormattedError::createFromException(
