@@ -1,0 +1,25 @@
+diff --git a/Model/Sales/Totals/Creditmemo.php b/Model/Sales/Totals/Creditmemo.php
+index 8b24ae5..75b454f 100644
+--- a/Model/Sales/Totals/Creditmemo.php
++++ b/Model/Sales/Totals/Creditmemo.php
+@@ -220,8 +220,18 @@ class Creditmemo extends AbstractTotal
+         $orderItems = $order->getItems();
+
+         foreach ($creditmemo->getItems() as $item) {
+-            $orderItem = &$orderItems[$item->getOrderItemId()];
+-            $orderItem->setData('qty_to_refund', $item->getQty());
++            // BEGIN PATCH
++            $orderItemId = $item->getOrderItemId();
++
++            foreach ($orderItems as $orderItem) {
++                if ($orderItem->getId() === $orderItemId) {
++                    $orderItem->setData('qty_to_refund', $item->getQty());
++                }
++            }
++
++            // $orderItem = &$orderItems[$orderItemId];
++            // $orderItem->setData('qty_to_refund', $item->getQty());
++            // END PATCH
+         }
+
+         return $order->setItems($orderItems);
