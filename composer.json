@@ -1554,6 +1554,11 @@
                     "description": "fix: [HAAR-4597] Fix critical error logged on Giftcard Codes Grid when giftcard was bought by guest or without assigned email (customer not found error).",
                     "filename": "essential/aheadworks/module-giftcard/fix-critical-error-when-giftcard-customer-not-found.patch",
                     "version-constraint": "1.8.1"
+                },
+                {
+                    "description": "fix: Mismatch of order item id.",
+                    "filename": "essential/aheadworks/module-giftcard/mismatch-order-item-id.patch",
+                    "version-constraint": ">=1.8.2"
                 }
             ],
             "aheadworks/module-product-question": [
