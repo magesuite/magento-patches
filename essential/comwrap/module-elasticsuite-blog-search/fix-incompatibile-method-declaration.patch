@@ -1,0 +1,24 @@
+diff --git a/Model/ResourceModel/Post/Fulltext/Collection.php b/Model/ResourceModel/Post/Fulltext/Collection.php
+index 34cf3d5..107260e 100755
+--- a/Model/ResourceModel/Post/Fulltext/Collection.php
++++ b/Model/ResourceModel/Post/Fulltext/Collection.php
+@@ -120,15 +120,17 @@ class Collection extends \Magefan\Blog\Model\ResourceModel\Post\Collection
+         return $this;
+     }
+
++    //PATCH START
+     /**
+      * Returns current store id.
+      *
+      * @return int
+      */
+-    public function getStoreId()
++    public function getStoreId(): int
+     {
+-        return $this->storeId;
++        return (int)$this->storeId;
+     }
++    //PATCH END
+
+     /**
+      * Add filter by store
