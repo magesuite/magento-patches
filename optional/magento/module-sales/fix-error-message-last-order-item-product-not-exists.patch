@@ -1,8 +1,19 @@
 diff --git a/CustomerData/LastOrderedItems.php b/CustomerData/LastOrderedItems.php
-index 91164da..402bd3d 100644
+index 91164da..f687a7d 100644
 --- a/CustomerData/LastOrderedItems.php
 +++ b/CustomerData/LastOrderedItems.php
-@@ -149,7 +149,10 @@ class LastOrderedItems implements SectionSourceInterface
+@@ -143,13 +143,21 @@ class LastOrderedItems implements SectionSourceInterface
+             foreach ($order->getParentItemsRandomCollection($limit) as $item) {
+                 /** @var Product $product */
+                 try {
++                    // BEGIN PATCH
++                    if (!$item->getProduct()) {
++                        continue;
++                    }
++                    // END PATCH
+                     $product = $this->productRepository->getById(
+                         $item->getProductId(),
+                         false,
                          $this->_storeManager->getStore()->getId()
                      );
                  } catch (NoSuchEntityException $noEntityException) {
@@ -14,3 +25,6 @@ index 91164da..402bd3d 100644
                      continue;
                  }
                  if (in_array($website, $product->getWebsiteIds())) {
+--
+2.39.5 (Apple Git-154)
+
