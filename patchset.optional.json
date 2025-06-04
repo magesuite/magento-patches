@@ -2003,8 +2003,8 @@
                 "version-constraint": ">=3.6.0"
             },
             {
-                "description": "Export Review - Add store_id (IPET-1487)",
-                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/export-review-add-store-id.patch",
+                "description": "Export Review - Add additional fields (IPET-1487, IPET-2167)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/export-review-add-additional-fields.patch",
                 "version-constraint": ">=3.6.0"
             },
             {

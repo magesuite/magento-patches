@@ -1,0 +1,58 @@
+diff --git a/Model/Export/Review.php b/Model/Export/Review.php
+index 2ed37e8..bf26620 100644
+--- a/Model/Export/Review.php
++++ b/Model/Export/Review.php
+@@ -102,7 +102,13 @@ class Review extends AbstractEntity implements EntityInterface
+         'detail',
+         'status',
+         'created_at',
+-        'product_name'
++        'product_name',
++        // BEGIN PATCH
++        'store_id',
++        'city',
++        'is_verified_purchase',
++        'attachment'
++        // END PATCH
+     ];
+
+     /**
+@@ -367,6 +373,19 @@ class Review extends AbstractEntity implements EntityInterface
+                 if ($key == 'product_name') {
+                     $key = 'cpev.value';
+                 }
++
++                // BEGIN PATCH
++                if ($key == 'store_id') {
++                    $key = 'detail.store_id';
++                }
++                if ($key == 'city') {
++                    $key = 'detail.city';
++                }
++                if ($key == 'is_verified_purchase') {
++                    $key = 'detail.is_verified_purchase';
++                }
++                // END PATCH
++
+                 if (in_array($key, $this->ratingFields)) {
+                     $ratingId = array_search($key, $this->ratingFields);
+                     $reviewIds = $this->getReviewIds($ratingId, $value, $filterCondition);
+diff --git a/Model/ResourceModel/Review/Collection.php b/Model/ResourceModel/Review/Collection.php
+index 309f1b2..adc322b 100644
+--- a/Model/ResourceModel/Review/Collection.php
++++ b/Model/ResourceModel/Review/Collection.php
+@@ -29,6 +29,14 @@ class Collection extends AbstractCollection
+     {
+         parent::_initSelect();
+
++        // BEGIN PATCH
++        $this->getSelect()->joinLeft(
++            ['ra' => $this->getTable('review_attachment')],
++            'main_table.review_id = ra.review_id',
++            ['attachment' => new \Zend_Db_Expr('GROUP_CONCAT(ra.filename)')]
++        )->group('main_table.review_id');
++        // END PATCH
++
+         $this->getSelect()->join(
+             ['p' => $this->getProductTable()],
+             'main_table.entity_pk_value = p.entity_id',
