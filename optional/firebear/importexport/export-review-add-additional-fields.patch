@@ -1,8 +1,8 @@
 diff --git a/Model/Export/Review.php b/Model/Export/Review.php
-index 2ed37e8..471d196 100644
+index 2ed37e8..bf26620 100644
 --- a/Model/Export/Review.php
 +++ b/Model/Export/Review.php
-@@ -102,7 +102,14 @@ class Review extends AbstractEntity implements EntityInterface
+@@ -102,7 +102,13 @@ class Review extends AbstractEntity implements EntityInterface
          'detail',
          'status',
          'created_at',
@@ -12,13 +12,12 @@ index 2ed37e8..471d196 100644
 +        'store_id',
 +        'city',
 +        'is_verified_purchase',
-+        'is_product_recommended',
 +        'attachment'
 +        // END PATCH
      ];
 
      /**
-@@ -367,6 +374,22 @@ class Review extends AbstractEntity implements EntityInterface
+@@ -367,6 +373,19 @@ class Review extends AbstractEntity implements EntityInterface
                  if ($key == 'product_name') {
                      $key = 'cpev.value';
                  }
@@ -32,9 +31,6 @@ index 2ed37e8..471d196 100644
 +                }
 +                if ($key == 'is_verified_purchase') {
 +                    $key = 'detail.is_verified_purchase';
-+                }
-+                if ($key == 'is_product_recommended') {
-+                    $key = 'detail.is_product_recommended';
 +                }
 +                // END PATCH
 +
