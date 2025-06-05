@@ -11,7 +11,7 @@ index eebe696..7f1b0e4 100644
 -            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id']
 +            //BEGIN PATCH
 +            //['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id']
-+            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id', 'is_verified_purchase', 'city']
++            ['detail_id', 'store_id', 'title', 'detail', 'nickname', 'customer_id', 'city', 'is_verified_purchase', 'is_product_recommended']
 +            //END PATCH
          );
          return $this;
