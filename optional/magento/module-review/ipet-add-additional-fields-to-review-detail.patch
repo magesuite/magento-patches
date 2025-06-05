@@ -21,13 +21,14 @@ diff --git a/Model/ResourceModel/Review.php b/Model/ResourceModel/Review.php
 index b017415..7967a85 100644
 --- a/Model/ResourceModel/Review.php
 +++ b/Model/ResourceModel/Review.php
-@@ -187,6 +187,10 @@ class Review extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+@@ -187,6 +187,11 @@ class Review extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
              'title' => $object->getTitle(),
              'detail' => $object->getDetail(),
              'nickname' => $object->getNickname(),
 +            //BEGIN PATCH
++            'city' => $object->getCity(),
 +            'is_verified_purchase' => $object->getIsVerifiedPurchase() ?? 0,
-+            'city' => $object->getCity()
++            'is_product_recommended' => $object->getIsProductRecommended() ?? 0
 +            //END PATCH
          ];
          $select = $connection->select()->from($this->_reviewDetailTable, 'detail_id')->where('review_id = :review_id');
