@@ -1523,6 +1523,11 @@
                 "description": "Allows storepickup to be used with 0.00 orders (Giftacrd+Magento EE)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-gift-card-account/m23-ee-allow-store-pickup-as-free-payment-method.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Removing throwing exception when gift cart has no balance (DOG-2041)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-gift-card-account/removing-throwing-exception-for-zero-gift-card-balance.patch",
+                "version-constraint": ">=101.2.7"
             }
         ],
         "wagento/zendesk": [
