@@ -1,0 +1,16 @@
+diff --git a/Model/Giftcardaccount.php b/Model/Giftcardaccount.php
+index 6d1eecc..ddef90c 100644
+--- a/Model/Giftcardaccount.php
++++ b/Model/Giftcardaccount.php
+@@ -654,7 +654,10 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractExtensibleModel i
+
+         if ($balanceCheck) {
+             if ($this->getBalance() <= 0) {
+-                $this->_throwException(__('Gift card account %1 has a zero balance.', $this->getId()));
++                // BEGIN PATCH
++                // $this->_throwException(__('Gift card account %1 has a zero balance.', $this->getId()));
++                return false;
++                // END PATCH
+             }
+             if ($balanceCheck !== true && is_numeric($balanceCheck)) {
+                 if ($this->getBalance() < $balanceCheck) {
