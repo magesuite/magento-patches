@@ -196,6 +196,11 @@
               "description": "Fix category preview sorting when field includes direction (>=v2.11.9.2)",
               "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-category-preview-sorting-v2_11_9_2.patch",
               "version-constraint": ">=2.11.9.2"
+            },
+            {
+              "description": "Patch for Smile github issue 3617.",
+              "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/m248-elasticsuite-issues-3617.patch",
+              "version-constraint": "2.11.13"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
