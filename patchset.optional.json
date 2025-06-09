@@ -891,22 +891,17 @@
         ],
         "magmodules/magento2-digitec-galaxus": [
             {
-                "description": "Fix adding products to cart, MSI issue (iPet)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/magmodules-digitecgalaxus-fix-adding-to-cart-msi.patch",
-                "version-constraint": "<1.9.0"
-            },
-            {
-                "description": "Fix adding products to cart, MSI issue (iPet-2804)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/magmodules-digitecgalaxus-19-fix-adding-to-cart-msi.patch",
-                "version-constraint": ">=1.9.0"
-            },
-            {
-                "description": "Return first category path (iPet)",
+                "description": "Return first category path (IPET)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/magmodules-digitecgalaxus-return-first-category-path.patch",
                 "version-constraint": "*"
             },
             {
-                "description": "Set different status for galaxus orders (iPet)",
+                "description": "Fix adding products to cart, MSI issue (IPET-2804)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/magmodules-digitecgalaxus-fix-adding-to-cart-msi.patch",
+                "version-constraint": "*"
+            },
+            {
+                "description": "Set different status for galaxus orders (IPET-590)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/set-different-status-for-galaxus-orders.patch",
                 "version-constraint": "*"
             }
