@@ -2018,8 +2018,8 @@
                 "version-constraint": ">=3.6.0"
             },
             {
-                "description": "Export Review - Add additional fields (IPET-1487, IPET-2167)",
-                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/export-review-add-additional-fields.patch",
+                "description": "Import/Export Review - Add additional fields (IPET-1487, IPET-2167)",
+                "filename": "vendor/creativestyle/magento-patches/optional/firebear/importexport/import-export-review-additional-fields.patch",
                 "version-constraint": ">=3.6.0"
             },
             {

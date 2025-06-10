@@ -1,0 +1,141 @@
+diff --git a/Model/Export/Review.php b/Model/Export/Review.php
+index 2ed37e8..49c7944 100644
+--- a/Model/Export/Review.php
++++ b/Model/Export/Review.php
+@@ -102,7 +102,14 @@ class Review extends AbstractEntity implements EntityInterface
+         'detail',
+         'status',
+         'created_at',
+-        'product_name'
++        'product_name',
++        // BEGIN PATCH
++        'store_id',
++        'city',
++        'is_verified_purchase',
++        'review_attachment:filename',
++        'review_attachment:caption'
++        // END PATCH
+     ];
+
+     /**
+@@ -367,6 +374,25 @@ class Review extends AbstractEntity implements EntityInterface
+                 if ($key == 'product_name') {
+                     $key = 'cpev.value';
+                 }
++
++                // BEGIN PATCH
++                if ($key == 'store_id') {
++                    $key = 'detail.store_id';
++                }
++                if ($key == 'city') {
++                    $key = 'detail.city';
++                }
++                if ($key == 'is_verified_purchase') {
++                    $key = 'detail.is_verified_purchase';
++                }
++                if ($key == 'review_attachment:filename') {
++                    $key = 'ra.review_attachment:image';
++                }
++                if ($key == 'review_attachment:caption') {
++                    $key = 'ra.review_attachment:caption';
++                }
++                // END PATCH
++
+                 if (in_array($key, $this->ratingFields)) {
+                     $ratingId = array_search($key, $this->ratingFields);
+                     $reviewIds = $this->getReviewIds($ratingId, $value, $filterCondition);
+diff --git a/Model/Import/Review.php b/Model/Import/Review.php
+index faa6093..6eedf73 100644
+--- a/Model/Import/Review.php
++++ b/Model/Import/Review.php
+@@ -203,7 +203,10 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+         'vote:Quality',
+         'vote:Value',
+         'vote:Price',
+-        'vote:Rating'
++        'vote:Rating',
++        // BEGIN PATCH
++        'review_attachment:caption'
++        // END PATCH
+     ];
+
+     /**
+@@ -540,6 +543,17 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+                 );
+             }
+
++            // BEGIN PATCH
++            $attachmentCaptions = [];
++            if (!empty($reviewData['review_attachment:caption'])) {
++                try {
++                    $attachmentCaptions = $this->jsonHelper->jsonDecode($reviewData['review_attachment:caption']);
++                    unset($reviewData['review_attachment:caption']);
++                } catch (\Exception $e) {
++                }
++            }
++            // END PATCH
++
+             $rating = [];
+             foreach ($reviewData as $field => $value) {
+                 if (false === strpos($field, ':')) {
+@@ -579,6 +593,12 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+             $review->save();
+             $this->updateDateFromDump($review->getId(), $reviewData);
+
++            // BEGIN PATCH
++            if (!empty($attachmentCaptions) && $review->getId()) {
++                $this->saveAttachmentCaptions($review->getId(), $attachmentCaptions);
++            }
++            // END PATCH
++
+             $votes = $this->_ratingOptionVoteF->create()
+                 ->getResourceCollection()
+                 ->setReviewFilter($review->getId())
+@@ -778,4 +798,25 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+     {
+         return 'review';
+     }
++
++    // BEGIN PATCH
++    protected function saveAttachmentCaptions($reviewId, $attachmentCaptions)
++    {
++        if (empty($attachmentCaptions)) {
++            return;
++        }
++
++        $data = [];
++
++        foreach ($attachmentCaptions as $attachmentId => $caption) {
++            $data[] = [
++                'review_id' => $reviewId,
++                'attachment_id' => $attachmentId,
++                'caption' => $caption
++            ];
++        }
++
++        $this->_connection->insertOnDuplicate(this->productResource->getTable('review_attachment'), $data, ['caption']);
++    }
++    // END PATCH
+ }
+diff --git a/Model/ResourceModel/Review/Collection.php b/Model/ResourceModel/Review/Collection.php
+index 309f1b2..a35e966 100644
+--- a/Model/ResourceModel/Review/Collection.php
++++ b/Model/ResourceModel/Review/Collection.php
+@@ -29,6 +29,17 @@ class Collection extends AbstractCollection
+     {
+         parent::_initSelect();
+
++        // BEGIN PATCH
++        $this->getSelect()->joinLeft(
++            ['ra' => $this->getTable('review_attachment')],
++            'main_table.review_id = ra.review_id',
++            [
++                'review_attachment:filename' => new \Zend_Db_Expr('JSON_OBJECTAGG(ra.attachment_id, ra.filename)'),
++                'review_attachment:caption' => new \Zend_Db_Expr('JSON_OBJECTAGG(ra.attachment_id, ra.caption)')
++            ]
++        )->group('main_table.review_id');
++        // END PATCH
++
+         $this->getSelect()->join(
+             ['p' => $this->getProductTable()],
+             'main_table.entity_pk_value = p.entity_id',
