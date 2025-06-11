@@ -31,8 +31,8 @@ index a88e151..f4ade7f 100644
 +            <!-- ko template: getTemplate() --><!-- /ko -->
 +            <!--/ko-->
 +        </div>
-+        <!-- END PATCH -->
-+
          <fieldset class="fieldset" data-bind='attr: {id: "payment_form_" + getCode()}'>
++           <legend class="cs-visually-hidden"><span data-bind="i18n: 'PayPal Express'"></span></legend>
++        <!-- END PATCH -->
              <div class="payment-method-note">
                  <!-- ko i18n: 'You will be redirected to the PayPal website.' --><!-- /ko -->
