@@ -914,11 +914,6 @@
                 "description": "Set different status for galaxus orders (IPET-590)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/set-different-status-for-galaxus-orders.patch",
                 "version-constraint": "*"
-            },
-            {
-                "description": "Fix variable type during address saving (IPET-3225)",
-                "filename": "vendor/creativestyle/magento-patches/optional/magmodules/magento2-digitec-galaxus/fix-variable-type-during-address-saving.patch",
-                "version-constraint": "*"
             }
         ],
         "magmodules/magento2-channable": [
