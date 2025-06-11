@@ -836,6 +836,11 @@
                     "description": "Replace deprecated jQuery load function with .on('load')",
                     "filename": "essential/magento/module-email/m245-fix-deprecated-jquery-function.patch",
                     "version-constraint": ">101.1.0,<101.1.6"
+                },
+                {
+                    "description": "Security patch APSB25-50",
+                    "filename": "essential/magento/module-email/VULN-31609_2.4.X.patch",
+                    "version-constraint": ">=101.1.5, <101.1.5-p13 || >=101.1.6,<101.1.6-p11 || >=101.1.7,<101.1.7-p6 || >=101.1.8,<101.1.8-p1"
                 }
             ],
             "magento/module-config": [
