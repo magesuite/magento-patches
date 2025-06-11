@@ -1862,7 +1862,7 @@
                 {
                     "description": "Increased execution time for all bulk asynchronous web endpoints post APSB25-08 security patch",
                     "filename": "essential/magento/module-webapi-async/increased-execution-time-for-bulk-asynchronous-web-endpoints.patch",
-                    "version-constraint": ">=101.1.5, <101.1.5-p13 || >=101.1.6,<101.1.6-p11 || >=101.1.7,<101.1.7-p6 || >=101.1.8,<101.1.8-p1 || <100.4.4-p11"
+                    "version-constraint": "<100.4.4-p11 || >=101.1.5, <101.1.5-p13 || >=101.1.6,<101.1.6-p11 || >=101.1.7,<101.1.7-p6 || >=101.1.8,<101.1.8-p1"
                 }
             ],
             "magento/module-quick-order": [
