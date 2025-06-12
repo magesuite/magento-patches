@@ -1,0 +1,35 @@
+diff --git a/Stdlib/Cookie/PhpCookieManager.php b/Stdlib/Cookie/PhpCookieManager.php
+index 94dc4c2..2c18aca 100644
+--- a/Stdlib/Cookie/PhpCookieManager.php
++++ b/Stdlib/Cookie/PhpCookieManager.php
+@@ -222,15 +222,19 @@ class PhpCookieManager implements CookieManagerInterface
+         }
+
+         if ($sizeOfCookie > static::MAX_COOKIE_SIZE) {
+-            throw new CookieSizeLimitReachedException(
+-                new Phrase(
+-                    'Unable to send the cookie. Size of \'%name\' is %size bytes.',
+-                    [
+-                        'name' => $name,
+-                        'size' => $sizeOfCookie,
+-                    ]
+-                )
+-            );
++            /// BEGIN PATCH
++//            throw new CookieSizeLimitReachedException(
++//                new Phrase(
++//                    'Unable to send the cookie. Size of \'%name\' is %size bytes.',
++//                    [
++//                        'name' => $name,
++//                        'size' => $sizeOfCookie,
++//                    ]
++//                )
++//            );
++            http_response_code(400);
++            exit;
++            // END PATCH
+         }
+     }
+
+--
+2.39.5 (Apple Git-154)
