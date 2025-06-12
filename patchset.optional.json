@@ -365,7 +365,12 @@
             {
                 "description": "Disable cookie size error message",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-disable-cookie-size-error-message-p11.patch",
-                "version-constraint": ">=103.0.5-p11"
+                "version-constraint": ">=103.0.5-p11,<103.0.5-p13"
+            },
+            {
+                "description": "Disable cookie size error message",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m24-disable-cookie-size-error-message-p13.patch",
+                "version-constraint": ">=103.0.5-p13"
             },
             {
                 "description": "Fix false negative output of setup:db:status command",

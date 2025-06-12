@@ -62,9 +62,9 @@
                     "strip-path-components": 0
                 },
                 {
-                    "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
+                    "description": "Sets secure cookie flag for FE cookies based on foHTTPS presence",
                     "filename": "essential/magento/framework/framework-secure-cookie.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<103.0.5-p10,>=103.0.6"
                 },
                 {
                     "description": "Fix for Magento Framework Escaper - Critical log with special symbols",
