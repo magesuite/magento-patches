@@ -130,8 +130,8 @@ index 309f1b2..a35e966 100644
 +            ['ra' => $this->getTable('review_attachment')],
 +            'main_table.review_id = ra.review_id',
 +            [
-+                'review_attachment:filename' => new \Zend_Db_Expr('JSON_OBJECTAGG(ra.attachment_id, ra.filename)'),
-+                'review_attachment:caption' => new \Zend_Db_Expr('JSON_OBJECTAGG(ra.attachment_id, ra.caption)')
++                'review_attachment:filename' => new \Zend_Db_Expr("IF(COUNT(ra.attachment_id) = 0, '{}', JSON_OBJECTAGG(COALESCE(ra.attachment_id, 0), COALESCE(ra.filename, '')))"),
++                'review_attachment:caption' => new \Zend_Db_Expr("IF(COUNT(ra.attachment_id) = 0, '{}', JSON_OBJECTAGG(COALESCE(ra.attachment_id, 0), COALESCE(ra.caption, '')))")
 +            ]
 +        )->group('main_table.review_id');
 +        // END PATCH
