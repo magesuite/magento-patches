@@ -113,7 +113,7 @@ index faa6093..6eedf73 100644
 +            ];
 +        }
 +
-+        $this->_connection->insertOnDuplicate(this->productResource->getTable('review_attachment'), $data, ['caption']);
++        $this->_connection->insertOnDuplicate($this->productResource->getTable('review_attachment'), $data, ['caption']);
 +    }
 +    // END PATCH
  }
