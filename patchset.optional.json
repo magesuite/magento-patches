@@ -7,6 +7,13 @@
                 "version-constraint": "*"
             }
         ],
+        "activecampaign/newsletter": [
+            {
+                "description": "Fix ActiveCampaign Newsletter strtotime function (RKL-963)",
+                "filename": "vendor/creativestyle/magento-patches/optional/activecampaign/newsletter/fix-activecampaign-newsletter-strtotime-function-RKL-963.patch",
+                "version-constraint": "*"
+            }
+        ],
         "akeneo/api-php-client": [
             {
                 "description": "Add proxy from uri to request header (LOWA-160)",
