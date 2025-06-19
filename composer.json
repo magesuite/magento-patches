@@ -653,7 +653,7 @@
                 {
                     "description": "Fix issue with hidden payment methods error messages in checkout",
                     "filename": "essential/amasty/payrestriction/fix-hidden-payment-error-messages.patch",
-                    "version-constraint": "^2.4"
+                    "version-constraint": ">=2.4,<2.5.3"
                 }
             ],
             "amasty/stockstatus": [
