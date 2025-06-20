@@ -62,33 +62,3 @@ index b3faa86..ddbe5d9 100644
          },
  
          /**
-diff --git a/view/frontend/web/template/payment/reward-points.html b/view/frontend/web/template/payment/reward-points.html
-index c672485..7907966 100644
---- a/view/frontend/web/template/payment/reward-points.html
-+++ b/view/frontend/web/template/payment/reward-points.html
-@@ -93,7 +93,10 @@
-                                         'value': $t('Use ' + getRewardPointsLabelNameText()),
-                                         click: applyRewardPoints
-                             ">
--                                <span data-bind="i18n: 'Use ' + getRewardPointsLabelNameText()"></span>
-+                                <!-- BEGIN PATCH -->
-+                                <!-- ko i18n: 'Use '--><!-- /ko -->
-+                                <!-- ko text: getRewardPointsLabelNameText() --><!-- /ko -->
-+                                <!-- END PATCH -->
-                             </button>
-                         <!--/ko-->
-                         <!-- ko if: areRewardPointsApplied() -->
-@@ -103,7 +106,12 @@
-                                         'value': $t('Remove ' + getRewardPointsLabelNameText()),
-                                         click: removeRewardPoints
-                             ">
--                                <span data-bind="i18n: 'Remove ' + getRewardPointsLabelNameText()"></span>
-+                                <!-- BEGIN PATCH -->
-+                                <span>
-+                                    <!-- ko i18n: 'Remove '--><!-- /ko -->
-+                                    <!-- ko text: getRewardPointsLabelNameText() --><!-- /ko -->
-+                                </span>
-+                                <!-- END PATCH -->
-                             </button>
-                         <!--/ko-->
-                     </div>

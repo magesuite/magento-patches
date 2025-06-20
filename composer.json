@@ -1713,9 +1713,14 @@
                     "version-constraint": ">=2.4.1"
                 },
                 {
-                    "description": "Add translations in checkout",
-                    "filename": "essential/aheadworks/module-reward-points/checkout_translations.patch",
+                    "description": "Add translations in checkout (JS)",
+                    "filename": "essential/aheadworks/module-reward-points/checkout_translations_js.patch",
                     "version-constraint": ">=2.4.1"
+                },
+                {
+                    "description": "Add translations in checkout (HTML)",
+                    "filename": "essential/aheadworks/module-reward-points/checkout_translations_html.patch",
+                    "version-constraint": ">=2.4.1,<2.5.1"
                 },
                 {
                     "description": "Translate transaction comment in email",
