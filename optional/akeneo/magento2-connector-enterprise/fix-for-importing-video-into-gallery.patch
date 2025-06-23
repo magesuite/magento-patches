@@ -1,0 +1,42 @@
+diff --git a/Helper/Asset.php b/Helper/Asset.php
+index 6119cb4..a5deecb 100644
+--- a/Helper/Asset.php
++++ b/Helper/Asset.php
+@@ -2307,7 +2307,11 @@ class Asset
+
+             $familyAkeneo = $akeneoClient->getAssetFamilyApi()->get($attributeAkeneo['reference_data_name']);
+             /** @var string $mainMediaAttribute */
+-            $mainMediaAttribute = $familyAkeneo['attribute_as_main_media'];
++            // BEGIN PATCH
++            // $mainMediaAttribute = $familyAkeneo['attribute_as_main_media'];
++            // Api returns wrong main media attribute for video
++            $mainMediaAttribute = 'video_url';
++            // END PATCH
+             $mainMediaAttributeData = $akeneoClient->getAssetAttributeApi()->get(
+                 $attributeAkeneo['reference_data_name'],
+                 $mainMediaAttribute
+@@ -2352,14 +2356,20 @@ class Asset
+              * @var array $storeData
+              */
+             foreach ($stores as $suffix => $storeData) {
++                // BEGIN PATCH
++                // In database video column with store suffix is not present
+                 if ($connection->tableColumnExists(
+                     $tmpTable,
+-                    strtolower($asset['video_attribute']) . self::SUFFIX_SEPARATOR . $suffix
++                    // strtolower($asset['video_attribute']) . self::SUFFIX_SEPARATOR . $suffix
++                    strtolower($asset['video_attribute'])
+                 )
+                 ) {
+-                    $data[$asset['video_attribute'] . self::SUFFIX_SEPARATOR . $suffix] =
+-                        strtolower($asset['video_attribute']) . self::SUFFIX_SEPARATOR . $suffix;
+-                    $dataToImport[$asset['video_attribute'] . self::SUFFIX_SEPARATOR . $suffix] = [
++                    // $data[$asset['video_attribute'] . self::SUFFIX_SEPARATOR . $suffix] =
++                    //    strtolower($asset['video_attribute']) . self::SUFFIX_SEPARATOR . $suffix;
++                    // $dataToImport[$asset['video_attribute'] . self::SUFFIX_SEPARATOR . $suffix] = [
++                    $data[$asset['video_attribute']] = strtolower($asset['video_attribute']);
++                    $dataToImport[$asset['video_attribute']] = [
++                // END PATCH
+                         'preview_image_description' => $asset['preview_image_description'],
+                         'preview_image' => $asset['preview_image'],
+                         'preview_image_title' => $asset['preview_image_title'],
