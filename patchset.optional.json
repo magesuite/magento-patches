@@ -53,6 +53,11 @@
               "description": "Fix missing label for specific locale issue (FR-487)",
               "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/fix-missing-label-in-locale-104.3.17.patch",
               "version-constraint": ">=104.3.17"
+            },
+            {
+              "description": "Fix for importing product videos with Akeneo connector (FR-286)",
+              "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/fix-for-importing-video-into-gallery.patch",
+              "version-constraint": ">=104.5.4"
             }
         ],
         "almapay/alma-monthlypayments-magento2": [
