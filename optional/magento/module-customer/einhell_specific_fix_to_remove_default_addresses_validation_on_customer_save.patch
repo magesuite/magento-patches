@@ -1,0 +1,53 @@
+diff --git a/Model/ResourceModel/CustomerRepository.php b/Model/ResourceModel/CustomerRepository.php
+index 0a4834b..5c84bc9 100644
+--- a/Model/ResourceModel/CustomerRepository.php
++++ b/Model/ResourceModel/CustomerRepository.php
+@@ -211,12 +211,6 @@ class CustomerRepository implements CustomerRepositoryInterface
+             $prevCustomerDataArr = $this->prepareCustomerData($prevCustomerData->__toArray());
+             $customer->setCreatedAt($prevCustomerData->getCreatedAt());
+         }
+-        if ($customer->getDefaultBilling()) {
+-            $this->validateDefaultAddress($customer, $prevCustomerData, CustomerInterface::DEFAULT_BILLING);
+-        }
+-        if ($customer->getDefaultShipping()) {
+-            $this->validateDefaultAddress($customer, $prevCustomerData, CustomerInterface::DEFAULT_SHIPPING);
+-        }
+         /** @var $customer \Magento\Customer\Model\Data\Customer */
+         $customerArr = $customer->__toArray();
+         $customer = $this->imageProcessor->save(
+@@ -564,35 +558,4 @@ class CustomerRepository implements CustomerRepositoryInterface
+         }
+         return $customerData;
+     }
+-
+-    /**
+-     * To validate default address
+-     *
+-     * @param CustomerInterface $customer
+-     * @param CustomerInterface|null $prevCustomerData
+-     * @param string $defaultAddressType
+-     * @return void
+-     * @throws InputException
+-     */
+-    private function validateDefaultAddress(
+-        CustomerInterface $customer,
+-        ?CustomerInterface $prevCustomerData,
+-        string $defaultAddressType
+-    ): void {
+-        $defaultAddressId = $defaultAddressType === CustomerInterface::DEFAULT_BILLING ?
+-            (int) $customer->getDefaultBilling() : (int) $customer->getDefaultShipping();
+-        if ($prevCustomerData && $prevCustomerData->getAddresses()) {
+-            foreach ($prevCustomerData->getAddresses() as $address) {
+-                if ($defaultAddressId === (int) $address->getId()) {
+-                    return;
+-                }
+-            }
+-            throw new InputException(
+-                __(
+-                    'The %fieldName value is invalid. Set the correct value and try again.',
+-                    ['fieldName' => $defaultAddressType]
+-                )
+-            );
+-        }
+-    }
+ }
