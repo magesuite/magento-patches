@@ -3362,11 +3362,6 @@
             ],
             "comwrap/module-elasticsuite-blog-search": [
                 {
-                    "description": "Fix issue with mapping for is_active field",
-                    "filename": "essential/comwrap/module-elasticsuite-blog-search/fix-issue-with-mapping.patch",
-                    "version-constraint": "*"
-                },
-                {
                     "description": "Fix issue with incompatibile method declaration",
                     "filename": "essential/comwrap/module-elasticsuite-blog-search/fix-incompatibile-method-declaration.patch",
                     "version-constraint": "*"
