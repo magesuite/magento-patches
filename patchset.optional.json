@@ -1174,13 +1174,18 @@
                 "version-constraint": "100.2.2"
             },
             {
-              "description": "Reduce number of database queries during product import.",
-              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/reduce-number-of-database-queries-during-import.patch",
-              "version-constraint": "*"
+                "description": "Reduce number of database queries during product import.",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/reduce-number-of-database-queries-during-import.patch",
+                "version-constraint": "*"
             },
             {
                 "description": "Make saveLinksData method public",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/make-save-links-data-method-public.patch",
+                "version-constraint": "*"
+            },
+            {
+                "description": "Make isNeedToValidateUrlKey method public",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-import-export/make-is-need-to-validate-url-key-method-public.patch",
                 "version-constraint": "*"
             },
             {
@@ -1300,6 +1305,11 @@
                 "description": "Force generation of url_path per storeviews for categories (P2G-2294)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-url-rewrite/force-url-path-generation-per-storeviews-for-categories.patch",
                 "version-constraint": ">=100.4.3"
+            },
+            {
+              "description": "Make AfterImportDataObserver methods public",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog-url-rewrite/make-after-import-data-observer-methods-public.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-grouped-product": [
