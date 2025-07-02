@@ -1,0 +1,16 @@
+diff --git a/Plugin/Session/ModifySameSite.php b/Plugin/Session/ModifySameSite.php
+index 747f9cb..1447a4f 100644
+--- a/Plugin/Session/ModifySameSite.php
++++ b/Plugin/Session/ModifySameSite.php
+@@ -51,6 +51,11 @@ class ModifySameSite
+      */
+     public function beforeSetCookieSameSite(ConfigInterface $subject, string $cookieSameSite = 'Lax'): array
+     {
++        // BEGIN PATCH
++        if (!$subject->getCookieSecure()) {
++            return [$cookieSameSite];
++        }
++        // END PATCH
+         $agent = $this->header->getHttpUserAgent();
+         $sameSite = $this->validator->shouldSendSameSiteNone($agent);
+         if ($sameSite === false) {

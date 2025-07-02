@@ -3394,6 +3394,13 @@
                     "filename": "essential/erusev/parsedown/fix-constructor-parameter.patch",
                     "version-constraint": ">=2.0.0"
                 }
+            ],
+            "veriteworks/cookiefix": [
+                {
+                    "description": "Do change samesite to none for unsecure cookies",
+                    "filename": "essential/veriteworks/cookiefix/RK-1456-secure-cookie-plus-samesite-none.patch",
+                    "version-constraint": ">=3.2.0"
+                }
             ]
         }
     }
