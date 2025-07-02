@@ -1,0 +1,26 @@
+diff --git a/Model/Import/Product.php b/Model/Import/Product.php
+index e1c9c0b..bc50eea 100644
+--- a/Model/Import/Product.php
++++ b/Model/Import/Product.php
+@@ -2821,7 +2821,9 @@ class Product extends AbstractEntity
+      * @param array $rowData
+      * @return bool
+      */
+-    private function isNeedToValidateUrlKey($rowData)
++    //BEGIN PATCH
++    public function isNeedToValidateUrlKey($rowData)
++    //END PATCH
+     {
+         if (!empty($rowData[self::COL_SKU]) && empty($rowData[self::URL_KEY])
+             && $this->getBehavior() === Import::BEHAVIOR_APPEND
+@@ -3296,7 +3298,9 @@ class Product extends AbstractEntity
+      * @param string $sku
+      * @return bool
+      */
+-    private function isSkuExist($sku)
++    //BEGIN PATCH
++    public function isSkuExist($sku)
++    //END PATCH
+     {
+         if ($sku !== null) {
+             return $this->skuStorage->has($sku);

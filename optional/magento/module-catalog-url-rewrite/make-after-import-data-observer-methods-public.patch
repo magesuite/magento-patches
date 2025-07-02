@@ -1,0 +1,235 @@
+diff --git a/Observer/AfterImportDataObserver.php b/Observer/AfterImportDataObserver.php
+index 7546ad4..3ab43fb 100644
+--- a/Observer/AfterImportDataObserver.php
++++ b/Observer/AfterImportDataObserver.php
+@@ -294,7 +294,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @throws LocalizedException
+      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+      */
+-    private function populateForUrlsGeneration(array $bunch) : array
++    //BEGIN PATCH
++    public function populateForUrlsGeneration(array $bunch) : array
++    //END PATCH
+     {
+         $products = [];
+         $productIdsMissingUrlKeyByStore = [];
+@@ -323,7 +325,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @throws LocalizedException
+      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+      */
+-    private function populateForUrlGeneration(array $rowData, array &$products)
++    //BEGIN PATCH
++    public function populateForUrlGeneration(array $rowData, array &$products)
++    //END PATCH
+     {
+         $newSku = $this->import->getNewSku($rowData[ImportProduct::COL_SKU]);
+         if (!$this->isNeedToPopulateForUrlGeneration($rowData, $newSku)) {
+@@ -360,7 +364,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param array $newSku
+      * @return bool
+      */
+-    private function isNeedToPopulateForUrlGeneration($rowData, $newSku): bool
++    //BEGIN PATCH
++    public function isNeedToPopulateForUrlGeneration($rowData, $newSku): bool
++    //END PATCH
+     {
+         if ((
+             (empty($newSku) || !isset($newSku['entity_id']))
+@@ -384,7 +390,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param array $rowData
+      * @return void
+      */
+-    private function setStoreToProduct(Product $product, array $rowData): void
++    //BEGIN PATCH
++    public function setStoreToProduct(Product $product, array $rowData): void
++    //END PATCH
+     {
+         if (!empty($rowData[ImportProduct::COL_STORE])
+             && ($storeId = $this->import->getStoreIdByCode($rowData[ImportProduct::COL_STORE]))
+@@ -403,7 +411,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param Product[] $products
+      * @return void
+      */
+-    private function addProductToImport(Product $product, string $storeId, array &$products) : void
++    //BEGIN PATCH
++    public function addProductToImport(Product $product, string $storeId, array &$products) : void
++    //END PATCH
+     {
+         if ($product->getVisibility() == (string)Visibility::getOptionArray()[Visibility::VISIBILITY_NOT_VISIBLE]) {
+             return;
+@@ -418,7 +428,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param Product[] $products
+      * @return void
+      */
+-    private function populateGlobalProduct($product, array &$products) : void
++    //BEGIN PATCH
++    public function populateGlobalProduct($product, array &$products) : void
++    //END PATCH
+     {
+         foreach ($this->import->getProductWebsites($product->getSku()) as $websiteId) {
+             foreach ($this->websitesToStoreIds[$websiteId] as $storeId) {
+@@ -437,7 +449,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @return UrlRewrite[]
+      * @throws LocalizedException
+      */
+-    private function generateUrls(array $products)
++    //BEGIN PATCH
++    public function generateUrls(array $products)
++    //END PATCH
+     {
+         $mergeDataProvider = clone $this->mergeDataProviderPrototype;
+         $mergeDataProvider->merge($this->canonicalUrlRewriteGenerate($products));
+@@ -455,7 +469,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param int|null $storeId
+      * @return bool
+      */
+-    private function isGlobalScope($storeId)
++    //BEGIN PATCH
++    public function isGlobalScope($storeId)
++    //END PATCH
+     {
+         return null === $storeId || Store::DEFAULT_STORE_ID === (int) $storeId;
+     }
+@@ -466,7 +482,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param Product[] $products
+      * @return UrlRewrite[]
+      */
+-    private function canonicalUrlRewriteGenerate(array $products)
++    //BEGIN PATCH
++    public function canonicalUrlRewriteGenerate(array $products)
++    //END PATCH
+     {
+         $urls = [];
+         foreach ($products as $productId => $productsByStores) {
+@@ -497,7 +515,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param array $products
+      * @return void
+      */
+-    private function initializeCacheForProducts(array $products) : void
++    //BEGIN PATCH
++    public function initializeCacheForProducts(array $products) : void
++    //END PATCH
+     {
+         if ($this->cachedValues === null) {
+             $this->cachedValues = $this->getScopeBasedUrlKeyValues($products);
+@@ -513,7 +533,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param Category|null $category
+      * @return string
+      */
+-    private function getReqPath(int $productId, int $storeId, Product $product, ?Category $category = null) : string
++    //BEGIN PATCH
++    public function getReqPath(int $productId, int $storeId, Product $product, ?Category $category = null) : string
++    //END PATCH
+     {
+         $reqPath = $this->productUrlPathGenerator->getUrlPathWithSuffix($product, $storeId, $category);
+         if (!empty($this->cachedValues) && isset($this->cachedValues[$productId][$storeId])) {
+@@ -531,7 +553,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param array $products
+      * @return array
+      */
+-    private function getScopeBasedUrlKeyValues(array $products) : array
++    //BEGIN PATCH
++    public function getScopeBasedUrlKeyValues(array $products) : array
++    //END PATCH
+     {
+         $values = [];
+         $productIds = [];
+@@ -563,7 +587,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @return UrlRewrite[]
+      * @throws LocalizedException
+      */
+-    private function categoriesUrlRewriteGenerate(array $products): array
++    //BEGIN PATCH
++    public function categoriesUrlRewriteGenerate(array $products): array
++    //END PATCH
+     {
+         $urls = [];
+         foreach ($products as $productId => $productsByStores) {
+@@ -605,7 +631,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param Product[] $products
+      * @return UrlRewrite[]
+      */
+-    private function currentUrlRewritesRegenerate(array $products)
++    //BEGIN PATCH
++    public function currentUrlRewritesRegenerate(array $products)
++
+     {
+         $currentUrlRewrites = $this->urlFinder->findAllByData(
+             [
+@@ -638,7 +666,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param Product[] $products
+      * @return array
+      */
+-    private function generateForAutogenerated(UrlRewrite $url, ?Category $category, array $products) : array
++    //BEGIN PATCH
++    public function generateForAutogenerated(UrlRewrite $url, ?Category $category, array $products) : array
++    //END PATCH
+     {
+         $storeId = $url->getStoreId();
+         $productId = $url->getEntityId();
+@@ -676,7 +706,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @return UrlRewrite[]
+      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+      */
+-    private function generateForCustom(UrlRewrite $url, ?Category $category, array $products) : array
++    //BEGIN PATCH
++    public function generateForCustom(UrlRewrite $url, ?Category $category, array $products) : array
++    //END PATCH
+     {
+         $storeId = $url->getStoreId();
+         $productId = $url->getEntityId();
+@@ -721,7 +753,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param UrlRewrite $url
+      * @return Category|null|bool
+      */
+-    private function retrieveCategoryFromMetadata(UrlRewrite $url)
++    //BEGIN PATCH
++    public function retrieveCategoryFromMetadata(UrlRewrite $url)
++    //END PATCH
+     {
+         $metadata = $url->getMetadata();
+         if (isset($metadata['category_id'])) {
+@@ -739,7 +773,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @return Category|DataObject
+      * @throws LocalizedException
+      */
+-    private function getCategoryById(int $categoryId, int $storeId)
++    //BEGIN PATCH
++    public function getCategoryById(int $categoryId, int $storeId)
++    //END PATCH
+     {
+         if (!isset($this->categoriesCache[$categoryId][$storeId])) {
+             /** @var CategoryCollection $categoryCollection */
+@@ -759,7 +795,9 @@ class AfterImportDataObserver implements ObserverInterface
+      *
+      * @return bool
+      */
+-    private function isCategoryRewritesEnabled() : bool
++    //BEGIN PATCH
++    public function isCategoryRewritesEnabled() : bool
++    //END PATCH
+     {
+         return (bool)$this->scopeConfig->getValue('catalog/seo/generate_category_product_rewrites');
+     }
+@@ -773,7 +811,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @return array
+      * @throws LocalizedException
+      */
+-    private function getParentCategoriesUrlRewrites(array $categoryIds, int $storeId, Product $product): array
++    //BEGIN PATCH
++    public function getParentCategoriesUrlRewrites(array $categoryIds, int $storeId, Product $product): array
++    //END PATCH
+     {
+         $urls = [];
+         foreach ($categoryIds as $categoryId) {
+@@ -804,7 +844,9 @@ class AfterImportDataObserver implements ObserverInterface
+      * @param array[] $importedProducts
+      * @return void
+      */
+-    private function getUrlKeyAndNameForProductsByIds(array $productIds, int $storeId, array $importedProducts): void
++    //BEGIN PATCH
++    public function getUrlKeyAndNameForProductsByIds(array $productIds, int $storeId, array $importedProducts): void
++    //END PATCH
+     {
+         $productCollection = $this->productCollectionFactory->create();
+         $productCollection->setStoreId($storeId);
