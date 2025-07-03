@@ -1,0 +1,18 @@
+After unserialization of customer data, custom attribute is an object, not an value.
+
+diff --git a/Model/Delegation/Storage.php b/Model/Delegation/Storage.php
+index d1eae3f..de86f24 100644
+--- a/Model/Delegation/Storage.php
++++ b/Model/Delegation/Storage.php
+@@ -149,7 +149,10 @@ class Storage
+             );
+
+             foreach ($customAttributes as $attributeCode => $attributeValue) {
+-                $address->setCustomAttribute($attributeCode, $attributeValue);
++                // PATCH START
++                // $address->setCustomAttribute($attributeCode, $attributeValue);
++                $address->setCustomAttribute($attributeCode, $attributeValue['value']);
++                // PATCH END
+             }
+
+             $addresses[] = $address;
