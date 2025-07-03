@@ -2078,6 +2078,11 @@
                     "description": "Patch for APSB25-08 2.4.5",
                     "filename": "essential/magento/module-customer/vuln-28982-2-4-5x-v2-composer.patch",
                     "version-constraint": ">=103.0.5,<103.0.5-p11"
+                },
+                {
+                    "description": "Allow saving custom attributes in after unserialization",
+                    "filename": "essential/magento/module-customer/allow-saving-custom-attributes-after-unserialization.patch",
+                    "version-constraint": ">=103.0.7"
                 }
             ],
             "magento/module-eav": [
