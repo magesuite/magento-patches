@@ -213,6 +213,11 @@
               "description": "Patch for Smile github issue 3617.",
               "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/m248-elasticsuite-issues-3617.patch",
               "version-constraint": "2.11.13"
+            },
+            {
+                "description": "Fix category position sorting",
+                "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-category-position-sorting.patch",
+                "version-constraint": ">=2.11.14"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
