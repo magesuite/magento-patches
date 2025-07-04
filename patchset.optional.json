@@ -640,22 +640,22 @@
             {
                 "description": "Fix refund proportion calculation (IPET-825) and skip grandtotal adjustments (IPET-1184 + IPET-1206)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-refund-proportion-calculation-and-skip-grandtotal-adjustments.patch",
-                "version-constraint": "*"
+                "version-constraint": "<3.0.58"
             },
             {
                 "description": "Fix discount amount calculation (IPET-1380 + IPET-1884) and adjust reward point name in discount description (IPET-1616)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-reward-point-discount-amount-and-description.patch",
-                "version-constraint": "*"
+                "version-constraint": "<3.0.58"
             },
             {
                 "description": "Fix negative reward total (it can happen if discount is higher than subtotal)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-minimum-reward-totals.patch",
-                "version-constraint": "*"
+                "version-constraint": "<3.0.58"
             },
             {
                 "description": "Don't substract discount from price because it generates problems if coupon code is added",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/do-not-substract-discount-from-item-price.patch",
-                "version-constraint": "*"
+                "version-constraint": "<3.0.58"
             },
             {
                 "description": "Fix compatibility with test from magesuite-free-gift",

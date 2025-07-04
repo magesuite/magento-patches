@@ -1,23 +1,23 @@
 diff --git a/src/Rewards/Model/Total/Quote/Discount.php b/src/Rewards/Model/Total/Quote/Discount.php
-index 1fdaf33..7f7825d 100644
+index 6e9658f..476d3a8 100644
 --- a/src/Rewards/Model/Total/Quote/Discount.php
 +++ b/src/Rewards/Model/Total/Quote/Discount.php
-@@ -681,15 +681,18 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
+@@ -695,15 +695,18 @@ class Discount extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
              ->setBaseRewardsDiscountAmount($baseDiscount)
          ;
- 
+
 -        if (!isset(self::$discountedItems[$this->item->getId()])
 -            // StripePayments module
--            /* @var \StripeIntegration\Payments\Helper\Quote::recollectTotals() **/
+-            /* @var \StripeIntegration\Payments\Helper\Quote::recollectTotals() * */
 -            || self::$discountedItems[$this->item->getId()] != $this->item->getDiscountAmount()
--            && $this->item->getQuote()->getPayment()->getMethod() == 'stripe_payments') {
+-            && in_array($this->item->getQuote()->getPayment()->getMethod(), ['stripe_payments', 'klarna_kco'])) {
 +        // BEGIN PATCH
 +        // With this condition payment methods from Wallee are not visible in checkout because discount is missing in quote items. This is probably fix for "Rewards Item Discount is doubled in onestepcheckout" issue.
 +        // if (!isset(self::$discountedItems[$this->item->getId()])
 +        //     // StripePayments module
-+        //     /* @var \StripeIntegration\Payments\Helper\Quote::recollectTotals() **/
++        //     /* @var \StripeIntegration\Payments\Helper\Quote::recollectTotals() * */
 +        //     || self::$discountedItems[$this->item->getId()] != $this->item->getDiscountAmount()
-+        //     && $this->item->getQuote()->getPayment()->getMethod() == 'stripe_payments') {
++        //     && in_array($this->item->getQuote()->getPayment()->getMethod(), ['stripe_payments', 'klarna_kco'])) {
              $this->item->setDiscountAmount($this->item->getDiscountAmount() + $discount);
              $this->item->setBaseDiscountAmount($this->item->getBaseDiscountAmount() + $baseDiscount);
              self::$discountedItems[$this->item->getId()] = $this->item->getDiscountAmount();
