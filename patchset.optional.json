@@ -663,14 +663,9 @@
                 "version-constraint": "*"
             },
             {
-                "description": "Fix for the issue reported by error: Exception message: Infinite loop detected (IPET-2176)",
-                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-infinitive-loop-on-getting-quote.patch",
-                "version-constraint": ">=3.0.57"
-            },
-            {
                 "description": "Fix issue missing Wallee payment caused by missing discount in quote items (IPET-2950)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/fix-issue-with-missing-discount-amount.patch",
-                "version-constraint": ">=3.2.15"
+                "version-constraint": ">=3.2.15,<=3.3.3"
             }
         ],
         "mirasvit/module-report": [
