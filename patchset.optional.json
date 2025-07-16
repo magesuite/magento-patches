@@ -2221,6 +2221,13 @@
           "filename": "vendor/creativestyle/magento-patches/optional/guzzlehttp/psr7/increase-truncate-at-param.patch",
           "version-constraint": "*"
         }
+      ],
+      "weareplanet/magento-2": [
+        {
+          "description": "Add postbox to street field (MOV)",
+          "filename": "vendor/creativestyle/magento-patches/optional/weareplanet/magento-2/add-postbox-to-street-field-MOV.patch",
+          "version-constraint": ">=2.1.24"
+        }
       ]
     }
 }

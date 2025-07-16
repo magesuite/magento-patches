@@ -1,0 +1,30 @@
+We introduced a postbox field in the customer address.
+The customer can enter a postbox instead of a street.
+
+diff --git a/Model/Service/Order/TransactionService.php b/Model/Service/Order/TransactionService.php
+index cafee07..494e6a9 100644
+--- a/Model/Service/Order/TransactionService.php
++++ b/Model/Service/Order/TransactionService.php
+@@ -486,7 +486,15 @@ class TransactionService extends AbstractTransactionService
+         $address->setPostCode(
+             $this->helper->fixLength($this->helper->removeLinebreaks($customerAddress->getPostcode()), 40));
+         $street = $customerAddress->getStreet();
++        // PATCH START
++        // If the street is empty, we use the postbox as street, because it's required by the API.
++        if (empty(array_filter($street)) && $customerAddress->getPostbox()) {
++            $street = $customerAddress->getPostbox();
++        }
++        // PATCH END
+         $address->setStreet($this->helper->fixLength(\is_array($street) ? \implode("\n", $street) : $street, 300));
++
++
+         return $address;
+     }
+
+@@ -612,4 +620,4 @@ class TransactionService extends AbstractTransactionService
+             \sleep(2);
+         }
+     }
+-}
+\ No newline at end of file
++}
