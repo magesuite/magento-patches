@@ -1909,6 +1909,11 @@
                     "description": "Fix incorrect pragma syntax preventing advanced bundling",
                     "filename": "essential/plugincompany/contactforms/m22-contact-forms-incorrect-pragma-syntax.patch",
                     "version-constraint": "<=100.9.0"
+                },
+                {
+                    "description": "Fix an error when trying to send form with a file attachment",
+                    "filename": "essential/plugincompany/contactforms/fix-error-when-sending-file.patch",
+                    "version-constraint": ">=100.17.12"
                 }
             ],
             "magento/module-cron": [

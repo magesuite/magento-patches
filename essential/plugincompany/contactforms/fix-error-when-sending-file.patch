@@ -1,0 +1,22 @@
+diff --git a/Model/Mailer/AttachmentManager.php b/Model/Mailer/AttachmentManager.php
+index 74f8f6f..f92b796 100644
+--- a/Model/Mailer/AttachmentManager.php
++++ b/Model/Mailer/AttachmentManager.php
+@@ -112,11 +112,14 @@ class AttachmentManager
+
+     public function createAttachmentNewZend($filePath)
+     {
+-        $mp = new \Zend\Mime\Part(file_get_contents($filePath));
++        //BEGIN PATCH
++        $mp = new \Laminas\Mime\Part(file_get_contents($filePath));
+         $mp->type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filePath);
+-        $mp->encoding = \Zend\Mime\Mime::ENCODING_BASE64;
+-        $mp->disposition = \Zend\Mime\Mime::DISPOSITION_ATTACHMENT;
++        $mp->encoding = \Laminas\Mime\Mime::ENCODING_BASE64;
++        $mp->disposition = \Laminas\Mime\Mime::DISPOSITION_ATTACHMENT;
+         $mp->filename = $this->getFileNameFromPath($filePath);
++        //BEGIN PATCH
++
+         return $mp;
+     }
+
