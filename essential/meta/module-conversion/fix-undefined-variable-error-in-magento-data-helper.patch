@@ -1,0 +1,13 @@
+diff --git a/Helper/MagentoDataHelper.php b/Helper/MagentoDataHelper.php
+index 595acd1..27d2748 100644
+--- a/Helper/MagentoDataHelper.php
++++ b/Helper/MagentoDataHelper.php
+@@ -297,6 +297,8 @@ class MagentoDataHelper
+      */
+     public function getCartPayload($quote): array
+     {
++        $categoryIds = [];
++        $contents = [];
+         foreach ($quote->getAllItems() as $item) {
+             $product = $item->getProduct();
+             $categoryIds[] = $product->getCategoryIds();
