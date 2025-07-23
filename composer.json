@@ -1846,6 +1846,11 @@
                     "description": "Patch for APSB25-08 2.4.5",
                     "filename": "essential/magento/module-quote/vuln-28982-2-4-5x-v2-composer.patch",
                     "version-constraint": ">=101.2.5,<101.2.5-p11"
+                },
+                {
+                    "description": "AC-14987::company field validation fails for guest checkout",
+                    "filename": "essential/magento/module-quote/fix-for-customer-managment.patch",
+                    "version-constraint": ">=101.2.8,<101.2.9"
                 }
             ],
             "magento/module-webapi-async": [
