@@ -1,0 +1,16 @@
+diff --git a/view/frontend/web/js/cancel-order-modal.js b/view/frontend/web/js/cancel-order-modal.js
+index be840bf..158dbc1 100644
+--- a/view/frontend/web/js/cancel-order-modal.js
++++ b/view/frontend/web/js/cancel-order-modal.js
+@@ -14,7 +14,10 @@ define([
+             options = {
+                 type: 'popup',
+                 responsive: true,
+-                title: 'Cancel Order',
++                // title: 'Cancel Order',
++                // BEGIN PATCH
++                title: $.mage.__('Cancel Order'),
++                // END PATCH
+                 buttons: [{
+                     text: $.mage.__('Close'),
+                     class: 'action-secondary action-dismiss close-modal-button',
