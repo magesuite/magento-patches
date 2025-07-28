@@ -1077,6 +1077,13 @@
                     "version-constraint": ">=2.11.0"
                 }
             ],
+            "magento/module-order-cancellation-ui": [
+                {
+                    "description": "Add translation for the order cancellation modal title (FZ-741)",
+                    "filename": "essential/magento/module-order-cancellation-ui/translate-order-cancellation-modal-title.patch",
+                    "version-constraint": ">=100.4.0-p4"
+                }
+            ],
             "magento/module-catalog-inventory": [
                 {
                     "description": "Fix stock indexer to correctly reindex stock using materialized views (Magento 2.2.0-2.2.4)",
