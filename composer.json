@@ -3400,7 +3400,7 @@
                 {
                     "description": "Add missing local variables declaration in MagentoDataHelper::getCartPayload() method",
                     "filename": "essential/meta/module-conversion/fix-undefined-variable-error-in-magento-data-helper.patch",
-                    "version-constraint": ">=1.5.0"
+                    "version-constraint": "1.5.0"
                 }
             ],
             "akeneo/magento2-connector-enterprise": [
