@@ -2336,6 +2336,11 @@
                     "description": "Fix missing float typecasting for options amount.",
                     "filename": "essential/magento/module-bundle/m246-fix-bundle-option-amount-always-return-float.patch",
                     "version-constraint": ">=101.0.6"
+                },
+                {
+                    "description": "Return zero value for weight if bundle product has no options",
+                    "filename": "essential/magento/module-bundle/return-zero-weight-for-bundle-product-with-no-options.patch",
+                    "version-constraint": ">=101.0.6"
                 }
             ],
             "amzn/amazon-pay-and-login-with-amazon-core-module": [
