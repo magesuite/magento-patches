@@ -1,0 +1,18 @@
+diff --git a/Model/Product/Type.php b/Model/Product/Type.php
+index d542458..cfb53ca 100644
+--- a/Model/Product/Type.php
++++ b/Model/Product/Type.php
+@@ -351,6 +351,11 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
+
+             if ($product->hasCustomOptions()) {
+                 $customOption = $product->getCustomOption('bundle_selection_ids');
++                // BEGIN PATCH
++                if (empty($customOption)) {
++                    return $weight;
++                }
++                // END PATCH
+                 $selectionIds = $this->serializer->unserialize($customOption->getValue());
+                 $selections = $this->getSelectionsByIds($selectionIds, $product);
+                 foreach ($selections->getItems() as $selection) {
+--
+2.39.5 (Apple Git-154)
