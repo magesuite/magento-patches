@@ -3372,7 +3372,7 @@
                 {
                     "description": "Fix disabled categories not grayed out (2.4.7-p3)",
                     "filename": "essential/magento/theme-adminhtml-backend/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
-                    "version-constraint": ">=100.4.7-p3"
+                    "version-constraint": ">=100.4.7-p3,<100.4.8"
                 },
                 {
                     "description": "Fix page action buttons cut issue",
