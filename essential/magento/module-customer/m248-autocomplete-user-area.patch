@@ -206,9 +206,11 @@ diff --git a/view/frontend/templates/widget/company.phtml b/view/frontend/templa
 index c38ef1a..ed98b05 100644
 --- a/view/frontend/templates/widget/company.phtml
 +++ b/view/frontend/templates/widget/company.phtml
-@@ -25,6 +25,7 @@
+@@ -23,8 +23,8 @@
+                name="company"
+                id="company"
                 value="<?= $block->escapeHtmlAttr($block->getCompany()) ?>"
-                title="<?= $block->escapeHtmlAttr(__('Company')) ?>"
+-               title="<?= $block->escapeHtmlAttr(__('Company')) ?>"
                 class="input-text <?= $_validationClass ?: '' ?>"
 +               autocomplete="organization"
           >
@@ -269,10 +271,14 @@ index c725665..e1aa632 100644
                      <select id="<?= $block->escapeHtmlAttr($block->getFieldId('suffix')) ?>"
                              name="<?= $block->escapeHtmlAttr($block->getFieldName('suffix')) ?>"
 diff --git a/view/frontend/templates/widget/telephone.phtml b/view/frontend/templates/widget/telephone.phtml
-index eb460e6..f020cff 100644
+index eb460e6..f386261 100644
 --- a/view/frontend/templates/widget/telephone.phtml
 +++ b/view/frontend/templates/widget/telephone.phtml
-@@ -22,6 +22,7 @@
+@@ -18,10 +18,10 @@
+                name="telephone"
+                id="telephone"
+                value="<?= $block->escapeHtmlAttr($block->getTelephone()) ?>"
+-               title="<?= $block->escapeHtmlAttr(__('Phone Number')) ?>"
                 class="input-text <?= $block->escapeHtmlAttr(
                     $block->getAttributeValidationClass('telephone')
                 ) ?>"
