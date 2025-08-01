@@ -1,0 +1,14 @@
+diff --git a/etc/di.xml b/etc/di.xml
+index 6fbae8a..681c09f 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -134,9 +134,6 @@
+ 
+     <preference for="Amasty\AdminActionsLog\Model\VisitHistoryEntry\DetailLoaderInterface"
+                 type="Amasty\AdminActionsLog\Model\VisitHistoryEntry\Detail\FullDetailLoader"/>
+-
+-    <preference for="Amasty\AdminActionsLog\Notification\Type\Email\ConfigInterface"
+-                type="Amasty\AdminActionsLog\Notification\Type\Email\Config"/>
+     <!-- Preferences End -->
+ 
+     <type name="Amasty\AdminActionsLog\Ui\Component\Listing\Column\LogEntryActions">

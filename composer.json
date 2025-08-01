@@ -555,6 +555,11 @@
                     "description": "Performance improvement for getting inactive sessions",
                     "filename": "essential/amasty/adminactionslog/amasty-adminactionlog-performance-improvement-for-getting-inactive-sessions.patch",
                     "version-constraint": ">=2.0.0"
+                },
+                {
+                    "description": "Remove invalid preference",
+                    "filename": "essential/amasty/adminactionslog/magento_v2.4.8_invalid_preference_fix.patch",
+                    "version-constraint": "2.5.0"
                 }
             ],
             "amasty/base": [
