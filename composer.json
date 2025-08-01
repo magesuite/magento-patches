@@ -2427,6 +2427,11 @@
                     "description": "Fix promo codes are not getting re-activated when order is canceled",
                     "filename": "essential/magento/module-sales-rule/fix-coupon-can-not-be-used-after-order-cancelation.patch",
                     "version-constraint": ">=101.2.5,<101.2.5-p11 || >=101.2.6,<101.2.6-p9"
+                },
+                {
+                    "description": "ACSD-63469: Fixed-amount cart discounts not applied correctly with multiple rules",
+                    "filename": "essential/magento/module-sales-rule/ACSD-63469_2.4.7-p2_v2.patch",
+                    "version-constraint": ">=101.2.7,<101.2.8"
                 }
             ],
             "magento/module-paypal": [
