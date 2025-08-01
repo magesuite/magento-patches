@@ -1,7 +1,7 @@
-diff --git a/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/ByFixed.php b/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/ByFixed.php
+diff --git a/Model/Rule/Action/Discount/ByFixed.php b/Model/Rule/Action/Discount/ByFixed.php
 index 2ad935247a8ab..b067e27838e8e 100644
---- a/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/ByFixed.php
-+++ b/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/ByFixed.php
+--- a/Model/Rule/Action/Discount/ByFixed.php
++++ b/Model/Rule/Action/Discount/ByFixed.php
 @@ -27,8 +27,9 @@ public function calculate($rule, $item, $qty)
          $itemPrice = $this->validator->getItemPrice($item);
          $baseItemPrice = $this->validator->getItemBasePrice($item);
@@ -14,10 +14,10 @@ index 2ad935247a8ab..b067e27838e8e 100644
 
          $discountData->setAmount($discountAmountMin);
          $discountData->setBaseAmount($baseDiscountAmountMin);
-diff --git a/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/CartFixed.php b/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/CartFixed.php
+diff --git a/Model/Rule/Action/Discount/CartFixed.php b/Model/Rule/Action/Discount/CartFixed.php
 index 485b98c22565c..b2a97f408e18e 100644
---- a/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/CartFixed.php
-+++ b/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/CartFixed.php
+--- a/Model/Rule/Action/Discount/CartFixed.php
++++ b/Model/Rule/Action/Discount/CartFixed.php
 @@ -13,6 +13,7 @@
  use Magento\SalesRule\Model\DeltaPriceRound;
  use Magento\SalesRule\Model\Rule;
@@ -130,11 +130,11 @@ index 485b98c22565c..b2a97f408e18e 100644
      /**
       * Set information about usage cart fixed rule by quote address
       *
-diff --git a/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/ExistingDiscountRuleCollector.php b/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/ExistingDiscountRuleCollector.php
+diff --git a/Model/Rule/Action/Discount/ExistingDiscountRuleCollector.php b/Model/Rule/Action/Discount/ExistingDiscountRuleCollector.php
 new file mode 100644
 index 0000000000000..99d8f1ef69b4a
 --- /dev/null
-+++ b/vendor/magento/module-sales-rule/Model/Rule/Action/Discount/ExistingDiscountRuleCollector.php
++++ b/Model/Rule/Action/Discount/ExistingDiscountRuleCollector.php
 @@ -0,0 +1,49 @@
 +<?php
 +/**
@@ -185,10 +185,10 @@ index 0000000000000..99d8f1ef69b4a
 +        $this->ruleDiscounts = [];
 +    }
 +}
-diff --git a/vendor/magento/module-sales-rule/Model/Utility.php b/vendor/magento/module-sales-rule/Model/Utility.php
+diff --git a/Model/Utility.php b/Model/Utility.php
 index e625d816191b4..1218a15970e57 100644
---- a/vendor/magento/module-sales-rule/Model/Utility.php
-+++ b/vendor/magento/module-sales-rule/Model/Utility.php
+--- a/Model/Utility.php
++++ b/Model/Utility.php
 @@ -13,6 +13,9 @@
  use Magento\SalesRule\Model\ResourceModel\Coupon\UsageFactory;
  use Magento\SalesRule\Model\Rule\CustomerFactory;
@@ -226,10 +226,10 @@ index e625d816191b4..1218a15970e57 100644
 
          $discountData->setAmount($discountAmount);
          $discountData->setBaseAmount($baseDiscountAmount);
-diff --git a/vendor/magento/module-sales-rule/Model/Validator.php b/vendor/magento/module-sales-rule/Model/Validator.php
+diff --git a/Model/Validator.php b/Model/Validator.php
 index c273c805b17ab..fdc2bf2dcbfaa 100644
---- a/vendor/magento/module-sales-rule/Model/Validator.php
-+++ b/vendor/magento/module-sales-rule/Model/Validator.php
+--- a/Model/Validator.php
++++ b/Model/Validator.php
 @@ -575,6 +575,7 @@ public function initTotals($items, Address $address)
              $ruleTotalBaseItemsDiscountAmount = 0;
              $validItemsCount = 0;
@@ -254,10 +254,10 @@ index c273c805b17ab..fdc2bf2dcbfaa 100644
              ];
          }
 
-diff --git a/vendor/magento/module-sales-rule/etc/di.xml b/vendor/magento/module-sales-rule/etc/di.xml
+diff --git a/etc/di.xml b/etc/di.xml
 index 59b6b9376041c..8e32f2909151c 100644
---- a/vendor/magento/module-sales-rule/etc/di.xml
-+++ b/vendor/magento/module-sales-rule/etc/di.xml
+--- a/etc/di.xml
++++ b/etc/di.xml
 @@ -1,8 +1,8 @@
  <?xml version="1.0"?>
  <!--
