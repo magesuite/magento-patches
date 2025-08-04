@@ -2097,6 +2097,11 @@
                 "description": "If the payment was captured in Mollie, the attempt to capture the payment in Magento needs to be skipped (LOWA-145)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/skip-duplicated-capture-process.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Fix loading component failure - method renderer, when payment configuration is disabled (HAAR-4908)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/fix-loading-method-renderer-component.patch",
+                "version-constraint": "*"
             }
         ],
         "mage_delight/specialpromo": [
