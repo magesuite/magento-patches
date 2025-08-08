@@ -1,0 +1,15 @@
+diff --git a/view/frontend/web/js/view/summary/shipping.js b/view/frontend/web/js/view/summary/shipping.js
+index 653ad80..93b1d29 100644
+--- a/view/frontend/web/js/view/summary/shipping.js
++++ b/view/frontend/web/js/view/summary/shipping.js
+@@ -35,6 +35,10 @@ define([
+                 return '';
+             }
+
++            // PATCH BEGIN
++            return shippingMethod['method_title'];
++            // PATCH END
++
+             if (typeof shippingMethod['carrier_title'] === 'undefined') {
+                 shippingMethod['carrier_title'] = '';
+             }

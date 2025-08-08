@@ -1,0 +1,19 @@
+diff --git a/Model/Quote/Address/Total/Shipping.php b/Model/Quote/Address/Total/Shipping.php
+index 664c26c..dd0a3ec 100644
+--- a/Model/Quote/Address/Total/Shipping.php
++++ b/Model/Quote/Address/Total/Shipping.php
+@@ -101,8 +101,12 @@ class Shipping extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
+                     );
+                     $total->setTotalAmount($this->getCode(), $amountPrice);
+                     $total->setBaseTotalAmount($this->getCode(), $rate->getPrice());
+-                    $shippingDescription = $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle();
+-                    $address->setShippingDescription(trim($shippingDescription, ' -'));
++                    // PATCH BEGIN
++                    // Overwritten in the old store: app/code/Moevenpick/Quote/Model/Quote/Address/Total/Rewrite/Shipping.php:151
++                    // $shippingDescription = $rate->getCarrierTitle() . ' - ' . $rate->getMethodTitle();
++                    // $address->setShippingDescription(trim($shippingDescription, ' -'));
++                    $address->setShippingDescription($rate->getMethodTitle());
++                    // PATCH END
+                     $total->setBaseShippingAmount($rate->getPrice());
+                     $total->setShippingAmount($amountPrice);
+                     $total->setShippingDescription($address->getShippingDescription());
