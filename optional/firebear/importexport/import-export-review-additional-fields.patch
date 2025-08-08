@@ -45,31 +45,40 @@ index 2ed37e8..49c7944 100644
                      $ratingId = array_search($key, $this->ratingFields);
                      $reviewIds = $this->getReviewIds($ratingId, $value, $filterCondition);
 diff --git a/Model/Import/Review.php b/Model/Import/Review.php
-index faa6093..6eedf73 100644
+index faa6093..d3c92a3 100644
 --- a/Model/Import/Review.php
 +++ b/Model/Import/Review.php
-@@ -203,7 +203,10 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+@@ -203,7 +203,11 @@ class Review extends AbstractEntity implements ImportAdapterInterface
          'vote:Quality',
          'vote:Value',
          'vote:Price',
 -        'vote:Rating'
 +        'vote:Rating',
 +        // BEGIN PATCH
-+        'review_attachment:caption'
++        'review_attachment:caption',
++        'review_attachment:filename'
 +        // END PATCH
      ];
 
      /**
-@@ -540,6 +543,17 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+@@ -540,6 +544,25 @@ class Review extends AbstractEntity implements ImportAdapterInterface
                  );
              }
 
 +            // BEGIN PATCH
 +            $attachmentCaptions = [];
++            $attachmentFilenames = [];
 +            if (!empty($reviewData['review_attachment:caption'])) {
 +                try {
 +                    $attachmentCaptions = $this->jsonHelper->jsonDecode($reviewData['review_attachment:caption']);
 +                    unset($reviewData['review_attachment:caption']);
++                } catch (\Exception $e) {
++                }
++            }
++            if (!empty($reviewData['review_attachment:filename'])) {
++                try {
++                    $attachmentFilenames = $this->jsonHelper->jsonDecode($reviewData['review_attachment:filename']);
++                    unset($reviewData['review_attachment:filename']);
 +                } catch (\Exception $e) {
 +                }
 +            }
@@ -78,7 +87,7 @@ index faa6093..6eedf73 100644
              $rating = [];
              foreach ($reviewData as $field => $value) {
                  if (false === strpos($field, ':')) {
-@@ -579,6 +593,12 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+@@ -579,6 +602,15 @@ class Review extends AbstractEntity implements ImportAdapterInterface
              $review->save();
              $this->updateDateFromDump($review->getId(), $reviewData);
 
@@ -86,12 +95,15 @@ index faa6093..6eedf73 100644
 +            if (!empty($attachmentCaptions) && $review->getId()) {
 +                $this->saveAttachmentCaptions($review->getId(), $attachmentCaptions);
 +            }
++            if (!empty($attachmentFilenames) && $review->getId()) {
++                $this->deleteAttachmentFromReview($review->getId(), $attachmentFilenames);
++            }
 +            // END PATCH
 +
              $votes = $this->_ratingOptionVoteF->create()
                  ->getResourceCollection()
                  ->setReviewFilter($review->getId())
-@@ -778,4 +798,25 @@ class Review extends AbstractEntity implements ImportAdapterInterface
+@@ -778,4 +810,48 @@ class Review extends AbstractEntity implements ImportAdapterInterface
      {
          return 'review';
      }
@@ -103,17 +115,40 @@ index faa6093..6eedf73 100644
 +            return;
 +        }
 +
-+        $data = [];
++        $toUpdate = [];
 +
 +        foreach ($attachmentCaptions as $attachmentId => $caption) {
-+            $data[] = [
++            $toUpdate[] = [
 +                'review_id' => $reviewId,
 +                'attachment_id' => $attachmentId,
 +                'caption' => $caption
 +            ];
 +        }
 +
-+        $this->_connection->insertOnDuplicate($this->productResource->getTable('review_attachment'), $data, ['caption']);
++        $this->_connection->insertOnDuplicate($this->productResource->getTable('review_attachment'), $toUpdate, ['caption']);
++    }
++
++    protected function deleteAttachmentFromReview($reviewId, $attachmentFilenames)
++    {
++        if (empty($attachmentFilenames)) {
++            return;
++        }
++
++        $toDeleteAttachmentId = [];
++
++        foreach ($attachmentFilenames as $attachmentId => $filename) {
++            if ($filename != '{delete}') {
++                continue;
++            }
++            $toDeleteAttachmentId[] = (int)$attachmentId;
++        }
++
++        $conditions = [
++            $this->_connection->quoteInto('review_id = ?', $reviewId),
++            $this->_connection->quoteInto('attachment_id IN (?)', $toDeleteAttachmentId)
++        ];
++
++        $this->_connection->delete($this->productResource->getTable('review_attachment'), implode(' AND ', $conditions));
 +    }
 +    // END PATCH
  }
