@@ -1,0 +1,16 @@
+diff --git a/Model/ShippingInformationManagement.php b/Model/ShippingInformationManagement.php
+index f08c48c..81943d9 100644
+--- a/Model/ShippingInformationManagement.php
++++ b/Model/ShippingInformationManagement.php
+@@ -213,7 +213,10 @@ class ShippingInformationManagement implements ShippingInformationManagementInte
+             && !$shippingAddress->getShippingRateByCode($shippingAddress->getShippingMethod())
+         ) {
+             $errorMessage = $methodCode ?
+-                __('Carrier with such method not found: %1, %2', $carrierCode, $methodCode)
++                // PATCH BEGIN
++                // __('Carrier with such method not found: %1, %2', $carrierCode, $methodCode)
++                __('Shipping to selected country is not available.')
++                // PATCH END
+                 : __('The shipping method is missing. Select the shipping method and try again.');
+             throw new NoSuchEntityException(
+                 $errorMessage
