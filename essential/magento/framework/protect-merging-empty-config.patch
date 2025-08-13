@@ -1,0 +1,18 @@
+diff --git a/View/Element/UiComponent/Config/Reader.php b/View/Element/UiComponent/Config/Reader.php
+index 4d13e68..7e3e1f1 100644
+--- a/View/Element/UiComponent/Config/Reader.php
++++ b/View/Element/UiComponent/Config/Reader.php
+@@ -57,6 +57,11 @@ class Reader implements UiReaderInterface
+     protected function readFiles(array $fileList)
+     {
+         foreach ($fileList as $fileContent) {
++            // BEGIN PATCH
++            if (empty($fileContent)) {
++                continue;
++            }
++            // END PATCH
+             $this->domMerger->merge($fileContent);
+         }
+     }
+--
+2.39.5 (Apple Git-154)

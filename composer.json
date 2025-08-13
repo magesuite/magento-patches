@@ -215,6 +215,11 @@
                     "description": "Port of patch for issue with missing Am/Pm markers in date format",
                     "filename": "essential/magento/framework/fix-issue-with-missing-AmPmMarkers.patch",
                     "version-constraint": "<103.0.8"
+                },
+                {
+                    "description": "Protect merging empty config content (RKL-970",
+                    "filename": "essential/magento/framework/protect-merging-empty-config.patch",
+                    "version-constraint": ">103.0.6"
                 }
             ],
             "magento/module-asynchronous-operations": [
