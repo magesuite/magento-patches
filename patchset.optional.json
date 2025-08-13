@@ -425,6 +425,11 @@
               "version-constraint": ">=103.0.7-p4"
             },
             {
+              "description": "Increase max num cookies (>= ver.2.4.7-p6)",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/m247p6-increase-max-num-cookies.patch",
+              "version-constraint": "*"
+            },
+            {
               "description": "Don't log GraphQL unexpected EOF error",
               "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/dont-log-graphql-unexpected-eof-error.patch",
               "version-constraint": "*"
