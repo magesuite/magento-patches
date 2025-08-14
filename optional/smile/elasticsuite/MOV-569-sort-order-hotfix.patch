@@ -1,0 +1,32 @@
+diff --git a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+index 0e5daeb..4eb3016 100644
+--- a/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
++++ b/src/module-elasticsuite-catalog/Model/ResourceModel/Product/Fulltext/Collection.php
+@@ -718,6 +718,11 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+         $useProductLimitation = isset($this->_productLimitationFilters['sortParams']);
+
+         foreach ($this->_orders as $attribute => $direction) {
++            // MOV PATCH START
++            if ($attribute === 'position') {
++                continue;
++            }
++            // MOV PATCH END
+             $sortParams = ['direction' => $direction];
+             $sortField  = $this->mapFieldName($attribute);
+
+diff --git a/src/module-elasticsuite-core/Search/Request/SortOrder/DefaultSortOrderProvider.php b/src/module-elasticsuite-core/Search/Request/SortOrder/DefaultSortOrderProvider.php
+index 06265eb..9cec124 100644
+--- a/src/module-elasticsuite-core/Search/Request/SortOrder/DefaultSortOrderProvider.php
++++ b/src/module-elasticsuite-core/Search/Request/SortOrder/DefaultSortOrderProvider.php
+@@ -38,7 +38,10 @@ class DefaultSortOrderProvider implements DefaultSortOrderProviderInterface
+
+         if (count($orders) > 0) {
+             $firstOrder = current($orders);
+-            if ($firstOrder['direction'] == SortOrderInterface::SORT_DESC) {
++            // MOV PATCH START
++            // if ($firstOrder['direction'] == SortOrderInterface::SORT_DESC) {
++            if ($firstOrder['direction'] == SortOrderInterface::SORT_DESC && $firstOrder['field'] == '_score') {
++                // MOV PATCH END
+                 $defaultOrders[SortOrderInterface::DEFAULT_SORT_FIELD] = SortOrderInterface::SORT_ASC;
+                 $defaultOrders[$mapping->getIdField()->getName()]      = SortOrderInterface::SORT_ASC;
+             }
