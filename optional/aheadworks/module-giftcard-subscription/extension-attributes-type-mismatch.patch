@@ -1,0 +1,23 @@
+--- a/Api/Data/Giftcard/InvoiceInterface.php
++++ b/Api/Data/Giftcard/InvoiceInterface.php
+@@ -155,6 +155,6 @@ interface InvoiceInterface extends ExtensibleDataInterface
+      * @return $this
+      */
+     public function setExtensionAttributes(
+-        \Aheadworks\Giftcard\Api\Data\Giftcard\InvoiceExtensionInterface $extensionAttributes
++        \Aheadworks\Giftcard\Api\Data\Giftcard\InvoiceExtensionInterface|\Aheadworks\Giftcard\Api\Data\Giftcard\OrderExtension $extensionAttributes
+     );
+ }
+diff --git a/Model/Giftcard/Invoice.php b/Model/Giftcard/Invoice.php
+index 914a7fb..e336c74 100644
+--- a/Model/Giftcard/Invoice.php
++++ b/Model/Giftcard/Invoice.php
+@@ -151,7 +151,7 @@ class Invoice extends AbstractExtensibleModel implements InvoiceInterface
+      * {@inheritdoc}
+      */
+     public function setExtensionAttributes(
+-        \Aheadworks\Giftcard\Api\Data\Giftcard\InvoiceExtensionInterface $extensionAttributes
++        \Aheadworks\Giftcard\Api\Data\Giftcard\InvoiceExtensionInterface|\Aheadworks\Giftcard\Api\Data\Giftcard\OrderExtension $extensionAttributes
+     ) {
+         return $this->_setExtensionAttributes($extensionAttributes);
+     }
