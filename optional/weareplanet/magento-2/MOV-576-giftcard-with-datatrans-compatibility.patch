@@ -1,7 +1,7 @@
-diff --git a/magento-2/Helper/LineItem.php b/magento-2/Helper/LineItem.php
+diff --git a/Helper/LineItem.php b/Helper/LineItem.php
 index 3711637..a4de6be 100644
---- a/magento-2/Helper/LineItem.php
-+++ b/magento-2/Helper/LineItem.php
+--- a/Helper/LineItem.php
++++ b/Helper/LineItem.php
 @@ -95,7 +95,11 @@ class LineItem extends AbstractHelper
          array $taxInfo = [])
      {
