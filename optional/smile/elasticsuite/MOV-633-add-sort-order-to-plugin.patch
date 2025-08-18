@@ -1,0 +1,13 @@
+diff --git a/src/module-elasticsuite-catalog/etc/di.xml b/src/module-elasticsuite-catalog/etc/di.xml
+index d57b26b..1b508c6 100644
+--- a/src/module-elasticsuite-catalog/etc/di.xml
++++ b/src/module-elasticsuite-catalog/etc/di.xml
+@@ -118,7 +118,7 @@
+
+     <!-- Layer related configurations -->
+     <type name="Magento\Catalog\Model\Layer">
+-        <plugin name="createSortOrdersOnPrepareFrontCollection" type="Smile\ElasticsuiteCatalog\Plugin\LayerPlugin"/>
++        <plugin name="createSortOrdersOnPrepareFrontCollection" type="Smile\ElasticsuiteCatalog\Plugin\LayerPlugin" sortOrder="200"/>
+     </type>
+
+     <virtualType name="Magento\CatalogSearch\Model\Layer\Category\Context" type="Magento\Catalog\Model\Layer\Category\Context">
