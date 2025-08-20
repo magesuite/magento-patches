@@ -5,13 +5,13 @@ index e1b6952..a977e40 100644
 @@ -130,7 +130,11 @@ class View extends \Magento\Framework\App\Helper\AbstractHelper
              $pageConfig->setKeywords($product->getName());
          }
-
+ 
 -        $pageConfig->setDescription($product->getMetaDescription());
 +        // BEGIN PATCH
 +        // $pageConfig->setDescription($product->getMetaDescription());
-+        $description = $product->getMetaDescription() ?? $product->getShortDescription() ?? $product->getDescription();
++        $description = $product->getMetaDescription() ?? strip_tags($product->getShortDescription() ?? $product->getDescription());
 +        $pageConfig->setDescription($description);
 +        // END PATCH
-
+ 
          if ($this->_catalogProduct->canUseCanonicalTag()) {
              $pageConfig->addRemotePageAsset(
