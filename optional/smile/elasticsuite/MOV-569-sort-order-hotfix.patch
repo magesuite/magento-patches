@@ -25,7 +25,7 @@ index 06265eb..9cec124 100644
 -            if ($firstOrder['direction'] == SortOrderInterface::SORT_DESC) {
 +            // MOV PATCH START
 +            // if ($firstOrder['direction'] == SortOrderInterface::SORT_DESC) {
-+            if ($firstOrder['direction'] == SortOrderInterface::SORT_DESC && $firstOrder['field'] == '_score') {
++            if ($firstOrder['direction'] == SortOrderInterface::SORT_DESC && isset($firstOrder['field]) && $firstOrder['field'] == '_score') {
 +                // MOV PATCH END
                  $defaultOrders[SortOrderInterface::DEFAULT_SORT_FIELD] = SortOrderInterface::SORT_ASC;
                  $defaultOrders[$mapping->getIdField()->getName()]      = SortOrderInterface::SORT_ASC;
