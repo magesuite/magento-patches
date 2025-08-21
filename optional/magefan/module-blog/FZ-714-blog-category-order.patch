@@ -7,10 +7,10 @@ index 054284c..1424e4b 100755
                  ->addStoreFilter($this->_storeManager->getStore()->getId())
                  ->addFieldToFilter('include_in_sidebar_tree', 1)
 -                ->setOrder('position')
-+                // PATCH START
++                // PATCH START //
 +                // ->setOrder('position')
 +                ->setOrder('position', \Magento\Framework\Data\Collection::SORT_ORDER_ASC)
-+                // PATCH END
++                // PATCH END //
                  ->getTreeOrderedArray();
              foreach ($array as $key => $item) {
                  $maxDepth = $this->maxDepth();
