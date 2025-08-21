@@ -1,5 +1,5 @@
 diff --git a/Block/Sidebar/Categories.php b/Block/Sidebar/Categories.php
-index 054284c..1424e4b 100755
+index 054284c..bc048d5 100755
 --- a/Block/Sidebar/Categories.php
 +++ b/Block/Sidebar/Categories.php
 @@ -56,7 +56,10 @@ class Categories extends Template implements IdentityInterface
@@ -7,18 +7,10 @@ index 054284c..1424e4b 100755
                  ->addStoreFilter($this->_storeManager->getStore()->getId())
                  ->addFieldToFilter('include_in_sidebar_tree', 1)
 -                ->setOrder('position')
-+                // PATCH START //
++                // PATCH BEGIN
 +                // ->setOrder('position')
 +                ->setOrder('position', \Magento\Framework\Data\Collection::SORT_ORDER_ASC)
-+                // PATCH END //
++                // PATCH END
                  ->getTreeOrderedArray();
              foreach ($array as $key => $item) {
                  $maxDepth = $this->maxDepth();
-@@ -97,7 +100,7 @@ class Categories extends Template implements IdentityInterface
-             'mfblog/sidebar/'.$this->_widgetKey.'/max_depth',
-             ScopeInterface::SCOPE_STORE
-         );
--
-+
-         return (int)$maxDepth;
-     }
