@@ -3450,6 +3450,13 @@
                     "filename": "essential/veriteworks/cookiefix/RK-1456-secure-cookie-plus-samesite-none.patch",
                     "version-constraint": ">=3.2.0"
                 }
+            ],
+            "paypal/module-braintree-core": [
+                {
+                    "description": "Disable Braintree plugin for order grid",
+                    "filename": "essential/paypal/module-braintree-core/disable-braintree-plugin-for-order-grid.patch",
+                    "version-constraint": ">=4.6.1"
+                }
             ]
         }
     }
