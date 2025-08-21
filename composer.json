@@ -2161,6 +2161,11 @@
                     "version-constraint": ">=103.0.5,<103.0.5-p11"
                 },
                 {
+                    "description": "Allow using dots in city field",
+                    "filename": "essential/magento/module-customer/allow-dots-in-city-field.patch",
+                    "version-constraint": ">=103.0.8-p1"
+                },
+                {
                     "description": "Allow saving custom attributes in after unserialization",
                     "filename": "essential/magento/module-customer/allow-saving-custom-attributes-after-unserialization.patch",
                     "version-constraint": ">=103.0.7"
