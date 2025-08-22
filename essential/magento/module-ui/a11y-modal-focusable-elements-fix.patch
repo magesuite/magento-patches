@@ -20,7 +20,7 @@ index 7d7d4b6..031c553 100644
         data-type="<%- data.type %>"
         tabindex="0">
 -    <div data-role="focusable-start" tabindex="0"></div>
-++   <div data-role="focusable-start" tabindex="0" role="generic"></div>
++    <div data-role="focusable-start" tabindex="0" role="generic"></div>
      <div class="modal-inner-wrap"
           data-role="focusable-scope">
          <header class="modal-header">
@@ -29,7 +29,7 @@ index 7d7d4b6..031c553 100644
          <% } %>
      </div>
 -    <div data-role="focusable-end" tabindex="0"></div>
-++   <div data-role="focusable-end" tabindex="0" role="generic"></div>
++    <div data-role="focusable-end" tabindex="0" role="generic"></div>
  </aside>
 diff --git a/view/base/web/templates/modal/modal-popup.html b/view/base/web/templates/modal/modal-popup.html
 index 0837696..00251b8 100644
@@ -49,7 +49,7 @@ index 0837696..00251b8 100644
         data-type="<%- data.type %>"
         tabindex="0">
 -    <div data-role="focusable-start" tabindex="0"></div>
-++   <div data-role="focusable-start" tabindex="0" role="generic"></div>
++    <div data-role="focusable-start" tabindex="0" role="generic"></div>
      <div class="modal-inner-wrap"
           data-role="focusable-scope">
          <header class="modal-header">
@@ -58,7 +58,7 @@ index 0837696..00251b8 100644
          <% } %>
      </div>
 -    <div data-role="focusable-end" tabindex="0"></div>
-++   <div data-role="focusable-end" tabindex="0" role="generic"></div>
++    <div data-role="focusable-end" tabindex="0" role="generic"></div>
  </aside>
 diff --git a/view/base/web/templates/modal/modal-slide.html b/view/base/web/templates/modal/modal-slide.html
 index 2f53716..d0e5554 100644
@@ -78,7 +78,7 @@ index 2f53716..d0e5554 100644
         data-type="<%- data.type %>"
         tabindex="0">
 -    <div data-role="focusable-start" tabindex="0"></div>
-++   <div data-role="focusable-start" tabindex="0" role="generic"></div>
++    <div data-role="focusable-start" tabindex="0" role="generic"></div>
      <div class="modal-inner-wrap"
           data-role="focusable-scope">
          <header class="modal-header">
@@ -87,6 +87,6 @@ index 2f53716..d0e5554 100644
          <div id="modal-content-<%- data.id %>" class="modal-content" data-role="content"></div>
      </div>
 -    <div data-role="focusable-end" tabindex="0"></div>
-++   <div data-role="focusable-end" tabindex="0" role="generic"></div>
++    <div data-role="focusable-end" tabindex="0" role="generic"></div>
  </aside>
 
