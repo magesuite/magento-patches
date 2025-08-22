@@ -1,0 +1,23 @@
+index c841f1d..16682cf 100644
+--- a/Plugin/SalesRule/Model/ValidateCouponCode/ValidateCouponCodes.php
++++ b/Plugin/SalesRule/Model/ValidateCouponCode/ValidateCouponCodes.php
+@@ -58,9 +58,18 @@ class ValidateCouponCodes
+ 
+         // validate by 1 code because magento doesn't allow to apply several coupons from 1 rule
+         foreach ($couponCodes as $code) {
+-            if (in_array($code, $proceed([$code], $customerId))) {
++            // PATCH BEGIN
++            // if (in_array($code, $proceed([$code], $customerId))) {
++            //     $validCoupons[] = $code;
++            // }
++            $validatedCoupons = $proceed([$code], $customerId);
++            $validatedCoupons = array_map('strtolower', $validatedCoupons);
++            $code = strtolower($code);
++
++            if (in_array($code, $validatedCoupons)) {
+                 $validCoupons[] = $code;
+             }
++            // PATCH END
+         }
+ 
+         $invalidCoupons = array_diff($couponCodes, $validCoupons);
