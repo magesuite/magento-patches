@@ -2,6 +2,7 @@ Patch added to:
 - add `aria-modal="true"` to modal elements
 - fix ARC toolkit error: "The element has been placed in the Tab order using tabindex="0", but it lacks a specific role="..." attribute."
 
+
 diff --git a/view/base/web/templates/modal/modal-custom.html b/view/base/web/templates/modal/modal-custom.html
 index 7d7d4b6..031c553 100644
 --- a/view/base/web/templates/modal/modal-custom.html
