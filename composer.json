@@ -2386,7 +2386,7 @@
                 {
                     "description": "Fix for calling protected method getCanceledMessage() in CleanUpIncompleteSessions cron job (DOG-2063)",
                     "filename": "essential/amzn/amazon-pay-magento-2-module/fix-amazon-pay-cleanup-cron-protected-method.patch",
-                    "version-constraint": ">=5.18.1"
+                    "version-constraint": ">=5.18.1,<5.18.3"
                 }
             ],
             "msp/adminrestriction": [
