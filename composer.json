@@ -1236,6 +1236,11 @@
                     "description": "Accessibility - adds role attr to swatches container",
                     "filename": "essential/magento/module-catalog/swatches-container-a11y.patch",
                     "version-constraint": ">=104.0.7-p5"
+                },
+                {
+                    "description": "Fix for ensuring preconfigured product quantity values are numeric.",
+                    "filename": "essential/magento/module-catalog/sanitize-preconfigured-product-qty-value.patch",
+                    "version-constraint": "*"
                 }
             ],
             "magento/module-catalog-search": [

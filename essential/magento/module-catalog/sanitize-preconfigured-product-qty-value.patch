@@ -1,0 +1,16 @@
+diff --git a/Block/Product/View.php b/Block/Product/View.php
+index dfd087a..11cea67 100644
+--- a/Block/Product/View.php
++++ b/Block/Product/View.php
+@@ -286,7 +286,10 @@ class View extends AbstractProduct implements \Magento\Framework\DataObject\Iden
+         $qty = $this->getMinimalQty($product);
+         $config = $product->getPreconfiguredValues();
+         $configQty = $config->getQty();
+-        if ($configQty > $qty) {
++        // BEGIN PATCH
++        // if ($configQty > $qty) {
++        if (is_numeric($configQty) && $configQty > $qty) {
++        // END PATCH
+             $qty = $configQty;
+         }
+ 
