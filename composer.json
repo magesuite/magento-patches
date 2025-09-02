@@ -229,6 +229,13 @@
                     "version-constraint": ">=100.4.0, <100.4.2"
                 }
             ],
+            "magento/module-product-alert": [
+                {
+                    "description": "Fix of no callback for catalog_product_alert",
+                    "filename": "essential/magento/module-product-alert/RK-2062-no_callback_for_catalog_product_alert.patch",
+                    "version-constraint": "100.4.7"
+                }
+            ],
             "magento/module-directory": [
                 {
                     "description": "Fix incorrect amount display for currency in summary section",
