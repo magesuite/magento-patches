@@ -1,0 +1,16 @@
+diff --git a/etc/crontab.xml b/etc/crontab.xml
+index f43f8e0..a26e927 100644
+--- a/etc/crontab.xml
++++ b/etc/crontab.xml
+@@ -7,7 +7,10 @@
+ -->
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+     <group id="default">
+-        <job name="product_alert" instance="Magento\ProductAlert\Model\Observer" method="process">
++<!--        BEGIN PATCH-->
++<!--        <job name="product_alert" instance="Magento\ProductAlert\Model\Observer" method="process">-->
++        <job name="catalog_product_alert" instance="Magento\ProductAlert\Model\Observer" method="process">
++<!--        END PATCH-->
+             <config_path>crontab/default/jobs/catalog_product_alert/schedule/cron_expr</config_path>
+         </job>
+     </group>
