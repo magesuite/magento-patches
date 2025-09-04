@@ -1,0 +1,23 @@
+diff --git a/ViewModel/ParcelShopDelivery.php b/ViewModel/ParcelShopDelivery.php
+index 500991a..9c089c5 100644
+--- a/ViewModel/ParcelShopDelivery.php
++++ b/ViewModel/ParcelShopDelivery.php
+@@ -48,10 +48,16 @@ class ParcelShopDelivery implements \Magento\Framework\View\Element\Block\Argume
+      * @param string $shippingMethod
+      * @return bool
+      */
+-    public function isParcelShopDeliveryMethod(string $shippingMethod): bool
++    // BEGIN PATCH
++//    public function isParcelShopDeliveryMethod(string $shippingMethod): bool
++//    {
++//        return $this->dataHelper->isLockerShopDeliveryMethod($shippingMethod);
++//    }
++    public function isParcelShopDeliveryMethod(?string $shippingMethod): bool
+     {
+-        return $this->dataHelper->isLockerShopDeliveryMethod($shippingMethod);
++        return $shippingMethod ? $this->dataHelper->isLockerShopDeliveryMethod($shippingMethod) : false;
+     }
++    // END PATCH
+ 
+     /**
+      * Extract GLS parcel shop delivery data from the order.
