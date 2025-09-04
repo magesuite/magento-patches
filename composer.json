@@ -3469,6 +3469,13 @@
                     "filename": "essential/paypal/module-braintree-core/disable-braintree-plugin-for-order-grid.patch",
                     "version-constraint": ">=4.6.1"
                 }
+            ],
+            "gls-croatia/module-shipping": [
+                {
+                    "description": "Fix GLS croatia shipping module isParcelShopDeliveryMethod to pass gdpr integration tests",
+                    "filename": "essential/gls-croatia/module-shipping/fix-gls-croatia-view-model-isParcelShopDeliveryMethod-P2G-2629.patch",
+                    "version-constraint": ">=1.2.4"
+                }
             ]
         }
     }
