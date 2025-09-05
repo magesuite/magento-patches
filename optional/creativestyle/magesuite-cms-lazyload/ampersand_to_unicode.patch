@@ -10,12 +10,12 @@ index 46cf36e..fa4b5b7 100644
 +            // PATCH START
 +            //$dom->loadHTML(
 +            //    mb_encode_numericentity('<html>' . $result . '</html>', [0x80, 0x10FFFF, 0, ~0], 'UTF-8'),
-+            //    LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
++            //    LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD  | LIBXML_NOERROR
 +            //);
 +            $html = str_replace('&', '＆', html_entity_decode($result)); // unicode ampersand
 +            $dom->loadHTML(
 +                mb_encode_numericentity('<html>' . $html . '</html>', [0x80, 0x10FFFF, 0, ~0], 'UTF-8'),
-+                LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
++                LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOERROR
 +            );
 +            // PATCH END
          } catch (\Exception $e) {
