@@ -1,8 +1,8 @@
 diff --git a/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php b/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php
-index c7b6a4a..c396d62 100644
+index c7b6a4a..8bc8bcb 100644
 --- a/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php
 +++ b/Plugin/Cms/Block/Block/InjectLazyLoadingIntoImages.php
-@@ -34,7 +34,18 @@ class InjectLazyLoadingIntoImages
+@@ -34,7 +34,14 @@ class InjectLazyLoadingIntoImages
 
          try {
              $dom = new \DomDocument();
