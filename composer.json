@@ -220,6 +220,11 @@
                     "description": "Protect merging empty config content (RKL-970",
                     "filename": "essential/magento/framework/protect-merging-empty-config.patch",
                     "version-constraint": ">103.0.6"
+                },
+                {
+                    "description": "Patch for CVE-2025-54236, Magento 2.4.x",
+                    "filename": "essential/magento/framework/VULN-27015-2.4.X.composer.patch",
+                    "version-constraint": ">=103.0.4"
                 }
             ],
             "magento/module-asynchronous-operations": [
