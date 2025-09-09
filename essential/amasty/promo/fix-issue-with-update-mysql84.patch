@@ -1,0 +1,18 @@
+diff --git a/Setup/Recurring.php b/Setup/Recurring.php
+index 0ed04a7..2c0b3f1 100644
+--- a/Setup/Recurring.php
++++ b/Setup/Recurring.php
+@@ -42,7 +42,13 @@ class Recurring implements InstallSchemaInterface
+ 
+     public function install(SchemaSetupInterface $setup, ModuleContextInterface $context)
+     {
++        // PATCH START
++        $setup->startSetup();
++        // PATCH END
+         $this->createSalesruleFk();
++        // PATCH START
++        $setup->endSetup();
++        // PATCH END
+     }
+ 
+     private function createSalesruleFk()

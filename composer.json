@@ -600,6 +600,11 @@
                     "description": "Fix sql error in cart (sku field is ambiguous)",
                     "filename": "essential/amasty/promo/fix-mysql-error-in-cart.patch",
                     "version-constraint": ">=2.12.1,<2.13.0"
+                },
+                {
+                    "description": "Fix issue with update mysql8.4",
+                    "filename": "essential/amasty/promo/fix-issue-with-update-mysql84.patch",
+                    "version-constraint": ">=2.17.3"
                 }
             ],
             "amasty/pgrid": [
