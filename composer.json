@@ -3486,6 +3486,13 @@
                     "filename": "essential/gls-croatia/module-shipping/fix-gls-croatia-view-model-isParcelShopDeliveryMethod-P2G-2629.patch",
                     "version-constraint": ">=1.2.4"
                 }
+            ],
+            "techdivision/pacemaker-import": [
+                {
+                    "description": "Fix ui component constructor arguments",
+                    "filename": "essential/techdivision/pacemaker-import/fix-ui-component-constructor-arguments.patch",
+                    "version-constraint": ">=4.3.0"
+                }
             ]
         }
     }
