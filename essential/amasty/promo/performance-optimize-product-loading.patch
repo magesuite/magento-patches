@@ -1,0 +1,57 @@
+diff --git a/Block/Items.php b/Block/Items.php
+index 9199ee8..e7127b8 100644
+--- a/Block/Items.php
++++ b/Block/Items.php
+@@ -211,7 +211,9 @@ class Items extends \Magento\Framework\View\Element\Template
+      */
+     public function getProductPrice(\Magento\Catalog\Model\Product $product)
+     {
+-        $product = $this->productStorage->getProductById($product->getId());
++        // PATCH START
++        // $product = $this->productStorage->getProductById($product->getId());
++        // PATCH END
+         $price = $product->getFinalPrice() * $this->store->getCurrentCurrencyRate();
+ 
+         $price = $this->catalogHelper->getTaxPrice($product, $price);
+@@ -255,7 +257,9 @@ class Items extends \Magento\Framework\View\Element\Template
+      */
+     public function getJsonConfig(\Magento\Catalog\Model\Product $product)
+     {
+-        $product = $this->productStorage->getProductById($product->getId());
++        // PATCH START
++        // $product = $this->productStorage->getProductById($product->getId());
++        // PATCH END
+         $this->registry->register('product', $product);
+         $jsonConfig = $this->productView->getJsonConfig();
+ 
+diff --git a/Helper/Data.php b/Helper/Data.php
+index 288bcc4..8dbd82f 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -120,6 +120,11 @@ class Data
+                 ->addAttributeToSelect(['name', 'small_image', 'status', 'visibility', 'allow_open_amount'])
+                 ->addFieldToFilter('sku', ['in' => $allowedSku]);
+             $this->inStockFilterApplier->execute($products);
++            // PATCH START
++            $products->addPriceData();
++            $products->addUrlRewrite();
++            $products->addMediaGalleryData();
++            // PATCH END
+ 
+             // Sort items by promo rule SKUs in the order, same as saved by admin.
+             $products->getSelect()
+diff --git a/view/frontend/templates/items.phtml b/view/frontend/templates/items.phtml
+index 7784fca..2a02de2 100644
+--- a/view/frontend/templates/items.phtml
++++ b/view/frontend/templates/items.phtml
+@@ -29,7 +29,9 @@ $isShowPrice = $block->getShowPriceInPopup();
+         <div class="ampromo-gallery ampromo-slick" data-count="<?= $escaper->escapeHtmlAttr(count($products)) ?>" data-role="ampromo-gallery" >
+             <?php foreach ($products as $product): ?>
+                 <?php
+-                $product = $block->getProductById($product->getId());
++                // PATCH START
++                // $product = $block->getProductById($product->getId());
++                // PATCH END
+                 $isVisible = $product->getVisibility() != Visibility::VISIBILITY_NOT_VISIBLE;
+                 $optionsBlock = $block->getChildBlock($product->getTypeId() . '_prototype');
+                 if ($optionsBlock) {
