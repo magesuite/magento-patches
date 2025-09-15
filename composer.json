@@ -1453,6 +1453,11 @@
                     "description": "Fix issue with email validation with login step and pick in store method.",
                     "filename": "essential/magento/module-checkout/validate-only-visible-email.patch",
                     "version-constraint": ">=100.4.7"
+                },
+                {
+                    "description": "Fix for $_item->getChildren() returns empty array for parent cart items when cart is paginated",
+                    "filename": "essential/magento/module-checkout/fix-for-load-parent-children.patch",
+                    "version-constraint": ">100.4.6"
                 }
             ],
             "magento/module-checkout-agreements": [

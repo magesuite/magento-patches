@@ -1,0 +1,52 @@
+$_item->getChildren() returns empty array for parent cart items when cart is paginated
+@see // https://github.com/magento/magento2/issues/34507
+
+diff --git a/Block/Cart/Grid.php b/Block/Cart/Grid.php
+index db5d90e..45ba0b3 100644
+--- a/Block/Cart/Grid.php
++++ b/Block/Cart/Grid.php
+@@ -117,12 +117,42 @@ class Grid extends \Magento\Checkout\Block\Cart
+             $pager = $this->getLayout()->createBlock(\Magento\Theme\Block\Html\Pager::class);
+             $pager->setAvailableLimit([$availableLimit => $availableLimit])->setCollection($itemsCollection);
+             $this->setChild('pager', $pager);
++            // BEGIN PATCH
++            // https://github.com/magento/magento2/issues/34507
++            $this->updateCollectionWithQuoteItems($itemsCollection);
++            // END PATCH
+             $itemsCollection->load();
+             $this->prepareItemUrls();
+         }
+         return $this;
+     }
+
++    // BEGIN PATCH
++    protected function updateCollectionWithQuoteItems(
++        \Magento\Quote\Model\ResourceModel\Quote\Item\Collection $itemsCollection
++    ) {
++        foreach ($itemsCollection->getItems() as $key => $collectionItem) {
++            $quote     = $this->getQuote();
++            $quoteItems = $quote->getItems();
++            foreach ($quoteItems as $quoteItem) {
++                if ($quoteItem->getSku() === $collectionItem->getSku()) {
++                    $itemsCollection->removeItemByKey($key);
++                    try {
++                        $itemsCollection->addItem($quoteItem);
++                    } catch (\Exception $e) {
++                        // No action, item id removed
++                    }
++
++                    break;
++                }
++            }
++        }
++
++        return $itemsCollection;
++    }
++    // END PATCH
++
++
+     /**
+      * Prepare quote items collection for pager
+      *
+--
+2.39.5 (Apple Git-154)
