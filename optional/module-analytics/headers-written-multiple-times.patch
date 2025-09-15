@@ -1,0 +1,16 @@
+diff --git a/Model/ReportWriter.php b/Model/ReportWriter.php
+index f6c18b1..ff3c983 100644
+--- a/Model/ReportWriter.php
++++ b/Model/ReportWriter.php
+@@ -129,7 +129,10 @@ class ReportWriter implements ReportWriterInterface
+      * @param array $headers
+      * @return void
+      */
+-    private function doWrite(\Traversable $fileData, FileWriteInterface $stream, array $headers)
++    // BEGIN PATCH
++    //private function doWrite(\Traversable $fileData, FileWriteInterface $stream, array $headers)
++    private function doWrite(\Traversable $fileData, FileWriteInterface $stream, array &$headers)
++    // END PATCH
+     {
+         foreach ($fileData as $row) {
+             if (!$headers) {
