@@ -2112,6 +2112,11 @@
                 "description": "Fix loading component failure - method renderer, when payment configuration is disabled (HAAR-4908)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/fix-loading-method-renderer-component.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Add logger for Roreckl Credimemo (RKL-1007)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mollie/magento2/logger-for-reockl-credit-memo-RKL-1007.patch",
+                "version-constraint": "2.46.0"
             }
         ],
         "mage_delight/specialpromo": [
