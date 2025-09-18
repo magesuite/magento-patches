@@ -1,0 +1,20 @@
+diff --git a/Controller/Index/Add.php b/Controller/Index/Add.php
+index 18546d9..f9ccbf9 100644
+--- a/Controller/Index/Add.php
++++ b/Controller/Index/Add.php
+@@ -139,9 +139,12 @@ class Add extends \Magento\Wishlist\Controller\AbstractIndex implements HttpPost
+             if (is_string($result)) {
+                 throw new LocalizedException(__($result));
+             }
+-            if ($wishlist->isObjectNew()) {
+-                $wishlist->save();
+-            }
++            //BEGIN PATCH
++//            if ($wishlist->isObjectNew()) {
++//                $wishlist->save();
++//            }
++            $wishlist->save();
++            //END PATCH
+             $this->_eventManager->dispatch(
+                 'wishlist_add_product',
+                 ['wishlist' => $wishlist, 'product' => $product, 'item' => $result]
