@@ -1,0 +1,16 @@
+diff --git a/Model/Rule/Condition/Product.php b/Model/Rule/Condition/Product.php
+index 0db178b..5b6cf3a 100644
+--- a/Model/Rule/Condition/Product.php
++++ b/Model/Rule/Condition/Product.php
+@@ -28,7 +28,10 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
+
+         $oldAttrValue = $model->getData($attrCode);
+         if ($oldAttrValue === null) {
+-            if ($this->getOperator() === '<=>') {
++            // BEGIN PATCH
++            // if ($this->getOperator() === '<=>') {
++            if (in_array($this->getOperator(), ['<=>', '!{}', '!()'], true)) {
++            // END PATCH
+                 return true;
+             }
+             return false;
