@@ -1,0 +1,23 @@
+--- a/Model/CheckoutSessionManagement.php
++++ b/Model/CheckoutSessionManagement.php
+@@ -687,6 +687,18 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
+      */
+     public function cancelOrder($order, $quote = null, $reasonMessage = '')
+     {
++        // BEGIN PATCH
++        // Skip canceling process if the related order is already in processing state/status
++        // @see https://github.com/amzn/amazon-payments-magento-2-plugin/issues/1280
++        if ($order->getState() === \Magento\Sales\Model\Order::STATE_PROCESSING) {
++            $this->logger->info('Skipping canceling process, due to order is processing. Order ID: ' . $order->getIncrementId());
++            $order->addStatusHistoryComment('Skipping canceling process, due to order is processing.');
++            $order->save();
++
++            return;
++        }
++        // END PATCH
++
+         if (!$quote) {
+             $quote = $this->getQuote($order);
+         }
+--
+2.39.5 (Apple Git-154)

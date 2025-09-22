@@ -869,6 +869,13 @@
                 "version-constraint": "<3.6.0"
             }
         ],
+        "amzn/amazon-pay-magento-2-module": [
+            {
+                "description": "Skip canceling order if already in processing state",
+                "filename": "vendor/creativestyle/magento-patches/optional/amzn/amazon-pay-magento-2-module/skip-cancel-when-processing.patch",
+                "version-constraint": ">=5.18.1"
+            }
+        ],
         "magento/module-offline-shipping": [
             {
                 "description": "Address based free shipping",
