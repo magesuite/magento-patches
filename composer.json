@@ -1268,6 +1268,11 @@
                     "description": "Fix for ensuring preconfigured product quantity values are numeric.",
                     "filename": "essential/magento/module-catalog/sanitize-preconfigured-product-qty-value.patch",
                     "version-constraint": "*"
+                },
+                {
+                    "description": "ACSD-65848: Categories in admin are loading very slow.",
+                    "filename": "essential/magento/module-catalog/ACSD-65848_2.4.8.patch",
+                    "version-constraint": "104.0.8 || 104.0.8-p1"
                 }
             ],
             "magento/module-catalog-search": [
