@@ -3152,6 +3152,11 @@
                     "description": "Added legend to fieldset in payment method due to accessibility reasons",
                     "filename": "essential/adyen/module-payment/add-missing-legend-to-fieldset.patch",
                     "version-constraint": ">=9.18.0"
+                },
+                {
+                    "description": "Fetch proper order instance after cancellation, to avoid re-saving order as new",
+                    "filename": "essential/adyen/module-payment/RK-1961-wrong-order-status-after-cancel.patch",
+                    "version-constraint": ">=10.2.0"
                 }
             ],
             "firegento/fastsimpleimport": [

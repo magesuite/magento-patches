@@ -1,0 +1,14 @@
+diff --git a/Helper/PaymentResponseHandler.php b/Helper/PaymentResponseHandler.php
+index 5a9755a..c94d8b4 100644
+--- a/Helper/PaymentResponseHandler.php
++++ b/Helper/PaymentResponseHandler.php
+@@ -300,6 +300,9 @@ class PaymentResponseHandler
+                         // Proceed to set cancellation action flag and cancel the order
+                         $order->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_CANCEL, true);
+                         $this->orderHelper->cancelOrder($order, $resultCode);
++                        // BEGIN PATCH
++                        $order = $this->orderRepository->get($order->getId());
++                        // END PATCH
+                     } else {
+                         $this->adyenLogger->addAdyenResult('The order cannot be cancelled');
+                     }
