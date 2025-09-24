@@ -246,6 +246,13 @@
                     "version-constraint": "100.4.7"
                 }
             ],
+            "magento/module-catalog-rule": [
+                {
+                    "description": "Fix for adding more operators to null value checking",
+                    "filename": "essential/magento/module-catalog-rule/RK-2101-add-more-operators-to-null-value-checking.patch",
+                    "version-constraint": ">=101.2.8"
+                }
+            ],
             "magento/module-directory": [
                 {
                     "description": "Fix incorrect amount display for currency in summary section",
