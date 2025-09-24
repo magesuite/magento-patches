@@ -1,0 +1,30 @@
+diff --git a/Block/Adminhtml/System/Pricetimestamp.php b/Block/Adminhtml/System/Pricetimestamp.php
+index f28b24e..4e7680d 100644
+--- a/Block/Adminhtml/System/Pricetimestamp.php
++++ b/Block/Adminhtml/System/Pricetimestamp.php
+@@ -100,15 +100,22 @@ class Pricetimestamp extends Template
+     /**
+      * Retrieves the timestamp of the last import date.
+      *
+-     * @return int|null The timestamp of the last import date, or null if no import date is found.
++     * // @return int|null The timestamp of the last import date, or null if no import date is found.
++     * @return int The timestamp of the last import date, or zero if no import date is found.
+      */
+     public function getLastImportDate()
+     {
+         $priceDump = $this->calculationResultFactory->create()->getCollection()->getFirstItem();
+-        if ($priceDump) {
++        // BEGIN PATCH
++        // if ($priceDump) {
++        if ($priceDump && $priceDump->getTimestamp()) {
++        // END PATCH
+             $dt = new DateTime($priceDump->getTimestamp());
+             return $dt->getTimestamp();
+         }
+-        return null;
++        // BEGIN PATCH
++        // return null;
++        return 0;
++        // END PATCH
+     }
+ }

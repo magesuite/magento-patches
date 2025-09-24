@@ -3518,6 +3518,13 @@
                     "filename": "essential/gls-croatia/module-shipping/fix-gls-croatia-view-model-isParcelShopDeliveryMethod-P2G-2629.patch",
                     "version-constraint": ">=1.2.4"
                 }
+            ],
+            "cinovo/calculation": [
+                {
+                    "description": "Prevent crashing admin panel in case when last import date is empty.",
+                    "filename": "",
+                    "version-constraint": ">=2.11.7"
+                }
             ]
         }
     }
