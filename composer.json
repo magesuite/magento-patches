@@ -3522,7 +3522,14 @@
             "cinovo/calculation": [
                 {
                     "description": "Prevent crashing admin panel in case when last import date is empty.",
-                    "filename": "",
+                    "filename": "essential/cinovo/calculation/prevent-crashing-admin-panel-when-last-import-date-is-empty.patch",
+                    "version-constraint": ">=2.11.7"
+                }
+            ],
+            "magepal/magento2-reindex": [
+                {
+                    "description": "PHP 8.4 compatibility.",
+                    "filename": "essential/magepal/magento2-reindex/php84-compatibility.patch",
                     "version-constraint": ">=2.11.7"
                 }
             ]
