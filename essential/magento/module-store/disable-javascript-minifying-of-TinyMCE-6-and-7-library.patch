@@ -1,11 +1,20 @@
+The following versions of the TinyMCE library were excluded from minification to resolve issues
+that occurred when JavaScript minification was enabled in production mode.
+
+Enabling minification caused TinyMCE versions 6 and 7 to generate errors in the browser console,
+impacting functionality and the user experience.
+
+This issue has been resolved in Adobe Commerce 2.4.8.
+
 diff --git a/etc/config.xml b/etc/config.xml
-index d2f8f82..186e73c 100644
+index d2f8f82..4731608 100644
 --- a/etc/config.xml
 +++ b/etc/config.xml
-@@ -22,12 +22,14 @@
+@@ -22,12 +22,16 @@
                  <minify_files>0</minify_files>
                  <minify_exclude>
                      <tiny_mce>/tiny_mce/</tiny_mce>
++                    <tiny_mce_6>/tiny_mce_6/</tiny_mce_6>
 +                    <tiny_mce_7>/tiny_mce_7/</tiny_mce_7>
                  </minify_exclude>
              </js>
@@ -13,6 +22,7 @@ index d2f8f82..186e73c 100644
                  <minify_files>0</minify_files>
                  <minify_exclude>
                      <tiny_mce>/tiny_mce/</tiny_mce>
++                    <tiny_mce_6>/tiny_mce_6/</tiny_mce_6>
 +                    <tiny_mce_7>/tiny_mce_7/</tiny_mce_7>
                  </minify_exclude>
              </css>

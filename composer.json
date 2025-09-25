@@ -502,9 +502,9 @@
                     "version-constraint": ">=101.1.8"
                 },
                 {
-                    "description": "Disable javascript minifying of TinyMCE 7 library",
-                    "filename": "essential/magento/module-store/disable-javascript-minifying-of-TinyMCE-7-library.patch",
-                    "version-constraint": ">=101.1.7,<101.1.8"
+                    "description": "Disable javascript minifying of TinyMCE 6 and 7 library",
+                    "filename": "essential/magento/module-store/disable-javascript-minifying-of-TinyMCE-6-and-7-library.patch",
+                    "version-constraint": ">=101.1.4,<101.1.8"
                 }
             ],
             "magento/module-configurable-product": [
