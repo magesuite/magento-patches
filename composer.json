@@ -3530,7 +3530,7 @@
                 {
                     "description": "PHP 8.4 compatibility.",
                     "filename": "essential/magepal/magento2-reindex/php84-compatibility.patch",
-                    "version-constraint": ">=2.11.7"
+                    "version-constraint": ">=1.1.4"
                 }
             ]
         }
