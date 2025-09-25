@@ -1,0 +1,88 @@
+From bb97ace47b8925bb7833f6cf46e975c489b28a66 Mon Sep 17 00:00:00 2001
+From: Piotr Matras <piotr.matras@creativestyle.pl>
+Date: Fri, 25 Apr 2025 15:11:20 +0200
+Subject: [PATCH] Add php84 compatibility
+
+---
+ Api/ReindexInterface.php      | 2 +-
+ Api/StrategyInterface.php     | 2 +-
+ Model/Reindex.php             | 2 +-
+ Model/Strategies/Deferred.php | 2 +-
+ Model/Strategies/Standard.php | 2 +-
+ Model/Strategy.php            | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/Api/ReindexInterface.php b/Api/ReindexInterface.php
+index 1f56da8..a68a6e5 100644
+--- a/Api/ReindexInterface.php
++++ b/Api/ReindexInterface.php
+@@ -17,5 +17,5 @@ interface ReindexInterface
+     /**
+      * @param array|null $indexIds
+      */
+-    public function reindex(array $indexIds = null) : void;
++    public function reindex(?array $indexIds = null) : void;
+ }
+diff --git a/Api/StrategyInterface.php b/Api/StrategyInterface.php
+index d11789d..56a4f13 100644
+--- a/Api/StrategyInterface.php
++++ b/Api/StrategyInterface.php
+@@ -17,5 +17,5 @@ interface StrategyInterface
+     /**
+      * @param array|null $indexIds
+      */
+-    public function process(array $indexIds = null) : void;
++    public function process(?array $indexIds = null) : void;
+ }
+diff --git a/Model/Reindex.php b/Model/Reindex.php
+index 2ca1e52..9f70e08 100644
+--- a/Model/Reindex.php
++++ b/Model/Reindex.php
+@@ -29,7 +29,7 @@ public function __construct(IndexerFactory $indexerFactory)
+      *
+      * @param array|null $indexIds
+      */
+-    public function reindex(array $indexIds = null) : void
++    public function reindex(?array $indexIds = null) : void
+     {
+         foreach ($indexIds as $index) {
+             $indexer = $this->indexerFactory->create();
+diff --git a/Model/Strategies/Deferred.php b/Model/Strategies/Deferred.php
+index 2c45a9f..cda89c6 100644
+--- a/Model/Strategies/Deferred.php
++++ b/Model/Strategies/Deferred.php
+@@ -32,7 +32,7 @@ public function __construct(PublisherInterface $publisher)
+      *
+      * @param array|null $indexIds
+      */
+-    public function process(array $indexIds = null) : void
++    public function process(?array $indexIds = null) : void
+     {
+         $this->publisher->publish(self::TOPIC_NAME, $indexIds);
+     }
+diff --git a/Model/Strategies/Standard.php b/Model/Strategies/Standard.php
+index b0bafe2..8199fc6 100644
+--- a/Model/Strategies/Standard.php
++++ b/Model/Strategies/Standard.php
+@@ -30,7 +30,7 @@ public function __construct(Reindex $reindexService)
+      *
+      * @param array|null $indexIds
+      */
+-    public function process(array $indexIds = null) : void
++    public function process(?array $indexIds = null) : void
+     {
+         $this->reindexService->reindex($indexIds);
+     }
+diff --git a/Model/Strategy.php b/Model/Strategy.php
+index 82ad2bb..ba07233 100644
+--- a/Model/Strategy.php
++++ b/Model/Strategy.php
+@@ -27,7 +27,7 @@ public function __construct(StrategyResolver $resolver)
+      * @param array|null $indexIds
+      * @throws \Magento\Framework\Exception\InputException
+      */
+-    public function process(array $indexIds = null) : void
++    public function process(?array $indexIds = null) : void
+     {
+         $this->resolver->resolveActive()->process($indexIds);
+     }
