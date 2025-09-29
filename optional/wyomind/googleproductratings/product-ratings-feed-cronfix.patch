@@ -1,5 +1,5 @@
 diff --git a/etc/crontab.xml b/etc/crontab.xml
-index b87edc9..1588ccd 100644
+index ccf7227..e4a2553 100644
 --- a/etc/crontab.xml
 +++ b/etc/crontab.xml
 @@ -6,7 +6,7 @@
