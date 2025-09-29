@@ -10,7 +10,7 @@ index 3698d1a..7b50664 100644
 +                // $percent = ($quoteItem->getBasePrice() - $discountAmount) / $quoteItem->getBasePrice() * 100;
 +                $basePrice = $quoteItem->getBasePrice();
 +
-+                if (!$basePrice) {
++                if (!(float)$basePrice) {
 +                    \Magento\Framework\App\ObjectManager::getInstance()->get(\Psr\Log\LoggerInterface::class)
 +                        ->critical("Base price is not set for quote item with id: {$quoteItem->getId()}. Division by zero risk!.");
 +                    return $this->percents[$key] = 100;
