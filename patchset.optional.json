@@ -1791,6 +1791,11 @@
                 "description": "Fix incorrect true value in SQL fragment which causes wrong stock_status in cataloginventory_stock_status (FR-260)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-inventory-catalog/m246-fix-incorrect-expression-in-stock-status-query.patch",
                 "version-constraint": "^1.3.1"
+            },
+            {
+                "description": "Fix legacy stock not updating after source items save (issue #40212)",
+                "filename": "vendor/magento/magento-patches/optional/magento/module-inventory-catalog/m248-fix-legacy-stock-after-source-save.patch",
+                "version-constraint": ">=1.3.3"
             }
         ],
         "magento/module-inventory-sales": [
