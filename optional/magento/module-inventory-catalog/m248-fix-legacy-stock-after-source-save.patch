@@ -1,0 +1,29 @@
+---
+ Model/ResourceModel/SetDataToLegacyStockItem.php | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+diff --git a/Model/ResourceModel/SetDataToLegacyStockItem.php b/Model/ResourceModel/SetDataToLegacyStockItem.php
+index fe25620..8e4f29b 100644
+--- a/Model/ResourceModel/SetDataToLegacyStockItem.php
++++ b/Model/ResourceModel/SetDataToLegacyStockItem.php
+@@ -63,6 +63,20 @@ class SetDataToLegacyStockItem
+                     'website_id = ?' => 0,
+                 ]
+             );
++
++            // BEGIN PATCH
++            // @see https://github.com/magento/magento2/issues/40212
++            $connection->update(
++                $this->resourceConnection->getTableName('cataloginventory_stock_status'),
++                [
++                    'stock_status' => $status,
++                ],
++                [
++                    StockItemInterface::PRODUCT_ID . ' = ?' => $productId,
++                    'website_id = ?' => 0,
++                ]
++            );
++            // END PATCH
+         }
+     }
+ }
