@@ -2265,6 +2265,13 @@
           "filename": "vendor/creativestyle/magento-patches/optional/weareplanet/magento-2/add-postbox-to-street-field-MOV.patch",
           "version-constraint": ">=2.1.24"
         }
+      ],
+      "techdivison/import-revert-stock": [
+        {
+          "description": "Fix file endings for v1.0.1",
+          "filename": "vendor/creativestyle/magento-patches/optional/techdivision/import-revert-stock/fix_file_endings_v1_0_1.patch",
+          "version-constraint": "1.0.1"
+        }
       ]
     }
 }
