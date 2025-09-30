@@ -1,0 +1,49 @@
+diff --git a/src/Observers/ProductInventoryPreventUpdateObserver.php b/src/Observers/ProductInventoryPreventUpdateObserver.php
+index 25e9c6e..20d08ed 100644
+--- a/src/Observers/ProductInventoryPreventUpdateObserver.php
++++ b/src/Observers/ProductInventoryPreventUpdateObserver.php
+@@ -3,7 +3,7 @@
+ /**
+  * TechDivision\Import\Revert\Stock\Observers\ProductInventoryPreventUpdateObserver
+  *
+- * Copyright (c) 2023 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH 
++ * Copyright (c) 2023 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH
+  * All rights reserved
+  *
+  * This product includes proprietary software developed at TechDivision GmbH, Germany
+@@ -32,8 +32,9 @@ class ProductInventoryPreventUpdateObserver extends ProductInventoryUpdateObserv
+     protected function process()
+     {
+         $this->getSubject()->getSystemLogger()->warning(
+-            "The Update and import of stock data is deactivated. 
++            "The Update and import of stock data is deactivated.
+             As long as this logic is done via an external source (e.g. Pixi Connector, SAP Logistics ...)"
+         );
+         return;
+     }
++}
+diff --git a/src/Observers/ProductSourceItemRevertObserver.php b/src/Observers/ProductSourceItemRevertObserver.php
+index d7a1243..098e95c 100755
+--- a/src/Observers/ProductSourceItemRevertObserver.php
++++ b/src/Observers/ProductSourceItemRevertObserver.php
+@@ -3,7 +3,7 @@
+ /**
+  * TechDivision\Import\Product\Msi\Observers\ProductSourceItemObserver
+  *
+- * Copyright (c) 2023 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH 
++ * Copyright (c) 2023 TechDivision GmbH <info@techdivision.com> - TechDivision GmbH
+  * All rights reserved
+  *
+  * This product includes proprietary software developed at TechDivision GmbH, Germany
+@@ -38,10 +38,9 @@ class ProductSourceItemRevertObserver extends ProductSourceItemObserver
+     protected function process()
+     {
+         $this->getSubject()->getSystemLogger()->warning(
+-            "The Processing of source Item is deactivated. 
++            "The Processing of source Item is deactivated.
+             As long as this logic is done via an external source (e.g. Pixi Connector, SAP Logistics ...)"
+         );
+         return;
+     }
+ }
+-}
