@@ -3452,6 +3452,11 @@
                     "description": "Fix page action buttons cut issue",
                     "filename": "essential/magento/theme-adminhtml-backend/fix-admin-page-action-buttons-cut-issue.patch",
                     "version-constraint": ">=100.4.7, <100.4.8"
+                },
+                {
+                    "description": "Fix disabled categories not grayed out (v2.4.8)",
+                    "filename": "essential/magento/theme-adminhtml-backend/fix_grayed_out_categories_2_4_8.patch",
+                    "version-constraint": ">=100.4.8"
                 }
             ],
             "edrone/magento2module": [
