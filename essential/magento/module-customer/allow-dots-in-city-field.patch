@@ -1,0 +1,16 @@
+diff --git a/Model/Validator/City.php b/Model/Validator/City.php
+index 0b53551..56c2510 100644
+--- a/Model/Validator/City.php
++++ b/Model/Validator/City.php
+@@ -23,7 +23,10 @@ class City extends AbstractValidator
+      * ': Apostrophe mark.
+      * \s: Whitespace characters (spaces, tabs, newlines, etc.).
+      */
+-    private const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\-\']{1,100})/u';
++    // BEGIN PATCH
++    //private const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\-\']{1,100})/u';
++    protected const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\-\.\']{1,100})/u';
++    // END PATCH
+
+     /**
+      * Validate city fields.
