@@ -258,11 +258,6 @@
                     "description": "Fix incorrect amount display for currency in summary section",
                     "filename": "essential/magento/module-directory/m243-fix-incorrect-amount-display-for-currency-in-summary-section.patch",
                     "version-constraint": "100.4.3"
-                },
-                {
-                    "description": "Load default country from store view config scope",
-                    "filename": "essential/magento/module-directory/m248-load-default-country-from-store-view-config-scope.patch",
-                    "version-constraint": ">=100.4.8"
                 }
             ],
             "magento/module-ui": [
