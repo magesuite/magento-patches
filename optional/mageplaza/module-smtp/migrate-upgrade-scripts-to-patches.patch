@@ -1,0 +1,715 @@
+diff --git a/Setup/Patch/Data/UpgradeData.php b/Setup/Patch/Data/UpgradeData.php
+new file mode 100644
+index 0000000..17c9d72
+--- /dev/null
++++ b/Setup/Patch/Data/UpgradeData.php
+@@ -0,0 +1,89 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Mageplaza\Smtp\Setup\Patch\Data;
++
++use Magento\Config\Model\ResourceModel\Config\Data\Collection;
++use Magento\Customer\Model\Customer;
++use Magento\Customer\Setup\CustomerSetup;
++use Magento\Eav\Model\Entity\Attribute\Set as AttributeSet;
++use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
++use Magento\Framework\App\Cache\TypeListInterface;
++
++class UpgradeData implements \Magento\Framework\Setup\Patch\DataPatchInterface
++{
++    public function __construct(
++        protected \Magento\Sales\Setup\SalesSetupFactory $salesSetupFactory,
++        protected \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
++        protected \Magento\Customer\Setup\CustomerSetupFactory $customerSetupFactory,
++        protected \Magento\Config\Model\ResourceModel\Config\Data\Collection $configCollection,
++        protected \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
++        protected \Magento\Framework\Setup\ModuleDataSetupInterface $setup,
++    ) {}
++
++    public static function getDependencies(): array
++    {
++        return [];
++    }
++
++    public function getAliases(): array
++    {
++        return [];
++    }
++
++    public function apply(): void
++    {
++        /** @var CustomerSetup $customerSetup */
++        $customerSetup = $this->customerSetupFactory->create(['setup' => $this->setup]);
++
++        $customerEntity = $customerSetup->getEavConfig()->getEntityType('customer');
++        $attributeSetId = $customerEntity->getDefaultAttributeSetId();
++
++        /** @var $attributeSet AttributeSet */
++        $attributeSet = $this->attributeSetFactory->create();
++        $attributeGroupId = $attributeSet->getDefaultGroupId($attributeSetId);
++
++        $customerSetup->addAttribute(Customer::ENTITY, 'mp_smtp_is_synced', [
++            'type' => 'int',
++            'label' => 'Mp SMTP is synced',
++            'input' => 'hidden',
++            'required' => false,
++            'visible' => false,
++            'user_defined' => false,
++            'sort_order' => 90,
++            'position' => 90,
++            'system' => 0,
++            'is_used_in_grid' => false,
++        ]);
++
++        $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'mp_smtp_is_synced')
++            ->addData([
++                'attribute_set_id' => $attributeSetId,
++                'attribute_group_id' => $attributeGroupId,
++                'used_in_forms' => ['adminhtml_customer'],
++            ])
++            ->save();
++
++
++        $connection = $this->setup->getConnection();
++        $configCollection = $this->configCollection->addPathFilter('smtp/abandoned_cart');
++        if ($configCollection->getSize() > 0) {
++            $table = $this->configCollection->getMainTable();
++            $paths = [
++                'smtp/abandoned_cart/enabled' => 'email_marketing/general/enabled',
++                'smtp/abandoned_cart/app_id' => 'email_marketing/general/app_id',
++                'smtp/abandoned_cart/secret_key' => 'email_marketing/general/secret_key',
++            ];
++
++            foreach ($paths as $oldPath => $newPath) {
++                $connection->update(
++                    $table,
++                    ['path' => $newPath],
++                    ['path = ?' => $oldPath]
++                );
++            }
++            $this->cacheTypeList->cleanType('config');
++        }
++    }
++}
+diff --git a/Setup/Patch/Schema/UpgradeSchema.php b/Setup/Patch/Schema/UpgradeSchema.php
+new file mode 100644
+index 0000000..9430d17
+--- /dev/null
++++ b/Setup/Patch/Schema/UpgradeSchema.php
+@@ -0,0 +1,176 @@
++<?php
++
++declare(strict_types=1);
++
++namespace Mageplaza\Smtp\Setup\Patch\Schema;
++
++use Magento\Framework\DB\Ddl\Table;
++
++class UpgradeSchema implements \Magento\Framework\Setup\Patch\SchemaPatchInterface
++{
++    public function __construct(
++        protected \Magento\Framework\Setup\SchemaSetupInterface $setup,
++    ) {}
++
++    public static function getDependencies(): array
++    {
++        return [];
++    }
++
++    public function getAliases(): array
++    {
++        return [];
++    }
++
++    public function apply(): void
++    {
++        $connection = $this->setup->getConnection();
++
++        $connection->addColumn($this->setup->getTable('mageplaza_smtp_log'), 'from', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => 255,
++            'comment' => 'Sender',
++        ]);
++        $connection->addColumn($this->setup->getTable('mageplaza_smtp_log'), 'to', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => 255,
++            'comment' => 'Recipient',
++        ]);
++        $connection->addColumn($this->setup->getTable('mageplaza_smtp_log'), 'cc', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => 255,
++            'comment' => 'Cc',
++        ]);
++        $connection->addColumn($this->setup->getTable('mageplaza_smtp_log'), 'bcc', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => 255,
++            'comment' => 'Bcc',
++        ]);
++
++        $connection->changeColumn($this->setup->getTable('mageplaza_smtp_log'), 'from', 'sender', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => 255,
++            'comment' => 'Sender',
++        ]);
++        $connection->changeColumn($this->setup->getTable('mageplaza_smtp_log'), 'to', 'recipient', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => 255,
++            'comment' => 'Recipient',
++        ]);
++
++        if (!$this->setup->tableExists('mageplaza_smtp_abandonedcart')) {
++            $table = $this->setup->getConnection()
++                ->newTable($this->setup->getTable('mageplaza_smtp_abandonedcart'))
++                ->addColumn('id', Table::TYPE_INTEGER, null, [
++                    'identity' => true,
++                    'unsigned' => true,
++                    'nullable' => false,
++                    'primary' => true,
++                ], 'Log Id')
++                ->addColumn('log_ids', Table::TYPE_TEXT, 255, [], 'Log Ids')
++                ->addColumn('token', Table::TYPE_TEXT, 255, [], 'Token')
++                ->addColumn(
++                    'quote_id',
++                    Table::TYPE_INTEGER,
++                    null,
++                    [
++                        'unsigned' => true,
++                        'nullable' => false,
++                        'default' => '0',
++                    ],
++                    'Quote Id'
++                )
++                ->addColumn('status', Table::TYPE_SMALLINT, 1, ['nullable' => false], 'Status')
++                ->addColumn(
++                    'created_at',
++                    Table::TYPE_TIMESTAMP,
++                    null,
++                    ['default' => Table::TIMESTAMP_INIT],
++                    'Created At'
++                )
++                ->addForeignKey(
++                    $this->setup->getFkName(
++                        'mageplaza_smtp_abandonedcart',
++                        'quote_id',
++                        'quote',
++                        'entity_id'
++                    ),
++                    'quote_id',
++                    $this->setup->getTable('quote'),
++                    'entity_id',
++                    Table::ACTION_CASCADE
++                )
++                ->setComment('SMTP Abandoned Cart');
++
++            $this->setup->getConnection()->createTable($table);
++        }
++
++        $connection->addColumn($this->setup->getTable('quote'), 'mp_smtp_ace_token', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => 255,
++            'comment' => 'ACE Token',
++        ]);
++        $connection->addColumn($this->setup->getTable('quote'), 'mp_smtp_ace_sent', [
++            'type' => Table::TYPE_SMALLINT,
++            'nullable' => true,
++            'length' => null,
++            'default' => 0,
++            'comment' => 'ACE Sent',
++        ]);
++        $connection->addColumn($this->setup->getTable('quote'), 'mp_smtp_ace_log_ids', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => '64k',
++            'comment' => 'ACE Log Ids',
++        ]);
++        $connection->addColumn($this->setup->getTable('quote'), 'mp_smtp_ace_log_data', [
++            'type' => Table::TYPE_TEXT,
++            'nullable' => true,
++            'length' => '64k',
++            'comment' => 'ACE Log Data',
++        ]);
++
++        $connection->addColumn($this->setup->getTable('sales_order'), 'mp_smtp_email_marketing_synced', [
++            'type' => Table::TYPE_SMALLINT,
++            'nullable' => true,
++            'length' => null,
++            'default' => 0,
++            'comment' => 'Mp SMTP Email Marketing synced',
++        ]);
++
++        $column = [
++            'type' => Table::TYPE_SMALLINT,
++            'nullable' => true,
++            'length' => null,
++            'default' => 0,
++            'comment' => 'Mp SMTP Email Marketing synced',
++        ];
++
++        $connection->addColumn(
++            $this->setup->getTable('customer_entity'),
++            'mp_smtp_email_marketing_synced',
++            $column
++        );
++
++        $connection->addColumn(
++            $this->setup->getTable('newsletter_subscriber'),
++            'mp_smtp_email_marketing_synced',
++            $column
++        );
++
++        $connection->addColumn($this->setup->getTable('sales_order'), 'mp_smtp_email_marketing_order_created', [
++            'type' => Table::TYPE_SMALLINT,
++            'nullable' => true,
++            'length' => null,
++            'default' => 0,
++            'comment' => 'Mp SMTP Email Marketing order created',
++        ]);
++    }
++}
+diff --git a/Setup/UpgradeData.php b/Setup/UpgradeData.php
+deleted file mode 100644
+index 90ef64a..0000000
+--- a/Setup/UpgradeData.php
++++ /dev/null
+@@ -1,156 +0,0 @@
+-<?php
+-/**
+- * Mageplaza
+- *
+- * NOTICE OF LICENSE
+- *
+- * This source file is subject to the Mageplaza.com license that is
+- * available through the world-wide-web at this URL:
+- * https://www.mageplaza.com/LICENSE.txt
+- *
+- * DISCLAIMER
+- *
+- * Do not edit or add to this file if you wish to upgrade this extension to newer
+- * version in the future.
+- *
+- * @category    Mageplaza
+- * @package     Mageplaza_Smtp
+- * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+- * @license     https://www.mageplaza.com/LICENSE.txt
+- */
+-
+-namespace Mageplaza\Smtp\Setup;
+-
+-use Exception;
+-use Magento\Config\Model\ResourceModel\Config\Data\Collection;
+-use Magento\Customer\Model\Customer;
+-use Magento\Customer\Setup\CustomerSetup;
+-use Magento\Customer\Setup\CustomerSetupFactory;
+-use Magento\Eav\Model\Entity\Attribute\Set as AttributeSet;
+-use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+-use Magento\Framework\App\Cache\TypeListInterface;
+-use Magento\Framework\Setup\ModuleContextInterface;
+-use Magento\Framework\Setup\ModuleDataSetupInterface;
+-use Magento\Framework\Setup\UpgradeDataInterface;
+-use Magento\Sales\Setup\SalesSetupFactory;
+-
+-/**
+- * Class UpgradeData
+- * @package Mageplaza\Smtp\Setup
+- */
+-class UpgradeData implements UpgradeDataInterface
+-{
+-    /**
+-     * @var SalesSetupFactory
+-     */
+-    protected $salesSetupFactory;
+-
+-    /**
+-     * @var AttributeSetFactory
+-     */
+-    protected $attributeSetFactory;
+-
+-    /**
+-     * @var CustomerSetupFactory
+-     */
+-    protected $customerSetupFactory;
+-
+-    /**
+-     * @var Collection
+-     */
+-    protected $configCollection;
+-
+-    /**
+-     * @var TypeListInterface
+-     */
+-    protected $_cacheTypeList;
+-
+-    /**
+-     * UpgradeData constructor.
+-     *
+-     * @param SalesSetupFactory $salesSetupFactory
+-     * @param AttributeSetFactory $attributeSetFactory
+-     * @param CustomerSetupFactory $customerSetupFactory
+-     * @param Collection $configCollection
+-     * @param TypeListInterface $cacheTypeList
+-     */
+-    public function __construct(
+-        SalesSetupFactory $salesSetupFactory,
+-        AttributeSetFactory $attributeSetFactory,
+-        CustomerSetupFactory $customerSetupFactory,
+-        Collection $configCollection,
+-        TypeListInterface $cacheTypeList
+-    ) {
+-        $this->salesSetupFactory = $salesSetupFactory;
+-        $this->attributeSetFactory = $attributeSetFactory;
+-        $this->customerSetupFactory = $customerSetupFactory;
+-        $this->configCollection = $configCollection;
+-        $this->_cacheTypeList = $cacheTypeList;
+-    }
+-
+-    /**
+-     * @param ModuleDataSetupInterface $setup
+-     * @param ModuleContextInterface $context
+-     *
+-     * @throws Exception
+-     */
+-    public function upgrade(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
+-    {
+-        if (version_compare($context->getVersion(), '1.2.2', '<')) {
+-            $setup->startSetup();
+-
+-            /** @var CustomerSetup $customerSetup */
+-            $customerSetup = $this->customerSetupFactory->create(['setup' => $setup]);
+-
+-            $customerEntity = $customerSetup->getEavConfig()->getEntityType('customer');
+-            $attributeSetId = $customerEntity->getDefaultAttributeSetId();
+-
+-            /** @var $attributeSet AttributeSet */
+-            $attributeSet = $this->attributeSetFactory->create();
+-            $attributeGroupId = $attributeSet->getDefaultGroupId($attributeSetId);
+-
+-            $customerSetup->addAttribute(Customer::ENTITY, 'mp_smtp_is_synced', [
+-                'type' => 'int',
+-                'label' => 'Mp SMTP is synced',
+-                'input' => 'hidden',
+-                'required' => false,
+-                'visible' => false,
+-                'user_defined' => false,
+-                'sort_order' => 90,
+-                'position' => 90,
+-                'system' => 0,
+-                'is_used_in_grid' => false,
+-            ]);
+-
+-            $customerSetup->getEavConfig()->getAttribute(Customer::ENTITY, 'mp_smtp_is_synced')
+-                ->addData([
+-                    'attribute_set_id' => $attributeSetId,
+-                    'attribute_group_id' => $attributeGroupId,
+-                    'used_in_forms' => ['adminhtml_customer']
+-                ])
+-                ->save();
+-        }
+-
+-        if (version_compare($context->getVersion(), '1.2.3', '<')) {
+-            $connection = $setup->getConnection();
+-            $configCollection = $this->configCollection->addPathFilter('smtp/abandoned_cart');
+-            if ($configCollection->getSize() > 0) {
+-                $table = $this->configCollection->getMainTable();
+-                $paths = [
+-                    'smtp/abandoned_cart/enabled' => 'email_marketing/general/enabled',
+-                    'smtp/abandoned_cart/app_id' => 'email_marketing/general/app_id',
+-                    'smtp/abandoned_cart/secret_key' => 'email_marketing/general/secret_key'
+-                ];
+-
+-                foreach ($paths as $oldPath => $newPath) {
+-                    $connection->update(
+-                        $table,
+-                        ['path' => $newPath],
+-                        ['path = ?' => $oldPath]
+-                    );
+-                }
+-                $this->_cacheTypeList->cleanType('config');
+-            }
+-        }
+-    }
+-}
+diff --git a/Setup/UpgradeSchema.php b/Setup/UpgradeSchema.php
+deleted file mode 100644
+index 52e63ee..0000000
+--- a/Setup/UpgradeSchema.php
++++ /dev/null
+@@ -1,258 +0,0 @@
+-<?php
+-/**
+- * Mageplaza
+- *
+- * NOTICE OF LICENSE
+- *
+- * This source file is subject to the Mageplaza.com license that is
+- * available through the world-wide-web at this URL:
+- * https://www.mageplaza.com/LICENSE.txt
+- *
+- * DISCLAIMER
+- *
+- * Do not edit or add to this file if you wish to upgrade this extension to newer
+- * version in the future.
+- *
+- * @category    Mageplaza
+- * @package     Mageplaza_Smtp
+- * @copyright   Copyright (c) Mageplaza (https://www.mageplaza.com/)
+- * @license     https://www.mageplaza.com/LICENSE.txt
+- */
+-
+-namespace Mageplaza\Smtp\Setup;
+-
+-use Magento\Framework\DB\Ddl\Table;
+-use Magento\Framework\Setup\ModuleContextInterface;
+-use Magento\Framework\Setup\SchemaSetupInterface;
+-use Magento\Framework\Setup\UpgradeSchemaInterface;
+-use Magento\Quote\Model\ResourceModel\Quote as QuoteResource;
+-use Magento\Sales\Model\ResourceModel\Order as OrderResource;
+-use Magento\Customer\Model\ResourceModel\Customer as CustomerResource;
+-use Magento\Newsletter\Model\ResourceModel\Subscriber as SubscriberResource;
+-use Zend_Db_Exception;
+-
+-/**
+- * Class UpgradeSchema
+- * @package Mageplaza\Smtp\Setup
+- */
+-class UpgradeSchema implements UpgradeSchemaInterface
+-{
+-    /**
+-     * @var QuoteResource
+-     */
+-    protected $quoteResource;
+-
+-    /**
+-     * @var OrderResource
+-     */
+-    protected $orderResource;
+-
+-    /**
+-     * @var CustomerResource
+-     */
+-    protected $customerResource;
+-
+-    /**
+-     * @var SubscriberResource
+-     */
+-    protected $subscriberResource;
+-
+-    /**
+-     * UpgradeSchema constructor.
+-     *
+-     * @param QuoteResource $quoteResource
+-     * @param OrderResource $orderResource
+-     * @param CustomerResource $customerResource
+-     * @param SubscriberResource $subscriberResource
+-     */
+-    public function __construct(
+-        QuoteResource $quoteResource,
+-        OrderResource $orderResource,
+-        CustomerResource $customerResource,
+-        SubscriberResource $subscriberResource
+-    ) {
+-        $this->quoteResource      = $quoteResource;
+-        $this->orderResource      = $orderResource;
+-        $this->customerResource   = $customerResource;
+-        $this->subscriberResource = $subscriberResource;
+-    }
+-
+-    /**
+-     * @param SchemaSetupInterface $setup
+-     * @param ModuleContextInterface $context
+-     *
+-     * @throws Zend_Db_Exception
+-     */
+-    public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
+-    {
+-        $setup->startSetup();
+-
+-        $connection = $setup->getConnection();
+-
+-        if (version_compare($context->getVersion(), '1.1.0', '<')) {
+-            $connection->addColumn($setup->getTable('mageplaza_smtp_log'), 'from', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => 255,
+-                'comment'  => 'Sender'
+-            ]);
+-            $connection->addColumn($setup->getTable('mageplaza_smtp_log'), 'to', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => 255,
+-                'comment'  => 'Recipient'
+-            ]);
+-            $connection->addColumn($setup->getTable('mageplaza_smtp_log'), 'cc', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => 255,
+-                'comment'  => 'Cc'
+-            ]);
+-            $connection->addColumn($setup->getTable('mageplaza_smtp_log'), 'bcc', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => 255,
+-                'comment'  => 'Bcc'
+-            ]);
+-        }
+-
+-        if (version_compare($context->getVersion(), '1.1.1', '<')) {
+-            $connection->changeColumn($setup->getTable('mageplaza_smtp_log'), 'from', 'sender', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => 255,
+-                'comment'  => 'Sender'
+-            ]);
+-            $connection->changeColumn($setup->getTable('mageplaza_smtp_log'), 'to', 'recipient', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => 255,
+-                'comment'  => 'Recipient'
+-            ]);
+-        }
+-
+-        if (!$setup->tableExists('mageplaza_smtp_abandonedcart')) {
+-            $table = $setup->getConnection()
+-                ->newTable($setup->getTable('mageplaza_smtp_abandonedcart'))
+-                ->addColumn('id', Table::TYPE_INTEGER, null, [
+-                    'identity' => true,
+-                    'unsigned' => true,
+-                    'nullable' => false,
+-                    'primary'  => true
+-                ], 'Log Id')
+-                ->addColumn('log_ids', Table::TYPE_TEXT, 255, [], 'Log Ids')
+-                ->addColumn('token', Table::TYPE_TEXT, 255, [], 'Token')
+-                ->addColumn(
+-                    'quote_id',
+-                    Table::TYPE_INTEGER,
+-                    null,
+-                    [
+-                        'unsigned' => true,
+-                        'nullable' => false,
+-                        'default'  => '0'
+-                    ],
+-                    'Quote Id'
+-                )
+-                ->addColumn('status', Table::TYPE_SMALLINT, 1, ['nullable' => false], 'Status')
+-                ->addColumn(
+-                    'created_at',
+-                    Table::TYPE_TIMESTAMP,
+-                    null,
+-                    ['default' => Table::TIMESTAMP_INIT],
+-                    'Created At'
+-                )
+-                ->addForeignKey(
+-                    $setup->getFkName(
+-                        'mageplaza_smtp_abandonedcart',
+-                        'quote_id',
+-                        'quote',
+-                        'entity_id'
+-                    ),
+-                    'quote_id',
+-                    $setup->getTable('quote'),
+-                    'entity_id',
+-                    Table::ACTION_CASCADE
+-                )
+-                ->setComment('SMTP Abandoned Cart');
+-
+-            $setup->getConnection()->createTable($table);
+-        }
+-
+-        if (version_compare($context->getVersion(), '1.2.1', '<')) {
+-            $quoteConnection = $this->quoteResource->getConnection();
+-            $quoteConnection->addColumn($setup->getTable('quote'), 'mp_smtp_ace_token', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => 255,
+-                'comment'  => 'ACE Token'
+-            ]);
+-            $quoteConnection->addColumn($setup->getTable('quote'), 'mp_smtp_ace_sent', [
+-                'type'     => Table::TYPE_SMALLINT,
+-                'nullable' => true,
+-                'length'   => null,
+-                'default'  => 0,
+-                'comment'  => 'ACE Sent'
+-            ]);
+-            $quoteConnection->addColumn($setup->getTable('quote'), 'mp_smtp_ace_log_ids', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => '64k',
+-                'comment'  => 'ACE Log Ids'
+-            ]);
+-            $quoteConnection->addColumn($setup->getTable('quote'), 'mp_smtp_ace_log_data', [
+-                'type'     => Table::TYPE_TEXT,
+-                'nullable' => true,
+-                'length'   => '64k',
+-                'comment'  => 'ACE Log Data'
+-            ]);
+-        }
+-
+-        if (version_compare($context->getVersion(), '1.2.2', '<')) {
+-            $salesOrderConnection = $this->orderResource->getConnection();
+-            $salesOrderConnection->addColumn($setup->getTable('sales_order'), 'mp_smtp_email_marketing_synced', [
+-                'type'     => Table::TYPE_SMALLINT,
+-                'nullable' => true,
+-                'length'   => null,
+-                'default'  => 0,
+-                'comment'  => 'Mp SMTP Email Marketing synced'
+-            ]);
+-        }
+-
+-        if (version_compare($context->getVersion(), '1.2.4', '<')) {
+-            $column = [
+-                'type'     => Table::TYPE_SMALLINT,
+-                'nullable' => true,
+-                'length'   => null,
+-                'default'  => 0,
+-                'comment'  => 'Mp SMTP Email Marketing synced'
+-            ];
+-
+-            $customerConnection = $this->customerResource->getConnection();
+-            $customerConnection->addColumn(
+-                $setup->getTable('customer_entity'),
+-                'mp_smtp_email_marketing_synced',
+-                $column
+-            );
+-
+-            $subscriberConnection = $this->subscriberResource->getConnection();
+-            $subscriberConnection->addColumn(
+-                $setup->getTable('newsletter_subscriber'),
+-                'mp_smtp_email_marketing_synced',
+-                $column
+-            );
+-        }
+-
+-        if (version_compare($context->getVersion(), '1.2.5', '<')) {
+-            $salesOrderConnection = $this->orderResource->getConnection();
+-            $salesOrderConnection->addColumn($setup->getTable('sales_order'), 'mp_smtp_email_marketing_order_created', [
+-                'type'     => Table::TYPE_SMALLINT,
+-                'nullable' => true,
+-                'length'   => null,
+-                'default'  => 0,
+-                'comment'  => 'Mp SMTP Email Marketing order created'
+-            ]);
+-        }
+-
+-        $setup->endSetup();
+-    }
+-}
+diff --git a/etc/module.xml b/etc/module.xml
+index be41e92..3299bc4 100644
+--- a/etc/module.xml
++++ b/etc/module.xml
+@@ -23,6 +23,7 @@
+     <module name="Mageplaza_Smtp" setup_version="1.2.5">
+         <sequence>
+             <module name="Mageplaza_Core"/>
++            <module name="Magento_Customer"/>
+         </sequence>
+     </module>
+ </config>
