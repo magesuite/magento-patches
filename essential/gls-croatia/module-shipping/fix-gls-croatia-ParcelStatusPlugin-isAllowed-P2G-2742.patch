@@ -1,0 +1,16 @@
+diff --git a/Plugin/Shipping/Block/Adminhtml/View/ParcelStatusPlugin.php b/Plugin/Shipping/Block/Adminhtml/View/ParcelStatusPlugin.php
+index 8aadc39..ac255bb 100644
+--- a/Plugin/Shipping/Block/Adminhtml/View/ParcelStatusPlugin.php
++++ b/Plugin/Shipping/Block/Adminhtml/View/ParcelStatusPlugin.php
+@@ -77,7 +77,10 @@ class ParcelStatusPlugin
+         ?\Magento\Sales\Model\Order\Shipment $shipment = null
+     ): bool {
+         $shippingMethod = $order->getShippingMethod(true);
+-        if ($shippingMethod->getData('carrier_code') !== \GLSCroatia\Shipping\Model\Carrier::CODE) {
++        // BEGIN PATCH
++        // if ($shippingMethod->getData('carrier_code') !== \GLSCroatia\Shipping\Model\Carrier::CODE) {
++        if ($shippingMethod?->getData('carrier_code') !== \GLSCroatia\Shipping\Model\Carrier::CODE) {
++        // END PATCH
+             return false;
+         }
+ 

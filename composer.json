@@ -3527,6 +3527,11 @@
                     "description": "Fix GLS croatia shipping module isParcelShopDeliveryMethod to pass gdpr integration tests",
                     "filename": "essential/gls-croatia/module-shipping/fix-gls-croatia-view-model-isParcelShopDeliveryMethod-P2G-2629.patch",
                     "version-constraint": ">=1.2.4"
+                },
+                {
+                    "description": "Fix GLS croatia shipping module ParcelStatusPlugin to pass gdpr integration tests",
+                    "filename": "essential/gls-croatia/module-shipping/fix-gls-croatia-ParcelStatusPlugin-isAllowed-P2G-2742.patch",
+                    "version-constraint": ">=1.3.0"
                 }
             ],
             "cinovo/calculation": [
