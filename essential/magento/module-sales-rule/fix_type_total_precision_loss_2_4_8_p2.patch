@@ -1,0 +1,13 @@
+diff --git a/Model/Rule/Condition/Product/Subselect.php b/Model/Rule/Condition/Product/Subselect.php
+index ccec956..aa41587 100644
+--- a/Model/Rule/Condition/Product/Subselect.php
++++ b/Model/Rule/Condition/Product/Subselect.php
+@@ -211,7 +211,7 @@ class Subselect extends Combine
+      * @return int|mixed
+      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+      */
+-    private function getBaseRowTotalForChildrenProduct(mixed $item, mixed $attr, int $total): mixed
++    private function getBaseRowTotalForChildrenProduct(mixed $item, mixed $attr, mixed $total): mixed
+     {
+         $hasValidChild = false;
+         $useChildrenTotal = ($item->getProductType() == Type::TYPE_BUNDLE);
