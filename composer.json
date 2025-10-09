@@ -3495,6 +3495,11 @@
                     "description": "Add missing local variables declaration in MagentoDataHelper::getCartPayload() method",
                     "filename": "essential/meta/module-conversion/fix-undefined-variable-error-in-magento-data-helper.patch",
                     "version-constraint": "1.5.0"
+                },
+                {
+                    "description": "Optimize category name loading to reduce number of queries",
+                    "filename": "essential/meta/module-conversion/optimize-category-name-loading.patch",
+                    "version-constraint": ">=1.6.4"
                 }
             ],
             "akeneo/magento2-connector-enterprise": [
