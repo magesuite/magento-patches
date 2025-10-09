@@ -2496,6 +2496,11 @@
                     "description": "ACSD-63469: Fixed-amount cart discounts not applied correctly with multiple rules",
                     "filename": "essential/magento/module-sales-rule/ACSD-63469_2.4.7-p2_v2.patch",
                     "version-constraint": ">=101.2.7,<101.2.8"
+                },
+                {
+                    "description": "Fix error: Deprecated Functionality: Implicit conversion from float to int loses precision",
+                    "filename": "essential/magento/module-sales-rule/fix_type_total_precision_loss_2_4_8_p2.patch",
+                    "version-constraint": ">=101.2.8-p1"
                 }
             ],
             "magento/module-paypal": [
