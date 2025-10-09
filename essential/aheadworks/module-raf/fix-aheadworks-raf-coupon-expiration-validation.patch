@@ -1,0 +1,44 @@
+diff --git a/Model/Advocate/Balance/Resolver.php b/Model/Advocate/Balance/Resolver.php
+index 5f4a1f8..d671a1f 100644
+--- a/Model/Advocate/Balance/Resolver.php
++++ b/Model/Advocate/Balance/Resolver.php
+@@ -55,6 +55,12 @@ class Resolver
+      */
+     public function resolveCurrentBalance($advocate, $websiteId)
+     {
++        // BEGIN PATCH
++        if ($this->isBalanceExpired($advocate)) {
++            return 0;
++        }
++        // END PATCH
++
+         $discountType = $this->resolveCurrentDiscountType($advocate, $websiteId);
+         $balance = 0;
+         if ($discountType == AdvocateOffType::FIXED) {
+@@ -109,4 +115,25 @@ class Resolver
+
+         return $discountType;
+     }
++
++    /**
++     * BEGIN PATCH
++     * Check if advocate balance has expired
++     *
++     * @param AdvocateSummaryInterface $advocate
++     * @return bool
++     */
++    protected function isBalanceExpired($advocate)
++    {
++        $expirationDate = $advocate->getExpirationDate();
++        if (!$expirationDate) {
++            return false; // No expiration date set, balance is valid
++        }
++
++        $now = new \DateTime('now', new \DateTimeZone('UTC'));
++        $expiration = new \DateTime($expirationDate, new \DateTimeZone('UTC'));
++
++        return $now > $expiration;
++    }
++    // END PATCH
+ }
+--
