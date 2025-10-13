@@ -1842,7 +1842,7 @@
                 {
                     "description": "Fix [SCAFA-1232] Division by 0 fix",
                     "filename": "essential/aheadworks/module-afptc/SCAFA-1232-division-by-zero-fix.patch",
-                    "version-constraint": ">=1.11.2"
+                    "version-constraint": ">=1.11.2,<1.12.0"
                 }
             ],
             "customweb/module-computopcw": [
