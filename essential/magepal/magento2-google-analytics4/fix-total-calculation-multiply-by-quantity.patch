@@ -1,0 +1,15 @@
+--- a/Model/Session.php	2024-07-17 15:54:44
++++ b/Model/Session.php	2025-10-14 10:57:59
+@@ -173,8 +173,10 @@
+
+         foreach ($items as $item) {
+             $qty = isset($item['quantity']) ? $item['quantity'] : 0;
+-            $total += $qty * isset($item['price']) ? $item['price'] : 0;
+-            $total -= $qty * isset($item['discount']) ? $item['discount'] : 0;
++            //PATCH START
++            $total += $qty * (isset($item['price']) ? $item['price'] : 0);
++            $total -= $qty * (isset($item['discount']) ? $item['discount'] : 0);
++            //PATCH END
+         }
+
+         return $total * 1;
