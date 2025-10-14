@@ -3502,6 +3502,13 @@
                     "version-constraint": ">=1.6.4"
                 }
             ],
+            "meta/module-sales": [
+                {
+                    "description": "Disable sales order grid plugin",
+                    "filename": "essential/meta/module-sales/disable-sales-order-grid-plugin.patch",
+                    "version-constraint": ">=1.6.4"
+                }
+            ],
             "akeneo/magento2-connector-enterprise": [
                 {
                     "description": "Remove product model table from db schema",

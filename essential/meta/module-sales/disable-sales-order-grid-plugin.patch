@@ -1,0 +1,20 @@
+Sales order grid performance goes kuku
+
+diff --git a/etc/di.xml b/etc/di.xml
+index 0181376..0084dbe 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -589,8 +589,12 @@
+         </arguments>
+     </type>
+     <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
++        <!-- PATCH START -->
++        <!-- <plugin name="facebookSalesOrderGrid"
++                type="Meta\Sales\Plugin\FacebookSalesOrderGridPlugin"/> -->
+         <plugin name="facebookSalesOrderGrid"
+-                type="Meta\Sales\Plugin\FacebookSalesOrderGridPlugin"/>
++                type="Meta\Sales\Plugin\FacebookSalesOrderGridPlugin" disabled="true"/>
++        <!-- PATCH END -->
+     </type>
+     <type name="Taxjar\SalesTax\Model\Transaction">
+         <plugin name="meta_taxjar" type="Meta\Sales\Plugin\TransactionUpdatePlugin"/>
