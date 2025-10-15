@@ -1,0 +1,29 @@
+diff --git a/Model/ResourceModel/Country/Collection.php b/Model/ResourceModel/Country/Collection.php
+index 4d76215..3ee2a93 100644
+--- a/Model/ResourceModel/Country/Collection.php
++++ b/Model/ResourceModel/Country/Collection.php
+@@ -293,15 +293,16 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
+      */
+     private function addDefaultCountryToOptions(array &$options)
+     {
++        //BEGIN PATCH
+         $defaultCountry = [];
+-        foreach ($this->storeManager->getWebsites() as $website) {
+-            $defaultCountryConfig = $this->_scopeConfig->getValue(
+-                \Magento\Directory\Helper\Data::XML_PATH_DEFAULT_COUNTRY,
+-                ScopeInterface::SCOPE_WEBSITES,
+-                $website
+-            );
+-            $defaultCountry[$defaultCountryConfig][] = $website->getId();
+-        }
++        $store = $this->storeManager->getStore();
++        $defaultCountryConfig = $this->_scopeConfig->getValue(
++            \Magento\Directory\Helper\Data::XML_PATH_DEFAULT_COUNTRY,
++            ScopeInterface::SCOPE_STORES,
++            $store
++        );
++        $defaultCountry[$defaultCountryConfig][] = $store->getId();
++        //END PATCH
+
+         foreach ($options as $key => $option) {
+             if (isset($defaultCountry[$option['value']])) {

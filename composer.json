@@ -258,6 +258,11 @@
                     "description": "Fix incorrect amount display for currency in summary section",
                     "filename": "essential/magento/module-directory/m243-fix-incorrect-amount-display-for-currency-in-summary-section.patch",
                     "version-constraint": "100.4.3"
+                },
+                {
+                    "description": "Set only one default country for options",
+                    "filename": "essential/magento/module-directory/m248-set-only-one-default-country-in-options.patch",
+                    "version-constraint": ">=100.4.8"
                 }
             ],
             "magento/module-ui": [
