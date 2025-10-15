@@ -18,3 +18,22 @@ index 0181376..0084dbe 100644
      </type>
      <type name="Taxjar\SalesTax\Model\Transaction">
          <plugin name="meta_taxjar" type="Meta\Sales\Plugin\TransactionUpdatePlugin"/>
+diff --git a/view/adminhtml/ui_component/sales_order_grid.xml b/view/adminhtml/ui_component/sales_order_grid.xml
+index 8147ef8..8168fa4 100644
+--- a/view/adminhtml/ui_component/sales_order_grid.xml
++++ b/view/adminhtml/ui_component/sales_order_grid.xml
+@@ -1,6 +1,7 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
++    <!-- PATCH START
+     <columns name="sales_order_columns">
+         <column name="facebook_order_id">
+             <settings>
+@@ -8,5 +9,5 @@
+                 <label translate="true">Meta Order ID</label>
+             </settings>
+         </column>
+-    </columns>
++    </columns> PATCH END -->
+ </listing>
