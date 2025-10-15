@@ -224,7 +224,7 @@
                 {
                     "description": "Patch for CVE-2025-54236, Magento 2.4.x",
                     "filename": "essential/magento/framework/VULN-27015-2.4.X.composer.patch",
-                    "version-constraint": ">=103.0.4"
+                    "version-constraint": ">=103.0.4,<103.0.8-p3"
                 },
                 {
                     "description": "Change default charset to utf8mb4 after updating to Magento 2.4.8",
