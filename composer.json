@@ -1840,7 +1840,7 @@
                 {
                     "description": "Fix wrong template generated for bundle products price column",
                     "filename": "essential/aheadworks/module-requisition-lists/aheadworks-requisition-list-fix-for-bundle-products-price-template-renderer.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<1.4.0"
                 }
             ],
             "aheadworks/module-afptc": [
