@@ -2166,8 +2166,8 @@
                     "version-constraint": ">=103.0.5,<103.0.5-p11"
                 },
                 {
-                    "description": "Allow using dots in city field",
-                    "filename": "essential/magento/module-customer/allow-dots-in-city-field.patch",
+                    "description": "Allow using dots, commas and digits in city field",
+                    "filename": "essential/magento/module-customer/allow-dots-commas-and-digits-in-city-field.patch",
                     "version-constraint": ">=103.0.8-p1"
                 },
                 {
