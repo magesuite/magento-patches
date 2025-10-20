@@ -1,0 +1,195 @@
+diff --git a/Model/Sales/Totals/Calculator/GiftcardUsedAmount.php b/Model/Sales/Totals/Calculator/GiftcardUsedAmount.php
+index ff283c4..1d0df0f 100644
+--- a/Model/Sales/Totals/Calculator/GiftcardUsedAmount.php
++++ b/Model/Sales/Totals/Calculator/GiftcardUsedAmount.php
+@@ -59,7 +59,10 @@ class GiftcardUsedAmount
+         Giftcard|GiftcardOrder $giftcard,
+         array $items,
+         float $baseShippingAmount,
+-        bool $ignoreFilterItems = false
++        bool $ignoreFilterItems = false,
++        // BEGIN PATCH
++        float $baseCo2FeeAmount = 0.0
++        // END PATCH
+     ): void {
+         $this->baseGiftcardChargeAmount = 0.0;
+         $this->availableBaseAmount = $availableBaseAmount;
+@@ -86,6 +89,10 @@ class GiftcardUsedAmount
+         }
+
+         $this->chargeAmount($baseShippingAmount, self::BASE_SHIPPING_AMOUNT);
++
++        // BEGIN PATCH
++        $this->chargeAmount($baseCo2FeeAmount, 'base_co2_compensation_fee_amount');
++        // END PATCH
+     }
+
+     /**
+@@ -215,7 +222,10 @@ class GiftcardUsedAmount
+      * @param float $baseShippingAmount
+      * @return void
+      */
+-    public function createPoolUnusedBaseAmounts(array $items, float $baseShippingAmount): void
++//    public function createPoolUnusedBaseAmounts(array $items, float $baseShippingAmount): void
++// BEGIN PATCH
++    public function createPoolUnusedBaseAmounts(array $items, float $baseShippingAmount, float $baseCo2Amount = 0.0): void
++// END PATCH
+     {
+         $this->poolUnusedBaseAmounts = [];
+
+@@ -245,6 +255,9 @@ class GiftcardUsedAmount
+         }
+
+         $this->poolUnusedBaseAmounts[self::BASE_SHIPPING_AMOUNT] = $baseShippingAmount;
++        // BEGIN PATCH
++        $this->poolUnusedBaseAmounts['base_co2_compensation_fee_amount'] = $baseCo2Amount;
++        // END PATCH
+     }
+
+     /**
+diff --git a/Model/Sales/Totals/Creditmemo.php b/Model/Sales/Totals/Creditmemo.php
+index 75b454f..64b291b 100644
+--- a/Model/Sales/Totals/Creditmemo.php
++++ b/Model/Sales/Totals/Creditmemo.php
+@@ -106,10 +106,18 @@ class Creditmemo extends AbstractTotal
+                 );
+             }
+             $items = $creditmemo->getItems();
++//            $this->giftcardUsedAmount->createPoolUnusedBaseAmounts(
++//                $items,
++//                (float)$creditmemo->getBaseShippingAmount() + $shippingTax
++//            );
++            // BEGIN PATCH
++            $co2Fee = $order->getData('base_co2_compensation_fee') + $order->getData('base_co2_compensation_fee_tax');
+             $this->giftcardUsedAmount->createPoolUnusedBaseAmounts(
+                 $items,
+-                (float)$creditmemo->getBaseShippingAmount() + $shippingTax
++                (float)$creditmemo->getBaseShippingAmount() + $shippingTax,
++                $co2Fee
+             );
++            // END PATCH
+
+             if (!$refundToGiftCardFirst) {
+                 list($baseAvailableShippingAmount, $availableShippingAmount)
+@@ -156,13 +164,23 @@ class Creditmemo extends AbstractTotal
+                 );
+                 $baseShippingAmount -= $creditmemo->getOrder()->getShippingRefunded();
+
++//                $this->giftcardUsedAmount->calculate(
++//                    (float)$availableForRefund,
++//                    $orderGiftcard,
++//                    $items,
++//                    $baseShippingAmount > -0.000001 ? $baseShippingAmount : 0.0,
++//                    $isOrderHasCreditmemoRefundedToBalanceFirst
++//                );
++                // BEGIN PATCH
+                 $this->giftcardUsedAmount->calculate(
+                     (float)$availableForRefund,
+                     $orderGiftcard,
+                     $items,
+                     $baseShippingAmount > -0.000001 ? $baseShippingAmount : 0.0,
+-                    $isOrderHasCreditmemoRefundedToBalanceFirst
++                    $isOrderHasCreditmemoRefundedToBalanceFirst,
++                    $co2Fee
+                 );
++                // END PATCH
+                 $storeId = $creditmemo->getOrder()->getStoreId();
+                 $toRefundGiftcard
+                     ->setBaseGiftcardAmount($this->giftcardUsedAmount->getBaseGiftcardChargeAmount())
+diff --git a/Model/Sales/Totals/Invoice.php b/Model/Sales/Totals/Invoice.php
+index a9bd419..0f03f36 100644
+--- a/Model/Sales/Totals/Invoice.php
++++ b/Model/Sales/Totals/Invoice.php
+@@ -105,10 +105,18 @@ class Invoice extends AbstractTotal
+                     (float)$invoice->getBaseShippingAmount()
+                 );
+             }
++//            $this->giftcardUsedAmount->createPoolUnusedBaseAmounts(
++//                $items,
++//                (float)$invoice->getBaseShippingAmount() + $shippingTax
++//            );
++            //  BEGIN PATCH
++            $co2Fee = $order->getData('base_co2_compensation_fee') + $order->getData('base_co2_compensation_fee_tax');
+             $this->giftcardUsedAmount->createPoolUnusedBaseAmounts(
+                 $items,
+-                (float)$invoice->getBaseShippingAmount() + $shippingTax
++                (float)$invoice->getBaseShippingAmount() + $shippingTax,
++                $co2Fee
+             );
++            //  END PATCH
+
+             $toInvoiceGiftcards = [];
+             /** @var GiftcardOrderInterface $orderGiftcard */
+@@ -136,12 +144,22 @@ class Invoice extends AbstractTotal
+                     $this->giftCardShipping->calculateBaseShippingAmount($invoice->getOrder(), $orderGiftcard);
+                 $baseShippingAmount -= $invoice->getOrder()->getShippingInvoiced();
+
++//                $this->giftcardUsedAmount->calculate(
++//                    $availableForInvoice,
++//                    $orderGiftcard,
++//                    $items,
++//                    $baseShippingAmount > -0.000001 ? $baseShippingAmount : 0.0
++//                );
++                //  BEGIN PATCH
+                 $this->giftcardUsedAmount->calculate(
+                     $availableForInvoice,
+                     $orderGiftcard,
+                     $items,
+-                    $baseShippingAmount > -0.000001 ? $baseShippingAmount : 0.0
++                    $baseShippingAmount > -0.000001 ? $baseShippingAmount : 0.0,
++                    false,
++                    $co2Fee
+                 );
++                //  END PATCH
+                 $storeId = $invoice->getOrder()->getStoreId();
+                 $toInvoiceGiftcard
+                     ->setBaseGiftcardAmount($this->giftcardUsedAmount->getBaseGiftcardChargeAmount())
+diff --git a/Model/Sales/Totals/Quote.php b/Model/Sales/Totals/Quote.php
+index 18413ff..64fb866 100644
+--- a/Model/Sales/Totals/Quote.php
++++ b/Model/Sales/Totals/Quote.php
+@@ -155,10 +155,18 @@ class Quote extends AbstractTotal
+             $shippingAssignment->getShipping()->getAddress(),
+             $shippingAssignment->getShipping()->getAddress()->getBaseShippingAmount()
+         );
++//        $this->giftcardUsedAmount->createPoolUnusedBaseAmounts(
++//            $items,
++//            (float) $shippingAssignment->getShipping()->getAddress()->getBaseShippingAmount() + $shippingTax
++//        );
++        // BEGIN PATCH
++        $co2Fee = $total->getData('base_co2_compensation_fee') + $total->getData('base_co2_compensation_fee_tax');
+         $this->giftcardUsedAmount->createPoolUnusedBaseAmounts(
+             $items,
+-            (float) $shippingAssignment->getShipping()->getAddress()->getBaseShippingAmount() + $shippingTax
++            (float)$shippingAssignment->getShipping()->getAddress()->getBaseShippingAmount() + $shippingTax,
++            $co2Fee
+         );
++        // END PATCH
+
+         foreach ($giftcards as $giftcard) {
+             if ($giftcard->getBaseGiftcardBalanceUsed() <= 0) {
+@@ -166,13 +174,22 @@ class Quote extends AbstractTotal
+                 $giftcard->setBaseGiftcardAmount(0);
+             }
+
++//            $this->giftcardUsedAmount->calculate(
++//                (float)$giftcard->getGiftcardBalance() - $giftcard->getBaseGiftcardBalanceUsed(),
++//                $giftcard->getGiftcard(),
++//                $items,
++//                $this->giftCardShipping->calculateBaseShippingAmount($quote, $giftcard->getGiftcard(), $address)
++//            );
++            // BEGIN PATCH
+             $this->giftcardUsedAmount->calculate(
+                 (float)$giftcard->getGiftcardBalance() - $giftcard->getBaseGiftcardBalanceUsed(),
+                 $giftcard->getGiftcard(),
+                 $items,
+-                $this->giftCardShipping->calculateBaseShippingAmount($quote, $giftcard->getGiftcard(), $address)
++                $this->giftCardShipping->calculateBaseShippingAmount($quote, $giftcard->getGiftcard(), $address),
++                false,
++                $co2Fee
+             );
+-
++            // END PATCH
+             $baseGiftcardChargeAmount = $this->giftcardUsedAmount->getBaseGiftcardChargeAmount();
+
+             if ($baseGiftcardChargeAmount <= 0 && $giftcard->getBaseGiftcardAmount() <= 0) {
