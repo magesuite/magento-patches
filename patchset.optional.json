@@ -1086,6 +1086,11 @@
               "description": "fix: [HAAR-4463] fix CO2 not covered with giftcard (v1.8.6)",
               "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/cover-co2-with-giftcard-fix_v1_8_6.patch",
               "version-constraint": "^1.8.6"
+            },
+            {
+              "description": "Remove PayPal Braintree plugin, when module is removed from project.",
+              "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/remove_paypal_plugin_fix.patch",
+              "version-constraint": "^1.8.6"
             }
         ],
         "aheadworks/module-customer-group-catalog-permissions": [
