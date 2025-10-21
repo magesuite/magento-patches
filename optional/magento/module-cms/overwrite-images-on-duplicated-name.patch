@@ -1,0 +1,16 @@
+diff --git a/Model/Wysiwyg/Images/Storage.php b/Model/Wysiwyg/Images/Storage.php
+index 798db16..ee8c3d5 100644
+--- a/Model/Wysiwyg/Images/Storage.php
++++ b/Model/Wysiwyg/Images/Storage.php
+@@ -618,7 +618,10 @@ class Storage extends \Magento\Framework\DataObject
+         if ($allowed) {
+             $uploader->setAllowedExtensions($allowed);
+         }
+-        $uploader->setAllowRenameFiles(true);
++        // PATCH BEGIN
++        // $uploader->setAllowRenameFiles(true);
++        $uploader->setAllowRenameFiles(false);
++        // PATCH END
+         $uploader->setFilesDispersion(false);
+         if (!$uploader->checkMimeType($this->getAllowedMimeTypes($type))) {
+             throw new \Magento\Framework\Exception\LocalizedException(__('File validation failed.'));
