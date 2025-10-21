@@ -3510,6 +3510,11 @@
                     "description": "Avoid loading product multiple times when adding to cart",
                     "filename": "essential/meta/module-conversion/add-to-cart-performance.patch",
                     "version-constraint": ">=1.6.4"
+                },
+                {
+                    "description": "Optimize category name loading to reduce number of queries",
+                    "filename": "essential/meta/module-conversion/optimize-category-loading.patch",
+                    "version-constraint": ">=1.6.4"
                 }
             ],
             "meta/module-sales": [

@@ -1,0 +1,52 @@
+diff --git a/Helper/MagentoDataHelper.php b/Helper/MagentoDataHelper.php
+index e8f0a4e..bd53157 100644
+--- a/Helper/MagentoDataHelper.php
++++ b/Helper/MagentoDataHelper.php
+@@ -138,21 +138,36 @@ class MagentoDataHelper
+      */
+     public function getCategoriesForProduct(Product $product): string
+     {
+-        $categoryIds = $product->getCategoryIds();
+-        if (count($categoryIds) > 0) {
+-            $categoryNames = [];
+-            foreach ($categoryIds as $categoryId) {
+-                try {
+-                    $category = $this->categoryRepository->get($categoryId);
+-                } catch (NoSuchEntityException $e) {
+-                    continue;
+-                }
+-                $categoryNames[] = $category->getName();
+-            }
+-            return addslashes(implode(',', $categoryNames)); // phpcs:ignore
++        // PATCH START
++        //$categoryIds = $product->getCategoryIds();
++        //if (count($categoryIds) > 0) {
++        //    $categoryNames = [];
++        //    foreach ($categoryIds as $categoryId) {
++        //        try {
++        //            $category = $this->categoryRepository->get($categoryId);
++        //        } catch (NoSuchEntityException $e) {
++        //            continue;
++        //        }
++        //        $categoryNames[] = $category->getName();
++        //    }
++        //    return addslashes(implode(',', $categoryNames)); // phpcs:ignore
++        //}
++
++        $categoryCollection = $product->getCategoryCollection()
++            ->addAttributeToSelect('name');
++
++        if (!$categoryCollection->count()) {
++            return '';
+         }
+
+-        return '';
++        $categoryNames = [];
++
++        foreach ($categoryCollection as $category) {
++            $categoryNames[] = $category->getName();
++        }
++
++        return addslashes(implode(',', $categoryNames));
++        // PATCH END
+     }
