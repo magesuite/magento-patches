@@ -1,0 +1,28 @@
+diff --git a/Model/Tracker/AddToCart.php b/Model/Tracker/AddToCart.php
+index e66413e..f498584 100644
+--- a/Model/Tracker/AddToCart.php
++++ b/Model/Tracker/AddToCart.php
+@@ -36,7 +36,10 @@ class AddToCart implements TrackerInterface
+     public function __construct(
+         MagentoDataHelper $magentoDataHelper,
+         ProductRepositoryInterface $productRepository,
+-        Escaper $escaper
++        Escaper $escaper,
++        // PATCH START
++        protected \Magento\Store\Model\StoreManagerInterface $storeManager
++        // PATCH END
+     ) {
+         $this->magentoDataHelper = $magentoDataHelper;
+         $this->productRepository = $productRepository;
+@@ -50,7 +53,10 @@ class AddToCart implements TrackerInterface
+     {
+         $productId = $params['productId'];
+         try {
+-            $product = $this->productRepository->getById($productId);
++            // PATCH START
++            // $product = $this->productRepository->getById($productId);
++            $product = $this->productRepository->getById($productId, false, $this->storeManager->getStore()->getId());
++            // PATCH END
+             $contentId = $this->magentoDataHelper->getContentId($product);
+             return [
+                 'currency' => $this->magentoDataHelper->getCurrency(),
