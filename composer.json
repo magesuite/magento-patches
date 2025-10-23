@@ -1993,7 +1993,7 @@
                 },
                 {
                     "description": "Fix an error when trying to send form with a file attachment",
-                    "filename": "essential/plugincompany/contactforms/fix-error-when-sending-file.patch",
+                    "filename": "essential/plugincompany/contactforms/m248-fix-error-when-sending-file.patch",
                     "version-constraint": ">=100.17.12"
                 }
             ],
@@ -3095,11 +3095,6 @@
                     "description": "Disable price calculation on the category page (>=v1.7.8)",
                     "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page-v178.patch",
                     "version-constraint": ">=1.7.8"
-                },
-                {
-                    "description": "Fix total calculation (multiply by quantity) (>=v1.7.13)",
-                    "filename": "essential/magepal/magento2-google-analytics4/fix-total-calculation-multiply-by-quantity.patch",
-                    "version-constraint": ">=1.7.13"
                 }
             ],
             "magepal/magento2-googletagmanager": [

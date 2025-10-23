@@ -1,0 +1,40 @@
+diff --git a/Model/Mailer/AttachmentManager.php b/Model/Mailer/AttachmentManager.php
+index 74f8f6f..dee7d4c 100644
+--- a/Model/Mailer/AttachmentManager.php
++++ b/Model/Mailer/AttachmentManager.php
+@@ -19,6 +19,13 @@ class AttachmentManager
+ 
+     private $attachmentsToAdd = [];
+ 
++    //BEGIN PATCH
++    public function __construct(
++        protected \Magento\Framework\Mail\MimePartInterfaceFactory $mimePartFactory
++    ) {
++    }
++    //END PATCH
++
+     public function getAttachmentsToAdd()
+     {
+         return $this->attachmentsToAdd;
+@@ -112,11 +119,16 @@ class AttachmentManager
+ 
+     public function createAttachmentNewZend($filePath)
+     {
+-        $mp = new \Zend\Mime\Part(file_get_contents($filePath));
+-        $mp->type = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filePath);
+-        $mp->encoding = \Zend\Mime\Mime::ENCODING_BASE64;
+-        $mp->disposition = \Zend\Mime\Mime::DISPOSITION_ATTACHMENT;
+-        $mp->filename = $this->getFileNameFromPath($filePath);
++        //BEGIN PATCH
++        $mimePart = $this->mimePartFactory->create([
++            'content' => file_get_contents($filePath),
++            'type' => finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filePath),
++            'fileName' => $this->getFileNameFromPath($filePath),
++            'disposition' => \Magento\Framework\HTTP\Mime::DISPOSITION_ATTACHMENT,
++            'encoding' => \Magento\Framework\HTTP\Mime::ENCODING_BASE64
++        ]);
++        //BEGIN PATCH
++
+         return $mp;
+     }
+ 
