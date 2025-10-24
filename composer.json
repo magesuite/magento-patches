@@ -3549,7 +3549,7 @@
                 {
                     "description": "Do change samesite to none for unsecure cookies",
                     "filename": "essential/veriteworks/cookiefix/RK-1456-secure-cookie-plus-samesite-none.patch",
-                    "version-constraint": ">=3.2.0"
+                    "version-constraint": "3.2.0"
                 }
             ],
             "paypal/module-braintree-core": [
