@@ -2173,8 +2173,8 @@
                     "version-constraint": ">=103.0.5,<103.0.5-p11"
                 },
                 {
-                    "description": "Allow using dots, commas and digits in city field",
-                    "filename": "essential/magento/module-customer/allow-dots-commas-and-digits-in-city-field.patch",
+                    "description": "Allow special characters, ex. dots, commas, slashes, braces and digits in validation fields.",
+                    "filename": "essential/magento/module-customer/validation-changes-allow-additional-characters.patch",
                     "version-constraint": ">=103.0.8-p1"
                 },
                 {
