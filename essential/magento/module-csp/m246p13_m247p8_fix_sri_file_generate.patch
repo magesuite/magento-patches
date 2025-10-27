@@ -1,0 +1,16 @@
+diff --git a/Model/SubresourceIntegrityRepository.php b/Model/SubresourceIntegrityRepository.php
+index 2ed69a0..bb8e895 100644
+--- a/Model/SubresourceIntegrityRepository.php
++++ b/Model/SubresourceIntegrityRepository.php
+@@ -83,7 +83,10 @@ class SubresourceIntegrityRepository
+      */
+     public function getByPath(string $path): ?SubresourceIntegrity
+     {
+-        return $this->getData()[$path] ?? null;
++        // BEGIN PATCH
++        return null;
++        //return $this->getData()[$path] ?? null;
++        // END PATCH
+     }
+
+     /**
