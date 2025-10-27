@@ -2004,6 +2004,13 @@
                     "version-constraint": ">=100.2.0,<=100.2.2"
                 }
             ],
+            "magento/module-csp": [
+                {
+                    "description": "Patch for (https://github.com/magento/magento2/issues/40236)",
+                    "filename": "essential/magento/module-csp/m246p13_m247p8_fix_sri_file_generate.patch",
+                    "version-constraint": "100.4.5-p13 || 100.4.6-p8 || 100.4.7-p3"
+                }
+            ],
             "magento/module-customer": [
                 {
                     "description": "Fix issue Deleting address on frontend redirects to 404 Page (2.3.0)",
