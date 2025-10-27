@@ -1,0 +1,100 @@
+diff --git a/Model/Validator/City.php b/Model/Validator/City.php
+index 0b53551..42b21b9 100644
+--- a/Model/Validator/City.php
++++ b/Model/Validator/City.php
+@@ -23,7 +23,10 @@ class City extends AbstractValidator
+      * ': Apostrophe mark.
+      * \s: Whitespace characters (spaces, tabs, newlines, etc.).
+      */
+-    private const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\-\']{1,100})/u';
++    // BEGIN PATCH
++    // private const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\-\']{1,100})/u';
++    protected const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\d\,\-\.\/\[\]\()\`‘’´\']{1,100})/u';
++    // END PATCH
+ 
+     /**
+      * Validate city fields.
+@@ -35,7 +38,10 @@ class City extends AbstractValidator
+     {
+         if (!$this->isValidCity($customer->getCity())) {
+             parent::_addMessages([[
+-                'city' => "Invalid City. Please use A-Z, a-z, 0-9, -, ', spaces"
++                // BEGIN PATCH
++                //'city' => "Invalid City. Please use A-Z, a-z, 0-9, -, ', spaces"
++                'city' => "Invalid City. Please use A-Z, a-z, 0-9, -'`‘’´()[]/. spaces and commas."
++                // END PATCH
+             ]]);
+         }
+ 
+diff --git a/Model/Validator/Name.php b/Model/Validator/Name.php
+index 75d4603..40c4208 100644
+--- a/Model/Validator/Name.php
++++ b/Model/Validator/Name.php
+@@ -15,7 +15,10 @@ use Magento\Framework\Validator\AbstractValidator;
+  */
+ class Name extends AbstractValidator
+ {
+-    private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&\s\d]){1,255}+/u';
++    // BEGIN PATCH
++    // private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&\s\d]){1,255}+/u';
++    private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&‘´\(\)\[\]\/\—\s\d]){1,255}+/u';
++    // END PATCH
+ 
+     /**
+      * Validate name fields.
+diff --git a/Model/Validator/Street.php b/Model/Validator/Street.php
+index 7de57d0..c35a343 100644
+--- a/Model/Validator/Street.php
++++ b/Model/Validator/Street.php
+@@ -28,7 +28,10 @@ class Street extends AbstractValidator
+      * \s: Whitespace characters (spaces, tabs, newlines, etc.).
+      * \d: Digits (0-9).
+      */
+-    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"[],-.'’`&\s\d]){1,255}+/u";
++    // BEGIN PATCH
++    // private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"[],-.'’`&\s\d]){1,255}+/u";
++    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"\[\],-.'’`‘´—#°&\(\)\/\s\d]){1,255}+/u";
++    // END PATCH
+ 
+     /**
+      * Validate street fields.
+@@ -41,7 +44,10 @@ class Street extends AbstractValidator
+         foreach ($customer->getStreet() as $street) {
+             if (!$this->isValidStreet($street)) {
+                 parent::_addMessages([[
+-                    'street' => "Invalid Street Address. Please use A-Z, a-z, 0-9, , - . ' ’ ` & spaces"
++                    // BEGIN PATCH
++                    // 'street' => "Invalid Street Address. Please use A-Z, a-z, 0-9, , - . ' ’ ` & spaces"
++                    'street' => "Invalid Street Address. Please use A-Z, a-z, 0-9, , - . ' ’ ` ‘´ & () [] / — # ° spaces"
++                    // END PATCH
+                 ]]);
+             }
+         }
+diff --git a/Model/Validator/Telephone.php b/Model/Validator/Telephone.php
+index 0c85cb5..3d2a047 100644
+--- a/Model/Validator/Telephone.php
++++ b/Model/Validator/Telephone.php
+@@ -23,7 +23,10 @@ class Telephone extends AbstractValidator
+      * \-: Matches the hyphen.
+      * \d: Digits (0-9).
+      */
+-    private const PATTERN_TELEPHONE = '/(?:[\d\s\+\-\()]{1,20})/u';
++    // BEGIN PATCH
++    // private const PATTERN_TELEPHONE = '/(?:[\d\s\+\-\()]{1,20})/u';
++    private const PATTERN_TELEPHONE = '/(?:[\d\s\+\-\/\()]{1,50})/u';
++    // END PATCH
+     
+     /**
+      * Validate telephone fields.
+@@ -35,7 +38,10 @@ class Telephone extends AbstractValidator
+     {
+         if (!$this->isValidTelephone($customer->getTelephone())) {
+             parent::_addMessages([[
+-                'telephone' => "Invalid Phone Number. Please use 0-9, +, -, (, ) and space."
++                // BEGIN PATCH
++                // 'telephone' => "Invalid Phone Number. Please use 0-9, +, -, (, ) and space."
++                'telephone' => "Invalid Phone Number. Please use 0-9, +, -, (, ), / and space."
++                // END PATCH
+             ]]);
+         }
+ 
