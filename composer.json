@@ -3026,6 +3026,11 @@
                     "description": "Fix abs() deprecated error order line generator for gift wrapping",
                     "filename": "essential/mollie/magento2/fix-null-amount-in-gift-wrapping.patch",
                     "version-constraint": ">=2.34.0,<2.36.0"
+                },
+                {
+                    "description": "Fix the problem with negative adjustments and batch processing of refunds.",
+                    "filename": "essential/mollie/magento2/fix-mollie-batch-refund-RKL-929.patch",
+                    "version-constraint": ">=2.48.0"
                 }
             ],
             "magento/module-multiple-wishlist": [
