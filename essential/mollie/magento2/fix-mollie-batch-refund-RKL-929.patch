@@ -1,0 +1,15 @@
+diff --git a/Service/Order/ProcessAdjustmentFee.php b/Service/Order/ProcessAdjustmentFee.php
+index 43d7f1c..4b84e4d 100644
+--- a/Service/Order/ProcessAdjustmentFee.php
++++ b/Service/Order/ProcessAdjustmentFee.php
+@@ -35,6 +35,10 @@ class ProcessAdjustmentFee
+ 
+     public function handle(MollieApiClient $mollieApi, OrderInterface $order, CreditmemoInterface $creditmemo)
+     {
++        // BEGIN PATCH
++        $this->doNotRefundInMollie = false;
++        // END PATCH
++
+         if ($creditmemo->getAdjustment() > 0) {
+             $this->positive($mollieApi, $order, $creditmemo);
+         }
