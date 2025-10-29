@@ -3078,6 +3078,13 @@
                     "version-constraint": ">=3.0.57"
                 }
             ],
+            "mirasvit/module-report-api": [
+                {
+                    "description": "Fix an error on dashboard when only one store view is selected in filter",
+                    "filename": "essential/mirasvit/module-report-api/fix-one-store-in-filter-dashboard-error.patch",
+                    "version-constraint": ">=1.0.81"
+                }
+            ],
             "iways/module-pay-pal-plus": [
                 {
                     "description": "Replace old magento 1 function with paypal function",
