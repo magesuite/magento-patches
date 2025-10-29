@@ -1,5 +1,5 @@
 diff --git a/Model/Validator/City.php b/Model/Validator/City.php
-index 0b53551..42b21b9 100644
+index 0b53551..e4cae77 100644
 --- a/Model/Validator/City.php
 +++ b/Model/Validator/City.php
 @@ -23,7 +23,10 @@ class City extends AbstractValidator
@@ -11,7 +11,7 @@ index 0b53551..42b21b9 100644
 +    // private const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\-\']{1,100})/u';
 +    protected const PATTERN_CITY = '/(?:[\p{L}\p{M}\s\d\,\-\.\/\[\]\()\`‘’´\']{1,100})/u';
 +    // END PATCH
- 
+
      /**
       * Validate city fields.
 @@ -35,7 +38,10 @@ class City extends AbstractValidator
@@ -25,9 +25,19 @@ index 0b53551..42b21b9 100644
 +                // END PATCH
              ]]);
          }
- 
+
+@@ -54,6 +60,9 @@ class City extends AbstractValidator
+             if (preg_match(self::PATTERN_CITY, $cityValue, $matches)) {
+                 return $matches[0] == $cityValue;
+             }
++            // BEGIN PATCH
++            return false;
++            // END PATCH
+         }
+
+         return true;
 diff --git a/Model/Validator/Name.php b/Model/Validator/Name.php
-index 75d4603..40c4208 100644
+index 75d4603..8e2d263 100644
 --- a/Model/Validator/Name.php
 +++ b/Model/Validator/Name.php
 @@ -15,7 +15,10 @@ use Magento\Framework\Validator\AbstractValidator;
@@ -39,11 +49,21 @@ index 75d4603..40c4208 100644
 +    // private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&\s\d]){1,255}+/u';
 +    private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&‘´\(\)\[\]\/\—\s\d]){1,255}+/u';
 +    // END PATCH
- 
+
      /**
       * Validate name fields.
+@@ -52,6 +55,9 @@ class Name extends AbstractValidator
+             if (preg_match(self::PATTERN_NAME, $nameValue, $matches)) {
+                 return $matches[0] == $nameValue;
+             }
++            // BEGIN PATCH
++            return false;
++            // END PATCH
+         }
+
+         return true;
 diff --git a/Model/Validator/Street.php b/Model/Validator/Street.php
-index 7de57d0..c35a343 100644
+index 7de57d0..bd62b82 100644
 --- a/Model/Validator/Street.php
 +++ b/Model/Validator/Street.php
 @@ -28,7 +28,10 @@ class Street extends AbstractValidator
@@ -55,7 +75,7 @@ index 7de57d0..c35a343 100644
 +    // private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"[],-.'’`&\s\d]){1,255}+/u";
 +    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"\[\],-.'’`‘´—#°&\(\)\/\s\d]){1,255}+/u";
 +    // END PATCH
- 
+
      /**
       * Validate street fields.
 @@ -41,7 +44,10 @@ class Street extends AbstractValidator
@@ -70,8 +90,18 @@ index 7de57d0..c35a343 100644
                  ]]);
              }
          }
+@@ -61,6 +67,9 @@ class Street extends AbstractValidator
+             if (preg_match(self::PATTERN_STREET, $streetValue, $matches)) {
+                 return $matches[0] == $streetValue;
+             }
++            // BEGIN PATCH
++            return false;
++            // END PATCH
+         }
+
+         return true;
 diff --git a/Model/Validator/Telephone.php b/Model/Validator/Telephone.php
-index 0c85cb5..3d2a047 100644
+index 0c85cb5..2b8eb4e 100644
 --- a/Model/Validator/Telephone.php
 +++ b/Model/Validator/Telephone.php
 @@ -23,7 +23,10 @@ class Telephone extends AbstractValidator
@@ -97,4 +127,14 @@ index 0c85cb5..3d2a047 100644
 +                // END PATCH
              ]]);
          }
- 
+
+@@ -54,6 +60,9 @@ class Telephone extends AbstractValidator
+             if (preg_match(self::PATTERN_TELEPHONE, (string) $telephoneValue, $matches)) {
+                 return $matches[0] == $telephoneValue;
+             }
++            // BEGIN PATCH
++            return false;
++            // END PATCH
+         }
+
+         return true;
