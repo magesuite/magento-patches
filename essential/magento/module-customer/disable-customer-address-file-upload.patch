@@ -1,0 +1,75 @@
+diff --git a/Controller/Address/File/Upload.php b/Controller/Address/File/Upload.php
+index adb4c7a..81b21dd 100644
+--- a/Controller/Address/File/Upload.php
++++ b/Controller/Address/File/Upload.php
+@@ -70,37 +70,39 @@ class Upload extends Action implements HttpPostActionInterface
+      */
+     public function execute()
+     {
+-        try {
+-            $requestedFiles = $this->getRequest()->getFiles('custom_attributes');
+-            if (empty($requestedFiles)) {
+-                $result = $this->processError(__('No files for upload.'));
+-            } else {
+-                $attributeCode = key($requestedFiles);
+-                $attributeMetadata = $this->addressMetadataService->getAttributeMetadata($attributeCode);
+-
+-                /** @var FileUploader $fileUploader */
+-                $fileUploader = $this->fileUploaderFactory->create([
+-                    'attributeMetadata' => $attributeMetadata,
+-                    'entityTypeCode' => AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
+-                    'scope' => CustomAttributesDataInterface::CUSTOM_ATTRIBUTES,
+-                ]);
+-
+-                $errors = $fileUploader->validate();
+-                if (true !== $errors) {
+-                    $errorMessage = implode('</br>', $errors);
+-                    $result = $this->processError(($errorMessage));
+-                } else {
+-                    $result = $fileUploader->upload();
+-                    $this->moveTmpFileToSuitableFolder($result);
+-                }
+-            }
+-        } catch (LocalizedException $e) {
+-            $result = $this->processError($e->getMessage(), $e->getCode());
+-        } catch (\Exception $e) {
+-            $this->logger->critical($e);
+-            $result = $this->processError($e->getMessage(), $e->getCode());
+-        }
+-
++        // PATCH START
++        // try {
++        //    $requestedFiles = $this->getRequest()->getFiles('custom_attributes');
++        //    if (empty($requestedFiles)) {
++        //        $result = $this->processError(__('No files for upload.'));
++        //    } else {
++        //        $attributeCode = key($requestedFiles);
++        //        $attributeMetadata = $this->addressMetadataService->getAttributeMetadata($attributeCode);
++        //
++        //        /** @var FileUploader $fileUploader */
++        //        $fileUploader = $this->fileUploaderFactory->create([
++        //            'attributeMetadata' => $attributeMetadata,
++        //            'entityTypeCode' => AddressMetadataInterface::ENTITY_TYPE_ADDRESS,
++        //            'scope' => CustomAttributesDataInterface::CUSTOM_ATTRIBUTES,
++        //        ]);
++        //
++        //        $errors = $fileUploader->validate();
++        //        if (true !== $errors) {
++        //            $errorMessage = implode('</br>', $errors);
++        //            $result = $this->processError(($errorMessage));
++        //        } else {
++        //            $result = $fileUploader->upload();
++        //            $this->moveTmpFileToSuitableFolder($result);
++        //        }
++        //    }
++        // } catch (LocalizedException $e) {
++        //    $result = $this->processError($e->getMessage(), $e->getCode());
++        // } catch (\Exception $e) {
++        //     $this->logger->critical($e);
++        //    $result = $this->processError($e->getMessage(), $e->getCode());
++        // }
++        $result = $this->processError(__('No files for upload.'));
++        // PATCH END
+         /** @var \Magento\Framework\Controller\Result\Json $resultJson */
+         $resultJson = $this->resultFactory->create(ResultFactory::TYPE_JSON);
+         $resultJson->setData($result);
