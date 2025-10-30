@@ -2181,6 +2181,11 @@
                     "description": "Allow saving custom attributes in after unserialization",
                     "filename": "essential/magento/module-customer/allow-saving-custom-attributes-after-unserialization.patch",
                     "version-constraint": ">=103.0.7"
+                },
+                {
+                    "description": "Disable customer address file upload functionality",
+                    "filename": "essential/magento/module-customer/disable-customer-address-file-upload.patch",
+                    "version-constraint": ">=103.0.6"
                 }
             ],
             "magento/module-eav": [
