@@ -26,7 +26,7 @@ index 74f8f6f..dee7d4c 100644
 -        $mp->disposition = \Zend\Mime\Mime::DISPOSITION_ATTACHMENT;
 -        $mp->filename = $this->getFileNameFromPath($filePath);
 +        //BEGIN PATCH
-+        $mimePart = $this->mimePartFactory->create([
++        $mp = $this->mimePartFactory->create([
 +            'content' => file_get_contents($filePath),
 +            'type' => finfo_file(finfo_open(FILEINFO_MIME_TYPE), $filePath),
 +            'fileName' => $this->getFileNameFromPath($filePath),
