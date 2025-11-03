@@ -1,0 +1,15 @@
+diff --git a/Service/StoreResolver.php b/Service/StoreResolver.php
+index 17420cd..fc3667e 100644
+--- a/Service/StoreResolver.php
++++ b/Service/StoreResolver.php
+@@ -27,7 +27,9 @@ class StoreResolver
+     {
+         foreach ($request->getFilters() as $filter) {
+             if ($filter->getColumn() === 'sales_order|store_id') {
+-                self::$storeId = count($filter->getValue()) > 1 ? 0 : $filter->getValue();
++                //BEGIN PATCH
++                self::$storeId = (is_array($filter->getValue()) && count($filter->getValue()) > 1) ? 0 : $filter->getValue();
++                //END PATCH
+             }
+         }
+     }
