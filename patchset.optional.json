@@ -684,6 +684,11 @@
                 "description": "Don't skip filter fields for tmp tables (IPET-2074)",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-report-api/do-not-skip-filter-fields-for-tmp-tables.patch",
                 "version-constraint": ">=1.0.60"
+            },
+            {
+              "description": "Fix an error on dashboard when only one store view is selected in filter",
+              "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/mirasvit/module-report-api/fix-one-store-in-filter-dashboard-error.patch",
+              "version-constraint": ">=1.0.81"
             }
         ],
         "amasty/adminactionslog": [
