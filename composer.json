@@ -1068,7 +1068,7 @@
                 {
                     "description": "Adds aria-labels to the range slider handles.",
                     "filename": "essential/smile/elasticsuite/a11y-range-slider-handle-label.patch",
-                    "version-constraint": ">=2.11.12"
+                    "version-constraint": ">=2.11.12,<2.11.16"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
