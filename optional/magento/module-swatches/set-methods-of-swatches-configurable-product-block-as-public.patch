@@ -1,0 +1,37 @@
+diff --git a/Block/Product/Renderer/Configurable.php b/Block/Product/Renderer/Configurable.php
+index 32df3da..a99427b 100644
+--- a/Block/Product/Renderer/Configurable.php
++++ b/Block/Product/Renderer/Configurable.php
+@@ -280,7 +280,9 @@ class Configurable extends \Magento\ConfigurableProduct\Block\Product\View\Type\
+      * @param array $attributeDataArray
+      * @return array
+      */
+-    protected function addSwatchDataForAttribute(
++    //BEGIN PATCH
++    public function addSwatchDataForAttribute(
++    //END PATCH
+         array $options,
+         array $swatchesCollectionArray,
+         array $attributeDataArray
+@@ -305,7 +307,9 @@ class Configurable extends \Magento\ConfigurableProduct\Block\Product\View\Type\
+      * @param array $attributeDataArray
+      * @return array
+      */
+-    protected function addAdditionalMediaData(array $swatch, $optionId, array $attributeDataArray)
++    //BEGIN PATCH
++    public function addAdditionalMediaData(array $swatch, $optionId, array $attributeDataArray)
++    //END PATCH
+     {
+         if (isset($attributeDataArray['use_product_image_for_swatch'])
+             && $attributeDataArray['use_product_image_for_swatch']
+@@ -325,7 +329,9 @@ class Configurable extends \Magento\ConfigurableProduct\Block\Product\View\Type\
+      * @param array $swatchDataArray
+      * @return array
+      */
+-    protected function extractNecessarySwatchData(array $swatchDataArray)
++    //BEGIN PATCH
++    public function extractNecessarySwatchData(array $swatchDataArray)
++    //END PATCH
+     {
+         $result['type'] = $swatchDataArray['type'];
+ 
