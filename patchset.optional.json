@@ -628,11 +628,18 @@
             }
         ],
         "magento/module-reports": [
-          {
-            "description": "Fix for export of the ordered products report",
-            "filename": "vendor/creativestyle/magento-patches/optional/magento/module-reports/fix-ordered-products-report-export.patch",
-            "version-constraint": "100.4.7-p3||100.4.7-p4"
-          }
+            {
+                "description": "Fix for export of the ordered products report",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-reports/fix-ordered-products-report-export.patch",
+                "version-constraint": "100.4.7-p3||100.4.7-p4"
+            }
+        ],
+        "magento/module-swatches": [
+            {
+                "description": "Set methods of swatches configurable product block as public",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-swatches/set-methods-of-swatches-configurable-product-block-as-public.patch",
+                "version-constraint": "*"
+            }
         ],
         "makewebbetter/hubspot-magento-2-integration": [
             {
