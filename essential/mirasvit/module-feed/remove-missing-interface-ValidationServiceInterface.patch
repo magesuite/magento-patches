@@ -1,0 +1,12 @@
+diff --git a/src/Feed/etc/di.xml b/src/Feed/etc/di.xml
+index 6bdc5cf..2abb63d 100644
+--- a/src/Feed/etc/di.xml
++++ b/src/Feed/etc/di.xml
+@@ -11,7 +11,6 @@
+     <!--SERVICE-->
+     <preference for="Mirasvit\Feed\Api\Service\ImportServiceInterface" type="Mirasvit\Feed\Service\ImportService"/>
+     <preference for="Mirasvit\Feed\Api\Service\ExportServiceInterface" type="Mirasvit\Feed\Service\ExportService"/>
+-    <preference for="Mirasvit\Feed\Api\Service\ValidationServiceInterface" type="Mirasvit\Feed\Service\ValidationService"/>
+     <preference for="Mirasvit\Feed\Api\Factory\EntityFactoryInterface" type="Mirasvit\Feed\Factory\EntityFactory"/>
+ 
+     <!-- Entity Manager -->

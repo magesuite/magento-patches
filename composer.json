@@ -3076,6 +3076,13 @@
                     "version-constraint": ">=1.4.24,<1.4.29"
                 }
             ],
+            "mirasvit/module-feed": [
+                {
+                    "description": "Add missing interface ValidationServiceInterface",
+                    "filename": "essential/mirasvit/module-feed/remove-missing-interface-ValidationServiceInterface.patch",
+                    "version-constraint": "1.2.11"
+                }
+            ],
             "mirasvit/module-rewards": [
                 {
                     "description": "Fix error in controller while unsubscribing from notifications",
