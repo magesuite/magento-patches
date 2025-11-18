@@ -1,22 +1,23 @@
 Patch added to:
 - add `aria-modal="true"` to modal elements
 - fix ARC toolkit error: "The element has been placed in the Tab order using tabindex="0", but it lacks a specific role="..." attribute."
-
+- remove unwanted `aria-describedby` attribute from modal <aside /> element 
 
 diff --git a/view/base/web/templates/modal/modal-custom.html b/view/base/web/templates/modal/modal-custom.html
-index 7d7d4b6..031c553 100644
+index 7d7d4b6..94344d5 100644
 --- a/view/base/web/templates/modal/modal-custom.html
 +++ b/view/base/web/templates/modal/modal-custom.html
-@@ -5,7 +5,7 @@
+@@ -5,16 +5,15 @@
   */
  -->
-
+ 
 -<aside role="dialog"
 +<aside role="dialog" aria-modal="true"
         class="modal-<%- data.type %> <%- data.modalClass %>
         <% if(data.responsive){ %><%- data.responsiveClass %><% } %>
         <% if(data.innerScroll){ %><%- data.innerScrollClass %><% } %>"
-@@ -14,7 +14,7 @@
+        <% if(data.title){ %> aria-labelledby="modal-title-<%- data.id %>"<% } %>
+-       aria-describedby="modal-content-<%- data.id %>"
         data-role="modal"
         data-type="<%- data.type %>"
         tabindex="0">
@@ -25,7 +26,7 @@ index 7d7d4b6..031c553 100644
      <div class="modal-inner-wrap"
           data-role="focusable-scope">
          <header class="modal-header">
-@@ -53,5 +53,5 @@
+@@ -53,5 +52,5 @@
          </footer>
          <% } %>
      </div>
@@ -33,19 +34,20 @@ index 7d7d4b6..031c553 100644
 +    <div data-role="focusable-end" tabindex="0" role="generic"></div>
  </aside>
 diff --git a/view/base/web/templates/modal/modal-popup.html b/view/base/web/templates/modal/modal-popup.html
-index 0837696..00251b8 100644
+index 0837696..ad68d2d 100644
 --- a/view/base/web/templates/modal/modal-popup.html
 +++ b/view/base/web/templates/modal/modal-popup.html
-@@ -5,7 +5,7 @@
+@@ -5,16 +5,15 @@
   */
  -->
-
+ 
 -<aside role="dialog"
 +<aside role="dialog" aria-modal="true"
         class="modal-<%- data.type %> <%- data.modalClass %>
                 <% if(data.responsive){ %><%- data.responsiveClass %><% } %>
                 <% if(data.innerScroll){ %><%- data.innerScrollClass %><% } %>"
-@@ -14,7 +14,7 @@
+        <% if(data.title){ %> aria-labelledby="modal-title-<%- data.id %>"<% } %>
+-       aria-describedby="modal-content-<%- data.id %>"
         data-role="modal"
         data-type="<%- data.type %>"
         tabindex="0">
@@ -54,7 +56,7 @@ index 0837696..00251b8 100644
      <div class="modal-inner-wrap"
           data-role="focusable-scope">
          <header class="modal-header">
-@@ -54,5 +54,5 @@
+@@ -54,5 +53,5 @@
          </footer>
          <% } %>
      </div>
@@ -62,19 +64,19 @@ index 0837696..00251b8 100644
 +    <div data-role="focusable-end" tabindex="0" role="generic"></div>
  </aside>
 diff --git a/view/base/web/templates/modal/modal-slide.html b/view/base/web/templates/modal/modal-slide.html
-index 2f53716..d0e5554 100644
+index 2f53716..ac1ae00 100644
 --- a/view/base/web/templates/modal/modal-slide.html
 +++ b/view/base/web/templates/modal/modal-slide.html
-@@ -5,7 +5,7 @@
+@@ -5,15 +5,14 @@
   */
  -->
-
+ 
 -<aside role="dialog"
 +<aside role="dialog" aria-modal="true"
         class="modal-<%- data.type %> <%- data.modalClass %>
                 <% if(data.innerScroll){ %><%- data.innerScrollClass %><% } %>"
         <% if(data.title){ %> aria-labelledby="modal-title-<%- data.id %>"<% } %>
-@@ -13,7 +13,7 @@
+-       aria-describedby="modal-content-<%- data.id %>"
         data-role="modal"
         data-type="<%- data.type %>"
         tabindex="0">
@@ -83,11 +85,10 @@ index 2f53716..d0e5554 100644
      <div class="modal-inner-wrap"
           data-role="focusable-scope">
          <header class="modal-header">
-@@ -56,5 +56,5 @@
+@@ -56,5 +55,5 @@
          </header>
          <div id="modal-content-<%- data.id %>" class="modal-content" data-role="content"></div>
      </div>
 -    <div data-role="focusable-end" tabindex="0"></div>
 +    <div data-role="focusable-end" tabindex="0" role="generic"></div>
  </aside>
-
