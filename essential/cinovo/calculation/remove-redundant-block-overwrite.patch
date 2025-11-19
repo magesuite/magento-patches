@@ -1,0 +1,36 @@
+diff --git a/etc/di.xml b/etc/di.xml
+index 1c6a6ed..4c51d97 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -6,8 +6,10 @@
+         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+     <preference for="Magento\Catalog\Model\Product"
+                 type="Cinovo\Calculation\Model\Rewrite\Catalog\Product"/>
++    <!-- BEGIN PATCH
+     <preference for="Magento\Catalog\Block\Product\ListProduct"
+                 type="Cinovo\Calculation\Block\Rewrite\ListProduct"/>
++    END PATCH -->
+
+     <preference for="Magento\Catalog\Block\Product\View" type="Cinovo\Calculation\Block\Product\View"/>
+
+diff --git a/etc/frontend/di.xml b/etc/frontend/di.xml
+index 505f0c0..90896d1 100644
+--- a/etc/frontend/di.xml
++++ b/etc/frontend/di.xml
+@@ -5,7 +5,7 @@
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+-
++<!-- BEGIN PATCH
+     <virtualType name="Magento\Calculation\Block\SearchResult\ListProduct"
+                  type="Cinovo\Calculation\Block\Rewrite\ListProduct">
+         <arguments>
+@@ -16,6 +16,6 @@
+
+
+     <preference for="Magento\CatalogSearch\Block\SearchResult\ListProduct"
+-                type="Cinovo\Calculation\Block\Rewrite\ListProduct"/>
++                type="Cinovo\Calculation\Block\Rewrite\ListProduct"/> END PATCH -->
+
+ </config>

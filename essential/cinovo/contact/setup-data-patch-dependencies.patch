@@ -1,0 +1,47 @@
+diff --git a/Setup/Patch/Data/AddFaxAndTelephoneToCustomer.php b/Setup/Patch/Data/AddFaxAndTelephoneToCustomer.php
+index a88591e..91328d7 100644
+--- a/Setup/Patch/Data/AddFaxAndTelephoneToCustomer.php
++++ b/Setup/Patch/Data/AddFaxAndTelephoneToCustomer.php
+@@ -14,7 +14,10 @@ use Magento\Framework\Setup\Patch\PatchVersionInterface;
+ /**
+  * Patch is mechanism, that allows to do atomic upgrade data changes
+  */
+-class AddFaxAndTelephoneToCustomer implements DataPatchInterface, PatchVersionInterface
++// BEGIN PATCH
++// class AddFaxAndTelephoneToCustomer implements DataPatchInterface, PatchVersionInterface
++class AddFaxAndTelephoneToCustomer implements DataPatchInterface
++// END PATCH
+ {
+     /**
+      * @var ModuleDataSetupInterface $moduleDataSetup
+
+diff --git a/Setup/Patch/Data/FixAddFaxAndTelephone.php b/Setup/Patch/Data/FixAddFaxAndTelephone.php
+index 4a5bc28..9c1e594 100644
+--- a/Setup/Patch/Data/FixAddFaxAndTelephone.php
++++ b/Setup/Patch/Data/FixAddFaxAndTelephone.php
+@@ -64,7 +64,9 @@ class FixAddFaxAndTelephone implements DataPatchInterface
+     public static function getDependencies()
+     {
+         return [
+-
++            // PATCH BEGIN
++            \Cinovo\Contact\Setup\Patch\Data\AddFaxAndTelephoneToCustomer::class,
++            // PATCH END
+         ];
+     }
+
+diff --git a/Setup/Patch/Data/RemoveCustomerTelephoneAndFax.php b/Setup/Patch/Data/RemoveCustomerTelephoneAndFax.php
+index 8399fd0..be58d3c 100644
+--- a/Setup/Patch/Data/RemoveCustomerTelephoneAndFax.php
++++ b/Setup/Patch/Data/RemoveCustomerTelephoneAndFax.php
+@@ -74,7 +74,9 @@ class RemoveCustomerTelephoneAndFax implements DataPatchInterface
+     public static function getDependencies()
+     {
+         return [
+-
++            // BEGIN PATCH
++            \Cinovo\Contact\Setup\Patch\Data\AddFaxAndTelephoneToCustomer::class,
++            // END PATCH
+         ];
+     }
+

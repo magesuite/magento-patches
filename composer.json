@@ -3610,6 +3610,23 @@
                     "description": "Prevent crashing admin panel in case when last import date is empty.",
                     "filename": "essential/cinovo/calculation/prevent-crashing-admin-panel-when-last-import-date-is-empty.patch",
                     "version-constraint": ">=2.11.7"
+                },
+                {
+                    "description": "Remove unnecessary code.",
+                    "filename": "essential/cinovo/calculation/remove-redundant-block-overwrite.patch",
+                    "version-constraint": ">=2.11.7"
+                },
+                {
+                    "description": "Too many cache tags for varnish purge.",
+                    "filename": "essential/cinovo/calculation/varnish-purge-too-many-tags.patch",
+                    "version-constraint": ">=2.11.7"
+                }
+            ],
+            "cinovo/contact": [
+                {
+                    "description": "Setup data patch dependencies.",
+                    "filename": "essential/cinovo/contact/setup-data-patch-dependencies.patch",
+                    "version-constraint": ">=2.5.6"
                 }
             ],
             "magepal/magento2-reindex": [
