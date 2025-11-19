@@ -1,0 +1,14 @@
+diff --git a/Test/Helper/OrderCreator.php b/Test/Helper/OrderCreator.php
+index 08e4a45..b2a9b05 100644
+--- a/Test/Helper/OrderCreator.php
++++ b/Test/Helper/OrderCreator.php
+@@ -55,6 +55,9 @@ class OrderCreator
+         $quote->getShippingAddress()
+             ->setCollectShippingRates(true)
+             ->collectShippingRates();
++        // BEGIN PATCH
++        $quote->setIntention(\Cinovo\Finance\Model\Session\SellIntentionInterface::INTENTION_ASK);
++        // END PATCH
+         $quote->save();
+
+         $orderId = $this->quoteManagement->placeOrder($quote->getId());

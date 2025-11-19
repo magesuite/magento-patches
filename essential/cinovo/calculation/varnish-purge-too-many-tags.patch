@@ -1,0 +1,16 @@
+diff --git a/Helper/CleanCacheHelper.php b/Helper/CleanCacheHelper.php
+index 325995d..a693007 100644
+--- a/Helper/CleanCacheHelper.php
++++ b/Helper/CleanCacheHelper.php
+@@ -112,7 +112,10 @@ class CleanCacheHelper extends AbstractHelper
+                 $tags[] = sprintf($pattern, $tag);
+             }
+             if (!empty($tags)) {
+-                $this->purgeCache->sendPurgeRequest(implode('|', array_unique($tags)));
++                // BEGIN PATCH
++                // $this->purgeCache->sendPurgeRequest(implode('|', array_unique($tags)));
++                $this->purgeCache->sendPurgeRequest(array_unique($tags));
++                // END PATCH
+             }
+             $this->logger->debug("invalidating varnish cache finished");
+         } else {
