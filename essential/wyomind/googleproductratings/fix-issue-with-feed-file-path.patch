@@ -1,0 +1,29 @@
+diff --git a/Block/Adminhtml/System/Config/Form/Field/Link.php b/Block/Adminhtml/System/Config/Form/Field/Link.php
+index 73a43b4..226b81b 100644
+--- a/Block/Adminhtml/System/Config/Form/Field/Link.php
++++ b/Block/Adminhtml/System/Config/Form/Field/Link.php
+@@ -64,11 +64,13 @@ class Link extends \Magento\Config\Block\System\Config\Form\Field
+         $configFilePath = $this->_scopeConfig->getValue(\Wyomind\GoogleProductRatings\Helper\Config::XML_PATH_STORAGE_FILE_PATH, $scope, $scopeId);
+         $fileName = $configFileName . '.xml';
+         $this->_storageHelper->initializeDirectory($configFilePath);
+-        if ($this->_storageHelper->isInMediaFolder($configFilePath)) {
+-            $filePath = $this->_storageHelper->getTargetDirectory($this->_storageHelper->getAbsoluteRootDir() . DIRECTORY_SEPARATOR . $configFilePath . $directory);
+-        } else {
++        // PATCH START
++        // if ($this->_storageHelper->isInMediaFolder($configFilePath)) {
++        //    $filePath = $this->_storageHelper->getTargetDirectory($this->_storageHelper->getAbsoluteRootDir() . DIRECTORY_SEPARATOR . $configFilePath . $directory);
++        //} else {
+             $filePath = $this->_storageHelper->getAbsoluteRootDir() . DIRECTORY_SEPARATOR . $configFilePath . $directory;
+-        }
++        //}
++        // PATCH END
+         if (false === $this->_storageHelper->fileExists($filePath, $fileName)) {
+             $html .= '<span id="googleproductratings_alert" style="color:red;padding:2px;background:#FDFAB1;">' . __('No data feed generated. Please click the update button or define a schedule.') . '<br/></span>';
+         } else {
+@@ -80,4 +82,4 @@ class Link extends \Magento\Config\Block\System\Config\Form\Field
+         $html .= '<a id="googleproductratings_link" href="' . $fileUrl . '">' . $fileUrl . '</a>' . '<br/><span id="googleproductratings_updated_at">' . $lastUpdate . '</span>';
+         return $html;
+     }
+-}
+\ No newline at end of file
++}

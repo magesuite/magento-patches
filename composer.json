@@ -3635,6 +3635,13 @@
                     "filename": "essential/magepal/magento2-reindex/php84-compatibility.patch",
                     "version-constraint": ">=1.1.4, <1.2.0"
                 }
+            ],
+            "wyomind/googleproductratings": [
+                {
+                    "description": "Fix issue with feed file path",
+                    "filename": "essential/wyomind/googleproductratings/fix-issue-with-feed-file-path.patch",
+                    "version-constraint": ">=3.0.5"
+                }
             ]
         }
     }
