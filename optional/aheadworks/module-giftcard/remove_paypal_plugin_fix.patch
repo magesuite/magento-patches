@@ -1,6 +1,6 @@
 diff --git a/Plugin/Gateway/Request/PayPal/Level23ProcessingDataBuilderPlugin.php b/Plugin/Gateway/Request/PayPal/Level23ProcessingDataBuilderPlugin.php
 deleted file mode 100644
-index ebde3f9..0000000
+index 71b7842..0000000
 --- a/Plugin/Gateway/Request/PayPal/Level23ProcessingDataBuilderPlugin.php
 +++ /dev/null
 @@ -1,116 +0,0 @@
@@ -53,7 +53,7 @@ index ebde3f9..0000000
 -    }
 -
 -    /**
--     * Add 'Gift Cards' as Line Items for the PayPal transactions
+-     * Add 'Gift cards' as Line Items for the PayPal transactions
 -     *
 -     * @param Level23ProcessingDataBuilder $subject
 -     * @param array $result
@@ -99,7 +99,7 @@ index ebde3f9..0000000
 -                );
 -                if ($giftCardsAmount > 0) {
 -                    $giftCardsItems[] = [
--                        'name' => 'Gift Cards',
+-                        'name' => 'Gift cards',
 -                        'kind' => TransactionLineItem::CREDIT,
 -                        'quantity' => 1.00,
 -                        'unitAmount' => $giftCardsAmount,
@@ -121,23 +121,20 @@ index ebde3f9..0000000
 -    }
 -}
 diff --git a/etc/di.xml b/etc/di.xml
-index dcb9a33..f909645 100644
+index f727f08..afcb27b 100644
 --- a/etc/di.xml
 +++ b/etc/di.xml
-@@ -551,10 +551,10 @@
+@@ -551,10 +551,11 @@
          <plugin name="restrict_payment_for_gift_card" type="Aheadworks\Giftcard\Plugin\Model\PaymentMethodListPlugin" sortOrder="10"/>
      </type>
  
 -    <type name="PayPal\Braintree\Gateway\Request\PayPal\Level23ProcessingDataBuilder">
--        <plugin name="aw_gc_add_gift_card_line_items"
--                type="Aheadworks\Giftcard\Plugin\Gateway\Request\PayPal\Level23ProcessingDataBuilderPlugin"
--                sortOrder="10"
--        />
++    <!-- PATCH START
++     <type name="PayPal\Braintree\Gateway\Request\PayPal\Level23ProcessingDataBuilder">
+         <plugin name="aw_gc_add_gift_card_line_items"
+                 type="Aheadworks\Giftcard\Plugin\Gateway\Request\PayPal\Level23ProcessingDataBuilderPlugin"
+                 sortOrder="10"
+         />
 -    </type>
-+<!--    <type name="PayPal\Braintree\Gateway\Request\PayPal\Level23ProcessingDataBuilder">-->
-+<!--        <plugin name="aw_gc_add_gift_card_line_items"-->
-+<!--                type="Aheadworks\Giftcard\Plugin\Gateway\Request\PayPal\Level23ProcessingDataBuilderPlugin"-->
-+<!--                sortOrder="10"-->
-+<!--        />-->
-+<!--    </type>-->
++    </type> PATCH END -->
  </config>
