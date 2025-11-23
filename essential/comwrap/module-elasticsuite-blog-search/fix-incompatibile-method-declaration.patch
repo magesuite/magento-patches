@@ -2,7 +2,7 @@ diff --git a/Model/ResourceModel/Post/Fulltext/Collection.php b/Model/ResourceMo
 index 34cf3d5..107260e 100755
 --- a/Model/ResourceModel/Post/Fulltext/Collection.php
 +++ b/Model/ResourceModel/Post/Fulltext/Collection.php
-@@ -120,15 +120,17 @@ class Collection extends \Magefan\Blog\Model\ResourceModel\Post\Collection
+@@ -120,16 +120,19 @@ class Collection extends \Magefan\Blog\Model\ResourceModel\Post\Collection
          return $this;
      }
 
@@ -20,5 +20,42 @@ index 34cf3d5..107260e 100755
      }
 +    //PATCH END
 
++    //PATCH START
      /**
       * Add filter by store
+      *
+@@ -141,7 +144,7 @@
+      *
+      * @return $this
+      */
+-    public function addStoreFilter($store, $withAdmin = true)
++    public function addStoreFilter($store, $withAdmin = true): static
+     {
+         if (is_object($store)) {
+             $store = $store->getId();
+@@ -153,7 +156,9 @@
+
+         return $this->setStoreId($store);
+     }
++    //PATCH END
+
++    //PATCH START
+     /**
+      * Add search query filter
+      *
+@@ -161,12 +166,13 @@
+      *
+      * @return \Comwrap\ElasticsuiteBlog\Model\ResourceModel\Post\Fulltext\Collection
+      */
+-    public function addSearchFilter($query)
++    public function addSearchFilter($term): static
+     {
+-        $this->queryText = $query;
++        $this->queryText = $term;
+
+         return $this;
+     }
++    //PATCH END
+
+     /**
+      * {@inheritDoc}
