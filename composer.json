@@ -1760,6 +1760,11 @@
                     "description": "Fix RAF coupon expiration validation",
                     "filename": "essential/aheadworks/module-raf/fix-aheadworks-raf-coupon-expiration-validation.patch",
                     "version-constraint": ">=1.4.3"
+                },
+                {
+                    "description": "Fix RAF shipping discount",
+                    "filename": "essential/aheadworks/module-raf/fix-for-not-applied-shipping-discount.patch",
+                    "version-constraint": ">=1.4.3"
                 }
             ],
             "aheadworks/module-reward-points": [

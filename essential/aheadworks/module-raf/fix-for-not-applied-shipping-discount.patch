@@ -1,0 +1,16 @@
+diff --git a/Model/Total/Quote/AbstractDiscount.php b/Model/Total/Quote/AbstractDiscount.php
+index 45c0018..dc8a72f 100644
+--- a/Model/Total/Quote/AbstractDiscount.php
++++ b/Model/Total/Quote/AbstractDiscount.php
+@@ -111,6 +111,9 @@ abstract class AbstractDiscount extends AbstractTotal
+             ->_addBaseAmount(-$metadataRuleDiscount->getBaseAmount());
+ 
+         $total
++            // BEGIN PATCH
++            ->setAwRafAmount($total->getAwRafAmount() - $metadataRuleDiscount->getBaseShippingAmount())
++            // END PATCH
+             ->setSubtotalWithDiscount($total->getSubtotalWithDiscount() + $total->getAwRafAmount())
+             ->setBaseSubtotalWithDiscount($total->getBaseSubtotalWithDiscount() + $total->getBaseAwRafAmount());
+ 
+-- 
+2.39.5 (Apple Git-154)
