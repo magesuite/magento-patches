@@ -1,0 +1,24 @@
+diff --git a/Model/Webhook/Listener/AbstractOrderRelatedListener.php b/Model/Webhook/Listener/AbstractOrderRelatedListener.php
+index ee98e26..9309259 100644
+--- a/Model/Webhook/Listener/AbstractOrderRelatedListener.php
++++ b/Model/Webhook/Listener/AbstractOrderRelatedListener.php
+@@ -159,14 +159,16 @@ abstract class AbstractOrderRelatedListener implements ListenerInterface
+             }
+             $this->lock($transactionId);
+             $this->process($this->loadEntity($request), $this->loadOrder($order->getId()));
+-            $this->unlock($transactionId);
++//            $this->unlock($transactionId);
+             $connection->commit();
+         } catch (\Exception $e) {
+-            $this->unlock($transactionId);
++//            $this->unlock($transactionId);
+             $connection->rollback();
+             $this->logger->critical($e);
+             throw $e;
+-        }
++	} finally {
++	    $this->unlock($transactionId);
++	}
+     }
+ 
+     /**
