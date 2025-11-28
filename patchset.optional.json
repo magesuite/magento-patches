@@ -1049,6 +1049,11 @@
                 "description": "Skip calculating collect totlas in the checkout process",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/skip-collect-totals-in-checkout.patch",
                 "version-constraint": ">=2.1.22"
+            },
+            {
+                "description": "Change lock logic for webhook processing to prevent deadlocks",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/change-lock-logic-for-webhook.patch",
+                "version-constraint": ">=2.1.29"
             }
         ],
         "aheadworks/module-advanced-reports": [
