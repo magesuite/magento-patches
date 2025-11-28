@@ -3487,6 +3487,11 @@
                     "description": "Skip sending tracking when module is disabled",
                     "filename": "essential/magento/module-payment-services-paypal/skip-sending-tracking-when-module-is-disabled.patch",
                     "version-constraint": ">=2.9.0,<=2.10.3"
+                },
+                {
+                    "description": "Fix checked state for radio button when switching shipping method in checkout",
+                    "filename": "essential/magento/module-payment-services-paypal/fix-checked-state-when-switching-shipping-method.patch",
+                    "version-constraint": ">=2.13.0"
                 }
             ],
             "lqt/loqate-integration": [

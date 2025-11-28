@@ -1,0 +1,18 @@
+Original issue: https://github.com/magento/magento2/issues/40297
+No information about PR yet.
+
+diff --git a/view/frontend/web/js/view/shipping-mixin.js b/view/frontend/web/js/view/shipping-mixin.js
+index 81e8df1..1d4fb2a 100644
+--- a/view/frontend/web/js/view/shipping-mixin.js
++++ b/view/frontend/web/js/view/shipping-mixin.js
+@@ -11,6 +11,10 @@ define(function () {
+             this._super(shippingMethod);
+ 
+             window.checkoutConfig.selectedShippingMethod = shippingMethod;
++
++            // BEGIN PATCH
++            return true;
++            // END PATCH
+         },
+     };
+ 
