@@ -1555,11 +1555,6 @@
                     "description": "Forcing int value for Block/Form::getProductId() return (IPET-2176)",
                     "filename": "essential/magento/module-review/force-int-in-block-getproductid-method.patch",
                     "version-constraint": "100.4.*"
-                },
-                {
-                    "description": "404 Error on Product Page Link from 'My Reviews' Section (MIC-1136)",
-                    "filename": "essential/magento/module-review/fix-404-on-customer-reviews-list-MIC-1136.patch",
-                    "version-constraint": ">=100.4.6-p10"
                 }
             ],
             "aheadworks/module-advanced-reports": [
