@@ -58,6 +58,11 @@
               "description": "Fix for importing product videos with Akeneo connector (FR-286)",
               "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/fix-for-importing-video-into-gallery.patch",
               "version-constraint": ">=104.5.4"
+            },
+            {
+              "description": "Remove incorrect job status assignment when message status is false (FR-600)",
+              "filename": "vendor/creativestyle/magento-patches/optional/akeneo/magento2-connector-enterprise/remove-incorrect-job-status-setting-in-display-messages.patch",
+              "version-constraint": ">=104.5.4"
             }
         ],
         "almapay/alma-monthlypayments-magento2": [
