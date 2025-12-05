@@ -1,0 +1,17 @@
+diff --git a/Executor/JobExecutor.php b/Executor/JobExecutor.php
+index bb68c8c..ff04eb1 100644
+--- a/Executor/JobExecutor.php
++++ b/Executor/JobExecutor.php
+@@ -646,7 +646,9 @@ class JobExecutor implements JobExecutorInterface
+                     if (isset($message['message'], $message['status'])) {
+                         if ($message['status'] === false) {
+                             $this->setMessage($message['message'], $logger);
+-                            $this->currentJob->setStatus(false);
++                            // BEGIN PATCH
++                            // $this->currentJob->setStatus(false);
++                            // END PATCH
+                         } else {
+                             $this->setAdditionalMessage($message['message'], $logger);
+                         }
+--
+2.39.5 (Apple Git-154)
