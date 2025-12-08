@@ -1,0 +1,18 @@
+diff --git a/Model/Observer/SaveDeliveryDateToOrderObserver.php b/Model/Observer/SaveDeliveryDateToOrderObserver.php
+index 3dcf707..7611b0d 100644
+--- a/Model/Observer/SaveDeliveryDateToOrderObserver.php
++++ b/Model/Observer/SaveDeliveryDateToOrderObserver.php
+@@ -35,8 +35,12 @@ class SaveDeliveryDateToOrderObserver implements ObserverInterface
+     public function execute(EventObserver $observer)
+     {
+         $order = $observer->getOrder();
++
++        // PATCH START
+         /** @var \Magento\Quote\Model\Quote $quote */
+-        $quote = $this->quoteRepository->get($order->getQuoteId());
++        $quote = $observer->getQuote();
++        // PATCH END
++
+         $order->setDhlplParcelshop($quote->getDhlplParcelshop());
+         $order->setDhlplNeighbor($quote->getDhlplNeighbor());
+
