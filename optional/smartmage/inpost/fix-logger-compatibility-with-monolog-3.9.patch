@@ -1,0 +1,18 @@
+--- a/Logger/Handler/InpostGeneralHandler.php    2025-12-08 13:12:18
++++ b/Logger/Handler/InpostGeneralHandler.php    2025-12-08 13:14:38
+@@ -48,10 +48,13 @@
+     }
+
+     /**
+-     * @param array $record
++     * PATCH START
++     *
++     * @param \Monolog\LogRecord $record
+      */
+-    public function write(array $record): void
++    public function write(\Monolog\LogRecord $record): void
+     {
++        // PATCH END
+         if ($this->configProvider->getDebugEnabled()) {
+             parent::write($record);
+         }
