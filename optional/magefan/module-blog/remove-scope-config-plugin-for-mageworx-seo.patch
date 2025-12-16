@@ -1,0 +1,10 @@
+--- a/etc/frontend/di.xml	2025-12-15 19:24:59
++++ b/etc/frontend/di.xml	2025-12-15 19:25:23
+@@ -20,7 +20,4 @@
+         </arguments>
+     </type>
+
+-    <type name="Magento\Framework\App\Config\ScopeConfigInterface">
+-        <plugin name="magefan_blog_plugin_framework_app_config_scopeconfiginterface" type="\Magefan\Blog\Plugin\Magento\Framework\App\Config\ScopeConfigInterfacePlugin" sortOrder="10"/>
+-    </type>
+ </config>
