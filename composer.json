@@ -3596,6 +3596,11 @@
                     "description": "Disable Braintree plugin for order grid",
                     "filename": "essential/paypal/module-braintree-core/disable-braintree-plugin-for-order-grid.patch",
                     "version-constraint": ">=4.6.1"
+                },
+                {
+                    "description": "Don't load config for Braintree if module is disabled",
+                    "filename": "essential/paypal/module-braintree-core/dont-load-braintree-config-if-disabled.patch",
+                    "version-constraint": ">=4.6.1"
                 }
             ],
             "gls-croatia/module-shipping": [
