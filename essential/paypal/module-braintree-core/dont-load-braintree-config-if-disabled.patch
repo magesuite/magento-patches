@@ -1,0 +1,15 @@
+diff --git a/Plugin/PayLaterMessageConfig.php b/Plugin/PayLaterMessageConfig.php
+index c424e8a..a5798b1 100644
+--- a/Plugin/PayLaterMessageConfig.php
++++ b/Plugin/PayLaterMessageConfig.php
+@@ -38,6 +38,10 @@ class PayLaterMessageConfig
+      */
+     public function afterGetConfig(Sidebar $subject, array $result): array
+     {
++        if (!$this->config->isActive()) {
++            return $result;
++        }
++
+         $result['payPalBraintreeClientToken'] = $this->configProvider->getClientToken();
+
+         if ($this->payLaterConfig->isMessageActive('cart')) {
