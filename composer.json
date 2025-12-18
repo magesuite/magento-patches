@@ -3600,7 +3600,7 @@
                 {
                     "description": "Don't load config for Braintree if module is disabled",
                     "filename": "essential/paypal/module-braintree-core/dont-load-braintree-config-if-disabled.patch",
-                    "version-constraint": ">=4.6.1"
+                    "version-constraint": ">=4.7.0"
                 }
             ],
             "gls-croatia/module-shipping": [
