@@ -3486,7 +3486,7 @@
                 {
                     "description": "Fix checked state for radio button when switching shipping method in checkout",
                     "filename": "essential/magento/module-payment-services-paypal/fix-checked-state-when-switching-shipping-method.patch",
-                    "version-constraint": ">=2.13.0"
+                    "version-constraint": "2.13.0"
                 }
             ],
             "lqt/loqate-integration": [
