@@ -1,0 +1,13 @@
+diff --git a/ViewModel/GetOrderExportInfoViewModel.php b/ViewModel/GetOrderExportInfoViewModel.php
+index e525905..b852cd6 100644
+--- a/ViewModel/GetOrderExportInfoViewModel.php
++++ b/ViewModel/GetOrderExportInfoViewModel.php
+@@ -51,7 +51,7 @@ class GetOrderExportInfoViewModel implements ArgumentInterface
+         $connection = $this->resourceConnection->getConnection();
+         $orderTable = $this->resourceConnection->getTableName('sales_order');
+         $confirmedOrders = $connection->select()
+-            ->from($orderTable, 'COUNT(increment_id)')
++            ->from($orderTable, 'COUNT(1)')
+             ->where('pixi_export_status >= ' . $pixiStatus);
+         if ($storeId) {
+             $confirmedOrders->where('store_id = ?', $storeId);
