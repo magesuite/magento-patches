@@ -535,6 +535,11 @@
                 "description": "Fix saving custom attributes in customers not created in default website",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/update-custom-attributes-in-customers-not-created-in-default-store.patch",
                 "version-constraint": "*"
+            },
+            {
+              "description": "Change address validation method visibility",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/change-address-validation-method-visibility.patch",
+              "version-constraint": "*"
             }
         ],
         "magento/module-graph-ql": [
