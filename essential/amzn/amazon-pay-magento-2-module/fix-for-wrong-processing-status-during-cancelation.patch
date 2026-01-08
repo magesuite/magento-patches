@@ -1,0 +1,81 @@
+diff --git a/Model/AsyncManagement/Charge.php b/Model/AsyncManagement/Charge.php
+index 5446557..b6b9dd1 100755
+--- a/Model/AsyncManagement/Charge.php
++++ b/Model/AsyncManagement/Charge.php
+@@ -175,7 +175,9 @@ class Charge extends AbstractOperation
+                         $complete = true;
+                         break;
+                     case 'Canceled':
+-                        $this->setProcessing($order);
++                        // BEGIN PATCH
++                        // $this->setProcessing($order);
++                        // END PATCH
+                         $this->cancel($order, $charge['statusDetails']);
+                         $complete = true;
+                         break;
+@@ -259,12 +261,62 @@ class Charge extends AbstractOperation
+      */
+     public function cancel($order, $detail)
+     {
+-        if (!$order->isCanceled()) {
++        // BEGIN PATCH
++        // if (!$order->isCanceled()) {
++        if (!$order->isCanceled() && $order->canCancel()) {
+             $order->addStatusHistoryComment($detail['reasonCode'] . ' - ' . $detail['reasonDescription']);
+             $order->cancel();
+             $order->save();
+             $this->asyncLogger->info('Canceled Order #' . $order->getIncrementId());
++        } else {
++            // Get the reason why the order can't be canceled
++            if (!$order->canVoidPayment()) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - payment could not be voided.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - payment could not be voided, Order #" . $order->getIncrementId());
++            }
++            if ($order->canUnhold()) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - order is on hold.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - order is on hold, Order #" . $order->getIncrementId());
++            }
++            if (!$order->canReviewPayment() && $order->canFetchPaymentReviewUpdate()) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - the payment cannot be accepted or denied.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - the payment cannot be accepted or denied, Order #" . $order->getIncrementId());
++            }
++
++            $allInvoiced = true;
++            foreach ($order->getAllItems() as $item) {
++                if ($item->getQtyToInvoice()) {
++                    $allInvoiced = false;
++                    break;
++                }
++            }
++
++            if ($allInvoiced) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - order is fully invoiced.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - order is fully invoiced, Order #" . $order->getIncrementId());
++            }
++
++            $state = $order->getState();
++            if ($order->isCanceled()) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - order is already canceled.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - order is already canceled, Order #" . $order->getIncrementId());
++            }
++            if ($state === Order::STATE_COMPLETE) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - order is completed.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - order is completed, Order #" . $order->getIncrementId());
++            }
++            if ($state === Order::STATE_CLOSED) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - order is closed.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - order is closed, Order #" . $order->getIncrementId());
++            }
++
++            if ($order->getActionFlag(Order::ACTION_FLAG_CANCEL) === false) {
++                $order->addStatusHistoryComment("Order cancellation attempted, but failed - cancel action flag is set to false.");
++                $this->asyncLogger->info("Order cancellation attempted, but failed - cancel action flag is set to false, Order #" . $order->getIncrementId());
++            }
++            $order->save();
+         }
++        // END PATCH
+     }
+
+     /**
+--
+2.39.5 (Apple Git-154)

@@ -2476,8 +2476,13 @@
                 },
                 {
                     "description": "Fix for canceling orders ASD-1291 (DOG-2159)",
-                    "filename": "essential/amzn/amazon-pay-magento-2-module/fix-for-canceling-orders-asd-1291",
-                    "version-constraint": ">=5.18.1,<5.18.3"
+                    "filename": "essential/amzn/amazon-pay-magento-2-module/fix-for-canceling-orders-asd-1291.patch",
+                    "version-constraint": ">=5.18.3"
+                },
+                {
+                    "description": "Fix for canceling orders ASD-1291 (DOG-2159)",
+                    "filename": "essential/amzn/amazon-pay-magento-2-module/fix-for-wrong-processing-status-during-cancelation.patch",
+                    "version-constraint": "=5.18.3"
                 }
             ],
             "msp/adminrestriction": [
