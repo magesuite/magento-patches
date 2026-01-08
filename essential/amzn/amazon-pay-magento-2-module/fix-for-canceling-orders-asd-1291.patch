@@ -1,10 +1,33 @@
 diff --git a/Model/CheckoutSessionManagement.php b/Model/CheckoutSessionManagement.php
-index 82ca9ae..8256ab4 100755
+index d656e6c..a365901 100755
 --- a/Model/CheckoutSessionManagement.php
 +++ b/Model/CheckoutSessionManagement.php
-@@ -754,6 +754,41 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
-return $result;
-}
+@@ -793,10 +793,18 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
+         } catch (\Exception $e) {
+             if (isset($order)) {
+                 $this->closeChargePermission($amazonSessionId, $order, $e);
+-                $session = $this->getAmazonSession($amazonSessionId);
+-                $cancelledMessage = $this->getCanceledMessage($session);
+-                $this->cancelOrder($order, $quote, $cancelledMessage);
+-                $this->magentoCheckoutSession->restoreQuote();
++                // BEGIN PATCH
++                // $session = $this->getAmazonSession($amazonSessionId);
++                // $cancelledMessage = $this->getCanceledMessage($session);
++                // $this->cancelOrder($order, $quote, $cancelledMessage);
++                // $this->magentoCheckoutSession->restoreQuote();
++                if (!$this->isOrderAlreadyFinalized($order)) {
++                    $session = $this->getAmazonSession($amazonSessionId);
++                    $cancelledMessage = $this->getCanceledMessage($session);
++                    $this->cancelOrder($order, $quote, $cancelledMessage);
++                    $this->magentoCheckoutSession->restoreQuote();
++                }
++                // PATCH END
+             }
+
+             throw $e;
+@@ -1175,6 +1183,40 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
+         return [$result];
+     }
 
 +    /**
 +     * @param OrderInterface $order
@@ -40,60 +63,35 @@ return $result;
 +
 +        return false;
 +    }
-+
-/**
-* @inheritDoc
-*/
-@@ -805,10 +840,18 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
-} catch (\Exception $e) {
-if (isset($order)) {
-$this->closeChargePermission($amazonSessionId, $order, $e);
--                $session = $this->getAmazonSession($amazonSessionId);
--                $cancelledMessage = $this->getCanceledMessage($session);
--                $this->cancelOrder($order, $quote, $cancelledMessage);
--                $this->magentoCheckoutSession->restoreQuote();
-+                // PATCH BEGIN
-+                // $session = $this->getAmazonSession($amazonSessionId);
-+                // $cancelledMessage = $this->getCanceledMessage($session);
-+                // $this->cancelOrder($order, $quote, $cancelledMessage);
-+                // $this->magentoCheckoutSession->restoreQuote();
-+                if (!$this->isOrderAlreadyFinalized($order)) {
-+                    $session = $this->getAmazonSession($amazonSessionId);
-+                    $cancelledMessage = $this->getCanceledMessage($session);
-+                    $this->cancelOrder($order, $quote, $cancelledMessage);
-+                    $this->magentoCheckoutSession->restoreQuote();
-+                }
-+                // PATCH END
-}
+     /**
+      * OrderId included in successful placement or collection
+      *
+@@ -1247,8 +1289,10 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
 
-throw $e;
-@@ -1258,9 +1301,10 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
-);
+         $completeCheckoutStatus = $amazonCompleteCheckoutResult['status'] ?? '404';
 
-$completeCheckoutStatus = $amazonCompleteCheckoutResult['status'] ?? '404';
--
 -        if (!preg_match('/^2\d\d$/', $completeCheckoutStatus)) {
 -
-+        // PATCH BEGIN
++        // BEGIN PATCH
 +        // if (!preg_match('/^2\d\d$/', $completeCheckoutStatus)) {
 +        if (!$this->isOrderAlreadyFinalized($order) && !preg_match('/^2\d\d$/', $completeCheckoutStatus)) {
-+        // PATCH END
-$session = $this->amazonAdapter->getCheckoutSession(
-$order->getStoreId(),
-$amazonSessionId
-@@ -1391,7 +1435,12 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
-);
++        // END PATCH
+             $session = $this->amazonAdapter->getCheckoutSession(
+                 $order->getStoreId(),
+                 $amazonSessionId
+@@ -1257,7 +1301,12 @@ class CheckoutSessionManagement implements \Amazon\Pay\Api\CheckoutSessionManage
+             $cancelledMessage = $this->getCanceledMessage($session);
 
-$cancelledMessage = $this->getCanceledMessage($session);
+             // Something went wrong, but the order has already been placed, so cancelling it
 -            $this->cancelOrder($order, $quote, $cancelledMessage);
-+            // PATCH BEGIN
++            // BEGIN PATCH
 +            // $this->cancelOrder($order, $quote, $cancelledMessage);
 +            if (!$this->isOrderAlreadyFinalized($order)) {
 +                $this->cancelOrder($order, $quote, $cancelledMessage);
 +            }
 +            // PATCH END
-$this->magentoCheckoutSession->restoreQuote();
+             $this->magentoCheckoutSession->restoreQuote();
 
-$logEntryDetails = 'amazonSessionId: ' . $amazonSessionId
+             if (isset($session['chargePermissionId'])) {
 --
 2.39.5 (Apple Git-154)
