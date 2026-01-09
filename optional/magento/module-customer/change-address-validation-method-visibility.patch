@@ -1,0 +1,15 @@
+diff --git a/Model/Address/Validator/General.php b/Model/Address/Validator/General.php
+index 23c6d68..acd0275 100644
+--- a/Model/Address/Validator/General.php
++++ b/Model/Address/Validator/General.php
+@@ -60,7 +60,9 @@ class General implements ValidatorInterface
+      * @return array
+      * @throws ValidateException
+      */
+-    private function checkRequiredFields(AbstractAddress $address)
++    //BEGIN PATCH
++    public function checkRequiredFields(AbstractAddress $address)
++    //END PATCH
+     {
+         $errors = [];
+         if (!ValidatorChain::is($address->getFirstname(), NotEmpty::class)) {
