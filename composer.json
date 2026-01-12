@@ -3662,6 +3662,13 @@
                     "filename": "essential/wyomind/googleproductratings/fix-issue-with-feed-file-path.patch",
                     "version-constraint": ">=3.0.5"
                 }
+            ],
+            "techdivision/pixi-magento-connector": [
+                {
+                    "description": "Change order query to fix issues with large database",
+                    "filename": "essential/techdivision/pixi-magento-connector/change-order-query.patch",
+                    "version-constraint": ">=3.7.1"
+                }
             ]
         }
     }
