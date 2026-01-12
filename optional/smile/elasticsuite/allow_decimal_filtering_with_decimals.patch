@@ -1,0 +1,16 @@
+diff --git a/src/module-elasticsuite-catalog/Model/Layer/Filter/DataProvider/Decimal.php b/src/module-elasticsuite-catalog/Model/Layer/Filter/DataProvider/Decimal.php
+index 4692df6..3d2e3b3 100644
+--- a/src/module-elasticsuite-catalog/Model/Layer/Filter/DataProvider/Decimal.php
++++ b/src/module-elasticsuite-catalog/Model/Layer/Filter/DataProvider/Decimal.php
+@@ -34,7 +34,10 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\DataProvider\Price
+     public function validateFilter($filter)
+     {
+         // Match a regex pattern instead of just exploding on '-' (this fail with negative numbers).
+-        $regexp = "/(-?[0-9]+)-(-?[0-9]+)/";
++        // BEGIN PATCH
++        // $regexp = "/(-?[0-9]+)-(-?[0-9]+)/";
++        $regexp = "/([0-9]+(?:\.[0-9]+)?)-([0-9]+(?:\.[0-9]+)?)/";
++        // END PATCH
+         preg_match_all($regexp, $filter, $matches);
+
+         // Whole match + two groups matches.
