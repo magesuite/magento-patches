@@ -1,0 +1,21 @@
+diff --git a/Observer/Label/AddFrontendSettings.php b/Observer/Label/AddFrontendSettings.php
+--- a/Observer/Label/AddFrontendSettings.php
++++ b/Observer/Label/AddFrontendSettings.php
+@@ -33,9 +33,14 @@ class AddFrontendSettings implements ObserverInterface
+         /** @var LabelCollection $labelCollection */
+         $labelCollection = $observer->getEvent()->getData('collection');
+
+-        $labelIds = array_map(function ($labelId) {
+-            return (int)$labelId;
+-        }, $labelCollection->getAllIds());
++        // BEGIN PATCH
++        // $labelIds = array_map(function ($labelId) {
++        //    return (int)$labelId;
++        // }, $labelCollection->getAllIds());
++        $labelIds = array_map(function ($item) {
++            return (int)$item->getLabelId();
++        }, $labelCollection->getItems());
++        // PATCH END
+
+         $frontendSettingsByLabelId = $this->getFrontendSettings->execute($labelIds, $labelCollection->getMode());
+         /** @var LabelInterface $label */

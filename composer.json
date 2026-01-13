@@ -608,6 +608,11 @@
                     "description": "Add compatibility with magesuite product tile",
                     "filename": "essential/amasty/label/add-compatibility-with-product-tile.patch",
                     "version-constraint": ">=2.3.8"
+                },
+                {
+                    "description": "Optimize load label frontend settings",
+                    "filename": "essential/amasty/label/optimize-load-label-frontend-setting.patch",
+                    "version-constraint": ">=2.5.2"
                 }
             ],
             "amasty/product-attachment": [
