@@ -1,0 +1,14 @@
+diff --git a/ViewModel/LicenseRegistration.php b/ViewModel/LicenseRegistration.php
+index 2754c2f..58a6e83 100644
+--- a/ViewModel/LicenseRegistration.php
++++ b/ViewModel/LicenseRegistration.php
+@@ -121,6 +121,9 @@ class LicenseRegistration implements ArgumentInterface
+ 
+     private function isLicenseValid(LicenseValidation $license): bool
+     {
++        // BEGIN PATCH
++        return true;
++        // END PATCH;
+         $messages = $license->getMessages();
+         if (!$messages) {
+             return false; //we must have success message on validation
