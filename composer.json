@@ -3672,7 +3672,7 @@
                 {
                     "description": "Change order query to fix issues with large database",
                     "filename": "essential/techdivision/pixi-magento-connector/change-order-query.patch",
-                    "version-constraint": ">=3.7.1"
+                    "version-constraint": "3.7.1"
                 }
             ]
         }
