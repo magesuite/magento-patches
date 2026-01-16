@@ -3233,6 +3233,11 @@
                     "description": "Fetch proper order instance after cancellation, to avoid re-saving order as new",
                     "filename": "essential/adyen/module-payment/RK-1961-wrong-order-status-after-cancel.patch",
                     "version-constraint": ">=10.2.0"
+                },
+                {
+                    "description": "Use db connection as default for queue consumers",
+                    "filename": "essential/adyen/module-payment/use-db-as-default-connection-in-queues.patch",
+                    "version-constraint": ">=10.6.0"
                 }
             ],
             "firegento/fastsimpleimport": [
