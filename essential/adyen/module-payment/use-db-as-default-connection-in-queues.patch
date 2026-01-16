@@ -1,0 +1,44 @@
+diff --git a/etc/queue_consumer.xml b/etc/queue_consumer.xml
+index cc75a47..9833680 100644
+--- a/etc/queue_consumer.xml
++++ b/etc/queue_consumer.xml
+@@ -1,8 +1,9 @@
+ <?xml version="1.0"?>
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/consumer.xsd">
++    <!-- BEGIN PATCH -->
+     <consumer name="adyen.notification"
+               queue="adyen.notification"
+-              connection="amqp"
+               handler="Adyen\Payment\Model\Queue\Notification\Consumer::execute"/>
++    <!-- END PATCH -->
+ </config>
+diff --git a/etc/queue_publisher.xml b/etc/queue_publisher.xml
+index 7fc9f88..08f4589 100644
+--- a/etc/queue_publisher.xml
++++ b/etc/queue_publisher.xml
+@@ -2,6 +2,8 @@
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/publisher.xsd">
+     <publisher topic="adyen.notification">
+-        <connection name="amqp" exchange="magento"/>
++        <!-- BEGIN PATCH -->
++        <!-- <connection name="amqp" exchange="magento"/>-->
++        <!-- END PATCH -->
+     </publisher>
+ </config>
+diff --git a/etc/queue_topology.xml b/etc/queue_topology.xml
+index c34b01f..f9ff4a7 100644
+--- a/etc/queue_topology.xml
++++ b/etc/queue_topology.xml
+@@ -1,7 +1,9 @@
+ <?xml version="1.0"?>
+ <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:framework-message-queue:etc/topology.xsd">
+-    <exchange name="magento" type="topic" connection="amqp">
++    <!-- BEGIN PATCH -->
++    <exchange name="magento" type="topic" connection="db">
++    <!-- END PATCH -->
+         <binding id="NotificationBinding"
+                  topic="adyen.notification"
+                  destinationType="queue"
