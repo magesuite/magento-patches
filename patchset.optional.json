@@ -1347,6 +1347,11 @@
                 "description": "Allow to select deeper categories in category selector (KRG-2984)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/allow-to-select-deeper-categories-in-category-selector.patch",
                 "version-constraint": "*"
+            },
+            {
+                "description": "Add entity-id index to price tmp table",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/m24-add-entity-id-index-to-price-tmp-table-248p3.patch",
+                "version-constraint": ">=104.0.8"
             }
         ],
         "magento/module-catalog-url-rewrite": [
