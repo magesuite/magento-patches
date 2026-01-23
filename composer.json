@@ -3679,6 +3679,13 @@
                     "filename": "essential/techdivision/pixi-magento-connector/change-order-query.patch",
                     "version-constraint": "3.7.1"
                 }
+            ],
+            "webkul/eshopsync": [
+                {
+                    "description": "Typo implodIndexe -> implode",
+                    "filename": "essential/webkul/eshopsync/implode-typo.patch",
+                    "version-constraint": ">=5.0.4"
+                }
             ]
         }
     }

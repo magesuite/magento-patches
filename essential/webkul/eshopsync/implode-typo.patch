@@ -1,0 +1,16 @@
+diff --git a/src/app/code/Webkul/SalesforceConnector/Helper/Order.php b/src/app/code/Webkul/SalesforceConnector/Helper/Order.php
+index 9b70788..ea0a8f9 100755
+--- a/src/app/code/Webkul/SalesforceConnector/Helper/Order.php
++++ b/src/app/code/Webkul/SalesforceConnector/Helper/Order.php
+@@ -344,7 +344,10 @@ class Order extends AbstractHelper
+         $sObject = new \stdclass();
+         if ($billing_address) {
+             $sObject->Phone = $billing_address->getTelephone();
+-            $streets = implodIndexe(',', $billing_address->getStreet());
++            // BEGIN PATCH
++            //$streets = implodIndexe(',', $billing_address->getStreet());
++            $streets = implode(',', $billing_address->getStreet());
++            // END PATCH
+             $sObject->BillingStreet = $streets;
+             $sObject->BillingCity = $billing_address->getCity();
+             $sObject->BillingPostalCode = $billing_address->getPostcode();
