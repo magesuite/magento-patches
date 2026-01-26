@@ -3686,6 +3686,13 @@
                     "filename": "essential/webkul/eshopsync/implode-typo.patch",
                     "version-constraint": ">=5.0.4"
                 }
+            ],
+            "leonex/magento-creditreform-riskcube": [
+                {
+                    "description": "Typo implodIndexe -> implode",
+                    "filename": "essential/leonex/magento-creditreform-riskcube/cast-quote-id-to-integer.patch",
+                    "version-constraint": ">=2.5.6"
+                }
             ]
         }
     }

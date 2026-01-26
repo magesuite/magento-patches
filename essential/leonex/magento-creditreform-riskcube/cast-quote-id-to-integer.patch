@@ -1,0 +1,13 @@
+diff --git a/Model/Component/Connector.php b/Model/Component/Connector.php
+index 86f4020..c2f4f9e 100644
+--- a/Model/Component/Connector.php
++++ b/Model/Component/Connector.php
+@@ -280,7 +280,7 @@ class Connector
+      */
+     public function orderConfirmation(Order $order, bool $forceNewPurchase = false)
+     {
+-        $claim = $this->loadClaimByQuoteId($order->getQuoteId());
++        $claim = $this->loadClaimByQuoteId((int)$order->getQuoteId());
+         if (!$claim) {
+             throw new \LogicException('No claim exists');
+         }
