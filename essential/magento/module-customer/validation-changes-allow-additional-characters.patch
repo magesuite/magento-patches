@@ -73,7 +73,7 @@ index 7de57d0..bd62b82 100644
 -    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"[],-.'’`&\s\d]){1,255}+/u";
 +    // BEGIN PATCH
 +    // private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"[],-.'’`&\s\d]){1,255}+/u";
-+    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"\[\],-.'’`‘´—#°&\(\)\/\s\d]){1,255}+/u";
++    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"\[\],-.'’`‘´—#°&_\(\)\/\s\d]){1,255}+/u";
 +    // END PATCH
 
      /**
