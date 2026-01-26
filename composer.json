@@ -3691,7 +3691,7 @@
                 {
                     "description": "Typo implodIndexe -> implode",
                     "filename": "essential/leonex/magento-creditreform-riskcube/cast-quote-id-to-integer.patch",
-                    "version-constraint": ">=2.5.6"
+                    "version-constraint": ">=2.0.0"
                 }
             ]
         }
