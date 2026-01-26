@@ -5,7 +5,7 @@ diff --git a/Block/Cart/Grid.php b/Block/Cart/Grid.php
 index db5d90e..45ba0b3 100644
 --- a/Block/Cart/Grid.php
 +++ b/Block/Cart/Grid.php
-@@ -117,12 +117,42 @@ class Grid extends \Magento\Checkout\Block\Cart
+@@ -117,12 +117,45 @@ class Grid extends \Magento\Checkout\Block\Cart
              $pager = $this->getLayout()->createBlock(\Magento\Theme\Block\Html\Pager::class);
              $pager->setAvailableLimit([$availableLimit => $availableLimit])->setCollection($itemsCollection);
              $this->setChild('pager', $pager);
@@ -24,6 +24,9 @@ index db5d90e..45ba0b3 100644
 +        \Magento\Quote\Model\ResourceModel\Quote\Item\Collection $itemsCollection
 +    ) {
 +        foreach ($itemsCollection->getItems() as $key => $collectionItem) {
++            if ($collectionItem->getProductType() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
++                continue;
++            }
 +            $quote     = $this->getQuote();
 +            $quoteItems = $quote->getItems();
 +            foreach ($quoteItems as $quoteItem) {
