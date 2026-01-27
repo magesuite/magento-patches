@@ -1,14 +1,49 @@
+diff --git a/Block/Paypal/Button.php b/Block/Paypal/Button.php
+index b81bf5c..1ec89ae 100644
+--- a/Block/Paypal/Button.php
++++ b/Block/Paypal/Button.php
+@@ -153,8 +153,11 @@ class Button extends Template implements ShortcutInterface
+      */
+     public function isActive(): bool
+     {
+-        return $this->payment->isAvailable($this->checkoutSession->getQuote()) &&
++        // BEGIN PATCH
++        // return $this->payment->isAvailable($this->checkoutSession->getQuote()) &&
++        return $this->config->isActive() && $this->payment->isAvailable($this->checkoutSession->getQuote()) &&
+             $this->config->isDisplayShoppingCart();
++        // END PATCH
+     }
+
+     /**
+diff --git a/Block/Paypal/ProductPage.php b/Block/Paypal/ProductPage.php
+index c4ba69a..d30f9cc 100644
+--- a/Block/Paypal/ProductPage.php
++++ b/Block/Paypal/ProductPage.php
+@@ -28,7 +28,10 @@ class ProductPage extends Button
+      */
+     public function isActive(): bool
+     {
+-        return $this->config->isProductPageButtonEnabled();
++        // BEGIN PATCH
++        // return $this->config->isProductPageButtonEnabled();
++        return $this->config->isActive() && $this->config->isProductPageButtonEnabled();
++        // END PATCH
+     }
+
+     /**
 diff --git a/Plugin/PayLaterMessageConfig.php b/Plugin/PayLaterMessageConfig.php
-index c424e8a..a5798b1 100644
+index c424e8a..4e904ab 100644
 --- a/Plugin/PayLaterMessageConfig.php
 +++ b/Plugin/PayLaterMessageConfig.php
-@@ -38,6 +38,10 @@ class PayLaterMessageConfig
+@@ -38,6 +38,12 @@ class PayLaterMessageConfig
       */
      public function afterGetConfig(Sidebar $subject, array $result): array
      {
++        // BEGIN PATCH
 +        if (!$this->config->isActive()) {
 +            return $result;
 +        }
++        // END PATCH
 +
          $result['payPalBraintreeClientToken'] = $this->configProvider->getClientToken();
 
