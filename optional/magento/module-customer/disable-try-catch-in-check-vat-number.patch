@@ -1,0 +1,35 @@
+diff --git a/Model/Vat.php b/Model/Vat.php
+index 6e69681..4188b4e 100644
+--- a/Model/Vat.php
++++ b/Model/Vat.php
+@@ -182,7 +182,8 @@ class Vat
+         $countryCodeForVatNumber = $this->getCountryCodeForVatNumber($countryCode);
+         $requesterCountryCodeForVatNumber = $this->getCountryCodeForVatNumber($requesterCountryCode);
+
+-        try {
++        // BEGIN PATCH
++        // try {
+             $soapClient = $this->createVatNumberValidationSoapClient();
+
+             $requestParams = [];
+@@ -211,7 +212,7 @@ class Vat
+             } else {
+                 $gatewayResponse->setRequestMessage(__('Please enter a valid VAT number.'));
+             }
+-        } catch (\Exception $exception) {
++        /* } catch (\Exception $exception) {
+             $this->logger->error(
+                 sprintf('VAT Number validation failed with message: %s', $exception->getMessage()),
+                 ['exception' => $exception]
+@@ -220,7 +221,8 @@ class Vat
+             $gatewayResponse->setIsValid(false);
+             $gatewayResponse->setRequestDate('');
+             $gatewayResponse->setRequestIdentifier('');
+-        }
++        } */
++        // END PATCH
+
+         return $gatewayResponse;
+     }
+--
+2.39.5 (Apple Git-154)

@@ -537,6 +537,11 @@
                 "version-constraint": "*"
             },
             {
+                "description": "Remove exception handling from VAT number validation to allow exceptions to propagate.",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/disable-try-catch-in-check-vat-number.patch",
+                "version-constraint": ">=103.0.7"
+            },
+            {
               "description": "Change address validation method visibility",
               "filename": "vendor/creativestyle/magento-patches/optional/magento/module-customer/change-address-validation-method-visibility.patch",
               "version-constraint": "*"
