@@ -3,14 +3,14 @@ Original commit: https://github.com/magento/inventory/commit/0814fe7edfb9f434449
 Similar related issue: https://github.com/magento/inventory/issues/3350
 
 diff --git a/Indexer/SelectBuilder.php b/Indexer/SelectBuilder.php
-index d60f840..0ecf00a 100644
+index 019aadc..25b33d8 100644
 --- a/Indexer/SelectBuilder.php
 +++ b/Indexer/SelectBuilder.php
 @@ -120,17 +120,23 @@ class SelectBuilder
              'child_stock.sku = child_product_entity.sku',
              [
                  IndexStructure::QUANTITY => 'SUM(child_stock.quantity)',
--                IndexStructure::IS_SALABLE => 'IF(inventory_stock_item.is_in_stock = 0, 0, 
+-                IndexStructure::IS_SALABLE => 'IF(inventory_stock_item.is_in_stock = 0, 0,
 -                MAX(child_stock.is_salable))',
 +                // BEGIN PATCH
 +                // Revert changes introduced in Magento 2.4.5 which causing issues with "Stock Status" for grouped product because it's loading data from legacy stock.
