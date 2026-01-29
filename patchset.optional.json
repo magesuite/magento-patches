@@ -1514,6 +1514,11 @@
                 "description": "Returning customer addresses collection by customer_id, when magento-company module is istalled",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/customer/return-customer-addresses-assigned-to-customer.patch",
                 "version-constraint": ">=104.0.2"
+            },
+            {
+              "description": "Remove destroying customer session after reset password request.",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/customer/fix-empty-cart-on-reset-password-action.patch",
+              "version-constraint": "*"
             }
         ],
         "dynamic-yield/integration": [
