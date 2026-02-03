@@ -1,0 +1,16 @@
+diff --git a/view/frontend/web/js/checkout-data.js b/view/frontend/web/js/checkout-data.js
+index f023114..a8fd61c 100644
+--- a/view/frontend/web/js/checkout-data.js
++++ b/view/frontend/web/js/checkout-data.js
+@@ -12,7 +12,10 @@ define([
+     'jquery',
+     'Magento_Customer/js/customer-data',
+     'mageUtils',
+-    'jquery/jquery-storageapi'
++    'jquery/jquery-storageapi',
++    // BEGIN PATCH
++    'domReady!'
++    // END PATCH
+ ], function ($, storage, utils) {
+     'use strict';
+ 

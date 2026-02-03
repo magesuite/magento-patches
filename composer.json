@@ -1485,6 +1485,11 @@
                     "description": "Fix for $_item->getChildren() returns empty array for parent cart items when cart is paginated",
                     "filename": "essential/magento/module-checkout/fix-for-load-parent-children.patch",
                     "version-constraint": ">100.4.6"
+                },
+                {
+                    "description": "Checkout data - execute after DOM is loaded so window.checkoutConfig is loaded",
+                    "filename": "essential/magento/module-checkout/checkout-data-ensure-domready.patch",
+                    "version-constraint": ">100.4.8"
                 }
             ],
             "magento/module-checkout-agreements": [
