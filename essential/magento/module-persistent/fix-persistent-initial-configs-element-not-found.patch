@@ -1,0 +1,22 @@
+Error: "The element with the \"persistent_initial_configs\" ID wasn't found. Verify the ID and try again."
+Related commit: https://github.com/magento/magento2/commit/9d9b105cc118070503d5c8f1d83e713174589d1e
+
+diff --git a/Plugin/AddPersistentRememberMeInitPlugin.php b/Plugin/AddPersistentRememberMeInitPlugin.php
+index 63d746c..d21a1f1 100644
+--- a/Plugin/AddPersistentRememberMeInitPlugin.php
++++ b/Plugin/AddPersistentRememberMeInitPlugin.php
+@@ -44,8 +44,12 @@ class AddPersistentRememberMeInitPlugin
+             && $this->persistentData->isEnabled()
+             && $this->persistentData->isRememberMeEnabled()
+         ) {
+-            if ($subject->getBlock('head.additional') &&
+-                !$subject->getBlock('persistent_initial_configs')) {
++            // BEGIN PATCH
++            // if ($subject->getBlock('head.additional') &&
++            //     !$subject->getBlock('persistent_initial_configs')) {
++            if ($subject->hasElement('head.additional') &&
++                !$subject->hasElement('persistent_initial_configs')) {
++            // END PATCH
+                 $subject->addBlock(
+                     RememberMeInit::class,
+                     'persistent_initial_configs'
