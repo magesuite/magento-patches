@@ -337,6 +337,11 @@
                     "description": "Fix quote state error after session timeout",
                     "filename": "essential/magento/module-persistent/fix-quote-state-error-after-session-timeout.patch",
                     "version-constraint": ">=100.4.2,<100.4.4"
+                },
+                {
+                    "description": "Fix for adding remember me block (IPET-3532, Related to ACP2E-3415)",
+                    "filename": "essential/magento/module-persistent/fix-persistent-initial-configs-element-not-found.patch",
+                    "version-constraint": ">=100.4.8"
                 }
             ],
             "magento/module-theme": [
