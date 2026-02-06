@@ -732,6 +732,13 @@
                     "version-constraint": ">=2.5.3"
                 }
             ],
+            "anowave/taxswitch": [
+                {
+                    "description": "Add missing acl.xml file",
+                    "filename": "essential/anowave/taxswitch/add-acl-file.patch",
+                    "version-constraint": ">=100.3.3"
+                }
+            ],
             "brickfox/import-export-data": [
                 {
                     "description": "Change column type from smallint to int",
