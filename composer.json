@@ -3666,7 +3666,7 @@
                 {
                     "description": "Too many cache tags for varnish purge.",
                     "filename": "essential/cinovo/calculation/varnish-purge-too-many-tags.patch",
-                    "version-constraint": ">=2.11.7"
+                    "version-constraint": ">=2.11.7, <2.11.11"
                 }
             ],
             "cinovo/contact": [
