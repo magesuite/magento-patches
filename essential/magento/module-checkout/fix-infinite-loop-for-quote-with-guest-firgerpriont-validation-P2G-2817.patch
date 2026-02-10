@@ -1,0 +1,21 @@
+ACP2E-4472 : A null quote is getting created when using Login as Customer from Admin
+@see  https://github.com/magento/magento2/commit/73ab33017e5b9b5fa65987b79ae440c8df8134f6
+
+diff --git a/Model/Session.php b/Model/Session.php
+index c3d26c7..642dfc8 100644
+--- a/Model/Session.php
++++ b/Model/Session.php
+@@ -277,7 +277,12 @@ class Session extends \Magento\Framework\Session\SessionManager
+                      * need recalculate totals of quote. It is possible if customer use currency switcher or
+                      * store switcher.
+                      */
+-                    if ($quote->getQuoteCurrencyCode() != $this->_storeManager->getStore()->getCurrentCurrencyCode()) {
++                    if (
++                        // BEGIN PATCH
++                        $quote->getId() &&
++                        // END PATCH
++                        $quote->getQuoteCurrencyCode() != $this->_storeManager->getStore()->getCurrentCurrencyCode()
++                    ) {
+                         $quote->setStore($this->_storeManager->getStore());
+                         $this->quoteRepository->save($quote->collectTotals());
+                         /*
