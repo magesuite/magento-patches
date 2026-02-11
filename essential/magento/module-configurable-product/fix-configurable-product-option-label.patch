@@ -1,0 +1,14 @@
+diff --git a/Model/Product/Type/Configurable.php b/Model/Product/Type/Configurable.php
+index 20b54b8..2d27400 100644
+--- a/Model/Product/Type/Configurable.php
++++ b/Model/Product/Type/Configurable.php
+@@ -860,6 +860,9 @@ class Configurable extends \Magento\Catalog\Model\Product\Type\AbstractType impl
+                 if (isset($usedAttributes[$attributeId])) {
+                     /** @var \Magento\Catalog\Model\ResourceModel\Eav\Attribute $attribute */
+                     $attribute = $usedAttributes[$attributeId]->getProductAttribute();
++                    // PATCH START
++                    $attribute->unsetData('store_label');
++                    // PATCH END
+                     $label = $attribute->getStoreLabel();
+                     $value = $attribute;
+                     if ($value->getSourceModel()) {

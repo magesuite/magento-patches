@@ -527,6 +527,11 @@
                     "description": "Fix get max price error for configurable with no available options",
                     "filename": "essential/magento/module-configurable-product/check-max-regular-amount-before-getting-max-price.patch",
                     "version-constraint": ">=100.4.7"
+                },
+                {
+                    "description": "Fix configurable product option label in rest api request",
+                    "filename": "essential/magento/module-configurable-product/fix-configurable-product-option-label.patch",
+                    "version-constraint": ">=100.4.8"
                 }
             ],
             "amasty/module-advanced-permissions": [
