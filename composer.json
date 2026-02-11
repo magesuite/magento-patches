@@ -1507,6 +1507,11 @@
                     "description": "Checkout data - execute after DOM is loaded so window.checkoutConfig is loaded",
                     "filename": "essential/magento/module-checkout/checkout-data-ensure-domready.patch",
                     "version-constraint": ">100.4.8"
+                },
+                {
+                    "description": "ACP2E-4472: A null quote is getting created when using Login as Customer from Admin",
+                    "filename": "essential/magento/module-checkout/fix-infinite-loop-for-quote-with-guest-firgerpriont-validation-P2G-2817.patch",
+                    "version-constraint": ">100.4.8"
                 }
             ],
             "magento/module-checkout-agreements": [
