@@ -1091,6 +1091,11 @@
                     "description": "Adds aria-labels to the range slider handles.",
                     "filename": "essential/smile/elasticsuite/a11y-range-slider-handle-label.patch",
                     "version-constraint": ">=2.11.12,<2.11.16"
+                },
+                {
+                    "description": "Prevent XSS in attribute filter search results",
+                    "filename": "essential/smile/elasticsuite/attribute-filter-search-prevent-xss.patch",
+                    "version-constraint": ">=2.11.10"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [

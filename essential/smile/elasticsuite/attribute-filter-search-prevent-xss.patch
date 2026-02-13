@@ -1,0 +1,18 @@
+[MGS-5654] Prevent XSS in attribute filter search results
+
+diff --git a/src/module-elasticsuite-catalog/view/frontend/web/js/attribute-filter.js b/src/module-elasticsuite-catalog/view/frontend/web/js/attribute-filter.js
+index d16bf0e..25e4467 100644
+--- a/src/module-elasticsuite-catalog/view/frontend/web/js/attribute-filter.js
++++ b/src/module-elasticsuite-catalog/view/frontend/web/js/attribute-filter.js
+@@ -147,7 +147,10 @@ define([
+          * Search result message
+          */
+         getSearchResultMessage : function() {
+-            return this.noSearchResultLabel.replace("%s", '"' + this.fulltextSearch() + '"')
++            // BEGIN PATCH
++            const escapedSearch = $('<div/>').text(this.fulltextSearch()).html();
++            return this.noSearchResultLabel.replace("%s", `"${escapedSearch}"`);
++            // END PATCH
+         },
+
+         /**
