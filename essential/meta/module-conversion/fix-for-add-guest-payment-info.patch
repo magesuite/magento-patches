@@ -1,0 +1,15 @@
+diff --git a/Plugin/Tracker/AddGuestPaymentInfo.php b/Plugin/Tracker/AddGuestPaymentInfo.php
+index d493ee8..4dff605 100644
+--- a/Plugin/Tracker/AddGuestPaymentInfo.php
++++ b/Plugin/Tracker/AddGuestPaymentInfo.php
+@@ -27,7 +27,7 @@ class AddGuestPaymentInfo
+
+     public function afterSavePaymentInformation(
+         GuestPaymentInformationManagement $paymentInformationManagement,
+-        bool $result,
++        ?bool $result,
+         $cartId,
+         $email,
+         PaymentInterface $paymentMethod,
+--
+2.39.5 (Apple Git-154)
