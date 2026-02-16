@@ -3601,6 +3601,11 @@
                     "description": "Optimize category name loading to reduce number of queries",
                     "filename": "essential/meta/module-conversion/optimize-category-loading.patch",
                     "version-constraint": ">=1.6.4"
+                },
+                {
+                    "description": "Fix for add guest payment info class",
+                    "filename": "essential/meta/module-conversion/fix-for-add-guest-payment-info.patch",
+                    "version-constraint": ">=1.6.4"
                 }
             ],
             "meta/module-sales": [
