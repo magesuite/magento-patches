@@ -1,0 +1,42 @@
+diff --git a/Model/CatalogUpdateHandler.php b/Model/CatalogUpdateHandler.php
+index 96f003b..d4d3d15 100644
+--- a/Model/CatalogUpdateHandler.php
++++ b/Model/CatalogUpdateHandler.php
+@@ -255,6 +255,11 @@ class CatalogUpdateHandler
+                 continue;
+             }
+         }
++
++        // PATCH START
++        $this->magentoProductRepository->cleanCache();
++        // PATCH END
++
+         if (!empty($requestData)) {
+             $this->graphApiAdapter->catalogBatchRequest($catalogId, $requestData);
+         }
+diff --git a/Model/ResourceModel/FacebookCatalogUpdate.php b/Model/ResourceModel/FacebookCatalogUpdate.php
+index 3626db1..dc2b671 100644
+--- a/Model/ResourceModel/FacebookCatalogUpdate.php
++++ b/Model/ResourceModel/FacebookCatalogUpdate.php
+@@ -32,7 +32,7 @@ class FacebookCatalogUpdate extends AbstractDb
+ {
+     private const TABLE_NAME = 'facebook_catalog_update';
+ 
+-    public const BATCH_LIMIT = 5000;
++    public const BATCH_LIMIT = 2000;
+ 
+     /**
+      * @var CollectionFactory
+diff --git a/etc/crontab.xml b/etc/crontab.xml
+index e2cd4c5..9f09724 100644
+--- a/etc/crontab.xml
++++ b/etc/crontab.xml
+@@ -5,7 +5,7 @@
+             <schedule>0 1 * * *</schedule>
+         </job>
+         <job name="facebook_automation_catalog_update" instance="Meta\Catalog\Cron\CatalogUpdate" method="execute">
+-            <schedule>5,15,25,35,45,55 * * * *</schedule>
++            <schedule>5,15,25,35,45,55 6-23 * * *</schedule>
+         </job>
+         <job name="facebook_automation_catalog_delete" instance="Meta\Catalog\Cron\CatalogDelete" method="execute">
+             <schedule>0,10,20,30,40,50 * * * *</schedule>
