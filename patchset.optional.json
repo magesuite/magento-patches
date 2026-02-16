@@ -2329,6 +2329,13 @@
           "filename": "vendor/creativestyle/magento-patches/optional/techdivision/import-revert-stock/fix_file_endings_v1_0_1.patch",
           "version-constraint": "1.0.1"
         }
+      ],
+      "meta/module-catalog": [
+        {
+          "description": "Avoid memory consuming catalog update (HAAR-5203)",
+          "filename": "vendor/creativestyle/magento-patches/optional/meta/module-catalog/avoid-memory-consuming-catalog-update-HAAR-5203.patch",
+          "version-constraint": ">=1.6.4"
+        }
       ]
     }
 }
