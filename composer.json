@@ -1095,7 +1095,7 @@
                 {
                     "description": "Prevent XSS in attribute filter search results",
                     "filename": "essential/smile/elasticsuite/attribute-filter-search-prevent-xss.patch",
-                    "version-constraint": ">=2.11.10"
+                    "version-constraint": ">=2.11.10,<2.11.17.1"
                 }
             ],
             "smile/module-elasticsuite-cms-search": [
