@@ -3611,6 +3611,11 @@
                     "description": "Fix for add guest payment info class",
                     "filename": "essential/meta/module-conversion/fix-for-add-guest-payment-info.patch",
                     "version-constraint": ">=1.6.4"
+                },
+                {
+                    "description": "Fix for add payment info class",
+                    "filename": "essential/meta/module-conversion/fix-for-add-payment-info.patch",
+                    "version-constraint": ">=1.6.4"
                 }
             ],
             "meta/module-sales": [
