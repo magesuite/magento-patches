@@ -1362,6 +1362,11 @@
                 "description": "Add entity-id index to price tmp table",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/m24-add-entity-id-index-to-price-tmp-table-248p3.patch",
                 "version-constraint": ">=104.0.8"
+            },
+            {
+                "description": "Add index to entity_id column for temp index price table",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-catalog/m248-add-entity-id-index-to-price-tmp-table.patch",
+                "version-constraint": "*"
             }
         ],
         "magento/module-catalog-url-rewrite": [
