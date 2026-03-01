@@ -72,6 +72,13 @@
               "version-constraint": ">=5.4.0"
             }
         ],
+        "anowave/ec": [
+            {
+                "description": "Fix custom cache dependency for Customer eav_entity_type (MIC-1149)",
+                "filename": "vendor/creativestyle/magento-patches/optional/anowave/ec/fix-MIC-1149-remove-customer-dependency-from-cache.patch",
+                "version-constraint": "105.3.4"
+            }
+        ],
         "twig/twig": [
             {
                 "description": "Einhell deprecated functionality fix for php 8.1",

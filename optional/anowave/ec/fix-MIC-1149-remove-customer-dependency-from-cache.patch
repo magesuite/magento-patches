@@ -1,0 +1,74 @@
+diff --git a/Model/Cache.php b/Model/Cache.php
+index 13565a0..445293e 100644
+--- a/Model/Cache.php
++++ b/Model/Cache.php
+@@ -86,7 +86,6 @@ class Cache extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
+ 	 * @param StoreManagerInterface $storeManager
+ 	 * @param Header $headerService
+ 	 * @param Registry $registry
+-	 * @param CustomerRepositoryInterface $customerRepositoryFactory
+ 	 * @param StateInterface $cacheState
+ 	 */
+ 	public function __construct
+@@ -95,7 +94,6 @@ class Cache extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
+ 		StoreManagerInterface $storeManager,
+ 		Header $headerService,
+ 		Registry $registry,
+-		CustomerRepositoryInterface $customerRepositoryInterface,
+ 	    StateInterface $cacheState,
+ 		ScopeConfigInterface $scopeConfig
+ 	)
+@@ -123,13 +121,6 @@ class Cache extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
+ 		 */
+ 		$this->registry = $registry;
+ 		
+-		/**
+-		 * Set customer repository interface
+-		 *
+-		 * @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepositoryInterface
+-		 */
+-		$this->customerRepositoryInterface = $customerRepositoryInterface;
+-		
+ 		/**
+ 		 * @var \Magento\Framework\App\Cache\StateInterface $cacheState
+ 		 */
+@@ -229,14 +220,12 @@ class Cache extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
+ 			}
+ 		}
+ 
+-		if ($this->registry->registry('cache_session_customer_id') > 0)
++		if ($this->registry->registry('cache_session_customer_group_id') > 0)
+ 		{
+-			$customer = $this->customerRepositoryInterface->getById($this->registry->registry('cache_session_customer_id'));
+-	
+ 			/**
+ 			 * Add customer group to key
+ 			 */
+-			$p[] = (int) $customer->getGroupId();
++			$p[] = (int) $this->registry->registry('cache_session_customer_group_id');
+ 		}
+ 
+ 		/**
+@@ -271,4 +260,4 @@ class Cache extends \Magento\Framework\Cache\Frontend\Decorator\TagScope
+ 	{
+ 	    return $this->cacheState->isEnabled(static::TYPE_IDENTIFIER);
+ 	}
+-}
+\ No newline at end of file
++}
+diff --git a/Model/DepersonalizePlugin.php b/Model/DepersonalizePlugin.php
+index 9f345fc..f1911c6 100644
+--- a/Model/DepersonalizePlugin.php
++++ b/Model/DepersonalizePlugin.php
+@@ -148,8 +148,9 @@ class DepersonalizePlugin
+ 		if (is_null($this->registry->registry('cache_session_customer_id')) && 0 < (int) $this->customerSession->getCustomerId())
+ 		{
+ 			$this->registry->register('cache_session_customer_id', (int) $this->customerSession->getCustomerId());
++			$this->registry->register('cache_session_customer_group_id', (int) $this->customerSession->getCustomerGroupId());
+ 		}
+ 
+ 		return $result;
+ 	}
+-}
+\ No newline at end of file
++}
