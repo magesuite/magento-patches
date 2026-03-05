@@ -1,0 +1,119 @@
+diff --git a/Block/BasicInformation.php b/Block/BasicInformation.php
+index ba3232c..062b416 100644
+--- a/Block/BasicInformation.php
++++ b/Block/BasicInformation.php
+@@ -255,12 +255,18 @@ class BasicInformation extends Template
+
+                 $productCategory = $this->layerResolver->get()->getCurrentCategory()->getName();
+
++                // PATCH BEGIN
+                 $categoryIds = $this->product->getCategoryIds();
+-                $categoryPaths = [];
+-                foreach ($categoryIds as $categoryId) {
+-                    $categoryPaths[] = $this->getPathByCategoryId($categoryId);
+-                }
++                // $categoryPaths = [];
++                // foreach ($categoryIds as $categoryId) {
++                //     $categoryPaths[] = $this->getPathByCategoryId($categoryId);
++                // }
++                // $productCategoryPaths = implode(';', $categoryPaths);
++
++                $pathsById = $this->getPathsByCategoryIds($categoryIds);
++                $categoryPaths = array_map(fn($id) => $pathsById[$id] ?? '', $categoryIds);
+                 $productCategoryPaths = implode(';', $categoryPaths);
++                // PATCH END
+
+                 $result[] = 'data-product-id="' . $productSku . '"';
+                 $result[] = 'data-product-name="' . $productName . '"';
+@@ -276,23 +282,78 @@ class BasicInformation extends Template
+         return $result;
+     }
+
++    // PATCH BEGIN
++    // /**
++    //  * @param int $categoryId
++    //  * @return string
++    //  * @throws NoSuchEntityException
++    //  */
++    // private function getPathByCategoryId(int $categoryId): string
++    // {
++    //     $storeId = $this->storeManager->getStore()->getId();
++    //     $category = $this->categoryRepository->get($categoryId, $storeId);
++    //     $categoryTree = $this->tree->setStoreId($storeId)->loadBreadcrumbsArray($category->getPath());
++    //
++    //     $categoryTreePath = array();
++    //     foreach($categoryTree as $category){
++    //         $categoryTreePath[] = $category['name'];
++    //     }
++    //     return implode("/", $categoryTreePath);
++    // }
++
+     /**
+-     * @param int $categoryId
+-     * @return string
+-     * @throws NoSuchEntityException
++     * @param int[] $categoryIds
++     * @return array<int, string> categoryId => path (np. "Parent/Child/Current")
++     * @throws \Magento\Framework\Exception\NoSuchEntityException
+      */
+-    private function getPathByCategoryId(int $categoryId): string
++    protected function getPathsByCategoryIds(array $categoryIds): array
+     {
+-        $storeId = $this->storeManager->getStore()->getId();
+-        $category = $this->categoryRepository->get($categoryId, $storeId);
+-        $categoryTree = $this->tree->setStoreId($storeId)->loadBreadcrumbsArray($category->getPath());
++        if (empty($categoryIds)) {
++            return [];
++        }
++
++        $storeId = (int) $this->storeManager->getStore()->getId();
++        $categoryIds = array_map('intval', array_unique($categoryIds));
++
++        $collection = $this->category->getCollection()
++            ->addFieldToSelect('path')
++            ->addFieldToFilter('entity_id', ['in' => $categoryIds])
++            ->setStoreId($storeId);
++
++        $pathById = [];
++        $allPathIds = [];
++
++        foreach ($collection as $category) {
++            $path = $category->getPath();
++            $pathIds = array_filter(explode('/', $path ?: ''), fn($id) => (int) $id > 1);
++            $pathById[$category->getId()] = $pathIds;
++            $allPathIds = array_merge($allPathIds, $pathIds);
++        }
+
+-        $categoryTreePath = array();
+-        foreach($categoryTree as $category){
+-            $categoryTreePath[] = $category['name'];
++        $allPathIds = array_unique(array_map('intval', $allPathIds));
++        if (empty($allPathIds)) {
++            return array_map(fn() => '', $pathById);
+         }
+-        return implode("/", $categoryTreePath);
++
++        $namesCollection = $this->category->getCollection()
++            ->addAttributeToSelect('name')
++            ->addFieldToFilter('entity_id', ['in' => $allPathIds])
++            ->setStoreId($storeId);
++
++        $namesById = [];
++        foreach ($namesCollection as $cat) {
++            $namesById[(int) $cat->getId()] = $cat->getName() ?? '';
++        }
++
++        $result = [];
++        foreach ($pathById as $catId => $pathIds) {
++            $names = array_map(fn($id) => $namesById[$id] ?? '', $pathIds);
++            $result[$catId] = implode('/', array_filter($names));
++        }
++
++        return $result;
+     }
++    // PATCH END
+
+     /**
+      * @return String[]
+--
+2.50.1 (Apple Git-155)
