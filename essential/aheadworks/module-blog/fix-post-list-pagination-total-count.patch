@@ -1,0 +1,16 @@
+diff --git a/Model/ResourceModel/PostRepository.php b/Model/ResourceModel/PostRepository.php
+index 44ec91a..89eb93c 100755
+--- a/Model/ResourceModel/PostRepository.php
++++ b/Model/ResourceModel/PostRepository.php
+@@ -222,7 +222,10 @@ class PostRepository implements PostRepositoryInterface
+         }
+
+         $searchResults->setItems($posts);
+-        $searchResults->setTotalCount(count($posts));
++        // BEGIN PATCH
++        // $searchResults->setTotalCount(count($posts));
++        $searchResults->setTotalCount($collection->getSize());
++        // END PATCH
+         return $searchResults;
+     }
+
