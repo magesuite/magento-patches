@@ -1,0 +1,16 @@
+diff --git a/lib/Api/Api.php b/lib/Api/Api.php
+--- a/lib/Api/Api.php
++++ b/lib/Api/Api.php
+@@ -124,11 +124,9 @@
+      *
+      * @return $this
+      */
+-    public function setLogger(LoggerInterface $logger)
++    public function setLogger(LoggerInterface $logger): void
+     {
+         $this->logger = $logger;
+-
+-        return $this;
+     }
+
+     /**
