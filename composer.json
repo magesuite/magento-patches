@@ -3747,6 +3747,13 @@
                     "filename": "essential/leonex/magento-creditreform-riskcube/cast-quote-id-to-integer.patch",
                     "version-constraint": ">=2.0.0"
                 }
+            ],
+            "mautic/api-library":  [
+                {
+                    "description": "Fix incompatible method with Psr\\Log\\LoggerAwareInterface",
+                    "filename": "essential/mautic/api-library/fix-incompatible-method.patch",
+                    "version-constraint": ">=3.1.0"
+                }
             ]
         }
     }
