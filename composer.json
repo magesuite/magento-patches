@@ -1660,6 +1660,11 @@
                     "description": "Removed logic that sends empty tags when deferred cache is enabled (IPET-2506)",
                     "filename": "essential/aheadworks/module-blog/fix-clearing-cache-after-blog-reindex.patch",
                     "version-constraint": ">=2.8.0"
+                },
+                {
+                    "description": "Fix missing pagination on blog listing (IPET-3543)",
+                    "filename": "essential/aheadworks/module-blog/fix-post-list-pagination-total-count.patch",
+                    "version-constraint": ">=2.22.0"
                 }
             ],
             "aheadworks/module-blog-search": [
