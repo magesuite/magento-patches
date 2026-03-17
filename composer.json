@@ -2677,6 +2677,13 @@
                     "version-constraint": ">=2.1.27,<2.1.29"
                 }
             ],
+            "sendcloud/sendcloud": [
+                {
+                    "description": "Fix for service SaveServicePointsData when quote_id is unknown",
+                    "filename": "essential/sendcloud/sendcloud/fix-for-service-points-data-when-quote-id-is-unknown.patch",
+                    "version-constraint": ">=2.0.39"
+                }
+            ],
             "zendframework/zend-mail": [
                 {
                     "description": "Fix incorrect content-disposition header encoding that prevented emails to be sent using SES",

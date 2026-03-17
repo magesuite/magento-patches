@@ -1,0 +1,18 @@
+diff --git a/Observer/SaveServicePointsData.php b/Observer/SaveServicePointsData.php
+index ebfc9f4..d34589e 100755
+--- a/Observer/SaveServicePointsData.php
++++ b/Observer/SaveServicePointsData.php
+@@ -37,6 +37,11 @@ class SaveServicePointsData implements ObserverInterface
+     public function execute(Observer $observer)
+     {
+         $order = $observer->getOrder();
++        // PATCH BEGIN
++        if (!$order->getQuoteId()) {
++            return;
++        }
++        // PATCH END
+         $quote = $this->quoteRepository->get($order->getQuoteId());
+         if ($order->getShippingMethod() === 'sendcloud_sendcloud') {
+             $order->setSendcloudServicePointId($quote->getSendcloudServicePointId());
+--
+2.50.1 (Apple Git-155)
