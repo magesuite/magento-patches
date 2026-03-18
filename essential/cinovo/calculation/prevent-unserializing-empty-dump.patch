@@ -1,0 +1,18 @@
+diff --git a/Helper/PriceHelper.php b/Helper/PriceHelper.php
+index 13a62b2..a08df7d 100644
+--- a/Helper/PriceHelper.php
++++ b/Helper/PriceHelper.php
+@@ -1260,7 +1260,12 @@ class PriceHelper extends AbstractHelper
+
+             if (($currentTimeStamp - $priceDate) < $this->priceLifeTimeSEC) {
+                 // @phpcs:ignore Magento2.Security.InsecureFunction
+-                return unserialize($priceDump->getDump());
++                // BEGIN PATCH
++                // return unserialize($priceDump->getDump());
++                $dump = $priceDump->getDump();
++
++                return !empty($dump) ? unserialize($dump) : null;
++                // END PATCH
+             }
+             $this->logger->warning("price dump is not valid any more!");
+         }
