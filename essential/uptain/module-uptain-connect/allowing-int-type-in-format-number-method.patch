@@ -1,0 +1,18 @@
+diff --git a/Helper/Data.php b/Helper/Data.php
+index d47cc7e..8beaf20 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -53,7 +53,10 @@ class Data extends AbstractHelper
+      * @param string $value
+      * @return string
+      */
+-    public function formatNumber(string $value): string
++    // PATCH BEGIN
++    // public function formatNumber(string $value): string
++    public function formatNumber(string|int $value): string
++    // PATCH END
+     {
+         $value = (float)$value;
+         return number_format($value, 2, '.', '');
+--
+2.50.1 (Apple Git-155)
