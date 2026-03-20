@@ -2950,6 +2950,11 @@
                     "description": "Allowing int type in formatNmber() method",
                     "filename": "essential/uptain/module-uptain-connect/allowing-int-type-in-format-number-method.patch",
                     "version-constraint": ">=2.0.25"
+                },
+                {
+                    "description": "Allowing Customer Data Model as an argument in getCustomerGroup() method",
+                    "filename": "essential/uptain/module-uptain-connect/allow-customer-data-model-as-argument.patch",
+                    "version-constraint": ">=2.0.25"
                 }
             ],
             "ratenkaufbyeasycredit/module-core": [

@@ -1,0 +1,26 @@
+diff --git a/Helper/PrepareInformation.php b/Helper/PrepareInformation.php
+index 6622c74..da6e5c5 100644
+--- a/Helper/PrepareInformation.php
++++ b/Helper/PrepareInformation.php
+@@ -15,6 +15,7 @@ use Magento\Customer\Api\Data\CustomerInterface;
+ use Magento\Customer\Helper\Session\CurrentCustomer;
+ use Magento\Customer\Model\Context;
+ use Magento\Customer\Model\Customer;
++use Magento\Customer\Model\Data\Customer as CustomerData;
+ use Magento\Customer\Model\Visitor;
+ use Magento\Eav\Model\ResourceModel\Entity\Attribute\Collection;
+ use Magento\Framework\App\Helper\AbstractHelper;
+@@ -314,7 +315,10 @@ class PrepareInformation extends AbstractHelper
+      * @return string
+      * @throws LocalizedException
+      */
+-    protected function getCustomerGroup(Customer $customer): string
++    // PATCH BEGIN
++    // protected function getCustomerGroup(Customer $customer): string
++    protected function getCustomerGroup(Customer|CustomerData $customer): string
++    // PATCH END
+     {
+         $customerGroupId = $customer->getGroupId();
+         $groups = $this->groupInterface->getLoggedInGroups();
+--
+2.50.1 (Apple Git-155)
