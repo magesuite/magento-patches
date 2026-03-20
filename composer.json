@@ -2945,6 +2945,11 @@
                     "description": "Optimize Uptain BasicInformation: replace N+1 category queries with batch loading",
                     "filename": "essential/uptain/module-uptain-connect/module-uptain-connect.patch",
                     "version-constraint": ">=2.0.25"
+                },
+                {
+                    "description": "Allowing int type in formatNmber() method",
+                    "filename": "essential/uptain/module-uptain-connect/allowing-int-type-in-format-number-method.patch",
+                    "version-constraint": ">=2.0.25"
                 }
             ],
             "ratenkaufbyeasycredit/module-core": [
