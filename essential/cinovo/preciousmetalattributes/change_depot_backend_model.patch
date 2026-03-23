@@ -1,0 +1,19 @@
+diff --git a/Setup/Patch/Data/AddCommodityAttributesPatch.php b/Setup/Patch/Data/AddCommodityAttributesPatch.php
+index 058754d..9a3af34 100644
+--- a/Setup/Patch/Data/AddCommodityAttributesPatch.php
++++ b/Setup/Patch/Data/AddCommodityAttributesPatch.php
+@@ -574,8 +574,12 @@ class AddCommodityAttributesPatch implements DataPatchInterface, PatchVersionInt
+             $attributeGroup,
+             [
+                 'type' => 'varchar',
+-                'input' => 'boolean',
+-                'backend' => self::BOOLEAN_CLASS,
++                // BEGIN PATCH
++                // 'input' => 'boolean',
++                // changing an input type is less risky in terms of migration than changing an actual type for 'int' and migration of data
++                'input' => 'text',
++                // 'backend' => self::BOOLEAN_CLASS,
++                // END PATCH
+                 'frontend' => '',
+                 'label' => 'Is available for Customer Depot',
+                 'class' => '',

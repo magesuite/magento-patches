@@ -3730,6 +3730,13 @@
                     "version-constraint": ">=2.5.6"
                 }
             ],
+            "cinovo/preciousmetalattributes": [
+                {
+                    "description": "Change backend model of pm_available_for_customer_depot_tax.",
+                    "filename": "essential/cinovo/preciousmetalattributes/change_depot_backend_model.patch",
+                    "version-constraint": ">=2.1.9"
+                }
+            ],
             "magepal/magento2-reindex": [
                 {
                     "description": "PHP 8.4 compatibility.",
