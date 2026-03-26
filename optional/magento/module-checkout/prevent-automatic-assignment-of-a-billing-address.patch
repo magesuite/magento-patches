@@ -1,0 +1,16 @@
+diff --git a/Model/PaymentInformationManagement.php b/Model/PaymentInformationManagement.php
+index fd9b415..a1c404f 100644
+--- a/Model/PaymentInformationManagement.php
++++ b/Model/PaymentInformationManagement.php
+@@ -303,7 +303,10 @@ class PaymentInformationManagement implements \Magento\Checkout\Api\PaymentInfor
+             //Make provided address as default shipping address
+             $shippingAddressData->setIsDefaultShipping(true);
+             if (!$hasDefaultBilling && !$billingAddress->getSaveInAddressBook()) {
+-                $shippingAddressData->setIsDefaultBilling(true);
++                // BEGIN PATCH
++                // feat: [PROS-130] Prevent automatic assignment of a billing address
++                // $shippingAddressData->setIsDefaultBilling(true);
++                // END PATCH
+             }
+         }
+     }
