@@ -3122,6 +3122,11 @@
                     "description": "Fix the problem with negative adjustments and batch processing of refunds.",
                     "filename": "essential/mollie/magento2/fix-mollie-batch-refund-RKL-929.patch",
                     "version-constraint": ">=2.48.0,<2.49.0"
+                },
+                {
+                    "description": "Fix for double cancelation",
+                    "filename": "essential/mollie/magento2/fix-for-double-cancelation.patch",
+                    "version-constraint": ">=2.50.0"
                 }
             ],
             "magento/module-multiple-wishlist": [
