@@ -3303,7 +3303,7 @@
                 {
                     "description": "Use db connection as default for queue consumers",
                     "filename": "essential/adyen/module-payment/use-db-as-default-connection-in-queues.patch",
-                    "version-constraint": ">=10.6.0"
+                    "version-constraint": ">=10.6.0,<10.10.0"
                 }
             ],
             "firegento/fastsimpleimport": [
