@@ -742,6 +742,13 @@
                 "version-constraint": ">=2.3.0,<2.6.0"
             }
         ],
+        "amasty/coupons": [
+          {
+            "description": "Fix for case sensitivity of coupon codes",
+            "filename": "vendor/creativestyle/magento-patches/optional/amasty/coupons/fix-coupon-case-sensitivity.patch",
+            "version-constraint": "*"
+          }
+        ],
         "amasty/module-xcoupon": [
             {
                 "description": "Fix for adding the same coupon twice in the cart (HAAR-1333)",

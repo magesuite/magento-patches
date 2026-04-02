@@ -1,0 +1,43 @@
+diff --git a/Model/SalesRule/CouponListProvider.php b/Model/SalesRule/CouponListProvider.php
+index c7f81f6..e750bc0 100644
+--- a/Model/SalesRule/CouponListProvider.php
++++ b/Model/SalesRule/CouponListProvider.php
+@@ -66,8 +66,19 @@ class CouponListProvider
+      */
+     private function loadItemsByCodes(array $coupons): void
+     {
++        //BEGIN PATCH
++        /*
+         $collection = $this->collectionFactory->create()
+             ->addFieldToFilter(\Magento\SalesRule\Model\Coupon::KEY_CODE, ['in' => $coupons]);
++        */
++
++        $collection = $this->collectionFactory->create();
++        $normalizedCoupons = array_values(array_unique(array_map('strtolower',$coupons)));
++
++        if (!empty($normalizedCoupons)) {
++            $collection->getSelect()->where('LOWER(main_table.code) IN (?)', $normalizedCoupons);
++        }
++        //END PATCH
+ 
+         foreach ($coupons as $code) {
+             $this->registry->register($code, null);
+diff --git a/Model/SalesRule/FilterCoupons.php b/Model/SalesRule/FilterCoupons.php
+index a63d77e..1516d34 100644
+--- a/Model/SalesRule/FilterCoupons.php
++++ b/Model/SalesRule/FilterCoupons.php
+@@ -182,7 +182,13 @@ class FilterCoupons
+             $validCoupons = $this->changeCouponsCase->execute($validCoupons, $coupons);
+         }
+ 
+-        $invalidCoupons = array_diff($coupons, $validCoupons);
++        //BEGIN PATCH
++        $normalizedCoupons = array_map('strtolower', $coupons);
++        $normalizedValid   = array_map('strtolower', $validCoupons);
++
++        $invalidCoupons = array_intersect_key($coupons, array_diff($normalizedCoupons, $normalizedValid));
++        //$invalidCoupons = array_diff($coupons, $validCoupons);
++        //END PATCH
+ 
+         if ($invalidCoupons) {
+             $this->couponsStorage->addInvalidCoupons($invalidCoupons);
