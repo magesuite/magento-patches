@@ -1090,6 +1090,13 @@
                 "version-constraint": ">=2.1.29"
             }
         ],
+      "wallee/sdk": [
+            {
+                "description": "Increase Api Client Timeout to 60 seconds",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/sdk/increase_api_client_timeout.patch",
+                "version-constraint": ">=4.8.1"
+            }
+        ],
         "aheadworks/module-advanced-reports": [
           {
             "description": "Change of Order Date format on 'Sales Detailed' grid from 'Aug 4, 2023 1:09:22 PM' format to '2023-08-04 13:09:22' format according to [HAKA-1830].",
