@@ -1,0 +1,13 @@
+diff --git a/lib/ApiClient.php b/lib/ApiClient.php
+index fdafe36..8b8813c 100755
+--- a/lib/ApiClient.php
++++ b/lib/ApiClient.php
+@@ -79,7 +79,7 @@ final class ApiClient {
+      *
+      * @var integer
+      */
+-    const INITIAL_CONNECTION_TIMEOUT = 25;
++    const INITIAL_CONNECTION_TIMEOUT = 60;
+ 
+     /**
+ 	 * The connection timeout in seconds.
