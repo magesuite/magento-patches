@@ -1141,7 +1141,12 @@
             {
               "description": "Remove PayPal Braintree plugin, when module is removed from project.",
               "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/remove_paypal_plugin_fix.patch",
-              "version-constraint": "^1.8.6"
+              "version-constraint": ">=1.8.6, <1.10.0"
+            },
+            {
+              "description": "Remove PayPal Braintree plugin, when module is removed from project. (ver. >=1.10.0)",
+              "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-giftcard/remove_paypal_plugin_fix_v1_10.patch",
+              "version-constraint": ">=1.10.0"
             }
         ],
         "aheadworks/module-customer-group-catalog-permissions": [
