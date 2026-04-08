@@ -3757,6 +3757,13 @@
                     "version-constraint": ">=2.1.9"
                 }
             ],
+            "cinovo/shipping": [
+                {
+                    "description": "Remove newline from a message.",
+                    "filename": "essential/cinovo/shipping/remove-newline-from-a-message.patch",
+                    "version-constraint": ">=2.4.10"
+                }
+            ],
             "magepal/magento2-reindex": [
                 {
                     "description": "PHP 8.4 compatibility.",

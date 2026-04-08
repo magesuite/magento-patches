@@ -1,0 +1,16 @@
+diff --git a/Helper/MaximumOrderValueHelper.php b/Helper/MaximumOrderValueHelper.php
+index 0d22f88..bd554f0 100644
+--- a/Helper/MaximumOrderValueHelper.php
++++ b/Helper/MaximumOrderValueHelper.php
+@@ -90,8 +90,9 @@ class MaximumOrderValueHelper extends AbstractHelper
+             );
+             $this->manager->addNoticeMessage(
+                 __(
+-                    "Your order total exceed our limit for online transactions (%1 %2).
+-                For more Information please contact us.",
++                    // BEGIN PATCH - remove newline from a message
++                    "Your order total exceed our limit for online transactions (%1 %2). For more Information please contact us.",
++                    // END PATCH
+                     $maxOrderValue,
+                     $baseCurrency
+                 )
