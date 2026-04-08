@@ -1,0 +1,14 @@
+diff --git a/pub/index.php b/pub/index.php
+index 6ff357b..114f89b 100644
+--- a/pub/index.php
++++ b/pub/index.php
+@@ -84,6 +84,9 @@ class OOMDebugger
+ $debugger = new OOMDebugger(getcwd().'/../var/report');
+ 
+ use Magento\Framework\App\Bootstrap;
++if (preg_match('/(navigation|estimate-shipping-methods|totals-information)/', $_SERVER['REQUEST_URI']??'')) {
++    define('SESSION_READ_ONLY', TRUE);
++}
+ 
+ try {
+     require __DIR__ . '/../app/bootstrap.php';

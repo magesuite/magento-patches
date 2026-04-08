@@ -1,0 +1,13 @@
+diff --git a/Session/SaveHandler/Redis.php b/Session/SaveHandler/Redis.php
+index 58f256e..ebc0769 100644
+--- a/Session/SaveHandler/Redis.php
++++ b/Session/SaveHandler/Redis.php
+@@ -46,7 +46,7 @@ class Redis implements \SessionHandlerInterface
+         $pid = getmypid();
+         if (!isset($this->connection[$pid])) {
+             try {
+-                $this->connection[$pid] = new \Cm\RedisSession\Handler($this->config, $this->logger);
++                $this->connection[$pid] = new \Cm\RedisSession\Handler($this->config, $this->logger, defined('SESSION_READ_ONLY'));
+             } catch (ConnectionFailedException $e) {
+                 throw new SessionException(new Phrase($e->getMessage()));
+             }

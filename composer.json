@@ -230,6 +230,11 @@
                     "description": "Change default charset to utf8mb4 after updating to Magento 2.4.8",
                     "filename": "essential/magento/framework/change-default-charset-to-utf8mb4.patch",
                     "version-constraint": ">=103.0.8"
+                },
+                {
+                    "description": "Add session readonly flag to prevent session locking issues",
+                    "filename": "essential/magento/framework/add-session-readonly-flag.patch",
+                    "version-constraint": ">=103.0.8"
                 }
             ],
             "magento/module-asynchronous-operations": [
@@ -871,6 +876,11 @@
                     "description": "Fix datepicker position",
                     "filename": "essential/magento/magento2-base/m248-fix-datepicker-position.patch",
                     "version-constraint": ">=2.4.8, <2.4.9"
+                },
+                {
+                    "description": "Add session read only flag to prevent session locking issues on high load environments",
+                    "filename": "essential/magento/magento2-base/add-session-read-only-flag.patch",
+                    "version-constraint": ">=2.4.8"
                 }
             ],
             "magento/module-search": [
