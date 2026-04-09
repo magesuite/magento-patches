@@ -1,0 +1,28 @@
+JIRA Ticket: IPET-3585
+Magento commit: https://github.com/magento/magento2/commit/8bd0907 (ACP2E-2923 regression)
+
+Fixes order placement failing when a logged-in customer adds a new shipping address in
+checkout. Introduced in Magento 2.4.8 (ACP2E-2923), stale customer_address_id was not
+cleared during estimate-shipping-methods, causing AddressComparator to produce a false
+positive and block setCustomerAddressId(null) in saveAddressInformation.
+
+diff --git a/Model/ShippingMethodManagement.php b/Model/ShippingMethodManagement.php
+index eb9ccb4..dc98cfb 100644
+--- a/Model/ShippingMethodManagement.php
++++ b/Model/ShippingMethodManagement.php
+@@ -330,7 +330,14 @@ class ShippingMethodManagement implements
+     {
+         $output = [];
+         $shippingAddress = $quote->getShippingAddress();
+-        $shippingAddress->addData($this->extractAddressData($address));
++        // BEGIN PATCH
++        // $shippingAddress->addData($this->extractAddressData($address));
++        $extractedData = $this->extractAddressData($address);
++        if (empty($extractedData['customer_address_id'])) {
++            $shippingAddress->setCustomerAddressId(null);
++        }
++        $shippingAddress->addData($extractedData);
++        // END PATCH
+         $shippingAddress->setCollectShippingRates(true);
+
+         $this->totalsCollector->collectAddressTotals($quote, $shippingAddress);

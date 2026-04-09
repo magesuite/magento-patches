@@ -598,6 +598,11 @@
                 "description": "Fix the error with mysql Integrity constraint violation for quote_item_option table",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-quote/fix-error-with-quote-item-option-constraint-DOG-1931.patch",
                 "version-constraint": ">=101.2.7-p1"
+            },
+            {
+                "description": "Fix stale customer_address_id blocking order placement with new address in checkout (ACP2E-2923 regression, Mirasvit Rewards compatibility)",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-quote/m248-fix-stale-customer-address-id-in-checkout.patch",
+                "version-constraint": ">=101.2.8"
             }
         ],
         "magento/module-sales": [
