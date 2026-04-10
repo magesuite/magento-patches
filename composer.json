@@ -3761,7 +3761,7 @@
                 {
                     "description": "Remove newline from a message.",
                     "filename": "essential/cinovo/shipping/remove-newline-from-a-message.patch",
-                    "version-constraint": ">=2.4.10"
+                    "version-constraint": ">=2.4.10, <2.4.13"
                 }
             ],
             "magepal/magento2-reindex": [
