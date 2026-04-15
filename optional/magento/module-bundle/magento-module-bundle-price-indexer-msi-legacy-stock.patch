@@ -1,0 +1,328 @@
+diff --git a/Model/ResourceModel/Indexer/Price.php b/Model/ResourceModel/Indexer/Price.php
+index e62f901..33ebdae 100644
+--- a/Model/ResourceModel/Indexer/Price.php
++++ b/Model/ResourceModel/Indexer/Price.php
+@@ -106,6 +106,28 @@ class Price implements DimensionalIndexerInterface
+      */
+     private $tmpBundleOptionTable;
+
++    // PATCH START
++    /**
++     * @var \Magento\InventoryIndexer\Model\StockIndexTableNameResolverInterface
++     */
++    private $stockIndexTableNameResolver;
++
++    /**
++     * @var \Magento\InventorySalesApi\Model\GetAssignedStockIdForWebsiteInterface
++     */
++    private $getAssignedStockIdForWebsite;
++
++    /**
++     * @var \Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface
++     */
++    private $defaultStockProvider;
++
++    /**
++     * @var \Magento\Store\Api\WebsiteRepositoryInterface
++     */
++    private $websiteRepository;
++    // PATCH END
++
+     /**
+      * @param IndexTableStructureFactory $indexTableStructureFactory
+      * @param TableMaintainer $tableMaintainer
+@@ -115,6 +137,10 @@ class Price implements DimensionalIndexerInterface
+      * @param JoinAttributeProcessor $joinAttributeProcessor
+      * @param \Magento\Framework\Event\ManagerInterface $eventManager
+      * @param \Magento\Framework\Module\Manager $moduleManager
++     * @param \Magento\InventoryIndexer\Model\StockIndexTableNameResolverInterface $stockIndexTableNameResolver
++     * @param \Magento\InventorySalesApi\Model\GetAssignedStockIdForWebsiteInterface $getAssignedStockIdForWebsite
++     * @param \Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface $defaultStockProvider
++     * @param \Magento\Store\Api\WebsiteRepositoryInterface $websiteRepository
+      * @param bool $fullReindexAction
+      * @param string $connectionName
+      *
+@@ -129,6 +155,10 @@ class Price implements DimensionalIndexerInterface
+         JoinAttributeProcessor $joinAttributeProcessor,
+         \Magento\Framework\Event\ManagerInterface $eventManager,
+         \Magento\Framework\Module\Manager $moduleManager,
++        \Magento\InventoryIndexer\Model\StockIndexTableNameResolverInterface $stockIndexTableNameResolver,
++        \Magento\InventorySalesApi\Model\GetAssignedStockIdForWebsiteInterface $getAssignedStockIdForWebsite,
++        \Magento\InventoryCatalogApi\Api\DefaultStockProviderInterface $defaultStockProvider,
++        \Magento\Store\Api\WebsiteRepositoryInterface $websiteRepository,
+         $fullReindexAction = false,
+         $connectionName = 'indexer'
+     ) {
+@@ -142,16 +172,21 @@ class Price implements DimensionalIndexerInterface
+         $this->joinAttributeProcessor = $joinAttributeProcessor;
+         $this->eventManager = $eventManager;
+         $this->moduleManager = $moduleManager;
++        // PATCH START
++        $this->stockIndexTableNameResolver = $stockIndexTableNameResolver;
++        $this->getAssignedStockIdForWebsite = $getAssignedStockIdForWebsite;
++        $this->defaultStockProvider = $defaultStockProvider;
++        $this->websiteRepository = $websiteRepository;
++        // PATCH END
+     }
+
+-    /**
+-     * @inheritdoc
+-     * @param array $dimensions
+-     * @param \Traversable $entityIds
+-     * @throws \Exception
+-     */
+     public function executeByDimensions(array $dimensions, \Traversable $entityIds)
+     {
++        // PATCH START
++        $entityIdList = iterator_to_array($entityIds);
++        $this->synchronizeBundleSelectionLegacyStockStatusFromMsi($dimensions, $entityIdList);
++        // PATCH END
++
+         $this->tableMaintainer->createMainTmpTable($dimensions);
+
+         $temporaryPriceTable = $this->indexTableStructureFactory->create(
+@@ -169,27 +204,25 @@ class Price implements DimensionalIndexerInterface
+             ]
+         );
+
+-        $entityIds = iterator_to_array($entityIds);
+-
+-        $this->prepareTierPriceIndex($dimensions, $entityIds);
++        $this->prepareTierPriceIndex($dimensions, $entityIdList);
+
+         $this->prepareBundlePriceTable();
+
+         $this->prepareBundlePriceByType(
+             \Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED,
+             $dimensions,
+-            $entityIds
++            $entityIdList
+         );
+
+         $this->prepareBundlePriceByType(
+             \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC,
+             $dimensions,
+-            $entityIds
++            $entityIdList
+         );
+
+         $this->calculateBundleOptionPrice($temporaryPriceTable, $dimensions);
+
+-        $this->basePriceModifier->modifyPrice($temporaryPriceTable, $entityIds);
++        $this->basePriceModifier->modifyPrice($temporaryPriceTable, $entityIdList);
+     }
+
+     /**
+@@ -709,12 +742,16 @@ class Price implements DimensionalIndexerInterface
+                 'tier_price' => $tierExpr,
+             ]
+         );
+-        $select->join(
+-            ['si' => $this->getTable('cataloginventory_stock_status')],
+-            'si.product_id = bs.product_id',
+-            []
+-        );
+-        $select->where('si.stock_status = ?', Stock::STOCK_IN_STOCK);
++        // PATCH START
++        // $select->join(
++        //    ['si' => $this->getTable('cataloginventory_stock_status')],
++        //    'si.product_id = bs.product_id',
++        //    []
++        // );
++        // $select->where('si.stock_status = ?', Stock::STOCK_IN_STOCK);
++        $this->applyDynamicBundleSelectionStockSalabilityFilter($select, $dimensions);
++        // PATCH END
++
+         $query = str_replace('AS `idx`', 'AS `idx` USE INDEX (PRIMARY)', (string) $select);
+         $insertColumns = [
+             'entity_id',
+@@ -743,6 +780,162 @@ class Price implements DimensionalIndexerInterface
+         ));
+     }
+
++    // PATCH START
++    protected function applyDynamicBundleSelectionStockSalabilityFilter(Select $select, array $dimensions): void
++    {
++        $assignedStockId = $this->resolveWebsiteAssignedStockIdFromDimensions($dimensions);
++        if ($assignedStockId === null) {
++            try {
++                $mapped = $this->getAssignedStockIdForWebsite->execute($this->websiteRepository->getDefault()->getCode());
++                if ($mapped !== null) {
++                    $assignedStockId = (int)$mapped;
++                }
++            } catch (\Exception $e) {
++                $assignedStockId = null;
++            }
++        }
++        if ($assignedStockId === null) {
++            $assignedStockId = (int)$this->defaultStockProvider->getId();
++        }
++        $this->applySalabilityFilterForStockId($select, $assignedStockId);
++    }
++
++    private function resolveWebsiteAssignedStockIdFromDimensions(array $dimensions): ?int
++    {
++        foreach ($dimensions as $dimension) {
++            if ($dimension->getName() !== WebsiteDimensionProvider::DIMENSION_NAME || !$dimension->getValue()) {
++                continue;
++            }
++            $websiteId = (int)$dimension->getValue();
++            try {
++                $website = $this->websiteRepository->getById($websiteId);
++                $stockId = $this->getAssignedStockIdForWebsite->execute($website->getCode());
++            } catch (\Exception $e) {
++                return null;
++            }
++
++            return $stockId;
++        }
++
++        return null;
++    }
++
++    protected function applySalabilityFilterForStockId(Select $select, int $stockId): void
++    {
++        if ($stockId === (int)$this->defaultStockProvider->getId()) {
++            $joinConditions = [
++                'dyn_bundle_stock_si.product_id = bs.product_id',
++                'dyn_bundle_stock_si.website_id = i.website_id',
++                'dyn_bundle_stock_si.stock_id = ' . $stockId,
++            ];
++            $select->join(
++                ['dyn_bundle_stock_si' => $this->getTable('cataloginventory_stock_status')],
++                implode(' AND ', $joinConditions),
++                []
++            )->where('dyn_bundle_stock_si.stock_status = ?', Stock::STOCK_IN_STOCK);
++
++            return;
++        }
++
++        $msiTable = $this->stockIndexTableNameResolver->execute($stockId);
++
++        $select->join(
++            ['selection_child_cpe' => $this->getTable('catalog_product_entity')],
++            'selection_child_cpe.entity_id = bs.product_id',
++            []
++        )->join(
++            ['msi_stock' => $msiTable],
++            'msi_stock.sku = selection_child_cpe.sku',
++            []
++        )->where('msi_stock.is_salable = ?', 1);
++    }
++
++    protected function synchronizeBundleSelectionLegacyStockStatusFromMsi(array $dimensions, array $parentEntityIds): void
++    {
++        $connection = $this->resource->getConnection();
++        $processedStockIds = [];
++        foreach ($this->resolveWebsiteIdsForBundleStockSync($dimensions) as $websiteId) {
++            try {
++                $website = $this->websiteRepository->getById($websiteId);
++                $stockId = $this->getAssignedStockIdForWebsite->execute($website->getCode());
++            } catch (\Exception $e) {
++                continue;
++            }
++
++            if ($stockId === null || $stockId == $this->defaultStockProvider->getId()) {
++                continue;
++            }
++
++            if (isset($processedStockIds[$stockId])) {
++                continue;
++            }
++
++            $msiTable = $this->stockIndexTableNameResolver->execute($stockId);
++
++            $processedStockIds[$stockId] = true;
++            $this->applyBundleChildLegacyStockAggregateUpdateFromMsi($connection, $msiTable, $parentEntityIds);
++        }
++    }
++
++    protected function applyBundleChildLegacyStockAggregateUpdateFromMsi(
++        \Magento\Framework\DB\Adapter\AdapterInterface $connection,
++        string $msiIndexTable,
++        array $parentEntityIds
++    ): void {
++        $metadata = $this->metadataPool->getMetadata(ProductInterface::class);
++        $linkField = $metadata->getLinkField();
++
++        $productTable = $this->resource->getTableName('catalog_product_entity');
++        $bundleSelectionTable = $this->resource->getTableName('catalog_product_bundle_selection');
++        $stockStatusTable = $this->resource->getTableName('cataloginventory_stock_status');
++
++        $subSelect = $connection->select()
++            ->from(['msi' => $msiIndexTable], [])
++            ->join(
++                ['cpe' => $productTable],
++                'cpe.sku = msi.sku',
++                []
++            )
++            ->join(
++                ['bsel' => $bundleSelectionTable],
++                'bsel.product_id = cpe.entity_id',
++                []
++            )
++            ->join(
++                ['parent' => $productTable],
++                'parent.' . $linkField . ' = bsel.parent_product_id AND parent.type_id = ' . $connection->quote(
++                    \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
++                ),
++                []
++            );
++
++        if ($parentEntityIds !== []) {
++            $subSelect->where('parent.entity_id IN (?)', $parentEntityIds);
++        }
++
++        $subSelect->columns(
++            [
++                'product_id' => 'cpe.entity_id',
++                'stock_status' => new \Zend_Db_Expr('MAX(msi.is_salable)'),
++                'qty' => new \Zend_Db_Expr('MAX(msi.quantity)'),
++            ]
++        )->group('cpe.entity_id');
++
++        $updateSelect = $connection->select()
++            ->joinInner(
++                ['sync' => $subSelect],
++                'sync.product_id = css.product_id',
++                []
++            )->columns(
++                ['stock_status', 'qty'],
++                'sync'
++            );
++
++        $query = $updateSelect->crossUpdateFromSelect(['css' => $stockStatusTable]);
++        $connection->query($query);
++    }
++    // PATCH END
++
+     /**
+      * Prepare percentage tier price for bundle products
+      *
+@@ -903,6 +1096,24 @@ class Price implements DimensionalIndexerInterface
+         $connection->query($query);
+     }
+
++    protected function resolveWebsiteIdsForBundleStockSync(array $dimensions): array
++    {
++        // PATCH START
++        foreach ($dimensions as $dimension) {
++            if ($dimension->getName() === WebsiteDimensionProvider::DIMENSION_NAME && $dimension->getValue()) {
++                return [(int)$dimension->getValue()];
++            }
++        }
++
++        return array_map(
++            static function ($website) {
++                return (int)$website->getId();
++            },
++            $this->websiteRepository->getList()
++        );
++        // PATCH END
++    }
++
+     /**
+      * Get main table
+      *
+--
+2.50.1 (Apple Git-155)

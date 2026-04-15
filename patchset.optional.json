@@ -505,6 +505,11 @@
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/m24-options-price-render-remove-quatnity-filter.patch",
                 "version-constraint": ">=101.0.3"
 
+            },
+            {
+                "description": "Dynamic bundle price indexer: salability from MSI materialized stock index (website’s stock, incl. default); legacy cataloginventory_stock_status only as fallback if MSI table missing",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-bundle/magento-module-bundle-price-indexer-msi-legacy-stock.patch",
+                "version-constraint": ">=101.0.8"
             }
         ],
         "magento/module-customer": [
