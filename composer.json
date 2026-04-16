@@ -3798,6 +3798,13 @@
                     "filename": "essential/mautic/api-library/fix-incompatible-method.patch",
                     "version-constraint": ">=3.1.0"
                 }
+            ],
+            "webkul/module-marketplace":  [
+                {
+                    "description": "Change ES class namespace to version 8",
+                    "filename": "essential/webkul/module-marketplace/change-es-class-namespace.patch",
+                    "version-constraint": ">=5.0.9"
+                }
             ]
         }
     }

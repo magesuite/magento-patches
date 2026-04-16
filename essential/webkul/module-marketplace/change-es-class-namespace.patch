@@ -1,0 +1,13 @@
+diff --git a/Plugin/Elasticsearch7/SearchAdapter/Adapter.php b/Plugin/Elasticsearch7/SearchAdapter/Adapter.php
+index a16bb4c..9ee0576 100644
+--- a/Plugin/Elasticsearch7/SearchAdapter/Adapter.php
++++ b/Plugin/Elasticsearch7/SearchAdapter/Adapter.php
+@@ -15,7 +15,7 @@ use Magento\Framework\Search\RequestInterface;
+ use Magento\Elasticsearch\SearchAdapter\Aggregation\Builder as AggregationBuilder;
+ use Magento\Elasticsearch\SearchAdapter\ConnectionManager;
+ use Magento\Elasticsearch\SearchAdapter\ResponseFactory;
+-use Magento\Elasticsearch7\SearchAdapter\Mapper;
++use Magento\Elasticsearch8\SearchAdapter\Mapper;
+ use Magento\Elasticsearch\SearchAdapter\QueryContainerFactory;
+ 
+ class Adapter
