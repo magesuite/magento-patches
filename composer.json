@@ -3804,11 +3804,6 @@
                     "description": "Change ES class namespace to version 8",
                     "filename": "essential/webkul/module-marketplace/change-es-class-namespace.patch",
                     "version-constraint": ">=5.0.9"
-                },
-                {
-                    "description": "Disable cacheable false blocks",
-                    "filename": "essential/webkul/module-marketplace/disable-cacheable-false-blocks.patch",
-                    "version-constraint": ">=5.0.9"
                 }
             ]
         }
