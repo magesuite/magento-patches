@@ -1,0 +1,18 @@
+diff --git a/view/frontend/layout/default.xml b/view/frontend/layout/default.xml
+index 5f03730..718aef6 100644
+--- a/view/frontend/layout/default.xml
++++ b/view/frontend/layout/default.xml
+@@ -43,11 +43,13 @@
+                 </arguments>
+             </block> -->
+         </referenceBlock>
++        <!-- PATCH START
+         <referenceContainer name="content">
+             <block class="Webkul\Marketplace\Block\PublishedNewsPopup" name="marketplace_account_adminnews_popup_default" template="Webkul_Marketplace::account/published_news_popup.phtml" cacheable="false" />
+         </referenceContainer>
+         <referenceContainer name="seller.content">
+             <block class="Webkul\Marketplace\Block\PublishedNewsPopup" name="marketplace_account_adminnews_popup" template="Webkul_Marketplace::account/published_news_popup.phtml" cacheable="false" />
+         </referenceContainer>
++        PATCH END -->
+     </body>
+ </page>
