@@ -1,0 +1,21 @@
+Disable patch due performance goes kuku for order grid
+
+diff --git a/etc/adminhtml/di.xml b/etc/adminhtml/di.xml
+index 029295a..5182f45 100755
+--- a/etc/adminhtml/di.xml
++++ b/etc/adminhtml/di.xml
+@@ -85,10 +85,12 @@
+     </type>
+
+     <!-- Sale order grid -->
++    <!-- PATCH START -->
+     <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+-        <plugin name="braintreeSalesOrderGrid" type="\PayPal\Braintree\Plugin\SalesOrderGridPlugin" />
++        <plugin name="braintreeSalesOrderGrid" type="\PayPal\Braintree\Plugin\SalesOrderGridPlugin" disabled="true"/>
+     </type>
+     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+-        <plugin name="braintreeSalesOrderExport" type="\PayPal\Braintree\Plugin\SalesOrderExportPlugin" />
++        <plugin name="braintreeSalesOrderExport" type="\PayPal\Braintree\Plugin\SalesOrderExportPlugin" disabled="true"/>
+     </type>
++    <!-- PATCH END -->
+ </config>
