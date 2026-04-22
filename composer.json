@@ -3160,6 +3160,13 @@
                     "version-constraint": ">1.2.1"
                 }
             ],
+            "magento/module-deploy": [
+                {
+                    "description": "Fix static content deploy exit code",
+                    "filename": "essential/magento/module-deploy/fix-static-content-deploy-exit-code.patch",
+                    "version-constraint": ">=100.4.7"
+                }
+            ],
             "mirasvit/module-affiliate": [
                 {
                     "description": "Add translations of hardcoded literals.",

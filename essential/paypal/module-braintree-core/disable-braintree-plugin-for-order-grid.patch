@@ -1,17 +1,18 @@
 Disable patch due performance for order grid
 
 diff --git a/etc/adminhtml/di.xml b/etc/adminhtml/di.xml
-index fb6bcfa..ca00535 100755
+index fb6bcfa..4da1a78 100755
 --- a/etc/adminhtml/di.xml
 +++ b/etc/adminhtml/di.xml
 @@ -85,7 +85,9 @@
      </type>
- 
+
      <!-- Sale order grid -->
 +    <!-- PATCH START -->
      <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
 -        <plugin name="braintreeSalesOrderGrid" type="\PayPal\Braintree\Plugin\SalesOrderGridPlugin" />
+-    </type>
 +        <plugin name="braintreeSalesOrderGrid" type="\PayPal\Braintree\Plugin\SalesOrderGridPlugin" disabled="true"/>
-     </type>
++    </type>
 +    <!-- PATCH END -->
  </config>

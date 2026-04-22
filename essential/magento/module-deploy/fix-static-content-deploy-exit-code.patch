@@ -1,0 +1,64 @@
+diff --git a/Process/Queue.php b/Process/Queue.php
+index 35d85c390b..fa25c566ab 100644
+--- a/Process/Queue.php
++++ b/Process/Queue.php
+@@ -381,7 +381,6 @@ class Queue
+                 // phpcs:ignore Magento2.Functions.DiscouragedFunction
+                 $result = pcntl_waitpid($pid, $status, WNOHANG);
+                 if ($result === $pid) {
+-                    $package->setState(Package::STATE_COMPLETED);
+                     // phpcs:ignore Magento2.Functions.DiscouragedFunction
+                     $exitStatus = pcntl_wexitstatus($status);
+ 
+@@ -394,8 +393,15 @@ class Queue
+                     );
+ 
+                     unset($this->inProgress[$package->getPath()]);
+-                    // phpcs:ignore Magento2.Functions.DiscouragedFunction
+-                    return pcntl_wexitstatus($status) === 0;
++                    if ($exitStatus !== 0) {
++                        throw new \RuntimeException(
++                            "Static content deploy child process failed for {$package->getPath()} "
++                            . "with exit status {$exitStatus}"
++                        );
++                    }
++
++                    $package->setState(Package::STATE_COMPLETED);
++                    return true;
+                 } elseif ($result === -1) {
+                     // phpcs:ignore Magento2.Functions.DiscouragedFunction
+                     $errno = pcntl_errno();
+diff --git a/Service/DeployPackage.php b/Service/DeployPackage.php
+index 727559eaa3..80986e5da7 100644
+--- a/Service/DeployPackage.php
++++ b/Service/DeployPackage.php
+@@ -152,6 +152,17 @@ class DeployPackage
+             }
+         }
+ 
++        if ($this->errorsCount > 0) {
++            throw new LocalizedException(
++                __(
++                    'Static content deployment for package "%1" completed with %2 error(s). '
++                    . 'See logs for details.',
++                    $package->getPath(),
++                    $this->errorsCount
++                )
++            );
++        }
++
+         // execute package post-processors (may adjust content of deployed files, or produce derivative files)
+         foreach ($package->getPostProcessors() as $processor) {
+             $processor->process($package, $options);
+diff --git a/Service/DeployTranslationsDictionary.php b/Service/DeployTranslationsDictionary.php
+index f58cf105e7..f1f8d2f00c 100644
+--- a/Service/DeployTranslationsDictionary.php
++++ b/Service/DeployTranslationsDictionary.php
+@@ -74,6 +74,7 @@ class DeployTranslationsDictionary
+             });
+         } catch (\Exception $e) {
+             $this->logger->error($e->getMessage());
++            throw $e;
+         }
+     }
+ }
