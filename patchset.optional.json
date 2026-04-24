@@ -678,6 +678,13 @@
                 "version-constraint": "*"
             }
         ],
+      "magento/module-theme": [
+        {
+          "description": "Cast page short heading to string",
+          "filename": "vendor/creativestyle/magento-patches/optional/magento/module-theme/cast-short-heading-to-string.patch",
+          "version-constraint": "*"
+        }
+      ],
         "makewebbetter/hubspot-magento-2-integration": [
             {
                 "description": "Use Laminas class instead of Zend",
