@@ -1,0 +1,54 @@
+diff --git a/Model/Feeds.php b/Model/Feeds.php
+index 825beca..2ea8257 100644
+--- a/Model/Feeds.php
++++ b/Model/Feeds.php
+@@ -724,9 +732,19 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+             $this->progressHelper->log('Total items calculated (' . $this->_counter . ' in ' . $loops . ' queries )', !$this->_isPreview);
+             $i = 1;
+             $output = '';
++            // PATCH BEGIN
++            $mainCollection->getSelect()->reset(\Magento\Framework\DB\Select::ORDER);
++            $mainCollection->getSelect()->order('e.entity_id ASC');
++            $lastProductId = 0;
++            // PATCH END
+             while ($currentLoop < $loops) {
+-                // limit the number of product in the result
+-                $mainCollection->setLimit($this->_sqlSize, $currentLoop);
++                // PATCH BEGIN
++                // keyset pagination: filter by entity_id > lastProductId instead of using OFFSET
++                if ($lastProductId > 0) {
++                    $mainCollection->getSelect()->where('e.entity_id > ?', $lastProductId);
++                }
++                $mainCollection->setLimit($this->_sqlSize, 0);
++                // PATCH END
+                 $mainCollection->clear();
+                 $currentLoop++;
+                 $limitTo = $this->_sqlSize * $currentLoop;
+@@ -734,8 +752,15 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+                     $limitTo = $this->_counter;
+                 }
+                 $this->progressHelper->log("Fetching products from " . ($this->_sqlSize * ($currentLoop - 1) + 1) . " to " . $limitTo . " - iteration #{$currentLoop}", !$this->_isPreview, progressHelper::PROCESSING, round(100 * $i / $this->_counter));
++                // PATCH BEGIN
++                $batchSeen = 0;
++                // PATCH END
+                 /* Product by product treatment */
+                 foreach ($mainCollection as $product) {
++                    // PATCH BEGIN
++                    $batchSeen++;
++                    $lastProductId = (int)$product->getEntityId();
++                    // PATCH END
+                     $this->attributesHelper->skip(false);
+                     /* Initial pattern */
+                     $productPattern = $this->template;
+@@ -822,6 +847,11 @@ class Feeds extends \Magento\Framework\Model\AbstractModel
+                     }
+                 }
+                 // for each product
++                // PATCH BEGIN
++                if ($batchSeen === 0) {
++                    break;
++                }
++                // PATCH END
+             }
+             // while
+             unset($mainCollection);
