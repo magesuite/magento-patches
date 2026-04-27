@@ -3051,6 +3051,11 @@
                     "description": "fix: [FZ-498] Use stock id for fetching reservations quantity",
                     "filename": "essential/wyomind/datafeedmanager/use-stock-id-for-fetching-reservations-quantity.patch",
                     "version-constraint": "14.0.10"
+                },
+                {
+                    "description": "[KRG-3415] optimize query by using keyset pagination instead of offset pagination",
+                    "filename": "essential/wyomind/datafeedmanager/use-keyset-pagination.patch",
+                    "version-constraint": ">=14.0.10"
                 }
             ],
             "wyomind/framework": [
