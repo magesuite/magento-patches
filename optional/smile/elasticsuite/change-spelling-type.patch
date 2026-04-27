@@ -1,0 +1,16 @@
+diff --git a/src/module-elasticsuite-core/Search/Request/Builder.php b/src/module-elasticsuite-core/Search/Request/Builder.php
+index c48d16c..1d8cf95 100644
+--- a/src/module-elasticsuite-core/Search/Request/Builder.php
++++ b/src/module-elasticsuite-core/Search/Request/Builder.php
+@@ -159,6 +159,11 @@ class Builder
+         $queryFilters = array_merge($queryFilters, $containerFilters, array_diff_key($filters, $facetFilters));
+
+         $spellingType = SpellcheckerInterface::SPELLING_TYPE_EXACT;
++        // BEGIN PATCH
++        if ((in_array($containerName, ['catalog_product_autocomplete', 'category_search_container']))) {
++            $spellingType = SpellcheckerInterface::SPELLING_TYPE_FUZZY;
++        }
++        // END PATCH
+
+         if ($query && is_string($query)) {
+             $spellingType = $this->getSpellingType($containerConfig, $query);
