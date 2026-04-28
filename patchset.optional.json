@@ -160,6 +160,13 @@
                 "version-constraint": ">=1.3.6"
             }
         ],
+        "stape/gtm-server-side-magento-module": [
+            {
+                "description": "Fix uncaught TypeError when Stape API returns unexpected response",
+                "filename": "vendor/creativestyle/magento-patches/optional/stape/gtm-server-side-magento-module/fix-typeerror-on-api-failure.patch",
+                "version-constraint": "*"
+            }
+        ],
         "smile/elasticsuite": [
             {
                 "description": "Fix adminSortIndex bug",
