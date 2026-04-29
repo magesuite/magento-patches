@@ -1,0 +1,17 @@
+diff --git a/Controller/Index/Add.php b/Controller/Index/Add.php
+index 18546d9..b91b92c 100644
+--- a/Controller/Index/Add.php
++++ b/Controller/Index/Add.php
+@@ -102,9 +102,11 @@ class Add extends \Magento\Wishlist\Controller\AbstractIndex implements HttpPost
+         /** @var Redirect $resultRedirect */
+         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+         $session = $this->_customerSession;
+-        $data = empty($session->getBeforeWishlistUrl())
++        // PATCH START
++        $data = empty($session->getBeforeRequestParams())
+             ? $this->getRequest()->getParams()
+             : $session->getBeforeRequestParams();
++        // PATCH END
+         if (!$this->formKeyValidator->validate($this->getRequest())) {
+             return $resultRedirect->setPath('*/');
+         }

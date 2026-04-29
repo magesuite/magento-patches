@@ -3822,6 +3822,13 @@
                     "filename": "essential/webkul/module-marketplace/change-es-class-namespace.patch",
                     "version-constraint": ">=5.0.9"
                 }
+            ],
+            "magento/module-wishlist":  [
+                {
+                    "description": "Fix adding to wishlist after login",
+                    "filename": "essential/magento/module-wishlist/fix-adding-to-wishlist.patch",
+                    "version-constraint": ">=101.2.7"
+                }
             ]
         }
     }
