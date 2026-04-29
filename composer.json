@@ -609,6 +609,11 @@
                     "description": "Remove invalid preference",
                     "filename": "essential/amasty/adminactionslog/magento_v2.4.8_invalid_preference_fix.patch",
                     "version-constraint": "2.5.0"
+                },
+                {
+                    "description": "Skip magento flag entry saving",
+                    "filename": "essential/amasty/adminactionslog/skip-magento-flag-entry-saving.patch",
+                    "version-constraint": ">=2.7.0"
                 }
             ],
             "amasty/base": [
