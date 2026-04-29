@@ -1,0 +1,23 @@
+diff --git a/Model/Api/Loader.php b/Model/Api/Loader.php
+--- a/Model/Api/Loader.php
++++ b/Model/Api/Loader.php
+@@ -157,11 +157,17 @@
+             ]);
+
+             if ($result->getStatus() !== 200) {
+-                throw new NotFoundException(__($response->getData('error/error')) ?? __('Could not generate GTM snippet'));
++                //BEGIN PATCH
++//                throw new NotFoundException(__($response->getData('error/error')) ?? __('Could not generate GTM snippet'));
++                throw new NotFoundException(__($response->getData('error/error') ?? 'Could not generate GTM snippet'));
++                //END PATCH
+             }
+
+             return $response->getData('body/jsCode');
+-        } catch (\Exception $e) {
++        //BEGIN PATCH
++//        } catch (\Exception $e) {
++        } catch (\Throwable $e) {
++        //END PATCH
+             $this->logger->debug(sprintf('[STAPE] Could not generate GTM snippet. Error: %s', $e->getMessage()));
+         }
+         return null;
