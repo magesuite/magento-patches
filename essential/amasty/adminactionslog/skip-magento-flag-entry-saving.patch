@@ -1,0 +1,18 @@
+diff --git a/Observer/HandleModelSaveAfter.php b/Observer/HandleModelSaveAfter.php
+index b2082b0..c4a8f0f 100644
+--- a/Observer/HandleModelSaveAfter.php
++++ b/Observer/HandleModelSaveAfter.php
+@@ -46,6 +46,13 @@ class HandleModelSaveAfter implements ObserverInterface
+     public function execute(\Magento\Framework\Event\Observer $observer)
+     {
+         $savedObject = $observer->getObject();
++
++        // PATCH START
++        if ($savedObject instanceof \Magento\Framework\Flag) {
++            return;
++        }
++        // PATCH END
++
+         $metadata = $this->metadataFactory->create([
+             'request' => $this->request,
+             'eventName' => MetadataInterface::EVENT_SAVE_AFTER,
