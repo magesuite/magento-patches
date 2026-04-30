@@ -237,11 +237,6 @@
                 "description": "Fix category position sorting",
                 "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/fix-category-position-sorting.patch",
                 "version-constraint": ">=2.11.14"
-            },
-            {
-                "description": "Change spelling type",
-                "filename": "vendor/creativestyle/magento-patches/optional/smile/elasticsuite/change-spelling-type.patch",
-                "version-constraint": ">=2.11.18"
             }
         ],
         "smile/module-elasticsuite-configurable-product": [
