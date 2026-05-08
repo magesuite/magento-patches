@@ -1,0 +1,18 @@
+diff --git a/Model/ResourceModel/Product/Collection.php b/Model/ResourceModel/Product/Collection.php
+index edd234b..d24670e 100644
+--- a/Model/ResourceModel/Product/Collection.php
++++ b/Model/ResourceModel/Product/Collection.php
+@@ -2362,7 +2362,10 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Collection\Abstrac
+             return $this;
+         }
+
+-        if (!$this->getSize()) {
++        // BEGIN PATCH
++        // if (!$this->getSize()) {
++        if (!$this->count()) {
++        // END PATCH
+             return $this;
+         }
+
+--
+2.50.1 (Apple Git-155)
