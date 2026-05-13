@@ -2391,6 +2391,13 @@
           "filename": "vendor/creativestyle/magento-patches/optional/meta/module-catalog/avoid-memory-consuming-catalog-update-HAAR-5203.patch",
           "version-constraint": ">=1.6.4"
         }
+      ],
+      "magento/module-integration": [
+        {
+          "description": "Strip store code from store_base_url sent to OAuth consumer endpoint so it does not depend on web/url/use_store",
+          "filename": "vendor/creativestyle/magento-patches/optional/magento/module-integration/oauth-service-strip-store-code-from-base-url.patch",
+          "version-constraint": "*"
+        }
       ]
     }
 }
