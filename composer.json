@@ -229,7 +229,7 @@
                 {
                     "description": "Change default charset to utf8mb4 after updating to Magento 2.4.8",
                     "filename": "essential/magento/framework/change-default-charset-to-utf8mb4.patch",
-                    "version-constraint": ">=103.0.8"
+                    "version-constraint": ">=103.0.8,<103.0.8-p5"
                 },
                 {
                     "description": "Add session readonly flag to prevent session locking issues",
