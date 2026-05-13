@@ -1,0 +1,6 @@
+diff --git a/Model/Queue/UpdateRenditions.php b/Model/Queue/UpdateRenditions.php
+--- a/Model/Queue/UpdateRenditions.php
++++ b/Model/Queue/UpdateRenditions.php
+@@ -19,1 +19,1 @@ class UpdateRenditions
+-    private const RENDITIONS_DIRECTORY_NAME = '.renditions';
++    private const RENDITIONS_DIRECTORY_NAME = '.renditions/';
