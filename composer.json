@@ -235,6 +235,11 @@
                     "description": "Add session readonly flag to prevent session locking issues",
                     "filename": "essential/magento/framework/add-session-readonly-flag.patch",
                     "version-constraint": ">=103.0.8"
+                },
+                {
+                    "description": "Handle missing metadata keys in the configuration",
+                    "filename": "essential/magento/framework/handle-missing-metadata-keys.patch",
+                    "version-constraint": ">=103.0.8"
                 }
             ],
             "magento/module-asynchronous-operations": [
