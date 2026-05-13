@@ -1,34 +1,13 @@
-This patch is fixing three issues:
+This patch is fixing two issues:
 - New customer account is created in the wrong store when it is created from a social network.
 - Website ID and Store ID are not set in customer entity which causing issues with 3rd party modules like Mailchimp.
-- Website ID and Store ID are null for Apple login: Apple uses response_mode=form_post which is a cross-site POST
-  from appleid.apple.com. Magento session cookies are SameSite=Lax so they are not sent with cross-site POST
-  requests, causing a new empty session and null store context in ApiCallParamsPersistor.
-Related tickets: IPET-2544, IPET-2641, NKD-6114
+Related tickets: IPET-2544, IPET-2641
 
 diff --git a/Controller/Account/Login.php b/Controller/Account/Login.php
 index 90cde2a..b50ac6e 100644
 --- a/Controller/Account/Login.php
 +++ b/Controller/Account/Login.php
-@@ -276,7 +276,17 @@ class Login extends \Magento\Framework\App\Action\Action
-         // Switch store.
-         if ($storeId = $this->apiCallParamsPersistor->get('store')) {
-             $this->storeManager->setCurrentStore($storeId);
-         }
-
-+        // BEGIN PATCH
-+        // Fallback for form_post providers (Apple) — SameSite=Lax loses session on cross-site POST
-+        if (!$this->apiCallParamsPersistor->get('current_website_id')) {
-+            $this->apiCallParamsPersistor->add('current_website_id', $this->storeManager->getStore()->getWebsiteId());
-+        }
-+        if (!$this->apiCallParamsPersistor->get('current_store_id')) {
-+            $this->apiCallParamsPersistor->add('current_store_id', $this->storeManager->getStore()->getId());
-+        }
-+        // END PATCH
-+
-         try {
-             $connector = $this->getNetworkConnector->execute($type);
-@@ -421,7 +431,10 @@ class Login extends \Magento\Framework\App\Action\Action
+@@ -421,7 +421,10 @@ class Login extends \Magento\Framework\App\Action\Action
                          $customer,
                          EmailNotificationInterface::NEW_ACCOUNT_EMAIL_REGISTERED,
                          '',
