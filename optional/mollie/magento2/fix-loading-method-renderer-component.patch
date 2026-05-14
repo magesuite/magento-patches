@@ -1,17 +1,8 @@
 diff --git a/view/frontend/web/js/view/payment/method-renderer.js b/view/frontend/web/js/view/payment/method-renderer.js
-index f969d6e..e6c3599 100644
+index 3e0d47a..5303271 100644
 --- a/view/frontend/web/js/view/payment/method-renderer.js
 +++ b/view/frontend/web/js/view/payment/method-renderer.js
-@@ -23,7 +23,7 @@ define(
-
-         var creditcardComponent = 'Mollie_Payment/js/view/payment/method-renderer/creditcard';
-         var checkoutConfig = window.checkoutConfig.payment.mollie;
--        if (checkoutConfig.profile_id && checkoutConfig.creditcard.use_components) {
-+        if (checkoutConfig && checkoutConfig.profile_id && checkoutConfig.creditcard.use_components) {
-             creditcardComponent = 'Mollie_Payment/js/view/payment/method-renderer/creditcard-with-components';
-         }
-
-@@ -80,7 +80,7 @@ define(
+@@ -82,7 +82,7 @@ define(
           */
          if (canUseApplePay()) {
              var applePayComponent = defaultComponent;
