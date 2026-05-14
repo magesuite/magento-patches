@@ -1,0 +1,19 @@
+diff --git a/Model/OauthService.php b/Model/OauthService.php
+--- a/Model/OauthService.php
++++ b/Model/OauthService.php
+@@ -228,7 +228,14 @@ class OauthService implements \Magento\Integration\Api\OauthServiceInterface
+             }
+             $consumerData = $consumer->getData();
+             $verifier = $this->_tokenFactory->create()->createVerifierToken($consumerId);
+-            $storeBaseUrl = $this->_storeManager->getStore()->getBaseUrl();
++            //BEGIN PATCH
++            $store = $this->_storeManager->getStore();
++            $storeBaseUrl = $store->getBaseUrl();
++            $storeCodeSuffix = $store->getCode() . '/';
++            if (str_ends_with($storeBaseUrl, '/' . $storeCodeSuffix)) {
++                $storeBaseUrl = substr($storeBaseUrl, 0, -strlen($storeCodeSuffix));
++            }
++            //END PATCH
+             $this->_httpClient->setUri($endpointUrl);
+             $this->_httpClient->setParameterPost(
+                 [
