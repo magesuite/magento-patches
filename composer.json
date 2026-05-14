@@ -3514,7 +3514,7 @@
             ],
             "plumrocket/module-psloginpro": [
                 {
-                    "description": "Setting proper storeId and websiteId during create new customer account from social network (IPET-2544, IPET-2641)",
+                    "description": "Setting proper storeId and websiteId during create new customer account from social network (IPET-2544, IPET-2641, NKD-6114)",
                     "filename": "essential/plumrocket/module-psloginpro/set-proper-store-and-website-ids-in-new-account.patch",
                     "version-constraint": ">=4.6.6"
                 },
@@ -3529,8 +3529,13 @@
                     "version-constraint": ">=4.6.6"
                 },
                 {
-                    "description": "Fix for missing customer data when customer account is created after login by Apple account (IPET-2941)",
-                    "filename": "essential/plumrocket/module-psloginpro/fix-for-missing-customer-data-after-login-with-apple.patch",
+                    "description": "Fix social login using wrong client_id in multi-store setups — switch to current_store_id before URL resolver so Account model reads the correct store-scoped application_id (NKD-6115)",
+                    "filename": "essential/plumrocket/module-psloginpro/fix-social-login-client-id-per-store-view.patch",
+                    "version-constraint": ">=4.6.6"
+                },
+                {
+                    "description": "Fix null scope_id when saving Apple .p8 key file — getScope() returns plural forms (stores/websites) but code compared against singular constants, always resolving to null on strict MySQL",
+                    "filename": "essential/plumrocket/module-psloginpro/fix-apple-key-null-scope-id.patch",
                     "version-constraint": ">=4.6.6"
                 }
             ],

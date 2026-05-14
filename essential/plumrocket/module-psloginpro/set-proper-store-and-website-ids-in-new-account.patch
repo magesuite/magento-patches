@@ -1,13 +1,32 @@
-This patch is fixing two issues:
+This patch is fixing three issues:
 - New customer account is created in the wrong store when it is created from a social network.
 - Website ID and Store ID are not set in customer entity which causing issues with 3rd party modules like Mailchimp.
-Related tickets: IPET-2544, IPET-2641
+- Website ID and Store ID are null for Apple login: Apple uses response_mode=form_post which is a cross-site POST
+  from appleid.apple.com. Magento session cookies are SameSite=Lax so they are not sent with cross-site POST
+  requests, causing a new empty session and null store context in ApiCallParamsPersistor.
+Related tickets: IPET-2544, IPET-2641, NKD-6114
 
 diff --git a/Controller/Account/Login.php b/Controller/Account/Login.php
-index 90cde2a..b50ac6e 100644
+index 79970d7..878e4fd 100644
 --- a/Controller/Account/Login.php
 +++ b/Controller/Account/Login.php
-@@ -421,7 +421,10 @@ class Login extends \Magento\Framework\App\Action\Action
+@@ -288,6 +288,15 @@ class Login extends \Magento\Framework\App\Action\Action
+         if ($storeId = $this->apiCallParamsPersistor->get('store')) {
+             $this->storeManager->setCurrentStore($storeId);
+         }
++        // BEGIN PATCH
++        // Fallback for form_post providers (Apple) — SameSite=Lax loses session on cross-site POST
++        if (!$this->apiCallParamsPersistor->get('current_website_id')) {
++            $this->apiCallParamsPersistor->add('current_website_id', $this->storeManager->getStore()->getWebsiteId());
++        }
++        if (!$this->apiCallParamsPersistor->get('current_store_id')) {
++            $this->apiCallParamsPersistor->add('current_store_id', $this->storeManager->getStore()->getId());
++        }
++        // END PATCH
+ 
+         try {
+             $connector = $this->getNetworkConnector->execute($type);
+@@ -429,7 +438,10 @@ class Login extends \Magento\Framework\App\Action\Action
                          $customer,
                          EmailNotificationInterface::NEW_ACCOUNT_EMAIL_REGISTERED,
                          '',
@@ -18,7 +37,7 @@ index 90cde2a..b50ac6e 100644
 +                        // END PATCH
                      );
                  }
-
+ 
 diff --git a/Controller/Account/Register.php b/Controller/Account/Register.php
 index ca0bb20..3262fd1 100644
 --- a/Controller/Account/Register.php
@@ -34,14 +53,14 @@ index ca0bb20..3262fd1 100644
 +                    // END PATCH
                  );
              }
-
+ 
 diff --git a/Controller/Modal/InitOauth.php b/Controller/Modal/InitOauth.php
 index fef6be1..c900cde 100644
 --- a/Controller/Modal/InitOauth.php
 +++ b/Controller/Modal/InitOauth.php
 @@ -168,6 +168,11 @@ class InitOauth implements ActionInterface
          $redirectResult = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
-
+ 
          try {
 +            // BEGIN PATCH
 +            $this->apiCallParamsPersistor->add('current_website_id', $this->request->getParam('current_website_id'));
@@ -52,13 +71,13 @@ index fef6be1..c900cde 100644
              $this->apiCallParamsPersistor->add('referer_url', $this->lastViewedPageProvider->getUrl());
              $this->apiCallParamsPersistor->addQuoteId((int) $this->checkoutSession->getQuoteId());
 diff --git a/Model/Customer/CreateFromNetworkAccount.php b/Model/Customer/CreateFromNetworkAccount.php
-index 24b65a8..620fd80 100644
+index cb5c1aa..c292bf3 100644
 --- a/Model/Customer/CreateFromNetworkAccount.php
 +++ b/Model/Customer/CreateFromNetworkAccount.php
 @@ -69,6 +69,10 @@ class CreateFromNetworkAccount implements CreateCustomerFromNetworkAccountInterf
       */
      private $config;
-
+ 
 +    //BEGIN PATCH
 +    protected \Plumrocket\SocialLoginPro\Model\Network\ApiCallParamsPersistorInterface $apiCallParamsPersistor;
 +    //END PATCH
@@ -84,12 +103,12 @@ index 24b65a8..620fd80 100644
 +        $this->apiCallParamsPersistor = $apiCallParamsPersistor;
 +        // PATCH END
      }
-
+ 
      /**
 @@ -122,6 +130,11 @@ class CreateFromNetworkAccount implements CreateCustomerFromNetworkAccountInterf
          $customer->setData('is_active', 1);
          $customer->getGroupId();
-
+ 
 +        // PATCH BEGIN
 +        $customer->setWebsiteId($this->apiCallParamsPersistor->get('current_website_id'));
 +        $customer->setStoreId($this->apiCallParamsPersistor->get('current_store_id'));
@@ -105,7 +124,7 @@ index 3201f09..5ddd05a 100644
 @@ -46,6 +46,10 @@ class DefaultButtonsResolver implements NetworkButtonResolverInterface
       */
      private $accountProvider;
-
+ 
 +    //BEGIN PATCH
 +    protected \Magento\Store\Model\StoreManagerInterface $storeManager;
 +    //END PATCH
@@ -130,7 +149,7 @@ index 3201f09..5ddd05a 100644
 +        $this->storeManager = $storeManager;
 +        // PATCH END
      }
-
+ 
      /**
 @@ -177,9 +185,16 @@ class DefaultButtonsResolver implements NetworkButtonResolverInterface
       */
@@ -148,5 +167,5 @@ index 3201f09..5ddd05a 100644
 +            'current_website_id' => $store->getWebsiteId()
 +            // END PATCH
          ];
-
+ 
          if (! empty($customerAction)) {
