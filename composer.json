@@ -3536,7 +3536,7 @@
                 {
                     "description": "Fix null scope_id when saving Apple .p8 key file — getScope() returns plural forms (stores/websites) but code compared against singular constants, always resolving to null on strict MySQL",
                     "filename": "essential/plumrocket/module-psloginpro/fix-apple-key-null-scope-id.patch",
-                    "version-constraint": ">=4.6.6"
+                    "version-constraint": ">=4.7.0"
                 }
             ],
             "stripe/module-payments": [
