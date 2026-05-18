@@ -3539,8 +3539,8 @@
                     "version-constraint": ">=4.6.6"
                 },
                 {
-                    "description": "Fix null scope_id when saving Apple .p8 key file (NKD-6108)",
-                    "filename": "essential/plumrocket/module-psloginpro/fix-apple-key-null-scope-id.patch",
+                    "description": "Fix Apple Sign In scope-aware secret generation to support separate credentials per store view (NKD-6108)",
+                    "filename": "essential/plumrocket/module-psloginpro/fix-apple-scope-aware-secret-generation.patch",
                     "version-constraint": ">=4.7.0"
                 }
             ],
