@@ -1,0 +1,36 @@
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 9c9da87..50094c2 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -113,6 +113,7 @@
+             <column name="store_id"/>
+             <column name="customer_group_id"/>
+         </constraint>
++        <!-- PATCH START
+         <constraint xsi:type="foreign" referenceId="AW_CP_CTGR_PERMISSIONS_IDX_STORE_ID_STORE_STORE_ID"
+                     table="aw_cp_category_permissions_index" column="store_id" referenceTable="store"
+                     referenceColumn="store_id" onDelete="CASCADE"/>
+@@ -122,6 +123,7 @@
+         <constraint xsi:type="foreign" referenceId="AW_CP_CTGR_PERMISSIONS_IDX_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID"
+                     table="aw_cp_category_permissions_index" column="customer_group_id" referenceTable="customer_group"
+                     referenceColumn="customer_group_id" onDelete="CASCADE"/>
++        PATCH END -->
+         <index referenceId="AW_CP_CTGR_PERMISSIONS_IDX_STORE_ID_CUSTOMER_GROUP_ID" indexType="btree">
+             <column name="store_id"/>
+             <column name="customer_group_id"/>
+@@ -154,6 +156,7 @@
+             <column name="store_id"/>
+             <column name="customer_group_id"/>
+         </constraint>
++        <!-- PATCH START
+         <constraint xsi:type="foreign" referenceId="AW_CP_PRD_PERMISSIONS_IDX_STORE_ID_STORE_STORE_ID"
+                     table="aw_cp_product_permissions_index" column="store_id" referenceTable="store"
+                     referenceColumn="store_id" onDelete="CASCADE"/>
+@@ -163,6 +166,7 @@
+         <constraint xsi:type="foreign" referenceId="AW_CP_PRD_PERMISSIONS_IDX_CSTR_GROUP_ID_CSTR_GROUP_CSTR_GROUP_ID"
+                     table="aw_cp_product_permissions_index" column="customer_group_id" referenceTable="customer_group"
+                     referenceColumn="customer_group_id" onDelete="CASCADE"/>
++        PATCH END -->
+         <index referenceId="AW_CP_PRD_PERMISSIONS_IDX_STORE_ID_CUSTOMER_GROUP_ID" indexType="btree">
+             <column name="store_id"/>
+             <column name="customer_group_id"/>
