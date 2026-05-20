@@ -757,6 +757,11 @@
                     "description": "Add missing acl.xml file",
                     "filename": "essential/anowave/taxswitch/add-acl-file.patch",
                     "version-constraint": ">=100.3.3"
+                },
+                {
+                    "description": "Set default value for tax vary cookie",
+                    "filename": "essential/anowave/taxswitch/set-default-value-for-tax-vary-cookie.patch",
+                    "version-constraint": ">=100.3.3"
                 }
             ],
             "brickfox/import-export-data": [
