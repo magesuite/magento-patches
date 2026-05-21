@@ -1,96 +1,80 @@
 <?php
 
-// Usage
-// php get_magento_versions.php - get all magento module reqs for every magneto version
-// php get_magento_versions.php '2.2' - select only magento 2.2.X versions
-// php get_magento_versions.php '2.2.[1-2]' - select magento 2.2.1 and 2.2.2 using this regex
-// php get_magento_versions.php '2.3' 'magento/module-newsletter' -  show only magento/module-newsletter deps for 2.3.X magento versions
+declare(strict_types=1);
 
-class Repo {
+class Repo
+{
+    protected const REPO_USERNAME = 'f52fd8699d9ce4d436289cdad01b256a';
+    protected const REPO_PASSWORD = 'f8f11de4a4c6b95223b2566789586f9b';
+    protected const REPO_URL = 'https://repo.magento.com/';
+    protected const REPO_PACKAGES_FILENAME = 'packages.json';
 
-    const REPO_USERNAME = 'f52fd8699d9ce4d436289cdad01b256a';
-
-    const REPO_PASSWORD = 'f8f11de4a4c6b95223b2566789586f9b';
-
-    const REPO_URL = 'https://repo.magento.com/';
-
-    const REPO_PACKAGES_FILENAME = 'packages.json';
-
-    protected $providersUrl;
-
-    protected $modules = [];
+    protected string $providersUrl = '';
+    protected array $modules = [];
 
     public function __construct()
     {
         $this->modules = $this->getPackageVersionProviders();
     }
 
-    public function getRequiredPackagesVersions($requestedMagentoVersion = null, $packageName = null)
+    public function getRequiredPackagesVersions(?string $requestedMagentoVersion = null, ?string $packageName = null): array
     {
-        $magentoPackages = $this->getPackageInformation(
-            'magento/product-community-edition',
-            $requestedMagentoVersion ? '/^' . str_replace('.', '\.', $requestedMagentoVersion) .'/' : null
-        );
+        $versionMatch = $requestedMagentoVersion !== null
+            ? '/^' . str_replace('.', '\.', $requestedMagentoVersion) . '/'
+            : null;
+
+        $magentoPackages = $this->getPackageInformation('magento/product-community-edition', $versionMatch);
+
+        ksort($magentoPackages);
 
         $result = [];
-        ksort($magentoPackages);
         foreach ($magentoPackages as $magentoPackage) {
             $magentoVersion = $magentoPackage['version'];
-            $result[$magentoVersion] = $packageName ?
-                $this->getMagentoRequiredPackage($magentoPackage['require'], $packageName) :
-                $this->getMagentoRequiredPackages($magentoPackage['require']);
+            $result[$magentoVersion] = $packageName !== null
+                ? $this->getMagentoRequiredPackage($magentoPackage['require'], $packageName)
+                : $this->getMagentoRequiredPackages($magentoPackage['require']);
         }
 
         return $result;
     }
 
-    protected function getMagentoRequiredPackage($require, $packageName)
+    protected function getMagentoRequiredPackage(array $require, string $packageName): array
     {
-        if(! isset($require[$packageName])) {
-            throw new \Exception('Module not found.');
+        if (!isset($require[$packageName])) {
+            throw new \RuntimeException('Module not found.');
         }
 
-        $result[$packageName] = $require[$packageName];
-        return $result;
+        return [$packageName => $require[$packageName]];
     }
 
-    protected function getMagentoRequiredPackages($require)
+    protected function getMagentoRequiredPackages(array $require): array
     {
-        $result = [];
-
-
         ksort($require);
-        foreach ($require as $name => $version) {
-            $result[$name] = $version;
-        }
-
-        return $result;
+        return $require;
     }
 
-    public function getPackageInformation($packageName, $versionMatch = null)
+    public function getPackageInformation(string $packageName, ?string $versionMatch = null): array
     {
-        $module = $this->modules[$packageName];
-        if (empty($module)) {
-            throw new \Exception('Module not found.');
+        $module = $this->modules[$packageName] ?? null;
+        if ($module === null) {
+            throw new \RuntimeException('Module not found.');
         }
 
-        $sha256 = $module['sha256'];
-        $url = str_replace('%package%', $packageName, $this->providersUrl);
-        $url = str_replace('%hash%', $sha256, $url);
+        $url = str_replace(['%package%', '%hash%'], [$packageName, $module['sha256']], $this->providersUrl);
+        $versions = $this->getJsonDataFromRepo($url, gzipped: true)['packages'][$packageName];
 
-        $data = $this->getJsonDataFromRepo($url, true);
-        $versions = $data['packages'][$packageName];
-
-        if($versionMatch) {
-            $versions = array_filter($versions, function ($version) use ($versionMatch) {
-                return preg_match($versionMatch, $version);
-            }, ARRAY_FILTER_USE_KEY);
+        if ($versionMatch !== null) {
+            $versions = array_filter(
+                $versions,
+                fn(string $version): bool => (bool) preg_match($versionMatch, $version),
+                ARRAY_FILTER_USE_KEY
+            );
         }
 
         return $versions;
     }
 
-    protected function getPackageVersionProviders($providerType = 'provider-ce')
+    protected function getPackageVersionProviders(): array
     {
         $packages = $this->getJsonDataFromRepo(self::REPO_PACKAGES_FILENAME);
         $this->providersUrl = trim($packages['providers-url'], '/');
@@ -105,39 +89,44 @@ class Repo {
         return $modules;
     }
 
-    protected function getJsonDataFromRepo($path, $isGziped = false)
+    protected function getJsonDataFromRepo(string $path, bool $gzipped = false): array
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, self::REPO_URL.$path);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERPWD, self::REPO_USERNAME . ':' . self::REPO_PASSWORD);
-        curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/json'));
-
-        if($isGziped) {
-            curl_setopt($ch,CURLOPT_ENCODING , "gzip");
-        }
+        curl_setopt_array($ch, [
+            CURLOPT_URL => self::REPO_URL . $path,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_USERPWD => self::REPO_USERNAME . ':' . self::REPO_PASSWORD,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        ]);
 
         $output = curl_exec($ch);
-        curl_close($ch);
 
-        return json_decode($output, true);
+        if ($gzipped) {
+            $output = gzdecode($output);
+        }
+
+        return json_decode($output, associative: true);
     }
 }
 
-$requestedMagentoVersion = isset($argv[1]) ? $argv[1] : null;
-$packageName = isset($argv[2]) ? $argv[2] : null;
+$requestedMagentoVersion = $argv[1] ?? null;
+$packageName = $argv[2] ?? null;
 
-if(empty($requestedMagentoVersion) && empty($packageName)) {
-    echo <<<HTML
-Usage
-php get_magento_versions.php - get all magento module reqs for every magneto version
-php get_magento_versions.php '2.2' - select only magento 2.2.X versions
-php get_magento_versions.php '2.2.[1-2]' - select magento 2.2.1 and 2.2.2 using this regex
-php get_magento_versions.php '2.3' 'magento/module-newsletter' -  show only magento/module-newsletter deps for 2.3.X magento versions
-
-HTML;
-
-    die;
+if ($requestedMagentoVersion === null && $packageName === null) {
+    exit('
+        Sample usages:
+        1.
+            -> php vendor/creativestyle/magento-patches/tools/get_magento_versions.php "2.4.8-p1" "magento/module-customer"
+            --- magento/product-community-edition [2.4.8-p1] ---
+            magento/module-customer [103.0.8-p1]
+        2.
+            -> php vendor/creativestyle/magento-patches/tools/get_magento_versions.php "" "magento/module-review"
+            --- magento/product-community-edition [0.42.0-beta7] ---
+            magento/module-review [self.version]
+            --- magento/product-community-edition [2.0.0] ---
+            magento/module-review [100.0.2]
+            ...
+    ');
 }
 
 $repo = new Repo();

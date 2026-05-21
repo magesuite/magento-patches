@@ -1,0 +1,45 @@
+diff --git a/Model/ResourceModel/Review/Product/Collection.php b/Model/ResourceModel/Review/Product/Collection.php
+index ffbaa26..f5c697f 100644
+--- a/Model/ResourceModel/Review/Product/Collection.php
++++ b/Model/ResourceModel/Review/Product/Collection.php
+@@ -408,21 +408,25 @@ class Collection extends \Magento\Catalog\Model\ResourceModel\Product\Collection
+      */
+     public function getResultingIds()
+     {
+-        $idsSelect = clone $this->getSelect();
+-        $data = $this->getConnection()
+-            ->fetchAll(
+-                $idsSelect
+-                    ->reset(Select::LIMIT_COUNT)
+-                    ->reset(Select::LIMIT_OFFSET)
+-                    ->columns('rt.review_id')
+-            );
+-
+-        return array_map(
+-            function ($value) {
+-                return $value['review_id'];
+-            },
+-            $data
+-        );
++        // BEGIN PATCH
++        //$idsSelect = clone $this->getSelect();
++        //$data = $this->getConnection()
++        //    ->fetchAll(
++        //        $idsSelect
++        //            ->reset(Select::LIMIT_COUNT)
++        //            ->reset(Select::LIMIT_OFFSET)
++        //            ->columns('rt.review_id')
++        //    );
++        //
++        //return array_map(
++        //    function ($value) {
++        //        return $value['review_id'];
++        //    },
++        //    $data
++        //);
++        $select = $this->getConnection()->select()->from('review', 'review_id');
++        return $this->getConnection()->fetchCol($select);
++        // END PATCH
+     }
+ 
+     /**
