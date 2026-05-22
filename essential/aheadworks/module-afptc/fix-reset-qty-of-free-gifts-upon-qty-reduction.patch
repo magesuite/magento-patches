@@ -1,0 +1,29 @@
+diff --git a/Model/Cart/Cart.php b/Model/Cart/Cart.php
+index 5a27be2..22308d0 100644
+--- a/Model/Cart/Cart.php
++++ b/Model/Cart/Cart.php
+@@ -63,11 +63,23 @@ class Cart
+     {
+         $updated = false;
+         $items = $quote->getAllItems();
++        // BEGIN PATCH
++        $hasQtyReduction = false;
++        foreach ($items as $item) {
++            if ($item->getAwAfptcIsPromo() && (float)$item->getQty() > (float)$item->getAwAfptcQty()) {
++                $hasQtyReduction = true;
++                break;
++            }
++        }
++        // END PATCH
+         foreach ($items as $item) {
+             $afptcQty = (float)$item->getAwAfptcQty();
+             $qty = (float)$item->getQty();
+             if ($item->getAwAfptcIsPromo()) {
+-                if ($afptcQty == 0) {
++                // BEGIN PATCH
++                //if ($afptcQty == 0) {
++                if ($afptcQty == 0 || $hasQtyReduction) {
++                // END PATCH
+                     $quote->removeItem($item->getId());
+                     $updated = true;
+                 } elseif ($qty > $afptcQty) {
