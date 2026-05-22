@@ -1935,6 +1935,11 @@
                     "description": "Fix [SCAFA-1232] Division by 0 fix",
                     "filename": "essential/aheadworks/module-afptc/SCAFA-1232-division-by-zero-fix.patch",
                     "version-constraint": ">=1.11.2,<1.12.0"
+                },
+                {
+                    "description": "Fix [SCAFA-1167] Too many free gifts",
+                    "filename": "essential/aheadworks/module-afptc/fix-reset-qty-of-free-gifts-upon-qty-reduction.patch",
+                    "version-constraint": ">=1.21.1"
                 }
             ],
             "customweb/module-computopcw": [
