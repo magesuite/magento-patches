@@ -1,0 +1,13 @@
+diff --git a/Plugin/Sales/Model/Order/Creditmemo/Item/AdjustBundleQty.php b/Plugin/Sales/Model/Order/Creditmemo/Item/AdjustBundleQty.php
+index 6eeac11..9759c83 100644
+--- a/Plugin/Sales/Model/Order/Creditmemo/Item/AdjustBundleQty.php
++++ b/Plugin/Sales/Model/Order/Creditmemo/Item/AdjustBundleQty.php
+@@ -44,7 +44,7 @@ class AdjustBundleQty
+     {
+         $orderItem = $item->getOrderItem();
+ 
+-        if ($orderItem->getProductType() === Type::TYPE_BUNDLE
++        if ($orderItem?->getProductType() === Type::TYPE_BUNDLE
+             && $this->promoChecker->isPromoItem($orderItem)
+             && $this->creditmemoItemChecker->isParentItemToRefund($item)
+         ) {
