@@ -1,0 +1,35 @@
+diff --git a/src/view/base/web/tailwindcss-jit-iframe-content.html b/src/view/base/web/tailwindcss-jit-iframe-content.html
+--- a/src/view/base/web/tailwindcss-jit-iframe-content.html
++++ b/src/view/base/web/tailwindcss-jit-iframe-content.html
+@@ -32,7 +32,7 @@
+                         id: 'tailwindcss-jit-log',
+                         level,
+                         args: ['[TailwindCSS JIT iframe]:', ...Array.from(args)],
+-                    }, window.location.protocol + '//' + window.location.host)
++                    }, '*')
+                 }
+             };
+
+diff --git a/src/view/base/tailwind-jit/src/main.js b/src/view/base/tailwind-jit/src/main.js
+--- a/src/view/base/tailwind-jit/src/main.js
++++ b/src/view/base/tailwind-jit/src/main.js
+@@ -12,7 +12,7 @@
+                         id: 'tailwindcss-jit-result',
+                         requestNum: event.data.requestNum,
+                         css: resultCss,
+-                    }, window.location.protocol + '//' + window.location.host);
++                    }, '*');
+                 });
+         }
+     });
+diff --git a/src/view/base/web/js/jit/tailwindcss-jit-cdn.umd.min.js b/src/view/base/web/js/jit/tailwindcss-jit-cdn.umd.min.js
+--- a/src/view/base/web/js/jit/tailwindcss-jit-cdn.umd.min.js
++++ b/src/view/base/web/js/jit/tailwindcss-jit-cdn.umd.min.js
+@@ -7860,7 +7860,7 @@
+ /***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+ "use strict";
+-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _tailwindProcess__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tailwindProcess */ \"./src/tailwindProcess.js\");\n\n(() => {\n  window.addEventListener('message', event => {\n    if (event.data && event.data.id === 'tailwindcss-jit-process') {\n      const message = event.data.details;\n      Object(_tailwindProcess__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(message.htmlContent, message.customConfig, message.customCss).then(resultCss => {\n        window.parent.postMessage({\n          id: 'tailwindcss-jit-result',\n          requestNum: event.data.requestNum,\n          css: resultCss\n        }, window.location.protocol + '//' + window.location.host);\n      });\n    }\n  });\n  window.tailwindCSS = {\n    process: _tailwindProcess__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n  };\n})();\n\n//# sourceURL=webpack://tailwindcss-jit-cdn/./src/main.js?");
++eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _tailwindProcess__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./tailwindProcess */ \"./src/tailwindProcess.js\");\n\n(() => {\n  window.addEventListener('message', event => {\n    if (event.data && event.data.id === 'tailwindcss-jit-process') {\n      const message = event.data.details;\n      Object(_tailwindProcess__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(message.htmlContent, message.customConfig, message.customCss).then(resultCss => {\n        window.parent.postMessage({\n          id: 'tailwindcss-jit-result',\n          requestNum: event.data.requestNum,\n          css: resultCss\n        }, '*');\n      });\n    }\n  });\n  window.tailwindCSS = {\n    process: _tailwindProcess__WEBPACK_IMPORTED_MODULE_0__[\"default\"]\n  };\n})();\n\n//# sourceURL=webpack://tailwindcss-jit-cdn/./src/main.js?");
+
+ /***/ }),
