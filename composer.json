@@ -3874,6 +3874,13 @@
                     "filename": "essential/magento/module-wishlist/fix-adding-to-wishlist.patch",
                     "version-constraint": ">=101.2.7"
                 }
+            ],
+            "hyva-themes/magento2-cms-tailwind-jit": [
+                {
+                    "description": "Allow cross-origin postMessage from JIT iframe to parent (fixes Hyva CMS editor 'Generating styles...' freeze when admin and static URLs differ, e.g. CDN-served static assets)",
+                    "filename": "essential/hyva-themes/magento2-cms-tailwind-jit/allow-cross-origin-postmessage-from-jit-iframe.patch",
+                    "version-constraint": "1.2.25"
+                }
             ]
         }
     }
