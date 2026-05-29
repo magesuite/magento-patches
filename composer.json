@@ -1718,7 +1718,7 @@
                 {
                     "description": "Fixes bug FAQ Article with id \"\" does not exist Exception",
                     "filename": "essential/aheadworks/module-faq/m22-aheadworks-module-faq-fix-empty-article-id.patch",
-                    "version-constraint": "*"
+                    "version-constraint": "<1.8.0"
                 },
                 {
                     "description": "Fixes Call to a member function addCrumb() on boolean Exception",
