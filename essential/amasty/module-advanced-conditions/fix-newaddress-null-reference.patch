@@ -1,0 +1,18 @@
+diff --git a/view/frontend/web/js/action/recollect-totals.js b/view/frontend/web/js/action/recollect-totals.js
+--- a/view/frontend/web/js/action/recollect-totals.js
++++ b/view/frontend/web/js/action/recollect-totals.js
+@@ -51,9 +51,11 @@ define([
+             }
+         };
+
+-         if ( newAddress.extensionAttributes && newAddress.extensionAttributes.pickup_location_code ) {
+-                address.extension_attributes.pickup_location_code = newAddress.extensionAttributes.pickup_location_code;
+-         }
++         // BEGIN PATCH
++         if (newAddress?.extensionAttributes?.pickup_location_code) {
++                address.extension_attributes.pickup_location_code = newAddress.extensionAttributes.pickup_location_code;
++         }
++         // END PATCH
+
+         payload = {
+             addressInformation: {

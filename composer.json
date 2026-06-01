@@ -556,6 +556,11 @@
                     "description": "Adds existing shipping address's extension attributes to payload so e.g. pickup location point is not missing.",
                     "filename": "essential/amasty/module-advanced-conditions/add-missing-shipping-address-extension-attributes.patch",
                     "version-constraint": ">=1.5.10"
+                },
+                {
+                    "description": "Fixes null reference error when newAddress is null during payment method initialization race condition.",
+                    "filename": "essential/amasty/module-advanced-conditions/fix-newaddress-null-reference.patch",
+                    "version-constraint": ">=1.6.0"
                 }
             ],
             "amasty/module-faq-product-questions": [
