@@ -26,3 +26,11 @@
 -        $id = $this->request->getParam($this->getRequestFieldName());
 +        $id = $this->request->getParam($this->getRequestFieldName(), 0);
         $data = $this->dataPersistor->get('faq_category');
+
+--- a/Model/Article/DataProvider.php	2026-05-29 11:13:27
++++ b/Model/Article/DataProvider.php	2026-05-29 11:14:04
+@@ -91,3 +91,3 @@ class DataProvider extends AbstractDataProvider
+            $article->setData($data);
+-            $this->loadedData[$article->getArticleId()] = $article->getData();
++            $this->loadedData[(int)$article->getArticleId()] = $article->getData();
+            $this->dataPersistor->clear('faq_article');
