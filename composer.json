@@ -1455,6 +1455,13 @@
                     "version-constraint": ">=102.0.5,<102.0.8"
                 }
             ],
+            "magento/module-inventory-catalog-rule": [
+                {
+                    "description": "Disable forced catalog rule reindex on source-item change (OOM fix at checkout)",
+                    "filename": "essential/magento/module-inventory-catalog-rule/disable-forced-catalog-rule-reindex.patch",
+                    "version-constraint": ">=100.2.0"
+                }
+            ],
             "magento/module-inventory-catalog-search": [
                 {
                     "description": "Disable forced catalog search reindex",

@@ -1,0 +1,16 @@
+diff --git a/Model/RuleIndexUpdateProcessor.php b/Model/RuleIndexUpdateProcessor.php
+index 1e6251a..2f30428 100644
+--- a/Model/RuleIndexUpdateProcessor.php
++++ b/Model/RuleIndexUpdateProcessor.php
+@@ -75,7 +75,10 @@ class RuleIndexUpdateProcessor implements CompositeProductProcessorInterface
+             $saleableStatusesAfterSync
+         );
+         if (!empty($productsIdsToReindex)) {
+-            $this->productRuleProcessor->reindexList($productsIdsToReindex, true);
++            // BEGIN PATCH
++            // $this->productRuleProcessor->reindexList($productsIdsToReindex, true);
++            $this->productRuleProcessor->reindexList($productsIdsToReindex, false);
++            // END PATCH
+         }
+     }
+
