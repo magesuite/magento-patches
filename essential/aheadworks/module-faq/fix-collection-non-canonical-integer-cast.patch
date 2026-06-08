@@ -1,0 +1,32 @@
+--- a/Model/ResourceModel/Article/Grid/Collection.php	2026-05-29 11:13:27
++++ b/Model/ResourceModel/Article/Grid/Collection.php	2026-05-29 11:14:04
+@@ -133,11 +133,11 @@
+          * @var Article $article
+          */
+         foreach ($this as $article) {
+-            $totalVotes = (integer)$article->getVotesYes() + (integer)$article->getVotesNo();
++            $totalVotes = (int)$article->getVotesYes() + (int)$article->getVotesNo();
+             if ($totalVotes == '0' || $article->getVotesYes() == '0') {
+                 $helpfulnessRate = '0%';
+             } else {
+-                $rate = ((integer)$article->getVotesYes()/$totalVotes) * 100;
++                $rate = ((int)$article->getVotesYes()/$totalVotes) * 100;
+                 $helpfulnessRate = sprintf('%.2f%%', $rate);
+             }
+             $article->setData('total_votes', $totalVotes);
+
+--- a/Controller/Adminhtml/Article/Save.php	2026-05-29 11:13:27
++++ b/Controller/Adminhtml/Article/Save.php	2026-05-29 11:14:04
+@@ -112,3 +112,3 @@
+    private function prepareData($data)
+    {
+-        $data['votes_no'] = (integer)$data['total_votes'] - (integer)$data['votes_yes'];
++        $data['votes_no'] = (int)$data['total_votes'] - (int)$data['votes_yes'];
+
+--- a/Model/Article/DataProvider.php	2026-05-29 11:13:27
++++ b/Model/Article/DataProvider.php	2026-05-29 11:14:04
+@@ -82,3 +82,3 @@
+        foreach ($items as $article) {
+            $loadedData = $article->getData();
+-            $loadedData['total_votes'] = (integer)$article->getVotesYes() + (integer)$article->getVotesNo();
++            $loadedData['total_votes'] = (int)$article->getVotesYes() + (int)$article->getVotesNo();

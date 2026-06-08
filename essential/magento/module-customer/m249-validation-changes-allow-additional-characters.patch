@@ -1,0 +1,89 @@
+diff --git a/Model/Validator/City.php b/Model/Validator/City.php
+index 1234567..abcdefg 100644
+--- a/Model/Validator/City.php
++++ b/Model/Validator/City.php
+@@ -32,2 +32,5 @@ class City extends AbstractValidator
+     */
+-    private const PATTERN_CITY = '/^[\p{L}\p{M}\d\s\-_\'’\.,&\(\)]{1,100}$/u';
++    // BEGIN PATCH
++    //private const PATTERN_CITY = '/^[\p{L}\p{M}\d\s\-_\'’\.,&\(\)]{1,100}$/u';
++    protected const PATTERN_CITY = '/^[\p{L}\p{M}\d\s\-_\'’\.,&\(\)\/\[\]\`´]{1,100}$/u';
++    // END PATCH
+
+diff --git a/Model/Validator/City.php b/Model/Validator/City.php
+index 1234567..abcdefg 100644
+--- a/Model/Validator/City.php
++++ b/Model/Validator/City.php
+@@ -47,4 +47,5 @@ class City extends AbstractValidator
+            parent::_addMessages([[
+-                'city' => "Invalid City. Please use letters, numbers, spaces,
+-                and the following characters: - _ ' ’ . , & ( )"
++                // BEGIN PATCH
++                'city' => "Invalid City. Please use letters, numbers, spaces, and the following characters: - _ ' ' . , & ( ) / [ ] ` ´"
++                // END PATCH
+            ]]);
+
+diff --git a/Model/Validator/Name.php b/Model/Validator/Name.php
+index 75d4603..8e2d263 100644
+--- a/Model/Validator/Name.php
++++ b/Model/Validator/Name.php
+@@ -15,7 +15,10 @@ use Magento\Framework\Validator\AbstractValidator;
+  */
+ class Name extends AbstractValidator
+ {
+-    private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&\s\d]){1,255}+/u';
++    // BEGIN PATCH
++    // private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&\s\d]){1,255}+/u';
++    private const PATTERN_NAME = '/(?:[\p{L}\p{M}\,\-\_\.\'’`&‘´\(\)\[\]\/\—\s\d]){1,255}+/u';
++    // END PATCH
+
+     /**
+      * Validate name fields.
+@@ -52,6 +55,9 @@ class Name extends AbstractValidator
+             if (preg_match(self::PATTERN_NAME, $nameValue, $matches)) {
+                 return $matches[0] == $nameValue;
+             }
++            // BEGIN PATCH
++            return false;
++            // END PATCH
+         }
+
+         return true;
+diff --git a/Model/Validator/Street.php b/Model/Validator/Street.php
+index 7de57d0..bd62b82 100644
+--- a/Model/Validator/Street.php
++++ b/Model/Validator/Street.php
+@@ -28,7 +28,10 @@ class Street extends AbstractValidator
+      * \s: Whitespace characters (spaces, tabs, newlines, etc.).
+      * \d: Digits (0-9).
+      */
+-    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"[],-.'’`&\s\d]){1,255}+/u";
++    // BEGIN PATCH
++    // private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"[],-.'’`&\s\d]){1,255}+/u";
++    private const PATTERN_STREET = "/(?:[\p{L}\p{M}\"\[\],-.'’`‘´—#°&_\(\)\/\s\d]){1,255}+/u";
++    // END PATCH
+
+     /**
+      * Validate street fields.
+@@ -41,7 +44,10 @@ class Street extends AbstractValidator
+         foreach ($customer->getStreet() as $street) {
+             if (!$this->isValidStreet($street)) {
+                 parent::_addMessages([[
+-                    'street' => "Invalid Street Address. Please use A-Z, a-z, 0-9, , - . ' ’ ` & spaces"
++                    // BEGIN PATCH
++                    // 'street' => "Invalid Street Address. Please use A-Z, a-z, 0-9, , - . ' ’ ` & spaces"
++                    'street' => "Invalid Street Address. Please use A-Z, a-z, 0-9, , - . ' ’ ` ‘´ & () [] / — # ° spaces"
++                    // END PATCH
+                 ]]);
+             }
+         }
+@@ -61,6 +67,9 @@ class Street extends AbstractValidator
+             if (preg_match(self::PATTERN_STREET, $streetValue, $matches)) {
+                 return $matches[0] == $streetValue;
+             }
++            // BEGIN PATCH
++            return false;
++            // END PATCH
+         }
+
+         return true;

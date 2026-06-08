@@ -1,0 +1,14 @@
+--- a/src/module-elasticsuite-core/Block/Adminhtml/Search/Request/RelevanceConfig/Scope/Switcher.php
++++ b/src/module-elasticsuite-core/Block/Adminhtml/Search/Request/RelevanceConfig/Scope/Switcher.php
+@@ -156,2 +156,11 @@ class Preview extends AbstractPreview
+        return (string) $this->defaultContainerVar;
+    }
++
++    public function getStoreGroupVarName()
++    {
++        if ($this->hasData('store_group_var_name')) {
++            return (string) $this->getData('store_group_var_name');
++        }
++
++        return 'group';
++    }

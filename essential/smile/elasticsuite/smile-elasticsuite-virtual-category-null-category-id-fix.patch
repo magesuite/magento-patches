@@ -1,0 +1,66 @@
+--- a/src/module-elasticsuite-virtual-category/Plugin/Catalog/ProductPlugin.php
++++ b/src/module-elasticsuite-virtual-category/Plugin/Catalog/ProductPlugin.php
+@@ -95,10 +95,10 @@ class ProductPlugin
+     public function aroundCanBeShowInCategory(Product $product, \Closure $proceed, $categoryId)
+     {
+         try {
+-            $category = $this->categoryRepository->get($categoryId);
++            $category = $this->categoryRepository->get((int) $categoryId);
+             if ((bool) $category->getIsVirtualCategory() === true) {
+                 return true;
+             }
+         } catch (NoSuchEntityException $e) {
+             $category = null;
+         }
+
+--- a/src/module-elasticsuite-virtual-category/Plugin/Catalog/Category/DataProviderPlugin.php
++++ b/src/module-elasticsuite-virtual-category/Plugin/Catalog/Category/DataProviderPlugin.php
+@@ -84,34 +84,35 @@ class DataProviderPlugin
+         $currentCategory = $dataProvider->getCurrentCategory();
+
++        $categoryId = $currentCategory->getId() ?? '';
+-        if ($currentCategory->getId() === null || $currentCategory->getLevel() < 2) {
+-            $data[$currentCategory->getId()]['use_default']['is_virtual_category'] = true;
++        if ($categoryId === '' || $currentCategory->getLevel() < 2) {
++            $data[$categoryId]['use_default']['is_virtual_category'] = true;
+         }
+
+-        if ($currentCategory->getLevel() >= 2 && !isset($data[$currentCategory->getId()]['virtual_category_root'])) {
+-            $data[$currentCategory->getId()]['virtual_category_root'] = $currentCategory->getPathIds()[1];
++        if ($currentCategory->getLevel() >= 2 && !isset($data[$categoryId]['virtual_category_root'])) {
++            $data[$categoryId]['virtual_category_root'] = $currentCategory->getPathIds()[1];
+         }
+
+-        $data[$currentCategory->getId()]['use_default']['show_use_store_positions'] = true;
+-        if (!$currentCategory->getStoreId() || $currentCategory->getId() === null) {
+-            $data[$currentCategory->getId()]['use_default']['show_use_store_positions'] = false;
++        $data[$categoryId]['use_default']['show_use_store_positions'] = true;
++        if (!$currentCategory->getStoreId() || $categoryId === '') {
++            $data[$categoryId]['use_default']['show_use_store_positions'] = false;
+         }
+
+         // To restore global/"All store views" positions/blacklist.
+-        $data[$currentCategory->getId()]['default']['sorted_products'] = [];
+-        $data[$currentCategory->getId()]['default']['blacklisted_products'] = [];
++        $data[$categoryId]['default']['sorted_products'] = [];
++        $data[$categoryId]['default']['blacklisted_products'] = [];
+         if ($currentCategory->getStoreId()) {
+             $globalCategory = clone $currentCategory;
+             $globalCategory->setUseStorePositions(false);
+-            $data[$currentCategory->getId()]['default']['sorted_products'] = $this->getProductSavedPositions($globalCategory);
+-            $data[$currentCategory->getId()]['default']['blacklisted_products'] = $this->getBlacklistedProducts($globalCategory);
++            $data[$categoryId]['default']['sorted_products'] = $this->getProductSavedPositions($globalCategory);
++            $data[$categoryId]['default']['blacklisted_products'] = $this->getBlacklistedProducts($globalCategory);
+         }
+
+-        $data[$currentCategory->getId()]['sorted_products']         = $this->getProductSavedPositions($currentCategory);
+-        $data[$currentCategory->getId()]['blacklisted_products']    = $this->getBlacklistedProducts($currentCategory);
+-        $data[$currentCategory->getId()]['product_sorter_load_url'] = $this->getProductSorterLoadUrl($currentCategory);
+-        $data[$currentCategory->getId()]['price_format']            = $this->localeFormat->getPriceFormat();
++        $data[$categoryId]['sorted_products']         = $this->getProductSavedPositions($currentCategory);
++        $data[$categoryId]['blacklisted_products']    = $this->getBlacklistedProducts($currentCategory);
++        $data[$categoryId]['product_sorter_load_url'] = $this->getProductSorterLoadUrl($currentCategory);
++        $data[$categoryId]['price_format']            = $this->localeFormat->getPriceFormat();
+
+         return $data;
+     }

@@ -1,0 +1,6 @@
+--- a/Data/Form.php
++++ b/Data/Form.php
+@@ -247,2 +247,2 @@ class Form extends \Magento\Framework\Data\Form\AbstractForm
+        foreach ($this->_allElements as $element) {
+-            if (isset($values[$element->getId()])) {
++            if (isset($values[(string) $element->getId()])) {
