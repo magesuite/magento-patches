@@ -1,0 +1,14 @@
+diff --git a/Model/ResourceModel/Country/Collection.php b/Model/ResourceModel/Country/Collection.php
+index 4d76215..3ee2a93 100644
+--- a/Model/ResourceModel/Country/Collection.php
++++ b/Model/ResourceModel/Country/Collection.php
+@@ -296,8 +296,8 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
+     private function addDefaultCountryToOptions(array &$options)
+     {
+         $defaultCountry = $this->_scopeConfig->getValue(
+             Data::XML_PATH_DEFAULT_COUNTRY,
+-            ScopeInterface::SCOPE_WEBSITES,
++            ScopeInterface::SCOPE_STORES,
+-            $this->storeManager->getWebsite()
++            $this->storeManager->getStore()
+         );

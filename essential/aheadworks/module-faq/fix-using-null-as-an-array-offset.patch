@@ -1,0 +1,28 @@
+--- a/Ui/DataProvider/Product/Form/Modifier/FaqArticles.php	2026-05-29 11:13:27
++++ b/Ui/DataProvider/Product/Form/Modifier/FaqArticles.php	2026-05-29 11:14:04
+@@ -75,2 +75,2 @@ class FaqArticles extends AbstractModifier
+-        $data[$product->getId()][self::DATA_SOURCE_DEFAULT][ProductAttributeInterface::CODE_AW_FAQ_ARTICLES] =
++        $data[(int)$product->getId()][self::DATA_SOURCE_DEFAULT][ProductAttributeInterface::CODE_AW_FAQ_ARTICLES] =
+            $this->convertArticlesToArray($articles);
+
+--- a/Model/CategoryRepository.php	2026-05-29 11:13:27
++++ b/Model/CategoryRepository.php	2026-05-29 11:14:04
+@@ -128,2 +128,3 @@ class CategoryRepository implements CategoryRepositoryInterface
+    {
++        $categoryId = (int) $categoryId;
+        if ($forceLoad || !isset($this->instancesById[$categoryId])) {
+
+--- a/Model/ArticleRepository.php	2026-05-29 11:13:27
++++ b/Model/ArticleRepository.php	2026-05-29 11:14:04
+@@ -100,2 +100,3 @@ class ArticleRepository implements ArticleRepositoryInterface
+    {
++        $articleId = (int) $articleId;
+        if ($forceLoad || !isset($this->instancesById[$articleId])) {
+
+--- a/Model/Category/DataProvider.php	2026-05-29 11:13:27
++++ b/Model/Category/DataProvider.php	2026-05-29 11:14:04
+@@ -119,3 +119,3 @@ class DataProvider extends AbstractDataProvider
+
+-        $id = $this->request->getParam($this->getRequestFieldName());
++        $id = $this->request->getParam($this->getRequestFieldName(), 0);
+        $data = $this->dataPersistor->get('faq_category');

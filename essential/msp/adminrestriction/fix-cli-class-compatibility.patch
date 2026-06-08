@@ -1,0 +1,9 @@
+diff --git a/Command/RestrictIp.php b/Command/RestrictIp.php
+index 9113564..eb5c774 100644
+--- a/Command/RestrictIp.php
++++ b/Command/RestrictIp.php
+@@ -64,3 +64,3 @@ class RestrictIp extends Command
+     */
+-    protected function execute(InputInterface $input, OutputInterface $output)
++    protected function execute(InputInterface $input, OutputInterface $output): int
+    {

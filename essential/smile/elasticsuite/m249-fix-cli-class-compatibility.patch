@@ -1,0 +1,19 @@
+diff --git a/src/module-elasticsuite-tracker/Console/CheckData.php b/src/module-elasticsuite-tracker/Console/CheckData.php
+index 9113564..eb5c774 100644
+--- a/src/module-elasticsuite-tracker/Console/CheckData.php
++++ b/src/module-elasticsuite-tracker/Console/CheckData.php
+@@ -74,3 +74,3 @@ class CheckData extends Command
+     */
+-    protected function execute(InputInterface $input, OutputInterface $output)
++    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+
+diff --git a/src/module-elasticsuite-tracker/Console/FixData.php b/src/module-elasticsuite-tracker/Console/FixData.php
+index 9113564..eb5c774 100644
+--- a/src/module-elasticsuite-tracker/Console/FixData.php
++++ b/src/module-elasticsuite-tracker/Console/FixData.php
+@@ -75,3 +75,3 @@ class FixData extends Command
+     */
+-    protected function execute(InputInterface $input, OutputInterface $output)
++    protected function execute(InputInterface $input, OutputInterface $output): int
+    {

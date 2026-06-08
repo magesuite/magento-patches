@@ -1,0 +1,8 @@
+--- a/Model/Design/Config/DataProvider.php
++++ b/Model/Design/Config/DataProvider.php
+@@ -117,4 +117,4 @@ class DataProvider extends AbstractDataProvider
+        $scopeCode = $this->getScopeCodeResolver()->resolve(
+            $scope,
+-            isset($request['scope_id']) ? $request['scope_id'] : null
++            isset($request['scope_id']) ? $request['scope_id'] : ''
+        );

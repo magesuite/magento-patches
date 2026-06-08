@@ -1,0 +1,7 @@
+--- a/Model/Category/DataProvider.php
++++ b/Model/Category/DataProvider.php
+@@ -416,3 +416,3 @@
+                    $meta[$code][$metaName] = (bool)$meta[$code][$metaName];
+                }
+-                if ('frontend_input' === $origName) {
++                if ($value !== null && 'frontend_input' === $origName) {
