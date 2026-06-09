@@ -2,7 +2,8 @@ This patch is fixing issue with linking social network account in customer area.
 The issue is caused by the fact that the persistent parameters stored in session are not cleared after linking the account.
 This causes the persistent parameters to be reused when user try to login via social network, which cause error with wrong action be triggered.
 IPET-2681: Added redirect url with store specified to fix redirecting to wrong store view issue.
-Related tickets: IPET-2656, IPET-2681
+IPET-2735: The "already linked" warning was rendered in the default store-view locale (German) at exception-throw time, so it showed German on every store view. Re-wrap the raw message so it is translated in the customer's store view.
+Related tickets: IPET-2656, IPET-2681, IPET-2735
 
 diff --git a/Controller/Account/LinkAction.php b/Controller/Account/LinkAction.php
 index ac85e86..7ed91c9 100644
@@ -39,7 +40,20 @@ index ac85e86..7ed91c9 100644
      }
 
      /**
-@@ -81,7 +91,15 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+@@ -74,14 +84,27 @@ class LinkAction extends \Magento\Framework\App\Action\Action
+         try {
+             $this->customerNetworksManager->linkNetworkToCustomer($type, $userId, $customerId, $userPhoto);
+         } catch (AlreadyExistsException $alreadyExistsException) {
+             $this->logger->critical($alreadyExistsException);
+-            $this->messageManager->addWarningMessage($alreadyExistsException->getMessage());
++            // BEGIN PATCH
++            //$this->messageManager->addWarningMessage($alreadyExistsException->getMessage());
++            $this->messageManager->addWarningMessage(
++                __($alreadyExistsException->getRawMessage(), ...$alreadyExistsException->getParameters())
++            );
++            // END PATCH
+         } catch (LocalizedException $exception) {
+             $this->logger->critical($exception);
              $this->messageManager->addErrorMessage(__('Sorry, but something went wrong.'));
          }
 
