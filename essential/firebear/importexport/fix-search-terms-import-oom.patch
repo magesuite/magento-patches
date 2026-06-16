@@ -1,0 +1,139 @@
+Fix out-of-memory error in Firebear's Search Terms importer. Its constructor preloads the whole
+search_query table into memory, which triggers an OOM on opening, validating, and running the import.
+This patch skips that preload and resolves existing query ids on demand instead.
+Ticket: IPET-2806
+
+diff --git a/Model/Import/SearchTerms.php b/Model/Import/SearchTerms.php
+index 72b4e5f..177aa15 100644
+--- a/Model/Import/SearchTerms.php
++++ b/Model/Import/SearchTerms.php
+@@ -184,7 +184,9 @@ class SearchTerms extends AbstractEntity implements ImportAdapterInterface
+         $this->output = $context->getOutput();
+         $this->_logger = $context->getLogger();
+ 
+-        $this->initSearchQueries();
++        // BEGIN PATCH
++        // $this->initSearchQueries();
++        // END PATCH
+         $this->initStore();
+     }
+ 
+@@ -427,10 +429,17 @@ class SearchTerms extends AbstractEntity implements ImportAdapterInterface
+ 
+         if (isset($rowData[self::COL_QUERY_TEXT])) {
+             $rowQueryText = $rowData[self::COL_QUERY_TEXT];
+-            $rowStoreId = $rowData[self::COL_STORE_ID] ?? 0;
+-            if (!empty($this->searchQueries[$rowQueryText][$rowStoreId])) {
+-                $rowData[self::COL_QUERY_ID] = $this->searchQueries[$rowQueryText][$rowStoreId];
++            // BEGIN PATCH
++            // $rowStoreId = $rowData[self::COL_STORE_ID] ?? 0;
++            // if (!empty($this->searchQueries[$rowQueryText][$rowStoreId])) {
++            //     $rowData[self::COL_QUERY_ID] = $this->searchQueries[$rowQueryText][$rowStoreId];
++            // }
++            $rowStoreId = (int)($rowData[self::COL_STORE_ID] ?? 0);
++            $queryId = $this->resolveExistingQueryId($rowQueryText, $rowStoreId);
++            if ($queryId) {
++                $rowData[self::COL_QUERY_ID] = $queryId;
+             }
++            // END PATCH
+         }
+ 
+         if (isset($rowData[self::COL_UPDATED_AT])) {
+@@ -450,23 +459,85 @@ class SearchTerms extends AbstractEntity implements ImportAdapterInterface
+     {
+         $processedId = false;
+ 
++        // BEGIN PATCH
++        // if (isset($rowData[self::COL_QUERY_ID])) {
++        //     $processedId = $rowData[self::COL_QUERY_ID];
++        // } elseif (isset($rowData[self::COL_QUERY_TEXT])
++        //     && isset($rowData[self::COL_STORE_ID])
++        //     && isset($this->searchQueries[$rowData[self::COL_QUERY_TEXT]][$rowData[self::COL_STORE_ID]])
++        // ) {
++        //     $processedId = $this->searchQueries[$rowData[self::COL_QUERY_TEXT]][$rowData[self::COL_STORE_ID]];
++        // } elseif (isset($rowData[self::COL_QUERY_TEXT])
++        //     && isset($this->searchQueries[$rowData[self::COL_QUERY_TEXT]])
++        // ) {
++        //     foreach ($this->searchQueries[$rowData[self::COL_QUERY_TEXT]] as $storeId => $id) {
++        //         $processedId = $id;
++        //     }
++        // }
++        //
++        // return $processedId;
+         if (isset($rowData[self::COL_QUERY_ID])) {
+             $processedId = $rowData[self::COL_QUERY_ID];
+-        } elseif (isset($rowData[self::COL_QUERY_TEXT])
+-            && isset($rowData[self::COL_STORE_ID])
+-            && isset($this->searchQueries[$rowData[self::COL_QUERY_TEXT]][$rowData[self::COL_STORE_ID]])
+-        ) {
+-            $processedId = $this->searchQueries[$rowData[self::COL_QUERY_TEXT]][$rowData[self::COL_STORE_ID]];
+-        } elseif (isset($rowData[self::COL_QUERY_TEXT])
+-            && isset($this->searchQueries[$rowData[self::COL_QUERY_TEXT]])
+-        ) {
+-            foreach ($this->searchQueries[$rowData[self::COL_QUERY_TEXT]] as $storeId => $id) {
+-                $processedId = $id;
+-            }
++        } elseif (isset($rowData[self::COL_QUERY_TEXT]) && isset($rowData[self::COL_STORE_ID])) {
++            $processedId = $this->resolveExistingQueryId(
++                $rowData[self::COL_QUERY_TEXT],
++                (int)$rowData[self::COL_STORE_ID]
++            );
++        }
++
++        if (!$processedId && isset($rowData[self::COL_QUERY_TEXT])) {
++            $processedId = $this->resolveLatestQueryIdByText($rowData[self::COL_QUERY_TEXT]);
++        }
++
++        return $processedId ?: false;
++        // END PATCH
++    }
++
++    // BEGIN PATCH
++    /**
++     * @param string $queryText
++     * @param int $storeId
++     * @return int|null
++     */
++    protected function resolveExistingQueryId($queryText, $storeId)
++    {
++        if (!empty($this->searchQueries[$queryText][$storeId])) {
++            return (int)$this->searchQueries[$queryText][$storeId];
+         }
+ 
+-        return $processedId;
++        $select = $this->_connection->select()
++            ->from($this->queryResource->getMainTable(), self::COL_QUERY_ID)
++            ->where(self::COL_QUERY_TEXT . ' = ?', $queryText)
++            ->where(self::COL_STORE_ID . ' = ?', (int)$storeId)
++            ->limit(1);
++
++        $queryId = $this->_connection->fetchOne($select);
++        if ($queryId === false) {
++            return null;
++        }
++
++        $this->searchQueries[$queryText][$storeId] = (int)$queryId;
++
++        return (int)$queryId;
++    }
++
++    /**
++     * @param string $queryText
++     * @return int|null
++     */
++    protected function resolveLatestQueryIdByText($queryText)
++    {
++        $select = $this->_connection->select()
++            ->from($this->queryResource->getMainTable(), self::COL_QUERY_ID)
++            ->where(self::COL_QUERY_TEXT . ' = ?', $queryText)
++            ->order(self::COL_QUERY_ID . ' ' . \Magento\Framework\DB\Select::SQL_DESC)
++            ->limit(1);
++
++        $queryId = $this->_connection->fetchOne($select);
++
++        return $queryId !== false ? (int)$queryId : null;
+     }
++    // END PATCH
+ 
+     /**
+      * Retrieve All Fields Source (the column descriptions for a table)

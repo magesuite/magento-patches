@@ -3489,6 +3489,11 @@
                     "description": "Fix incompatibility with MSI stock import (IPET-2926)",
                     "filename": "essential/firebear/importexport/fix-incompatibility-with-msi-stock-import.patch",
                     "version-constraint": ">=3.8.7"
+                },
+                {
+                    "description": "Fix OOM in Search Terms import by resolving query ids on demand instead of preloading the whole search_query table (IPET-2806)",
+                    "filename": "essential/firebear/importexport/fix-search-terms-import-oom.patch",
+                    "version-constraint": ">=3.8.7"
                 }
             ],
             "mageants/deleteaccount": [
