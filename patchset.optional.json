@@ -1105,6 +1105,11 @@
                 "description": "Change lock logic for webhook processing to prevent deadlocks",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/change-lock-logic-for-webhook.patch",
                 "version-constraint": ">=2.1.29"
+            },
+            {
+              "description": "Add CO2 compensation fee support to wallee refund webhook",
+              "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/add-co2-compensation-fee-to-wallee-refund.patch",
+              "version-constraint": ">=2.1.29"
             }
         ],
       "wallee/sdk": [

@@ -1,0 +1,21 @@
+diff --git a/Model/Webhook/Listener/Refund/SuccessfulCommand.php b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
+index af632e9..d0f477c 100644
+--- a/Model/Webhook/Listener/Refund/SuccessfulCommand.php
++++ b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
+@@ -258,6 +258,16 @@ class SuccessfulCommand extends AbstractCommand
+                     }
+                     break;
+                 case LineItemType::FEE:
++                    if ($reduction->getLineItemUniqueId() === 'haarshop_co2_compensation_fee') {
++                        if ($reduction->getQuantityReduction() > 0) {
++                            $creditmemoAmount += (float)$baseLineItems[$reduction->getLineItemUniqueId()]->getAmountIncludingTax();
++                        } elseif ($reduction->getUnitPriceReduction() > 0) {
++                            $creditmemoAmount += (float)$reduction->getUnitPriceReduction();
++                        } else {
++                            $creditmemoAmount += 0.0;
++                        }
++                    }
++                    break;
+                 case LineItemType::DISCOUNT:
+                     break;
+                 case LineItemType::SHIPPING:
