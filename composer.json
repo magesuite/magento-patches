@@ -1824,7 +1824,7 @@
                 {
                     "description": "Fix non-canonical integer cast in Collection",
                     "filename": "essential/aheadworks/module-faq/fix-collection-non-canonical-integer-cast.patch",
-                    "version-constraint": ">=1.0.0"
+                    "version-constraint": ">=1.0.0,<1.8.1"
                 },
                 {
                     "description": "Fix using null as an array offset",
