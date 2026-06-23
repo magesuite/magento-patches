@@ -2396,6 +2396,13 @@
           "filename": "vendor/creativestyle/magento-patches/optional/magento/module-integration/oauth-service-strip-store-code-from-base-url.patch",
           "version-constraint": "*"
         }
+      ],
+      "june/newsletter": [
+        {
+          "description": "Added access token from preference center to june request's payload",
+          "filename": "vendor/creativestyle/magento-patches/optional/june/newsletter/krg_add_salted_hash_from_preference_center.patch",
+          "version-constraint": "*"
+        }
       ]
     }
 }

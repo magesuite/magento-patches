@@ -1,0 +1,30 @@
+diff --git a/Model/JuneSubscription.php b/Model/JuneSubscription.php
+index 77a293e..ff09458 100644
+--- a/Model/JuneSubscription.php
++++ b/Model/JuneSubscription.php
+@@ -199,6 +199,12 @@ class JuneSubscription
+             }
+         }
+ 
++        //BEGIN PATCH
++        /** @var \Creativestyle\CustomizationKruegerPreferenceCenter\Service\EmailHasher $preferenceCenterHashGenerator */
++        $preferenceCenterHashGenerator = \Magento\Framework\App\ObjectManager::getInstance()->get(\Creativestyle\CustomizationKruegerPreferenceCenter\Service\EmailHasher::class);
++        $payload["salted_hash"] = $preferenceCenterHashGenerator->getLastGeneratedHash();
++        //END PATCH
++
+         if ($this->apiToken) {
+             $apiUrl = self::JUNE_ENDPOINT.'v2/collection/'.$this->collectToken.'/collects';
+         } else {
+@@ -227,6 +233,12 @@ class JuneSubscription
+             $payload["locale"] = $this->storeManager->getStore()->getLocaleCode();
+         }
+ 
++        //BEGIN PATCH
++        /** @var \Creativestyle\CustomizationKruegerPreferenceCenter\Service\EmailHasher $preferenceCenterHashGenerator */
++        $preferenceCenterHashGenerator = \Magento\Framework\App\ObjectManager::getInstance()->get(\Creativestyle\CustomizationKruegerPreferenceCenter\Service\EmailHasher::class);
++        $payload["salted_hash"] = $preferenceCenterHashGenerator->getLastGeneratedHash();
++        //END PATCH
++
+         if ($this->apiToken) {
+             $apiUrl = self::JUNE_ENDPOINT.'v2/collection/'.$this->collectToken.'/collects/'.$collectId;
+         } else {
