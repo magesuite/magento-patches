@@ -3297,7 +3297,7 @@
                 {
                     "description": "Fix for double cancelation",
                     "filename": "essential/mollie/magento2/fix-for-double-cancelation.patch",
-                    "version-constraint": ">=2.50.0"
+                    "version-constraint": ">=2.50.0,<3.0.0"
                 }
             ],
             "magento/module-multiple-wishlist": [
