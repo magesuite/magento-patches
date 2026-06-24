@@ -1,0 +1,19 @@
+diff --git a/Model/Product/Provider/LowestPriceProductFinder.php b/Model/Product/Provider/LowestPriceProductFinder.php
+index e6c3da5..8131e7a 100644
+--- a/Model/Product/Provider/LowestPriceProductFinder.php
++++ b/Model/Product/Provider/LowestPriceProductFinder.php
+@@ -95,9 +95,11 @@ class LowestPriceProductFinder
+ 
+         /** @var Product $childProduct */
+         foreach ($childProducts as $childProduct) {
+-            if ($storeId && !in_array($storeId, $childProduct->getStoreIds())) {
+-                continue;
+-            }
++            // PATCH START
++            // if ($storeId && !in_array($storeId, $childProduct->getStoreIds())) {
++            //    continue;
++            //}
++            // PATCH END
+ 
+             $childPrice = $childProduct->getPrice();
+             if ($childPrice !== null && ($lowestPrice === null || $childPrice < $lowestPrice)) {
