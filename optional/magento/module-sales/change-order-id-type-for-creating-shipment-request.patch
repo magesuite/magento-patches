@@ -1,0 +1,15 @@
+diff --git a/Api/ShipOrderInterface.php b/Api/ShipOrderInterface.php
+index 031ba95..dba248c 100644
+--- a/Api/ShipOrderInterface.php
++++ b/Api/ShipOrderInterface.php
+@@ -16,7 +16,7 @@ interface ShipOrderInterface
+     /**
+      * Creates new Shipment for given Order.
+      *
+-     * @param int $orderId
++     * @param string $orderId
+      * @param \Magento\Sales\Api\Data\ShipmentItemCreationInterface[] $items
+      * @param bool $notify
+      * @param bool $appendComment
+--
+2.50.1 (Apple Git-155)
