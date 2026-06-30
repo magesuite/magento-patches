@@ -662,6 +662,11 @@
                 "description": "Revert Magento change related to order increment ID for order created via admin panel reorder (IPET-2912)",
                 "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/revert-change-for-reorder-increment-id.patch",
                 "version-constraint": ">=103.0.7"
+            },
+            {
+              "description": "Changing the parameter type from int to string when creating shipments via the API",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-sales/change-order-id-type-for-creating-shipment-request.patch",
+              "version-constraint": ">=103.0.8"
             }
         ],
         "magento/module-shipping": [
