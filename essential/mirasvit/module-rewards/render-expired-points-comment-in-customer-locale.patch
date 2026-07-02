@@ -1,0 +1,36 @@
+Fixes wrong language of the "Transaction #%1 is expired" comment saved by the points expiration cron - it is now rendered in the locale of the customer's store view instead of the default scope locale
+Original JIRA ticket: IPET-3656
+
+diff --git a/src/Rewards/Model/Cron.php b/src/Rewards/Model/Cron.php
+index d587434..6a9e399 100644
+--- a/src/Rewards/Model/Cron.php
++++ b/src/Rewards/Model/Cron.php
+@@ -266,12 +266,27 @@ class Cron
+                 ->addFieldToFilter('is_expired', 0);
+         $transactions->getSelect()->where('expires_at < "'.$now.'"')
+                                   ->where('amount > amount_used OR amount_used IS NULL');
++        // BEGIN PATCH
++        $transactions->getSelect()->joinLeft(
++            ['customer' => $this->resource->getTableName('customer_entity')],
++            'main_table.customer_id = customer.entity_id',
++            ['customer_store_id' => 'customer.store_id']
++        );
++        $transactionService = ObjectManager::getInstance()->get(\Mirasvit\Rewards\Service\Order\Transaction::class);
++        // END PATCH
+ 
+         foreach ($transactions as $transaction) {
+             $this->rewardsBalance->changePointsBalance(
+                 $transaction->getCustomerId(),
+                 -abs($transaction->getAmount() - $transaction->getAmountUsed()),
+-                (string) __('Transaction #%1 is expired', $transaction->getId()),
++                // BEGIN PATCH
++                // (string) __('Transaction #%1 is expired', $transaction->getId()),
++                $transactionService->translateComment(
++                    (int) $transaction->getCustomerStoreId(),
++                    __('Transaction #%1 is expired'),
++                    $transaction->getId()
++                ),
++                // END PATCH
+                 false, 'expired-'.$transaction->getId()
+             );
+             $transaction->setIsExpired(true)

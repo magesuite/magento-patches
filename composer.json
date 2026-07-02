@@ -3357,6 +3357,11 @@
                     "description": "Skip unnecessary join in transactions query (IPET-2843)",
                     "filename": "essential/mirasvit/module-rewards/skip-unnecessary-join-in-transactions-query.patch",
                     "version-constraint": ">=3.0.57"
+                },
+                {
+                    "description": "Render expired points transaction comment in customer's store locale (IPET-3656)",
+                    "filename": "essential/mirasvit/module-rewards/render-expired-points-comment-in-customer-locale.patch",
+                    "version-constraint": ">=3.3.20"
                 }
             ],
             "iways/module-pay-pal-plus": [
