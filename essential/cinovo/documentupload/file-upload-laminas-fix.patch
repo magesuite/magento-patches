@@ -1,0 +1,19 @@
+diff --git a/Controller/Documents/Save.php b/Controller/Documents/Save.php
+index 6e2102b..5bbe2d0 100644
+--- a/Controller/Documents/Save.php
++++ b/Controller/Documents/Save.php
+@@ -113,12 +113,13 @@ class Save extends Action
+         }
+
+         $files = $this->getRequest()->getFiles();
++        $file = $files->get('myDocument');
+
+-        if (!isset($files['file'])) {
++        if (!isset($file)) {
+             return null;
+         }
+
+-        $uploader = $this->initUploader($files['file']);
++        $uploader = $this->initUploader($file);
+         $result = $this->saveFileToFileSystem($uploader, $customer);
+         $this->logger->info(sprintf("saved file to magento filesystem by customer %s ", $customer->getId()));

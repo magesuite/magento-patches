@@ -3943,6 +3943,13 @@
                     "version-constraint": ">=2.5.6"
                 }
             ],
+            "cinovo/documentupload": [
+                {
+                    "description": "Compatibility fix with laminas file upload.",
+                    "filename": "essential/cinovo/documentupload/file-upload-laminas-fix.patch",
+                    "version-constraint": ">=1.3.4"
+                }
+            ],
             "cinovo/preciousmetalattributes": [
                 {
                     "description": "Change backend model of pm_available_for_customer_depot_tax.",
