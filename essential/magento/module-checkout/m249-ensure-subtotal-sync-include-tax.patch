@@ -1,0 +1,35 @@
+Fixes the cart subtotal sync (added in Magento 2.4.9) wrongly reloading the cart on every load
+on stores that display prices INCLUDING tax.
+
+Root cause: getCentralSubtotal() sums only `.price-excluding-tax .cart-price` row totals. The cart
+row total is rendered by Magento\Tax\Block\Item\Price\Renderer as either `.price-excluding-tax` or
+`.price-including-tax` depending on the "Display Prices in Shopping Cart" tax setting. On stores
+displaying prices including tax the excluding-tax markup is never present, so the central subtotal
+is always 0, never matches the summary subtotal, and the script AJAX-reloads the cart every time.
+
+Fix: fall back to `.price-including-tax .cart-price` when no excluding-tax row prices exist, so the
+central subtotal is computed in whichever tax basis is actually displayed. On excluding-tax stores
+the fallback is never reached and behaviour is unchanged.
+
+diff --git a/view/frontend/web/js/cart/ensure-subtotal-sync.js b/view/frontend/web/js/cart/ensure-subtotal-sync.js
+index 358ac0c..773f442 100644
+--- a/view/frontend/web/js/cart/ensure-subtotal-sync.js
++++ b/view/frontend/web/js/cart/ensure-subtotal-sync.js
+@@ -48,7 +48,16 @@ define([
+             // Sum of row totals on the table
+             let sum = 0;
+
+-            $root.find('#shopping-cart-table .col.subtotal .price-excluding-tax .cart-price').each(function () {
++            // BEGIN PATCH
++            // $root.find('#shopping-cart-table .col.subtotal .price-excluding-tax .cart-price').each(function () {
++            let rows = $root.find('#shopping-cart-table .col.subtotal .price-excluding-tax .cart-price');
++
++            if (!rows.length) {
++                rows = $root.find('#shopping-cart-table .col.subtotal .price-including-tax .cart-price');
++            }
++
++            rows.each(function () {
++            // END PATCH
+                 const text = $(this).text(), val = parsePrice(text);
+
+                 if (!isNaN(val)) {
