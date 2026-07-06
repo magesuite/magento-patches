@@ -1,0 +1,70 @@
+diff --git a/Model/SubscriptionProduct.php b/Model/SubscriptionProduct.php
+index 07a7b5d..6f30b3d 100644
+--- a/Model/SubscriptionProduct.php
++++ b/Model/SubscriptionProduct.php
+@@ -16,13 +16,19 @@ class SubscriptionProduct
+     private $currencyFactory;
+     private $productHelper;
+     private $checkoutSessionHelper;
++    // BEGIN PATCH
++    private $config;
++    // END PATCH
+
+     public function __construct(
+         \StripeIntegration\Payments\Helper\Product $productHelper,
+         \StripeIntegration\Payments\Helper\Subscriptions $subscriptionHelper,
+         \StripeIntegration\Payments\Helper\CheckoutSession $checkoutSessionHelper,
+         StoreManagerInterface $storeManager,
+-        CurrencyFactory $currencyFactory
++        CurrencyFactory $currencyFactory,
++        // BEGIN PATCH
++        \StripeIntegration\Payments\Model\Config $config
++        // END PATCH
+     )
+     {
+         $this->productHelper = $productHelper;
+@@ -30,10 +36,19 @@ class SubscriptionProduct
+         $this->checkoutSessionHelper = $checkoutSessionHelper;
+         $this->storeManager = $storeManager;
+         $this->currencyFactory = $currencyFactory;
++        // BEGIN PATCH
++        $this->config = $config;
++        // END PATCH
+     }
+
+     public function fromQuoteItem($item)
+     {
++        // BEGIN PATCH
++        if (!$this->config->isSubscriptionsEnabled($item->getStoreId())) {
++            return $this;
++        }
++        // END PATCH
++
+         if (empty($item) || !$item->getProduct())
+             throw new InvalidSubscriptionProduct("Invalid quote item.");
+
+@@ -57,6 +72,12 @@ class SubscriptionProduct
+
+     public function fromOrderItem($orderItem)
+     {
++        // BEGIN PATCH
++        if (!$this->config->isSubscriptionsEnabled($orderItem->getStoreId())) {
++            return $this;
++        }
++        // END PATCH
++
+         if (empty($orderItem) || !$orderItem->getProductId())
+             throw new InvalidSubscriptionProduct("Invalid order item.");
+
+@@ -80,6 +101,12 @@ class SubscriptionProduct
+
+     public function fromProductId($productId)
+     {
++        // BEGIN PATCH
++        if (!$this->config->isSubscriptionsEnabled()) {
++            return $this;
++        }
++        // END PATCH
++
+         if (empty($productId))
+             throw new InvalidSubscriptionProduct("Invalid product ID.");

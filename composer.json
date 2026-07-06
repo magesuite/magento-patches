@@ -3700,6 +3700,11 @@
                     "description": "Adds domReady! dependency to StripeIntegration_Payments/js/helper/subscriptions, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/stripe/module-payments/stripe-subscriptions-with-domReady.patch",
                     "version-constraint": ">=4.0.8"
+                },
+                {
+                    "description": "Disables checking products in cart when subscriptions are disabled to avoid unnecessary products loading",
+                    "filename": "essential/stripe/module-payments/skip-products-check-on-subscriptions-disabled.patch",
+                    "version-constraint": ">=4.4.9"
                 }
             ],
             "bluepayment-plugin/module-bluepayment": [
