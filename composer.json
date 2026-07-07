@@ -1490,6 +1490,11 @@
             ],
             "magento/module-checkout": [
                 {
+                    "description": "M2.4.9: fix cart subtotal sync reloading the cart on every load when prices are displayed including tax",
+                    "filename": "essential/magento/module-checkout/m249-ensure-subtotal-sync-include-tax.patch",
+                    "version-constraint": ">=100.4.9"
+                },
+                {
                     "description": "Fixes undefined string being displayed when shipping method has no title.",
                     "filename": "essential/magento/module-checkout/m22-shipping-method-undefined-title.patch",
                     "version-constraint": "<=100.0.6"
