@@ -4016,6 +4016,13 @@
                     "version-constraint": ">=5.0.9"
                 }
             ],
+            "webkul/eshopsync":  [
+                {
+                    "description": "Return empty server name",
+                    "filename": "essential/webkul/eshopsync/return-empty-server-name.patch",
+                    "version-constraint": ">=5.0.4"
+                }
+            ],
             "magento/module-wishlist":  [
                 {
                     "description": "Fix adding to wishlist after login",
