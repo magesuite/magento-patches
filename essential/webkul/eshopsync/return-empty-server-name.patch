@@ -1,0 +1,13 @@
+diff --git a/Helper/Connection.php b/Helper/Connection.php
+index 4d7dc3b..5aba79e 100755
+--- a/Helper/Connection.php
++++ b/Helper/Connection.php
+@@ -159,7 +159,7 @@ class Connection extends AbstractHelper
+         $urlArr = explode('/', $configObj['id']);
+         $email = end($urlArr);
+         $orgId = $urlArr[key($urlArr) - 1];
+-        $hostName = $_SERVER['SERVER_NAME'];
++        $hostName = $_SERVER['SERVER_NAME'] ?? ''; // PATCH
+         $licenceKey = $this->_scopeconfig->getValue('sfConnect/licence/licenceKey');
+         $orgIdWithoutExtraText = substr($orgId, 0, -3);;
+         if (md5($hostName . $orgIdWithoutExtraText) == $licenceKey) {
