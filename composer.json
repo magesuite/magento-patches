@@ -528,6 +528,11 @@
                     "description": "Fix probelm with unable to create order from admin when instance got multiple Store Views on 2.4.6.",
                     "filename": "essential/magento/module-sales/fix-issue-with-order-creation-and-store-selection.patch",
                     "version-constraint": ">=103.0.6,<103.0.7"
+                },
+                {
+                    "description": "[RK-2412] The admin email is intentionally skipped if there is no valid cart to report on. This prevents throwing an error.",
+                    "filename": "essential/magento/module-sales/skip-payment-failure-service-handle-if-cart-is-missing.patch",
+                    "version-constraint": ">=103.0.8"
                 }
             ],
             "magento/module-store": [

@@ -1,0 +1,16 @@
+diff --git a/Model/Service/PaymentFailuresService.php b/Model/Service/PaymentFailuresService.php
+index c95c460..0fa44e3 100644
+--- a/Model/Service/PaymentFailuresService.php
++++ b/Model/Service/PaymentFailuresService.php
+@@ -98,6 +98,11 @@ class PaymentFailuresService implements PaymentFailuresInterface
+         string $message,
+         string $checkoutType = 'onepage'
+     ): PaymentFailuresInterface {
++        // BEGIN PATCH [RK-2412]
++        if (!$cartId) {
++            return $this;
++        }
++        // END PATCH
+         $this->inlineTranslation->suspend();
+         $quote = $this->cartRepository->get($cartId);
+ 
