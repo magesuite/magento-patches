@@ -1,0 +1,22 @@
+Disable Braintree plugins for order grid (performance). Variant for braintree-core >=4.8.0
+(new "Sales Order View" block before </config> changed the patch context).
+
+--- a/etc/adminhtml/di.xml
++++ b/etc/adminhtml/di.xml
+@@ -96,12 +96,14 @@
+     </type>
+ 
+     <!-- Sale order grid -->
++    <!-- PATCH START -->
+     <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+-        <plugin name="braintreeSalesOrderGrid" type="\PayPal\Braintree\Plugin\SalesOrderGridPlugin" />
++        <plugin name="braintreeSalesOrderGrid" type="\PayPal\Braintree\Plugin\SalesOrderGridPlugin" disabled="true"/>
+     </type>
+     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+-        <plugin name="braintreeSalesOrderExport" type="\PayPal\Braintree\Plugin\SalesOrderExportPlugin" />
++        <plugin name="braintreeSalesOrderExport" type="\PayPal\Braintree\Plugin\SalesOrderExportPlugin" disabled="true"/>
+     </type>
++    <!-- PATCH END -->
+     <!-- Sales Order View -->
+     <type name="Magento\Sales\Controller\Adminhtml\Order\View">
+         <plugin name="braintree_pui_processing_message"
