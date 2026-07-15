@@ -1,0 +1,18 @@
+Fixes in-store pickup shipping method (instore_pickup) being offered even when no pickup location has the ordered products in stock.
+
+Root cause: GetPickupLocationIntersectionForSkus::execute() resolves the pickup locations for the cart SKUs purely by the existence of an inventory_source_item row (SKU present at an enabled, pickup-active source). It never checks source_item stock status, so a source that has the product assigned but is out of stock is still returned as an available pickup location. This location count then makes PickupLocationsAvailabilityValidator report the carrier as available, and instore_pickup shows up in the shipping rates.
+
+Fix: add a WHERE condition on inventory_source_item.status = STATUS_IN_STOCK so only sources where the product is in stock participate in the intersection.
+
+diff --git a/Model/ResourceModel/GetPickupLocationIntersectionForSkus.php b/Model/ResourceModel/GetPickupLocationIntersectionForSkus.php
+index 3f5e11d..142a3c3 100644
+--- a/Model/ResourceModel/GetPickupLocationIntersectionForSkus.php
++++ b/Model/ResourceModel/GetPickupLocationIntersectionForSkus.php
+@@ -72,6 +72,7 @@ class GetPickupLocationIntersectionForSkus
+             ->where(SourceItemInterface::SKU . ' in (?) ', $skus)
+             ->where(SourceInterface::ENABLED . ' = 1')
+             ->where(PickupLocationInterface::IS_PICKUP_LOCATION_ACTIVE . ' = 1')
++            ->where(SourceItemInterface::STATUS . ' = ?', SourceItemInterface::STATUS_IN_STOCK)
+             ->reset(Select::COLUMNS)
+             ->columns([SourceItemInterface::SOURCE_CODE])
+             ->group($this->sourceItemResource->getMainTable() . '.' . SourceItemInterface::SOURCE_CODE)
