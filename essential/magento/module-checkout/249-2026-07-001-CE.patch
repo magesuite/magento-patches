@@ -1,0 +1,164 @@
+diff --git a/Model/GuestPaymentInformationManagement.php b/Model/GuestPaymentInformationManagement.php
+index 02f4c0e44ef86..6fb2ed0a3585b 100644
+--- a/Model/GuestPaymentInformationManagement.php
++++ b/Model/GuestPaymentInformationManagement.php
+@@ -17,6 +17,7 @@
+ use Magento\Quote\Model\Quote;
+ use Magento\Quote\Model\QuoteAddressValidationService;
+ use Psr\Log\LoggerInterface as Logger;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
+ 
+ /**
+  * Guest payment information management model.
+@@ -88,5 +89,10 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+     private $quoteAddressValidationService;
+ 
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * @param \Magento\Quote\Api\GuestBillingAddressManagementInterface $billingAddressManagement
+      * @param \Magento\Quote\Api\GuestPaymentMethodManagementInterface $paymentMethodManagement
+@@ -99,6 +105,7 @@ class GuestPaymentInformationManagement implements \Magento\Checkout\Api\GuestPa
+      * @param PaymentSavingRateLimiterInterface|null $savingRateLimiter
+      * @param AddressComparatorInterface|null $addressComparator
+      * @param QuoteAddressValidationService|null $quoteAddressValidationService
++     * @param GetGuestCart|null $getGuestCart
+      * @codeCoverageIgnore
+      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+      */
+@@ -113,7 +120,8 @@ public function __construct(
+         ?PaymentProcessingRateLimiterInterface $paymentsRateLimiter = null,
+         ?PaymentSavingRateLimiterInterface $savingRateLimiter = null,
+         ?AddressComparatorInterface $addressComparator = null,
+-        ?QuoteAddressValidationService $quoteAddressValidationService = null
++        ?QuoteAddressValidationService $quoteAddressValidationService = null,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->billingAddressManagement = $billingAddressManagement;
+         $this->paymentMethodManagement = $paymentMethodManagement;
+@@ -130,6 +138,7 @@ public function __construct(
+         $this->quoteAddressValidationService = $quoteAddressValidationService
+             ?? ObjectManager::getInstance()->get(QuoteAddressValidationService::class);
+         $this->logger = $logger;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+ 
+     /**
+@@ -196,6 +205,7 @@ public function savePaymentInformation(
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
+         /** @var Quote $quote */
+         $quote = $this->cartRepository->getActive($quoteIdMask->getQuoteId());
++        $this->getGuestCart->checkIsGuestCart((int)$quote->getCustomerId(), $cartId);
+ 
+         $this->quoteAddressValidationService->validateAddressesWithRules($quote, null, $billingAddress);
+ 
+@@ -227,6 +237,7 @@ public function savePaymentInformation(
+     public function getPaymentInformation($cartId)
+     {
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->paymentInformationManagement->getPaymentInformation($quoteIdMask->getQuoteId());
+     }
+ 
+diff --git a/Model/GuestShippingInformationManagement.php b/Model/GuestShippingInformationManagement.php
+index ed8d73adff437..99479c41f427e 100644
+--- a/Model/GuestShippingInformationManagement.php
++++ b/Model/GuestShippingInformationManagement.php
+@@ -6,6 +6,8 @@
+ namespace Magento\Checkout\Model;
+ 
+ use Magento\Checkout\Api\Data\ShippingInformationInterface;
++use Magento\Framework\App\ObjectManager;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
+ 
+ class GuestShippingInformationManagement implements \Magento\Checkout\Api\GuestShippingInformationManagementInterface
+ {
+@@ -20,16 +22,24 @@ class GuestShippingInformationManagement implements \Magento\Checkout\Api\GuestS
+     protected $shippingInformationManagement;
+ 
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * @param \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
+      * @param \Magento\Checkout\Api\ShippingInformationManagementInterface $shippingInformationManagement
++     * @param GetGuestCart|null $getGuestCart
+      * @codeCoverageIgnore
+      */
+     public function __construct(
+         \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
+-        \Magento\Checkout\Api\ShippingInformationManagementInterface $shippingInformationManagement
++        \Magento\Checkout\Api\ShippingInformationManagementInterface $shippingInformationManagement,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->shippingInformationManagement = $shippingInformationManagement;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+ 
+     /**
+@@ -41,6 +51,7 @@ public function saveAddressInformation(
+     ) {
+         /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->shippingInformationManagement->saveAddressInformation(
+             (int) $quoteIdMask->getQuoteId(),
+             $addressInformation
+diff --git a/Model/GuestTotalsInformationManagement.php b/Model/GuestTotalsInformationManagement.php
+index 2992930fc3c92..f2cc583c9d429 100644
+--- a/Model/GuestTotalsInformationManagement.php
++++ b/Model/GuestTotalsInformationManagement.php
+@@ -6,5 +6,8 @@
+ namespace Magento\Checkout\Model;
+ 
++use Magento\Framework\App\ObjectManager;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++
+ class GuestTotalsInformationManagement implements \Magento\Checkout\Api\GuestTotalsInformationManagementInterface
+ {
+     /**
+@@ -18,20 +21,28 @@ class GuestTotalsInformationManagement implements \Magento\Checkout\Api\GuestTot
+     protected $totalsInformationManagement;
+ 
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * @param \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory
+      * @param \Magento\Checkout\Api\TotalsInformationManagementInterface $totalsInformationManagement
++     * @param GetGuestCart|null $getGuestCart
+      * @codeCoverageIgnore
+      */
+     public function __construct(
+         \Magento\Quote\Model\QuoteIdMaskFactory $quoteIdMaskFactory,
+-        \Magento\Checkout\Api\TotalsInformationManagementInterface $totalsInformationManagement
++        \Magento\Checkout\Api\TotalsInformationManagementInterface $totalsInformationManagement,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->totalsInformationManagement = $totalsInformationManagement;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+ 
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function calculate(
+         $cartId,
+@@ -39,6 +50,7 @@ public function calculate(
+     ) {
+         /** @var $quoteIdMask \Magento\Quote\Model\QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->totalsInformationManagement->calculate(
+             $quoteIdMask->getQuoteId(),
+             $addressInformation

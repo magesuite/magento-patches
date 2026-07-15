@@ -1,0 +1,35 @@
+diff --git a/Model/ResourceModel/Stock/Item.php b/Model/ResourceModel/Stock/Item.php
+index 2bc8df50a2f89..dfdba72b296b4 100644
+--- a/Model/ResourceModel/Stock/Item.php
++++ b/Model/ResourceModel/Stock/Item.php
+@@ -129,12 +129,15 @@ protected function _prepareDataForTable(\Magento\Framework\DataObject $object, $
+         $data = parent::_prepareDataForTable($object, $table);
+         $ifNullSql = $this->getConnection()->getIfNullSql('qty');
+         if (!$object->isObjectNew() && $object->getQtyCorrection()) {
++            $rawQty  = (float) $object->getQtyCorrection();
++            $safeQty = is_finite($rawQty) ? $rawQty : 0.0;
++
+             if ($object->getQty() === null) {
+                 $data['qty'] = null;
+-            } elseif ($object->getQtyCorrection() < 0) {
+-                $data['qty'] = new \Zend_Db_Expr($ifNullSql . '-' . abs((float) $object->getQtyCorrection()));
++            } elseif ($safeQty < 0) {
++                $data['qty'] = new \Zend_Db_Expr($ifNullSql . '-' . abs($safeQty));
+             } else {
+-                $data['qty'] = new \Zend_Db_Expr($ifNullSql . '+' . $object->getQtyCorrection());
++                $data['qty'] = new \Zend_Db_Expr($ifNullSql . '+' . $safeQty);
+             }
+         }
+         return $data;
+diff --git a/Observer/SaveInventoryDataObserver.php b/Observer/SaveInventoryDataObserver.php
+index 38944477b1253..0347e37a0f0fb 100644
+--- a/Observer/SaveInventoryDataObserver.php
++++ b/Observer/SaveInventoryDataObserver.php
+@@ -152,6 +152,7 @@ private function getStockItemToBeUpdated(Product $product)
+     private function getStockData(Product $product)
+     {
+         $stockData = $product->getStockData();
++        unset($stockData['qty_correction']);
+         $stockData['product_id'] = $product->getId();
+ 
+         if (!isset($stockData['website_id'])) {

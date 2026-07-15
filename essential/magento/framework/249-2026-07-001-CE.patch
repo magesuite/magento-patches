@@ -1,0 +1,14 @@
+diff --git a/View/Element/UiComponent/DataProvider/Sanitizer.php b/View/Element/UiComponent/DataProvider/Sanitizer.php
+index cf84706208413..3ac2c9135ea09 100644
+--- a/View/Element/UiComponent/DataProvider/Sanitizer.php
++++ b/View/Element/UiComponent/DataProvider/Sanitizer.php
+@@ -50,7 +50,7 @@ public function sanitize(array $data): array
+             } elseif (!is_bool($config)
+                 && !array_key_exists($key, $config)
+                 && (is_string($datum) || $datum instanceof Phrase)
+-                && preg_match('/\$\{.+\}/', (string)$datum)
++                && preg_match('/\$\{.+\}/s', (string)$datum)
+             ) {
+                 //Templating is not disabled for all properties or for this property specifically
+                 //Property is a string that contains template syntax, so we are disabling its rendering
+
