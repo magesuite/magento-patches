@@ -11,12 +11,22 @@
         "patchset": {
             "magento/module-async-config": [
                 {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): restrict async config image handling to genuinely uploaded files and drop untrusted tmp_name values",
+                    "filename": "essential/magento/module-async-config/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.2,<100.4.3"
+                },
+                {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): restrict async config image handling to genuinely uploaded files and drop untrusted tmp_name values",
                     "filename": "essential/magento/module-async-config/248p5-2026-07-001-CE.patch",
                     "version-constraint": ">=100.4.1,<100.4.2"
                 }
             ],
             "magento/module-catalog-url-rewrite-graph-ql": [
+                {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): exclude disabled products from the URL rewrite GraphQL entity resolver",
+                    "filename": "essential/magento/module-catalog-url-rewrite-graph-ql/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.7,<100.4.8"
+                },
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): exclude disabled products from the URL rewrite GraphQL entity resolver",
                     "filename": "essential/magento/module-catalog-url-rewrite-graph-ql/248p5-2026-07-001-CE.patch",
@@ -25,12 +35,22 @@
             ],
             "magento/module-gift-message": [
                 {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): enforce guest-cart ownership checks in guest gift-message repositories",
+                    "filename": "essential/magento/module-gift-message/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
+                {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): enforce guest-cart ownership checks in guest gift-message repositories",
                     "filename": "essential/magento/module-gift-message/248p5-2026-07-001-CE.patch",
                     "version-constraint": ">=100.4.7,<100.4.8"
                 }
             ],
             "magento/framework": [
+                {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): UiComponent Sanitizer template-injection detection now matches across newlines (add /s modifier)",
+                    "filename": "essential/magento/framework/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=103.0.9,<103.0.10"
+                },
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): UiComponent Sanitizer template-injection detection now matches across newlines (add /s modifier)",
                     "filename": "essential/magento/framework/248p5-2026-07-001-CE.patch",
@@ -563,6 +583,11 @@
             ],
             "magento/module-store": [
                 {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): add hta, mhtml, mht, htc, xht, shtm and php8 to the list of protected media file extensions",
+                    "filename": "essential/magento/module-store/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=101.1.9,<101.1.10"
+                },
+                {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): add hta, mhtml, mht, htc, xht, shtm and php8 to the list of protected media file extensions",
                     "filename": "essential/magento/module-store/248p5-2026-07-001-CE.patch",
                     "version-constraint": ">=101.1.8,<101.1.9"
@@ -852,6 +877,11 @@
                 }
             ],
             "magento/magento2-base": [
+                {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): deny web access to /media/customer_address/ in the nginx sample config",
+                    "filename": "essential/magento/magento2-base/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=2.4.9,<2.4.10"
+                },
                 {
                     "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",
                     "filename": "essential/magento/magento2-base/m245-jquery-storage-dependencies-fix.patch",
@@ -1292,6 +1322,11 @@
             ],
             "magento/module-catalog-inventory": [
                 {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): sanitize qty_correction to a finite float and strip it from submitted stock data",
+                    "filename": "essential/magento/module-catalog-inventory/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.9,<100.4.10"
+                },
+                {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): sanitize qty_correction to a finite float and strip it from submitted stock data",
                     "filename": "essential/magento/module-catalog-inventory/248p5-2026-07-001-CE.patch",
                     "version-constraint": ">=100.4.8,<100.4.9"
@@ -1338,6 +1373,11 @@
                 }
             ],
             "magento/module-catalog": [
+                {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): add __disableTmpl to gallery and product-render JSON to block Knockout template injection",
+                    "filename": "essential/magento/module-catalog/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=104.0.9,<104.0.10"
+                },
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): add __disableTmpl to gallery and product-render JSON to block Knockout template injection",
                     "filename": "essential/magento/module-catalog/248p5-2026-07-001-CE.patch",
@@ -1535,6 +1575,11 @@
                 }
             ],
             "magento/module-checkout": [
+                {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): enforce guest-cart ownership checks in guest payment, shipping and totals information management",
+                    "filename": "essential/magento/module-checkout/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.9,<100.4.10"
+                },
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): enforce guest-cart ownership checks in guest payment, shipping and totals information management",
                     "filename": "essential/magento/module-checkout/248p5-2026-07-001-CE.patch",
@@ -2103,6 +2148,11 @@
             ],
             "magento/module-quote": [
                 {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): add GetGuestCart ownership guard across guest cart management services and move the quote-address validation plugin to global scope",
+                    "filename": "essential/magento/module-quote/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=101.2.9,<101.2.10"
+                },
+                {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): add GetGuestCart ownership guard and apply it across guest cart management services",
                     "filename": "essential/magento/module-quote/248p5-2026-07-001-CE.patch",
                     "version-constraint": ">=101.2.8,<101.2.9"
@@ -2266,6 +2316,11 @@
                 }
             ],
             "magento/module-customer": [
+                {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): remove customer_address_folder from the allowed media storage resources",
+                    "filename": "essential/magento/module-customer/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=103.0.9,<103.0.10"
+                },
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): remove customer_address_folder from the allowed media storage resources",
                     "filename": "essential/magento/module-customer/248p5-2026-07-001-CE.patch",
@@ -3121,6 +3176,11 @@
                 }
             ],
             "magento/module-translation": [
+                {
+                    "description": "Security patch 249-2026-07-001 (Magento 2.4.9): sanitize inline translation params by stripping external links and dangerous tags/event handlers",
+                    "filename": "essential/magento/module-translation/249-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.9,<100.4.10"
+                },
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): sanitize inline translation params by stripping external links and dangerous tags/event handlers",
                     "filename": "essential/magento/module-translation/248p5-2026-07-001-CE.patch",

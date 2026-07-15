@@ -1,0 +1,15 @@
+diff --git a/nginx.conf.sample b/nginx.conf.sample
+index be5cff37e8e61..9e19d1bc9c309 100644
+--- a/nginx.conf.sample
++++ b/nginx.conf.sample
+@@ -189,6 +189,10 @@ location /media/customer/ {
+     deny all;
+ }
+ 
++location /media/customer_address/ {
++    deny all;
++}
++
+ location /media/downloadable/ {
+     deny all;
+ }
