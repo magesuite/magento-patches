@@ -1,0 +1,813 @@
+diff --git a/Model/GuestCart/GetGuestCart.php b/Model/GuestCart/GetGuestCart.php
+new file mode 100644
+index 0000000000000..270bcb2ca3dc1
+--- /dev/null
++++ b/Model/GuestCart/GetGuestCart.php
+@@ -0,0 +1,61 @@
++<?php
++/**
++ * Copyright 2026 Adobe
++ * All Rights Reserved.
++ */
++declare(strict_types=1);
++
++namespace Magento\Quote\Model\GuestCart;
++
++use Magento\Framework\Exception\NoSuchEntityException;
++use Magento\Quote\Api\CartRepositoryInterface;
++use Magento\Quote\Model\Quote;
++
++/**
++ * Get cart for guest users.
++ */
++class GetGuestCart
++{
++    /**
++     * Initialize dependencies
++     *
++     * @param CartRepositoryInterface $cartRepository
++     */
++    public function __construct(
++        private readonly CartRepositoryInterface $cartRepository
++    ) {
++    }
++
++    /**
++     * Get quote by masked cart ID only if it is a guest cart.
++     *
++     * @param string $maskedCartId
++     * @param int $quoteId
++     * @return Quote
++     * @throws NoSuchEntityException
++     */
++    public function execute(string $maskedCartId, int $quoteId): Quote
++    {
++        /** @var Quote $quote */
++        $quote = $this->cartRepository->get($quoteId);
++        $this->checkIsGuestCart((int) $quote->getCustomerId(), $maskedCartId);
++
++        return $quote;
++    }
++
++    /**
++     * Check if the cart is a guest cart.
++     *
++     * @param int $customerId
++     * @param string $maskedCartId
++     * @throws NoSuchEntityException
++     */
++    public function checkIsGuestCart(int $customerId, string $maskedCartId): void
++    {
++        if ($customerId !== 0) {
++            throw new NoSuchEntityException(
++                __("Could not find a cart with ID '%masked_cart_id'", ['masked_cart_id' => $maskedCartId])
++            );
++        }
++    }
++}
+diff --git a/Model/GuestCart/GuestBillingAddressManagement.php b/Model/GuestCart/GuestBillingAddressManagement.php
+index 3e491e0..f3aa20c 100644
+--- a/Model/GuestCart/GuestBillingAddressManagement.php
++++ b/Model/GuestCart/GuestBillingAddressManagement.php
+@@ -9,6 +9,8 @@ use Magento\Quote\Api\GuestBillingAddressManagementInterface;
+ use Magento\Quote\Api\BillingAddressManagementInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Framework\App\ObjectManager;
+
+ /**
+  * Billing address management service for guest carts.
+@@ -25,37 +27,47 @@ class GuestBillingAddressManagement implements GuestBillingAddressManagementInte
+      */
+     private $billingAddressManagement;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Constructs a quote billing address service object.
+      *
+      * @param BillingAddressManagementInterface $billingAddressManagement
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+         BillingAddressManagementInterface $billingAddressManagement,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->billingAddressManagement = $billingAddressManagement;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function assign($cartId, \Magento\Quote\Api\Data\AddressInterface $address, $useForShipping = false)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return (int)$this->billingAddressManagement->assign($quoteIdMask->getQuoteId(), $address, $useForShipping);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function get($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->billingAddressManagement->get($quoteIdMask->getQuoteId());
+     }
+ }
+diff --git a/Model/GuestCart/GuestCartItemRepository.php b/Model/GuestCart/GuestCartItemRepository.php
+index 46c3b9b..6750872 100644
+--- a/Model/GuestCart/GuestCartItemRepository.php
++++ b/Model/GuestCart/GuestCartItemRepository.php
+@@ -10,6 +10,8 @@ use Magento\Quote\Api\Data\CartItemInterface;
+ use Magento\Quote\Api\CartItemRepositoryInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Framework\App\ObjectManager;
+
+ /**
+  * Cart Item repository class for guest carts.
+@@ -17,7 +19,7 @@ use Magento\Quote\Model\QuoteIdMaskFactory;
+ class GuestCartItemRepository implements \Magento\Quote\Api\GuestCartItemRepositoryInterface
+ {
+     /**
+-     * @var \Magento\Quote\Api\CartItemRepositoryInterface
++     * @var CartItemRepositoryInterface
+      */
+     protected $repository;
+
+@@ -26,27 +28,36 @@ class GuestCartItemRepository implements \Magento\Quote\Api\GuestCartItemReposit
+      */
+     protected $quoteIdMaskFactory;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Constructs a read service object.
+      *
+-     * @param \Magento\Quote\Api\CartItemRepositoryInterface $repository
++     * @param CartItemRepositoryInterface $repository
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+-        \Magento\Quote\Api\CartItemRepositoryInterface $repository,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        CartItemRepositoryInterface $repository,
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->repository = $repository;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+     public function getList($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         $cartItemList = $this->repository->getList($quoteIdMask->getQuoteId());
+         /** @var $item CartItemInterface */
+         foreach ($cartItemList as $item) {
+@@ -56,23 +67,25 @@ class GuestCartItemRepository implements \Magento\Quote\Api\GuestCartItemReposit
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+-    public function save(\Magento\Quote\Api\Data\CartItemInterface $cartItem)
++    public function save(CartItemInterface $cartItem)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartItem->getQuoteId(), 'masked_id');
++        $this->getGuestCart->execute($cartItem->getQuoteId(), (int) $quoteIdMask->getQuoteId());
+         $cartItem->setQuoteId($quoteIdMask->getQuoteId());
+         return $this->repository->save($cartItem);
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritdoc
+      */
+     public function deleteById($cartId, $itemId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->repository->deleteById($quoteIdMask->getQuoteId(), $itemId);
+     }
+ }
+diff --git a/Model/GuestCart/GuestCartManagement.php b/Model/GuestCart/GuestCartManagement.php
+index 51083e6..5b5138b 100644
+--- a/Model/GuestCart/GuestCartManagement.php
++++ b/Model/GuestCart/GuestCartManagement.php
+@@ -12,6 +12,8 @@ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
+ use Magento\Quote\Api\Data\PaymentInterface;
+ use Magento\Quote\Api\CartRepositoryInterface;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Framework\App\ObjectManager;
+
+ /**
+  * Cart Management class for guest carts.
+@@ -35,26 +37,34 @@ class GuestCartManagement implements GuestCartManagementInterface
+      */
+     protected $cartRepository;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Initialize dependencies.
+      *
+      * @param CartManagementInterface $quoteManagement
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
+      * @param CartRepositoryInterface $cartRepository
++     * @param GetGuestCart|null $getGuestCart
+      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+      */
+     public function __construct(
+         CartManagementInterface $quoteManagement,
+         QuoteIdMaskFactory $quoteIdMaskFactory,
+-        CartRepositoryInterface $cartRepository
++        CartRepositoryInterface $cartRepository,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteManagement = $quoteManagement;
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->cartRepository = $cartRepository;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+     public function createEmptyCart()
+     {
+@@ -66,22 +76,24 @@ class GuestCartManagement implements GuestCartManagementInterface
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+     public function assignCustomer($cartId, $customerId, $storeId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->quoteManagement->assignCustomer($quoteIdMask->getQuoteId(), $customerId, $storeId);
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritdoc
+      */
+     public function placeOrder($cartId, ?PaymentInterface $paymentMethod = null)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         $this->cartRepository->get($quoteIdMask->getQuoteId())
+             ->setCheckoutMethod(CartManagementInterface::METHOD_GUEST);
+         return $this->quoteManagement->placeOrder($quoteIdMask->getQuoteId(), $paymentMethod);
+diff --git a/Model/GuestCart/GuestCartRepository.php b/Model/GuestCart/GuestCartRepository.php
+index 665dc0a..c722f6a 100644
+--- a/Model/GuestCart/GuestCartRepository.php
++++ b/Model/GuestCart/GuestCartRepository.php
+@@ -9,6 +9,8 @@ use Magento\Quote\Api\GuestCartRepositoryInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Api\CartRepositoryInterface;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Framework\App\ObjectManager;
+
+ /**
+  * Cart Repository class for guest carts.
+@@ -25,27 +27,37 @@ class GuestCartRepository implements GuestCartRepositoryInterface
+      */
+     protected $quoteRepository;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Initialize dependencies.
+      *
+      * @param CartRepositoryInterface $quoteRepository
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+         CartRepositoryInterface $quoteRepository,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->quoteRepository = $quoteRepository;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+     public function get($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
+-        return $this->quoteRepository->get($quoteIdMask->getQuoteId());
++        $quote = $this->quoteRepository->get($quoteIdMask->getQuoteId());
++        $this->getGuestCart->checkIsGuestCart((int)$quote->getCustomerId(), $cartId);
++        return $quote;
+     }
+ }
+diff --git a/Model/GuestCart/GuestCartTotalManagement.php b/Model/GuestCart/GuestCartTotalManagement.php
+index 2defd16..57e9e53 100644
+--- a/Model/GuestCart/GuestCartTotalManagement.php
++++ b/Model/GuestCart/GuestCartTotalManagement.php
+@@ -7,6 +7,9 @@ namespace Magento\Quote\Model\GuestCart;
+
+ use Magento\Quote\Model\QuoteIdMaskFactory;
+ use Magento\Quote\Api\GuestCartTotalManagementInterface;
++use Magento\Framework\App\ObjectManager;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Quote\Api\CartTotalManagementInterface;
+
+ /**
+  * @inheritDoc
+@@ -14,7 +17,7 @@ use Magento\Quote\Api\GuestCartTotalManagementInterface;
+ class GuestCartTotalManagement implements GuestCartTotalManagementInterface
+ {
+     /**
+-     * @var \Magento\Quote\Api\CartTotalManagementInterface
++     * @var CartTotalManagementInterface
+      */
+     protected $cartTotalManagement;
+
+@@ -24,19 +27,27 @@ class GuestCartTotalManagement implements GuestCartTotalManagementInterface
+     protected $quoteIdMaskFactory;
+
+     /**
+-     * @param \Magento\Quote\Api\CartTotalManagementInterface $cartTotalManagement
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
++    /**
++     * @param CartTotalManagementInterface $cartTotalManagement
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+-        \Magento\Quote\Api\CartTotalManagementInterface $cartTotalManagement,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        CartTotalManagementInterface $cartTotalManagement,
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->cartTotalManagement = $cartTotalManagement;
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function collectTotals(
+         $cartId,
+@@ -46,6 +57,7 @@ class GuestCartTotalManagement implements GuestCartTotalManagementInterface
+         ?\Magento\Quote\Api\Data\TotalsAdditionalDataInterface $additionalData = null
+     ) {
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->cartTotalManagement->collectTotals(
+             $quoteIdMask->getQuoteId(),
+             $paymentMethod,
+diff --git a/Model/GuestCart/GuestCartTotalRepository.php b/Model/GuestCart/GuestCartTotalRepository.php
+index 9e38467..4c1c336 100644
+--- a/Model/GuestCart/GuestCartTotalRepository.php
++++ b/Model/GuestCart/GuestCartTotalRepository.php
+@@ -10,6 +10,8 @@ use Magento\Quote\Api\CartTotalRepositoryInterface;
+ use Magento\Quote\Api\GuestCartTotalRepositoryInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Framework\App\ObjectManager;
+
+ /**
+  * Cart totals repository class for guest carts.
+@@ -26,27 +28,36 @@ class GuestCartTotalRepository implements GuestCartTotalRepositoryInterface
+      */
+     private $cartTotalRepository;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Constructs a cart totals data object.
+      *
+      * @param CartTotalRepositoryInterface $cartTotalRepository
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+         CartTotalRepositoryInterface $cartTotalRepository,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->cartTotalRepository = $cartTotalRepository;
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function get($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->cartTotalRepository->get($quoteIdMask->getQuoteId());
+     }
+ }
+diff --git a/Model/GuestCart/GuestCouponManagement.php b/Model/GuestCart/GuestCouponManagement.php
+index a000d44..9fcc197 100644
+--- a/Model/GuestCart/GuestCouponManagement.php
++++ b/Model/GuestCart/GuestCouponManagement.php
+@@ -10,6 +10,8 @@ use Magento\Quote\Api\GuestCouponManagementInterface;
+ use Magento\Quote\Api\CouponManagementInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Framework\App\ObjectManager;
+
+ /**
+  * Coupon management class for guest carts.
+@@ -26,18 +28,26 @@ class GuestCouponManagement implements GuestCouponManagementInterface
+      */
+     private $couponManagement;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Constructs a coupon read service object.
+      *
+      * @param CouponManagementInterface $couponManagement
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+         CouponManagementInterface $couponManagement,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->couponManagement = $couponManagement;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+@@ -47,6 +57,7 @@ class GuestCouponManagement implements GuestCouponManagementInterface
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->couponManagement->get($quoteIdMask->getQuoteId());
+     }
+
+@@ -57,6 +68,7 @@ class GuestCouponManagement implements GuestCouponManagementInterface
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->couponManagement->set($quoteIdMask->getQuoteId(), trim($couponCode));
+     }
+
+@@ -67,6 +79,7 @@ class GuestCouponManagement implements GuestCouponManagementInterface
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->couponManagement->remove($quoteIdMask->getQuoteId());
+     }
+ }
+diff --git a/Model/GuestCart/GuestPaymentMethodManagement.php b/Model/GuestCart/GuestPaymentMethodManagement.php
+index f57a7d2..1540187 100644
+--- a/Model/GuestCart/GuestPaymentMethodManagement.php
++++ b/Model/GuestCart/GuestPaymentMethodManagement.php
+@@ -9,6 +9,8 @@ use Magento\Quote\Api\PaymentMethodManagementInterface;
+ use Magento\Quote\Api\GuestPaymentMethodManagementInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
++use Magento\Framework\App\ObjectManager;
+
+ /**
+  * Payment method management class for guest carts.
+@@ -25,47 +27,58 @@ class GuestPaymentMethodManagement implements GuestPaymentMethodManagementInterf
+      */
+     protected $paymentMethodManagement;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Initialize dependencies.
+      *
+      * @param PaymentMethodManagementInterface $paymentMethodManagement
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+         PaymentMethodManagementInterface $paymentMethodManagement,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
+         $this->paymentMethodManagement = $paymentMethodManagement;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+     public function set($cartId, \Magento\Quote\Api\Data\PaymentInterface $method)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->paymentMethodManagement->set($quoteIdMask->getQuoteId(), $method);
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+     public function get($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->paymentMethodManagement->get($quoteIdMask->getQuoteId());
+     }
+
+     /**
+-     * {@inheritdoc}
++     * @inheritDoc
+      */
+     public function getList($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->paymentMethodManagement->getList($quoteIdMask->getQuoteId());
+     }
+ }
+diff --git a/Model/GuestCart/GuestShippingAddressManagement.php b/Model/GuestCart/GuestShippingAddressManagement.php
+index e2f3140..6a5ed7f 100644
+--- a/Model/GuestCart/GuestShippingAddressManagement.php
++++ b/Model/GuestCart/GuestShippingAddressManagement.php
+@@ -9,6 +9,8 @@ use Magento\Quote\Model\GuestCart\GuestShippingAddressManagementInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
+ use Magento\Quote\Model\ShippingAddressManagementInterface;
++use Magento\Framework\App\ObjectManager;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
+
+ /**
+  * Shipping address management class for guest carts.
+@@ -25,37 +27,47 @@ class GuestShippingAddressManagement implements GuestShippingAddressManagementIn
+      */
+     protected $shippingAddressManagement;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Constructs a quote shipping address write service object.
+      *
+      * @param ShippingAddressManagementInterface $shippingAddressManagement
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+         ShippingAddressManagementInterface $shippingAddressManagement,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->shippingAddressManagement = $shippingAddressManagement;
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function assign($cartId, \Magento\Quote\Api\Data\AddressInterface $address)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->shippingAddressManagement->assign($quoteIdMask->getQuoteId(), $address);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function get($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->shippingAddressManagement->get($quoteIdMask->getQuoteId());
+     }
+ }
+diff --git a/Model/GuestCart/GuestShippingMethodManagement.php b/Model/GuestCart/GuestShippingMethodManagement.php
+index 88c4e10..82580ad 100644
+--- a/Model/GuestCart/GuestShippingMethodManagement.php
++++ b/Model/GuestCart/GuestShippingMethodManagement.php
+@@ -13,6 +13,7 @@ use Magento\Quote\Api\ShipmentEstimationInterface;
+ use Magento\Quote\Api\ShippingMethodManagementInterface;
+ use Magento\Quote\Model\QuoteIdMask;
+ use Magento\Quote\Model\QuoteIdMaskFactory;
++use Magento\Quote\Model\GuestCart\GetGuestCart;
+
+ /**
+  * Shipping method management class for guest carts.
+@@ -37,57 +38,69 @@ class GuestShippingMethodManagement implements
+      */
+     private $shipmentEstimationManagement;
+
++    /**
++     * @var GetGuestCart|null
++     */
++    private $getGuestCart;
++
+     /**
+      * Constructs a shipping method read service object.
+      *
+      * @param ShippingMethodManagementInterface $shippingMethodManagement
+      * @param QuoteIdMaskFactory $quoteIdMaskFactory
++     * @param GetGuestCart|null $getGuestCart
+      */
+     public function __construct(
+         ShippingMethodManagementInterface $shippingMethodManagement,
+-        QuoteIdMaskFactory $quoteIdMaskFactory
++        QuoteIdMaskFactory $quoteIdMaskFactory,
++        ?GetGuestCart $getGuestCart = null
+     ) {
+         $this->shippingMethodManagement = $shippingMethodManagement;
+         $this->quoteIdMaskFactory = $quoteIdMaskFactory;
++        $this->getGuestCart = $getGuestCart ?? ObjectManager::getInstance()->get(GetGuestCart::class);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function get($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->shippingMethodManagement->get($quoteIdMask->getQuoteId());
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function getList($cartId)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->shippingMethodManagement->getList($quoteIdMask->getQuoteId());
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function set($cartId, $carrierCode, $methodCode)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->shippingMethodManagement->set($quoteIdMask->getQuoteId(), $carrierCode, $methodCode);
+     }
+
+     /**
+-     * {@inheritDoc}
++     * @inheritDoc
+      */
+     public function estimateByAddress($cartId, \Magento\Quote\Api\Data\EstimateAddressInterface $address)
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+         return $this->shippingMethodManagement->estimateByAddress($quoteIdMask->getQuoteId(), $address);
+     }
+
+@@ -98,6 +111,7 @@ class GuestShippingMethodManagement implements
+     {
+         /** @var $quoteIdMask QuoteIdMask */
+         $quoteIdMask = $this->quoteIdMaskFactory->create()->load($cartId, 'masked_id');
++        $this->getGuestCart->execute($cartId, (int) $quoteIdMask->getQuoteId());
+
+         return $this->getShipmentEstimationManagement()
+             ->estimateByExtendedAddress((int) $quoteIdMask->getQuoteId(), $address);
+@@ -105,8 +119,10 @@ class GuestShippingMethodManagement implements
+
+     /**
+      * Get shipment estimation management service
++     *
+      * @return ShipmentEstimationInterface
+      * @deprecated 100.0.7
++     * @see getShipmentEstimationManagement
+      */
+     private function getShipmentEstimationManagement()
+     {
+diff --git a/etc/di.xml b/etc/di.xml
+index 0a68320..19e03ef 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -187,4 +187,7 @@
+     <type name="Magento\Quote\Api\CartRepositoryInterface">
+         <plugin name="quoteValidateOrderId" type="Magento\Quote\Plugin\ValidateQuoteOrigOrder"/>
+     </type>
++    <type name="Magento\Quote\Model\Quote">
++        <plugin name="validateQuoteAddress" type="Magento\Quote\Plugin\QuoteAddress" />
++    </type>
+ </config>
+diff --git a/etc/webapi_rest/di.xml b/etc/webapi_rest/di.xml
+index 55ea966..c0aa31a 100644
+--- a/etc/webapi_rest/di.xml
++++ b/etc/webapi_rest/di.xml
+@@ -18,7 +18,6 @@
+     </type>
+     <type name="Magento\Quote\Model\Quote">
+         <plugin name="updateQuoteStoreId" type="Magento\Quote\Model\Quote\Plugin\UpdateQuoteStoreId" />
+-        <plugin name="validateQuoteAddress" type="Magento\Quote\Plugin\QuoteAddress" />
+     </type>
+     <type name="Magento\Quote\Model\QuoteValidator">
+         <plugin name="error_redirect_processor" type="Magento\Quote\Plugin\Webapi\Model\ErrorRedirectProcessor" />
+diff --git a/i18n/en_US.csv b/i18n/en_US.csv
+index 65c12c2..afa2f0b 100644
+--- a/i18n/en_US.csv
++++ b/i18n/en_US.csv
+@@ -76,3 +76,4 @@ Carts,Carts
+ "Identity type not found","Identity type not found"
+ "Invalid order backpressure limit config","Invalid order backpressure limit config"
+ "Please check input parameters.","Please check input parameters."
++"Could not find a cart with ID '%masked_cart_id'","Could not find a cart with ID '%masked_cart_id'"

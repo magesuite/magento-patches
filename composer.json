@@ -9,7 +9,33 @@
     },
     "extra": {
         "patchset": {
+            "magento/module-async-config": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): restrict async config image handling to genuinely uploaded files and drop untrusted tmp_name values",
+                    "filename": "essential/magento/module-async-config/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.1,<100.4.2"
+                }
+            ],
+            "magento/module-catalog-url-rewrite-graph-ql": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): exclude disabled products from the URL rewrite GraphQL entity resolver",
+                    "filename": "essential/magento/module-catalog-url-rewrite-graph-ql/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.6,<100.4.7"
+                }
+            ],
+            "magento/module-gift-message": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): enforce guest-cart ownership checks in guest gift-message repositories",
+                    "filename": "essential/magento/module-gift-message/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.7,<100.4.8"
+                }
+            ],
             "magento/framework": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): UiComponent Sanitizer template-injection detection now matches across newlines (add /s modifier)",
+                    "filename": "essential/magento/framework/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=103.0.8,<103.0.9"
+                },
                 {
                     "description": "Fix customer grid EAV indexing",
                     "filename": "essential/magento/framework/m21-customer-grid-indexing-fix.patch",
@@ -536,6 +562,11 @@
                 }
             ],
             "magento/module-store": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): add hta, mhtml, mht, htc, xht, shtm and php8 to the list of protected media file extensions",
+                    "filename": "essential/magento/module-store/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=101.1.8,<101.1.9"
+                },
                 {
                     "description": "Change current store to fix URL building in store switcher",
                     "filename": "essential/magento/module-store/m23-store-switcher-fix.patch",
@@ -1261,6 +1292,11 @@
             ],
             "magento/module-catalog-inventory": [
                 {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): sanitize qty_correction to a finite float and strip it from submitted stock data",
+                    "filename": "essential/magento/module-catalog-inventory/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
+                {
                     "description": "Fix stock indexer to correctly reindex stock using materialized views (Magento 2.2.0-2.2.4)",
                     "filename": "essential/magento/module-catalog-inventory/m22-fix-stock-mview-indexing.patch",
                     "version-constraint": "~100.2.0,<=100.2.3"
@@ -1302,6 +1338,11 @@
                 }
             ],
             "magento/module-catalog": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): add __disableTmpl to gallery and product-render JSON to block Knockout template injection",
+                    "filename": "essential/magento/module-catalog/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=104.0.8,<104.0.9"
+                },
                 {
                     "description": "Fixes sorting related products in admin panel.",
                     "filename": "essential/magento/module-catalog/m22-related-products-sorting.patch",
@@ -1494,6 +1535,11 @@
                 }
             ],
             "magento/module-checkout": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): enforce guest-cart ownership checks in guest payment, shipping and totals information management",
+                    "filename": "essential/magento/module-checkout/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
                 {
                     "description": "M2.4.9: fix cart subtotal sync reloading the cart on every load when prices are displayed including tax",
                     "filename": "essential/magento/module-checkout/m249-ensure-subtotal-sync-include-tax.patch",
@@ -2057,6 +2103,11 @@
             ],
             "magento/module-quote": [
                 {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): add GetGuestCart ownership guard and apply it across guest cart management services",
+                    "filename": "essential/magento/module-quote/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=101.2.8,<101.2.9"
+                },
+                {
                     "description": "Don't try removing items from quote if it's empty (magento 2.2.2-2.2.4)",
                     "filename": "essential/magento/module-quote/m22-dont-remove-empty-quote-items.patch",
                     "version-constraint": "~101.0.2,<=101.0.4"
@@ -2215,6 +2266,11 @@
                 }
             ],
             "magento/module-customer": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): remove customer_address_folder from the allowed media storage resources",
+                    "filename": "essential/magento/module-customer/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=103.0.8,<103.0.9"
+                },
                 {
                     "description": "Fix issue Deleting address on frontend redirects to 404 Page (2.3.0)",
                     "filename": "essential/magento/module-customer/m230-fix-deleting-address-returns-404-page.patch",
@@ -3065,6 +3121,11 @@
                 }
             ],
             "magento/module-translation": [
+                {
+                    "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): sanitize inline translation params by stripping external links and dangerous tags/event handlers",
+                    "filename": "essential/magento/module-translation/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
                 {
                     "description": "Load inline translations only when they are enabled in admin panel",
                     "filename": "essential/magento/module-translation/load-inline-translation-when-enabled.patch",
