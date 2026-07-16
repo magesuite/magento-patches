@@ -1,0 +1,57 @@
+diff --git a/Service/Order/CancelOrder.php b/Service/Order/CancelOrder.php
+index 73654fd..e307858 100644
+--- a/Service/Order/CancelOrder.php
++++ b/Service/Order/CancelOrder.php
+@@ -16,6 +16,10 @@ use Magento\Sales\Model\Order;
+ use Magento\Sales\Model\Order\StatusResolver;
+ use Mollie\Payment\Config;
+ use Mollie\Payment\Service\Magento\Order\CancelRewardPoints;
++// BEGIN PATCH
++use Magento\Framework\Lock\LockManagerInterface;
++use Psr\Log\LoggerInterface;
++// END PATCH
+ 
+ class CancelOrder
+ {
+@@ -26,7 +30,11 @@ class CancelOrder
+         private OrderManagementInterface $orderManagement,
+         private OrderRepositoryInterface $orderRepository,
+         private StatusResolver $statusResolver,
+-        private ResourceConnection $resource
++        private ResourceConnection $resource,
++        // PATCH START
++        private LockManagerInterface $lockManager,
++        private LoggerInterface $logger
++        // PATCH END
+     ) {}
+ 
+     public function execute(OrderInterface $order, $reason = null): bool
+@@ -39,6 +47,18 @@ class CancelOrder
+             return false;
+         }
+ 
++        // PATCH START
++        $lockName = 'mollie_cancel_order_' . $order->getId();
++
++        if ($this->lockManager->isLocked($lockName)) {
++            $this->logger->info('Mollie: Order ' . $order->getId() . ' is locked');
++            sleep(1);
++            return $this->execute($order, $reason);
++        }
++
++        $this->lockManager->lock($lockName);
++        // PATCH END
++
+         $comment = __('The order was canceled');
+         if ($reason !== null) {
+             $comment = __('The order was canceled, reason: payment %1', $reason);
+@@ -52,6 +72,9 @@ class CancelOrder
+ 
+         $this->orderManagement->cancel($order->getId());
+         $this->cancelRewardPoints->execute($order);
++        // PATCH START
++        $this->lockManager->unlock($lockName);
++        // PATCH END
+ 
+         return true;
+     }
