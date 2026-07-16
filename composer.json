@@ -3429,6 +3429,11 @@
                     "description": "Fix for double cancelation",
                     "filename": "essential/mollie/magento2/fix-for-double-cancelation.patch",
                     "version-constraint": ">=2.50.0,<3.0.0"
+                },
+                {
+                    "description": "Fix problem with payment reminder button",
+                    "filename": "essential/mollie/magento2/fix-problem-with-payment-reminder-button.patch",
+                    "version-constraint": ">=3.0.0"
                 }
             ],
             "magento/module-multiple-wishlist": [

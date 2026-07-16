@@ -1,0 +1,28 @@
+diff --git a/Controller/Adminhtml/Action/SendSecondChanceEmail.php b/Controller/Adminhtml/Action/SendSecondChanceEmail.php
+index 4a5f405..4f34198 100644
+--- a/Controller/Adminhtml/Action/SendSecondChanceEmail.php
++++ b/Controller/Adminhtml/Action/SendSecondChanceEmail.php
+@@ -42,7 +42,7 @@ class SendSecondChanceEmail extends Action implements HttpPostActionInterface
+ 
+         try {
+             $reminder = $this->sentPaymentReminderFactory->create();
+-            $reminder->setOrderId($order->getEntityId());
++            $reminder->setOrderId((int)$order->getEntityId());
+             $this->sentPaymentReminderRepository->save($reminder);
+         } catch (CouldNotSaveException) {
+             // It might already exist
+diff --git a/Plugin/Sales/Block/Adminhtml/Order/Buttons/SecondChanceButton.php b/Plugin/Sales/Block/Adminhtml/Order/Buttons/SecondChanceButton.php
+index 1026775..6287555 100644
+--- a/Plugin/Sales/Block/Adminhtml/Order/Buttons/SecondChanceButton.php
++++ b/Plugin/Sales/Block/Adminhtml/Order/Buttons/SecondChanceButton.php
+@@ -44,7 +44,9 @@ class SecondChanceButton implements ButtonInterface
+             'mollie_payment_second_chance_email',
+             [
+                 'label' => __('Send Payment Reminder'),
+-                'onclick' => 'setLocation("' . $this->getUrl((string)$view->getOrderId()) . '")',
++                'onclick' => 'confirmSetLocation(\''
++                    . __('Are you sure you want to send a payment reminder e-mail to the customer?')
++                    . '\', \'' . $this->getUrl((string)$view->getOrderId()) . '\', {data: {}})',
+             ],
+         );
+     }
