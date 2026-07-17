@@ -3785,6 +3785,13 @@
                     "version-constraint": ">=104.0.29"
                 }
             ],
+            "getflowbox/flowbox": [
+                {
+                    "description": "Fix deprecated dynamic property creation in XML processors (PHP 8.2)",
+                    "filename": "essential/getflowbox/flowbox/fix-dynamic-property-deprecation.patch",
+                    "version-constraint": "^1.0"
+                }
+            ],
             "getkevin/kevin-magento2": [
                 {
                     "description": "Cast value to string php 8.2 compatibility",
