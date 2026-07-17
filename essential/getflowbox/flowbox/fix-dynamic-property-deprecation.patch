@@ -1,0 +1,21 @@
+--- a/Model/Generator/Item/XmlProcessor/CategoryPath.php
++++ b/Model/Generator/Item/XmlProcessor/CategoryPath.php
+@@ -11,6 +11,8 @@
+
+ class CategoryPath implements ItemInterface
+ {
++    protected array $categoriesProxyData = [];
++
+     public function __construct(
+         Tree $tree,
+         Escaper $escaper
+--- a/Model/Generator/Item/XmlProcessor/ProductCategory.php
++++ b/Model/Generator/Item/XmlProcessor/ProductCategory.php
+@@ -15,6 +15,7 @@
+
+     private Reader $configReader;
+     private TaxonomyResource $taxonomyResource;
++    private array $categoriesProxyData = [];
+
+     public function __construct(
+         CollectionFactory $collectionFactory,
