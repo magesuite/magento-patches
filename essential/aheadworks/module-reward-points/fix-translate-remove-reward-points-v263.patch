@@ -1,0 +1,31 @@
+Translate reward points removal message (aheadworks/module-reward-points >= 2.6.0).
+
+Root cause: In 2.6.x the "were successfully removed" success message is built with
+the `$t` alias (`mage/translate`) instead of the canonical `$.mage.__` translate call:
+
+    message = $t('%1 were successfully removed.').replace('%1', rewardPointsLabelName);
+
+`$.mage.__` (regex REGEX_MAGE_TRANSLATE) is collected into the JS translation
+dictionary by every Magento version's `i18n:collect-phrases` parser, whereas the
+`$t(...)` form (REGEX_TRANSLATE_FUNCTION) is only recognized by newer parser
+versions, so the phrase is not reliably extracted and the message stays untranslated.
+
+Fix: use `$.mage.__` while keeping the upstream `%1` placeholder so the static phrase
+`'%1 were successfully removed.'` is translatable and the label is substituted after
+translation.
+
+Note: This supersedes fix-translate-remove-reward-points.patch for 2.6.x. That patch
+targets the pre-2.6 source (`$t(rewardPointsLabelName + ' were successfully removed.')`)
+which no longer exists here, so it is constrained to < 2.6.0.
+
+diff --git a/view/frontend/web/js/action/remove-reward-points.js b/view/frontend/web/js/action/remove-reward-points.js
+--- a/view/frontend/web/js/action/remove-reward-points.js
++++ b/view/frontend/web/js/action/remove-reward-points.js
+@@ -31,7 +31,7 @@ define(
+
+         action = function (rewardPointsLabelName) {
+             var url = urlManager.getRemoveRewardPointsUrl(),
+-                message = $t('%1 were successfully removed.').replace('%1', rewardPointsLabelName);
++                message = $.mage.__('%1 were successfully removed.').replace('%1', rewardPointsLabelName);
+
+             messageContainer.clear();
