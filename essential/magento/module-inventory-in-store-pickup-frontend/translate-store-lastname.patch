@@ -1,0 +1,22 @@
+Makes the hardcoded "Store" lastname of the store-pickup shipping address translatable.
+
+Root cause: selectForShipping() hardcodes the string literal 'Store' as the shipping
+address lastname. This value is later concatenated into the shipping method title
+(shipping-information-ext.js) and shown to the customer, so it stays in English
+regardless of the store locale.
+Fix: wrap it in $t('Store'), using the mage/translate dependency already imported
+into this module as $t.
+
+diff --git a/view/frontend/web/js/model/pickup-locations-service.js b/view/frontend/web/js/model/pickup-locations-service.js
+index 57a3df1..db30022 100644
+--- a/view/frontend/web/js/model/pickup-locations-service.js
++++ b/view/frontend/web/js/model/pickup-locations-service.js
+@@ -115,7 +115,7 @@ define([
+                 {},
+                 addressConverter.formAddressDataToQuoteAddress({
+                     firstname: location.name,
+-                    lastname: 'Store',
++                    lastname: $t('Store'),
+                     street: location.street,
+                     city: location.city,
+                     postcode: location.postcode,
