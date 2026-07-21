@@ -4106,6 +4106,13 @@
                     "version-constraint": ">=2.5.6"
                 }
             ],
+            "cinovo/depot": [
+                {
+                    "description": "Null-safe shipping method code in checkout shipping-information: avoids str_starts_with(null) deprecation/exception when the request has no shipping method.",
+                    "filename": "essential/cinovo/depot/null-safe-shipping-method-code-in-shipping-information.patch",
+                    "version-constraint": ">=2.3.12"
+                }
+            ],
             "cinovo/documentupload": [
                 {
                     "description": "Compatibility fix with laminas file upload.",
