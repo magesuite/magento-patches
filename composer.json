@@ -1565,6 +1565,11 @@
                     "description": "[A11y] Fix for missing autocomplete attribute in the input field",
                     "filename": "essential/magento/module-inventory-in-store-pickup-frontend/a11y-store-selector-input-autocomplete.patch",
                     "version-constraint": ">=1.1.5"
+                },
+                {
+                    "description": "Make the hardcoded 'Store' pickup-address lastname translatable via $t()",
+                    "filename": "essential/magento/module-inventory-in-store-pickup-frontend/translate-store-lastname.patch",
+                    "version-constraint": ">=1.1.5"
                 }
             ],
             "magento/module-inventory-in-store-pickup-sales": [
