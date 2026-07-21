@@ -1,0 +1,20 @@
+Fixes "str_starts_with(): Passing null to parameter #1" (deprecation → exception) in checkout REST
+shipping-information: getShippingMethodCode() is null when the payload has no shipping method, and
+str_starts_with() rejects null. Cast the method code to string (null → "" → depot branch skipped).
+
+diff --git a/Plugin/Checkout/Model/ShippingInformationManagement.php b/Plugin/Checkout/Model/ShippingInformationManagement.php
+index 4a3e1dc..4d5da46 100644
+--- a/Plugin/Checkout/Model/ShippingInformationManagement.php
++++ b/Plugin/Checkout/Model/ShippingInformationManagement.php
+@@ -67,7 +67,10 @@ class ShippingInformationManagement
+         $cartId,
+         ShippingInformationInterface $addressInformation
+     ) {
+-        $methodCode = $addressInformation->getShippingMethodCode();
++        // BEGIN PATCH
++        // $methodCode = $addressInformation->getShippingMethodCode();
++        $methodCode = (string)$addressInformation->getShippingMethodCode();
++        // END PATCH
+         $depotId = null;
+         if ((str_starts_with(
+             $methodCode,
