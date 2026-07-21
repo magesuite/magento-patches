@@ -1569,7 +1569,7 @@
                 {
                     "description": "Make the hardcoded 'Store' pickup-address lastname translatable via $t()",
                     "filename": "essential/magento/module-inventory-in-store-pickup-frontend/translate-store-lastname.patch",
-                    "version-constraint": ">=1.1.5"
+                    "version-constraint": ">=1.1.5,<1.1.7"
                 }
             ],
             "magento/module-inventory-in-store-pickup-sales": [
