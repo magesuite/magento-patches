@@ -1,0 +1,60 @@
+Optimizes the admin media gallery folder tree (Magento\MediaGalleryUi\Model\Directories\GetDirectoryTree),
+which on stores with a large pub/media tree never finishes loading, while still exposing the sub-directories
+of the configured allowed resources.
+
+diff --git a/Model/Directories/GetDirectoryTree.php b/Model/Directories/GetDirectoryTree.php
+index bff9d98..dfc5c30 100644
+--- a/Model/Directories/GetDirectoryTree.php
++++ b/Model/Directories/GetDirectoryTree.php
+@@ -13,6 +13,7 @@ use Magento\Framework\App\ObjectManager;
+ use Magento\Framework\Exception\ValidatorException;
+ use Magento\Framework\Filesystem;
+ use Magento\Framework\Filesystem\Directory\Read;
++use Magento\Framework\Filesystem\Directory\ReadInterface;
+ use Magento\MediaGalleryApi\Api\IsPathExcludedInterface;
+
+ /**
+@@ -102,12 +103,8 @@ class GetDirectoryTree
+                 );
+                 if ($imageDirectory->isDirectory()) {
+                     $directories[] = $this->getDirectoryData($imageFolderPath);
+-                    foreach ($imageDirectory->readRecursively() as $path) {
+-                        if ($imageDirectory->isDirectory($path)) {
+-                            $directories[] = $this->getDirectoryData(
+-                                $mediaDirectory->getRelativePath($imageDirectory->getAbsolutePath($path))
+-                            );
+-                        }
++                    foreach ($this->getSubDirectories($mediaDirectory, $imageDirectory) as $relativePath) {
++                        $directories[] = $this->getDirectoryData($relativePath);
+                     }
+                 }
+             }
+@@ -116,6 +113,28 @@ class GetDirectoryTree
+         return $directories;
+     }
+
++    /**
++     * Yield sub-directory paths lazily (pre-order: a parent is always emitted before its children)
++     *
++     * @param ReadInterface $mediaDirectory
++     * @param ReadInterface $imageDirectory
++     * @param string|null $path
++     * @return \Traversable
++     */
++    private function getSubDirectories(
++        ReadInterface $mediaDirectory,
++        ReadInterface $imageDirectory,
++        ?string $path = null
++    ): \Traversable {
++        foreach ($imageDirectory->read($path) as $itemPath) {
++            if (!$imageDirectory->isDirectory($itemPath)) {
++                continue;
++            }
++            yield $mediaDirectory->getRelativePath($imageDirectory->getAbsolutePath($itemPath));
++            yield from $this->getSubDirectories($mediaDirectory, $imageDirectory, $itemPath);
++        }
++    }
++
+     /**
+      * Return jstree data for given path
+      *

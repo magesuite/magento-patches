@@ -2408,6 +2408,27 @@
           "filename": "vendor/creativestyle/magento-patches/optional/june/newsletter/krg_add_salted_hash_from_preference_center.patch",
           "version-constraint": "*"
         }
+      ],
+      "magento/module-media-gallery-ui": [
+        {
+          "description": "fix: [RK-2151] Optimize media gallery performance.",
+          "filename": "vendor/creativestyle/magento-patches/optional/magento/module-media-gallery-ui/optimize-media-gallery-tree-performance.patch",
+          "version-constraint": ">=100.4.7"
+        },
+        {
+          "description": "Optimize media gallery tree by allowing only whitelisted directories to load",
+          "filename": "vendor/creativestyle/magento-patches/optional/magento/module-media-gallery-ui/use-only-allowed-resources-in-media-gallery-tree.patch",
+          "version-constraint": ">=100.4.7"
+        }
+      ],
+      "magento/module-media-gallery-synchronization": [
+        {
+          "description": "Synchronize only directories from allowed resources in Media Gallery",
+          "filename": "vendor/creativestyle/magento-patches/optional/magento/module-media-gallery-synchronization/optimize-media-gallery-sync-scan.patch",
+          "version-constraint": ">=100.4.7"
+        }
       ]
+
+
     }
 }

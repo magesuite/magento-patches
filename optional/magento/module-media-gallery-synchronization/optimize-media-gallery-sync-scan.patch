@@ -1,0 +1,193 @@
+Optimizes the `bin/magento media-gallery:sync` command (Magento_MediaGallerySynchronization),
+which on stores with a large pub/media tree runs for a very long time and can finish without
+adding any rows to media_gallery_asset.
+
+Symptom / root cause:
+FetchMediaStorageFileBatches::execute() scanned the WHOLE pub/media tree via
+Filesystem::readRecursively(). readRecursively() is eager: it walks every file under pub/media,
+builds a full array of relative paths and sort()s it BEFORE the generator yields its first batch.
+Two consequences:
+  1) Slow: the entire media tree (including the derived resize cache under catalog/product/cache/**)
+     is walked and sorted up front on every run.
+  2) No data imported: because nothing is yielded until the full walk+sort completes, a run that
+     is interrupted or times out during the walk commits zero batches, so media_gallery_asset
+     stays empty even though the command "ran".
+
+Fix:
+  * Scan only the configured media_gallery_image_folders (system/media_storage_configuration/
+    allowed_resources/media_gallery_image_folders), mirroring Magento\MediaGalleryUi\Model\
+    Directories\GetDirectoryTree, instead of the whole media root. The configured whitelist is the
+    single source of truth for what is synchronised: every whitelisted folder is scanned in full,
+    including all of its sub-directories.
+  * Walk each folder LAZILY through the Filesystem abstraction (ReadInterface::read()/isDirectory()),
+    yielding files as they are discovered. This removes the eager materialisation + global sort, so
+    batches stream out immediately (a partial run now persists data) and memory stays bounded.
+    read()/isDirectory() go through the configured driver, so the scan stays remote-storage-safe
+    (unlike the native RecursiveDirectoryIterator that commit e994e70 deliberately moved off to fix
+    S3/GCS support, issue #32901).
+
+Notes / gotchas:
+  * A required ScopeConfigInterface constructor argument is appended (autowired by its magento2-base
+    preference). Run setup:di:compile after applying (the composer-patches build recompiles DI
+    post-install); a stale compiled DI must be regenerated before the class is instantiated.
+  * The set of imported files is now exactly the union of the whitelisted media_gallery_image_folders.
+    To keep the derived resize cache (catalog/product/cache/**) out of the media gallery, remove
+    catalog/product from media_gallery_image_folders (config) rather than filtering it in this class.
+    ResolveNonExistedAssets only deletes rows whose file is physically absent, so existing rows are
+    not removed by this change.
+  * If media_gallery_image_folders is empty (never the case with shipped config.xml defaults) the
+    scan yields nothing rather than the whole tree; this is the safer behaviour and is intentional.
+
+diff --git a/Model/FetchMediaStorageFileBatches.php b/Model/FetchMediaStorageFileBatches.php
+index f3e3f6f..d2799d1 100644
+--- a/Model/FetchMediaStorageFileBatches.php
++++ b/Model/FetchMediaStorageFileBatches.php
+@@ -5,8 +5,10 @@
+  */
+ namespace Magento\MediaGallerySynchronization\Model;
+ 
++use Magento\Framework\App\Config\ScopeConfigInterface;
+ use Magento\Framework\App\Filesystem\DirectoryList;
+ use Magento\Framework\Filesystem;
++use Magento\Framework\Filesystem\Directory\ReadInterface;
+ use Magento\Framework\Filesystem\Driver\File;
+ use Magento\MediaGalleryApi\Api\IsPathExcludedInterface;
+ use Psr\Log\LoggerInterface;
+@@ -16,6 +18,12 @@ use Psr\Log\LoggerInterface;
+  */
+ class FetchMediaStorageFileBatches
+ {
++    /**
++     * @var string
++     */
++    private const XML_PATH_MEDIA_GALLERY_IMAGE_FOLDERS
++        = 'system/media_storage_configuration/allowed_resources/media_gallery_image_folders';
++
+     /**
+      * @var GetAssetsIterator
+      */
+@@ -51,6 +59,11 @@ class FetchMediaStorageFileBatches
+      */
+     private $batchSize;
+ 
++    /**
++     * @var ScopeConfigInterface
++     */
++    private $scopeConfig;
++
+     /**
+      * @param LoggerInterface $log
+      * @param IsPathExcludedInterface $isPathExcluded
+@@ -59,6 +72,7 @@ class FetchMediaStorageFileBatches
+      * @param File $driver
+      * @param int $batchSize
+      * @param array $fileExtensions
++     * @param ScopeConfigInterface $scopeConfig
+      */
+     public function __construct(
+         LoggerInterface $log,
+@@ -67,7 +81,8 @@ class FetchMediaStorageFileBatches
+         GetAssetsIterator $assetsIterator,
+         File $driver,
+         int $batchSize,
+-        array $fileExtensions
++        array $fileExtensions,
++        ScopeConfigInterface $scopeConfig
+     ) {
+         $this->log = $log;
+         $this->isPathExcluded = $isPathExcluded;
+@@ -76,6 +91,7 @@ class FetchMediaStorageFileBatches
+         $this->driver = $driver;
+         $this->batchSize = $batchSize;
+         $this->fileExtensions = $fileExtensions;
++        $this->scopeConfig = $scopeConfig;
+     }
+ 
+     /**
+@@ -83,29 +99,74 @@ class FetchMediaStorageFileBatches
+      */
+     public function execute(): \Traversable
+     {
+-        $i = 0;
+-        $batch = [];
+         $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
++        $batch = [];
+ 
+-        foreach ($mediaDirectory->readRecursively($mediaDirectory->getAbsolutePath()) as $file) {
+-
+-            if (!$this->isApplicable($file)) {
++        foreach ($this->getMediaGalleryImageFolders() as $folder) {
++            if (!$mediaDirectory->isExist($folder) || !$mediaDirectory->isDirectory($folder)) {
+                 continue;
+             }
+-
+-            $batch[] = $file;
+-            
+-            if (++$i == $this->batchSize) {
+-                yield $batch;
+-                $i = 0;
+-                $batch = [];
++            foreach ($this->getFiles($mediaDirectory, $folder) as $file) {
++                if (!$this->isApplicable($file)) {
++                    continue;
++                }
++                $batch[] = $file;
++                if (count($batch) >= $this->batchSize) {
++                    yield $batch;
++                    $batch = [];
++                }
+             }
+         }
++
+         if (count($batch) > 0) {
+             yield $batch;
+         }
+     }
+ 
++    /**
++     * Return configured media gallery image folders to scan
++     *
++     * @return array
++     */
++    private function getMediaGalleryImageFolders(): array
++    {
++        $folders = $this->scopeConfig->getValue(
++            self::XML_PATH_MEDIA_GALLERY_IMAGE_FOLDERS,
++            ScopeConfigInterface::SCOPE_TYPE_DEFAULT
++        );
++
++        if (!is_array($folders)) {
++            return [];
++        }
++
++        return array_unique(
++            array_filter(
++                $folders,
++                static function ($folder) {
++                    return is_string($folder) && $folder !== '';
++                }
++            )
++        );
++    }
++
++    /**
++     * Yield files under the given path lazily, descending into every sub-directory
++     *
++     * @param ReadInterface $mediaDirectory
++     * @param string $path
++     * @return \Traversable
++     */
++    private function getFiles(ReadInterface $mediaDirectory, string $path): \Traversable
++    {
++        foreach ($mediaDirectory->read($path) as $item) {
++            if ($mediaDirectory->isDirectory($item)) {
++                yield from $this->getFiles($mediaDirectory, $item);
++                continue;
++            }
++            yield $item;
++        }
++    }
++
+     /**
+      * Can synchronization be applied to asset with provided path
+      *
