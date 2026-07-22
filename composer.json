@@ -4134,6 +4134,13 @@
                     "version-constraint": ">=2.4.10, <2.4.13"
                 }
             ],
+            "cinovo/spotrates": [
+                {
+                    "description": "Prevent unserializing empty spot rates cache during import.",
+                    "filename": "essential/cinovo/spotrates/prevent-unserializing-empty-cache.patch",
+                    "version-constraint": ">=2.1.14"
+                }
+            ],
             "magepal/magento2-reindex": [
                 {
                     "description": "PHP 8.4 compatibility.",
