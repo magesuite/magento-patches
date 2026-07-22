@@ -1,0 +1,32 @@
+diff --git a/Helper/SpotRatesHelper.php b/Helper/SpotRatesHelper.php
+index 8657537..676b81f 100644
+--- a/Helper/SpotRatesHelper.php
++++ b/Helper/SpotRatesHelper.php
+@@ -173,8 +173,11 @@ class SpotRatesHelper extends AbstractHelper
+      */
+     public function getCachedMetalRates($forceRefresh = false)
+     {
+-        if ($this->cache->load(self::CACHE_CINOVO_SPOTRATES_KEY)) {
+-            $cacheSpotRates = $this->serializer->unserialize($this->cache->load(self::CACHE_CINOVO_SPOTRATES_KEY));
++        // BEGIN PATCH
++        // if ($this->cache->load(self::CACHE_CINOVO_SPOTRATES_KEY)) {
++        $cache = $this->cache->load(self::CACHE_CINOVO_SPOTRATES_KEY);
++        $cacheSpotRates = $cache ? $this->serializer->unserialize($cache) : null;
++        // END PATCH
+             if ($cacheSpotRates === false || $cacheSpotRates === null || $forceRefresh) {
+                 $now = new DateTime('now');
+
+@@ -208,9 +211,11 @@ class SpotRatesHelper extends AbstractHelper
+                     self::LIFETIME
+                 );
+             }
+-        }
++        // BEGIN PATCH
++        // }
+
+-        return isset($spotRates) ? $spotRates : [];
++        return $spotRates ?? [];
++        // END PATCH
+     }
+
+     /**
