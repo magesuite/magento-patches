@@ -1,0 +1,115 @@
+diff --git a/Allow_NULL_value_if_the_symbol_condition_is_NOT_IN.patch b/Allow_NULL_value_if_the_symbol_condition_is_NOT_IN.patch
+index 48e3311..e69de29 100644
+--- a/Allow_NULL_value_if_the_symbol_condition_is_NOT_IN.patch
++++ b/Allow_NULL_value_if_the_symbol_condition_is_NOT_IN.patch
+@@ -1,55 +0,0 @@
+-diff --git a/Model/Indexer/Product/DataProvider.php b/Model/Indexer/Product/DataProvider.php
+-index 1aa25b4..292c4eb 100644
+---- a/Model/Indexer/Product/DataProvider.php
+-+++ b/Model/Indexer/Product/DataProvider.php
+-@@ -26,6 +26,7 @@ class DataProvider
+-         $collection = $this->productCollectionFactory->create();
+-         $symbol->getConditions()->collectValidatedAttributes($collection);
+-         $collection = $this->collectionApplier->applyConditionsToCollection($symbol->getConditions(), $collection);
+-+        $this->invertEavSubqueryToIncludeUnsetAttributes($collection);
+-         $collection->addStoreFilter($storeId);
+-         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+- 
+-@@ -43,6 +44,42 @@ class DataProvider
+-         return $collection;
+-     }
+- 
+-+    protected function invertEavSubqueryToIncludeUnsetAttributes(
+-+        \Magento\Catalog\Model\ResourceModel\Product\Collection $collection
+-+    ): void {
+-+        $select = $collection->getSelect();
+-+        $whereParts = $select->getPart(\Magento\Framework\DB\Select::WHERE);
+-+
+-+        if (empty($whereParts)) {
+-+            return;
+-+        }
+-+
+-+        $modifiedParts = array_map(
+-+            fn (string $part): string => $this->invertEavNotLikeCondition($this->invertEavNotInCondition($part)),
+-+            $whereParts
+-+        );
+-+
+-+        $select->setPart(\Magento\Framework\DB\Select::WHERE, $modifiedParts);
+-+    }
+-+
+-+    protected function invertEavNotInCondition(string $part): string
+-+    {
+-+        return (string) preg_replace(
+-+            '/(e\.entity_id) IN\((\(SELECT .+? WHERE \(.+?\) AND) \((ca_\w+\.value) NOT IN(\([^)]+\))\)\)\)/s',
+-+            '$1 NOT IN($2 ($3 IN $4)))',
+-+            $part
+-+        );
+-+    }
+-+
+-+    protected function invertEavNotLikeCondition(string $part): string
+-+    {
+-+        return (string) preg_replace(
+-+            "/(e\.entity_id) IN\((\(SELECT .+? WHERE \(.+?\) AND) \((ca_\w+\.value) NOT LIKE ('[^']+')\)\)\)/s",
+-+            '$1 NOT IN($2 ($3 LIKE $4)))',
+-+            $part
+-+        );
+-+    }
+-+
+-     public function getBatchSize(): int
+-     {
+-         $batchSize = (int)$this->deploymentConfig->get(
+diff --git a/Model/Indexer/Product/DataProvider.php b/Model/Indexer/Product/DataProvider.php
+index 1aa25b4..292c4eb 100644
+--- a/Model/Indexer/Product/DataProvider.php
++++ b/Model/Indexer/Product/DataProvider.php
+@@ -26,6 +26,7 @@ class DataProvider
+         $collection = $this->productCollectionFactory->create();
+         $symbol->getConditions()->collectValidatedAttributes($collection);
+         $collection = $this->collectionApplier->applyConditionsToCollection($symbol->getConditions(), $collection);
++        $this->invertEavSubqueryToIncludeUnsetAttributes($collection);
+         $collection->addStoreFilter($storeId);
+         $collection->addAttributeToFilter('status', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
+ 
+@@ -43,6 +44,42 @@ class DataProvider
+         return $collection;
+     }
+ 
++    protected function invertEavSubqueryToIncludeUnsetAttributes(
++        \Magento\Catalog\Model\ResourceModel\Product\Collection $collection
++    ): void {
++        $select = $collection->getSelect();
++        $whereParts = $select->getPart(\Magento\Framework\DB\Select::WHERE);
++
++        if (empty($whereParts)) {
++            return;
++        }
++
++        $modifiedParts = array_map(
++            fn (string $part): string => $this->invertEavNotLikeCondition($this->invertEavNotInCondition($part)),
++            $whereParts
++        );
++
++        $select->setPart(\Magento\Framework\DB\Select::WHERE, $modifiedParts);
++    }
++
++    protected function invertEavNotInCondition(string $part): string
++    {
++        return (string) preg_replace(
++            '/(e\.entity_id) IN\((\(SELECT .+? WHERE \(.+?\) AND) \((ca_\w+\.value) NOT IN(\([^)]+\))\)\)\)/s',
++            '$1 NOT IN($2 ($3 IN $4)))',
++            $part
++        );
++    }
++
++    protected function invertEavNotLikeCondition(string $part): string
++    {
++        return (string) preg_replace(
++            "/(e\.entity_id) IN\((\(SELECT .+? WHERE \(.+?\) AND) \((ca_\w+\.value) NOT LIKE ('[^']+')\)\)\)/s",
++            '$1 NOT IN($2 ($3 LIKE $4)))',
++            $part
++        );
++    }
++
+     public function getBatchSize(): int
+     {
+         $batchSize = (int)$this->deploymentConfig->get(
