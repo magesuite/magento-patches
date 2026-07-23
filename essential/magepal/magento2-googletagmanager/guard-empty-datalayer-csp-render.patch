@@ -1,0 +1,36 @@
+Fixes a fatal error on pages with an empty server-side data layer (homepage, CMS
+pages) when "Add GTM code in html header" (googletagmanager/gdpr/add_js_in_header)
+is enabled, or when Advanced Settings is enabled.
+
+Root cause: in those branches js.phtml renders $block->getDataLayerJs() through
+$secureRenderer->renderTag('script', [], ..., false). getDataLayerJs() returns an
+empty string when the server-side data layer holds no variables, and the CSP secure
+renderer throws "InvalidArgumentException: Either remote URL or hashable content is
+required to whitelist" for an empty inline <script> (nothing to hash, no src).
+Fix: render the data-layer <script> only when getDataLayerJs() is non-empty.
+
+diff --git a/view/frontend/templates/js.phtml b/view/frontend/templates/js.phtml
+index 0c4a7a8..9183643 100755
+--- a/view/frontend/templates/js.phtml
++++ b/view/frontend/templates/js.phtml
+@@ -29,12 +29,18 @@ script;
+     script;
+     ?>
+     <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>
+-    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $block->getDataLayerJs(), false) ?>
++    <?php $dataLayerJs = $block->getDataLayerJs(); ?>
++    <?php if ($dataLayerJs !== ''): ?>
++        <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $dataLayerJs, false) ?>
++    <?php endif; ?>
+ <?php endif; ?>
+
+ <?php if ($block->isAdvancedSettingsEnabled()): ?>
+     <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $block->getAdvancedSettingsJsCode(), false) ?>
+-    <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $block->getDataLayerJs(), false) ?>
++    <?php $dataLayerJs = $block->getDataLayerJs(); ?>
++    <?php if ($dataLayerJs !== ''): ?>
++        <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $dataLayerJs, false) ?>
++    <?php endif; ?>
+ <?php endif; ?>
+
+ <?php if (($block->isGdprEnabled() || !$block->addJsInHead()) && !$block->isAdvancedSettingsEnabled()) : ?>
