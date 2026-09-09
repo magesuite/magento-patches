@@ -1,0 +1,61 @@
+Fixes a fatal error ("Call to undefined method Magento\Framework\Controller\ResultFactory::getRefererUrl()")
+thrown by OrderPlacementObserverBefore::execute() whenever isOpenNow() returns true, i.e. every time an
+order is placed during configured business hours.
+
+Root cause: the observer calls $this->resultFactory->getRefererUrl() on the injected ResultFactory, but
+\Magento\Framework\Controller\ResultFactory only exposes create()/mergeTypes() - it has no getRefererUrl()
+method. That accessor belongs to \Magento\Framework\App\Response\RedirectInterface.
+
+Fix: inject \Magento\Framework\App\Response\RedirectInterface (optional, with an ObjectManager fallback to
+keep the constructor change backward compatible) and read the referer URL from it instead.
+
+diff --git a/Observer/OrderPlacementObserverBefore.php b/Observer/OrderPlacementObserverBefore.php
+index 9f740cf..1e4621b 100644
+--- a/Observer/OrderPlacementObserverBefore.php
++++ b/Observer/OrderPlacementObserverBefore.php
+@@ -30,6 +30,12 @@ class OrderPlacementObserverBefore implements ObserverInterface
+      * @var ResultFactory
+      */
+     private $resultFactory;
++    // BEGIN PATCH
++    /**
++     * @var \Magento\Framework\App\Response\RedirectInterface
++     */
++    private $redirect;
++    // END PATCH
+
+     /**
+      * OrderPlacementObserverBefore constructor.
+@@ -41,11 +47,19 @@ class OrderPlacementObserverBefore implements ObserverInterface
+     public function __construct(
+         LoggerInterface $logger,
+         BusinesshoursInterface $businesshours,
+-        ResultFactory $resultFactory
++        // BEGIN PATCH
++        // ResultFactory $resultFactory
++        ResultFactory $resultFactory,
++        ?\Magento\Framework\App\Response\RedirectInterface $redirect = null
++        // END PATCH
+     ) {
+         $this->logger = $logger;
+         $this->businesshours = $businesshours;
+         $this->resultFactory = $resultFactory;
++        // BEGIN PATCH
++        $this->redirect = $redirect ?: \Magento\Framework\App\ObjectManager::getInstance()
++            ->get(\Magento\Framework\App\Response\RedirectInterface::class);
++        // END PATCH
+     }
+
+     /**
+@@ -56,7 +70,10 @@ class OrderPlacementObserverBefore implements ObserverInterface
+     {
+         if ($this->businesshours->isOpenNow()) {
+             $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+-            $resultRedirect->setUrl($this->resultFactory->getRefererUrl());
++            // BEGIN PATCH
++            // $resultRedirect->setUrl($this->resultFactory->getRefererUrl());
++            $resultRedirect->setUrl($this->redirect->getRefererUrl());
++            // END PATCH
+             return $resultRedirect;
+         }
+
