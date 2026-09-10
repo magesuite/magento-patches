@@ -907,6 +907,11 @@
                     "description": "Display custom status on wishlist/checkout product configure pages (FR-397)",
                     "filename": "essential/amasty/stockstatus/display-custom-status-on-product-configure-pages-v1.5.3.patch",
                     "version-constraint": ">=2.5.3"
+                },
+                {
+                    "description": "Exclude disabled configurable children from the aggregated qty used to compute the parent's low-stock status message",
+                    "filename": "essential/amasty/stockstatus/exclude-disabled-children-from-qty-sum.patch",
+                    "version-constraint": ">=2.5.3"
                 }
             ],
             "anowave/taxswitch": [

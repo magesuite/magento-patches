@@ -1,0 +1,17 @@
+diff --git a/Model/Product/GetQty.php b/Model/Product/GetQty.php
+index 33fa16d..e77e3ab 100644
+--- a/Model/Product/GetQty.php
++++ b/Model/Product/GetQty.php
+@@ -91,6 +94,12 @@ class GetQty
+         $quantity = 0.0;
+
+         foreach ($products as $simple) {
++            // BEGIN PATCH
++            if ((int)$simple->getStatus() !== \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED) {
++                continue;
++            }
++            // END PATCH
++
+             $simpleQty = $this->getQty($simple, $sourceCode);
+
+             if ($simpleQty > 0) {
