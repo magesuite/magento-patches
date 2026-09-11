@@ -4383,6 +4383,13 @@
                     "filename": "essential/hyva-themes/magento2-cms-tailwind-jit/allow-cross-origin-postmessage-from-jit-iframe.patch",
                     "version-constraint": "1.2.25"
                 }
+            ],
+            "heidipay/core": [
+                {
+                    "description": "Fix Place Order button doing nothing when HeidiPay/HeyLight is the selected checkout payment method",
+                    "filename": "essential/heidipay/core/fix-place-order-button-type.patch",
+                    "version-constraint": ">=4.2.0"
+                }
             ]
         }
     }
