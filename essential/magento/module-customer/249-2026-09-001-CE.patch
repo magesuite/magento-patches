@@ -1,0 +1,9 @@
+diff --git a/i18n/en_US.csv b/i18n/en_US.csv
+index 3417da0141feb..308cb9b05cb0e 100644
+--- a/i18n/en_US.csv
++++ b/i18n/en_US.csv
+@@ -551,3 +551,4 @@ T,T
+ F,F
+ VAT,VAT
+ "Something went wrong while logging out customer.","Something went wrong while logging out customer."
++"Address not found.","Address not found."

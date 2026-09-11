@@ -9,6 +9,57 @@
     },
     "extra": {
         "patchset": {
+            "magento/module-backup": [
+                {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): enforce the Magento_Backup::rollback ACL on the backup rollback controller via ADMIN_RESOURCE instead of a non-terminating isRollbackAllowed() check",
+                    "filename": "essential/magento/module-backup/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.9,<100.4.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): enforce the Magento_Backup::rollback ACL on the backup rollback controller via ADMIN_RESOURCE instead of a non-terminating isRollbackAllowed() check",
+                    "filename": "essential/magento/module-backup/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): enforce the Magento_Backup::rollback ACL on the backup rollback controller via ADMIN_RESOURCE instead of a non-terminating isRollbackAllowed() check",
+                    "filename": "essential/magento/module-backup/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.7,<100.4.8"
+                }
+            ],
+            "magento/module-customer-graph-ql": [
+                {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): reset the GraphQL user context to guest when the customer fails the website-scope check and resolve the effective store from the Store header",
+                    "filename": "essential/magento/module-customer-graph-ql/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.9,<100.4.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): reset the GraphQL user context to guest when the customer fails the website-scope check and resolve the effective store from the Store header",
+                    "filename": "essential/magento/module-customer-graph-ql/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): reset the GraphQL user context to guest when the customer fails the website-scope check and resolve the effective store from the Store header",
+                    "filename": "essential/magento/module-customer-graph-ql/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.7,<100.4.8"
+                }
+            ],
+            "magento/module-instant-purchase": [
+                {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): verify that the shipping and billing addresses belong to the current customer before building the instant purchase option",
+                    "filename": "essential/magento/module-instant-purchase/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): verify that the shipping and billing addresses belong to the current customer before building the instant purchase option",
+                    "filename": "essential/magento/module-instant-purchase/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.7,<100.4.8"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): verify that the shipping and billing addresses belong to the current customer before building the instant purchase option",
+                    "filename": "essential/magento/module-instant-purchase/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=100.4.6,<100.4.7"
+                }
+            ],
             "magento/module-backend": [
                 {
                     "description": "Security patch VULN-39341 (Magento 2.4.9): validate the grid row URL generator class against GeneratorInterface before instantiating it",
@@ -63,6 +114,21 @@
                 }
             ],
             "magento/framework": [
+                {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): decode HTML entities to a fixed point in Escaper::escapeXssInUrl so multi-encoded payloads cannot survive escaping",
+                    "filename": "essential/magento/framework/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.9,<103.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): decode HTML entities to a fixed point in Escaper::escapeXssInUrl so multi-encoded payloads cannot survive escaping",
+                    "filename": "essential/magento/framework/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.8,<103.0.9"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): decode HTML entities to a fixed point in Escaper::escapeXssInUrl so multi-encoded payloads cannot survive escaping",
+                    "filename": "essential/magento/framework/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.7,<103.0.8"
+                },
                 {
                     "description": "Security patch VULN-39341 (Magento 2.4.9): validate the resolved block type against BlockInterface before BlockFactory instantiates it, log rejected blocks instead of failing layout generation, and neutralise PHP code in Web API fatal error reports",
                     "filename": "essential/magento/framework/249-VULN-39341-CE.patch",
@@ -557,6 +623,21 @@
                 }
             ],
             "magento/module-sales": [
+                {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): escape the VAT number before interpolating it into the admin order create VAT validation message",
+                    "filename": "essential/magento/module-sales/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.9,<103.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): escape the VAT number before interpolating it into the admin order create VAT validation message",
+                    "filename": "essential/magento/module-sales/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.8,<103.0.9"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): escape the VAT number before interpolating it into the admin order create VAT validation message",
+                    "filename": "essential/magento/module-sales/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.7,<103.0.8"
+                },
                 {
                     "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
                     "filename": "essential/magento/module-sales/m22-fix-email-issue-sales.patch",
@@ -2386,6 +2467,21 @@
             ],
             "magento/module-import-export": [
                 {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): normalise the export file name and confirm it is a completed export file before deleting it in the admin export file delete controller",
+                    "filename": "essential/magento/module-import-export/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=101.0.9,<101.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): normalise the export file name and confirm it is a completed export file before deleting it in the admin export file delete controller",
+                    "filename": "essential/magento/module-import-export/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=101.0.8,<101.0.9"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): normalise the export file name and confirm it is a completed export file before deleting it in the admin export file delete controller",
+                    "filename": "essential/magento/module-import-export/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=101.0.7,<101.0.8"
+                },
+                {
                     "description": "Fix skip invalid rows functionality in import",
                     "filename": "essential/magento/module-import-export/m22-fix-skip-import-validation-strategy.patch",
                     "version-constraint": ">=100.2.0,<100.2.8||100.3.0"
@@ -2443,6 +2539,21 @@
                 }
             ],
             "magento/module-customer": [
+                {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): add the 'Address not found.' translation used by the instant purchase address ownership check",
+                    "filename": "essential/magento/module-customer/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.9,<103.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): add the 'Address not found.' translation used by the instant purchase address ownership check",
+                    "filename": "essential/magento/module-customer/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.8,<103.0.9"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): add the 'Address not found.' translation used by the instant purchase address ownership check",
+                    "filename": "essential/magento/module-customer/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=103.0.7,<103.0.8"
+                },
                 {
                     "description": "Security patch 249-2026-08-001 (Magento 2.4.9), APSB26-92: fix mass-assignment in account Edit controller by allowlisting customer form attributes before populating from POST data",
                     "filename": "essential/magento/module-customer/249-2026-08-001-CE.patch",
@@ -3022,6 +3133,21 @@
                 }
             ],
             "magento/module-paypal": [
+                {
+                    "description": "Security patch 249-2026-09-001 (Magento 2.4.9): only bind the PayPal quote to the checkout session when the quote belongs to the current session or the logged-in customer",
+                    "filename": "essential/magento/module-paypal/249-2026-09-001-CE.patch",
+                    "version-constraint": ">=101.0.9,<101.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): only bind the PayPal quote to the checkout session when the quote belongs to the current session or the logged-in customer",
+                    "filename": "essential/magento/module-paypal/248p5-2026-09-001-CE.patch",
+                    "version-constraint": ">=101.0.8,<101.0.9"
+                },
+                {
+                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): only bind the PayPal quote to the checkout session when the quote belongs to the current session or the logged-in customer",
+                    "filename": "essential/magento/module-paypal/247p10-2026-09-001-CE.patch",
+                    "version-constraint": ">=101.0.7,<101.0.8"
+                },
                 {
                     "description": "Fix inability to place PayPal guest order when Automatic Assignment to Customer Group is enabled",
                     "filename": "essential/magento/module-paypal/m232-paypal-fix-for-customer-automatic-group-assignment.patch",
