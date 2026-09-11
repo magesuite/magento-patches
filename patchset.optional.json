@@ -1042,6 +1042,11 @@
                 "version-optional": "1.0.36"
             },
             {
+                "description": "Ports m22-wallee-payment.patch (negative discount guard + aheadworks giftcard line item) to the 3.4.0",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/computop-giftcard-and-discount-fix_v3_4_0.patch",
+                "version-constraint": ">=3.4.0"
+            },
+            {
                 "description": "Fix long loading of payment methods in checkout, add cache for possiblePaymentMethodCache",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/wallee-magento-2-fix-long-loading-payment-methods.patch",
                 "version-constraint": ">=1.1.3,<1.3.20"
@@ -1104,27 +1109,47 @@
             {
               "description": "fix: [HAAR-3509] Save transaction data to virtual quote",
               "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/HAAR-3509-fix-save-transaction-data-to-virtual-quote.patch",
-              "version-constraint": ">=2.1.13"
+              "version-constraint": ">=2.1.13,<3.4.0"
             },
             {
                 "description": "fix: [HAAR-4361] Restore error messages visibility in wallee payment methods",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-payments-error-messages-visibility.patch",
-                "version-constraint": ">=2.1.12"
+                "version-constraint": ">=2.1.12,<3.4.0"
+            },
+            {
+                "description": "fix: [HAAR-4361] Restore error messages visibility in wallee payment methods (ported to 3.4.0's wallee-method.js)",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-payments-error-messages-visibility_v3_4_0.patch",
+                "version-constraint": ">=3.4.0"
             },
             {
                 "description": "Skip calculating collect totlas in the checkout process",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/skip-collect-totals-in-checkout.patch",
-                "version-constraint": ">=2.1.22"
+                "version-constraint": ">=2.1.22,<3.4.0"
+            },
+            {
+                "description": "Skip calculating collect totals in the checkout process (ported to 3.4.0's ConfigProvider.php)",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/skip-collect-totals-in-checkout_v3_4_0.patch",
+                "version-constraint": ">=3.4.0"
             },
             {
                 "description": "Change lock logic for webhook processing to prevent deadlocks",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/change-lock-logic-for-webhook.patch",
-                "version-constraint": ">=2.1.29"
+                "version-constraint": ">=2.1.29,<3.4.0"
             },
             {
               "description": "Add CO2 compensation fee support to wallee refund webhook",
               "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/add-co2-compensation-fee-to-wallee-refund.patch",
-              "version-constraint": ">=2.1.29"
+              "version-constraint": ">=2.1.29,<3.4.0"
+            },
+            {
+              "description": "Add CO2 compensation fee support to wallee refund webhook (ported to 3.4.0's Model/Webhook/Refund/SuccessfulCommand.php)",
+              "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/add-co2-compensation-fee-to-wallee-refund_v3_4_0.patch",
+              "version-constraint": ">=3.4.0"
+            },
+            {
+              "description": "Return dummy user ID/API key/space ID instead of throwing when wallee is unconfigured, so checkout/order placement doesn't crash in dev/staging/CI",
+              "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/return-dummy-settings-when-unconfigured.patch",
+              "version-constraint": ">=3.4.0"
             }
         ],
       "wallee/sdk": [

@@ -1,0 +1,17 @@
+diff --git a/Model/Webhook/Refund/SuccessfulCommand.php b/Model/Webhook/Refund/SuccessfulCommand.php
+index f412216..07839f5 100644
+--- a/Model/Webhook/Refund/SuccessfulCommand.php
++++ b/Model/Webhook/Refund/SuccessfulCommand.php
+@@ -257,6 +257,12 @@ class SuccessfulCommand extends WebhookCommand
+                     }
+                     break;
+                 case CoreLineItem::TYPE_FEE:
++                    // BEGIN PATCH
++                    if ($item->uniqueId === 'haarshop_co2_compensation_fee') {
++                        $creditmemoAmount += (float) $item->amountIncludingTax;
++                    }
++                    // END PATCH
++                    break;
+                 case CoreLineItem::TYPE_DISCOUNT:
+                     break;
+                 case CoreLineItem::TYPE_SHIPPING:

@@ -1,0 +1,73 @@
+Ports m22-wallee-payment.patch (originally prepared by Computop for wallee/magento-2 1.0.36) to the
+3.4.0
+
+diff --git a/Model/Service/AbstractLineItemService.php b/Model/Service/AbstractLineItemService.php
+index 6aaba53..087a2f1 100644
+--- a/Model/Service/AbstractLineItemService.php
++++ b/Model/Service/AbstractLineItemService.php
+@@ -173,6 +173,11 @@ abstract class AbstractLineItemService
+             $items[] = $shippingLineItems;
+         }
+
++        $aheadworksGiftcardLineItem = $this->convertAheadworksGiftcardLineItem($entity);
++        if ($aheadworksGiftcardLineItem instanceof CoreLineItem) {
++            $items[] = $aheadworksGiftcardLineItem;
++        }
++
+         if (!$this->checkIsAdmin()) {
+             if ($this->giftCardAccountManagement
+                 instanceof \Magento\GiftCardAccount\Model\Service\GiftCardAccountManagement
+@@ -253,10 +258,17 @@ abstract class AbstractLineItemService
+      */
+     private function convertItem($entityItem, $entity)
+     {
++        // BEGIN PATCH
++        // $amountIncludingTax = $entityItem->getRowTotal() -
++        // $entityItem->getDiscountAmount() +
++        // $entityItem->getTaxAmount() +
++        // $entityItem->getDiscountTaxCompensationAmount();
++        $entityItemDiscountAmount = $entityItem->getDiscountAmount() > 0 ? $entityItem->getDiscountAmount() : 0;
+         $amountIncludingTax = $entityItem->getRowTotal() -
+-        $entityItem->getDiscountAmount() +
++        $entityItemDiscountAmount +
+         $entityItem->getTaxAmount() +
+         $entityItem->getDiscountTaxCompensationAmount();
++        // END PATCH
+
+         $currency = $this->getCurrencyCode($entity);
+
+@@ -544,6 +556,34 @@ abstract class AbstractLineItemService
+         return null;
+     }
+
++    /**
++     * Converts the entity's aheadworks gift card usage to a line item.
++     *
++     * @param \Magento\Quote\Model\Quote|\Magento\Sales\Model\Order|\Magento\Sales\Model\Order\Invoice $entity
++     * @return CoreLineItem|null
++     */
++    protected function convertAheadworksGiftcardLineItem($entity)
++    {
++        $giftCardAmount = $entity->getAwGiftcardAmount();
++        if ($giftCardAmount === null || $giftCardAmount <= 0) {
++            return null;
++        }
++
++        $giftCardItem = new CoreLineItem();
++        $giftCardItem->type = CoreLineItem::TYPE_DISCOUNT;
++        $giftCardItem->uniqueId = 'giftcard';
++        $giftCardItem->amountIncludingTax = (float) $this->helper->roundAmount(
++            -1 * $giftCardAmount,
++            $this->getCurrencyCode($entity)
++        );
++        $giftCardItem->name = $this->helper->fixLength((string) \__('Gift Card'), 150);
++        $giftCardItem->quantity = 1;
++        $giftCardItem->sku = 'giftcard';
++        $giftCardItem->shippingRequired = false;
++
++        return $giftCardItem;
++    }
++
+     /**
+      * Gets the unique ID for the line item of the given entity.
+      *
