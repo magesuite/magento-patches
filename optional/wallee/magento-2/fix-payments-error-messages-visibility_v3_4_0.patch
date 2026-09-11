@@ -1,0 +1,42 @@
+diff --git a/view/frontend/web/js/view/payment/method-renderer/wallee-method.js b/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
+index 57376a8..f5ff4d1 100644
+--- a/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
++++ b/view/frontend/web/js/view/payment/method-renderer/wallee-method.js
+@@ -55,6 +55,9 @@ define([
+                 //until the user selects the payment method by clicking on the icon.
+                 //These lines allow to trigger the iframe to show it by default if there is only one payment method active.
+                 if (methods !== null && methods.length === 1) {
++                    // BEGIN PATCH
++                    this.cleanupMessagesComponents();
++                    // END PATCH
+                     this.checkoutHandler.updateAddresses(this._super.bind(this));
+                 }
+
+@@ -73,6 +76,9 @@ define([
+                     let checkboxId = this.getCode();
+                     let checkoutHandler = this.checkoutHandler;
+                     var updateAddressesCallback = function () {
++                        // BEGIN PATCH
++                        _this.cleanupMessagesComponents();
++                        // END PATCH
+                         checkoutHandler.updateAddresses(_super.bind(_this));
+                     };
+                     let intervalId = setInterval(function () {
+@@ -450,6 +456,17 @@ define([
+
+         stripHtml: function (input) {
+             return $('<div>' + input + '</div>').text();
++        },
++
++        // BEGIN PATCH
++        cleanupMessagesComponents: function () {
++            var childComponents = this.elems() || [];
++            childComponents.forEach(function (component) {
++                if (component.displayArea === 'messages') {
++                    component.destroy();
++                }
++            });
+         }
++        // END PATCH
+     });
+ });

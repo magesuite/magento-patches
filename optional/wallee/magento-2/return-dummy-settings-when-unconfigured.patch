@@ -1,0 +1,50 @@
+diff --git a/Model/Settings/SettingsProvider.php b/Model/Settings/SettingsProvider.php
+--- a/Model/Settings/SettingsProvider.php
++++ b/Model/Settings/SettingsProvider.php
+@@ -57,6 +57,10 @@
+      */
+     private const DEPLOYMENT_CONFIG_PATH_BASE_URL = 'wallee/base_url';
+
++    private const DUMMY_USER_ID = 1;
++    private const DUMMY_API_KEY = 'dummy-api-key';
++    private const DUMMY_SPACE_ID = 1;
++
+     /**
+      *
+      * @param ScopeConfigInterface $scopeConfig
+@@ -85,7 +89,10 @@
+             self::XML_PATH_USER_ID,
+             ScopeConfigInterface::SCOPE_TYPE_DEFAULT
+         );
+-        return $value === null ? null : (int)$value;
++        // BEGIN PATCH
++        // return $value === null ? null : (int)$value;
++        return $value === null ? self::DUMMY_USER_ID : (int)$value;
++        // END PATCH
+     }
+
+     /**
+@@ -102,7 +109,10 @@
+         );
+
+         if (empty($encryptedValue)) {
+-            return null;
++            // BEGIN PATCH
++            // return null;
++            return self::DUMMY_API_KEY;
++            // END PATCH
+         }
+         return $this->encryptor->decrypt($encryptedValue);
+     }
+@@ -134,7 +144,10 @@
+             );
+         }
+
+-        return $value === null ? null : (int)$value;
++        // BEGIN PATCH
++        // return $value === null ? null : (int)$value;
++        return $value === null ? self::DUMMY_SPACE_ID : (int)$value;
++        // END PATCH
+     }
+
+     /**
