@@ -1,0 +1,17 @@
+Github issue: https://github.com/magento/magento2/issues/23618
+
+diff --git a/Model/QuoteAddressValidator.php b/Model/QuoteAddressValidator.php
+--- a/Model/QuoteAddressValidator.php
++++ b/Model/QuoteAddressValidator.php
+@@ -122,7 +122,10 @@
+      */
+     public function validateForCart(CartInterface $cart, AddressInterface $address): void
+     {
+-        $this->doValidate($address, $cart->getCustomerIsGuest() ? null : (int) $cart->getCustomer()->getId());
++        // PATCH BEGIN
++        // $this->doValidate($address, $cart->getCustomerIsGuest() ? null : (int) $cart->getCustomer()->getId());
++        $this->doValidate($address, $cart->getCustomerId() ? (int) $cart->getCustomer()->getId() : null);
++        // PATCH END
+     }
+ 
+     /**
