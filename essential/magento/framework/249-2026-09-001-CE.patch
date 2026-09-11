@@ -1,0 +1,40 @@
+diff --git a/Escaper.php b/Escaper.php
+index 241fb7bb293c2..26a1a57adc90b 100644
+--- a/Escaper.php
++++ b/Escaper.php
+@@ -389,7 +389,7 @@ public function escapeJsQuote($data, $quote = '\'')
+      */
+     public function escapeXssInUrl($data)
+     {
+-        $data = html_entity_decode((string)$data);
++        $data = $this->decodeHtmlEntitiesToFixedPoint((string)$data);
+         $this->getTranslateInline()->processResponseBody($data);
+ 
+         return htmlspecialchars(
+@@ -400,6 +400,26 @@ public function escapeXssInUrl($data)
+         );
+     }
+ 
++    /**
++     * Decode HTML entities repeatedly until stable, or return empty if still decoding at the cap.
++     *
++     * @param string $data
++     * @return string
++     */
++    private function decodeHtmlEntitiesToFixedPoint(string $data): string
++    {
++        $iterationCap = 10;
++        for ($iteration = 0; $iteration < $iterationCap; $iteration++) {
++            $decoded = html_entity_decode($data);
++            if ($decoded === $data) {
++                return $data;
++            }
++            $data = $decoded;
++        }
++
++        return '';
++    }
++
+     /**
+      * Remove `javascript:`, `vbscript:`, `data:` words from the string.
+      *

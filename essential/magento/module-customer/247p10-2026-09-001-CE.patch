@@ -1,0 +1,9 @@
+diff --git a/i18n/en_US.csv b/i18n/en_US.csv
+index b4054e1eb32a5..095e41ae851a1 100644
+--- a/i18n/en_US.csv
++++ b/i18n/en_US.csv
+@@ -548,3 +548,4 @@ Addresses,Addresses
+ "Full Match","Full Match"
+ "Prefix Match","Prefix Match"
+ "Something went wrong while logging out customer.","Something went wrong while logging out customer."
++"Address not found.","Address not found."

@@ -1,0 +1,21 @@
+diff --git a/Controller/Adminhtml/Export/File/Delete.php b/Controller/Adminhtml/Export/File/Delete.php
+index 8c47412adc835..8bbc8b235e27f 100644
+--- a/Controller/Adminhtml/Export/File/Delete.php
++++ b/Controller/Adminhtml/Export/File/Delete.php
+@@ -72,7 +72,15 @@ public function execute()
+             }
+             $directoryWrite = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_IMPORT_EXPORT);
+             try {
+-                $directoryWrite->delete($directoryWrite->getAbsolutePath() . 'export/' . $fileName);
++                $fileName = $directoryWrite->getDriver()->getRealPathSafety(DIRECTORY_SEPARATOR . $fileName);
++                $fileExist = $directoryWrite->isFile('export' . $fileName);
++                if (!$fileExist) {
++                    $this->messageManager->addErrorMessage(__(
++                        'Sorry, but the data is invalid or the file is not uploaded.'
++                    ));
++                    return $resultRedirect;
++                }
++                $directoryWrite->delete($directoryWrite->getAbsolutePath() . 'export' . $fileName);
+                 $this->messageManager->addSuccessMessage(__('File %1 deleted', $fileName));
+             } catch (ValidatorException $exception) {
+                 $this->messageManager->addErrorMessage(

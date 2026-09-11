@@ -1,0 +1,36 @@
+diff --git a/Controller/Express/AbstractExpress.php b/Controller/Express/AbstractExpress.php
+index 670215c6954dd..be18ba62478ef 100644
+--- a/Controller/Express/AbstractExpress.php
++++ b/Controller/Express/AbstractExpress.php
+@@ -151,7 +151,7 @@ public function __construct(
+     protected function _initCheckout(?CartInterface $quoteObject = null)
+     {
+         $quote = $quoteObject ? $quoteObject : $this->_getQuote();
+-        if ($quote->getId()) {
++        if ($quote->getId() && $this->isQuoteAllowedForUser($quote)) {
+             $this->_getCheckoutSession()->setPayPalQuoteId($quote->getId());
+         }
+         if (!$quote->hasItems() || $quote->getHasError()) {
+@@ -259,6 +259,22 @@ protected function _getQuote()
+         return $this->_quote;
+     }
+ 
++    /**
++     * Checks if the quote is allowed for the current user.
++     *
++     * @param CartInterface $quote
++     * @return bool
++     */
++    private function isQuoteAllowedForUser(CartInterface $quote): bool
++    {
++        if ((int)$quote->getId() === (int)$this->_getCheckoutSession()->getQuoteId()) {
++            return true;
++        }
++
++        return $this->_customerSession->isLoggedIn()
++            && (int)$quote->getCustomerId() === (int)$this->_customerSession->getCustomerId();
++    }
++
+     /**
+      * @inheritdoc
+      */
