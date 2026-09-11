@@ -1,0 +1,12 @@
+diff --git a/view/frontend/web/template/payment/heidipay.html b/view/frontend/web/template/payment/heidipay.html
+--- a/view/frontend/web/template/payment/heidipay.html
++++ b/view/frontend/web/template/payment/heidipay.html
+@@ -34,7 +34,7 @@
+         <div class="actions-toolbar">
+             <div class="primary">
+                 <button class="action primary checkout"
+-                        type="button"
++                        type="submit"
+                         data-bind='click: placeOrder, enable: (getCode() == isChecked()), css: {disabled: !isPlaceOrderActionAllowed()}'
+                         disabled>
+                     <span data-bind="i18n: 'Pay'"></span>
