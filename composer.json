@@ -4097,6 +4097,13 @@
                     "version-constraint": "*"
                 }
             ],
+            "extendware/module-core": [
+                {
+                    "description": "Fix license check disabling the Magento module at runtime by rewriting app/etc/config.php (IPET-3785)",
+                    "filename": "essential/extendware/module-core/fix-license-check-disabling-module.patch",
+                    "version-constraint": "*"
+                }
+            ],
             "econda/magento2-tracking-extension": [
                 {
                     "description": "Add missing properties (ZJ-153)",
