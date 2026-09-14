@@ -1,0 +1,20 @@
+The license check does more than validate a license:
+- checkModuleStatus() calls Module\Status::setIsEnabled(), which rewrites the modules array in app/etc/config.php, and it runs from the extendware_core_cron job and from the admin config section.
+- That file is per node while the config cache is shared, so nodes drift apart and serve configuration cached for a different module list.
+- The call is redundant anyway: licensing is gated by extendware_module.module_active, which is what isModuleEnabled() reads.
+Related tickets: IPET-3785
+
+diff --git a/Model/Configure.php b/Model/Configure.php
+--- a/Model/Configure.php
++++ b/Model/Configure.php
+@@ -86,7 +86,9 @@
+         curl_close($curl);
+         $response = $response == 'true' ? true : false;
+
+-        $this->status->setIsEnabled($response, [$extendwareModule->getModuleName()]);
++        // BEGIN PATCH
++        // $this->status->setIsEnabled($response, [$extendwareModule->getModuleName()]);
++        // END PATCH
+         $extendwareModule->setModuleActive($response);
+         $this->extendwareModuleRepository->save($extendwareModule);
+         return $response;
