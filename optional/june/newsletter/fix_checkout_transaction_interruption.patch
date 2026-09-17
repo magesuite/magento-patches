@@ -1,0 +1,125 @@
+Persists june_token in saveJuneId() with ResourceModel\Customer::saveAttribute() instead of
+CustomerRepository::save(), so the customer's addresses are no longer re-saved and re-validated.
+Injects CustomerFactory and ResourceModel\Customer through the constructor.
+
+Adds the exception class and message to the SaveAfter::execute() log line, which logged only the
+stack trace.
+
+Removes the webhook.site request mirror from sendRequest().
+
+diff --git a/Model/JuneSubscription.php b/Model/JuneSubscription.php
+index ff09458..4c0d402 100644
+--- a/Model/JuneSubscription.php
++++ b/Model/JuneSubscription.php
+@@ -43,6 +43,17 @@ class JuneSubscription
+     protected $listId;
+     protected $apiToken;
+
++    // BEGIN PATCH
++    /**
++     * @var \Magento\Customer\Model\CustomerFactory
++     */
++    protected $customerFactory;
++
++    /**
++     * @var \Magento\Customer\Model\ResourceModel\Customer
++     */
++    protected $customerResource;
++    // END PATCH
+
+     public function __construct(
+         \Magento\Framework\Module\Manager $moduleManager,
+@@ -50,7 +61,11 @@ class JuneSubscription
+         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
+         \June\Newsletter\Helper\Data $helper,
+         \June\Newsletter\Logger\Logger $logger,
+-        \Magento\Store\Model\StoreManagerInterface $storeManager
++        \Magento\Store\Model\StoreManagerInterface $storeManager,
++        // BEGIN PATCH
++        \Magento\Customer\Model\CustomerFactory $customerFactory,
++        \Magento\Customer\Model\ResourceModel\Customer $customerResource
++        // END PATCH
+     )
+     {
+         $this->moduleManager = $moduleManager;
+@@ -59,6 +74,10 @@ class JuneSubscription
+         $this->helper = $helper;
+         $this->logger = $logger;
+         $this->storeManager = $storeManager;
++        // BEGIN PATCH
++        $this->customerFactory = $customerFactory;
++        $this->customerResource = $customerResource;
++        // END PATCH
+
+         $this->collectToken = $this->helper->getCollectToken();
+         $this->listId = $this->helper->getListId();
+@@ -284,21 +303,38 @@ class JuneSubscription
+             $request->setContent(json_encode($payload));
+         }
+
+-        $testClient = new Client();
+-        $request->setUri("https://webhook.site/e205b179-2214-421b-8a74-9bce6ca2776b");
+-        $testClient->send($request);
+-        $request->setUri($url);
++        // BEGIN PATCH
++        // $testClient = new Client();
++        // $request->setUri("https://webhook.site/e205b179-2214-421b-8a74-9bce6ca2776b");
++        // $testClient->send($request);
++        // $request->setUri($url);
++        // END PATCH
+
+         $client = new Client();
+         return $client->send($request);
+     }
+
+     private function saveJuneId($customer, string $juneId) {
+-        //return;
+-        if ($customer) {
+-            $customer = $this->customerRepository->getById($customer->getId());
+-            $customer->setCustomAttribute('june_token', $juneId);
+-            $this->customerRepository->save($customer);
++        // BEGIN PATCH
++        // //return;
++        // if ($customer) {
++        //     $customer = $this->customerRepository->getById($customer->getId());
++        //     $customer->setCustomAttribute('june_token', $juneId);
++        //     $this->customerRepository->save($customer);
++        // }
++        if (!$customer || !$customer->getId()) {
++            return;
+         }
++
++        $customerModel = $this->customerFactory->create();
++        $customerModel->load((int)$customer->getId());
++
++        if (!$customerModel->getId()) {
++            return;
++        }
++
++        $customerModel->setData('june_token', $juneId);
++        $this->customerResource->saveAttribute($customerModel, 'june_token');
++        // END PATCH
+     }
+ }
+diff --git a/Observer/SaveAfter.php b/Observer/SaveAfter.php
+index 9d12a25..8926a93 100644
+--- a/Observer/SaveAfter.php
++++ b/Observer/SaveAfter.php
+@@ -70,10 +70,16 @@ class SaveAfter implements \Magento\Framework\Event\ObserverInterface
+                     return $this->juneSubscription->unsubscribe($email, $subscriber);
+                 }
+             //}
++        // BEGIN PATCH
++        // } catch (\Exception $e) {
++        //     $this->logger->error('Setting Subscription failed!');
++        //     $this->logger->error($e->getTraceAsString());
++        // }
+         } catch (\Exception $e) {
+-            $this->logger->error('Setting Subscription failed!');
++            $this->logger->error('Setting Subscription failed! ' . get_class($e) . ': ' . $e->getMessage());
+             $this->logger->error($e->getTraceAsString());
+         }
++        // END PATCH
+
+         return false;
+     }

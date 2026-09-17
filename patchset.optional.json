@@ -2452,6 +2452,11 @@
           "description": "Added access token from preference center to june request's payload",
           "filename": "vendor/creativestyle/magento-patches/optional/june/newsletter/krg_add_salted_hash_from_preference_center.patch",
           "version-constraint": "*"
+        },
+        {
+          "description": "Save june_token via saveAttribute instead of a full customer save, log the swallowed exception message, remove the webhook.site request mirror",
+          "filename": "vendor/creativestyle/magento-patches/optional/june/newsletter/fix_checkout_transaction_interruption.patch",
+          "version-constraint": "*"
         }
       ],
       "magento/module-media-gallery-ui": [
