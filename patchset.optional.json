@@ -1147,7 +1147,7 @@
               "version-constraint": ">=3.4.0"
             },
             {
-              "description": "Return dummy user ID/API key/space ID instead of throwing when wallee is unconfigured, so checkout/order placement doesn't crash in dev/staging/CI",
+              "description": "Return dummy user ID/API key/space ID instead of throwing when wallee is unconfigured or the stored API secret cannot be decrypted (prod dump + local crypt key), so setup:upgrade and checkout/order placement don't crash in dev/staging/CI",
               "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/return-dummy-settings-when-unconfigured.patch",
               "version-constraint": ">=3.4.0"
             }
