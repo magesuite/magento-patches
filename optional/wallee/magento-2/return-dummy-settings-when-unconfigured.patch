@@ -24,7 +24,7 @@ diff --git a/Model/Settings/SettingsProvider.php b/Model/Settings/SettingsProvid
      }
 
      /**
-@@ -102,7 +109,10 @@
+@@ -102,9 +109,17 @@
          );
 
          if (empty($encryptedValue)) {
@@ -34,9 +34,17 @@ diff --git a/Model/Settings/SettingsProvider.php b/Model/Settings/SettingsProvid
 +            return self::DUMMY_API_KEY;
 +            // END PATCH
          }
-         return $this->encryptor->decrypt($encryptedValue);
+-        return $this->encryptor->decrypt($encryptedValue);
++        // BEGIN PATCH
++        // return $this->encryptor->decrypt($encryptedValue);
++        $decryptedValue = $this->encryptor->decrypt($encryptedValue);
++
++        return $decryptedValue === '' ? self::DUMMY_API_KEY : $decryptedValue;
++        // END PATCH
      }
-@@ -134,7 +144,10 @@
+
+     /**
+@@ -134,7 +149,10 @@
              );
          }
 
