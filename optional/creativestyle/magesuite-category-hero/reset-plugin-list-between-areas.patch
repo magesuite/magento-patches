@@ -1,0 +1,10 @@
+--- a/Test/Integration/Plugin/Block/Catalog/Product/ListProductPluginTest.php
++++ b/Test/Integration/Plugin/Block/Catalog/Product/ListProductPluginTest.php
+@@ -15,6 +15,7 @@
+     protected function setUp(): void
+     {
+         $this->objectManager = \Magento\TestFramework\ObjectManager::getInstance();
++        $this->objectManager->get(\Magento\TestFramework\Interception\PluginList::class)->reset();
+         $this->registry = $this->objectManager->get(\Magento\Framework\Registry::class);
+         $this->categoryModel = $this->objectManager->create(\Magento\Catalog\Model\Category::class);
+         $this->registry->unregister($this->categoryRegistryKey);
