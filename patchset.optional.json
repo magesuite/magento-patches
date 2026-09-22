@@ -117,6 +117,20 @@
                 "version-constraint": "*"
             }
         ],
+        "creativestyle/magesuite-category-hero": [
+            {
+                "description": "Reset the interception plugin list in ListProductPluginTest::setUp so the adminhtml case does not inherit the frontend scope cached by the preceding test (EH-1094)",
+                "filename": "vendor/creativestyle/magento-patches/optional/creativestyle/magesuite-category-hero/reset-plugin-list-between-areas.patch",
+                "version-constraint": "*"
+            }
+        ],
+        "creativestyle/magesuite-product-tile-warmup": [
+            {
+                "description": "Give the warmup customer fixture an active company, as the Einhell B2B storefront refuses customers without one (EH-1094)",
+                "filename": "vendor/creativestyle/magento-patches/optional/creativestyle/magesuite-product-tile-warmup/assign-company-to-warmup-customer.patch",
+                "version-constraint": "*"
+            }
+        ],
         "creativestyle/magesuite-performance-product": [
             {
                 "description": "Set position 0 in main swatch image (FR-275)",

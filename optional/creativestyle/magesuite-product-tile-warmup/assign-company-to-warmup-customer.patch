@@ -1,0 +1,35 @@
+--- a/Test/Integration/_files/warmup_customer.php
++++ b/Test/Integration/_files/warmup_customer.php
+@@ -51,3 +51,32 @@
+ $customer->isObjectNew(true);
+ $customer->save();
+ $customerRegistry->remove($customer->getId());
++
++/**
++ * The Einhell B2B storefront refuses customers that do not belong to an active company,
++ * so the warmup account is given one.
++ */
++/** @var \Creativestyle\MultiUserAccount\Api\CompanyRepositoryInterface $companyRepository */
++$companyRepository = $objectManager->create(\Creativestyle\MultiUserAccount\Api\CompanyRepositoryInterface::class);
++/** @var \Creativestyle\MultiUserAccount\Api\Data\CompanyInterfaceFactory $companyFactory */
++$companyFactory = $objectManager->create(\Creativestyle\MultiUserAccount\Api\Data\CompanyInterfaceFactory::class);
++
++$company = $companyFactory->create();
++$company->setWebsiteId(1)
++    ->setIdentifier('C-WARMUP')
++    ->setName('Cache warmup')
++    ->setEmail('warmup@cache-warmup.magesuite.io')
++    ->setStatus(\Creativestyle\MultiUserAccount\Model\Company\Attribute\Source\Status::STATUS_ACTIVE);
++
++$companyRepository->save($company);
++
++$customer->setData(
++    \Creativestyle\MultiUserAccount\Setup\CompanySetup::COMPANY_ID_CUSTOMER_ATTRIBUTE_CODE,
++    'C-WARMUP'
++);
++$customer->setData(
++    'account_status',
++    \Creativestyle\MultiUserAccount\Model\Company\Attribute\Source\Status::STATUS_ACTIVE
++);
++$customer->save();
++$customerRegistry->remove($customer->getId());
