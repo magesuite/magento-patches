@@ -1,0 +1,37 @@
+Blocks the Payflow Pro transparent redirect response endpoint while the payment method is disabled.
+
+Root cause: Magento\Paypal\Controller\Transparent\Response is CSRF-exempt (validateForCsrf() returns
+true) and stays routed whenever Magento_Paypal is enabled, regardless of whether Payflow Pro is active.
+Its sibling controller, Magento\Paypal\Controller\Transparent\RequestSecureToken, already refuses the
+request when $this->transparent->isActive() is false, but the equivalent guard is missing here.
+
+Any unauthenticated POST therefore reaches ResponseValidator::validate(), whose default branch throws
+"Transaction has been declined" for every input that is not a valid Payflow response. That exception is
+caught and passed to PaymentFailuresInterface::handle(), which sends an admin "Payment Failed" email
+rendered from the attacker-controlled quote billing address - once per request, with no rate limiting
+and no captcha. The endpoint is abused in the wild both to flood shop mailboxes and to deliver
+CVE-2022-24086 style template-injection payloads into that email render.
+
+Fix: apply the same guard the sibling controller already uses, returning the standard 404 through
+_forward('noroute') when payment/payflowpro/active is off. Shops that genuinely run Payflow Pro are
+unaffected, and no new constructor dependency is required because the Transparent model is already
+injected into the controller.
+
+diff --git a/Controller/Transparent/Response.php b/Controller/Transparent/Response.php
+index d5d4cf2..ae10689 100644
+--- a/Controller/Transparent/Response.php
++++ b/Controller/Transparent/Response.php
+@@ -118,6 +118,13 @@ class Response extends \Magento\Framework\App\Action\Action implements CsrfAware
+      */
+     public function execute()
+     {
++        // BEGIN PATCH
++        if (!$this->transparent->isActive()) {
++            $this->_forward('noroute');
++
++            return;
++        }
++        // END PATCH
+         $parameters = [];
+         try {
+             $response = $this->transaction->getResponseObject($this->getRequest()->getPostValue());
