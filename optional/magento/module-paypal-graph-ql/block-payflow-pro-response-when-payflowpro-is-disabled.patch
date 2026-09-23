@@ -1,0 +1,38 @@
+Blocks the handlePayflowProResponse GraphQL mutation while Payflow Pro is disabled.
+
+Root cause: Magento\PaypalGraphQl\Model\Resolver\PayflowProResponse is the GraphQL twin of
+Magento\Paypal\Controller\Transparent\Response, and it carries the same omission - it never checks
+whether Payflow Pro is actually active before running ResponseValidator::validate(). The validator's
+default branch throws "Transaction has been declined" for any payload that is not a valid Payflow
+response, and the resolver passes that straight to PaymentFailuresInterface::handle(), which emails
+the admin a "Payment Failed" notification rendered from the attacker-controlled quote billing address.
+
+The mutation accepts a guest masked cart id, so it is reachable unauthenticated over POST /graphql
+with no form key and no CSRF token. Patching only the frontend controller therefore leaves an
+equivalent, equally unauthenticated path open, and /graphql cannot be blocked at the web server
+because the storefront and integrations depend on it.
+
+Fix: apply the same guard used by Magento\Paypal\Controller\Transparent\RequestSecureToken, rejecting
+the mutation with a GraphQlInputException before the cart is loaded and before any payment failure
+notification can be triggered. Shops that genuinely run Payflow Pro are unaffected. No new constructor
+dependency and no new import are required - the Transparent model is already injected and
+GraphQlInputException is already imported.
+
+diff --git a/Model/Resolver/PayflowProResponse.php b/Model/Resolver/PayflowProResponse.php
+index 29a0a31..a6b18bf 100644
+--- a/Model/Resolver/PayflowProResponse.php
++++ b/Model/Resolver/PayflowProResponse.php
+@@ -118,6 +118,13 @@ class PayflowProResponse implements ResolverInterface
+ 
+         $maskedCartId = $args['input']['cart_id'];
+         $storeId = (int)$context->getExtensionAttributes()->getStore()->getId();
++
++        // BEGIN PATCH
++        if (!$this->transparent->isActive($storeId)) {
++            throw new GraphQlInputException(__('Payflow Pro is not available.'));
++        }
++        // END PATCH
++
+         $cart = $this->getCartForUser->execute($maskedCartId, $context->getUserId(), $storeId);
+ 
+         $paypalPayload = $args['input']['paypal_payload'] ?? '';

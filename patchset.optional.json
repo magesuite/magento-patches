@@ -980,6 +980,13 @@
               "version-constraint": "*"
             }
         ],
+        "magento/module-paypal-graph-ql": [
+            {
+                "description": "Block the unauthenticated handlePayflowProResponse GraphQL mutation while Payflow Pro is disabled, stopping payment failed email flooding",
+                "filename": "vendor/creativestyle/magento-patches/optional/magento/module-paypal-graph-ql/block-payflow-pro-response-when-payflowpro-is-disabled.patch",
+                "version-constraint": ">=100.4.6"
+            }
+        ],
         "magento/module-paypal": [
             {
                 "description": "Fix for duplicate Order Confirmation Emails for PayPal Express checkout order (<=2.2.5)",
