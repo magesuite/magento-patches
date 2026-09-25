@@ -1,0 +1,42 @@
+Shows the shipping-methods loader only when the debounced rates estimation actually starts
+and shortens the debounce (MGS-5715).
+
+Root cause 1: bindHandler() turns on shippingService.isLoading() synchronously on every
+value change of an observed address field, but the actual validation and the
+estimate-shipping-methods request are deferred by validateDelay. Users see a loader for the
+whole debounce period after each keystroke before any request is sent.
+Fix: isLoading(true) is moved into the delayed callback, right before validateFields(),
+so the loader appears together with the request. validateFields() and the rate processors
+still turn it off on their own.
+
+Root cause 2: validateDelay of 2000 ms adds up to two seconds of idle wait after the last
+keystroke before rates are requested.
+Fix: validateDelay lowered to 600 ms, enough to absorb typing pauses while keeping the
+rates refresh close to one second after the user stops typing.
+
+diff --git a/view/frontend/web/js/model/shipping-rates-validator.js b/view/frontend/web/js/model/shipping-rates-validator.js
+index ead5e9f..5972452 100644
+--- a/view/frontend/web/js/model/shipping-rates-validator.js
++++ b/view/frontend/web/js/model/shipping-rates-validator.js
+@@ -45,7 +45,7 @@ define([
+     return {
+         validateAddressTimeout: 0,
+         validateZipCodeTimeout: 0,
+-        validateDelay: 2000,
++        validateDelay: 600,
+ 
+         /**
+          * @param {String} carrier
+@@ -153,10 +153,10 @@ define([
+                     }, delay);
+ 
+                     if (!formPopUpState.isVisible()) {
+-                        // Prevent shipping methods showing none available whilst we resolve
+-                        shippingService.isLoading(true);
+                         clearTimeout(self.validateAddressTimeout);
+                         self.validateAddressTimeout = setTimeout(function () {
++                            // Prevent shipping methods showing none available whilst we resolve
++                            shippingService.isLoading(true);
+                             self.validateFields();
+                         }, delay);
+                     }

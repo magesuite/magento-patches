@@ -1804,6 +1804,11 @@
                     "version-constraint": ">=100.4.8"
                 },
                 {
+                    "description": "Checkout speed improvement: show the shipping-methods loader only when the debounced rates estimation starts and shorten the debounce to 600 ms (MGS-5715)",
+                    "filename": "essential/magento/module-checkout/m248-shipping-rates-loader-debounce.patch",
+                    "version-constraint": ">=100.4.8"
+                },
+                {
                     "description": "Fix to prevent throwing exception with missing customerId after placing order",
                     "filename": "essential/magento/module-checkout/m232-checkout-customer-id-exception.patch",
                     "version-constraint": ">=100.3.2,<100.3.4"
