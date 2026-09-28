@@ -3582,7 +3582,7 @@
                 {
                     "description": "Add int return type to Command::execute() for symfony/console 7 compatibility (Magento 2.4.9)",
                     "filename": "essential/wyomind/datafeedmanager/symfony7-execute-return-type.patch",
-                    "version-constraint": ">=13.0.0, <14.0.0"
+                    "version-constraint": ">=13.0.0, <=14.0.10"
                 },
                 {
                     "description": "Add explicit nullable types to implicitly nullable parameters (PHP 8.4 deprecation)",
