@@ -324,7 +324,12 @@
             {
               "description": "When option label is the same as exiting option id the new option will not be added and this patch fixes it",
               "filename": "vendor/creativestyle/magento-patches/optional/magento/module-eav/kruger-add-option-lablel-same-as-existing-id.patch",
-              "version-constraint": "*"
+              "version-constraint": "<102.1.9"
+            },
+            {
+              "description": "When option label is the same as exiting option id the new option will not be added and this patch fixes it",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/module-eav/kruger-add-option-label-same-as-existing-id-102.1.9.patch",
+              "version-constraint": ">=102.1.9"
             }
         ],
         "magento/module-checkout": [

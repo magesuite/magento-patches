@@ -1,0 +1,26 @@
+diff --git a/Model/Entity/Attribute/OptionManagement.php b/Model/Entity/Attribute/OptionManagement.php
+--- a/Model/Entity/Attribute/OptionManagement.php
++++ b/Model/Entity/Attribute/OptionManagement.php
+@@ -75,13 +75,15 @@
+             throw new InputException(__('The attribute option label is empty. Enter the value and try again.'));
+         }
+ 
+-        if ($attribute->getSource()->getOptionId($label) !== null) {
+-            throw new InputException(
+-                __(
+-                    'Admin store attribute option label "%1" already exists.',
+-                    $option->getLabel()
+-                )
+-            );
++        foreach ($attribute->getOptions() as $exitingOption) {
++            if ($exitingOption->getLabel() == $label) {
++                throw new InputException(
++                    __(
++                        'Admin store attribute option label "%1" already exists.',
++                        $option->getLabel()
++                    )
++                );
++            }
+         }
+ 
+         $optionId = $this->getNewOptionId($option);
