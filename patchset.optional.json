@@ -1895,7 +1895,12 @@
             {
               "description": "Fix for Wyomind Data Feed Manager filtering by qty on MSI",
               "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/wyomind-datafeedmanager-11-24-6-support-for-msi.patch",
-              "version-constraint": ">=11.24.6"
+              "version-constraint": ">=11.24.6,<14.0.12"
+            },
+            {
+              "description": "Fix for Wyomind Data Feed Manager filtering by qty on MSI",
+              "filename": "vendor/creativestyle/magento-patches/optional/wyomind/datafeedmanager/wyomind-datafeedmanager-14-0-12-support-for-msi.patch",
+              "version-constraint": ">=14.0.12"
             },
             {
                 "description": "Patch for Wyomind Data Feed Manager to fix integration tests in Magento",
