@@ -1,0 +1,22 @@
+Fixes the PHP 8.4 deprecation "Implicitly marking parameter $connection / $resource as nullable is
+deprecated, the explicit nullable type must be used instead" raised by
+Wyomind\GoogleProductRatings\Model\ResourceModel\Review\Collection::__construct().
+
+Root cause: the constructor declares "Type $param = null" without "?", which PHP 8.4 deprecates.
+Fix: declare both parameters explicitly nullable ("?Type $param = null"). No behaviour change.
+
+diff --git a/Model/ResourceModel/Review/Collection.php b/Model/ResourceModel/Review/Collection.php
+index 267f1e7..1fc20f5 100644
+--- a/Model/ResourceModel/Review/Collection.php
++++ b/Model/ResourceModel/Review/Collection.php
+@@ -19,8 +19,8 @@ class Collection extends \Magento\Review\Model\ResourceModel\Review\Collection
+         \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
+         \Magento\Store\Model\StoreManagerInterface $storeManager,
+         /** @delegation off */
+-        \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
+-        \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
++        ?\Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
++        ?\Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
+     )
+     {
+         $wyomind->constructor($this, $wyomind, __CLASS__);

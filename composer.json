@@ -2522,6 +2522,11 @@
                     "description": "Fix an error when trying to send form with a file attachment",
                     "filename": "essential/plugincompany/contactforms/m248-fix-error-when-sending-file.patch",
                     "version-constraint": ">=100.17.12"
+                },
+                {
+                    "description": "Declare nullable constructor parameters explicitly in Model\\Form and Model\\Entry (PHP 8.4 deprecation)",
+                    "filename": "essential/plugincompany/contactforms/php84-implicit-nullable.patch",
+                    "version-constraint": "100.17.12"
                 }
             ],
             "magento/module-cron": [
@@ -4560,6 +4565,11 @@
                     "description": "Add int return type to Command::execute() for symfony/console 7 compatibility (Magento 2.4.9)",
                     "filename": "essential/wyomind/googleproductratings/symfony7-execute-return-type.patch",
                     "version-constraint": ">=3.0.0 <=3.0.5"
+                },
+                {
+                    "description": "Declare nullable constructor parameters explicitly in Model\\ResourceModel\\Review\\Collection (PHP 8.4 deprecation)",
+                    "filename": "essential/wyomind/googleproductratings/php84-implicit-nullable.patch",
+                    "version-constraint": "3.0.5"
                 }
             ],
             "techdivision/pixi-magento-connector": [

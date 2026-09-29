@@ -1,0 +1,38 @@
+Fixes the PHP 8.4 deprecation "Implicitly marking parameter $resource / $resourceCollection as
+nullable is deprecated, the explicit nullable type must be used instead" raised by the constructors
+of PluginCompany\ContactForms\Model\Form and PluginCompany\ContactForms\Model\Entry.
+
+Root cause: both constructors declare "Type $param = null" without "?", which PHP 8.4 deprecates.
+Fix: declare the parameters explicitly nullable ("?Type $param = null"), as the parent
+Magento\Framework\Model\AbstractModel constructor does. No behaviour change.
+
+diff --git a/Model/Entry.php b/Model/Entry.php
+index d9351d6..1cd30ae 100644
+--- a/Model/Entry.php
++++ b/Model/Entry.php
+@@ -135,8 +135,8 @@ class Entry extends \Magento\Framework\Model\AbstractModel implements EntryInter
+         UrlInterface $urlBuilder,
+         EntryTranslator $translator,
+         EntryRepository $entryRepository,
+-        AbstractResource $resource = null,
+-        AbstractDb $resourceCollection = null,
++        ?AbstractResource $resource = null,
++        ?AbstractDb $resourceCollection = null,
+         array $data = [])
+     {
+         $this->date = $date;
+diff --git a/Model/Form.php b/Model/Form.php
+index 7ce3d71..f381632 100644
+--- a/Model/Form.php
++++ b/Model/Form.php
+@@ -74,8 +74,8 @@ class Form extends AbstractModel implements FormInterface
+         DateTime $modelDate,
+         ScopeConfigInterface $configScopeConfigInterface,
+         Collection $entryCollection,
+-        AbstractResource $resource = null,
+-        AbstractDb $resourceCollection = null,
++        ?AbstractResource $resource = null,
++        ?AbstractDb $resourceCollection = null,
+         array $data = [])
+     {
+         $this->modelDate = $modelDate;
