@@ -1328,7 +1328,7 @@
                 {
                     "description": "Fix wrong category instance in layered navigation",
                     "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-wrong-category-instance-2.11.10.patch",
-                    "version-constraint": ">=2.11.10"
+                    "version-constraint": ">=2.11.10 <2.11.21 || >=2.12.0 <2.12.2"
                 },
                 {
                     "description": "Fix synonyms for multi word quieries",
