@@ -4555,6 +4555,11 @@
                     "description": "Fix issue with feed file path",
                     "filename": "essential/wyomind/googleproductratings/fix-issue-with-feed-file-path.patch",
                     "version-constraint": ">=3.0.5"
+                },
+                {
+                    "description": "Add int return type to Command::execute() for symfony/console 7 compatibility (Magento 2.4.9)",
+                    "filename": "essential/wyomind/googleproductratings/symfony7-execute-return-type.patch",
+                    "version-constraint": ">=3.0.0 <=3.0.5"
                 }
             ],
             "techdivision/pixi-magento-connector": [

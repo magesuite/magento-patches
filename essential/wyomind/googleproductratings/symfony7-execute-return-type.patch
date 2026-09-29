@@ -1,0 +1,29 @@
+Fixes the fatal error on every bin/magento call with Magento 2.4.9 (symfony/console 7.4):
+"Declaration of Wyomind\GoogleProductRatings\Console\Command\Run::execute(...) must be compatible
+with Symfony\Component\Console\Command\Command::execute(...): int".
+
+Root cause: symfony/console 7 declares a native int return type on Command::execute(). Run::execute()
+overrides it without a return type, so PHP refuses to load the class, and because Magento's
+CommandList instantiates every console command at startup, the whole CLI fails, not just this command.
+Fix: declare ": int" on Run::execute(). Its only return statement already returns
+Cli::RETURN_SUCCESS or Cli::RETURN_FAILURE. Adding the return type is also valid against
+symfony/console 6.x, where the parent method has no return type.
+
+Console/Command/Run.php is identical in 3.0.0 and 3.0.5, the only 3.x releases.
+
+diff --git a/Console/Command/Run.php b/Console/Command/Run.php
+index 86c5480..791fa93 100644
+--- a/Console/Command/Run.php
++++ b/Console/Command/Run.php
+@@ -115,7 +115,10 @@ class Run extends \Symfony\Component\Console\Command\Command
+     protected function execute(
+         \Symfony\Component\Console\Input\InputInterface $input,
+         \Symfony\Component\Console\Output\OutputInterface $output
+-    ) {
++    // BEGIN PATCH
++    // ) {
++    ): int {
++    // END PATCH
+     
+         try {
+             $this->_state->setAreaCode('adminhtml');
