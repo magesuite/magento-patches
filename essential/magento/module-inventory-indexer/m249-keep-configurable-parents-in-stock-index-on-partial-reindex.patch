@@ -1,0 +1,76 @@
+--- a/Indexer/Stock/IndexDataFiller.php
++++ b/Indexer/Stock/IndexDataFiller.php
+@@ -59,7 +59,10 @@
+             $productSkusByTypes = array_fill_keys($uniqueTypes, []);
+             foreach ($productTypesBySkus as $sku => $type) {
+                 if ($type !== null) {
+-                    $productSkusByTypes[$type][] = $sku;
++                    // PATCH BEGIN
++                    // $productSkusByTypes[$type][] = $sku;
++                    $productSkusByTypes[$type][] = (string) $sku;
++                    // PATCH END
+                 }
+             }
+ 
+@@ -70,17 +73,31 @@
+             $composableSkus = array_merge([], ...array_values($composableSkusByTypes));
+             if ($composableSkus) {
+                 $data = $this->dataProvider->getData($stockId, $composableSkus);
+-                $this->indexStructureHandler->cleanIndex(
+-                    $indexName,
+-                    new ArrayIterator($composableSkus),
+-                    $connectionName
+-                );
++                // PATCH BEGIN
++                // $this->indexStructureHandler->cleanIndex(
++                //     $indexName,
++                //     new ArrayIterator($composableSkus),
++                //     $connectionName
++                // );
++                // $this->indexStructureHandler->saveIndex($indexName, new ArrayIterator($data), $connectionName);
+                 $this->indexStructureHandler->saveIndex($indexName, new ArrayIterator($data), $connectionName);
++                $removedSkus = array_udiff($composableSkus, array_keys($data), fn($a, $b) => strcasecmp((string) $a, (string) $b));
++                if ($removedSkus) {
++                    $this->indexStructureHandler->cleanIndex(
++                        $indexName,
++                        new ArrayIterator($removedSkus),
++                        $connectionName
++                    );
++                }
++                // PATCH END
+             }
+         } else {
+             $data = $this->dataProvider->getData($stockId);
+             $this->indexStructureHandler->saveIndex($indexName, new ArrayIterator($data), $connectionName);
+-            $composableSkus = array_keys($data);
++            // PATCH BEGIN
++            // $composableSkus = array_keys($data);
++            $composableSkus = array_map('strval', array_keys($data));
++            // PATCH END
+             $compositeSkusByTypes = [];
+         }
+ 
+@@ -94,11 +111,19 @@
+         $indexAlias = IndexAlias::from($indexName->getAlias()->getValue());
+         foreach ($compositeSkusByTypes as $productType => $skus) {
+             $data = $this->dataProvider->getSiblingsData($stockId, $productType, $skus, $indexAlias);
+-            if ($skuList) {
+-                // Partial reindex. When full reindex, replica table is used, so no cleaning is required.
+-                $this->indexStructureHandler->cleanIndex($indexName, new ArrayIterator($skus), $connectionName);
+-            }
++            // PATCH BEGIN
++            // if ($skuList) {
++            //     // Partial reindex. When full reindex, replica table is used, so no cleaning is required.
++            //     $this->indexStructureHandler->cleanIndex($indexName, new ArrayIterator($skus), $connectionName);
++            // }
++            // $this->indexStructureHandler->saveIndex($indexName, new ArrayIterator($data), $connectionName);
+             $this->indexStructureHandler->saveIndex($indexName, new ArrayIterator($data), $connectionName);
++            // Partial reindex. When full reindex, replica table is used, so no cleaning is required.
++            $removedSkus = array_udiff($skus, array_keys($data), fn($a, $b) => strcasecmp((string) $a, (string) $b));
++            if ($skuList && $removedSkus) {
++                $this->indexStructureHandler->cleanIndex($indexName, new ArrayIterator($removedSkus), $connectionName);
++            }
++            // PATCH END
+         }
+ 
+         $this->reservationsIndexTable->dropTable($stockId);
