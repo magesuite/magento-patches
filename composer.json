@@ -3932,6 +3932,11 @@
                     "description": "Fix for remove saved payment token in admin panel (IPET-954)",
                     "filename": "essential/wallee/magento-2/fix-remove-payment-tokens-in-admin.patch",
                     "version-constraint": ">=1.2.0"
+                },
+                {
+                    "description": "Add index on transaction_id column in wallee_payment_transaction_info table to avoid full table scans on transaction lookups",
+                    "filename": "essential/wallee/magento-2/add-transaction-id-index-to-transaction-info-table.patch",
+                    "version-constraint": ">=3.0.0"
                 }
             ],
             "wallee/sdk": [

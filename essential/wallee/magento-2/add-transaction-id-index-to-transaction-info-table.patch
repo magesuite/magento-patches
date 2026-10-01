@@ -1,0 +1,21 @@
+Adds a missing index on wallee_payment_transaction_info.transaction_id.
+
+Root cause: TransactionInfo resource model loads records by transaction_id alone, but the only index
+containing that column is the unique (space_id, transaction_id) constraint, where transaction_id
+is not the leading column. MySQL cannot use it for these lookups and falls back to a full table scan.
+Fix: add a btree index on transaction_id via db_schema.xml.
+
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index bcdfc5f..675415d 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -56,6 +56,9 @@
+     <constraint xsi:type="unique" referenceId="WALLEE_PAYMENT_TRANSACTION_INFO_ORDER_ID">
+       <column name="order_id"/>
+     </constraint>
++    <index referenceId="WALLEE_PAYMENT_TRANSACTION_INFO_TRANSACTION_ID" indexType="btree">
++      <column name="transaction_id"/>
++    </index>
+   </table>
+   <table name="wallee_payment_method_configuration" resource="default" engine="innodb" comment="wallee Payment Method Configuration">
+     <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
