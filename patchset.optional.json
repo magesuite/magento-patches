@@ -471,6 +471,11 @@
               "description": "Don't log GraphQL unexpected EOF error",
               "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/dont-log-graphql-unexpected-eof-error.patch",
               "version-constraint": "*"
+            },
+            {
+              "description": "Fix parallel indexers (MAGE_INDEXER_THREADS_COUNT > 1) sharing the parent's Redis socket after fork in the Symfony cache, which mixes up cache replies between processes (Magento 2.4.9, backport of magento/magento2@19640e886e)",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/249-fix-parallel-indexer-shared-redis-connection.patch",
+              "version-constraint": ">=103.0.9,<103.0.10"
             }
         ],
         "magento/module-backend": [

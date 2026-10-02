@@ -1,0 +1,223 @@
+Fixes parallel indexers (MAGE_INDEXER_THREADS_COUNT > 1) failing with random, unrelated SQL errors,
+e.g. during the catalog_category_product full reindex after a product import:
+"Child process failed with message: SQLSTATE[42S22]: Column not found: 1054 Unknown column
+'category_ids' in 'field list', query was: INSERT INTO `catalog_category_product_index_store12_tmp`
+(`category_ids`, `country_of_manufacture`, ...) SELECT 398 AS `category_id`, `cp`.`entity_id` AS ..."
+
+Root cause 1: Magento 2.4.9 builds every cache frontend on Symfony cache. SymfonyAdapterProvider is a
+shared singleton that pools Redis connections per host:port:database. ProcessManager closes the DB and
+AMQP connections before pcntl_fork(), but not the cache connections. The Symfony frontend adapter
+detects the PID change and calls its cache factory again, yet the factory asks the same provider,
+which hands back the parent's pooled connection. Every forked child therefore talks to Redis over the
+one socket inherited from the parent, the request/response stream interleaves, and a process reads
+another process's reply. In the error above, describeTable() of the tmp table was answered with an
+unrelated cached array keyed by product attribute codes, so Full::reindexCategoriesBySelect() used
+those keys as the INSERT column list.
+Fix: the provider remembers the PID that owns its pool and drops the pooled connections when a
+different PID asks for an adapter, so each child opens its own connection. The inherited handles are
+only dereferenced, never closed, so the parent's socket is left intact.
+
+Root cause 2: connections are persistent by default. phpredis keys persistent sockets by
+host:port:persistent_id, so a child calling pconnect() with the parent's persistent_id would get the
+inherited socket back even with a fresh pool.
+Fix: the persistent_id is now "<persistent_id or 'default'>:<database>:<pid>". The database part keeps
+frontends on different databases (default vs page_cache) from collapsing onto one persistent socket.
+
+Root cause 3: the tag adapter is created once from the initial pool and kept its Redis connection
+after the pool was rebuilt in a child.
+Fix: Factory passes a tag adapter factory to the Symfony frontend adapter, which rebuilds the tag
+adapter whenever it rebuilds the pool after a fork.
+
+Covers plain 'redis' frontends and the remote level of 'symfony_l2' frontends, which is built through
+the same Factory::createSymfonyCache() path.
+
+Backport of upstream magento/magento2@19640e886e ("Solved indexer multi thread issue") plus the
+persistent_id database scoping from magento/magento2@4d6f3a65a5 (both AC-17867 on 2.4-develop, not
+part of the 2.4.9 tag). Drop this patch once the installed release contains these commits.
+
+diff --git a/App/Cache/Frontend/Factory.php b/App/Cache/Frontend/Factory.php
+index aa838cc..5b18fd9 100644
+--- a/App/Cache/Frontend/Factory.php
++++ b/App/Cache/Frontend/Factory.php
+@@ -572,13 +572,31 @@ class Factory
+             $cachePool = $cacheFactory();
+ 
+             // Create tag adapter for backend-specific operations
+-            $adapter = $adapterProvider->createTagAdapter(
++            // BEGIN PATCH
++            // $adapter = $adapterProvider->createTagAdapter(
++            //     $originalBackendType,
++            //     $cachePool,
++            //     $idPrefix,
++            //     $isPageCache,
++            //     $backendOptions
++            // );
++            $adapterFactory = function ($pool) use (
++                $adapterProvider,
+                 $originalBackendType,
+-                $cachePool,
+                 $idPrefix,
+                 $isPageCache,
+                 $backendOptions
+-            );
++            ) {
++                return $adapterProvider->createTagAdapter(
++                    $originalBackendType,
++                    $pool,
++                    $idPrefix,
++                    $isPageCache,
++                    $backendOptions
++                );
++            };
++            $adapter = $adapterFactory($cachePool);
++            // END PATCH
+ 
+             // Create Symfony adapter with fork detection support and tag adapter
+             $result = $this->_objectManager->create(
+@@ -588,6 +606,9 @@ class Factory
+                     'adapter' => $adapter,
+                     'defaultLifetime' => $defaultLifetime,
+                     'idPrefix' => $idPrefix,
++                    // BEGIN PATCH
++                    'adapterFactory' => $adapterFactory,
++                    // END PATCH
+                 ]
+             );
+ 
+diff --git a/Cache/Frontend/Adapter/Symfony.php b/Cache/Frontend/Adapter/Symfony.php
+index 26d22ce..f64b5ac 100644
+--- a/Cache/Frontend/Adapter/Symfony.php
++++ b/Cache/Frontend/Adapter/Symfony.php
+@@ -46,6 +46,13 @@ class Symfony implements FrontendInterface
+      */
+     private ?Closure $cacheFactory;
+ 
++    // BEGIN PATCH
++    /**
++     * @var Closure|null
++     */
++    private ?Closure $adapterFactory;
++    // END PATCH
++
+     /**
+      * @var int
+      */
+@@ -116,14 +123,22 @@ class Symfony implements FrontendInterface
+      * @param TagAdapterInterface|null $adapter Backend-specific tag adapter
+      * @param int $defaultLifetime Default cache lifetime in seconds
+      * @param string $idPrefix Cache ID prefix
++     * @param Closure|null $adapterFactory
+      */
+     public function __construct(
+         Closure $cacheFactory,
+         ?TagAdapterInterface $adapter = null,
+         int $defaultLifetime = self::DEFAULT_LIFETIME,
+-        string $idPrefix = self::DEFAULT_CACHE_PREFIX
++        // BEGIN PATCH
++        // string $idPrefix = self::DEFAULT_CACHE_PREFIX
++        string $idPrefix = self::DEFAULT_CACHE_PREFIX,
++        ?Closure $adapterFactory = null
++        // END PATCH
+     ) {
+         $this->cacheFactory = $cacheFactory;
++        // BEGIN PATCH
++        $this->adapterFactory = $adapterFactory;
++        // END PATCH
+         $this->pid = getmypid();
+         $this->cache = $cacheFactory();
+         $this->defaultLifetime = $defaultLifetime;
+@@ -143,6 +158,11 @@ class Symfony implements FrontendInterface
+         if ($currentPid !== $this->pid) {
+             $this->parentCachePools[] = $this->cache;
+             $this->cache = ($this->cacheFactory)();
++            // BEGIN PATCH
++            if ($this->adapterFactory !== null) {
++                $this->adapter = ($this->adapterFactory)($this->cache);
++            }
++            // END PATCH
+             $this->pid = $currentPid;
+             $this->isTagAware = null;
+         }
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapterProvider.php b/Cache/Frontend/Adapter/SymfonyAdapterProvider.php
+index ae9233a..c5f219c 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapterProvider.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapterProvider.php
+@@ -59,6 +59,13 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+      */
+     private array $connectionPool = [];
+ 
++    // BEGIN PATCH
++    /**
++     * @var int|null
++     */
++    private ?int $poolPid = null;
++    // END PATCH
++
+     /**
+      * Cached adapter type mappings (lowercase => canonical)
+      *
+@@ -116,8 +123,25 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+     public function _resetState(): void
+     {
+         $this->connectionPool = [];
++        // BEGIN PATCH
++        $this->poolPid = null;
++        // END PATCH
+     }
+ 
++    // BEGIN PATCH
++    /**
++     * @return void
++     */
++    private function resetPooledConnectionsOnFork(): void
++    {
++        $pid = getmypid();
++        if ($this->poolPid !== $pid) {
++            $this->connectionPool = [];
++            $this->poolPid = $pid;
++        }
++    }
++    // END PATCH
++
+     /**
+      * Create Symfony cache adapter based on backend type and options
+      *
+@@ -240,6 +264,10 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         string $namespace,
+         ?int $defaultLifetime
+     ): AdapterInterface {
++        // BEGIN PATCH
++        $this->resetPooledConnectionsOnFork();
++        // END PATCH
++
+         // Extract connection parameters (optimized with null coalescing)
+         $host = $options['server'] ?? $options['host'] ?? '127.0.0.1';
+         $port = (int)($options['port'] ?? 6379);
+@@ -356,9 +384,13 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         // Add persistent connection parameters
+         if ($persistent) {
+             $dsnParams[] = 'persistent=1';
+-            if ($persistentId) {
+-                $dsnParams[] = 'persistent_id=' . urlencode($persistentId);
+-            }
++            // BEGIN PATCH
++            // if ($persistentId) {
++            //     $dsnParams[] = 'persistent_id=' . urlencode($persistentId);
++            // }
++            $forkSafePersistentId = sprintf('%s:%d:%d', $persistentId ?: 'default', $database, getmypid());
++            $dsnParams[] = 'persistent_id=' . urlencode($forkSafePersistentId);
++            // END PATCH
+         }
+ 
+         // Add connection timeout parameters
+@@ -500,6 +532,10 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         string $namespace,
+         ?int $defaultLifetime
+     ): AdapterInterface {
++        // BEGIN PATCH
++        $this->resetPooledConnectionsOnFork();
++        // END PATCH
++
+         // Build server list (optimized)
+         if (isset($options['servers'])) {
+             // Multiple servers - optimize with direct assignment
