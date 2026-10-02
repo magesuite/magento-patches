@@ -2797,6 +2797,11 @@
                     "description": "Avoid price reindex if saleable status of the product is not changed",
                     "filename": "essential/magento/module-inventory-indexer/optimize-indexer-for-stock-update.patch",
                     "version-constraint": "2.2.1"
+                },
+                {
+                    "description": "Keep configurable parents in MSI stock index on partial reindex - numeric SKUs as ints in SQL IN() deleted parent rows (sku IN (123) matches 123C), upsert before clean, magento/inventory#3462 (ZJ-836, Magento 2.4.9)",
+                    "filename": "essential/magento/module-inventory-indexer/m249-keep-configurable-parents-in-stock-index-on-partial-reindex.patch",
+                    "version-constraint": "2.2.4"
                 }
             ],
             "magento/module-inventory-cache": [
