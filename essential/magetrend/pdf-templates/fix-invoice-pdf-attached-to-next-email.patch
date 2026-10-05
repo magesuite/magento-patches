@@ -1,0 +1,21 @@
+diff --git a/Plugin/Framework/Mail/TransportInterfaceFactory.php b/Plugin/Framework/Mail/TransportInterfaceFactory.php
+--- a/Plugin/Framework/Mail/TransportInterfaceFactory.php
++++ b/Plugin/Framework/Mail/TransportInterfaceFactory.php
+@@ -32,9 +32,14 @@ class TransportInterfaceFactory
+ 
+     public function beforeCreate($subject, array $data = [])
+     {
+-        if (isset($data['message'])) {
+-            $this->attachmentManager->attach($data['message']);
+-        }
++        // BEGIN PATCH
++        // The PDF is already attached in Plugin\Framework\Mail\Message::afterSetBody.
++        // Attaching here again leaves the PDF in AttachmentRegistry and it is added
++        // to the next email sent in the same process (another customer's invoice).
++        // if (isset($data['message'])) {
++        //     $this->attachmentManager->attach($data['message']);
++        // }
++        // END PATCH
+ 
+         return [$data];
+     }

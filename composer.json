@@ -9,6 +9,13 @@
     },
     "extra": {
         "patchset": {
+            "magetrend/pdf-templates": [
+                {
+                    "description": "Do not attach the PDF again in the TransportInterfaceFactory plugin. On Magento 2.4.8+ (Symfony mailer) it stays in AttachmentRegistry and is added to the next email sent in the same process, e.g. another customer's invoice",
+                    "filename": "essential/magetrend/pdf-templates/fix-invoice-pdf-attached-to-next-email.patch",
+                    "version-constraint": ">=1.10.1"
+                }
+            ],
             "magento/module-backup": [
                 {
                     "description": "Security patch 249-2026-09-001 (Magento 2.4.9): enforce the Magento_Backup::rollback ACL on the backup rollback controller via ADMIN_RESOURCE instead of a non-terminating isRollbackAllowed() check",
