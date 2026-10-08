@@ -3956,7 +3956,7 @@
                     "version-constraint": ">=3.4.0"
                 },
                 {
-                    "description": "Fix placing orders when Wallee API credentials are not configured by injecting lazy proxies into observers that build the SDK eagerly",
+                    "description": "Fix placing orders, invoicing and refunding when Wallee API credentials are not configured by injecting lazy proxies into observers and plugins that build the SDK eagerly",
                     "filename": "essential/wallee/magento-2/fix-order-placement-without-api-credentials.patch",
                     "version-constraint": ">=3.5.1"
                 }
