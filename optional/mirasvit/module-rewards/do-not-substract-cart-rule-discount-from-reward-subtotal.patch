@@ -1,0 +1,25 @@
+Don't substract the cart rule discount from the subtotal the reward points value is sized against
+JIRA ticket: IPET-3760
+
+The subtotal is built as price * qty - base_discount_amount, so any cart price rule shrinks it and the same points become worth less.
+With the "500 Points = CHF 10" rule, 1000 points came out as 17.88 instead of 20.00 once percent50 was applied.
+base_discount_amount also carries the reward discount from the previous totals collection, so the subtotal refers to its own result and lands on a different amount on each recalculation.
+Restores what do-not-substract-discount-from-item-price.patch provided until IPET-3296 constrained it to <3.0.58.
+
+diff --git a/src/Rewards/Helper/Balance/Spend.php b/src/Rewards/Helper/Balance/Spend.php
+--- a/src/Rewards/Helper/Balance/Spend.php
++++ b/src/Rewards/Helper/Balance/Spend.php
+@@ -301,7 +301,12 @@
+                         $itemPrice = $item->getBasePriceInclTax();
+                     }
+                     $itemPrice += (float)$item->getWeeeTaxAppliedAmountInclTax();
+-                    $itemPrice = $itemPrice * $item->getQty() - $item->getBaseDiscountAmount();
++                    // BEGIN PATCH
++                    // don't substract the discount, it shrinks the subtotal that sizes the points value
++
++                    // $itemPrice = $itemPrice * $item->getQty() - $item->getBaseDiscountAmount();
++                    $itemPrice = $itemPrice * $item->getQty();
++                    // END PATCH
+                 } else {
+                     $itemPrice = $item->getBasePrice() * $item->getQty() - $item->getBaseDiscountAmount();
+                 }

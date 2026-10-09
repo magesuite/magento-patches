@@ -744,6 +744,11 @@
                 "description": "Remove report config that cannot work while reward report aggregation is disabled",
                 "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/remove-report-entries-requiring-aggregation.patch",
                 "version-constraint": ">=3.3.31"
+            },
+            {
+                "description": "Don't substract cart rule discount from the subtotal the reward points value is sized against (IPET-3760)",
+                "filename": "vendor/creativestyle/magento-patches/optional/mirasvit/module-rewards/do-not-substract-cart-rule-discount-from-reward-subtotal.patch",
+                "version-constraint": ">=3.3.20"
             }
         ],
         "mirasvit/module-report": [
