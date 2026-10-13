@@ -2859,6 +2859,11 @@
                     "description": "Wrap inventory grouped product indexer (MSI) with transaction",
                     "filename": "essential/magento/module-inventory-grouped-product-indexer/wrap-inventory-grouped-indexer-with-transaction.patch",
                     "version-constraint": ">=1.1.0, <1.2.7"
+                },
+                {
+                    "description": "Filter grouped sibling products by the grouped link type - without it related, up-sell and cross-sell links are treated as grouped links and a partial MSI reindex removes the linking products from the stock index, magento/magento2#41268 (RKL-1234, Magento 2.4.9)",
+                    "filename": "essential/magento/module-inventory-grouped-product-indexer/m249-filter-grouped-sibling-products-by-link-type.patch",
+                    "version-constraint": ">=1.2.7"
                 }
             ],
             "magento/module-customer-custom-attributes": [
