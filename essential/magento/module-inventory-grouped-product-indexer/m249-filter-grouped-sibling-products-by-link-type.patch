@@ -1,0 +1,17 @@
+@see https://github.com/magento/magento2/issues/41268
+
+--- a/Indexer/SiblingProductsProvider.php
++++ b/Indexer/SiblingProductsProvider.php
+@@ -38,7 +38,11 @@
+                 []
+             )->joinInner(
+                 ['sibling_link' => $this->resourceConnection->getTableName('catalog_product_link')],
+-                'sibling_link.linked_product_id = child_product_entity.' . $metadata->getIdentifierField(),
++                // PATCH BEGIN
++                // 'sibling_link.linked_product_id = child_product_entity.' . $metadata->getIdentifierField(),
++                'sibling_link.linked_product_id = child_product_entity.' . $metadata->getIdentifierField()
++                . ' AND sibling_link.link_type_id = ' . \Magento\GroupedProduct\Model\ResourceModel\Product\Link::LINK_TYPE_GROUPED,
++                // PATCH END
+                 []
+             )->joinInner(
+                 ['sibling_product_entity' => $this->resourceConnection->getTableName('catalog_product_entity')],
