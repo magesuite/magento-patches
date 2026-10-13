@@ -1,0 +1,32 @@
+diff --git a/Controller/Adminhtml/Posts/Preview.php b/Controller/Adminhtml/Posts/Preview.php
+index 6c5ce21..2bdd332 100644
+--- a/Controller/Adminhtml/Posts/Preview.php
++++ b/Controller/Adminhtml/Posts/Preview.php
+@@ -127,7 +127,10 @@ class Preview extends \Magento\Backend\App\Action
+         $messages = [];
+         $data = $this->getPostData();
+         $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
+-        $urlScopeParams = $this->getUrlScopeParams((int)$data['store_id']);
++        // BEGIN PATCH
++        // $urlScopeParams = $this->getUrlScopeParams((int)$data['store_id']);
++        $urlScopeParams = $this->getUrlScopeParams((int)($data['store_id'] ?? Store::DEFAULT_STORE_ID));
++        // END PATCH
+ 
+         if (!$this->cacheState->isEnabled(Blog::TYPE_IDENTIFIER) && isset($data['post_id'])) {
+             $encryptedParams = $this->encryptor->encryptParams((int)$data['post_id'], $this->dateTime->gmtTimestamp());
+diff --git a/Model/Posts/Seo/Modifiers/DateModifier.php b/Model/Posts/Seo/Modifiers/DateModifier.php
+index 95fcb56..53e9e48 100644
+--- a/Model/Posts/Seo/Modifiers/DateModifier.php
++++ b/Model/Posts/Seo/Modifiers/DateModifier.php
+@@ -40,7 +40,10 @@ class DateModifier implements ModifierInterface
+         }
+ 
+         $richData['datePublished'] = $this->formatDate($post->getPublishedAt());
+-        $richData['dateModified'] = $this->formatDate($post->getUpdatedAt());
++        // BEGIN PATCH
++        // $richData['dateModified'] = $this->formatDate($post->getUpdatedAt());
++        $richData['dateModified'] = $this->formatDate($post->getUpdatedAt() ?? $post->getPublishedAt());
++        // END PATCH
+ 
+         return $richData;
+     }
