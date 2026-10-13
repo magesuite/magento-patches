@@ -74,6 +74,11 @@
                     "version-constraint": ">=102.0.9,<102.0.10"
                 },
                 {
+                    "description": "Fix admin Flush Cache Storage crashing with undefined method SymfonyL2Cache::clear() on Magento 2.4.9 two-level (symfony_l2) cache backends",
+                    "filename": "essential/magento/module-backend/249-fix-flush-cache-storage-with-symfony-l2-cache.patch",
+                    "version-constraint": ">=102.0.9,<102.0.10"
+                },
+                {
                     "description": "Security patch VULN-39341 (Magento 2.4.8-p5): validate the grid row URL generator class against GeneratorInterface before instantiating it",
                     "filename": "essential/magento/module-backend/248p5-VULN-39341-CE.patch",
                     "version-constraint": ">=102.0.8,<102.0.9"

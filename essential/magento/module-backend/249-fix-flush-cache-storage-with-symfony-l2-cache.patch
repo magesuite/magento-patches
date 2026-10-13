@@ -1,0 +1,21 @@
+Fixes "Flush Cache Storage" in the admin cache management crashing with
+"Call to undefined method Magento\Framework\Cache\Backend\SymfonyL2Cache::clear()" (Magento 2.4.9).
+
+Upstream fixed this in AC-17867 (magento/magento2@e1072c51d7, 2.4-develop) after the 2.4.9 release.
+
+diff --git a/Controller/Adminhtml/Cache/FlushAll.php b/Controller/Adminhtml/Cache/FlushAll.php
+index 11a64c1..991ba66 100644
+--- a/Controller/Adminhtml/Cache/FlushAll.php
++++ b/Controller/Adminhtml/Cache/FlushAll.php
+@@ -27,7 +27,10 @@ class FlushAll extends \Magento\Backend\Controller\Adminhtml\Cache implements Ht
+         /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
+         foreach ($this->_cacheFrontendPool as $cacheFrontend) {
+             // FlushAll clears the entire backend storage, not just frontend-owned data
+-            $cacheFrontend->getBackend()->clear();
++            // BEGIN PATCH
++            // $cacheFrontend->getBackend()->clear();
++            $cacheFrontend->getBackend()->clean();
++            // END PATCH
+         }
+         $this->messageManager->addSuccessMessage(__("You flushed the cache storage."));
+         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
