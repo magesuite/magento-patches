@@ -167,6 +167,16 @@
                     "version-constraint": ">=103.0.8,<103.0.9"
                 },
                 {
+                    "description": "Security patch 249-2026-10-001 (Magento 2.4.9): defer child-template directives through an out-of-band DeferredDirectiveRegistry instead of signed markers, decode HTML entities after inline translation in Escaper::escapeXssInUrl, reject comment, nested-tag and NUL markup in the WYSIWYG validator, replace the UiComponent Sanitizer template-syntax regex with a ${ substring check, hash FileLock lock file names and reject quoted local parts in EmailAddress (must be applied after 249-2026-07-001 and 249-2026-09-001)",
+                    "filename": "essential/magento/framework/249-2026-10-001-CE.patch",
+                    "version-constraint": ">=103.0.9,<103.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-10-001 (Magento 2.4.8-p5): defer child-template directives through an out-of-band DeferredDirectiveRegistry instead of signed markers, decode HTML entities after inline translation in Escaper::escapeXssInUrl, reject comment, nested-tag and NUL markup in the WYSIWYG validator, replace the UiComponent Sanitizer template-syntax regex with a ${ substring check, hash FileLock lock file names and reject quoted local parts in EmailAddress (must be applied after 248p5-2026-07-001 and 248p5-2026-09-001)",
+                    "filename": "essential/magento/framework/248p5-2026-10-001-CE.patch",
+                    "version-constraint": ">=103.0.8,<103.0.9"
+                },
+                {
                     "description": "Revert isolated reader context in layout generation - scheduled structure diverges on full page rendering and referenceBlock children are lost (ZJ-753, Magento 2.4.9 regression)",
                     "filename": "essential/magento/framework/revert-isolated-reader-context-in-layout-generation.patch",
                     "version-constraint": ">=103.0.9"
@@ -524,6 +534,16 @@
                 }
             ],
             "magento/module-persistent": [
+                {
+                    "description": "Security patch 249-2026-10-001 (Magento 2.4.9): let the guest cart ownership check pass for a cart that belongs to the customer of the active persistent session",
+                    "filename": "essential/magento/module-persistent/249-2026-10-001-CE.patch",
+                    "version-constraint": ">=100.4.9,<100.4.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-10-001 (Magento 2.4.8-p5): let the guest cart ownership check pass for a cart that belongs to the customer of the active persistent session",
+                    "filename": "essential/magento/module-persistent/248p5-2026-10-001-CE.patch",
+                    "version-constraint": ">=100.4.8,<100.4.9"
+                },
                 {
                     "description": "Fix 'The shipping information was unable to be saved.' error",
                     "filename": "essential/magento/module-persistent/m232-the-shipping-information-was-unable-to-be-saved.patch",
@@ -1229,6 +1249,16 @@
                     "version-constraint": ">=101.1.7,<101.1.8"
                 },
                 {
+                    "description": "Security patch 249-2026-10-001 (Magento 2.4.9): reject template directives inside absolute external URLs in HTML attributes and CSS url() of email template text and styles on save and admin preview, and defer child-template inlinecss through the framework DeferredDirectiveRegistry (must be applied after 249-VULN-39341, requires the magento/framework 249-2026-10-001 patch)",
+                    "filename": "essential/magento/module-email/249-2026-10-001-CE.patch",
+                    "version-constraint": ">=101.1.9,<101.1.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-10-001 (Magento 2.4.8-p5): reject template directives inside absolute external URLs in HTML attributes and CSS url() of email template text and styles on save and admin preview, and defer child-template inlinecss through the framework DeferredDirectiveRegistry (must be applied after 248p5-VULN-39341, requires the magento/framework 248p5-2026-10-001 patch)",
+                    "filename": "essential/magento/module-email/248p5-2026-10-001-CE.patch",
+                    "version-constraint": ">=101.1.8,<101.1.9"
+                },
+                {
                     "description": "Security patch MDVA-43395 and MDVA-43443",
                     "filename": "essential/magento/module-email/m243plus-security-MDVA-43395-MDVA-43443.patch",
                     "version-constraint": ">=101.1.3,<101.1.5"
@@ -1571,6 +1601,16 @@
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): add __disableTmpl to gallery and product-render JSON to block Knockout template injection",
                     "filename": "essential/magento/module-catalog/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=104.0.8,<104.0.9"
+                },
+                {
+                    "description": "Security patch 249-2026-10-001 (Magento 2.4.9): rebuild the admin mass attribute update data from canonical attribute codes and drop unknown attributes instead of keeping the posted keys",
+                    "filename": "essential/magento/module-catalog/249-2026-10-001-CE.patch",
+                    "version-constraint": ">=104.0.9,<104.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-10-001 (Magento 2.4.8-p5): rebuild the admin mass attribute update data from canonical attribute codes and drop unknown attributes instead of keeping the posted keys",
+                    "filename": "essential/magento/module-catalog/248p5-2026-10-001-CE.patch",
                     "version-constraint": ">=104.0.8,<104.0.9"
                 },
                 {
@@ -2594,6 +2634,16 @@
                 {
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): remove customer_address_folder from the allowed media storage resources",
                     "filename": "essential/magento/module-customer/248p5-2026-07-001-CE.patch",
+                    "version-constraint": ">=103.0.8,<103.0.9"
+                },
+                {
+                    "description": "Security patch 249-2026-10-001 (Magento 2.4.9): forbid filtering and sorting the customer repository getList() by password_hash, rp_token and confirmation in REST, SOAP and GraphQL, and look up reset password tokens through the customer collection (must be applied after 249-2026-09-001)",
+                    "filename": "essential/magento/module-customer/249-2026-10-001-CE.patch",
+                    "version-constraint": ">=103.0.9,<103.0.10"
+                },
+                {
+                    "description": "Security patch 248p5-2026-10-001 (Magento 2.4.8-p5): forbid filtering and sorting the customer repository getList() by password_hash, rp_token and confirmation in REST, SOAP and GraphQL, and look up reset password tokens through the customer collection (must be applied after 248p5-2026-09-001)",
+                    "filename": "essential/magento/module-customer/248p5-2026-10-001-CE.patch",
                     "version-constraint": ">=103.0.8,<103.0.9"
                 },
                 {

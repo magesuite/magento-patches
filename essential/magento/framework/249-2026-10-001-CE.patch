@@ -1,0 +1,558 @@
+diff --git a/Escaper.php b/Escaper.php
+index 26a1a57adc90b..a1bc7b34473e8 100644
+--- a/Escaper.php
++++ b/Escaper.php
+@@ -389,8 +389,9 @@ public function escapeJsQuote($data, $quote = '\'')
+      */
+     public function escapeXssInUrl($data)
+     {
+-        $data = $this->decodeHtmlEntitiesToFixedPoint((string)$data);
++        $data = (string)$data;
+         $this->getTranslateInline()->processResponseBody($data);
++        $data = $this->decodeHtmlEntitiesToFixedPoint($data);
+ 
+         return htmlspecialchars(
+             $this->escapeScriptIdentifiers($data),
+diff --git a/Filter/Template.php b/Filter/Template.php
+index 3476aceba1217..2ee66c206d835 100644
+--- a/Filter/Template.php
++++ b/Filter/Template.php
+@@ -18,6 +18,7 @@
+ use Magento\Framework\Stdlib\StringUtils;
+ use Magento\Framework\Filter\Template\SignatureProvider;
+ use Magento\Framework\Filter\Template\FilteringDepthMeter;
++use Magento\Framework\Filter\Template\DeferredDirectiveRegistry;
+ 
+ /**
+  * Template constructions filter
+@@ -102,6 +103,8 @@ class Template implements FilterInterface
+ 
+     /**
+      * @var SignatureProvider|null
++     * @deprecated Signature-based deferral was superseded by out-of-band deferral via DeferredDirectiveRegistry.
++     * @see DeferredDirectiveRegistry
+      */
+     private $signatureProvider;
+ 
+@@ -110,6 +113,11 @@ class Template implements FilterInterface
+      */
+     private $filteringDepthMeter;
+ 
++    /**
++     * @var DeferredDirectiveRegistry|null
++     */
++    private $deferredDirectiveRegistry;
++
+     /**
+      * @param StringUtils $string
+      * @param array $variables
+@@ -117,6 +125,7 @@ class Template implements FilterInterface
+      * @param VariableResolverInterface|null $variableResolver
+      * @param SignatureProvider|null $signatureProvider
+      * @param FilteringDepthMeter|null $filteringDepthMeter
++     * @param DeferredDirectiveRegistry|null $deferredDirectiveRegistry
+      */
+     public function __construct(
+         StringUtils $string,
+@@ -124,7 +133,8 @@ public function __construct(
+         $directiveProcessors = [],
+         ?VariableResolverInterface $variableResolver = null,
+         ?SignatureProvider $signatureProvider = null,
+-        ?FilteringDepthMeter $filteringDepthMeter = null
++        ?FilteringDepthMeter $filteringDepthMeter = null,
++        ?DeferredDirectiveRegistry $deferredDirectiveRegistry = null
+     ) {
+         $this->string = $string;
+         $this->setVariables($variables);
+@@ -138,6 +148,9 @@ public function __construct(
+         $this->filteringDepthMeter = $filteringDepthMeter ?? ObjectManager::getInstance()
+                 ->get(FilteringDepthMeter::class);
+ 
++        $this->deferredDirectiveRegistry = $deferredDirectiveRegistry ?? ObjectManager::getInstance()
++                ->get(DeferredDirectiveRegistry::class);
++
+         if (empty($directiveProcessors)) {
+             $this->directiveProcessors = [
+                 'depend' => ObjectManager::getInstance()->get(DependDirective::class),
+@@ -204,35 +217,11 @@ public function filter($value)
+         $this->filteringDepthMeter->descend();
+ 
+         // Processing of template directives.
+-        $templateDirectivesResults = array_unique(
+-            $this->processDirectives($value),
+-            SORT_REGULAR
+-        );
+-
+-        $value = $this->applyDirectivesResults($value, $templateDirectivesResults);
+-
+-        // Processing of deferred directives received from child templates
+-        // or nested directives.
+-        $deferredDirectivesResults = array_unique(
+-            $this->processDirectives($value, true),
+-            SORT_REGULAR
+-        );
+-
+-        $value = $this->applyDirectivesResults($value, $deferredDirectivesResults);
+-
+-        if ($this->filteringDepthMeter->showMark() > 1) {
+-            // Signing own deferred directives (if any).
+-            $signature = $this->signatureProvider->get();
+-
+-            foreach ($templateDirectivesResults as $result) {
+-                if ($result['directive'] === $result['output']) {
+-                    $value = str_replace(
+-                        $result['output'],
+-                        $signature . $result['output'] . $signature,
+-                        $value
+-                    );
+-                }
+-            }
++        $value = $this->resolveDirectives($value);
++
++        // At the root template, resolve directives that child templates deferred to it.
++        if ($this->filteringDepthMeter->showMark() === 1) {
++            $value = $this->resolveDeferredDirectives($value);
+         }
+ 
+         $value = $this->afterFilter($value);
+@@ -243,17 +232,50 @@ public function filter($value)
+     }
+ 
+     /**
+-     * Processes template directives and returns an array that contains results produced by each directive.
++     * Defers a directive to the root template and returns the placeholder that represents it.
++     *
++     * @param string $directive
++     * @return string
++     * @throws \Magento\Framework\Exception\LocalizedException
++     */
++    protected function deferToParent(string $directive): string
++    {
++        return $this->deferredDirectiveRegistry->defer($directive);
++    }
++
++    /**
++     * Resolves directives that child templates deferred to the root template.
++     *
++     * @param string $value
++     * @return string
++     * @throws \Exception
++     */
++    private function resolveDeferredDirectives(string $value): string
++    {
++        foreach ($this->deferredDirectiveRegistry->getAll() as $placeholder => $directive) {
++            if (strpos($value, $placeholder) === false) {
++                continue;
++            }
++
++            $value = str_replace($placeholder, $this->resolveDirectives($directive), $value);
++        }
++
++        $this->deferredDirectiveRegistry->clear();
++
++        return $value;
++    }
++
++    /**
++     * Processes directives and applies the results produced by each directive to the given value.
+      *
+      * @param string $value
+-     * @param bool $isSigned
+      *
+-     * @return array
++     * @return string
+      *
+      * @throws InvalidArgumentException
+      * @throws \Magento\Framework\Exception\LocalizedException
+      */
+-    private function processDirectives($value, $isSigned = false): array
++    private function resolveDirectives(string $value): string
+     {
+         $results = [];
+ 
+@@ -266,10 +288,6 @@ private function processDirectives($value, $isSigned = false): array
+ 
+             $pattern = $directiveProcessor->getRegularExpression();
+ 
+-            if ($isSigned) {
+-                $pattern = $this->embedSignatureIntoPattern($pattern);
+-            }
+-
+             if (preg_match_all($pattern, $value, $constructions, PREG_SET_ORDER)) {
+                 foreach ($constructions as $construction) {
+                     $replacedValue = $directiveProcessor->process($construction, $this, $this->templateVars);
+@@ -290,7 +308,7 @@ private function processDirectives($value, $isSigned = false): array
+             }
+         }
+ 
+-        return $results;
++        return $this->applyDirectivesResults($value, array_unique($results, SORT_REGULAR));
+     }
+ 
+     /**
+@@ -328,38 +346,6 @@ private function applyDirectivesResults(string $value, array $results): string
+         return $value;
+     }
+ 
+-    /**
+-     * Modifies given regular expression pattern to be able to recognize signed directives.
+-     *
+-     * @param string $pattern
+-     *
+-     * @return string
+-     *
+-     * @throws \Magento\Framework\Exception\LocalizedException
+-     */
+-    private function embedSignatureIntoPattern(string $pattern): string
+-    {
+-        $signature = $this->signatureProvider->get();
+-
+-        $closingDelimiters = [
+-            '(' => ')',
+-            '{' => '}',
+-            '[' => ']',
+-            '<' => '>'
+-        ];
+-
+-        $closingDelimiter = $openingDelimiter = substr(trim($pattern), 0, 1);
+-
+-        if (array_key_exists($openingDelimiter, $closingDelimiters)) {
+-            $closingDelimiter = $closingDelimiters[$openingDelimiter];
+-        }
+-
+-        $pattern = substr_replace($pattern, $signature, strpos($pattern, $openingDelimiter) + 1, 0);
+-        $pattern = substr_replace($pattern, $signature, strrpos($pattern, $closingDelimiter), 0);
+-
+-        return $pattern;
+-    }
+-
+     /**
+      * Runs callbacks that have been added to filter content after directive processing is finished.
+      *
+diff --git a/Filter/Template/DeferredDirectiveRegistry.php b/Filter/Template/DeferredDirectiveRegistry.php
+new file mode 100644
+index 0000000000000..cc33f04824b77
+--- /dev/null
++++ b/Filter/Template/DeferredDirectiveRegistry.php
+@@ -0,0 +1,102 @@
++<?php
++/**
++ * Copyright 2026 Adobe
++ * All Rights Reserved.
++ */
++declare(strict_types=1);
++
++namespace Magento\Framework\Filter\Template;
++
++use Magento\Framework\Math\Random;
++use Magento\Framework\Exception\LocalizedException;
++use Magento\Framework\ObjectManager\ResetAfterRequestInterface;
++
++/**
++ * Per-request registry of directives that child templates have deferred to the root template.
++ *
++ * The service is shared for the duration of a request so that a child template (filtered by its
++ * own Filter instance) and the root template can exchange deferrals through it.
++ */
++class DeferredDirectiveRegistry implements ResetAfterRequestInterface
++{
++    /**
++     * Length of the per-request salt.
++     */
++    private const TOKEN_LENGTH = 32;
++
++    /**
++     * @var Random
++     */
++    private Random $random;
++
++    /**
++     * Map of placeholder token => deferred directive text.
++     *
++     * @var string[]
++     */
++    private array $directives = [];
++
++    /**
++     * Per-request secret salt used to derive placeholder tokens deterministically.
++     *
++     * @var string|null
++     */
++    private ?string $salt = null;
++
++    /**
++     * @param Random $random
++     */
++    public function __construct(Random $random)
++    {
++        $this->random = $random;
++    }
++
++    /**
++     * Register a directive as deferred and return the placeholder token that represents it.
++     *
++     * @param string $directive
++     * @return string
++     * @throws LocalizedException
++     */
++    public function defer(string $directive): string
++    {
++        if ($this->salt === null) {
++            $this->salt = $this->random->getRandomString(self::TOKEN_LENGTH);
++        }
++
++        $placeholder = ':deferred:' . hash('sha256', $this->salt . $directive) . ':';
++
++        $this->directives[$placeholder] = $directive;
++
++        return $placeholder;
++    }
++
++    /**
++     * Get all registered deferrals keyed by their placeholder token.
++     *
++     * @return string[]
++     */
++    public function getAll(): array
++    {
++        return $this->directives;
++    }
++
++    /**
++     * Forget all registered deferrals.
++     *
++     * @return void
++     */
++    public function clear(): void
++    {
++        $this->directives = [];
++    }
++
++    /**
++     * @inheritDoc
++     */
++    public function _resetState(): void
++    {
++        $this->directives = [];
++        $this->salt = null;
++    }
++}
+diff --git a/Filter/Template/SignatureProvider.php b/Filter/Template/SignatureProvider.php
+index 09a6c5b430555..87adea0bf03c5 100644
+--- a/Filter/Template/SignatureProvider.php
++++ b/Filter/Template/SignatureProvider.php
+@@ -15,6 +15,10 @@
+  * Provides a signature which should be used to sign deferred directives
+  * (directives that should be processed in scope of a parent template
+  * instead of own scope, e.g. {{inlinecss}}).
++ *
++ * @deprecated Signature-based deferral was superseded by out-of-band deferral via
++ *             \Magento\Framework\Filter\Template\DeferredDirectiveRegistry.
++ * @see \Magento\Framework\Filter\Template\DeferredDirectiveRegistry
+  */
+ class SignatureProvider implements ResetAfterRequestInterface
+ {
+diff --git a/Lock/Backend/FileLock.php b/Lock/Backend/FileLock.php
+index 69ffa04be8e70..83a19a7043c77 100644
+--- a/Lock/Backend/FileLock.php
++++ b/Lock/Backend/FileLock.php
+@@ -133,7 +133,7 @@ public function cleanupOldLocks(): int
+                 continue;
+             }
+ 
+-            if ($this->isLocked(basename($lockFile))) {
++            if ($this->isLockFileActive($lockFile)) {
+                 continue;
+             }
+ 
+@@ -157,25 +157,7 @@ public function cleanupOldLocks(): int
+      */
+     public function isLocked(string $name): bool
+     {
+-        $lockFile = $this->getLockPath($name);
+-        $result = false;
+-
+-        try {
+-            if ($this->fileDriver->isExists($lockFile)) {
+-                $fileResource = $this->fileDriver->fileOpen($lockFile, 'w+');
+-                if ($this->tryToLock($fileResource)) {
+-                    $result = false;
+-                } else {
+-                    $result = true;
+-                }
+-                $this->tryToUnlock($fileResource);
+-                $this->fileDriver->fileClose($fileResource);
+-            }
+-        } catch (FileSystemException $exception) {
+-            throw new RuntimeException(new Phrase('Cannot verify that the lock exists.'), $exception);
+-        }
+-
+-        return $result;
++        return $this->isFileLocked($this->getLockPath($name));
+     }
+ 
+     /**
+@@ -204,7 +186,51 @@ public function unlock(string $name): bool
+      */
+     private function getLockPath(string $name): string
+     {
+-        return $this->path . $name;
++        return $this->path . hash('sha256', $name);
++    }
++
++    /**
++     * Checks whether a lock file at the given absolute path is currently held
++     *
++     * @param string $lockFile Absolute path to the lock file
++     * @return bool
++     * @throws RuntimeException
++     */
++    private function isFileLocked(string $lockFile): bool
++    {
++        $result = false;
++
++        try {
++            if ($this->fileDriver->isExists($lockFile)) {
++                $fileResource = $this->fileDriver->fileOpen($lockFile, 'w+');
++                if ($this->tryToLock($fileResource)) {
++                    $result = false;
++                } else {
++                    $result = true;
++                }
++                $this->tryToUnlock($fileResource);
++                $this->fileDriver->fileClose($fileResource);
++            }
++        } catch (FileSystemException $exception) {
++            throw new RuntimeException(new Phrase('Cannot verify that the lock exists.'), $exception);
++        }
++
++        return $result;
++    }
++
++    /**
++     * Checks whether a lock file at the given absolute path is actively held.
++     *
++     * @param string $lockFilePath Absolute path to the lock file
++     * @return bool
++     */
++    private function isLockFileActive(string $lockFilePath): bool
++    {
++        try {
++            return $this->isFileLocked($lockFilePath);
++        } catch (RuntimeException) {
++            return true;
++        }
+     }
+ 
+     /**
+diff --git a/Validator/EmailAddress.php b/Validator/EmailAddress.php
+index 1a607f129877c..ddb35bb07d978 100644
+--- a/Validator/EmailAddress.php
++++ b/Validator/EmailAddress.php
+@@ -9,6 +9,13 @@
+ 
+ class EmailAddress extends LaminasEmailAddress implements ValidatorInterface
+ {
++    /**
++     * Quoted Pattern
++     *
++     * @var string
++     */
++    private const QUOTED_LOCAL_PART_PATTERN = '/^"/';
++
+     /**
+      * @var string[]
+      */
+@@ -55,4 +62,18 @@ public function setValidateTld(bool $shouldValidate)
+     {
+         $this->getHostnameValidator()->setOptions(['useTldCheck' => $shouldValidate]);
+     }
++
++    /**
++     * @inheritdoc
++     */
++    public function isValid($value)
++    {
++        if (is_string($value) && preg_match(self::QUOTED_LOCAL_PART_PATTERN, $value)) {
++            $this->setValue($value);
++            $this->error(self::INVALID_FORMAT);
++            return false;
++        }
++
++        return parent::isValid($value);
++    }
+ }
+diff --git a/Validator/HTML/ConfigurableWYSIWYGValidator.php b/Validator/HTML/ConfigurableWYSIWYGValidator.php
+index f3b3a6bc9216e..2061228d568cc 100644
+--- a/Validator/HTML/ConfigurableWYSIWYGValidator.php
++++ b/Validator/HTML/ConfigurableWYSIWYGValidator.php
+@@ -24,12 +24,19 @@ class ConfigurableWYSIWYGValidator implements WYSIWYGValidatorInterface
+         . '(\\\\x64\\\\x61\\\\x74\\\\x61(\\\\x3a|:|%3A)))/i';
+ 
+     /**
+-     * Pattern to detect malformed syntax
++     * Pattern to detect malformed or unsupported markup syntax.
+      *
+      * @var string
+      */
+     private static string $contentFiltrationPattern =
+-        '#<\w+[^>]*/[^\s/>]+/[^>]*=|<\w+/[^\s>]*on\w+\s*=|<\w+[^>]*//[^>]*=|(<body)#i';
++        '#<!---?>'
++        . '|<\s*<[a-zA-Z]'
++        . '|\x00'
++        . '|<\w+[^>]*/[^\s/>]+/[^>]*='
++        . '|<\w+/[^\s>]*on\w+\s*='
++        . '|<\w+[^>]*//[^>]*='
++        . '|(?<body><body)'
++        . '#i';
+ 
+     /**
+      * @var string[]
+@@ -256,12 +263,11 @@ function () use (&$loaded) {
+         );
+         $matches = [];
+         preg_match_all(self::$contentFiltrationPattern, $content, $matches);
+-        $valueCounts = array_count_values($matches[0]);
++        $bodyMatchCount = count(array_filter($matches['body'] ?? []));
++        $otherMatchCount = count($matches[0]) - $bodyMatchCount;
+ 
+-        $hasMultipleBody = isset($valueCounts['<body']) && $valueCounts['<body'] > 1;
+-        $hasOtherMalicious = count($matches[0]) > 0 && !isset($valueCounts['<body']);
+-
+-        $loaded = !($hasMultipleBody || $hasOtherMalicious)
++        $loaded = $bodyMatchCount <= 1
++            && $otherMatchCount === 0
+             && $dom->loadHTML($content, LIBXML_HTML_NOIMPLIED);
+ 
+         restore_error_handler();
+diff --git a/View/Element/UiComponent/DataProvider/Sanitizer.php b/View/Element/UiComponent/DataProvider/Sanitizer.php
+index 3ac2c9135ea09..7d9d4577a22a3 100644
+--- a/View/Element/UiComponent/DataProvider/Sanitizer.php
++++ b/View/Element/UiComponent/DataProvider/Sanitizer.php
+@@ -50,7 +50,7 @@ public function sanitize(array $data): array
+             } elseif (!is_bool($config)
+                 && !array_key_exists($key, $config)
+                 && (is_string($datum) || $datum instanceof Phrase)
+-                && preg_match('/\$\{.+\}/s', (string)$datum)
++                && $this->validateSyntax((string)$datum)
+             ) {
+                 //Templating is not disabled for all properties or for this property specifically
+                 //Property is a string that contains template syntax, so we are disabling its rendering
+@@ -65,6 +65,17 @@ public function sanitize(array $data): array
+         return $data;
+     }
+ 
++    /**
++     * Validate value syntax.
++     *
++     * @param string $value
++     * @return bool
++     */
++    private function validateSyntax(string $value): bool
++    {
++        return strpos($value, '${') !== false && strpos($value, '${{') === false;
++    }
++
+     /**
+      * Sanitize a component's metadata.
+      *
