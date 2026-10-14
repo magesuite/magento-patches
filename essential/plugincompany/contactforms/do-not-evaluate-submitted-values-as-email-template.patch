@@ -1,0 +1,37 @@
+Stops evaluating visitor-submitted form values as email template source.
+
+Problem: every form submission builds the admin and customer notification
+bodies (also when notifications and saving entries are disabled, because the
+success message path initialises the entry). The submission overview table in
+those bodies passed each submitted value through Entry::filterVar(), which runs
+Magento\Email\Model\Template\Filter::filter() with the value as the template
+text. Template directives typed into any form field by an anonymous visitor
+were therefore processed server-side (template injection). The values are only
+escaped with htmlspecialchars() in Submit::cleanParam(), which leaves {{ }}
+intact.
+
+Root cause: Entry::getFilteredSubmissionParamsForTable() used
+$this->filterVar($param) for the submitted value.
+Fix: use the submitted value as data. It is already HTML-escaped by
+Submit::cleanParam(), so the overview table template keeps receiving escaped
+output. Pre-filled customer values do not rely on this call, they are resolved
+when the form is rendered (Block\Form\Widget\View::getFormHtml() and
+PrivateContentFilter). filterVar() is still used for admin-configured values
+(recipient name/e-mail, notification fields).
+
+diff --git a/Model/Entry.php b/Model/Entry.php
+index 1cd30ae..2faeb67 100644
+--- a/Model/Entry.php
++++ b/Model/Entry.php
+@@ -356,7 +356,10 @@ class Entry extends \Magento\Framework\Model\AbstractModel implements EntryInter
+             }
+             $params[$key] = [
+                 'label' => $this->getFieldLabel($key),
+-                'value' => $this->filterVar($param)
++                // BEGIN PATCH
++                // 'value' => $this->filterVar($param)
++                'value' => $param
++                // END PATCH
+             ];
+         }
+         return $params;

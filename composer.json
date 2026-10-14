@@ -2579,6 +2579,11 @@
                     "description": "Declare nullable constructor parameters explicitly in Model\\Form and Model\\Entry (PHP 8.4 deprecation)",
                     "filename": "essential/plugincompany/contactforms/php84-implicit-nullable.patch",
                     "version-constraint": "100.17.12"
+                },
+                {
+                    "description": "Do not evaluate visitor-submitted form values as email template source in the submission overview table (template injection)",
+                    "filename": "essential/plugincompany/contactforms/do-not-evaluate-submitted-values-as-email-template.patch",
+                    "version-constraint": ">=100.17.12"
                 }
             ],
             "magento/module-cron": [
