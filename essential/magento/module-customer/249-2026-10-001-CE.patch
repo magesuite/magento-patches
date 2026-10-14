@@ -1,0 +1,242 @@
+diff --git a/Model/ForgotPasswordToken/GetCustomerByToken.php b/Model/ForgotPasswordToken/GetCustomerByToken.php
+index e2a608f73c528..7f13ba7584dd4 100644
+--- a/Model/ForgotPasswordToken/GetCustomerByToken.php
++++ b/Model/ForgotPasswordToken/GetCustomerByToken.php
+@@ -9,15 +9,19 @@
+ 
+ use Magento\Customer\Api\CustomerRepositoryInterface;
+ use Magento\Customer\Api\Data\CustomerInterface;
++use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
+ use Magento\Framework\Api\SearchCriteriaBuilder;
++use Magento\Framework\App\ObjectManager;
+ use Magento\Framework\Exception\NoSuchEntityException;
+ use Magento\Framework\Exception\State\ExpiredException;
+ use Magento\Framework\Phrase;
+ 
+ /**
+  * Get Customer By reset password token
++ *
+  * @SuppressWarnings(PHPMD.LongVariable)
+  * @deprecated Rp Tokens cannot be looked up directly
++ * @see not used anymore
+  */
+ class GetCustomerByToken
+ {
+@@ -32,17 +36,24 @@ class GetCustomerByToken
+     private $searchCriteriaBuilder;
+ 
+     /**
+-     * ForgotPassword constructor.
+-     *
++     * @var CollectionFactory
++     */
++    private $collectionFactory;
++
++    /**
+      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
+      * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
++     * @param CollectionFactory|null $collectionFactory
+      */
+     public function __construct(
+         CustomerRepositoryInterface $customerRepository,
+-        SearchCriteriaBuilder $searchCriteriaBuilder
++        SearchCriteriaBuilder $searchCriteriaBuilder,
++        ?CollectionFactory $collectionFactory = null
+     ) {
+         $this->customerRepository = $customerRepository;
+         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
++        $this->collectionFactory = $collectionFactory
++            ?? ObjectManager::getInstance()->get(CollectionFactory::class);
+     }
+ 
+     /**
+@@ -53,38 +64,27 @@ public function __construct(
+      * @return \Magento\Customer\Api\Data\CustomerInterface
+      * @throws ExpiredException
+      * @throws NoSuchEntityException
+-     * @throws \Magento\Framework\Exception\LocalizedException
+      */
+     public function execute(string $resetPasswordToken): CustomerInterface
+     {
+-        $this->searchCriteriaBuilder->addFilter(
+-            'rp_token',
+-            $resetPasswordToken
+-        );
+-        $this->searchCriteriaBuilder->setPageSize(1);
+-        $found = $this->customerRepository->getList(
+-            $this->searchCriteriaBuilder->create()
+-        );
++        $collection = $this->collectionFactory->create();
++        $collection->addAttributeToFilter('rp_token', $resetPasswordToken);
++        $size = $collection->getSize();
+ 
+-        if ($found->getTotalCount() > 1) {
+-            //Failed to generated unique RP token
++        if ($size > 1) {
+             throw new ExpiredException(
+                 new Phrase('Reset password token expired.')
+             );
+         }
+-        if ($found->getTotalCount() === 0) {
+-            //Customer with such token not found.
++        if ($size === 0) {
+             throw new NoSuchEntityException(
+                 new Phrase(
+                     'No such entity with rp_token = %value',
+-                    [
+-                        'value' => $resetPasswordToken
+-                    ]
++                    ['value' => $resetPasswordToken]
+                 )
+             );
+         }
+ 
+-        //Unique customer found.
+-        return $found->getItems()[0];
++        return $collection->getFirstItem();
+     }
+ }
+diff --git a/Model/Plugin/CustomerRepository/RestrictedFieldsPlugin.php b/Model/Plugin/CustomerRepository/RestrictedFieldsPlugin.php
+new file mode 100644
+index 0000000000000..764dc50b76add
+--- /dev/null
++++ b/Model/Plugin/CustomerRepository/RestrictedFieldsPlugin.php
+@@ -0,0 +1,69 @@
++<?php
++/**
++ * Copyright 2026 Adobe
++ * All Rights Reserved.
++ */
++declare(strict_types=1);
++
++namespace Magento\Customer\Model\Plugin\CustomerRepository;
++
++use Magento\Customer\Api\CustomerRepositoryInterface;
++use Magento\Framework\Api\SearchCriteriaInterface;
++use Magento\Framework\Exception\InputException;
++
++/**
++ * Forbidden customer fields
++ */
++class RestrictedFieldsPlugin
++{
++    /**
++     * @param array $restrictedFields
++     */
++    public function __construct(
++        private array $restrictedFields = []
++    ) {
++    }
++
++    /**
++     * Check forbidden customer fields
++     *
++     * @param CustomerRepositoryInterface $subject
++     * @param SearchCriteriaInterface $searchCriteria
++     * @return array
++     * @throws InputException
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     */
++    public function beforeGetList(
++        CustomerRepositoryInterface $subject,
++        SearchCriteriaInterface $searchCriteria
++    ): array {
++        foreach ($searchCriteria->getFilterGroups() as $filterGroup) {
++            foreach ($filterGroup->getFilters() as $filter) {
++                if ($this->isRestricted($filter->getField())) {
++                    throw new InputException(
++                        __('The search criteria filter field is invalid.')
++                    );
++                }
++            }
++        }
++        foreach ($searchCriteria->getSortOrders() ?? [] as $sortOrder) {
++            if ($this->isRestricted($sortOrder->getField())) {
++                throw new InputException(
++                    __('The search criteria sort field is invalid.')
++                );
++            }
++        }
++        return [$searchCriteria];
++    }
++
++    /**
++     * Check if the given field name matches a restricted field
++     *
++     * @param string|null $field
++     * @return bool
++     */
++    private function isRestricted(?string $field): bool
++    {
++        return $field !== null && in_array(strtolower($field), $this->restrictedFields, true);
++    }
++}
+diff --git a/etc/di.xml b/etc/di.xml
+index f949e1f5aa1c2..a92555cb2e7d7 100644
+--- a/etc/di.xml
++++ b/etc/di.xml
+@@ -85,6 +85,15 @@
+             <argument name="validator" xsi:type="object">SessionValidator</argument>
+         </arguments>
+     </type>
++    <type name="Magento\Customer\Model\Plugin\CustomerRepository\RestrictedFieldsPlugin">
++        <arguments>
++            <argument name="restrictedFields" xsi:type="array">
++                <item name="password_hash" xsi:type="string">password_hash</item>
++                <item name="rp_token" xsi:type="string">rp_token</item>
++                <item name="confirmation" xsi:type="string">confirmation</item>
++            </argument>
++        </arguments>
++    </type>
+     <type name="Magento\Customer\Helper\Address">
+         <arguments>
+             <argument name="addressConfig" xsi:type="object">Magento\Customer\Model\Address\Config\Proxy</argument>
+diff --git a/etc/graphql/di.xml b/etc/graphql/di.xml
+index ceca494c480e8..7d3acfc7fccdb 100644
+--- a/etc/graphql/di.xml
++++ b/etc/graphql/di.xml
+@@ -19,4 +19,7 @@
+     <type name="Magento\Customer\Model\AccountManagement">
+         <plugin name="validate_captcha_graphql" type="Magento\Customer\Model\Plugin\ValidateCaptcha" sortOrder="10" />
+     </type>
++    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
++        <plugin name="restrictedSearchFields" type="Magento\Customer\Model\Plugin\CustomerRepository\RestrictedFieldsPlugin" sortOrder="1"/>
++    </type>
+ </config>
+diff --git a/etc/webapi_rest/di.xml b/etc/webapi_rest/di.xml
+index 033321ed9541c..00deea97cf69e 100644
+--- a/etc/webapi_rest/di.xml
++++ b/etc/webapi_rest/di.xml
+@@ -21,6 +21,7 @@
+     </type>
+     <type name="Magento\Customer\Api\CustomerRepositoryInterface">
+         <plugin name="updateCustomerByIdFromRequest" type="Magento\Customer\Model\Plugin\UpdateCustomer" />
++        <plugin name="restrictedSearchFields" type="Magento\Customer\Model\Plugin\CustomerRepository\RestrictedFieldsPlugin" sortOrder="1"/>
+     </type>
+     <type name="Magento\Customer\Model\Customer\AuthorizationComposite">
+         <arguments>
+diff --git a/etc/webapi_soap/di.xml b/etc/webapi_soap/di.xml
+index c71a1ab71174d..f5e5843db528e 100644
+--- a/etc/webapi_soap/di.xml
++++ b/etc/webapi_soap/di.xml
+@@ -18,6 +18,9 @@
+             </argument>
+         </arguments>
+     </type>
++    <type name="Magento\Customer\Api\CustomerRepositoryInterface">
++        <plugin name="restrictedSearchFields" type="Magento\Customer\Model\Plugin\CustomerRepository\RestrictedFieldsPlugin" sortOrder="1"/>
++    </type>
+     <preference for="Magento\Customer\Api\AccountManagementInterface"
+                 type="Magento\Customer\Model\AccountManagementApi" />
+     <type name="Magento\Customer\Model\Group\Retriever">
+diff --git a/i18n/en_US.csv b/i18n/en_US.csv
+index 308cb9b05cb0e..b8c5e2a32bb54 100644
+--- a/i18n/en_US.csv
++++ b/i18n/en_US.csv
+@@ -551,4 +551,6 @@ T,T
+ F,F
+ VAT,VAT
+ "Something went wrong while logging out customer.","Something went wrong while logging out customer."
++"The search criteria filter field is invalid.","The search criteria filter field is invalid."
++"The search criteria sort field is invalid.","The search criteria sort field is invalid."
+ "Address not found.","Address not found."
