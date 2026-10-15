@@ -3755,6 +3755,11 @@
                     "description": "[KRG-3415] optimize query by using keyset pagination instead of offset pagination",
                     "filename": "essential/wyomind/datafeedmanager/use-keyset-pagination.patch",
                     "version-constraint": ">=14.0.10"
+                },
+                {
+                    "description": "Fix 'Incorrect DATETIME value' SQL error in feed attribute library sample for datetime attributes - drop no-op neq '' filter",
+                    "filename": "essential/wyomind/datafeedmanager/fix-library-sample-datetime-attribute-filter.patch",
+                    "version-constraint": ">=11.5.1"
                 }
             ],
             "wyomind/framework": [
