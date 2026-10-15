@@ -178,7 +178,7 @@
             {
                 "description": "Fix uncaught TypeError when Stape API returns unexpected response",
                 "filename": "vendor/creativestyle/magento-patches/optional/stape/gtm-server-side-magento-module/fix-typeerror-on-api-failure.patch",
-                "version-constraint": "*"
+                "version-constraint": ">=1.0.45"
             }
         ],
         "smile/elasticsuite": [
