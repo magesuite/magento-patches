@@ -1,0 +1,152 @@
+Adds the website name to every store option of the DeepL translator in the admin panel.
+
+Problem: the target-store split buttons (product, category, product attribute, CMS block, CMS page),
+the mass-action store list with its source-store popup (product grid, CMS block and page grids),
+the "Translate Source" attribute dropdown (product and category) and the source store in the module
+configuration all label a store as "Store view name - locale". On a multi-website installation the
+same store view name and locale are used on several websites (e.g. "Deutsch - de_DE" three times),
+so the admin user has to guess which store a translation is read from or written to.
+
+Fix: every label is built as "Website name / Store view name - locale", e.g. "Scandic-Fashion / Deutsch - de_DE".
+Option values (store IDs) and request URLs are unchanged.
+
+diff --git a/Block/Adminhtml/Catalog/Attribute/Translation.php b/Block/Adminhtml/Catalog/Attribute/Translation.php
+index eb19fd6..3e29d9a 100644
+--- a/Block/Adminhtml/Catalog/Attribute/Translation.php
++++ b/Block/Adminhtml/Catalog/Attribute/Translation.php
+@@ -86,7 +86,10 @@ class Translation extends Container
+ 
+             foreach ($stores as $storeKey => $singleStore) {
+                 $storeOptions[$storeKey] = [
+-                    'label' => __($singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore)),
++                    // BEGIN PATCH
++                    // 'label' => __($singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore)),
++                    'label' => __($singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore)),
++                    // END PATCH
+                     'onclick' => 'selectSourceStore(\'' . __(
+                         'Please select source store.'
+                     ) . '\', \'' . $this->getActionUrl($singleStore) . '\', \'' . $sourceStoreId . '\')',
+diff --git a/Block/Adminhtml/Catalog/Category/Translation.php b/Block/Adminhtml/Catalog/Category/Translation.php
+index a66dea0..c08518c 100644
+--- a/Block/Adminhtml/Catalog/Category/Translation.php
++++ b/Block/Adminhtml/Catalog/Category/Translation.php
+@@ -85,7 +85,10 @@ class Translation extends AbstractCategory implements ButtonProviderInterface
+         $stores = $this->_storeManager->getStores();
+ 
+         foreach ($stores as $singleStore) {
+-            $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // BEGIN PATCH
++            // $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            $singleLanguage = $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // END PATCH
+             $options[] = [
+                 'label' => $singleLanguage,
+                 'onclick' => 'selectSourceStore(\'' . __(
+diff --git a/Block/Adminhtml/Catalog/Product/Translation.php b/Block/Adminhtml/Catalog/Product/Translation.php
+index bd7184f..589d555 100644
+--- a/Block/Adminhtml/Catalog/Product/Translation.php
++++ b/Block/Adminhtml/Catalog/Product/Translation.php
+@@ -71,7 +71,10 @@ class Translation extends Generic
+         $options = [];
+         $stores = $this->_storeManager->getStores();
+         foreach ($stores as $singleStore) {
+-            $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore); // Deepl dropdown
++            // BEGIN PATCH
++            // $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore); // Deepl dropdown
++            $singleLanguage = $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore); // Deepl dropdown
++            // END PATCH
+             $options[] = [
+                 'label' => $singleLanguage,
+                 'onclick' => 'selectSourceStore(\'' . __(
+diff --git a/Block/Adminhtml/Cms/Block/Translation.php b/Block/Adminhtml/Cms/Block/Translation.php
+index cde30d5..9e049fa 100644
+--- a/Block/Adminhtml/Cms/Block/Translation.php
++++ b/Block/Adminhtml/Cms/Block/Translation.php
+@@ -73,7 +73,10 @@ class Translation extends GenericButton implements ButtonProviderInterface
+         $stores = $this->_storeManager->getStores();
+ 
+         foreach ($stores as $singleStore) {
+-            $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // BEGIN PATCH
++            // $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            $singleLanguage = $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // END PATCH
+             $options[] = [
+                 'label' => $singleLanguage,
+                 'onclick' => sprintf("location.href = '%s';", $this->getUrl(
+diff --git a/Block/Adminhtml/Cms/Page/Translation.php b/Block/Adminhtml/Cms/Page/Translation.php
+index edfc5c1..9bd0eac 100644
+--- a/Block/Adminhtml/Cms/Page/Translation.php
++++ b/Block/Adminhtml/Cms/Page/Translation.php
+@@ -73,7 +73,10 @@ class Translation extends GenericButton implements ButtonProviderInterface
+         $stores = $this->_storeManager->getStores();
+ 
+         foreach ($stores as $singleStore) {
+-            $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // BEGIN PATCH
++            // $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            $singleLanguage = $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // END PATCH
+             $options[] = [
+                 'label' => $singleLanguage,
+                 'onclick' => sprintf("location.href = '%s';", $this->getUrl(
+diff --git a/Model/Config/Source/Stores.php b/Model/Config/Source/Stores.php
+index 630b93d..0c0ae48 100644
+--- a/Model/Config/Source/Stores.php
++++ b/Model/Config/Source/Stores.php
+@@ -54,7 +54,10 @@ class Stores extends AbstractSource implements ArrayInterface
+         foreach ($stores as $singleStore) {
+             $options[] = [
+                 'value' => $singleStore->getId(),
+-                'label' => $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore),
++                // BEGIN PATCH
++                // 'label' => $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore),
++                'label' => $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore),
++                // END PATCH
+             ];
+         }
+ 
+diff --git a/Model/Config/Source/TranslateSourceStores.php b/Model/Config/Source/TranslateSourceStores.php
+index 460703e..6ec5687 100644
+--- a/Model/Config/Source/TranslateSourceStores.php
++++ b/Model/Config/Source/TranslateSourceStores.php
+@@ -58,7 +58,10 @@ class TranslateSourceStores extends AbstractSource implements ArrayInterface
+         foreach ($stores as $singleStore) {
+             $options[] = [
+                 'value' => $singleStore->getId(),
+-                'label' => $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore),
++                // BEGIN PATCH
++                // 'label' => $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore),
++                'label' => $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore),
++                // END PATCH
+             ];
+         }
+ 
+diff --git a/Ui/Component/MassAction/General/Translation/Selection.php b/Ui/Component/MassAction/General/Translation/Selection.php
+index f03ccb5..87ef38c 100644
+--- a/Ui/Component/MassAction/General/Translation/Selection.php
++++ b/Ui/Component/MassAction/General/Translation/Selection.php
+@@ -100,7 +100,10 @@ class Selection implements JsonSerializable
+ 
+         $stores = $this->_storeManagement->getStores();
+         foreach ($stores as $singleStore) {
+-            $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // BEGIN PATCH
++            // $singleLanguage = $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            $singleLanguage = $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName() . ' - ' . $this->_translatorHelper->getLanguageByStoreId($singleStore);
++            // END PATCH
+             $selections['translate_store_' . $singleStore->getId()] = [
+                 'type' => 'translate_store_' . $singleStore->getId(),
+                 'label' => $singleLanguage,
+@@ -160,7 +163,10 @@ class Selection implements JsonSerializable
+         // Add the "Auto Detect" option
+         $html .= '<option value="'.translatorHelper::DEEPL_AUTO_DETECT.'">Auto Detect</option>';
+         foreach ($stores as $singleStore) {
+-            $name = $singleStore->getName();
++            // BEGIN PATCH
++            // $name = $singleStore->getName();
++            $name = $singleStore->getWebsite()->getName() . ' / ' . $singleStore->getName();
++            // END PATCH
+             $lan = $this->_translatorHelper->getLanguageByStoreId($singleStore);
+             $singleLanguage = $name . ' - ' . $lan;
+             $html .= '<option value="' . $singleStore->getId() . '">' . $singleLanguage . '</option>';

@@ -2530,6 +2530,13 @@
           "filename": "vendor/creativestyle/magento-patches/optional/magento/module-media-gallery-synchronization/optimize-media-gallery-sync-scan.patch",
           "version-constraint": ">=100.4.7"
         }
+      ],
+      "extendware/module-deepltranslator": [
+        {
+          "description": "Add the website name to DeepL store option labels so store views with the same name and locale on several websites can be told apart",
+          "filename": "vendor/creativestyle/magento-patches/optional/extendware/module-deepltranslator/add-website-name-to-store-labels.patch",
+          "version-constraint": ">=1.8.27"
+        }
       ]
 
 
