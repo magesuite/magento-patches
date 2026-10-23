@@ -1,0 +1,18 @@
+diff --git a/Controller/Adminhtml/Feeds/Librarysample.php b/Controller/Adminhtml/Feeds/Librarysample.php
+--- a/Controller/Adminhtml/Feeds/Librarysample.php
++++ b/Controller/Adminhtml/Feeds/Librarysample.php
+@@ -44,11 +44,9 @@
+             $filterNotNull->setField($code);
+             $filterNotNull->setConditionType('notnull');
+             $filterNotNull->setValue(true);
+-            $filterNEq = $this->_objectManager->create('\Magento\Framework\Api\Filter');
+-            $filterNEq->setField($code);
+-            $filterNEq->setConditionType('neq');
+-            $filterNEq->setValue("");
+-            $filterGroup->setFilters([$filterNotNull, $filterNEq]);
++            //BEGIN PATCH
++            $filterGroup->setFilters([$filterNotNull]);
++            //END PATCH
+             $searchCriteria->setFilterGroups([$filterGroup]);
+         }
+
