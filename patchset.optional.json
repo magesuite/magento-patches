@@ -65,6 +65,13 @@
               "version-constraint": ">=104.5.4"
             }
         ],
+        "alekseon/module-cleanrunningjobs": [
+            {
+                "description": "Increase lifetime of running cron schedules from 180 to 360 minutes before they are marked as error (ZJ-859)",
+                "filename": "vendor/creativestyle/magento-patches/optional/alekseon/module-cleanrunningjobs/increase-running-schedule-lifetime-to-360-minutes.patch",
+                "version-constraint": "*"
+            }
+        ],
         "almapay/alma-monthlypayments-magento2": [
             {
               "description": "Remove throwing an exceptionw when getAreaCode is called in the wrong context",

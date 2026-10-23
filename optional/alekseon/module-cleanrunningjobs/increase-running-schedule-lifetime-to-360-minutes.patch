@@ -1,0 +1,15 @@
+diff --git a/Plugin/Magento/Cron/Observer/FixOldRunningSchedulesPlugin.php b/Plugin/Magento/Cron/Observer/FixOldRunningSchedulesPlugin.php
+index d32401b..1563b0e 100644
+--- a/Plugin/Magento/Cron/Observer/FixOldRunningSchedulesPlugin.php
++++ b/Plugin/Magento/Cron/Observer/FixOldRunningSchedulesPlugin.php
+@@ -58,7 +58,9 @@ class FixOldRunningSchedulesPlugin
+      */
+     public function beforeExecute($subject, \Magento\Framework\Event\Observer $observer)
+     {
+-        $runningLifetimeInMinutes = 180;
++        // BEGIN PATCH
++        $runningLifetimeInMinutes = 360;
++        // END PATCH
+ 
+         $runningSchedules = $this->scheduleFactory->create()->getCollection()->addFieldToFilter(
+             'status',
