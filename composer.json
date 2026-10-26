@@ -4021,11 +4021,6 @@
                     "version-constraint": ">=3.0.0"
                 },
                 {
-                    "description": "Fix unserializing refund context for refund jobs loaded via collection (HAAR-5493)",
-                    "filename": "essential/wallee/magento-2/fix-unserialize-refund-context-in-refund-job-collection.patch",
-                    "version-constraint": ">=3.4.0"
-                },
-                {
                     "description": "Fix placing orders, invoicing and refunding when Wallee API credentials are not configured by injecting lazy proxies into observers and plugins that build the SDK eagerly",
                     "filename": "essential/wallee/magento-2/fix-order-placement-without-api-credentials.patch",
                     "version-constraint": ">=3.5.1"
