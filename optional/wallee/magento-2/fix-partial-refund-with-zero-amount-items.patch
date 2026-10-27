@@ -1,0 +1,39 @@
+diff --git a/Model/Service/LineItemReductionService.php b/Model/Service/LineItemReductionService.php
+index e1e4039..39deada 100644
+--- a/Model/Service/LineItemReductionService.php
++++ b/Model/Service/LineItemReductionService.php
+@@ -103,7 +103,10 @@ class LineItemReductionService
+             }
+         } else {
+             foreach ($creditmemo->getAllItems() as $creditmemoItem) {
+-                if ($this->isIncludeItem($creditmemoItem)) {
++                // BEGIN PATCH
++                // if ($this->isIncludeItem($creditmemoItem)) {
++                if ($this->isIncludeItem($creditmemoItem) && !$this->isZeroAmountItemMissingFromBaseLineItems($creditmemoItem, $creditmemo, $baseLineItems)) {
++                // END PATCH
+                     $reductions[] = $this->convertItem($creditmemoItem, $creditmemo);
+                 }
+             }
+@@ -195,6 +198,22 @@ class LineItemReductionService
+         return true;
+     }
+
++    // BEGIN PATCH
++    private function isZeroAmountItemMissingFromBaseLineItems(Creditmemo\Item $creditmemoItem, Creditmemo $creditmemo, array $baseLineItems): bool
++    {
++        $uniqueId = (string) $creditmemoItem->getOrderItem()->getQuoteItemId();
++        foreach ($baseLineItems as $baseLineItem) {
++            if ($baseLineItem->uniqueId === $uniqueId) {
++                return false;
++            }
++        }
++
++        $amountIncludingTax = $creditmemoItem->getRowTotal() - $creditmemoItem->getDiscountAmount() + $creditmemoItem->getTaxAmount() + $creditmemoItem->getDiscountTaxCompensationAmount();
++
++        return $this->helper->roundAmount($amountIncludingTax, $creditmemo->getOrderCurrencyCode()) <= 0;
++    }
++    // END PATCH
++
+     /**
+      * Converts the given creditmemo item to a line item reduction.
+      *
