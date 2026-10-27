@@ -1,17 +1,55 @@
 diff --git a/Model/Webhook/Refund/SuccessfulCommand.php b/Model/Webhook/Refund/SuccessfulCommand.php
-index f412216..07839f5 100644
+index f412216..f956aad 100644
 --- a/Model/Webhook/Refund/SuccessfulCommand.php
 +++ b/Model/Webhook/Refund/SuccessfulCommand.php
-@@ -257,6 +257,12 @@ class SuccessfulCommand extends WebhookCommand
+@@ -233,6 +233,9 @@ class SuccessfulCommand extends WebhookCommand
+
+         $creditmemoAmount = 0;
+         $shippingAmount = 0;
++        // BEGIN PATCH
++        $co2CompensationFeeInclTax = 0.0;
++        // END PATCH
+         foreach ($refund->lineItems ?? [] as $item) {
+             switch ($item->type) {
+                 case CoreLineItem::TYPE_PRODUCT:
+@@ -257,6 +260,13 @@ class SuccessfulCommand extends WebhookCommand
                      }
                      break;
                  case CoreLineItem::TYPE_FEE:
 +                    // BEGIN PATCH
-+                    if ($item->uniqueId === 'haarshop_co2_compensation_fee') {
++                    if ((strstr((string) $item->uniqueId, '__', true) ?: $item->uniqueId) === 'haarshop_co2_compensation_fee') {
 +                        $creditmemoAmount += (float) $item->amountIncludingTax;
++                        $co2CompensationFeeInclTax += (float) $item->amountIncludingTax;
 +                    }
 +                    // END PATCH
 +                    break;
                  case CoreLineItem::TYPE_DISCOUNT:
                      break;
                  case CoreLineItem::TYPE_SHIPPING:
+@@ -291,11 +301,25 @@ class SuccessfulCommand extends WebhookCommand
+             $positiveAdjustment = $refund->amount - $roundedCreditmemoAmount;
+         }
+
+-        return [
++        // BEGIN PATCH
++        // return [
++        //     'qtys' => $refundQuantities,
++        //     'shipping_amount' => $shippingAmount,
++        //     'adjustment_positive' => $positiveAdjustment,
++        //     'adjustment_negative' => $negativeAdjustment
++        // ];
++        $creditmemoData = [
+             'qtys' => $refundQuantities,
+             'shipping_amount' => $shippingAmount,
+             'adjustment_positive' => $positiveAdjustment,
+             'adjustment_negative' => $negativeAdjustment
+         ];
++
++        if ($refund->lineItems !== null && !$refund->lineItems->isEmpty()) {
++            $creditmemoData['co2_compensation_fee_incl_tax'] = (float) $this->helper->roundAmount($co2CompensationFeeInclTax, $order->getOrderCurrencyCode());
++        }
++
++        return $creditmemoData;
++        // END PATCH
+     }
+ }
