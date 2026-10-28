@@ -1,0 +1,151 @@
+Fixes review reminder emails sent with a raw ":deferred:<hash>:" token and without inlined CSS
+after the Magento 2026-10-001 security patch (APSB26-153).
+
+Root cause: the magento/framework 248p5-2026-10-001 / 249-2026-10-001 patch makes child templates
+(e.g. {{template config_path="design/email/header_template"}}) defer their {{inlinecss}} directive
+to the root template through the shared DeferredDirectiveRegistry and leave a ":deferred:<hash>:"
+placeholder in their output. Core Template::filter() resolves those placeholders when the shared
+FilteringDepthMeter is at depth 1. Aheadworks\ReviewReminder\Model\Template\Filter overrides
+filter() without calling the parent, so it never moves the depth meter and never resolves the
+registry: the header child template runs at depth 1, defers the directive to itself and the
+placeholder ends up in the sent email.
+Fix: filter() descends and ascends the shared FilteringDepthMeter and, at depth 1, resolves the
+deferred directives before running the after filter callbacks, mirroring core Template::filter().
+The meter is ascended in "finally", because filter() swallows exceptions and a meter left raised
+would stop every following email of the same cron run from resolving its placeholders.
+
+Gotcha: forDirective() filters each loop body through process(). Resolving the deferred directives
+inside process() (as the build-artifacts hotfix af2e5c44 did) clears the registry while the
+{{for item in order.getAllVisibleItems()}} body is processed - after the header was deferred but
+before the root resolves it - so the placeholder still leaks. Every review reminder template has
+such a loop. process() is therefore split into processDirectives() and the after filter step, and
+deferred directives are resolved only once, in filter(), for the whole document. Loop bodies keep
+their original behaviour.
+
+Requires the magento/framework 248p5-2026-10-001 or 249-2026-10-001 patch: without it
+\Magento\Framework\Filter\Template\DeferredDirectiveRegistry does not exist.
+
+diff --git a/Model/Template/Filter.php b/Model/Template/Filter.php
+index 3a5c1bc..ffbd826 100644
+--- a/Model/Template/Filter.php
++++ b/Model/Template/Filter.php
+@@ -40,8 +40,21 @@ class Filter extends MagentoFilter
+     {
+         $this->_modifiers['formatPrice'] = [$this, 'modifierFormatPrice'];
+         $this->_modifiers['formatDecimal'] = [$this, 'modifierFormatDecimal'];
++        // BEGIN PATCH
++        $filteringDepthMeter = $this->getFilteringDepthMeter();
++        $filteringDepthMeter->descend();
++        // END PATCH
+         try {
+-            $value = $this->process($value);
++            // BEGIN PATCH
++            // $value = $this->process($value);
++            $value = $this->processDirectives($value);
++
++            if ($filteringDepthMeter->showMark() === 1) {
++                $value = $this->resolveDeferredDirectives($value);
++            }
++
++            $value = $this->afterFilter($value);
++            // END PATCH
+         } catch (\Exception $e) {
+             // Since a single instance of this class can be used to filter content multiple times, reset callbacks to
+             // prevent callbacks running for unrelated content (e.g., email subject and email body)
+@@ -53,6 +66,10 @@ class Filter extends MagentoFilter
+                 $value = __("We're sorry, an error has occurred while generating this email.");
+             }
+             $this->_logger->critical($e);
++        // BEGIN PATCH
++        } finally {
++            $filteringDepthMeter->ascend();
++        // END PATCH
+         }
+         return $value;
+     }
+@@ -67,6 +84,23 @@ class Filter extends MagentoFilter
+      */
+     private function process($value)
+     {
++        // BEGIN PATCH
++        $value = $this->processDirectives($value);
++        $value = $this->afterFilter($value);
++        return $value;
++    }
++
++    /**
++     * Process directives without running after filter callbacks
++     *
++     * @param string $value
++     * @return string
++     * @throws \Exception
++     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
++     */
++    private function processDirectives($value)
++    {
++        // END PATCH
+         // "depend", "if", "template" and "for" directives should be first
+         $directives = [
+             self::CONSTRUCTION_DEPEND_PATTERN => 'dependDirective',
+@@ -106,10 +140,60 @@ class Filter extends MagentoFilter
+             }
+         }
+ 
+-        $value = $this->afterFilter($value);
++        // BEGIN PATCH
++        // $value = $this->afterFilter($value);
++        // END PATCH
++        return $value;
++    }
++
++    // BEGIN PATCH
++    /**
++     * Resolve directives that child templates deferred to the root template
++     *
++     * @param string $value
++     * @return string
++     * @throws \Exception
++     */
++    private function resolveDeferredDirectives($value)
++    {
++        $deferredDirectiveRegistry = $this->getDeferredDirectiveRegistry();
++
++        foreach ($deferredDirectiveRegistry->getAll() as $placeholder => $directive) {
++            if (strpos($value, $placeholder) === false) {
++                continue;
++            }
++
++            $value = str_replace($placeholder, $this->processDirectives($directive), $value);
++        }
++
++        $deferredDirectiveRegistry->clear();
++
+         return $value;
+     }
+ 
++    /**
++     * Get filtering depth meter shared with the core template filters
++     *
++     * @return \Magento\Framework\Filter\Template\FilteringDepthMeter
++     */
++    private function getFilteringDepthMeter()
++    {
++        return \Magento\Framework\App\ObjectManager::getInstance()
++            ->get(\Magento\Framework\Filter\Template\FilteringDepthMeter::class);
++    }
++
++    /**
++     * Get deferred directive registry shared with the core template filters
++     *
++     * @return \Magento\Framework\Filter\Template\DeferredDirectiveRegistry
++     */
++    private function getDeferredDirectiveRegistry()
++    {
++        return \Magento\Framework\App\ObjectManager::getInstance()
++            ->get(\Magento\Framework\Filter\Template\DeferredDirectiveRegistry::class);
++    }
++    // END PATCH
++
+     /**
+      * forDirective
+      *

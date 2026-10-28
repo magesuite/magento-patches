@@ -2087,6 +2087,11 @@
                 "description": "Disable adding old orders to custom table during install of the module",
                 "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-reviewreminder/aheadworks-review-reminder-disabling-adding-old-orders-during-install.patch",
                 "version-constraint": "^1.0.4"
+            },
+            {
+                "description": "Resolve child-template directives deferred through the DeferredDirectiveRegistry in the review reminder email filter, so emails no longer contain a raw :deferred: token and get their CSS inlined (requires the magento/framework 248p5-2026-10-001 or 249-2026-10-001 patch)",
+                "filename": "vendor/creativestyle/magento-patches/optional/aheadworks/module-reviewreminder/fix-deferred-template-directives-after-2026-10-001-security-patch.patch",
+                "version-constraint": "^1.0.5"
             }
         ],
         "aheadworks/module-reward-points": [
