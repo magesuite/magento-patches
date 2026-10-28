@@ -1,87 +1,60 @@
+Process shipping amount and payment fee correctly in wallee refund (IPET-1184, IPET-1206, IPET-1269), updated for wallee/magento-2 3.5.2.
+LineItemReductionService::convertShipping() subtracts the shipping discount tax compensation before comparing with the order shipping amount, otherwise a full shipping refund is never recognised.
+Webhook SuccessfulCommand does not pass a partial shipping refund (unit price reduction, recognised by the remaining quantity and amount of the shipping line in the reduced line items) as creditmemo shipping amount, adds the full shipping discount only when a shipping amount is refunded and tops up the positive adjustment when the refund amount from wallee is 0.01 below the open order total.
+
 diff --git a/Model/Service/LineItemReductionService.php b/Model/Service/LineItemReductionService.php
-index 5e98d5c..b8ef85b 100644
+index e1e4039..40bfc92 100644
 --- a/Model/Service/LineItemReductionService.php
 +++ b/Model/Service/LineItemReductionService.php
-@@ -75,7 +75,7 @@ class LineItemReductionService
-      * @param EventManagerInterface $eventManager
-      */
-     public function __construct(Helper $helper, LineItemReductionHelper $reductionHelper, LineItemHelper $lineItemHelper,
--        ApiClient $apiClient, EventManagerInterface $eventManager)
-+                                ApiClient $apiClient, EventManagerInterface $eventManager)
-     {
-         $this->helper = $helper;
-         $this->reductionHelper = $reductionHelper;
-@@ -101,7 +101,7 @@ class LineItemReductionService
- 
-         $reductions = [];
-         if ($this->helper->compareAmounts($unrefundedAmount, $creditmemo->getGrandTotal(),
--            $creditmemo->getOrderCurrencyCode()) == 0) {
-+                $creditmemo->getOrderCurrencyCode()) == 0) {
-             foreach ($baseLineItems as $baseLineItem) {
-                 $reduction = new LineItemReductionCreate();
-                 $reduction->setLineItemUniqueId($baseLineItem->getUniqueId());
-@@ -189,9 +189,18 @@ class LineItemReductionService
+@@ -222,8 +222,11 @@ class LineItemReductionService
          if ($creditmemo->getShippingAmount() > 0) {
-             $reduction = new LineItemReductionCreate();
-             $reduction->setLineItemUniqueId('shipping');
-+            // BEGIN PATCH
-+            // Add missed ShippingDiscountTaxCompensationAmount, otherwise the condition will always return false, even if whole shipping amount should be refunded
-+
-+//          if ($this->helper->compareAmounts($creditmemo->getShippingAmount() + $creditmemo->getShippingTaxAmount(),
-+//              $creditmemo->getOrder()
-+//                  ->getShippingInclTax(), $creditmemo->getOrderCurrencyCode()) == 0) {
-+
-             if ($this->helper->compareAmounts($creditmemo->getShippingAmount() + $creditmemo->getShippingTaxAmount(),
+             if (CurrencyRoundingService::areAmountsEqual(
+                 $creditmemo->getShippingAmount() + $creditmemo->getShippingTaxAmount(),
 -                $creditmemo->getOrder()
--                    ->getShippingInclTax(), $creditmemo->getOrderCurrencyCode()) == 0) {
-+                    $creditmemo->getOrder()
-+                        ->getShippingInclTax() - $creditmemo->getOrder()->getShippingDiscountTaxCompensationAmount(), $creditmemo->getOrderCurrencyCode()) == 0) {
-+
+-                ->getShippingInclTax(),
++                // BEGIN PATCH
++                // $creditmemo->getOrder()
++                // ->getShippingInclTax(),
++                $creditmemo->getOrder()->getShippingInclTax() - $creditmemo->getOrder()->getShippingDiscountTaxCompensationAmount(),
 +                // END PATCH
-                 $reduction->setQuantityReduction(1);
-                 $reduction->setUnitPriceReduction(0);
-             } else {
-@@ -217,7 +226,7 @@ class LineItemReductionService
-         $reducedAmount = $this->reductionHelper->getReducedAmount($baseLineItems, $reductions,
-             $creditmemo->getOrderCurrencyCode());
-         if ($this->helper->compareAmounts($reducedAmount, $creditmemo->getGrandTotal(),
--            $creditmemo->getOrderCurrencyCode()) != 0) {
-+                $creditmemo->getOrderCurrencyCode()) != 0) {
-             throw new LineItemReductionException();
-         }
-     }
-diff --git a/Model/Webhook/Listener/Refund/SuccessfulCommand.php b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
-index 0cd0e36..147f2f9 100644
---- a/Model/Webhook/Listener/Refund/SuccessfulCommand.php
-+++ b/Model/Webhook/Listener/Refund/SuccessfulCommand.php
-@@ -246,7 +246,13 @@ class SuccessfulCommand extends AbstractCommand
-                     if ($reduction->getQuantityReduction() > 0) {
-                         $shippingAmount = $baseLineItems[$reduction->getLineItemUniqueId()]->getAmountIncludingTax();
-                     } elseif ($reduction->getUnitPriceReduction() > 0) {
--                        $shippingAmount = $reduction->getUnitPriceReduction();
-+                        // BEGIN PATCH
-+                        // In some cases, wallee reduce shipment amount instead of adding positive adjustiment
-+
-+                        //$shippingAmount = $reduction->getUnitPriceReduction();
-+                        $shippingAmount = 0;
-+
-+                        // END PATCH
-                     } else {
-                         $shippingAmount = 0;
-                     }
-@@ -260,8 +266,17 @@ class SuccessfulCommand extends AbstractCommand
+                 $creditmemo->getOrderCurrencyCode()
+             )) {
+                 return $this->makeReduction('shipping', 1.0, 0.0);
+diff --git a/Model/Webhook/Refund/SuccessfulCommand.php b/Model/Webhook/Refund/SuccessfulCommand.php
+index f412216..e8517a5 100644
+--- a/Model/Webhook/Refund/SuccessfulCommand.php
++++ b/Model/Webhook/Refund/SuccessfulCommand.php
+@@ -34,6 +34,9 @@ use Wallee\PluginCore\Webhook\WebhookContext;
+ 
+ // SDK Dependencies
+ use Wallee\PluginCore\Transaction\Invoice\State as CoreTransactionInvoiceState;
++// BEGIN PATCH
++use Wallee\PluginCore\GlobalData\Currency\CurrencyRoundingService;
++// END PATCH
+ 
+ class SuccessfulCommand extends WebhookCommand
+ {
+@@ -260,7 +263,10 @@ class SuccessfulCommand extends WebhookCommand
+                 case CoreLineItem::TYPE_DISCOUNT:
+                     break;
+                 case CoreLineItem::TYPE_SHIPPING:
+-                    $shippingAmount = $item->amountIncludingTax;
++                    // BEGIN PATCH
++                    // $shippingAmount = $item->amountIncludingTax;
++                    $shippingAmount = $this->isPartialShippingRefund($refund, $item) ? 0 : $item->amountIncludingTax;
++                    // END PATCH
+ 
+                     if ($shippingAmount == $order->getShippingInclTax()) {
+                         $creditmemoAmount += $shippingAmount;
+@@ -271,8 +277,13 @@ class SuccessfulCommand extends WebhookCommand
                      }
  
-                     if ($order->getShippingDiscountAmount() > 0) {
+                     if ($order->getShippingDiscountAmount() > 0 && $order->getShippingAmount() > 0) {
 -                        $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
 -                            $order->getShippingDiscountAmount();
 +                        // BEGIN PATCH
-+                        // Magento provides the shipping amount with discount, it shouldn't be discounted twice
-+                        // Also, discount should be added only if shipping amount wasn't already refunded
-+
-+                        //$shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
-+                        //$order->getShippingDiscountAmount();
-+
++                        // $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
++                        //     $order->getShippingDiscountAmount();
 +                        if ($shippingAmount > 0) {
 +                            $shippingAmount += $order->getShippingDiscountAmount();
 +                        }
@@ -89,18 +62,47 @@ index 0cd0e36..147f2f9 100644
                      }
                      break;
              }
-@@ -279,6 +294,14 @@ class SuccessfulCommand extends AbstractCommand
-             $positiveAdjustment = $refund->getAmount() - $roundedCreditmemoAmount;
+@@ -291,6 +302,13 @@ class SuccessfulCommand extends WebhookCommand
+             $positiveAdjustment = $refund->amount - $roundedCreditmemoAmount;
          }
  
 +        // BEGIN PATCH
-+        // Refund amount is calculated on Wallee side, sometimes, when discounts and payment_fee are combined, this value is rounded incorrectly and 0.01 might be missing.
 +        $totalToRefund = $order->getGrandTotal() - $order->getTotalRefunded();
-+        if ($totalToRefund - 0.01 == $positiveAdjustment) {
-+            $positiveAdjustment = $totalToRefund;
++        if (CurrencyRoundingService::areAmountsEqual($refund->amount + 0.01, $totalToRefund, (string) $order->getOrderCurrencyCode())) {
++            $positiveAdjustment += $this->helper->roundAmount($totalToRefund - $refund->amount, $order->getOrderCurrencyCode());
 +        }
 +        // END PATCH
 +
          return [
              'qtys' => $refundQuantities,
              'shipping_amount' => $shippingAmount,
+@@ -298,4 +316,29 @@ class SuccessfulCommand extends WebhookCommand
+             'adjustment_negative' => $negativeAdjustment
+         ];
+     }
++
++    // BEGIN PATCH
++    /**
++     * Whether the refund covers only a part of the shipping costs (unit price reduction of the shipping line item).
++     *
++     * @param CoreRefund $refund
++     * @param CoreLineItem $refundedShippingItem
++     * @return bool
++     */
++    private function isPartialShippingRefund(CoreRefund $refund, CoreLineItem $refundedShippingItem): bool
++    {
++        if ($refund->reducedLineItems === null) {
++            return false;
++        }
++
++        $baseUniqueId = strstr((string) $refundedShippingItem->uniqueId, '__', true) ?: $refundedShippingItem->uniqueId;
++        foreach ($refund->reducedLineItems as $reducedLineItem) {
++            if ($reducedLineItem->type === CoreLineItem::TYPE_SHIPPING && $reducedLineItem->uniqueId === $baseUniqueId && $reducedLineItem->quantity > 0 && $reducedLineItem->amountIncludingTax > 0) {
++                return true;
++            }
++        }
++
++        return false;
++    }
++    // END PATCH
+ }
