@@ -1,45 +1,27 @@
+Use the highest product tax class id as shipping tax class id, updated for wallee/magento-2 3.5.2.
+AbstractLineItemService::getShippingTax() resolves the class through \Magento\Tax\Model\Config::getShippingTaxClass(), where the plugin of creativestyle/magesuite-dynamic-shipping-taxclass applies, instead of reading the configuration directly.
+
 diff --git a/Model/Service/AbstractLineItemService.php b/Model/Service/AbstractLineItemService.php
-index 158d975..b42260c 100644
+index 6aaba53..f5a8935 100644
 --- a/Model/Service/AbstractLineItemService.php
 +++ b/Model/Service/AbstractLineItemService.php
-@@ -98,6 +98,11 @@ abstract class AbstractLineItemService
-      */
-     private $giftCardAccountManagement;
-
-+    /**
-+     * @var \Magento\Tax\Model\Config
-+     */
-+    protected $taxConfig;
-+
-     /**
-      *
-      * @param Helper $helper
-@@ -126,6 +131,8 @@ abstract class AbstractLineItemService
-         $this->eventManager = $eventManager;
-         $this->productRepository = $productRepository;
-         $this->giftCardAccountManagement = $giftCardAccountManagement;
-+
-+        $this->taxConfig = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class);
-     }
-
-     /**
-@@ -431,9 +438,16 @@ abstract class AbstractLineItemService
-         }
-         $taxRateRequest = $this->taxCalculation->getRateRequest($entity->getShippingAddress(),
-             $entity->getBillingAddress(), $taxClassId, $entity->getStore());
+@@ -528,11 +528,14 @@ abstract class AbstractLineItemService
+             $taxClassId,
+             $entity->getStore()
+         );
 -        $shippingTaxClassId = $this->scopeConfig->getValue(
--            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, ScopeInterface::SCOPE_STORE,
--            $entity->getStoreId());
-+
+-            \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
+-            ScopeInterface::SCOPE_STORE,
+-            $entity->getStoreId()
+-        );
 +        // BEGIN PATCH
-+        // use the highest product tax class id as shipping tax class id
-+
 +        // $shippingTaxClassId = $this->scopeConfig->getValue(
-+        //    \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, ScopeInterface::SCOPE_STORE,
-+        //    $entity->getStoreId());
-+        $shippingTaxClassId = $this->taxConfig->getShippingTaxClass($entity->getStoreId());
++        //     \Magento\Tax\Model\Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS,
++        //     ScopeInterface::SCOPE_STORE,
++        //     $entity->getStoreId()
++        // );
++        $shippingTaxClassId = \Magento\Framework\App\ObjectManager::getInstance()->get(\Magento\Tax\Model\Config::class)->getShippingTaxClass($entity->getStoreId());
 +        // END PATCH
-+
          if ($shippingTaxClassId > 0) {
              $shippingTaxClass = $this->taxClassRepository->get($shippingTaxClassId);
              $taxRateRequest->setProductClassId($shippingTaxClassId);
