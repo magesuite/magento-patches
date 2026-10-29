@@ -2333,6 +2333,11 @@
                     "version-constraint": ">=2.4.1,<2.5.1"
                 },
                 {
+                    "description": "Fix PayPal Braintree plugin namespace case",
+                    "filename": "essential/aheadworks/module-reward-points/fix-paypal-plugin-namespace-case.patch",
+                    "version-constraint": "2.6.4"
+                },
+                {
                     "description": "Translate transaction comment in email",
                     "filename": "essential/aheadworks/module-reward-points/translate-transaction-comment-in-email.patch",
                     "version-constraint": ">=2.5.0"

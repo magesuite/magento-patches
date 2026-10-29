@@ -1,0 +1,28 @@
+Fixes "setup:di:compile" failing on macOS (Docker Desktop) with
+"RecursiveDirectoryIterator::__construct(.../vendor/aheadworks/module-reward-points/Plugin/PayPal): Failed to open directory: No such file or directory".
+
+Root cause: OrderAdapterPlugin lives in Plugin/PayPal/ and is registered in etc/di.xml as Plugin\PayPal\...,
+but declares the namespace Plugin\Paypal\..., which is not PSR-4 compliant. During compilation Magento's ClassesScanner
+calls class_exists() with the declared name, so Composer's PSR-4 autoloader looks up Plugin/Paypal/... . On the
+case-insensitive macOS filesystem shared into the container this lookup succeeds and the Linux guest caches the
+directory under the name "Paypal". The DirectoryScanner of the "Application code generator" step then opens
+Plugin/PayPal and gets ENOENT. On case-sensitive filesystems (CI, production) the wrong lookup simply misses, which is why
+the bug does not show up there.
+Fix: declare the namespace with the same case as the directory and di.xml.
+
+diff --git a/Plugin/PayPal/Braintree/Gateway/Data/Order/OrderAdapterPlugin.php b/Plugin/PayPal/Braintree/Gateway/Data/Order/OrderAdapterPlugin.php
+index 6cbd61f..2ec988a 100644
+--- a/Plugin/PayPal/Braintree/Gateway/Data/Order/OrderAdapterPlugin.php
++++ b/Plugin/PayPal/Braintree/Gateway/Data/Order/OrderAdapterPlugin.php
+@@ -1,7 +1,10 @@
+ <?php
+ declare(strict_types=1);
+
+-namespace Aheadworks\RewardPoints\Plugin\Paypal\Braintree\Gateway\Data\Order;
++// BEGIN PATCH
++// namespace Aheadworks\RewardPoints\Plugin\Paypal\Braintree\Gateway\Data\Order;
++namespace Aheadworks\RewardPoints\Plugin\PayPal\Braintree\Gateway\Data\Order;
++// END PATCH
+
+ use Magento\Framework\Exception\NoSuchEntityException;
+ use PayPal\Braintree\Gateway\Data\Order\OrderAdapter as Subject;
