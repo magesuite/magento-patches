@@ -4546,6 +4546,11 @@
                     "description": "Don't load config for Braintree if module is disabled",
                     "filename": "essential/paypal/module-braintree-core/dont-load-braintree-config-if-disabled.patch",
                     "version-constraint": ">=4.7.0, <4.7.0-p5"
+                },
+                {
+                    "description": "Don't generate Apple Pay client token if Apple Pay is disabled",
+                    "filename": "essential/paypal/module-braintree-core/dont-generate-applepay-client-token-if-disabled.patch",
+                    "version-constraint": ">=4.8.0"
                 }
             ],
             "gls-croatia/module-shipping": [

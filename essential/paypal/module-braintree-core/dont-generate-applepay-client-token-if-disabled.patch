@@ -1,0 +1,27 @@
+Fixes "main.ERROR: Braintree\Configuration::merchantId needs to be set (or accessToken needs to be passed to Braintree\Gateway)."
+being logged on every uncached product page render when Braintree is installed but not configured.
+
+Root cause: braintree-core 4.8.0 added the Apple Pay product page button (block product.info.addtocart.applepayButton
+in catalog_product_view.xml). Its constructor (Block\ApplePay\AbstractButton) calls Model\ApplePay\Auth::get(), which
+generates a Braintree client token through ApplePay\Ui\ConfigProvider::getClientToken() before the block checks
+whether Apple Pay is active. Without credentials the SDK throws and BraintreeAdapter::generate() logs the error.
+The same token is generated for the anonymous GET /V1/applepay/auth endpoint.
+Fix: getClientToken() returns null when Braintree Apple Pay is inactive, the same check getConfig() already does.
+
+diff --git a/Model/ApplePay/Ui/ConfigProvider.php b/Model/ApplePay/Ui/ConfigProvider.php
+index 896205f..4cbe46c 100644
+--- a/Model/ApplePay/Ui/ConfigProvider.php
++++ b/Model/ApplePay/Ui/ConfigProvider.php
+@@ -99,6 +99,12 @@ class ConfigProvider implements ConfigProviderInterface
+      */
+     public function getClientToken(): ?string
+     {
++        // BEGIN PATCH
++        if (!$this->config->isActive()) {
++            return null;
++        }
++        // END PATCH
++
+         if (empty($this->clientToken)) {
+             $params = [];
+ 
