@@ -1,0 +1,41 @@
+Webhook body status was trusted (status from the Datatrans API was fetched only for redirect
+returns), so a forged webhook could mark an unpaid order as paid; always take the status from the API.
+When a webhook HMAC key is configured, a request without the Datatrans-Signature header skipped
+verification; reject it. Without a configured key webhooks are still accepted (HMAC stays optional).
+
+diff --git a/Model/Transaction/Processor.php b/Model/Transaction/Processor.php
+index f2ad9a9..ff69dd2 100644
+--- a/Model/Transaction/Processor.php
++++ b/Model/Transaction/Processor.php
+@@ -237,10 +237,14 @@ class Processor
+                 throw new LocalizedException(__('Transaction not found.'));
+             }
+             // Fetch transaction status based on URL type
+-            if (empty($response) || $urlType === Constants::RETURN_REDIRECT) {
+-                $statusResponse = $this->fetchTransactionStatus($transactionId);
+-                $response = $statusResponse['body'] ?? [];
+-            }
++            //BEGIN PATCH
++//            if (empty($response) || $urlType === Constants::RETURN_REDIRECT) {
++//                $statusResponse = $this->fetchTransactionStatus($transactionId);
++//                $response = $statusResponse['body'] ?? [];
++//            }
++            $statusResponse = $this->fetchTransactionStatus($transactionId);
++            $response = $statusResponse['body'] ?? [];
++            //END PATCH
+             $authorizationStatus = $response['status'] ?? null;
+             $quoteId = $transactionObj->getQuoteId();
+             $customerId = $transactionObj->getCustomerId();
+@@ -771,6 +775,12 @@ class Processor
+     public function verifyWebhookSignature($signatureHeader, $payload)
+     {
+         $hmacKey = $this->getWebhookHmacKey();
++        //BEGIN PATCH
++        if ($hmacKey && !$signatureHeader) {
++            $this->logger->error('Datatrans webhook rejected: Datatrans-Signature header missing');
++            return false;
++        }
++        //END PATCH
+         $isValid = true;
+ 
+         if ($hmacKey && $signatureHeader) {

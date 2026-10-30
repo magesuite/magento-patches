@@ -1,0 +1,125 @@
+restoreQuote() restored any quote id taken from the request (datatransTrxId / lightbox transactionId)
+into the current checkout session; now only the session last_quote_id is restored.
+Minicart mixin force-reloaded the cart section on every page view; replaced by a one-time
+section_data_clean cookie set after a successful restore.
+
+diff --git a/Helper/Data.php b/Helper/Data.php
+index 6943732..cddf816 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -40,6 +40,10 @@ use Magento\Quote\Api\CartRepositoryInterface;
+ use Magento\Sales\Api\Data\OrderInterface;
+ use Pits\DatatransPayment\Helper\Constants;
+ use Magento\Framework\Encryption\EncryptorInterface;
++//BEGIN PATCH
++use Magento\Framework\Stdlib\CookieManagerInterface;
++use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
++//END PATCH
+ 
+ class Data extends AbstractHelper
+ {
+@@ -83,6 +87,12 @@ class Data extends AbstractHelper
+      */
+     protected EncryptorInterface $encryptor;
+ 
++    //BEGIN PATCH
++    protected CookieManagerInterface $cookieManager;
++
++    protected CookieMetadataFactory $cookieMetadataFactory;
++    //END PATCH
++
+     /**
+      * Helper constructor.
+      *
+@@ -105,7 +115,12 @@ class Data extends AbstractHelper
+         CheckoutSession $checkoutSession,
+         QuoteFactory $quoteFactory,
+         CartRepositoryInterface $quoteRepository,
+-        EncryptorInterface $encryptor
++        //BEGIN PATCH
++        // EncryptorInterface $encryptor
++        EncryptorInterface $encryptor,
++        CookieManagerInterface $cookieManager,
++        CookieMetadataFactory $cookieMetadataFactory
++        //END PATCH
+     ) {
+         parent::__construct($context);
+         $this->assetRepository = $assetRepository;
+@@ -116,6 +131,10 @@ class Data extends AbstractHelper
+         $this->quoteFactory = $quoteFactory;
+         $this->quoteRepository = $quoteRepository;
+         $this->encryptor = $encryptor;
++        //BEGIN PATCH
++        $this->cookieManager = $cookieManager;
++        $this->cookieMetadataFactory = $cookieMetadataFactory;
++        //END PATCH
+     }
+ 
+     /**
+@@ -553,6 +572,11 @@ class Data extends AbstractHelper
+      */
+     public function restoreQuote(int $quoteId): bool
+     {
++        //BEGIN PATCH
++        if ($quoteId !== (int)$this->checkoutSession->getLastQuoteId()) {
++            return false;
++        }
++        //END PATCH
+         try {
+             $quote = $this->quoteFactory->create()->load($quoteId);
+             if (!$quote->getId()) {
+@@ -569,6 +593,9 @@ class Data extends AbstractHelper
+             $quote->setReservedOrderId(null);
+             $this->quoteRepository->save($quote);
+             $this->checkoutSession->replaceQuote($quote);
++            //BEGIN PATCH
++            $this->setSectionDataCleanCookie();
++            //END PATCH
+ 
+             return true;
+         } catch (Exception) {
+@@ -577,6 +604,19 @@ class Data extends AbstractHelper
+         }
+     }
+ 
++    //BEGIN PATCH
++    protected function setSectionDataCleanCookie(): void
++    {
++        $metadata = $this->cookieMetadataFactory->createPublicCookieMetadata()
++            ->setDuration(300)
++            ->setPath('/')
++            ->setSecure($this->_request->isSecure())
++            ->setHttpOnly(false);
++
++        $this->cookieManager->setPublicCookie('section_data_clean', 'datatrans', $metadata);
++    }
++    //END PATCH
++
+     /**
+      * Get the order entity_id by increment/order number.
+      *
+diff --git a/view/frontend/requirejs-config.js b/view/frontend/requirejs-config.js
+index 424603c..617841e 100644
+--- a/view/frontend/requirejs-config.js
++++ b/view/frontend/requirejs-config.js
+@@ -1,11 +1,13 @@
+ let config = {
+-    config: {
+-        mixins: {
+-            'Magento_Checkout/js/view/minicart': {
+-                'Pits_DatatransPayment/js/view/minicart-mixin': true
+-            }
+-        }
+-    },
++    //BEGIN PATCH
++    // config: {
++    //     mixins: {
++    //         'Magento_Checkout/js/view/minicart': {
++    //             'Pits_DatatransPayment/js/view/minicart-mixin': true
++    //         }
++    //     }
++    // },
++    //END PATCH
+     map: {
+         '*': {
+             registerAlias: 'Pits_DatatransPayment/js/register-alias'
