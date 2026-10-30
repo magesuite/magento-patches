@@ -1,0 +1,52 @@
+datatrans_payment_transaction.quote_id was smallint unsigned (max 65535); with Magento SQL_MODE='' larger
+quote ids are silently clamped to 65535, so quote restore and cron lookups hit the wrong quote.
+Changed to int unsigned (as quote.entity_id) and added indexes on quote_id and transaction_id.
+
+diff --git a/etc/db_schema.xml b/etc/db_schema.xml
+index 61e535b..b162033 100644
+--- a/etc/db_schema.xml
++++ b/etc/db_schema.xml
+@@ -11,8 +11,12 @@
+                 comment="Order Increment Id"/>
+         <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="true" identity="false"
+                 comment="Store_id"/>
+-        <column xsi:type="smallint" name="quote_id" padding="5" unsigned="true" nullable="true" identity="false"
++        <!-- BEGIN PATCH -->
++        <!--<column xsi:type="smallint" name="quote_id" padding="5" unsigned="true" nullable="true" identity="false"-->
++        <!--        comment="Quote_id"/>-->
++        <column xsi:type="int" name="quote_id" padding="10" unsigned="true" nullable="true" identity="false"
+                 comment="Quote_id"/>
++        <!-- END PATCH -->
+         <column xsi:type="int" name="customer_id" padding="10" unsigned="true" nullable="true" identity="false"
+                 comment="Customer_id"/>
+         <column xsi:type="varchar" name="transaction_id" length="64" nullable="true"
+@@ -62,6 +66,14 @@
+         <constraint xsi:type="foreign" referenceId="DATATRANS_PAYMENT_TRANSACTION_CSTR_ID_CSTR_ENTT_ENTT_ID"
+                     table="datatrans_payment_transaction" column="customer_id" referenceTable="customer_entity"
+                     referenceColumn="entity_id" onDelete="CASCADE"/>
++        <!-- BEGIN PATCH -->
++        <index referenceId="DATATRANS_PAYMENT_TRANSACTION_QUOTE_ID" indexType="btree">
++            <column name="quote_id"/>
++        </index>
++        <index referenceId="DATATRANS_PAYMENT_TRANSACTION_TRANSACTION_ID" indexType="btree">
++            <column name="transaction_id"/>
++        </index>
++        <!-- END PATCH -->
+     </table>
+ 
+     <table name="datatrans_payment_transaction_context" resource="default" engine="innodb"
+diff --git a/etc/db_schema_whitelist.json b/etc/db_schema_whitelist.json
+index 76c91c7..a0c3d91 100644
+--- a/etc/db_schema_whitelist.json
++++ b/etc/db_schema_whitelist.json
+@@ -37,6 +37,10 @@
+             "DATATRANS_PAYMENT_TRANSACTION_ORDER_ID_SALES_ORDER_ENTITY_ID": true,
+             "DATATRANS_PAYMENT_TRANSACTION_STORE_ID_STORE_STORE_ID": true,
+             "DATATRANS_PAYMENT_TRANSACTION_CSTR_ID_CSTR_ENTT_ENTT_ID": true
++        },
++        "index": {
++            "DATATRANS_PAYMENT_TRANSACTION_QUOTE_ID": true,
++            "DATATRANS_PAYMENT_TRANSACTION_TRANSACTION_ID": true
+         }
+     },
+     "datatrans_payment_transaction_context": {

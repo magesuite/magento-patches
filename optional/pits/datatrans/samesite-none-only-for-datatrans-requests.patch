@@ -1,0 +1,32 @@
+Plugin set SameSite=None; Secure on every public cookie (incl. session renewal) because
+the unconditional block ran before the datatrans URI/referer check. Keep None only for
+Datatrans payment requests; skip null metadata instead of a fatal error.
+
+diff --git a/Plugin/CookieManager.php b/Plugin/CookieManager.php
+index eb3a3a1..e94c48f 100644
+--- a/Plugin/CookieManager.php
++++ b/Plugin/CookieManager.php
+@@ -72,13 +72,20 @@ class CookieManager
+         ?PublicCookieMetadata $metadata = null
+     )
+     {
++        //BEGIN PATCH
++        if ($metadata === null) {
++            return null;
++        }
++        //END PATCH
+         $metadataArray = $this->scope->getPublicCookieMetadata($metadata)->__toArray();
+         if (isset($metadataArray['samesite'])) {
+             $requestUri = $this->header->getRequestUri();
+             $requestReferer = $this->header->getHttpReferer();
+-            $metadata
+-                ->setSecure(true)
+-                ->setSameSite('None');
++            //BEGIN PATCH
++//            $metadata
++//                ->setSecure(true)
++//                ->setSameSite('None');
++            //END PATCH
+ 
+             if (str_contains($requestUri, '/datatrans/payment/') ||
+                 str_contains($requestReferer, 'datatrans/')) {

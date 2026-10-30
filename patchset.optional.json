@@ -2479,6 +2479,33 @@
           "version-constraint": ">=2.1.24"
         }
       ],
+      "pits/datatrans": [
+        {
+          "description": "Fix quote_id column type (smallint -> int) and add indexes on quote_id and transaction_id",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/fix-quote-id-column-type-and-add-indexes.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Restore quote only for the checkout session's last quote and replace minicart force-reload with one-time section_data_clean cookie",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/restore-quote-ownership-and-cart-refresh.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Set SameSite=None only for Datatrans payment requests instead of every cookie",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/samesite-none-only-for-datatrans-requests.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Always take webhook transaction status from Datatrans API and reject unsigned webhooks when HMAC key is configured",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/webhook-verify-signature-and-fetch-status.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Skip orders without Datatrans transaction row in pending/outage crons instead of aborting the whole run",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/cron-skip-orders-without-transaction-row.patch",
+          "version-constraint": "1.0.3"
+        }
+      ],
       "techdivison/import-revert-stock": [
         {
           "description": "Fix file endings for v1.0.1",

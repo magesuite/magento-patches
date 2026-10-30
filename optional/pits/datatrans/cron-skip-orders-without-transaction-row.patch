@@ -1,0 +1,37 @@
+When an order had no datatrans_payment_transaction row, fetchRow() returned false and reading
+$transactionRow['transaction_mode'] raised a warning; Magento's error handler turned it into an
+exception, the cron rethrew it as CronException and the whole run stopped. Use ?? so the existing
+"no transaction id -> continue" guard skips such orders.
+
+diff --git a/Cron/OutageRecoveryChecker.php b/Cron/OutageRecoveryChecker.php
+index d22a337..83b7e82 100644
+--- a/Cron/OutageRecoveryChecker.php
++++ b/Cron/OutageRecoveryChecker.php
+@@ -162,7 +162,10 @@ class OutageRecoveryChecker
+                     );
+ 
+                     $transactionId = $transactionRow['transaction_id'] ?? null;
+-                    $mode = $transactionRow['transaction_mode'];
++                    //BEGIN PATCH
++//                    $mode = $transactionRow['transaction_mode'];
++                    $mode = $transactionRow['transaction_mode'] ?? null;
++                    //END PATCH
+ 
+                     if (!$transactionId) {
+                         continue;
+diff --git a/Cron/PendingOrderChecker.php b/Cron/PendingOrderChecker.php
+index d209c92..2330ed6 100644
+--- a/Cron/PendingOrderChecker.php
++++ b/Cron/PendingOrderChecker.php
+@@ -115,7 +115,10 @@ class PendingOrderChecker
+                     );
+ 
+                     $transactionId = $transactionRow['transaction_id'] ?? null;
+-                    $mode = $transactionRow['transaction_mode'];
++                    //BEGIN PATCH
++//                    $mode = $transactionRow['transaction_mode'];
++                    $mode = $transactionRow['transaction_mode'] ?? null;
++                    //END PATCH
+ 
+                     if (!$transactionId) {
+                         continue;
