@@ -43,11 +43,6 @@
                     "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): reset the GraphQL user context to guest when the customer fails the website-scope check and resolve the effective store from the Store header",
                     "filename": "essential/magento/module-customer-graph-ql/248p5-2026-09-001-CE.patch",
                     "version-constraint": ">=100.4.8,<100.4.9"
-                },
-                {
-                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): reset the GraphQL user context to guest when the customer fails the website-scope check and resolve the effective store from the Store header",
-                    "filename": "essential/magento/module-customer-graph-ql/247p10-2026-09-001-CE.patch",
-                    "version-constraint": ">=100.4.7,<100.4.8"
                 }
             ],
             "magento/module-instant-purchase": [
@@ -152,11 +147,6 @@
                     "version-constraint": ">=103.0.8,<103.0.9"
                 },
                 {
-                    "description": "Security patch VULN-39341 (Magento 2.4.7-p10): validate the resolved block type against BlockInterface before BlockFactory instantiates it, log rejected blocks instead of failing layout generation, and neutralise PHP code in Web API fatal error reports",
-                    "filename": "essential/magento/framework/247p10-VULN-39341-CE.patch",
-                    "version-constraint": ">=103.0.7,<103.0.8"
-                },
-                {
                     "description": "Security patch 249-2026-07-001 (Magento 2.4.9): UiComponent Sanitizer template-injection detection now matches across newlines (add /s modifier)",
                     "filename": "essential/magento/framework/249-2026-07-001-CE.patch",
                     "version-constraint": ">=103.0.9,<103.0.10"
@@ -182,135 +172,14 @@
                     "version-constraint": ">=103.0.9"
                 },
                 {
-                    "description": "Fix customer grid EAV indexing",
-                    "filename": "essential/magento/framework/m21-customer-grid-indexing-fix.patch",
-                    "version-constraint": "100.1.*"
-                },
-                {
-                    "description": "Fix file permissions",
-                    "filename": "essential/magento/framework/m21-fix-file-permissions.patch",
-                    "version-constraint": "100.1.*"
-                },
-                {
-                    "description": "Fix customer grid EAV indexing (Magento 2.2.0-2.2.3)",
-                    "filename": "essential/magento/framework/m22-customer-grid-indexing-fix.patch",
-                    "version-constraint": "~101.0.0,<=101.0.3"
-                },
-                {
-                    "description": "Fix image upload error when target directory is symlinked",
-                    "filename": "essential/magento/framework/m22-image-upload-to-symlinked-dir-fix.patch",
-                    "version-constraint": "101.0.3 || 101.0.4"
-                },
-                {
-                    "description": "Allow CSS classes with BOM",
-                    "filename": "essential/magento/framework/m22-allow-css-classes-with-bom.patch",
-                    "version-constraint": "101.0.*"
-                },
-                {
-                    "description": "Fix file permissions (Magento 2.2.0-2.2.5)",
-                    "filename": "essential/magento/framework/m226minus-fix-file-permissions.patch",
-                    "version-constraint": "~101.0.0,<101.0.6"
-                },
-                {
-                    "description": "Fix file permissions (Magento 2.2.6+)",
-                    "filename": "essential/magento/framework/m226plus-fix-file-permissions.patch",
-                    "version-constraint": ">=101.0.6,<103.0.2"
-                },
-                {
-                    "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
-                    "filename": "essential/magento/framework/m22-fix-email-issue-framework.patch",
-                    "version-constraint": "101.0.7"
-                },
-                {
-                    "description": "Fix to upload svg files in category and CMS edit pages (Magento >= 2.2.5 and < 2.3.0)",
-                    "filename": "essential/magento/framework/m225plus-fix-svg-files-upload.patch",
-                    "version-constraint": ">=101.0.5,<=101.0.7"
-                },
-                {
-                    "description": "Fix critical SQL injection bug [PRODSECBUG-2198] (<=2.2.8, <=2.3.1)",
-                    "filename": "essential/magento/framework/PRODSECBUG-2198-2.1-CE-2019-03-25-08-33-53.patch",
-                    "version-constraint": "<101.0.8 || >=102.0.0,<102.0.1",
-                    "strip-path-components": 0
-                },
-                {
-                    "description": "Sets secure cookie flag for FE cookies based on foHTTPS presence",
-                    "filename": "essential/magento/framework/framework-secure-cookie.patch",
-                    "version-constraint": "<103.0.5-p10,>=103.0.6"
-                },
-                {
-                    "description": "Fix for Magento Framework Escaper - Critical log with special symbols",
-                    "filename": "essential/magento/framework/m227minus-fix-escaper-with-special-symbols.patch",
-                    "version-constraint": "101.0.7"
-                },
-                {
-                    "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
-                    "filename": "essential/magento/framework/m233-fix-special-chars-in-email.patch",
-                    "version-constraint": ">=102.0.3,<102.0.4"
-                },
-                {
-                    "description": "Fix for invalid header value. Issue occurs when special symbols are in email 'from' field",
-                    "filename": "essential/magento/framework/m235-fix-special-chars-in-email.patch",
-                    "version-constraint": ">=102.0.4,<103.0.8"
-                },
-                {
-                    "description": "Fix autoloader registry that breaks integration tests",
-                    "filename": "essential/magento/framework/m235-fix-autoloader-registry.patch",
-                    "version-constraint": ">=102.0.5,<103.0.0"
-                },
-                {
-                    "description": "Add product metadata version caching for older than 2.3.3",
-                    "filename": "essential/magento/framework/m232minus-product-metadata-cache.patch",
-                    "version-constraint": "<102.0.3"
-                },
-                {
-                    "description": "Add product metadata version caching in cron",
-                    "filename": "essential/magento/framework/m233-metadata-cache-in-cron.patch",
-                    "version-constraint": ">=102.0.3,<103.0.0"
-                },
-                {
-                    "description": "Fix dates in invoice PDF files",
-                    "filename": "essential/magento/framework/fix-invalid-date-in-invoice-pdf.patch",
-                    "version-constraint": ">=102.0.4,<103.0.0"
-                },
-                {
-                    "description": "Store maintenance lockfiles in var/global",
-                    "filename": "essential/magento/framework/m2x-custom-maintenance-lock-location.patch",
-                    "version-constraint": ">=101.0.0,<103.0.8"
-                },
-                {
                     "description": "Store maintenance lockfiles in var/global",
                     "filename": "essential/magento/framework/m248-custom-maintenance-lock-location.patch",
                     "version-constraint": ">=103.0.8"
                 },
                 {
-                    "description": "Return 500 HTTP code error when fatal error occurs so monitoring treats it as shop down, Magento < 2.4.3",
-                    "filename": "essential/magento/framework/m23-return-500-http-code-on-fatal-error.patch",
-                    "version-constraint": ">=102.0.0,<103.0.3"
-                },
-                {
-                    "description": "Fix merged assets generation to avoid broken CSS and JS",
-                    "filename": "essential/magento/framework/fix-merged-assets-generation-to-avoid-broken-css-and-js.patch",
-                    "version-constraint": "<103.0.7"
-                },
-                {
-                    "description": "Fix file uploader, filename is too long exception",
-                    "filename": "essential/magento/framework/m236-fix-filename-is-too-long-exception.patch",
-                    "version-constraint": "102.0.6"
-                },
-                {
-                    "description": "Fixes custom changelog batchsize set in di.xml is used as string and throws an exception in Magento v2.3.3 running on PHP 7.3",
-                    "filename": "essential/magento/framework/magento-framework-Mview-View-fixes-custom-changelog-batchsize-set-in-di-xml-is-used-as-string-and-throws-an-exception-in-Magento-v2-3-3.diff",
-                    "version-constraint": ">=102.0.3,<102.0.4"
-                },
-                {
                     "description": "Fix exception while trying to schedule content staging change for category when custom modules do not support content staging",
                     "filename": "essential/magento/framework/prevent-exception-when-content-staging-section-is-not-defined.patch",
                     "version-constraint": ">102.0.3"
-                },
-                {
-                    "description": "Fix fetching IDs from changelog to prevent duplicate reindexing",
-                    "filename": "essential/magento/framework/m243plus-mview-fix-fetching-ids-from-changelog.patch",
-                    "version-constraint": ">=103.0.3,<103.0.7"
                 },
                 {
                     "description": "Security patch MDVA-43395 and MDVA-43443",
@@ -323,36 +192,6 @@
                     "version-constraint": ">102.0.3,<103.0.3"
                 },
                 {
-                    "description": "Fix email sending for email containing hypen",
-                    "filename": "essential/magento/framework/emails-are-not-sent-for-email-containing-hyphen.patch",
-                    "version-constraint": ">=103.0.3,<103.0.5"
-                },
-                {
-                    "description": "Allow group attribute on referenceBlock directive in layout files",
-                    "filename": "essential/magento/framework/magento-framework-xsd-allow-group-attribute-on-referenceblock.patch",
-                    "version-constraint": "<103.0.4"
-                },
-                {
-                    "description": "Security hotfix for CVE-2022-35698",
-                    "filename": "essential/magento/framework/ACSD-47578_2.4.3-p2_2.4.3-p3.patch",
-                    "version-constraint": "103.0.3-p2 || 103.0.3-p3"
-                },
-                {
-                    "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
-                    "filename": "essential/magento/framework/port-of-default-charset-fixes-for-mysql-8-0-29-from-magento-243-p1.patch",
-                    "version-constraint": "<=103.0.3-p3"
-                },
-                {
-                    "description": "Port of default charset fixes for MySQL >= 8.0.29 from Magento 2.4.6 pre release",
-                    "filename": "essential/magento/framework/port-of-default-charset-fixes-for-mysql-8-0-29-from-magento-246.patch",
-                    "version-constraint": ">103.0.3-p3, <103.0.5-p3"
-                },
-                {
-                    "description": "Exclude type mixed from nullable check when generating interceptor classes.",
-                    "filename": "essential/magento/framework/php81_exclude_type_mixed_from_nullable_check.patch",
-                    "version-constraint": ">=103.0.5, <103.0.6"
-                },
-                {
                     "description": "Cast base pricing amount to float to avoid \"0\" strings when bundle option price is 0.",
                     "filename": "essential/magento/framework/cast-base-pricing-amount-to-float.patch",
                     "version-constraint": ">=103.0.5"
@@ -363,44 +202,9 @@
                     "version-constraint": "*"
                 },
                 {
-                    "description": "Patch for CVE-2024-34102, Magento 2.4.7",
-                    "filename": "essential/magento/framework/VULN-27015-2.4.7.composer.patch",
-                    "version-constraint": ">=103.0.7,<103.0.7-p1"
-                },
-                {
-                    "description": "Patch for CVE-2024-34102, Magento 2.4.6x",
-                    "filename": "essential/magento/framework/VULN-27015-2.4.6x.composer.patch",
-                    "version-constraint": ">=103.0.6,<103.0.6-p6"
-                },
-                {
-                    "description": "Patch for CVE-2024-34102, Magento 2.4.5x",
-                    "filename": "essential/magento/framework/VULN-27015-2.4.5x.composer.patch",
-                    "version-constraint": ">=103.0.5,<103.0.5-p8"
-                },
-                {
-                    "description": "Patch for CVE-2024-34102, Magento 2.4.4x",
-                    "filename": "essential/magento/framework/VULN-27015-2.4.4x.composer.patch",
-                    "version-constraint": ">=103.0.4,<103.0.4-p9"
-                },
-                {
-                    "description": "Port of patch for issue with missing Am/Pm markers in date format",
-                    "filename": "essential/magento/framework/fix-issue-with-missing-AmPmMarkers.patch",
-                    "version-constraint": "<103.0.8"
-                },
-                {
                     "description": "Protect merging empty config content (RKL-970",
                     "filename": "essential/magento/framework/protect-merging-empty-config.patch",
                     "version-constraint": ">103.0.6"
-                },
-                {
-                    "description": "Patch for CVE-2025-54236, Magento 2.4.x",
-                    "filename": "essential/magento/framework/VULN-27015-2.4.X.composer.patch",
-                    "version-constraint": ">=103.0.4,<103.0.6-p13,<103.0.7-p8 || >=103.0.8,<103.0.8-p3"
-                },
-                {
-                    "description": "Change default charset to utf8mb4 after updating to Magento 2.4.8",
-                    "filename": "essential/magento/framework/change-default-charset-to-utf8mb4.patch",
-                    "version-constraint": ">=103.0.8,<103.0.8-p5"
                 },
                 {
                     "description": "Add session readonly flag to prevent session locking issues",
@@ -421,13 +225,6 @@
                     "description": "Allow to use own cache dir",
                     "filename": "essential/magento/framework/allow-to-use-own-cache-dir.patch",
                     "version-constraint": ">=103.0.9"
-                }
-            ],
-            "magento/module-asynchronous-operations": [
-                {
-                    "description": "Fix asynchronius asynchronous bulk operations",
-                    "filename": "essential/magento/module-asynchronous-operations/m24-fix-asynchronous-operations.patch",
-                    "version-constraint": ">=100.4.0, <100.4.2"
                 }
             ],
             "magento/module-product-alert": [
@@ -451,11 +248,6 @@
             ],
             "magento/module-directory": [
                 {
-                    "description": "Fix incorrect amount display for currency in summary section",
-                    "filename": "essential/magento/module-directory/m243-fix-incorrect-amount-display-for-currency-in-summary-section.patch",
-                    "version-constraint": "100.4.3"
-                },
-                {
                     "description": "Set only one default country for options",
                     "filename": "essential/magento/module-directory/m248-set-only-one-default-country-in-options.patch",
                     "version-constraint": ">=100.4.8, <100.4.9"
@@ -478,26 +270,6 @@
                     "version-constraint": ">=101.1.2"
                 },
                 {
-                    "description": "Fix block-loader image url",
-                    "filename": "essential/magento/module-ui/m24-fix-block-loader-image-url.patch",
-                    "version-constraint": ">=101.1.2, <101.2.0"
-                },
-                {
-                    "description": "Fix: Region field visible for Country when 'Allow to Choose State if It is Optional for Country' is disabled",
-                    "filename": "essential/magento/module-ui/m24-fix-region-field.patch",
-                    "version-constraint": ">=101.2.1, <101.2.2"
-                },
-                {
-                    "description": "Load datepicker module only when the binding is actually used",
-                    "filename": "essential/magento/module-ui/load-datepicker-on-demand.patch",
-                    "version-constraint": ">=101.1.3,<101.2.1"
-                },
-                {
-                    "description": "Lazyload polyfills only for legacy browsers",
-                    "filename": "essential/magento/module-ui/load-polyfills-on-demand.patch",
-                    "version-constraint": ">=101.1.0,<101.2.0"
-                },
-                {
                     "description": "Stub frontend console logger",
                     "filename": "essential/magento/module-ui/stub-frontend-console-logger.patch",
                     "version-constraint": ">=101.1.0"
@@ -511,11 +283,6 @@
                     "description": "Preparation of massaction request params in exclude mode",
                     "filename": "essential/magento/module-ui/massaction-data-prepare.patch",
                     "version-constraint": ">=101.1.3"
-                },
-                {
-                    "description": "Load dependency for resizable knockout binding only on init",
-                    "filename": "essential/magento/module-ui/load-resizable-widget-only-on-init.patch",
-                    "version-constraint": ">=101.2.2,<101.2.4"
                 },
                 {
                     "description": "Remove validation for color in order to avoid loading tinycolor library",
@@ -545,16 +312,6 @@
                     "version-constraint": ">=100.4.8,<100.4.9"
                 },
                 {
-                    "description": "Fix 'The shipping information was unable to be saved.' error",
-                    "filename": "essential/magento/module-persistent/m232-the-shipping-information-was-unable-to-be-saved.patch",
-                    "version-constraint": ">=100.3.2,<=100.3.3"
-                },
-                {
-                    "description": "Fix quote state error after session timeout",
-                    "filename": "essential/magento/module-persistent/fix-quote-state-error-after-session-timeout.patch",
-                    "version-constraint": ">=100.4.2,<100.4.4"
-                },
-                {
                     "description": "Fix for adding remember me block (IPET-3532, Related to ACP2E-3415)",
                     "filename": "essential/magento/module-persistent/fix-persistent-initial-configs-element-not-found.patch",
                     "version-constraint": ">=100.4.8"
@@ -562,69 +319,9 @@
             ],
             "magento/module-theme": [
                 {
-                    "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",
-                    "filename": "essential/magento/module-theme/m245-jquery-storage-dependencies-fix.patch",
-                    "version-constraint": "101.1.5"
-                },
-                {
-                    "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
-                    "filename": "essential/magento/module-theme/theme-secure-cookie.patch",
-                    "version-constraint": "<=100.2.9 || >=101.0.0,<101.0.3"
-                },
-                {
-                    "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
-                    "filename": "essential/magento/module-theme/m2210-theme-secure-cookie.patch",
-                    "version-constraint": ">=100.2.10,<101.0.0"
-                },
-                {
-                    "description": "Sets secure cookie flag for FE cookies based on HTTPS presence",
-                    "filename": "essential/magento/module-theme/m233-theme-secure-cookie.patch",
-                    "version-constraint": "101.0.3"
-                },
-                {
-                    "description": "Fix for baler - add jquery cookie (Magento 2.2.x)",
-                    "filename": "essential/magento/module-theme/m22-fix-baler-jquery-cookie.patch",
-                    "version-constraint": ">=100.2.2,<101.0.0"
-                },
-                {
-                    "description": "Fix for baler - add jquery cookie  (Magento 2.3.x)",
-                    "filename": "essential/magento/module-theme/m23-fix-baler-jquery-cookie.patch",
-                    "version-constraint": ">=101.0.0,<=101.0.3"
-                },
-                {
-                    "description": "Fix an stropos error that occurs when client is logging out from his account",
-                    "filename": "essential/magento/module-theme/m23-fix-strpos-error-on-logout.patch",
-                    "version-constraint": ">=101.0.3,<101.1.1"
-                },
-                {
                     "description": "Fix XML_PATH_HEADER_TRANSLATE_TITLE private const introduced in Magento 2.4",
                     "filename": "essential/magento/module-theme/m24-fix-private-const-xml-path-header-translate-title.patch",
                     "version-constraint": ">=101.1.0,<101.1.9"
-                },
-                {
-                    "description": "Fix for missing messages caused by multiple mage-message cookies for store view",
-                    "filename": "essential/magento/module-theme/m241-fix-missing-messages.patch",
-                    "version-constraint": "<101.1.2,>=101.1.0"
-                },
-                {
-                    "description": "Inlines date format to not use the whole datepicker module",
-                    "filename": "essential/magento/module-theme/inline-date-format.patch",
-                    "version-constraint": "~101.0.3"
-                },
-                {
-                    "description": "Lazyload storage polyfill only when it is needed",
-                    "filename": "essential/magento/module-theme/load-storage-polyfill-on-demand.patch",
-                    "version-constraint": "101.1.0"
-                },
-                {
-                    "description": "Fixes an empty mini-cart bug after adding products to the cart from the wishlist by making messages observable",
-                    "filename": "essential/magento/module-theme/fix-make-messages-observable.patch",
-                    "version-constraint": ">=101.1.0,<101.1.7"
-                },
-                {
-                    "description": "Remove redundant COUNT() call for 1st page of results",
-                    "filename": "essential/magento/module-theme/remove-redundant-count-call-for-first-page-of-results.patch",
-                    "version-constraint": "<101.1.4"
                 },
                 {
                     "description": "Make mage-messages cookie secure",
@@ -639,19 +336,9 @@
             ],
             "magento/module-page-cache": [
                 {
-                    "description": "Set secure cookie flag for FormKey cookie based on HTTPS presence",
-                    "filename": "essential/magento/module-page-cache/m23-form-key-secure-cookie.patch",
-                    "version-constraint": ">=100.3.0,<100.3.4"
-                },
-                {
-                    "description": "Do not try to send vary if headers already sent",
-                    "filename": "essential/magento/module-page-cache/m23-do-not-send-vary-if-headers-already-sent.patch",
-                    "version-constraint": ">=100.3.0,<100.4.0"
-                },
-                {
                     "description": "Optimise performance of ProcessLayoutRender observer",
                     "filename": "essential/magento/module-page-cache/process-layout-render-performance-optimisation.patch",
-                    "version-constraint":">=100.4.5"
+                    "version-constraint": ">=100.4.5"
                 }
             ],
             "magento/module-sales": [
@@ -666,69 +353,14 @@
                     "version-constraint": ">=103.0.8,<103.0.9"
                 },
                 {
-                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): escape the VAT number before interpolating it into the admin order create VAT validation message",
-                    "filename": "essential/magento/module-sales/247p10-2026-09-001-CE.patch",
-                    "version-constraint": ">=103.0.7,<103.0.8"
-                },
-                {
-                    "description": "Alternative fix for Multi Store Emails issue, Fix Async Emails issues, Fix Multiple Email issues (Magento 2.2.7)",
-                    "filename": "essential/magento/module-sales/m22-fix-email-issue-sales.patch",
-                    "version-constraint": "101.0.6"
-                },
-                {
-                    "description": "Fix for cleaning old shopping carts when lifetime expired. (Magento <= 2.3.3)",
-                    "filename": "essential/magento/module-sales/m233minus-magento-sales-fix-quote-lifetime.patch",
-                    "version-constraint": "<=102.0.3"
-                },
-                {
-                    "description": "Fix error on order success page with date html tag",
-                    "filename": "essential/magento/module-sales/m23-fix-order-date-success-page.patch",
-                    "version-constraint": ">=102.0.3,<102.0.6"
-                },
-                {
-                    "description": "Fix not working customer prefix translation",
-                    "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation.patch",
-                    "version-constraint": ">=102.0.5,<103.0.4"
-                },
-                {
-                    "description": "Fix not working customer prefix translation Magento 2.4.4+",
-                    "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation-m244plus.patch",
-                    "version-constraint": ">=103.0.4, <103.0.6"
-                },
-                {
                     "description": "Fix not working customer prefix translation Magento 2.4.6",
                     "filename": "essential/magento/module-sales/fix-sales-module-customer-prefix-translation-m246.patch",
                     "version-constraint": ">=103.0.6"
                 },
                 {
-                    "description": "Fix invoice grand total amount for orders with discounts",
-                    "filename": "essential/magento/module-sales/m242-invoice-grand-total-amount.patch",
-                    "version-constraint": "103.0.2"
-                },
-                {
-                    "description": "Fix displaying tax in admin invoice",
-                    "filename": "essential/magento/module-sales/m243-fix-displaying-tax-in-admin-invoice.patch",
-                    "version-constraint": ">=103.0.3,<103.0.4"
-                },
-                {
-                    "description": "Fix problem with filtering orders by creation date",
-                    "filename": "essential/magento/module-sales/fix-problem-with-filtering-orders-by-creatation-date.patch",
-                    "version-constraint": ">=103.0.5,<103.0.8"
-                },
-                {
                     "description": "Fix problem with wrong storeId type when reordering",
                     "filename": "essential/magento/module-sales/m245_reorder_store_id_typecast.patch",
                     "version-constraint": ">=103.0.5"
-                },
-                {
-                    "description": "Fix problem with division by zero when creating creditmemo with free shipping. Magento patch ACSD-50814_2.4.6",
-                    "filename": "essential/magento/module-sales/m246-fix-division-by-zero-when-creating-creditmemo.patch",
-                    "version-constraint": ">=103.0.6,<103.0.7"
-                },
-                {
-                    "description": "Fix probelm with unable to create order from admin when instance got multiple Store Views on 2.4.6.",
-                    "filename": "essential/magento/module-sales/fix-issue-with-order-creation-and-store-selection.patch",
-                    "version-constraint": ">=103.0.6,<103.0.7"
                 },
                 {
                     "description": "[RK-2412] The admin email is intentionally skipped if there is no valid cart to report on. This prevents throwing an error.",
@@ -758,16 +390,6 @@
                     "version-constraint": ">=101.1.8,<101.1.9"
                 },
                 {
-                    "description": "Change current store to fix URL building in store switcher",
-                    "filename": "essential/magento/module-store/m23-store-switcher-fix.patch",
-                    "version-constraint": ">=101.0.0,<=101.0.4"
-                },
-                {
-                    "description": "Update before_auth_url in customer session when store is switched.",
-                    "filename": "essential/magento/module-store/update-before-auth-url-on-store-switch.patch",
-                    "version-constraint": ">=101.1.4,<101.1.8"
-                },
-                {
                     "description": "Update before_auth_url in customer session when store is switched.",
                     "filename": "essential/magento/module-store/m248-update-before-auth-url-on-store-switch.patch",
                     "version-constraint": ">=101.1.8, <101.1.9"
@@ -776,11 +398,6 @@
                     "description": "Update before_auth_url in customer session when store is switched.",
                     "filename": "essential/magento/module-store/m249-update-before-auth-url-on-store-switch.patch",
                     "version-constraint": ">=101.1.9"
-                },
-                {
-                    "description": "Disable javascript minifying of TinyMCE 6 and 7 library",
-                    "filename": "essential/magento/module-store/disable-javascript-minifying-of-TinyMCE-6-and-7-library.patch",
-                    "version-constraint": ">=101.1.4,<101.1.6-p12"
                 }
             ],
             "magento/module-configurable-product": [
@@ -788,7 +405,8 @@
                     "description": "Fix gallery upload URL for Magento_InventoryConfigurableProductAdminUi",
                     "filename": "essential/magento/module-configurable-product/admin-bulk-gallery-upload-url.patch",
                     "version-constraint": ">=100.4.7, <100.4.9"
-                },                {
+                },
+                {
                     "description": "Fix gallery upload URL for Magento_InventoryConfigurableProductAdminUi",
                     "filename": "essential/magento/module-configurable-product/m249-admin-bulk-gallery-upload-url.patch",
                     "version-constraint": ">=100.4.9"
@@ -828,11 +446,6 @@
                     "description": "Fix highlighted text in search results",
                     "filename": "essential/amasty/module-faq-product-questions/search-results-highlight-only-text.patch",
                     "version-constraint": ">=2.12.2"
-                },
-                {
-                    "description": "Specify store id for product repository getById method to avoid additional product entity load. (IPET-2628)",
-                    "filename": "essential/amasty/module-faq-product-questions/specify-store-id-for-product-repository.patch",
-                    "version-constraint": ">=2.12.2,<2.13.2"
                 }
             ],
             "amasty/module-gdpr": [
@@ -856,16 +469,6 @@
             ],
             "amasty/adminactionslog": [
                 {
-                    "description": "Handle exception raised with m2epro module",
-                    "filename": "essential/amasty/adminactionslog/m22-amasty-adminactionslog-exception-fix.patch",
-                    "version-constraint": "1.0.13"
-                },
-                {
-                    "description": "Ajax request throws an exception in the admin panel",
-                    "filename": "essential/amasty/adminactionslog/amasty-adminactionslog-fix-issue-with-ajax-request.patch",
-                    "version-constraint": ">=2.0.0,<2.0.2"
-                },
-                {
                     "description": "Performance improvement for deleting log entries",
                     "filename": "essential/amasty/adminactionslog/amasty-adminactionlog-performance-improvement-for-deleting-log-entries.patch",
                     "version-constraint": ">=2.0.0"
@@ -876,21 +479,9 @@
                     "version-constraint": ">=2.0.0"
                 },
                 {
-                    "description": "Remove invalid preference",
-                    "filename": "essential/amasty/adminactionslog/magento_v2.4.8_invalid_preference_fix.patch",
-                    "version-constraint": "2.5.0"
-                },
-                {
                     "description": "Skip magento flag entry saving",
                     "filename": "essential/amasty/adminactionslog/skip-magento-flag-entry-saving.patch",
                     "version-constraint": ">=2.7.0"
-                }
-            ],
-            "amasty/base": [
-                {
-                    "description": "Fix module sequence",
-                    "filename": "essential/amasty/base/m22-amasty-base-sequence-fix.patch",
-                    "version-constraint": ">=1.4.0,<1.4.6"
                 }
             ],
             "amasty/label": [
@@ -905,19 +496,7 @@
                     "version-constraint": ">=2.5.2"
                 }
             ],
-            "amasty/product-attachment": [
-                {
-                    "description": "Fix product category attachments",
-                    "filename": "essential/amasty/product-attachment/amasty-product-attachment-2.3.7-fix-product-category-attachments.patch",
-                    "version-constraint": ">=2.3.7,<2.3.9"
-                }
-            ],
             "amasty/promo": [
-                {
-                    "description": "Fix sql error in cart (sku field is ambiguous)",
-                    "filename": "essential/amasty/promo/fix-mysql-error-in-cart.patch",
-                    "version-constraint": ">=2.12.1,<2.13.0"
-                },
                 {
                     "description": "Fix issue with update mysql8.4",
                     "filename": "essential/amasty/promo/fix-issue-with-update-mysql84.patch",
@@ -948,9 +527,9 @@
                     "version-constraint": ">=1.5.0"
                 },
                 {
-                  "description": "Remove <thead> & <tbody> HTML tags to fix javascript error caused broken sticky header for orders grid when filters configuration changed",
-                  "filename": "essential/amasty/ogrid/fix-display-order-grid-sticky-header.patch",
-                  "version-constraint": ">=1.5.1"
+                    "description": "Remove <thead> & <tbody> HTML tags to fix javascript error caused broken sticky header for orders grid when filters configuration changed",
+                    "filename": "essential/amasty/ogrid/fix-display-order-grid-sticky-header.patch",
+                    "version-constraint": ">=1.5.1"
                 }
             ],
             "amasty/module-special-promo": [
@@ -965,18 +544,6 @@
                     "description": "Fix php notice errors (Trying to access array offset on value of type null)",
                     "filename": "essential/amasty/module-special-promo-pro/amasty-special-promo-pro-fix-notice-errors.patch",
                     "version-constraint": ">=2.8.6"
-                },
-                {
-                    "description": "Avoid duplicates in the indexer",
-                    "filename": "essential/amasty/module-special-promo-pro/avoid-duplicates-in-the-indexer.patch",
-                    "version-constraint": ">=2.11.0, <2.12.2"
-                }
-            ],
-            "amasty/shippingtablerates": [
-                {
-                    "description": "Fix adminhtml style css filename",
-                    "filename": "essential/amasty/shippingtablerates/fix-adminhtml-style-css-filename.patch",
-                    "version-constraint": "<1.10.5"
                 }
             ],
             "amasty/shiprestriction": [
@@ -986,36 +553,7 @@
                     "version-constraint": ">=2.11.0"
                 }
             ],
-            "amasty/module-google-automated-discounts": [
-                {
-                    "description": "TOYS-1484: Proper result type. It returns ProductInterface|bool not ?ProductInterface",
-                    "filename": "essential/amasty/module-google-automated-discounts/TOYS-1484-proper-result-type.patch",
-                    "version-constraint": "0.1.1"
-                }
-            ],
-            "amasty/payrestriction": [
-                {
-                    "description": "Avoid multiple requests in checkout",
-                    "filename": "essential/amasty/payrestriction/avoid-multiple-ajax-requests.patch",
-                    "version-constraint": "2.4.0"
-                },
-                {
-                    "description": "Fix issue with hidden payment methods error messages in checkout",
-                    "filename": "essential/amasty/payrestriction/fix-hidden-payment-error-messages.patch",
-                    "version-constraint": ">=2.4,<2.5.3"
-                }
-            ],
             "amasty/stockstatus": [
-                {
-                    "description": "Fix for missing Zend class",
-                    "filename": "essential/amasty/stockstatus/fix-missing-zend-uri-class.patch",
-                    "version-constraint": "<=2.5.1"
-                },
-                {
-                    "description": "Display custom status on wishlist/checkout product configure pages (FR-254)",
-                    "filename": "essential/amasty/stockstatus/display-custom-status-on-product-configure-pages.patch",
-                    "version-constraint": ">=2.5.1,<2.5.3"
-                },
                 {
                     "description": "Display custom status on wishlist/checkout product configure pages (FR-397)",
                     "filename": "essential/amasty/stockstatus/display-custom-status-on-product-configure-pages-v1.5.3.patch",
@@ -1058,11 +596,6 @@
                     "version-constraint": ">=2.4.8,<2.4.9"
                 },
                 {
-                    "description": "Security patch VULN-39341 (Magento 2.4.7-p10): neutralise PHP code in error reports written and read by pub/errors/processor.php",
-                    "filename": "essential/magento/magento2-base/247p10-VULN-39341-CE.patch",
-                    "version-constraint": ">=2.4.7,<2.4.8"
-                },
-                {
                     "description": "Security patch 249-2026-08-001 (Magento 2.4.9), APSB26-92: fix underscore.js CVE-2026-27601 (denial of service via crafted input to _.isEqual)",
                     "filename": "essential/magento/magento2-base/249-2026-08-001-CE.patch",
                     "version-constraint": ">=2.4.9,<2.4.10"
@@ -1078,99 +611,14 @@
                     "version-constraint": ">=2.4.9,<2.4.10"
                 },
                 {
-                    "description": "Fix high severity issue with broken requirejs dependencies flow for Magento 2.4.5",
-                    "filename": "essential/magento/magento2-base/m245-jquery-storage-dependencies-fix.patch",
-                    "version-constraint": ">=2.4.5,<2.4.6"
-                },
-                {
-                    "description": "Fix fullscreen product gallery touch swiping",
-                    "filename": "essential/magento/magento2-base/m232-fix-fullscreen-gallery-touch-swiping.patch",
-                    "version-constraint": ">=2.3.2,<2.3.4"
-                },
-                {
-                    "description": "Make it possible to close fullscreen product gallery on iOS",
-                    "filename": "essential/magento/magento2-base/m22-ios-fullscreen-gallery-close-fix.patch",
-                    "version-constraint": "~2.2.0,<=2.2.3"
-                },
-                {
                     "description": "Add OOM Debugger (M2C-3352)",
                     "filename": "essential/magento/magento2-base/oom-debugger.patch",
                     "version-constraint": "*"
                 },
                 {
-                    "description": "Fixes collapsible issue with scrollin to the content even if it is visible",
-                    "filename": "essential/magento/magento2-base/m233-collapsible-scrolling-fix.patch",
-                    "version-constraint": "2.3.3"
-                },
-                {
-                    "description": "Improve domReady performance for faster load times",
-                    "filename": "essential/magento/magento2-base/m23-improve-domready-performance.patch",
-                    "version-constraint": ">=2.3.2,<2.3.5"
-                },
-                {
-                    "description": "Refactor JavaScript mixins module",
-                    "filename": "essential/magento/magento2-base/refactor-mixins-js-module.patch",
-                    "version-constraint": ">=2.3.2,<2.3.6"
-                },
-                {
-                    "description": "Lower main thread clogging during frontent initialization based on https://github.com/magento/magento2/pull/27360",
-                    "filename": "essential/magento/magento2-base/m23-fix-main-thread-blocking.patch",
-                    "version-constraint": ">=2.3.0,<2.4.0"
-                },
-                {
-                    "description": "Fixes Date of Birth validation if DOB is enabled in Customer Configuration",
-                    "filename": "essential/magento/magento2-base/m235-fix-create-customer-account-with-dob-lib.patch",
-                    "version-constraint": ">=2.3.5,<2.3.6"
-                },
-                {
-                    "description": "Fix gallery jumping based on https://github.com/magento/magento2/pull/27871",
-                    "filename": "essential/magento/magento2-base/m23-fix-gallery-jumping.patch",
-                    "version-constraint": ">=2.3.0,<2.4.0"
-                },
-                {
-                    "description": "Fix Module.php file that contains incorrect comma, Magento < 2.4.3",
-                    "filename": "essential/magento/magento2-base/m24-fix-setup-module-php-comma-for-php-73.patch",
-                    "version-constraint": ">=2.4.0,<2.4.3"
-                },
-                {
-                    "description": "Fix Module.php file that contains incorrect comma, Magento >= 2.4.3",
-                    "filename": "essential/magento/magento2-base/m243-plus-fix-setup-module-php-comma-for-php-73.patch",
-                    "version-constraint": ">=2.4.3,<2.4.4"
-                },
-                {
                     "description": "Fix Module.php file that contains incorrect comma, Magento >= 2.4.4",
                     "filename": "essential/magento/magento2-base/m244-plus-fix-setup-module-php-comma-for-php-73.patch",
                     "version-constraint": ">=2.4.4"
-                },
-                {
-                    "description": "Remove hardcoded FormData polyfill so it can be loaded on demand",
-                    "filename": "essential/magento/magento2-base/remove-hardcoded-polyfill.patch",
-                    "version-constraint": ">=2.3.0,<2.4.2"
-                },
-                {
-                    "description": "Load draggable and resizable widget only if needed in dialog widget",
-                    "filename": "essential/magento/magento2-base/make-dependencies-optional-for-dialog-widget.patch",
-                    "version-constraint": ">2.4.1,<=2.4.2"
-                },
-                {
-                    "description": "Fixes  error in the browser console: Uncaught SyntaxError: Unexpected token const",
-                    "filename": "essential/magento/magento2-base/m244-unexpected-token-const.patch",
-                    "version-constraint": ">=2.4.4,<2.4.5"
-                },
-                {
-                    "description": "Fix gallery issues with swiping items and close button on mobiles",
-                    "filename": "essential/magento/magento2-base/m24-fix-gallery-swipe-and-close-button-on-mobile.patch",
-                    "version-constraint": ">=2.4.0,<2.4.6"
-                },
-                {
-                    "description": "Fix gallery issues with swiping items on mobiles",
-                    "filename": "essential/magento/magento2-base/m246-fix-gallery-swipe-on-mobile.patch",
-                    "version-constraint": ">=2.4.6,<2.4.7"
-                },
-                {
-                    "description": "Remove jQuery deprecated methods warnings to not have them reported in the console.",
-                    "filename": "essential/magento/magento2-base/remove-console-info-and-warnings.patch",
-                    "version-constraint": ">2.4.3-p3,<2.4.6"
                 },
                 {
                     "description": "sansec cosmic sting hotfix https://sansec.io/research/cosmicsting",
@@ -1181,11 +629,6 @@
                     "description": "sansec cosmic sting hotfix https://sansec.io/research/cosmicsting",
                     "filename": "essential/magento/magento2-base/m249-sansec-cosmic-sting-hotfix.patch",
                     "version-constraint": ">=2.4.9"
-                },
-                {
-                    "description": "Fix missing jQuery widget dependency in trim-input.js",
-                    "filename": "essential/magento/magento2-base/m24-fix-trim-input-missing-jquery-widget-dependency.patch",
-                    "version-constraint": ">=2.4.0,<2.4.7"
                 },
                 {
                     "description": "Prevents opening minicart when clicking on 'close fullscreen' icon in fotorama fullscreen modal.",
@@ -1213,25 +656,6 @@
                     "version-constraint": ">=2.4.8"
                 }
             ],
-            "magento/module-search": [
-                {
-                    "description": "Fix focus being lost after in search input after JS init (Magento 2.2.0-2.2.4)",
-                    "filename": "essential/magento/module-search/m22-mini-search-focus-fix.patch",
-                    "version-constraint": "~100.2.0,<=100.2.3"
-                }
-            ],
-            "magento/module-elasticsearch": [
-                {
-                    "description": "Disable products elasticsearch reindex after category change",
-                    "filename": "essential/magento/module-elasticsearch/m24-disable-products-es-reindex-after-category-change.patch",
-                    "version-constraint": ">=101.0.0,<101.0.4"
-                },
-                {
-                    "description": "Disable products elasticsearch reindex after category change",
-                    "filename": "essential/magento/module-elasticsearch/m244-plus-disable-products-es-reindex-after-category-change.patch",
-                    "version-constraint": ">=101.0.4,<101.0.7"
-                }
-            ],
             "magento/module-email": [
                 {
                     "description": "Security patch VULN-39341 (Magento 2.4.9): enforce the Magento_Email::template ACL on the admin template preview and reject non-string template text and styles",
@@ -1244,11 +668,6 @@
                     "version-constraint": ">=101.1.8,<101.1.9"
                 },
                 {
-                    "description": "Security patch VULN-39341 (Magento 2.4.7-p10): enforce the Magento_Email::template ACL on the admin template preview and reject non-string template text and styles",
-                    "filename": "essential/magento/module-email/247p10-VULN-39341-CE.patch",
-                    "version-constraint": ">=101.1.7,<101.1.8"
-                },
-                {
                     "description": "Security patch 249-2026-10-001 (Magento 2.4.9): reject template directives inside absolute external URLs in HTML attributes and CSS url() of email template text and styles on save and admin preview, and defer child-template inlinecss through the framework DeferredDirectiveRegistry (must be applied after 249-VULN-39341, requires the magento/framework 249-2026-10-001 patch)",
                     "filename": "essential/magento/module-email/249-2026-10-001-CE.patch",
                     "version-constraint": ">=101.1.9,<101.1.10"
@@ -1257,43 +676,6 @@
                     "description": "Security patch 248p5-2026-10-001 (Magento 2.4.8-p5): reject template directives inside absolute external URLs in HTML attributes and CSS url() of email template text and styles on save and admin preview, and defer child-template inlinecss through the framework DeferredDirectiveRegistry (must be applied after 248p5-VULN-39341, requires the magento/framework 248p5-2026-10-001 patch)",
                     "filename": "essential/magento/module-email/248p5-2026-10-001-CE.patch",
                     "version-constraint": ">=101.1.8,<101.1.9"
-                },
-                {
-                    "description": "Security patch MDVA-43395 and MDVA-43443",
-                    "filename": "essential/magento/module-email/m243plus-security-MDVA-43395-MDVA-43443.patch",
-                    "version-constraint": ">=101.1.3,<101.1.5"
-                },
-                {
-                    "description": "Security patch MDVA-43395 and MDVA-43443 for Magento 2.3.3-p1-2.4.2",
-                    "filename": "essential/magento/module-email/m233-m242-security-MDVA-43395-MDVA-43443.patch",
-                    "version-constraint": ">101.0.3,<101.1.3"
-                },
-                {
-                    "description": "Replace deprecated jQuery load function with .on('load')",
-                    "filename": "essential/magento/module-email/m245-fix-deprecated-jquery-function.patch",
-                    "version-constraint": ">101.1.0,<101.1.6"
-                },
-                {
-                    "description": "Security patch APSB25-50",
-                    "filename": "essential/magento/module-email/VULN-31609_2.4.X.patch",
-                    "version-constraint": ">=101.1.5, <101.1.5-p13 || >=101.1.6,<101.1.6-p11 || >=101.1.7,<101.1.7-p6 || >=101.1.8,<101.1.8-p1"
-                }
-            ],
-            "magento/module-config": [
-                {
-                    "description": "Fix module loading order (Magento 2.2.0-2.2.4)",
-                    "filename": "essential/magento/module-config/m22-magento-config-load-order.patch",
-                    "version-constraint": "~101.0.0,<=101.0.4"
-                },
-                {
-                    "description": "Fix not save defualt config for website scope",
-                    "filename": "essential/magento/module-config/m23-magento-config-save-default-config-for-website.patch",
-                    "version-constraint": ">=101.1.3,<=101.1.5"
-                },
-                {
-                    "description": "Fix module template to use valid (CSS3) selector for handling list items actions",
-                    "filename": "essential/magento/module-config/m241-config-array-selector.patch",
-                    "version-constraint": "101.2.1"
                 }
             ],
             "smile/elasticsuite": [
@@ -1303,79 +685,14 @@
                     "version-constraint": "*"
                 },
                 {
-                    "description": "Adjust filter range",
-                    "filename": "essential/smile/elasticsuite/m23-smile-adjust-filter-range.patch",
-                    "version-constraint": ">=2.6.0,<2.8.16 || >2.8.16,<2.9.10,<2.10.9"
-                },
-                {
-                    "description": "Adjust filter range for 2.8.18 tag",
-                    "filename": "essential/smile/elasticsuite/m23-smile-adjust-filter-range-2-8-16.patch",
-                    "version-constraint": "2.8.16,>=2.9.10 || <2.11.0"
-                },
-                {
-                    "description": "Fix to not reindex whole category if manual sort of products has not change",
-                    "filename": "essential/smile/elasticsuite/m232-elasticsuite-save-category-fix.patch",
-                    "version-constraint": "2.8.*"
-                },
-                {
-                    "description": "Fix segfault error introduced with sorting issue fix (commit 47a0ad6)",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-sorting-update-segfault-fix.patch",
-                    "version-constraint": ">=2.8.7,<2.8.8"
-                },
-                {
                     "description": "Filter by price doesn't work properly on store view (KRG-857)",
                     "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-regex-on-filter-by-price.patch",
                     "version-constraint": ">=2.8.5"
                 },
                 {
-                    "description": "Fix for 404 after changing products per page settings in pager on last page",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-last-page-404-after-changing-per-page.patch",
-                    "version-constraint": "2.9.1"
-                },
-                {
-                    "description": "Fix pageSize issue introduced in 2.9.2",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-292-page-size-issue.patch",
-                    "version-constraint": "2.9.2"
-                },
-                {
-                    "description": "Fix pageSize issue introduced in 2.8.9",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-289-page-size-issue.patch",
-                    "version-constraint": "2.8.9"
-                },
-                {
-                    "description": "Fix notice in swatches block",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-notice-in-swatches.patch",
-                    "version-constraint": "<=2.9.4"
-                },
-                {
-                    "description": "Fix wrong category instance in layered navigation",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-wrong-category-instance.patch",
-                    "version-constraint": ">2.8.3,<2.10.16"
-                },
-                {
-                    "description": "Fix wrong category instance in layered navigation",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-wrong-category-instance-2.10.16.patch",
-                    "version-constraint": ">=2.10.16,<2.10.24,<=2.11.5.1"
-                },
-                {
-                    "description": "Fix wrong category instance in layered navigation",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-wrong-category-instance-2.10.24.patch",
-                    "version-constraint": ">=2.10.24,<=2.11.5.1"
-                },
-                {
-                    "description": "Fix wrong category instance in layered navigation",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-wrong-category-instance-2.11.5.patch",
-                    "version-constraint": ">=2.11.5.2, <2.11.10"
-                },
-                {
                     "description": "Fix wrong category instance in layered navigation",
                     "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-wrong-category-instance-2.11.10.patch",
                     "version-constraint": ">=2.11.10 <2.11.21 || >=2.12.0 <2.12.2"
-                },
-                {
-                    "description": "Fix synonyms for multi word quieries",
-                    "filename": "essential/smile/elasticsuite/smile-elasticsuite-fix-synonyms-for-multi-words-queries.patch",
-                    "version-constraint": ">2.10.0,<2.10.7"
                 },
                 {
                     "description": "Search indexing, delete products directly before inserting new data into index",
@@ -1388,64 +705,14 @@
                     "version-constraint": ">2.8.3"
                 },
                 {
-                    "description": "Fix for scenario with failing tests when servername is not set",
-                    "filename": "essential/smile/elasticsuite/es-fix-for-empty-servername.patch",
-                    "version-constraint": ">=2.10.9,<2.10.10"
-                },
-                {
-                    "description": "Fix for scenario with failing tests when servername is not set for magento 2.3.7",
-                    "filename": "essential/smile/elasticsuite/es-fix-for-empty-servername-for-m237.patch",
-                    "version-constraint": ">=2.9.10.1,<2.10"
-                },
-                {
-                    "description": "Improves performance of virtual category query generation.",
-                    "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v2.9.x.patch",
-                    "version-constraint": ">=2.9.0,<2.10.0"
-                },
-                {
-                    "description": "Improves performance of virtual category query generation.",
-                    "filename": "essential/smile/elasticsuite/improve-virtual-category-query-generation-performance-v.2.10.x.patch",
-                    "version-constraint": ">=2.10.0,<2.10.11"
-                },
-                {
                     "description": "Remove rendundant request to ElasticSearch",
                     "filename": "essential/smile/elasticsuite/remove-redundant-request-to-elasticsearch.patch",
                     "version-constraint": ">=2.10.0,<2.11.19"
                 },
                 {
-                    "description": "Prevent null clause query for virtual category",
-                    "filename": "essential/smile/elasticsuite/prevent_null_clause_query.patch",
-                    "version-constraint": "2.11.6"
-                },
-                {
-                    "description": "Fix for manual sorting products on a different stores + Fix virtual category preview",
-                    "filename": "essential/smile/elasticsuite/fix-sorting-for-different-stores-and-virtual-category-preview.patch",
-                    "version-constraint": ">=2.10.20.1,<2.10.22 || >=2.11.6.1,<2.11.8"
-                },
-                {
-                    "description": "Fix virtual category preview",
-                    "filename": "essential/smile/elasticsuite/fix-virtual-category-preview.patch",
-                    "version-constraint": ">=2.10.22, <2.10.23.1 || >=2.11.8,<2.11.9.1"
-                },
-                {
                     "description": "Fix virtual category preview",
                     "filename": "essential/smile/elasticsuite/fix-virtual-category-preview-2.11.9.1.patch",
                     "version-constraint": ">=2.10.23.1, <2.11.0 || >=2.11.9.1"
-                },
-                {
-                    "description": "Fix: [RK-1687] Fix trim() call on null value",
-                    "filename": "essential/smile/elasticsuite/fix-RK-1687-trim-on-null-fix.patch",
-                    "version-constraint": "2.11.9"
-                },
-                {
-                    "description": "Hotfix: Checking version of modules in ES HealthCheck",
-                    "filename": "essential/smile/elasticsuite/smile_elasticsuite_v2_11_11_checking_version.patch",
-                    "version-constraint": "2.11.11"
-                },
-                {
-                    "description": "Remove disabled columns from db_schema.xml",
-                    "filename": "essential/smile/elasticsuite/fix-remove-disabled-columns.patch",
-                    "version-constraint": ">=2.11.10,<2.11.12"
                 },
                 {
                     "description": "Aftersearch nav accessibility improvements",
@@ -1478,13 +745,6 @@
                     "version-constraint": ">=2.12.0.0"
                 }
             ],
-            "smile/module-elasticsuite-cms-search": [
-                {
-                    "description": "Fix setOrder method that contains not imported class name",
-                    "filename": "essential/smile/module-elasticsuite-cms-search/m22-cms-search-set-order.patch",
-                    "version-constraint": "<2.2.3"
-                }
-            ],
             "smile/module-elasticsuite-merchandiser": [
                 {
                     "description": "Fix for invalid subject type in after plugin",
@@ -1499,11 +759,6 @@
             ],
             "smile/module-elasticsuite-recommender": [
                 {
-                    "description": "Fix generation of categories ids for ElasticSearch query in elasticsuite-recommender module",
-                    "filename": "essential/smile/module-elasticsuite-recommender/fix-recommendation-category-ids-generation.patch",
-                    "version-constraint": "<2.10.12"
-                },
-                {
                     "description": "Fix for passing parameters to recommendation widget",
                     "filename": "essential/smile/module-elasticsuite-recommender/fix-parameters-passed-to-render-recommentations-widget.patch",
                     "version-constraint": "*"
@@ -1512,25 +767,6 @@
                     "description": "feat: [TOYS-1255] Add default limit of product recommendations.",
                     "filename": "essential/smile/module-elasticsuite-recommender/add_default_limit_of_product_recommendations.patch",
                     "version-constraint": ">=2.10.0"
-                },
-                {
-                    "description": "Use GET method instead of POST on product page.",
-                    "filename": "essential/smile/module-elasticsuite-recommender/use-get-method-for-ajax-request.patch",
-                    "version-constraint": ">=2.11.0.0, <2.11.6.1"
-                }
-            ],
-            "smile/module-elasticsuite-ab-campaign": [
-                {
-                    "description": "Use GET method instead of POST on product page.",
-                    "filename": "essential/smile/module-elasticsuite-ab-campaign/use-get-method-for-ajax-request.patch",
-                    "version-constraint": ">=2.11.0.0, <2.11.6.1"
-                }
-            ],
-            "smile/module-elasticsuite-virtual-attribute": [
-                {
-                    "description": "Change value field length to be compatible with mysql 8.4 (MGS-5458)",
-                    "filename": "essential/smile/module-elasticsuite-virtual-attribute/change-value-field-length-mysql84.patch",
-                    "version-constraint": ">=2.11.0,<2.12.2"
                 }
             ],
             "magento/module-order-cancellation-ui": [
@@ -1552,21 +788,6 @@
                     "version-constraint": ">=100.4.8,<100.4.9"
                 },
                 {
-                    "description": "Fix stock indexer to correctly reindex stock using materialized views (Magento 2.2.0-2.2.4)",
-                    "filename": "essential/magento/module-catalog-inventory/m22-fix-stock-mview-indexing.patch",
-                    "version-constraint": "~100.2.0,<=100.2.3"
-                },
-                {
-                    "description": "Forward port changes that were introduced in 2.2.5, but was not included in Magento 2.3",
-                    "filename": "essential/magento/module-catalog-inventory/fix-stock-inventory-reindex-bug.patch",
-                    "version-constraint": ">100.2.4,<100.2.9 || >100.3.0,<100.3.5"
-                },
-                {
-                    "description": "Wrap cataloginventory indexer with transaction",
-                    "filename": "essential/magento/module-catalog-inventory/wrap-cataloginventory-indexer-with-transaction.patch",
-                    "version-constraint": "<100.4.4"
-                },
-                {
                     "description": "Wrap cataloginventory indexer with transaction Magento 2.4.4+",
                     "filename": "essential/magento/module-catalog-inventory/m244-plus-wrap-cataloginventory-indexer-with-transaction.patch",
                     "version-constraint": ">=100.4.4, <100.4.9"
@@ -1575,16 +796,6 @@
                     "description": "Wrap cataloginventory indexer with transaction Magento 2.4.9",
                     "filename": "essential/magento/module-catalog-inventory/m249-wrap-cataloginventory-indexer-with-transaction.patch",
                     "version-constraint": ">=100.4.9"
-                },
-                {
-                    "description": "ACP2E-134: cache is cleared for the product and categories after an order is placed",
-                    "filename": "essential/magento/module-catalog-inventory/m24-fix-for-clear-product-and-category-cache-after-placing-order.patch",
-                    "version-constraint": "<100.4.6"
-                },
-                {
-                    "description": "Remove second join to inventory table",
-                    "filename": "essential/magento/module-catalog-inventory/remove-second-join-to-inventory-table.patch",
-                    "version-constraint": ">=100.4.7,<100.4.8"
                 },
                 {
                     "description": "Do not refresh low stock date if it's already set",
@@ -1614,41 +825,6 @@
                     "version-constraint": ">=104.0.8,<104.0.9"
                 },
                 {
-                    "description": "Fixes sorting related products in admin panel.",
-                    "filename": "essential/magento/module-catalog/m22-related-products-sorting.patch",
-                    "version-constraint": ">=102.0.0,<102.0.8"
-                },
-                {
-                    "description": "Fix tier price saving issue (M2C-2550)",
-                    "filename": "essential/magento/module-catalog/m22-fix-tier-price-saving-issue.patch",
-                    "version-constraint": ">=102.0.6,<102.0.8"
-                },
-                {
-                    "description": "Prevent from changing attribute type from int when saving in admin (Magento 2.2.4+, fixed in Magento 2.3.1)",
-                    "filename": "essential/magento/module-catalog/m224plus-saving-int-attribute-type.patch",
-                    "version-constraint": ">=102.0.4,<102.0.8 || 103.0.0"
-                },
-                {
-                    "description": "Prevent from changing attribute type from int when saving in admin (2.2.0-2.2.4)",
-                    "filename": "essential/magento/module-catalog/m224minus-saving-int-attribute-type.patch",
-                    "version-constraint": "~102.0.0,<=102.0.3"
-                },
-                {
-                    "description": "Prevent localStorage from getting bigger and bigger (2.2.0-2.2.5)",
-                    "filename": "essential/magento/module-catalog/m225minus-fix-huge-localstorage.patch",
-                    "version-constraint": ">=102.0.0,<=102.0.5"
-                },
-                {
-                    "description": "Prevent localStorage from getting bigger and bigger (2.2.6-2.2.7)",
-                    "filename": "essential/magento/module-catalog/m226plus-fix-huge-localstorage.patch",
-                    "version-constraint": ">=102.0.6,<=102.0.7"
-                },
-                {
-                    "description": "Category image deletes after initial upload and category save v2.3.3",
-                    "filename": "essential/magento/module-catalog/m233-fix-category-image-missing-after-save.patch",
-                    "version-constraint": "103.0.3"
-                },
-                {
                     "description": "Category image deletes after initial upload and category save v2.3.5",
                     "filename": "essential/magento/module-catalog/m235-fix-category-image-missing-after-save.patch",
                     "version-constraint": ">=103.0.5"
@@ -1659,19 +835,9 @@
                     "version-constraint": ">103.0.0"
                 },
                 {
-                    "description": "Wrap price indexer with transaction",
-                    "filename": "essential/magento/module-catalog/m242-wrap-price-indexer-with-transaction.patch",
-                    "version-constraint": ">=104.0.2, <104.0.6"
-                },
-                {
                     "description": "Remove category tag from top menu",
                     "filename": "essential/magento/module-catalog/m24-remove-category-tag-from-topmenu.patch",
                     "version-constraint": ">=103.0.7"
-                },
-                {
-                    "description": "Fix tier prices-related JS issue (reference to not exsisting propery) in price-box",
-                    "filename": "essential/magento/module-catalog/m243-fix-prices-config-data.patch",
-                    "version-constraint": ">=104.0.3, <104.0.4"
                 },
                 {
                     "description": "Fixes price-box issues, related to priceConfig and tier prices calculations",
@@ -1697,21 +863,6 @@
                     "description": "Disable forced translator reload [TOYS-1287]",
                     "filename": "essential/magento/module-catalog/disable_forced_translator_reload.patch",
                     "version-constraint": ">=104.0.5"
-                },
-                {
-                    "description": "Fix the way of retrieving subcategories for the admin category tree",
-                    "filename": "essential/magento/module-catalog/m247-fix-redis-issues-for-admin-category-tree.patch",
-                    "version-constraint": ">=104.0.7,<104.0.8"
-                },
-                {
-                    "description": "ACSD-54972: Canonical category URL doesn’t update after changing category URL",
-                    "filename": "essential/magento/module-catalog/ACSD-54972_2.4.6-p2.patch",
-                    "version-constraint": ">=104.0.2,<104.0.7"
-                },
-                {
-                    "description": "Fix disabled categories not grayed out (2.4.7-p3)",
-                    "filename": "essential/magento/module-catalog/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
-                    "version-constraint": ">=104.0.7-p2,<104.0.8"
                 },
                 {
                     "description": "Accessibility - adds role attr to swatches container",
@@ -1741,34 +892,9 @@
             ],
             "magento/module-catalog-search": [
                 {
-                    "description": "Remove deletion of products in partial indexing, Magento 2.4.0-2.4.1",
-                    "filename": "essential/magento/module-catalog-search/m24plus-remove-deletion-of-products-in-partial-indexing.patch",
-                    "version-constraint": ">=102.0.0,<102.0.2"
-                },
-                {
-                    "description": "Remove deletion of products in partial indexing, Magento 2.4.2",
-                    "filename": "essential/magento/module-catalog-search/m242-remove-deletion-of-products-in-partial-indexing.patch",
-                    "version-constraint": ">=102.0.2,<102.0.3"
-                },
-                {
-                    "description": "Remove deletion of products in partial indexing, Magento >= 2.4.3",
-                    "filename": "essential/magento/module-catalog-search/m243plus-remove-deletion-of-products-in-partial-indexing.patch",
-                    "version-constraint": ">=102.0.3,<102.0.7"
-                },
-                {
                     "description": "Remove deletion of products in partial indexing, Magento >= 2.4.7",
                     "filename": "essential/magento/module-catalog-search/m247plus-remove-deletion-of-products-in-partial-indexing.patch",
                     "version-constraint": ">=102.0.7"
-                },
-                {
-                    "description": "Disable reindex of elasticsearch inside category_products indexer",
-                    "filename": "essential/magento/module-catalog-search/disable-elasticsearch-reindex-in-category-product-indexer.patch",
-                    "version-constraint": ">=101.0.5,<102.0.6"
-                },
-                {
-                    "description": "Clear product cache after reindex",
-                    "filename": "essential/magento/module-catalog-search/clear-product-cache-after-reindex.patch",
-                    "version-constraint": ">=102.0.5,<102.0.8"
                 }
             ],
             "magento/module-inventory-catalog-rule": [
@@ -1779,11 +905,6 @@
                 }
             ],
             "magento/module-inventory-catalog-search": [
-                {
-                    "description": "Disable forced catalog search reindex",
-                    "filename": "essential/magento/module-inventory-catalog-search/disable-forced-catalog-search-reindex.patch",
-                    "version-constraint": ">=1.2.3,<1.2.5"
-                },
                 {
                     "description": "Disable forced catalog search reindex, Magento >=2.4.7",
                     "filename": "essential/magento/module-inventory-catalog-search/m247-plus-disable-forced-catalog-search-reindex.patch",
@@ -1826,29 +947,9 @@
                     "version-constraint": ">=100.4.9"
                 },
                 {
-                    "description": "Fixes undefined string being displayed when shipping method has no title.",
-                    "filename": "essential/magento/module-checkout/m22-shipping-method-undefined-title.patch",
-                    "version-constraint": "<=100.0.6"
-                },
-                {
                     "description": "Fixes undefined string being displayed when shipping method has no title - patch version for >=2.3.5",
                     "filename": "essential/magento/module-checkout/m235plus-shipping-method-undefined-title.patch",
                     "version-constraint": ">=100.3.5"
-                },
-                {
-                    "description": "Add autocomplete to checkout inputs - xml config",
-                    "filename": "essential/magento/module-checkout/autocomplete-checkout-inputs-xml.patch",
-                    "version-constraint": ">=100.3.2,<100.4.0"
-                },
-                {
-                    "description": "M2.4.3-p1: add autocomplete to Checkout/Cart inputs - xml config",
-                    "filename": "essential/magento/module-checkout/m243-autocomplete-checkout.patch",
-                    "version-constraint": ">=100.4.3-p1,<100.4.4"
-                },
-                {
-                    "description": "M2.4.4: add autocomplete to Checkout/Cart inputs - xml config",
-                    "filename": "essential/magento/module-checkout/m244-autocomplete-checkout.patch",
-                    "version-constraint": ">=100.4.4,<100.4.8"
                 },
                 {
                     "description": "M2.4.8: add autocomplete to Checkout/Cart inputs - xml config",
@@ -1861,74 +962,14 @@
                     "version-constraint": ">=100.4.8"
                 },
                 {
-                    "description": "Fix to prevent throwing exception with missing customerId after placing order",
-                    "filename": "essential/magento/module-checkout/m232-checkout-customer-id-exception.patch",
-                    "version-constraint": ">=100.3.2,<100.3.4"
-                },
-                {
-                    "description": "Fix incorrect store ID check which reloads customer data all the time.",
-                    "filename": "essential/magento/module-checkout/m232-store-id-check-fix.patch",
-                    "version-constraint": "100.3.2"
-                },
-                {
-                    "description": "Fix empty error message for network connection failure.",
-                    "filename": "essential/magento/module-checkout/m232-empty-network-falure-error-fix.patch",
-                    "version-constraint": "100.3.2"
-                },
-                {
-                    "description": "Fix incorrect store ID check which reloads customer data all the time.",
-                    "filename": "essential/magento/module-checkout/m233-store-id-check-fix.patch",
-                    "version-constraint": "100.3.3"
-                },
-                {
-                    "description": "Fix incorrect customer name prefix data (gender select)",
-                    "filename": "essential/magento/module-checkout/m242-fix-prefix-array-element-index.patch",
-                    "version-constraint": ">=100.4.2, <100.4.6"
-                },
-                {
                     "description": "Replace jquery-ui fade effect with jquery fadeIn/fadeOut",
                     "filename": "essential/magento/module-checkout/replace-jquery-ui-fade.patch",
                     "version-constraint": ">=100.4.2"
                 },
                 {
                     "description": "Fix checkout break when there is free gift promo",
-                    "filename": "essential/magento/module-checkout/m228_m229-fix-free-gift-promo-checkout-break.patch",
-                    "version-constraint": "100.2.8,100.2.9"
-                },
-                {
-                    "description": "Fix checkout break when there is free gift promo",
-                    "filename": "essential/magento/module-checkout/m2210_m2211-fix-free-gift-promo-checkout-break.patch",
-                    "version-constraint": "100.2.10,100.2.11"
-                },
-                {
-                    "description": "Fix checkout break when there is free gift promo",
-                    "filename": "essential/magento/module-checkout/m231-fix-free-gift-promo-checkout-break.patch",
-                    "version-constraint": "100.3.1"
-                },
-                {
-                    "description": "Fix checkout break when there is free gift promo",
-                    "filename": "essential/magento/module-checkout/m232-fix-free-gift-promo-checkout-break.patch",
-                    "version-constraint": "100.3.2,100.3.2-p2"
-                },
-                {
-                    "description": "Fix checkout break when there is free gift promo",
-                    "filename": "essential/magento/module-checkout/m233-fix-free-gift-promo-checkout-break.patch",
-                    "version-constraint": "100.3.3,100.3.3-p1"
-                },
-                {
-                    "description": "Fix checkout break when there is free gift promo",
-                    "filename": "essential/magento/module-checkout/m234_m241-fix-free-gift-promo-checkout-break.patch",
-                    "version-constraint": ">=100.3.4,<=100.3.6-p1 || >=100.4.0,<=100.4.1"
-                },
-                {
-                    "description": "Fix checkout break when there is free gift promo",
                     "filename": "essential/magento/module-checkout/m237_m242-fix-free-gift-promo-checkout-break.patch",
                     "version-constraint": "100.3.7 || >=100.4.1-p1"
-                },
-                {
-                    "description": "Do not send billing address if form is invalid",
-                    "filename": "essential/magento/module-checkout/m243-do-not-send-billing-address-if-invalid.patch",
-                    "version-constraint": ">=100.4.3, <100.4.6"
                 },
                 {
                     "description": "Do not send billing address if form is invalid",
@@ -1944,16 +985,6 @@
                     "description": "Adds domReady! dependency to Magento_Checkout/js/model/url-builder, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/magento/module-checkout/m246-url-builder-with-domReady.patch",
                     "version-constraint": ">=100.4.6"
-                },
-                {
-                    "description": "Remove unwanted force call to update unvalidated billing-address",
-                    "filename": "essential/magento/module-checkout/m246-fix-billing-address-validation.patch",
-                    "version-constraint": ">=100.4.6,<100.4.8"
-                },
-                {
-                    "description": "Set shipping service loader to false after validate fields",
-                    "filename": "essential/magento/module-checkout/m247-shipping-rates-validator.patch",
-                    "version-constraint": ">=100.4.7,<100.4.8"
                 },
                 {
                     "description": "Fix issue with email validation with login step and pick in store method.",
@@ -1979,64 +1010,15 @@
             "magento/module-checkout-agreements": [
                 {
                     "description": "Allow to use HTML in checkboxText in Terms and Conditions",
-                    "filename": "essential/magento/module-checkout-agreements/m23-allow-to-use-html-in-toc.patch",
-                    "version-constraint": ">=100.3.1,<100.4.7"
-                },
-                {
-                    "description": "Allow to use HTML in checkboxText in Terms and Conditions",
                     "filename": "essential/magento/module-checkout-agreements/m248-allow-to-use-html-in-toc.patch",
                     "version-constraint": ">=100.4.7"
-                },
-                {
-                    "description": "Remove checking agreements when customer is not placing order",
-                    "filename": "essential/magento/module-checkout-agreements/m24-remove-agreements-check-when-not-placing-order.patch",
-                    "version-constraint": "100.4.1"
-                }
-            ],
-            "magento/module-catalog-url-rewrite": [
-                {
-                    "description": "Fixes store switcher (only magento 2.2.5)",
-                    "filename": "essential/magento/module-catalog-url-rewrite/m22-fix-language-switcher.patch",
-                    "version-constraint": "100.2.4"
-                },
-                {
-                    "description": "Fixed Unable to apply data patch issue after upgrade in Magento >= 2.4.0 and < 2.4.3",
-                    "filename": "essential/magento/module-catalog-url-rewrite/m242-fix-catalog-url-rewrite-data-patch.patch",
-                    "version-constraint": ">=100.4.0,<100.4.3"
                 }
             ],
             "magento/module-catalog-import-export": [
                 {
-                    "description": "Fixes missing url_key after product import",
-                    "filename": "essential/magento/module-catalog-import-export/m22-fix-missing-url-key-after-import.patch",
-                    "version-constraint": ">=100.2.0,<100.2.8"
-                },
-                {
-                    "description": "Fixes performance issue caused by generate file hash",
-                    "filename": "essential/magento/module-catalog-import-export/m24-fix-performance-hash-issue.patch",
-                    "version-constraint": ">=101.1.2,<101.1.4"
-                },
-                {
-                    "description": "Fixes performance issue caused by generate file hash - version 2.4.5 +",
-                    "filename": "essential/magento/module-catalog-import-export/m245-fix-performance-hash-issue.patch",
-                    "version-constraint": ">=101.1.5, <101.1.6"
-                },
-                {
-                    "description": "Fix for apply_to error when importing products",
-                    "filename": "essential/magento/module-catalog-import-export/fix-for-apply-to-error.patch",
-                    "version-constraint": ">=101.1.7-p3, <101.1.8"
-                },
-                {
                     "description": "Prevent AbstractType destructor from clearing static attribute caches mid-import, magento/magento2#39585 (RKL-1130); fixed upstream in 101.1.9 (Magento 2.4.9)",
                     "filename": "essential/magento/module-catalog-import-export/prevent-destructor-from-clearing-static-attribute-caches.patch",
                     "version-constraint": ">=101.1.8, <101.1.9"
-                }
-            ],
-            "magento/module-offline-shipping": [
-                {
-                    "description": "Fix issue with negative package amounnt",
-                    "filename": "essential/magento/module-offline-shipping/fix-issue-with-negative-package-amount.patch",
-                    "version-constraint": ">=100.4.2,<100.4.3"
                 }
             ],
             "magento/module-review": [
@@ -2049,16 +1031,6 @@
                     "description": "Security patch 248p5-2026-08-001 (Magento 2.4.8-p5), APSB26-92: strip review_id from admin product review save request data to prevent overwriting an arbitrary review",
                     "filename": "essential/magento/module-review/248p5-2026-08-001-CE.patch",
                     "version-constraint": ">=100.4.8,<100.4.9"
-                },
-                {
-                    "description": "Fix ajax endpoint for review by a redirect to 404 instead of a thrown exception",
-                    "filename": "essential/magento/module-review/m22-fix-review-ajax-for-disable-products.patch",
-                    "version-constraint": "~100.2.0,<=100.2.6"
-                },
-                {
-                    "description": "Fix category no such entity with id",
-                    "filename": "essential/magento/module-review/m22-magento-reviews-category-no-such-entity.patch",
-                    "version-constraint": "100.2.*"
                 },
                 {
                     "description": "Forcing int value for Block/Form::getProductId() return (IPET-2176)",
@@ -2093,45 +1065,15 @@
             "aheadworks/module-automatic-related-products": [
                 {
                     "description": "Fix for duplicated products in collection query that are crashing loading process.",
-                    "filename": "essential/aheadworks/module-automatic-related-products/add_group_by_sku_at_product_collection.patch",
-                    "version-constraint": ">=2.2.0,<2.5.0"
-                },
-                {
-                    "description": "Fix for duplicated products in collection query that are crashing loading process.",
                     "filename": "essential/aheadworks/module-automatic-related-products/add_group_by_sku_at_product_collection_v2.5.2.patch",
                     "version-constraint": ">=2.5.0"
                 }
             ],
             "aheadworks/module-blog": [
                 {
-                    "description": "Fix for cleaning cache for all products after update and reindex blog posts",
-                    "filename": "essential/aheadworks/module-blog/aheadworks-module-blog-fix-cleaning-products-cache.patch",
-                    "version-constraint": ">=2.5.0,<=2.7.0"
-                },
-                {
-                    "description": "Fixes saving incorect End Date for post",
-                    "filename": "essential/aheadworks/module-blog/fix-blog-post-end-date.patch",
-                    "version-constraint": ">=2.13.0,<=2.13.3"
-                },
-                {
-                    "description": "Fix for relations issue in table aw_blog_product_post (HAAR-3241)",
-                    "filename": "essential/aheadworks/module-blog/fix-relations-in-product-post-index.2.13.1.patch",
-                    "version-constraint": "2.13.1"
-                },
-                {
-                    "description": "Fix for relations issue in table aw_blog_product_post (IPET-1485)",
-                    "filename": "essential/aheadworks/module-blog/fix-relations-in-product-post-index.patch",
-                    "version-constraint": ">=2.13.2,<=2.19.0"
-                },
-                {
                     "description": "Add missing jquery ui widget dependency (IPET-2196)",
                     "filename": "essential/aheadworks/module-blog/aw-blog-add-jquery-ui-widget-dependencies.patch",
                     "version-constraint": ">=2.13.0"
-                },
-                {
-                    "description": "Skip invalidate whole aw_blog_product_post index after saving blog post (IPET-2491)",
-                    "filename": "essential/aheadworks/module-blog/fix-index-invalidation-after-save-blog-post.patch",
-                    "version-constraint": ">=2.14.0,<=2.21.1"
                 },
                 {
                     "description": "Removed logic that sends empty tags when deferred cache is enabled (IPET-2506)",
@@ -2153,52 +1095,12 @@
             ],
             "aheadworks/module-faq": [
                 {
-                    "description": "Fixes bug FAQ Article with id \"\" does not exist Exception",
-                    "filename": "essential/aheadworks/module-faq/m22-aheadworks-module-faq-fix-empty-article-id.patch",
-                    "version-constraint": "<1.8.0"
-                },
-                {
-                    "description": "Fixes Call to a member function addCrumb() on boolean Exception",
-                    "filename": "essential/aheadworks/module-faq/m22-aheadworks-module-faq-fix-call-to-a-addCrumb-function-on-boolean.patch",
-                    "version-constraint": "1.0.3"
-                },
-                {
-                    "description": "Compatibility with PHP 8.1",
-                    "filename": "essential/aheadworks/module-faq/m245plus-compatibility-with-php-8-1.patch",
-                    "version-constraint": "<1.8.0"
-                },
-                {
-                    "description": "Compatibility with PHP 8.4",
-                    "filename": "essential/aheadworks/module-faq/m248-php84-compatibility.patch",
-                    "version-constraint": "<1.8.0"
-                },
-                {
-                    "description": "Compatibility with PHP 8.2",
-                    "filename": "essential/aheadworks/module-faq/add-missing-variable-declaration-php82.patch",
-                    "version-constraint": "<1.8.0"
-                },
-                {
-                    "description": "Fix non-canonical integer cast in Collection",
-                    "filename": "essential/aheadworks/module-faq/fix-collection-non-canonical-integer-cast.patch",
-                    "version-constraint": ">=1.0.0,<1.8.1"
-                },
-                {
                     "description": "Fix using null as an array offset",
                     "filename": "essential/aheadworks/module-faq/fix-using-null-as-an-array-offset.patch",
                     "version-constraint": ">=1.8.0"
                 }
             ],
             "aheadworks/module-giftcard": [
-                {
-                    "description": "Fix giftcard duplication after cart merge. HAAR-2106 Gift card activation 2 times",
-                    "filename": "essential/aheadworks/module-giftcard/aheadworks-module-giftcard-fix-giftcards-duplication.patch",
-                    "version-constraint": ">=1.2.9,<1.4.7"
-                },
-                {
-                    "description": "Fix non existing logger class",
-                    "filename": "essential/aheadworks/module-giftcard/non-existing-class-fix.patch",
-                    "version-constraint": ">=1.2.9,<1.4.7"
-                },
                 {
                     "description": "Add missing mage validation and jquery ui widget dependencies (RK-1047)",
                     "filename": "essential/aheadworks/module-giftcard/aw_giftcard_missing_jquery_ui_widget_and_mage_validation_dependencies_fix.patch",
@@ -2210,11 +1112,6 @@
                     "version-constraint": ">=1.8.0"
                 },
                 {
-                    "description": "Makes validate functions to return bool instead of self as it is in the validate function in their parent classes (RK-1195)",
-                    "filename": "essential/aheadworks/module-giftcard/make-validate-return-bool-instead-of-object.patch",
-                    "version-constraint": ">=1.7.0, <1.8.0"
-                },
-                {
                     "description": "Fix zero subtotal checkout (RK-1192)",
                     "filename": "essential/aheadworks/module-giftcard/fix-zero-subtotal-checkout.patch",
                     "version-constraint": ">=1.8.1"
@@ -2223,21 +1120,6 @@
                     "description": "fix: [RK-1479] Invoice for giftcard order cannot be created",
                     "filename": "essential/aheadworks/module-giftcard/typecast-null-to-string-when-applying-gc-to-shipping-costs.patch",
                     "version-constraint": ">=1.8.1"
-                },
-                {
-                    "description": "fix: [HAAR-4253] Invoice repository plugin wrong return type fix",
-                    "filename": "essential/aheadworks/module-giftcard/invoice-repository-plugin-return-type-error-fix.patch",
-                    "version-constraint": "1.8.1"
-                },
-                {
-                    "description": "fix: [HAAR-3907] Email templates for storeviews are removed when giftcard save on non All store view scope",
-                    "filename": "essential/aheadworks/module-giftcard/fix-giftcard-email-templates-removal-after-save.patch",
-                    "version-constraint": "1.8.1"
-                },
-                {
-                    "description": "fix: [HAAR-4597] Fix critical error logged on Giftcard Codes Grid when giftcard was bought by guest or without assigned email (customer not found error).",
-                    "filename": "essential/aheadworks/module-giftcard/fix-critical-error-when-giftcard-customer-not-found.patch",
-                    "version-constraint": "1.8.1"
                 },
                 {
                     "description": "fix: Mismatch of order item id.",
@@ -2271,11 +1153,6 @@
             ],
             "aheadworks/module-raf": [
                 {
-                    "description": "Fix error: Call to a member function getCumulativeAmount() on null (provided by aheadworks)",
-                    "filename": "essential/aheadworks/module-raf/fix-template-variables.patch",
-                    "version-constraint": ">=1.4.3,<1.4.5"
-                },
-                {
                     "description": "Fix error: abs(): Passing null to parameter",
                     "filename": "essential/aheadworks/module-raf/fix-abs-null-exception-P2G-2654.patch",
                     "version-constraint": ">=1.4.3"
@@ -2293,24 +1170,9 @@
             ],
             "aheadworks/module-reward-points": [
                 {
-                    "description": "Fix reward points amount calculation for bundle products",
-                    "filename": "essential/aheadworks/module-reward-points/aheadworks-fix-reward-points-amount-for-bundles.patch",
-                    "version-constraint": "1.8.0"
-                },
-                {
-                    "description": "Fix reward points. Add parsing phrase to string so strlen() could work",
-                    "filename": "essential/aheadworks/module-reward-points/description_string_parsing.patch",
-                    "version-constraint": "2.2.0"
-                },
-                {
                     "description": "Fixed reward points are higher on the invoice than on the order",
                     "filename": "essential/aheadworks/module-reward-points/fix-invoice-reward-poits-greater-than-order-reward-points.patch",
                     "version-constraint": "2.1.0"
-                },
-                {
-                    "description": "Fixed reward points are higher on the invoice than on the order",
-                    "filename": "essential/aheadworks/module-reward-points/fix-invoice-reward-poits-greater-than-order-reward-points-v222.patch",
-                    "version-constraint": "2.2.2"
                 },
                 {
                     "description": "Add missing jquery ui widget dependency (P2G-2285)",
@@ -2328,11 +1190,6 @@
                     "version-constraint": ">=2.4.1"
                 },
                 {
-                    "description": "Add translations in checkout (HTML)",
-                    "filename": "essential/aheadworks/module-reward-points/checkout_translations_html.patch",
-                    "version-constraint": ">=2.4.1,<2.5.1"
-                },
-                {
                     "description": "Fix PayPal Braintree plugin namespace case",
                     "filename": "essential/aheadworks/module-reward-points/fix-paypal-plugin-namespace-case.patch",
                     "version-constraint": "2.6.4"
@@ -2343,11 +1200,6 @@
                     "version-constraint": ">=2.5.0"
                 },
                 {
-                    "description": "Translate reward points removal message",
-                    "filename": "essential/aheadworks/module-reward-points/fix-translate-remove-reward-points.patch",
-                    "version-constraint": ">=2.5.0,<2.6.0"
-                },
-                {
                     "description": "Translate reward points removal message (2.6.x)",
                     "filename": "essential/aheadworks/module-reward-points/fix-translate-remove-reward-points-v263.patch",
                     "version-constraint": ">=2.6.0"
@@ -2355,19 +1207,9 @@
             ],
             "aheadworks/module-customer-group-catalog-permissions": [
                 {
-                    "description": "Fix for breaking collection of products when module is disabled",
-                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/aheadworks-fix-product-collection-when-module-disabled.patch",
-                    "version-constraint": ">=1.0.4,<1.0.7"
-                },
-                {
                     "description": "Fix for private const in the Title block",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/aheadworks-fix-private-const-xml-path-header-translate-title.patch",
                     "version-constraint": ">=1.0.6"
-                },
-                {
-                    "description": "Fix for breaking search when module is enabled and products without categoires do not have permissions configured",
-                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-permissions-for-products-without-categories.patch",
-                    "version-constraint": ">=1.0.8,<1.0.12"
                 },
                 {
                     "description": "Fix an error that shows up after saving and closing CMS page edit.",
@@ -2375,33 +1217,9 @@
                     "version-constraint": ">=1.0.8"
                 },
                 {
-                    "description": "Avoid loading category if category id is empty",
-                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/avoid-loading-empty-id-and-optimize-loading.patch",
-                    "version-constraint": ">=1.0.12"
-                },
-                {
                     "description": "Remove foreign keys for indices",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/remove-foreign-keys-indexer-table.patch",
                     "version-constraint": ">=1.5.0"
-                }
-            ],
-            "aheadworks/module-requisition-lists": [
-                {
-                    "description": "Fix wrong template generated for bundle products price column",
-                    "filename": "essential/aheadworks/module-requisition-lists/aheadworks-requisition-list-fix-for-bundle-products-price-template-renderer.patch",
-                    "version-constraint": "<1.4.0"
-                }
-            ],
-            "aheadworks/module-afptc": [
-                {
-                    "description": "Fix [SCAFA-1232] Division by 0 fix",
-                    "filename": "essential/aheadworks/module-afptc/SCAFA-1232-division-by-zero-fix.patch",
-                    "version-constraint": ">=1.11.2,<1.12.0"
-                },
-                {
-                    "description": "Fix [SCAFA-1167] Too many free gifts",
-                    "filename": "essential/aheadworks/module-afptc/fix-reset-qty-of-free-gifts-upon-qty-reduction.patch",
-                    "version-constraint": ">=1.21.1"
                 }
             ],
             "customweb/module-computopcw": [
@@ -2423,16 +1241,6 @@
                     "version-constraint": ">=101.2.8,<101.2.9"
                 },
                 {
-                    "description": "Don't try removing items from quote if it's empty (magento 2.2.2-2.2.4)",
-                    "filename": "essential/magento/module-quote/m22-dont-remove-empty-quote-items.patch",
-                    "version-constraint": "~101.0.2,<=101.0.4"
-                },
-                {
-                    "description": "Fixes quote infinity loop when using MSP/CashOnDelivery module",
-                    "filename": "essential/magento/module-quote/m21plus-quote-infinity-loop.patch",
-                    "version-constraint": "101.1.*"
-                },
-                {
                     "description": "Fixes free shipping cart rule bug.",
                     "filename": "essential/magento/module-quote/m23plus-fix-free-shipping-cart-rule.patch",
                     "version-constraint": ">=101.0.0"
@@ -2444,33 +1252,8 @@
                 },
                 {
                     "description": "Fix invalid address in the checkout",
-                    "filename": "essential/magento/module-quote/m24-fix-invalid-address-in-the-checkout.patch",
-                    "version-constraint": ">=101.2.3, <101.2.5-p3"
-                },
-                {
-                    "description": "Fix invalid address in the checkout",
-                    "filename": "essential/magento/module-quote/m245-p3-fix-invalid-address-in-the-checkout.patch",
-                    "version-constraint": ">=101.2.5-p3, <101.2.5-p8"
-                },
-                {
-                    "description": "Fix invalid address in the checkout",
-                    "filename": "essential/magento/module-quote/m245-p8-fix-invalid-address-in-the-checkout.patch",
-                    "version-constraint": ">=101.2.5-p8, <101.2.6"
-                },
-                {
-                    "description": "Fix invalid address in the checkout",
                     "filename": "essential/magento/module-quote/m249-fix-invalid-address-in-the-checkout.patch",
                     "version-constraint": ">=101.2.9"
-                },
-                {
-                    "description": "Fix for customer group id in order when guest",
-                    "filename": "essential/magento/module-quote/m245-fix_for_customer_group_id_in_order_data_when_guest.patch",
-                    "version-constraint": ">=101.2.5, <101.2.6"
-                },
-                {
-                    "description": "Fix error redirect action for virtual products",
-                    "filename": "essential/magento/module-quote/fix-error-redirect-action.patch",
-                    "version-constraint": ">=101.2.7,<101.2.8"
                 },
                 {
                     "description": "Fix error redirect action for virtual products",
@@ -2478,46 +1261,9 @@
                     "version-constraint": ">=101.2.8"
                 },
                 {
-                    "description": "Patch for APSB25-08",
-                    "filename": "essential/magento/module-quote/vuln-28982-2-4-7x-v2-composer.patch",
-                    "version-constraint": ">=101.2.7,<101.2.7-p4"
-                },
-                {
-                    "description": "Patch for APSB25-08 2.4.6",
-                    "filename": "essential/magento/module-quote/vuln-28982-2-4-6x-v2-composer.patch",
-                    "version-constraint": ">=101.2.6,<101.2.6-p9"
-                },
-                {
-                    "description": "Patch for APSB25-08 2.4.5",
-                    "filename": "essential/magento/module-quote/vuln-28982-2-4-5x-v2-composer.patch",
-                    "version-constraint": ">=101.2.5,<101.2.5-p11"
-                },
-                {
                     "description": "AC-14987::company field validation fails for guest checkout",
                     "filename": "essential/magento/module-quote/fix-for-customer-managment.patch",
                     "version-constraint": ">=101.2.8,<101.2.9"
-                }
-            ],
-            "magento/module-webapi-async": [
-                {
-                    "description": "Patch for APSB25-08",
-                    "filename": "essential/magento/module-webapi-async/vuln-28982-2-4-7x-v2-composer.patch",
-                    "version-constraint": ">=100.4.5,<100.4.5-p4"
-                },
-                {
-                    "description": "Patch for APSB25-08 2.4.6",
-                    "filename": "essential/magento/module-webapi-async/vuln-28982-2-4-6x-v2-composer.patch",
-                    "version-constraint": ">=100.4.4,<100.4.4-p9"
-                },
-                {
-                    "description": "Patch for APSB25-08 2.4.5",
-                    "filename": "essential/magento/module-webapi-async/vuln-28982-2-4-5x-v2-composer.patch",
-                    "version-constraint": ">=100.4.3,<100.4.3-p11"
-                },
-                {
-                    "description": "Increased execution time for all bulk asynchronous web endpoints post APSB25-08 security patch",
-                    "filename": "essential/magento/module-webapi-async/increased-execution-time-for-bulk-asynchronous-web-endpoints.patch",
-                    "version-constraint": "<100.4.3-p13 || >100.4.4, <100.4.4-p11 || >=101.1.5, <101.1.5-p13 || >=101.1.6,<101.1.6-p11 || >=101.1.7,<101.1.7-p6 || >=101.1.8,<101.1.8-p1"
                 }
             ],
             "magento/module-quick-order": [
@@ -2544,16 +1290,6 @@
                     "version-constraint": ">=101.0.7,<101.0.8"
                 },
                 {
-                    "description": "Fix skip invalid rows functionality in import",
-                    "filename": "essential/magento/module-import-export/m22-fix-skip-import-validation-strategy.patch",
-                    "version-constraint": ">=100.2.0,<100.2.8||100.3.0"
-                },
-                {
-                    "description": "Fix skip invalid rows functionality in import in Magento 2.3.1",
-                    "filename": "essential/magento/module-import-export/m231-fix-skip-import-validation-strategy.patch",
-                    "version-constraint": "100.3.1"
-                },
-                {
                     "description": "Fix skip invalid rows functionality in import in Magento 2.3.2+",
                     "filename": "essential/magento/module-import-export/m232-fix-skip-import-validation-strategy.patch",
                     "version-constraint": ">=100.3.2"
@@ -2571,11 +1307,6 @@
                     "version-constraint": "*"
                 },
                 {
-                    "description": "Fix incorrect pragma syntax preventing advanced bundling",
-                    "filename": "essential/plugincompany/contactforms/m22-contact-forms-incorrect-pragma-syntax.patch",
-                    "version-constraint": "<=100.9.0"
-                },
-                {
                     "description": "Fix an error when trying to send form with a file attachment",
                     "filename": "essential/plugincompany/contactforms/m248-fix-error-when-sending-file.patch",
                     "version-constraint": ">=100.17.12"
@@ -2589,13 +1320,6 @@
                     "description": "Do not evaluate visitor-submitted form values as email template source in the submission overview table (template injection)",
                     "filename": "essential/plugincompany/contactforms/do-not-evaluate-submitted-values-as-email-template.patch",
                     "version-constraint": ">=100.17.12"
-                }
-            ],
-            "magento/module-cron": [
-                {
-                    "description": "Fix cron schedule jobs duplication when standalone processes are enabled (2.2.0-2.2.4)",
-                    "filename": "essential/magento/module-cron/m22-cron-duplicates-fix.patch",
-                    "version-constraint": ">=100.2.0,<=100.2.2"
                 }
             ],
             "magento/module-csp": [
@@ -2620,11 +1344,6 @@
                     "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): add the 'Address not found.' translation used by the instant purchase address ownership check",
                     "filename": "essential/magento/module-customer/248p5-2026-09-001-CE.patch",
                     "version-constraint": ">=103.0.8,<103.0.9"
-                },
-                {
-                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): add the 'Address not found.' translation used by the instant purchase address ownership check",
-                    "filename": "essential/magento/module-customer/247p10-2026-09-001-CE.patch",
-                    "version-constraint": ">=103.0.7,<103.0.8"
                 },
                 {
                     "description": "Security patch 249-2026-08-001 (Magento 2.4.9), APSB26-92: fix mass-assignment in account Edit controller by allowlisting customer form attributes before populating from POST data",
@@ -2657,51 +1376,6 @@
                     "version-constraint": ">=103.0.8,<103.0.9"
                 },
                 {
-                    "description": "Fix issue Deleting address on frontend redirects to 404 Page (2.3.0)",
-                    "filename": "essential/magento/module-customer/m230-fix-deleting-address-returns-404-page.patch",
-                    "version-constraint": "102.0.0"
-                },
-                {
-                    "description": "Newsletter subscription is not correctly updated when user is registered on multiple stores (2.2.6-)",
-                    "filename": "essential/magento/module-customer/m226minus-fix-newsletter-subscription-for-multiple-storeviews.patch",
-                    "version-constraint": "<101.0.6"
-                },
-                {
-                    "description": "Drop validation rule that telephone number of the customer in admin panel is always required",
-                    "filename": "essential/magento/module-customer/m227minus-telephone-not-required.patch",
-                    "version-constraint": "<=101.0.7"
-                },
-                {
-                    "description": "Added additional condition in getRegion() method to prevent Magento from throwing error in VatValidator::validate method.",
-                    "filename": "essential/magento/module-customer/m23plus-fix-VatValidator-validate-returns-error-if-region-in-quoteAddress-is-not-set.patch",
-                    "version-constraint": ">=102.0.0,<=102.0.2"
-                },
-                {
-                    "description": "Add autocomplete to user area inputs",
-                    "filename": "essential/magento/module-customer/autocomplete-user-area.patch",
-                    "version-constraint": "102.0.2"
-                },
-                {
-                    "description": "Fix adding autocomplete to user area inputs",
-                    "filename": "essential/magento/module-customer/m233-autocomplete-user-area.patch",
-                    "version-constraint": ">=102.0.3,<102.0.4"
-                },
-                {
-                    "description": "Fix adding autocomplete to user area inputs",
-                    "filename": "essential/magento/module-customer/m235-autocomplete-user-area.patch",
-                    "version-constraint": ">=102.0.4,<102.0.6"
-                },
-                {
-                    "description": "M2.4.3-p1 Fix adding autocomplete to user area inputs",
-                    "filename": "essential/magento/module-customer/m243-autocomplete-user-area.patch",
-                    "version-constraint": ">=103.0.3-p1, <103.0.6"
-                },
-                {
-                    "description": "M2.4.6 Fix adding autocomplete to user area inputs",
-                    "filename": "essential/magento/module-customer/m246-autocomplete-user-area.patch",
-                    "version-constraint": ">=103.0.6,<103.0.8"
-                },
-                {
                     "description": "M2.4.8 Fix adding autocomplete to user area inputs",
                     "filename": "essential/magento/module-customer/m248-autocomplete-user-area.patch",
                     "version-constraint": ">=103.0.8, <103.0.9"
@@ -2712,84 +1386,9 @@
                     "version-constraint": ">=103.0.9"
                 },
                 {
-                    "description": "Fix section config (Magento 2.2.x <= 2.3.2)",
-                    "filename": "essential/magento/module-customer/fix-section-config.patch",
-                    "version-constraint": ">=101.0.2,<=102.0.2"
-                },
-                {
-                    "description": "Fix editing customer address in admin panel (2.3.1-2.3.3)",
-                    "filename": "essential/magento/module-customer/m233minus-magento-customer-fix-admin-country-edit.patch",
-                    "version-constraint": ">=102.0.1,<=102.0.3"
-                },
-                {
-                    "description": "Update URL to VAT number validation service",
-                    "filename": "essential/magento/module-customer/vat-number-validation-service-url-update.patch",
-                    "version-constraint": "<102.0.6"
-                },
-                {
-                    "description": "Fix duplicated footer in transactional emails template (2.3.3)",
-                    "filename": "essential/magento/module-customer/m233-fix-customer-transaction-emails.patch",
-                    "version-constraint": "102.0.3"
-                },
-                {
-                    "description": "Fix duplicated footer in transactional emails template (2.3.4-2.3.5)",
-                    "filename": "essential/magento/module-customer/m234plus-fix-customer-transaction-emails.patch",
-                    "version-constraint": ">=102.0.4,<=102.0.5"
-                },
-                {
-                    "description": "Fixes Date of Birth validation if DOB is enabled in Customer Configuration",
-                    "filename": "essential/magento/module-customer/m235-fix-create-customer-account-with-dob.patch",
-                    "version-constraint": ">=102.0.5,<102.0.6"
-                },
-                {
-                    "description": "Fixes customer export through admin panel",
-                    "filename": "essential/magento/module-customer/fix-customer-export-in-admin-panel.patch",
-                    "version-constraint": ">=102.0.0, <=103.0.1"
-                },
-                {
-                    "description": "Removes doubled prefix from customer address edit area",
-                    "filename": "essential/magento/module-customer/m24-fix-doubled-prefix-in-user-account.patch",
-                    "version-constraint": ">=103.0.0, <=103.0.2"
-                },
-                {
-                    "description": "Fix incorrect customer prefix data (gender select)",
-                    "filename": "essential/magento/module-customer/m242-fix-prefix-options-select.patch",
-                    "version-constraint": ">=103.0.2, <103.0.6"
-                },
-                {
                     "description": "Fix incorrect customer prefix data (gender select)",
                     "filename": "essential/magento/module-customer/m246-fix-prefix-options-select.patch",
                     "version-constraint": ">=103.0.6"
-                },
-                {
-                    "description": "Fix not working translation for customer prefix in options",
-                    "filename": "essential/magento/module-customer/fix-customer-prefix-options-translation.patch",
-                    "version-constraint": ">=102.0.5, <103.0.2"
-                },
-                {
-                    "description": "Prevent create account form button from staying disabled after incorrect data submission",
-                    "filename": "essential/magento/module-customer/prevent-create-account-form-button-from-staying-disabled-after-incorrect-data-submission.patch",
-                    "version-constraint": "103.0.1"
-                },
-                {
-                    "description": "Fix js errors in customer data when component not initialized",
-                    "filename": "essential/magento/module-customer/customer-data-initialization-fix.patch",
-                    "version-constraint": ">=103.0.2,<103.0.4"
-                },
-                {
-                    "description": "Fix js errors in customer data when component not initialized, Magento 2.4.4+",
-                    "filename": "essential/magento/module-customer/m244-plus-customer-data-initialization-fix.patch",
-                    "version-constraint": ">=103.0.4,<103.0.7"
-                },
-                {
-                    "description": "Fix not working translation for customers",
-                    "filename": "essential/magento/module-customer/fix-customer-module-prefix-translation.patch",
-                    "version-constraint": ">=102.0.5, <103.0.6"
-                },
-                {
-                    "description": "Fix Customer`s Custom Attribute (Text Field) with blank value Value",
-                    "filename": "essential/magento/module-customer/fix-customer-custom-attribute-set-blank.patch",
-                    "version-constraint": "103.0.5-p1"
                 },
                 {
                     "description": "Adds domReady! dependency to Magento_Customer/js/model/customer, so window.checkoutConfig is 100% loaded",
@@ -2800,26 +1399,6 @@
                     "description": "Adds domReady! dependency to Magento_Customer/js/model/customer-addresses.js, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/magento/module-customer/customer-addresses-domReady.patch",
                     "version-constraint": ">=103.0.6"
-                },
-                {
-                    "description": "Fix for iconv issue in customer address validation",
-                    "filename": "essential/magento/module-customer/patch-iconv-issue-magento-eb34e347.patch",
-                    "version-constraint": ">=103.0.6,<103.0.7"
-                },
-                {
-                    "description": "Patch for APSB25-08",
-                    "filename": "essential/magento/module-customer/vuln-28982-2-4-7x-v2-composer.patch",
-                    "version-constraint": ">=103.0.7,<103.0.7-p4"
-                },
-                {
-                    "description": "Patch for APSB25-08 2.4.6",
-                    "filename": "essential/magento/module-customer/vuln-28982-2-4-6x-v2-composer.patch",
-                    "version-constraint": ">=103.0.6,<103.0.6-p9"
-                },
-                {
-                    "description": "Patch for APSB25-08 2.4.5",
-                    "filename": "essential/magento/module-customer/vuln-28982-2-4-5x-v2-composer.patch",
-                    "version-constraint": ">=103.0.5,<103.0.5-p11"
                 },
                 {
                     "description": "Allow special characters, ex. dots, commas, slashes, braces and digits in validation fields.",
@@ -2842,45 +1421,16 @@
                     "version-constraint": ">=103.0.6"
                 }
             ],
-            "magento/module-eav": [
-                {
-                    "description": "Fix for iconv issue in customer address validation",
-                    "filename": "essential/magento/module-eav/patch-iconv-issue-magento-eb34e347.patch",
-                    "version-constraint": ">=102.1.6,<102.1.7"
-                }
-            ],
             "magento/module-inventory-indexer": [
-                {
-                    "description": "Wrap inventory indexer (MSI) with transaction",
-                    "filename": "essential/magento/module-inventory-indexer/wrap-inventory-indexer-with-transaction.patch",
-                    "version-constraint": ">=2.0.0,<2.1.2"
-                },
-                {
-                    "description": "Wrap inventory indexer (MSI) with transaction, Magento 2.4.4+",
-                    "filename": "essential/magento/module-inventory-indexer/m244-plus-wrap-inventory-indexer-with-transaction.patch",
-                    "version-constraint": ">=2.1.2,<2.2.2"
-                },
                 {
                     "description": "Wrap inventory indexer (MSI) with transaction, Magento 2.4.7+",
                     "filename": "essential/magento/module-inventory-indexer/m247-plus-wrap-inventory-indexer-with-transaction.patch",
                     "version-constraint": ">=2.2.2, <2.2.4"
                 },
                 {
-                    "description": "Avoid price reindex if saleable status of the product is not changed",
-                    "filename": "essential/magento/module-inventory-indexer/optimize-indexer-for-stock-update.patch",
-                    "version-constraint": "2.2.1"
-                },
-                {
                     "description": "Keep configurable parents in MSI stock index on partial reindex - numeric SKUs as ints in SQL IN() deleted parent rows (sku IN (123) matches 123C), upsert before clean, magento/inventory#3462 (ZJ-836, Magento 2.4.9)",
                     "filename": "essential/magento/module-inventory-indexer/m249-keep-configurable-parents-in-stock-index-on-partial-reindex.patch",
                     "version-constraint": "2.2.4"
-                }
-            ],
-            "magento/module-inventory-cache": [
-                {
-                    "description": "Avoid cleaning all caches in scheduled mode",
-                    "filename": "essential/magento/module-inventory-cache/avoid-cleaning-all-caches-in-scheduled-mode.patch",
-                    "version-constraint": ">=1.2.3, <1.2.4"
                 }
             ],
             "magento/module-inventory-bundle-product-indexer": [
@@ -2897,21 +1447,9 @@
             ],
             "magento/module-inventory-catalog": [
                 {
-                    "description": "[TT-1324] Prevent legacy stock update using itself for product status change",
-                    "filename": "essential/magento/module-inventory-catalog/m245_prevent_legacy_stock_update_using_itself_for_product_status_change.patch",
-                    "version-constraint": ">=1.3.0,<1.3.3"
-                },
-                {
                     "description": "[LOWA-632] Optimize product quantity update thorugh API call",
                     "filename": "essential/magento/module-inventory-catalog/m247-optimize-is-single-source-check.patch",
                     "version-constraint": ">=1.3.2"
-                }
-            ],
-            "magento/module-inventory-configurable-product-indexer": [
-                {
-                    "description": "Wrap inventory configurable product indexer (MSI) with transaction",
-                    "filename": "essential/magento/module-inventory-configurable-product-indexer/wrap-inventory-configurable-indexer-with-transaction.patch",
-                    "version-constraint": ">=1.1.0,<1.2.0"
                 }
             ],
             "magento/module-inventory-grouped-product-indexer": [
@@ -2926,25 +1464,6 @@
                     "version-constraint": ">=1.2.7"
                 }
             ],
-            "magento/module-customer-custom-attributes": [
-                {
-                    "description": "Fix issue with empty customer atrribute page in admin panel",
-                    "filename": "essential/magento/module-customer-custom-attributes/m24-fix-protected-file-extensions-in-customer-custom-attributes.patch",
-                    "version-constraint": ">=100.4.2,<100.4.5"
-                },
-                {
-                    "description": "Fix issue with empty customer atrribute page in admin panel magento 2.4.5",
-                    "filename": "essential/magento/module-customer-custom-attributes/m245-fix-protected-file-extensions-in-customer-custom-attributes.patch",
-                    "version-constraint": ">=100.4.5"
-                }
-            ],
-            "magento/module-inventory-sales-frontend-ui": [
-                {
-                    "description": "Check if product qty is bigger than 0 for Only X left (2.3.0)",
-                    "filename": "essential/magento/module-inventory-sales-frontend-ui/m230-check-product-qty-greater-than-0.patch",
-                    "version-constraint": "1.0.3"
-                }
-            ],
             "magento/module-inventory-source-selection": [
                 {
                     "description": "Set default value for 'items' property to prevent fatal error",
@@ -2953,26 +1472,6 @@
                 }
             ],
             "clever/magento2": [
-                {
-                    "description": "Fix module sequence",
-                    "filename": "essential/clever/magento2/m22-cleverreach-sequence-fix.patch",
-                    "version-constraint": "~2.1.0"
-                },
-                {
-                    "description": "Fix wrong url (remove change https to http)",
-                    "filename": "essential/clever/magento2/m22-cleverreach-url-fix.patch",
-                    "version-constraint": "<3.4.0"
-                },
-                {
-                    "description": "Fix cleverreach initial auth issue (CSRF validation)",
-                    "filename": "essential/clever/magento2/m23-cleverreach-csrf-validation-issue.patch",
-                    "version-constraint": ">=2.2.1,<3.4.0"
-                },
-                {
-                    "description": "Fix the way website param is acquired to solve the error that occurs in tests",
-                    "filename": "essential/clever/magento2/m23-cleverreach-website-param-in-test.patch",
-                    "version-constraint": ">=2.2.1,<3.4.0"
-                },
                 {
                     "description": "Fix customer saved observer to not throw errors on new customer save (ZJ-156)",
                     "filename": "essential/clever/magento2/m24-cleverreach-fix-customer-saved-observer.patch",
@@ -3001,31 +1500,6 @@
                     "version-constraint": ">=104.0.8,<104.0.9"
                 },
                 {
-                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance",
-                    "filename": "essential/magento/module-cms/m22-remove-getimagesize-wysiwyg-media.patch",
-                    "version-constraint": "<=103.0.1"
-                },
-                {
-                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance in Magento 2.3.2",
-                    "filename": "essential/magento/module-cms/m232-remove-getimagesize-wysiwyg-media.patch",
-                    "version-constraint": "103.0.2"
-                },
-                {
-                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.3.3+",
-                    "filename": "essential/magento/module-cms/m233-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
-                    "version-constraint": ">=103.0.3,<103.0.5"
-                },
-                {
-                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.3.5+",
-                    "filename": "essential/magento/module-cms/m235-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
-                    "version-constraint": ">=103.0.5,<104.0.2"
-                },
-                {
-                    "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.4.2+",
-                    "filename": "essential/magento/module-cms/m242-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
-                    "version-constraint": ">=104.0.2,<104.0.3-p1"
-                },
-                {
                     "description": "Remove getimagesize from wysiwyg media listing logic to improve performance, fixed .thumbs folders generation in Magento 2.4.3+",
                     "filename": "essential/magento/module-cms/m243-remove-getimagesize-wysiwyg-media-fix-thumbs-generation.patch",
                     "version-constraint": ">=104.0.3-p1"
@@ -3046,32 +1520,11 @@
                     "version-constraint": ">=104.0.6-p4"
                 }
             ],
-            "magento/module-payment": [
-                {
-                    "description": "Fix payment method filter in order grid",
-                    "filename": "essential/magento/module-payment/m23-fix-payment-method-filter-in-order-grid.patch",
-                    "version-constraint": ">=100.3.0,<100.3.3"
-                }
-            ],
-            "magento/module-sales-sequence": [
-                {
-                    "description": "Change length for sequence_table in db_schema",
-                    "filename": "essential/magento/module-sales-sequence/m23-fix-sales-sequence-meta-field-length.patch",
-                    "version-constraint": "100.3.0"
-                }
-            ],
             "temando/module-shipping-m2": [
                 {
                     "description": "Fix missing required argument in one class in module Temando Shipping (1.3.10)",
                     "filename": "essential/temando/module-shipping-m2/m22-temando-shipping-missing-required-argument.patch",
                     "version-constraint": "1.3.10"
-                }
-            ],
-            "magento/module-media-storage": [
-                {
-                    "description": "Fix watermark processing in media application (Magento 2.3.0+, fixed in Magento 2.3.2)",
-                    "filename": "essential/magento/module-media-storage/m230-fix-product-image-watermark-processing.patch",
-                    "version-constraint": ">=100.3.0,<100.3.2"
                 }
             ],
             "magento/framework-amqp": [
@@ -3086,11 +1539,6 @@
                     "description": "Fix bundle disabled price(when alert are enabled)",
                     "filename": "essential/magento/module-bundle/m22plus-fix-bundle-disabled-price.patch",
                     "version-constraint": ">=100.2.0"
-                },
-                {
-                    "description": "Fix getIdentities for bundle products",
-                    "filename": "essential/magento/module-bundle/m23-fix-getidentities-for-bundle.patch",
-                    "version-constraint": ">=100.3.1, <101.0.2"
                 },
                 {
                     "description": "Fix displaying range prices",
@@ -3124,39 +1572,9 @@
             ],
             "amzn/amazon-pay-magento-2-module": [
                 {
-                    "description": "Fix preventing the stoppage of execution when the initial button container isn't found, allowing the rendering to complete successfully.",
-                    "filename": "essential/amzn/amazon-pay-magento-2-module/amazon-pay-fix-checkout-button-error.patch",
-                    "version-constraint": ">=5.9.1,<5.9.10"
-                },
-                {
-                    "description": "Fix visibility of billing address form",
-                    "filename": "essential/amzn/amazon-pay-magento-2-module/amazon-pay-fix-billing-form-visibility.patch",
-                    "version-constraint": ">=5.9.1,<5.11.2"
-                },
-                {
-                    "description": "Fix add nullsafe operator to avoid error for orders with no payment",
-                    "filename": "essential/amzn/amazon-pay-magento-2-module/hotfix_add_nullsafe_operator.patch",
-                    "version-constraint": "5.18.1"
-                },
-                {
-                    "description": "Fix for calling protected method getCanceledMessage() in CleanUpIncompleteSessions cron job (DOG-2063)",
-                    "filename": "essential/amzn/amazon-pay-magento-2-module/fix-amazon-pay-cleanup-cron-protected-method.patch",
-                    "version-constraint": ">=5.18.1,<5.18.3"
-                },
-                {
                     "description": "Fix for canceling orders ASD-1291 (DOG-2159)",
                     "filename": "essential/amzn/amazon-pay-magento-2-module/fix-for-canceling-orders-asd-1291.patch",
                     "version-constraint": ">=5.18.3"
-                },
-                {
-                    "description": "Fix for canceling orders ASD-1291 (DOG-2159)",
-                    "filename": "essential/amzn/amazon-pay-magento-2-module/fix-for-wrong-processing-status-during-cancelation.patch",
-                    "version-constraint": "=5.18.3"
-                },
-                {
-                    "description": "Add php-8.4 adjustmnets to the cli commands",
-                    "filename": "essential/amzn/amazon-pay-magento-2-module/add-php-8.4-adjustmnets-to-the-cli-commands.patch",
-                    "version-constraint": "5.18.4"
                 }
             ],
             "msp/adminrestriction": [
@@ -3178,46 +1596,7 @@
                     "version-constraint": "*"
                 }
             ],
-            "magento/ece-tools": [
-                {
-                    "description": "Ensure that running consumers are killed pre-deploy to prevent infinite wait on deploy",
-                    "filename": "essential/magento/ece-tools/ece-tools-kill-consumers.patch",
-                    "version-constraint": "=2002.0.20"
-                }
-            ],
-            "magento/module-advanced-sales-rule": [
-                {
-                    "description": "Reduces fetching of product entity when passed attribute code is not a product attribute",
-                    "filename": "essential/magento/module-advanced-sales-rule/m23-advanced-rule-condition-product-fetching-performance-fix.patch",
-                    "version-constraint": ">=100.3.0,<100.4.4"
-                }
-            ],
             "magento/module-sales-rule": [
-                {
-                    "description": "Fix remaining available discount amount when applying fixed price cart rules to bundle products",
-                    "filename": "essential/magento/module-sales-rule/m24-fix-sales-rule-fixed-for-bundle.patch",
-                    "version-constraint": ">=101.2.1,<101.2.3"
-                },
-                {
-                    "description": "There are cases (Sofort payment) when payment method does not exists for given mixin what results in endless loader",
-                    "filename": "essential/magento/module-sales-rule/check-payment-method-exists.patch",
-                    "version-constraint": ">=101.1.5-p2,<101.1.6"
-                },
-                {
-                    "description": "Unable to cancel order when catalog price rule is used without coupon",
-                    "filename": "essential/magento/module-sales-rule/m24-fix-coupon-usage-foreign-key-problem.patch",
-                    "version-constraint": ">=101.2.3,<101.2.5"
-                },
-                {
-                    "description": "Fix promo codes are not getting re-activated when order is canceled",
-                    "filename": "essential/magento/module-sales-rule/fix-coupon-can-not-be-used-after-order-cancelation.patch",
-                    "version-constraint": ">=101.2.5,<101.2.5-p11 || >=101.2.6,<101.2.6-p9"
-                },
-                {
-                    "description": "ACSD-63469: Fixed-amount cart discounts not applied correctly with multiple rules",
-                    "filename": "essential/magento/module-sales-rule/ACSD-63469_2.4.7-p2_v2.patch",
-                    "version-constraint": ">=101.2.7,<101.2.8"
-                },
                 {
                     "description": "Fix error: Deprecated Functionality: Implicit conversion from float to int loses precision",
                     "filename": "essential/magento/module-sales-rule/fix_type_total_precision_loss_2_4_8_p2.patch",
@@ -3234,16 +1613,6 @@
                     "description": "Security patch 248p5-2026-09-001 (Magento 2.4.8-p5): only bind the PayPal quote to the checkout session when the quote belongs to the current session or the logged-in customer",
                     "filename": "essential/magento/module-paypal/248p5-2026-09-001-CE.patch",
                     "version-constraint": ">=101.0.8,<101.0.9"
-                },
-                {
-                    "description": "Security patch 247p10-2026-09-001 (Magento 2.4.7-p10): only bind the PayPal quote to the checkout session when the quote belongs to the current session or the logged-in customer",
-                    "filename": "essential/magento/module-paypal/247p10-2026-09-001-CE.patch",
-                    "version-constraint": ">=101.0.7,<101.0.8"
-                },
-                {
-                    "description": "Fix inability to place PayPal guest order when Automatic Assignment to Customer Group is enabled",
-                    "filename": "essential/magento/module-paypal/m232-paypal-fix-for-customer-automatic-group-assignment.patch",
-                    "version-constraint": ">=100.3.2,<101.0.3"
                 },
                 {
                     "description": "Fix customer name for Paypal Express orders",
@@ -3277,11 +1646,6 @@
             ],
             "magento/module-media-gallery-ui": [
                 {
-                    "description": "Port of DirectoryTree listing from Magento 2.4.6 pre release",
-                    "filename": "essential/magento/module-media-gallery-ui/port-of-get-directory-tree-from-magento-246.patch",
-                    "version-constraint": ">=100.4.4, <100.4.5"
-                },
-                {
                     "description": "Added missing path value needed for image edit",
                     "filename": "essential/magento/module-media-gallery-ui/image-path-added.patch",
                     "version-constraint": ">=100.4.4"
@@ -3301,16 +1665,6 @@
             ],
             "sendinblue/module-sendinblue": [
                 {
-                    "description": "Fix for not not set transport object (breaking transactional email)",
-                    "filename": "essential/sendinblue/module-sendinblue/external-sendinblue-set-default-transport.patch",
-                    "version-constraint": "<2.1.19"
-                },
-                {
-                    "description": "Fix for error on Sendniblue doi confirmation page",
-                    "filename": "essential/sendinblue/module-sendinblue/external-sendinblue-210-fix-doi-confirmation-page.patch",
-                    "version-constraint": "<=2.1.0"
-                },
-                {
                     "description": "Fix for error on Sendniblue doi confirmation page",
                     "filename": "essential/sendinblue/module-sendinblue/external-sendinblue-fix-doi-confirmation-page.patch",
                     "version-constraint": ">2.1.0,<2.1.36"
@@ -3319,21 +1673,6 @@
                     "description": "Fix infinite loop in checkout",
                     "filename": "essential/sendinblue/module-sendinblue/sendinblue-fix-infinite-loop-in-checkout.patch",
                     "version-constraint": ">=2.1.10"
-                },
-                {
-                    "description": "Fix for not not set transport object (breaking transactional email)",
-                    "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object.patch",
-                    "version-constraint": ">=2.1.22,<2.1.23"
-                },
-                {
-                    "description": "Fix for unset transport object and SMTP configuration",
-                    "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object-2.1.23.patch",
-                    "version-constraint": ">=2.1.23,<2.1.27"
-                },
-                {
-                    "description": "Fix for unset transport object",
-                    "filename": "essential/sendinblue/module-sendinblue/create-default-transport-object-2.1.27.patch",
-                    "version-constraint": ">=2.1.27,<2.1.29"
                 }
             ],
             "sendcloud/sendcloud": [
@@ -3388,16 +1727,6 @@
             ],
             "dotdigital/dotdigital-magento2-extension": [
                 {
-                    "description": "Fix dotmailer problem with Http class",
-                    "filename": "essential/dotdigital/dotdigital-magento2-extension/use-laminas-lib-instead-of-zend.patch",
-                    "version-constraint": ">=4.19.4,<4.22.0"
-                },
-                {
-                    "description": "Fix dotmailer problem with the cron ddg_automation_platform_modified_contacts",
-                    "filename": "essential/dotdigital/dotdigital-magento2-extension/fix-error-with-cron-ddg_automation_platform_modified_contacts-DOG-1966.patch",
-                    "version-constraint": "4.28.0"
-                },
-                {
                     "description": "Skip checking website assignments",
                     "filename": "essential/dotdigital/dotdigital-magento2-extension/skip_checking_website_assignments.patch",
                     "version-constraint": ">=4.34.2"
@@ -3425,18 +1754,6 @@
                     "description": "Security patch VULN-39341 (Magento 2.4.7-p10): enforce the Magento_Newsletter::template and Magento_Newsletter::queue ACLs on the admin newsletter previews",
                     "filename": "essential/magento/module-newsletter/247p10-VULN-39341-CE.patch",
                     "version-constraint": ">=100.4.7,<100.4.8"
-                },
-                {
-                    "description": "Fix missing paragraph tags in subscription email templates",
-                    "filename": "essential/magento/module-newsletter/m23-fix-newsletter-subscription-emails.patch",
-                    "version-constraint": ">=100.3.3,<=100.3.5"
-                }
-            ],
-            "magento/module-gift-card": [
-                {
-                    "description": "Fixing issue with multiple giftcard codes generated when invoice is updated (DOG-530)",
-                    "filename": "essential/magento/module-gift-card/m23c-fix-duplicated-giftcard-codes-after-edit-invoice.patch",
-                    "version-constraint": ">=101.2.5,<101.3.2"
                 }
             ],
             "magento/module-gift-card-account": [
@@ -3448,39 +1765,14 @@
             ],
             "payone-gmbh/magento-2": [
                 {
-                    "description": "Fixing issue with duplicated invoices generation",
-                    "filename": "essential/payone-gmbh/magento-2/payone-duplicated-invoice-fix.patch",
-                    "version-constraint": "3.2.0"
-                },
-                {
-                    "description": "Fixing issue with credit card type in order view",
-                    "filename": "essential/payone-gmbh/magento-2/payone32-fix-creditcard-type.patch",
-                    "version-constraint": ">=3.2.0,<3.3.0"
-                },
-                {
-                    "description": "Cache privacy declaration curl request",
-                    "filename": "essential/payone-gmbh/magento-2/payone-cache-privacy-declaration-request.patch",
-                    "version-constraint": ">=3.2.0,<3.3.0"
-                },
-                {
                     "description": "Fixing issue with empty payment information in order confirmation email after creation of order substitute by Transactionstatus service",
                     "filename": "essential/payone-gmbh/magento-2/payone-fix-missing-payment-information-in-email.patch",
                     "version-constraint": ">=3.2.0"
                 },
                 {
-                    "description": "Fixes loads quote only when checkoutConfig is available and adds additional check for the response in error processor to avoid JS issues",
-                    "filename": "essential/payone-gmbh/magento-2/payone-error-processor-mixin-fix.patch",
-                    "version-constraint": ">=3.2.0, <=3.3.0"
-                },
-                {
                     "description": "Fixes error in the checkout: Deprecated Functionality: hash_hmac(): Passing null to parameter #3 ($key) of type string is deprecated [P2G-2502]",
                     "filename": "essential/payone-gmbh/magento-2/fix-error-checkout-not-working-getConfigParam-key-return-null.patch",
                     "version-constraint": ">=3.11.0,<=3.12.0"
-                },
-                {
-                    "description": "Fix for typo in payment.xml file",
-                    "filename": "essential/payone-gmbh/magento-2/fix-for-typo-in-xml-file.patch",
-                    "version-constraint": "3.13.1"
                 }
             ],
             "vertex/module-address-validation": [
@@ -3504,20 +1796,6 @@
                     "version-constraint": "1.3.1"
                 }
             ],
-            "magento/module-target-rule": [
-                {
-                    "description": "Use row_id field to get related cross sell products in checkout",
-                    "filename": "essential/magento/module-target-rule/fix-missing-crosssell-products-in-checkout.patch",
-                    "version-constraint": "101.1.5"
-                }
-            ],
-            "magento/module-tax": [
-                {
-                    "description": "Fix bug adding bundle products is not possible in admin panel, string type is required.",
-                    "filename": "essential/magento/module-tax/m245-fix-adding-bundle-products-is-not-possible.patch",
-                    "version-constraint": ">=100.4.5,<100.4.6"
-                }
-            ],
             "vertex/module-tax": [
                 {
                     "description": "Fix missing constructor argument",
@@ -3525,26 +1803,7 @@
                     "version-constraint": "4.1.0"
                 }
             ],
-            "magento/module-login-as-customer-assistance": [
-                {
-                    "description": "Fix JS error on Create New Customer Account page",
-                    "filename": "essential/magento/module-login-as-customer-assistance/m24-login-as-customer-js-error-register.patch",
-                    "version-constraint": ">=100.4.0,<=100.4.1-p2"
-                }
-            ],
-            "magento/module-inventory-source-selection-api": [
-                {
-                    "description": "Fix error on source selection deduction (all quantity changes)",
-                    "filename": "essential/magento/module-inventory-source-selection-api/normalize-sku-in-source-selection-api.patch",
-                    "version-constraint": ">=1.2.0,<1.2.2"
-                }
-            ],
             "magento/module-inventory-bundle-product": [
-                {
-                    "description": "Skip MSI bundle validator for source items import",
-                    "filename": "essential/magento/module-inventory-bundle-product/skip-msi-bundle-sourceitem-validator.patch",
-                    "version-constraint": ">=1.2.0,<1.2.1"
-                },
                 {
                     "description": "Skip MSI bundle validator for source items import, Magento 2.4.4+",
                     "filename": "essential/magento/module-inventory-bundle-product/m244-plus-skip-msi-bundle-sourceitem-validator.patch",
@@ -3558,20 +1817,6 @@
                     "version-constraint": ">=1.1.3, <1.1.6"
                 }
             ],
-            "magento/module-re-captcha-checkout": [
-                {
-                    "description": "Fix error in checkout when reCaptcha is disabled for Checkout/Placing Order",
-                    "filename": "essential/magento/module-re-captcha-checkout/m24-fix-checkout-place-order-recaptcha-error.patch",
-                    "version-constraint": ">=1.1.1,<1.1.2"
-                }
-            ],
-            "magento/module-re-captcha-migration": [
-                {
-                    "description": "Fix copying ReCaptcha key during migration",
-                    "filename": "essential/magento/module-re-captcha-migration/m24-re-captcha-migration.patch",
-                    "version-constraint": "<=1.1.0"
-                }
-            ],
             "magento/module-translation": [
                 {
                     "description": "Security patch 249-2026-07-001 (Magento 2.4.9): sanitize inline translation params by stripping external links and dangerous tags/event handlers",
@@ -3582,11 +1827,6 @@
                     "description": "Security patch 248p5-2026-07-001 (Magento 2.4.8-p5): sanitize inline translation params by stripping external links and dangerous tags/event handlers",
                     "filename": "essential/magento/module-translation/248p5-2026-07-001-CE.patch",
                     "version-constraint": ">=100.4.8,<100.4.9"
-                },
-                {
-                    "description": "Load inline translations only when they are enabled in admin panel",
-                    "filename": "essential/magento/module-translation/load-inline-translation-when-enabled.patch",
-                    "version-constraint": ">=100.3.4,<100.4.1"
                 }
             ],
             "msp/recaptcha": [
@@ -3594,39 +1834,6 @@
                     "description": "Load reCaptcha API only when it is actually used on a certain page",
                     "filename": "essential/msp/recaptcha/load-recaptcha-only-when-used.patch",
                     "version-constraint": ">=2.0.0"
-                }
-            ],
-            "magento/module-contact": [
-                {
-                    "description": "Remove empty spaces from comment input in contact form",
-                    "filename": "essential/magento/module-contact/fix-empty-spaces-in-contact-form-comment-input.patch",
-                    "version-constraint": "100.4.1"
-                }
-            ],
-            "magento/module-page-builder": [
-                {
-                    "description": "Fix page builder during clean install",
-                    "filename": "essential/magento/module-page-builder/m24-fix-page-builder-clean-install.patch",
-                    "version-constraint": ">=2.2.0, <2.2.4"
-                },
-                {
-                    "description": "Add font size to wysiwyg editor",
-                    "filename": "essential/magento/module-page-builder/add-font-size-to-wysiwyg-editor.patch",
-                    "version-constraint": ">=2.2.3-p10,<2.2.6"
-                }
-            ],
-            "trustedshops/easy_integration": [
-                {
-                    "description": "Fix for PHP8.1 - prevent running json_decode on null when config is not set.",
-                    "filename": "essential/trustedshops/easy_integration/fix-php81-prevent-decoding-null.patch",
-                    "version-constraint": ">=1.0.0,<1.1.0"
-                }
-            ],
-            "trustedshops/trustedshops": [
-                {
-                    "description": "Fix API client zend class names",
-                    "filename": "essential/trustedshops/trustedshops/trustedshops_api_client_class_names.patch",
-                    "version-constraint": "2.0.3"
                 }
             ],
             "uptain/module-uptain-connect": [
@@ -3672,21 +1879,6 @@
                     "version-constraint": ">=13.0.0, <=14.0.10"
                 },
                 {
-                    "description": "Add explicit nullable types to implicitly nullable parameters (PHP 8.4 deprecation)",
-                    "filename": "essential/wyomind/datafeedmanager/php84-implicit-nullable.patch",
-                    "version-constraint": ">=13.0.0, <14.0.0"
-                },
-                {
-                    "description": "Add int return type to Command::execute() for symfony/console 7 compatibility (Magento 2.4.9) - rebased for 14.1.x (still not fixed upstream, only code formatting changed)",
-                    "filename": "essential/wyomind/datafeedmanager/symfony7-execute-return-type-141plus.patch",
-                    "version-constraint": "14.1.0"
-                },
-                {
-                    "description": "Fix array to string conversion error",
-                    "filename": "essential/wyomind/datafeedmanager/fix-array-to-string-conversion-error.patch",
-                    "version-constraint": ">=11.22.1,<11.23.0"
-                },
-                {
                     "description": "Fix for feed configuration revert issue by cron process",
                     "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-fix-config-revert-issue.patch",
                     "version-constraint": ">=11.20.0,<14.0.6"
@@ -3700,21 +1892,6 @@
                     "description": "Fix for feed configuration revert issue by cron process - rebased for 14.1.x (surrounding file publication code rewritten upstream)",
                     "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-fix-config-revert-issue-141plus.patch",
                     "version-constraint": ">=14.1.0"
-                },
-                {
-                    "description": "Fix for feed configuration revert issue by cron process",
-                    "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-fix-config-revert-issue_new.patch",
-                    "version-constraint": ">=11.22.0,<11.23.0"
-                },
-                {
-                    "description": "It is not Wyomind bug, but because of our module 'MageSuiteNavigation' there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns 'product_category' and 'category_2' were empty. This patch is fixing private method 'extractCategories' and enabling possibility to export category data for mobile navigation.",
-                    "filename": "essential/wyomind/datafeedmanager/enable-category-data-in-wyomid-datafeed-export-for-disabled-in-desktop-navigation-products-and-enabled-in-mobile-navigation-products.patch",
-                    "version-constraint": "<11.22.0"
-                },
-                {
-                    "description": "It is not Wyomind bug, but because of our module 'MageSuiteNavigation' there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns 'product_category' and 'category_2' were empty. This patch is fixing private method 'extractCategories' and enabling possibility to export category data for mobile navigation.",
-                    "filename": "essential/wyomind/datafeedmanager/enable-category-data-in-wyomid-datafeed-export-for-disabled-in-desktop-navigation-products-and-enabled-in-mobile-navigation-products_new.patch",
-                    "version-constraint": ">=11.22.0,<11.23.0"
                 },
                 {
                     "description": "It is not Wyomind bug, but because of our module 'MageSuiteNavigation' there is possibility to disable product for desktop navigation and leave it for mobile navigation. In such case there was no category data inside exported data feed. In such case, columns 'product_category' and 'category_2' were empty. This patch is fixing private method 'extractCategories' and enabling possibility to export category data for mobile navigation.",
@@ -3742,16 +1919,6 @@
                     "version-constraint": ">=11.23.0"
                 },
                 {
-                    "description": "After update to PHP 82, dynamic class propery creation is deprecated",
-                    "filename": "essential/wyomind/datafeedmanager/wyomind-datafeedmanager-php-82.patch",
-                    "version-constraint": ">=14.0.0,<14.0.2"
-                },
-                {
-                    "description": "After update to PHP 82, dynamic class propery creation is deprecated - fix for older verion",
-                    "filename": "essential/wyomind/datafeedmanager/fix-error-attributeOptions-is-deprecated.patch",
-                    "version-constraint": "11.24.6"
-                },
-                {
                     "description": "fix: [FZ-498] Use stock id for fetching reservations quantity",
                     "filename": "essential/wyomind/datafeedmanager/use-stock-id-for-fetching-reservations-quantity.patch",
                     "version-constraint": "14.0.10"
@@ -3769,21 +1936,9 @@
             ],
             "wyomind/framework": [
                 {
-                    "description": "Fix string divided by int php 8 error",
-                    "filename": "essential/wyomind/framework/fix-php-8-error-with-string-divided-by-int.patch",
-                    "version-constraint": ">=7.2.4,<7.2.11"
-                },
-                {
                     "description": "Fix array notice for menu item url",
                     "filename": "essential/wyomind/framework/fix-array-notice.patch",
                     "version-constraint": ">=7.2.12"
-                }
-            ],
-            "xtento/pdfcustomizer": [
-                {
-                    "description": "Fix for large pdf file size when xtento pdfcustomizer runs on message queue consumer",
-                    "filename": "essential/xtento/pdfcustomizer/xtento-pdfcustomizer-fix-large-pdf-file-size.patch",
-                    "version-constraint": ">=2.13.6,<=2.15.3"
                 }
             ],
             "klarna/module-core": [
@@ -3796,32 +1951,15 @@
             "klarna/module-payments": [
                 {
                     "description": "Adds domReady! dependency to Klarna_Kp/js/model/config, so window.checkoutConfig is 100% loaded",
-                    "filename": "essential/klarna/module-payments/klarna-config-with-domReady.patch",
-                    "version-constraint": ">=9.0.13,<9.0.28"
-                },
-                {
-                    "description": "Adds domReady! dependency to Klarna_Kp/js/model/config, so window.checkoutConfig is 100% loaded",
                     "filename": "essential/klarna/module-payments/klarna-config-with-domReady-v2.patch",
                     "version-constraint": ">=9.0.28"
                 }
             ],
             "klarna/module-logger": [
                 {
-                    "description": "Remove error from xml file",
-                    "filename": "essential/klarna/module-logger/remove-error-from-xml-file.patch",
-                    "version-constraint": ">=2.0.7,<2.0.8"
-                },
-                {
                     "description": "Add increment_id index to klarna_logs table",
                     "filename": "essential/klarna/module-logger/add-increment-id-index.patch",
                     "version-constraint": ">=3.0.0"
-                }
-            ],
-            "klarna/module-orderlines": [
-                {
-                    "description": "Fix fatal error dividing by zero",
-                    "filename": "essential/klarna/module-orderlines/fix-fatal-error-dividing-by-zero.patch",
-                    "version-constraint": ">=2.0.17,<2.0.18"
                 }
             ],
             "klarna/module-kco": [
@@ -3833,49 +1971,14 @@
             ],
             "mollie/magento2": [
                 {
-                    "description": "Add a dispatch event mollie_before_build_transaction_orders_api to handle additional fee from bulk goods",
-                    "filename": "essential/mollie/magento2/mollie-klarna-event-to-add-bulk-goods.patch",
-                    "version-constraint": ">=2.6.0,<3.0.0"
-                },
-                {
                     "description": "Changed ApplePaySession init for button on PDP in order to support older Safari versions",
                     "filename": "essential/mollie/magento2/fix-apple-pay-button-session-init.patch",
                     "version-constraint": "*"
                 },
                 {
-                    "description": "Fix abs() deprecated error order line generator for gift wrapping",
-                    "filename": "essential/mollie/magento2/fix-null-amount-in-gift-wrapping.patch",
-                    "version-constraint": ">=2.34.0,<2.36.0"
-                },
-                {
-                    "description": "Fix the problem with negative adjustments and batch processing of refunds.",
-                    "filename": "essential/mollie/magento2/fix-mollie-batch-refund-RKL-929.patch",
-                    "version-constraint": ">=2.48.0,<2.49.0"
-                },
-                {
-                    "description": "Fix for double cancelation",
-                    "filename": "essential/mollie/magento2/fix-for-double-cancelation.patch",
-                    "version-constraint": ">=2.50.0,<3.0.0"
-                },
-                {
-                    "description": "Fix problem with payment reminder button",
-                    "filename": "essential/mollie/magento2/fix-problem-with-payment-reminder-button.patch",
-                    "version-constraint": ">=3.0.0,<3.0.2"
-                },
-                {
                     "description": "Fix for double cancelation (lock-based, rebased for Mollie 3.x)",
                     "filename": "essential/mollie/magento2/fix-for-double-cancelation-v3.patch",
                     "version-constraint": ">=3.0.0,<4.0.0"
-                },
-                {
-                    "description": "Fix TypeError in abs() on string discount amounts breaking checkout for fixed-price bundles (P2G-2937)",
-                    "filename": "essential/mollie/magento2/fix-mollie-abs-typeerror-on-fixed-price-bundle.patch",
-                    "version-constraint": ">=3.1.1,<=3.1.2"
-                },
-                {
-                    "description": "Fix TypeError: string '0.00' passed to getAmountArray(?float) in the shipping discount, gift card and gift wrapping generators (P2G-2942)",
-                    "filename": "essential/mollie/magento2/fix-mollie-string-vat-amount-typeerror.patch",
-                    "version-constraint": ">=3.0.0,<=3.1.3"
                 }
             ],
             "magento/module-multiple-wishlist": [
@@ -3883,13 +1986,6 @@
                     "description": "Disable output of wishlists in customer sections when module is disabled",
                     "filename": "essential/magento/module-multiple-wishlist/disable-output-of-wishlists-when-module-is-disabled.patch",
                     "version-constraint": "*"
-                }
-            ],
-            "magento/module-security": [
-                {
-                    "description": "Fix fatal error while logging into the admin panel",
-                    "filename": "essential/magento/module-security/fix-issue-for-admin-strtotime.patch",
-                    "version-constraint": ">=100.4.3,<100.4.5"
                 }
             ],
             "magento/module-inventory": [
@@ -3949,24 +2045,7 @@
                     "version-constraint": ">=1.3.6"
                 }
             ],
-            "magepal/magento2-enhanced-ecommerce": [
-                {
-                    "description": "Avoid loading product for a second time",
-                    "filename": "essential/magepal/magento2-enhanced-ecommerce/avoid-loading-product-second-time.patch",
-                    "version-constraint": ">=1.7.1,<1.7.3"
-                },
-                {
-                    "description": "Fix error when adding product to cart",
-                    "filename": "essential/magepal/magento2-enhanced-ecommerce/add-to-cart-error-fix.patch",
-                    "version-constraint": "1.7.5"
-                }
-            ],
             "magepal/magento2-google-analytics4": [
-                {
-                    "description": "Disable price calculation on the category page",
-                    "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page.patch",
-                    "version-constraint": ">=1.7.0, <1.7.8"
-                },
                 {
                     "description": "Disable price calculation on the category page (>=v1.7.8)",
                     "filename": "essential/magepal/magento2-google-analytics4/disable-price-calculation-on-category-page-v178.patch",
@@ -4031,13 +2110,6 @@
                     "version-constraint": ">=3.5.1"
                 }
             ],
-            "wallee/sdk": [
-                {
-                    "description": "Fix for validation empty unique_id caused by strict types (IPET-3197)",
-                    "filename": "essential/wallee/sdk/fix-validation-empty-unique-id.patch",
-                    "version-constraint": ">=4.6.0, <5.2.2"
-                }
-            ],
             "ezimuel/ringphp": [
                 {
                     "description": "Fix compatibility with PHP 8.1",
@@ -4047,29 +2119,9 @@
             ],
             "adyen/module-payment": [
                 {
-                    "description": "Fix image ID while generating product url",
-                    "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api.patch",
-                    "version-constraint": ">=8.7.0, <8.22.0"
-                },
-                {
-                    "description": "Fix image ID while generating product url (moved to new file)",
-                    "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api-updated.patch",
-                    "version-constraint": ">=8.22.0, <9.8.0"
-                },
-                {
                     "description": "Fix image ID while generating product url (moved to new file)",
                     "filename": "essential/adyen/module-payment/change-image-id-to-work-with-rest-api-9-8-0.patch",
                     "version-constraint": ">=9.8.0"
-                },
-                {
-                    "description": "Added missing variable delcaration (php82)",
-                    "filename": "essential/adyen/module-payment/add-missing-variable-declaration.patch",
-                    "version-constraint": "9.0.7"
-                },
-                {
-                    "description": "Added Factory classes into CLI Command classes to prevent breaking installation of Magento",
-                    "filename": "essential/adyen/module-payment/add_factory_classes_to_cli_command.patch",
-                    "version-constraint": ">=9.0.0, <9.0.5"
                 },
                 {
                     "description": "Added legend to fieldset in payment method due to accessibility reasons",
@@ -4080,11 +2132,6 @@
                     "description": "Fetch proper order instance after cancellation, to avoid re-saving order as new",
                     "filename": "essential/adyen/module-payment/RK-1961-wrong-order-status-after-cancel.patch",
                     "version-constraint": ">=10.2.0"
-                },
-                {
-                    "description": "Use db connection as default for queue consumers",
-                    "filename": "essential/adyen/module-payment/use-db-as-default-connection-in-queues.patch",
-                    "version-constraint": ">=10.6.0,<10.10.0"
                 }
             ],
             "firegento/fastsimpleimport": [
@@ -4135,23 +2182,6 @@
                     "version-constraint": ">=101.2.5"
                 }
             ],
-            "dynamic-yield/integration": [
-                {
-                    "description": "Patch to work with php 81",
-                    "filename": "essential/dynamic-yield/integration/dynamic-yield-php-81.patch",
-                    "version-constraint": "0.8.0"
-                },
-                {
-                    "description": "Added setting the default value to the plugin as it is in the origin method",
-                    "filename": "essential/dynamic-yield/integration/set-default-value-in-plugin-as-in-origin-method.patch",
-                    "version-constraint": "0.8.5"
-                },
-                {
-                    "description": "Fix urlFinder param name to match variable in constructor (SCAFA-1191)",
-                    "filename": "essential/dynamic-yield/integration/fix-url-finder-param-in-export-module.patch",
-                    "version-constraint": "0.8.6"
-                }
-            ],
             "bsscommerce/hideprice": [
                 {
                     "description": "Added check for empty child id",
@@ -4192,13 +2222,6 @@
                     "version-constraint": "<1.0.8"
                 }
             ],
-            "synerise/magento2-integration": [
-                {
-                    "description": "Add missing variable declaration",
-                    "filename": "essential/synerise/magento2-integration/add-missing-variable-to-observer.patch",
-                    "version-constraint": "2.2.5"
-                }
-            ],
             "smartmage/inpost": [
                 {
                     "description": "Fix critical error if order post data is empty",
@@ -4213,26 +2236,9 @@
             ],
             "mailchimp/mc-magento2": [
                 {
-                    "description": "Fix the issue with loading the subscription in the SaveAfter plugin. (IPET-2264)",
-                    "filename": "essential/mailchimp/mc-magento2/fix-subscription-load-in-mailchimp-save-after-plugin.patch",
-                    "version-constraint": ">=103.4.56,<103.4.59"
-                },
-                {
                     "description": "Add missing dependency to juery-ui-module/widget in JS component",
                     "filename": "essential/mailchimp/mc-magento2/mailchimp-add-jquery-ui-widget-frontend-dependency.patch",
                     "version-constraint": ">=103.4.56"
-                },
-                {
-                    "description": "Remove empty comment for db table mailchimp_notification.",
-                    "filename": "essential/mailchimp/mc-magento2/remove_empty_comment_for_db_table.patch",
-                    "version-constraint": ">=103.4.66,<103.4.67"
-                }
-            ],
-            "unifiedarts/module-tsc-augment": [
-                {
-                    "description": "fix: [TOYS-1160]. Compatibility with Magento 2.4.6. Replaced Zend with Laminas.",
-                    "filename": "essential/unifiedarts/module-tsc-augment/replaced_zend_with_laminas.patch",
-                    "version-constraint": ">=101.0.8,<101.1.5"
                 }
             ],
             "unifiedarts/module-tsc": [
@@ -4326,13 +2332,6 @@
                     "version-constraint": "*"
                 }
             ],
-            "mageworx/module-shippingrules": [
-                {
-                    "description": "Remove default value for column model (ZJ-354)",
-                    "filename": "essential/mageworx/module-shippingrules/remove-default-value.patch",
-                    "version-constraint": "<2.16.0"
-                }
-            ],
             "extendware/module-deepltranslatorautosync": [
                 {
                     "description": "Fix compatibility with MageSuite (CLI initialization, missing paramaters in Observers)",
@@ -4361,28 +2360,6 @@
                     "version-constraint": "*"
                 }
             ],
-            "magento/module-payment-services-paypal": [
-                {
-                    "description": "Cast variable to string to avoid fatal error in checkout",
-                    "filename": "essential/magento/module-payment-services-paypal/cast-variable-to-string.patch",
-                    "version-constraint": ">=2.9.0,<2.10.0"
-                },
-                {
-                    "description": "Skip creating blocks in checkout block",
-                    "filename": "essential/magento/module-payment-services-paypal/skip-creating-blocks-in-checkout.patch",
-                    "version-constraint": ">=2.9.0,<=2.10.1"
-                },
-                {
-                    "description": "Skip sending tracking when module is disabled",
-                    "filename": "essential/magento/module-payment-services-paypal/skip-sending-tracking-when-module-is-disabled.patch",
-                    "version-constraint": ">=2.9.0,<=2.10.3"
-                },
-                {
-                    "description": "Fix checked state for radio button when switching shipping method in checkout",
-                    "filename": "essential/magento/module-payment-services-paypal/fix-checked-state-when-switching-shipping-method.patch",
-                    "version-constraint": "2.13.0"
-                }
-            ],
             "lqt/loqate-integration": [
                 {
                     "description": "Fix improper ACL declaration",
@@ -4391,16 +2368,6 @@
                 }
             ],
             "magento/theme-adminhtml-backend": [
-                {
-                    "description": "Fix disabled categories not grayed out (2.4.7-p3)",
-                    "filename": "essential/magento/theme-adminhtml-backend/fix-disabled-categories-not-grayed-out-2_4_7_p3.patch",
-                    "version-constraint": ">=100.4.7-p3,<100.4.8"
-                },
-                {
-                    "description": "Fix page action buttons cut issue",
-                    "filename": "essential/magento/theme-adminhtml-backend/fix-admin-page-action-buttons-cut-issue.patch",
-                    "version-constraint": ">=100.4.7, <100.4.8"
-                },
                 {
                     "description": "Fix disabled categories not grayed out (v2.4.8)",
                     "filename": "essential/magento/theme-adminhtml-backend/fix_grayed_out_categories_2_4_8.patch",
@@ -4429,11 +2396,6 @@
                 }
             ],
             "meta/module-conversion": [
-                {
-                    "description": "Add missing local variables declaration in MagentoDataHelper::getCartPayload() method",
-                    "filename": "essential/meta/module-conversion/fix-undefined-variable-error-in-magento-data-helper.patch",
-                    "version-constraint": "1.5.0"
-                },
                 {
                     "description": "Optimize category name loading to reduce number of queries",
                     "filename": "essential/meta/module-conversion/optimize-category-name-loading.patch",
@@ -4498,13 +2460,6 @@
                     "version-constraint": ">=1.1.7"
                 }
             ],
-            "akeneo/magento2-connector-enterprise": [
-                {
-                    "description": "Remove product model table from db schema",
-                    "filename": "essential/akeneo/magento2-connector-enterprise/remove-product-model-table.patch",
-                    "version-constraint": ">=104.1.1,<104.5.2"
-                }
-            ],
             "mageplaza/module-gift-card": [
                 {
                     "description": "Add missing form instance for giftcard conditions field",
@@ -4519,19 +2474,7 @@
                     "version-constraint": ">=2.0.0"
                 }
             ],
-            "veriteworks/cookiefix": [
-                {
-                    "description": "Do change samesite to none for unsecure cookies",
-                    "filename": "essential/veriteworks/cookiefix/RK-1456-secure-cookie-plus-samesite-none.patch",
-                    "version-constraint": "3.2.0"
-                }
-            ],
             "paypal/module-braintree-core": [
-                {
-                    "description": "Disable Braintree plugin for order grid",
-                    "filename": "essential/paypal/module-braintree-core/disable-braintree-plugin-for-order-grid.patch",
-                    "version-constraint": ">=4.6.0, <4.7.0"
-                },
                 {
                     "description": "Disable Braintree plugin for order grid",
                     "filename": "essential/paypal/module-braintree-core/disable-braintree-plugin-for-order-grid-v47.patch",
@@ -4541,11 +2484,6 @@
                     "description": "Disable Braintree plugin for order grid",
                     "filename": "essential/paypal/module-braintree-core/disable-braintree-plugin-for-order-grid-v48.patch",
                     "version-constraint": ">=4.8.0"
-                },
-                {
-                    "description": "Don't load config for Braintree if module is disabled",
-                    "filename": "essential/paypal/module-braintree-core/dont-load-braintree-config-if-disabled.patch",
-                    "version-constraint": ">=4.7.0, <4.7.0-p5"
                 },
                 {
                     "description": "Don't generate Apple Pay client token if Apple Pay is disabled",
@@ -4591,11 +2529,6 @@
                     "version-constraint": ">=2.11.7"
                 },
                 {
-                    "description": "Too many cache tags for varnish purge.",
-                    "filename": "essential/cinovo/calculation/varnish-purge-too-many-tags.patch",
-                    "version-constraint": ">=2.11.7, <2.11.11"
-                },
-                {
                     "description": "Prevent unserializing empty dump.",
                     "filename": "essential/cinovo/calculation/prevent-unserializing-empty-dump.patch",
                     "version-constraint": ">=2.11.11"
@@ -4636,13 +2569,6 @@
                     "version-constraint": ">=2.1.9"
                 }
             ],
-            "cinovo/shipping": [
-                {
-                    "description": "Remove newline from a message.",
-                    "filename": "essential/cinovo/shipping/remove-newline-from-a-message.patch",
-                    "version-constraint": ">=2.4.10, <2.4.13"
-                }
-            ],
             "cinovo/spotrates": [
                 {
                     "description": "Prevent unserializing empty spot rates cache during import.",
@@ -4662,23 +2588,6 @@
                     "description": "Fix issue with feed file path",
                     "filename": "essential/wyomind/googleproductratings/fix-issue-with-feed-file-path.patch",
                     "version-constraint": ">=3.0.5"
-                },
-                {
-                    "description": "Add int return type to Command::execute() for symfony/console 7 compatibility (Magento 2.4.9)",
-                    "filename": "essential/wyomind/googleproductratings/symfony7-execute-return-type.patch",
-                    "version-constraint": ">=3.0.0 <=3.0.5"
-                },
-                {
-                    "description": "Declare nullable constructor parameters explicitly in Model\\ResourceModel\\Review\\Collection (PHP 8.4 deprecation)",
-                    "filename": "essential/wyomind/googleproductratings/php84-implicit-nullable.patch",
-                    "version-constraint": "3.0.5"
-                }
-            ],
-            "techdivision/pixi-magento-connector": [
-                {
-                    "description": "Change order query to fix issues with large database",
-                    "filename": "essential/techdivision/pixi-magento-connector/change-order-query.patch",
-                    "version-constraint": "3.7.1"
                 }
             ],
             "leonex/magento-creditreform-riskcube": [
@@ -4688,28 +2597,21 @@
                     "version-constraint": ">=2.0.0"
                 }
             ],
-            "mautic/api-library":  [
-                {
-                    "description": "Fix incompatible method with Psr\\Log\\LoggerAwareInterface",
-                    "filename": "essential/mautic/api-library/fix-incompatible-method.patch",
-                    "version-constraint": ">=3.1.0"
-                }
-            ],
-            "webkul/module-marketplace":  [
+            "webkul/module-marketplace": [
                 {
                     "description": "Change ES class namespace to version 8",
                     "filename": "essential/webkul/module-marketplace/change-es-class-namespace.patch",
                     "version-constraint": ">=5.0.9,<5.1.0"
                 }
             ],
-            "webkul/eshopsync":  [
+            "webkul/eshopsync": [
                 {
                     "description": "Return empty server name",
                     "filename": "essential/webkul/eshopsync/return-empty-server-name.patch",
                     "version-constraint": ">=5.0.4"
                 }
             ],
-            "magento/module-wishlist":  [
+            "magento/module-wishlist": [
                 {
                     "description": "Fix adding to wishlist after login",
                     "filename": "essential/magento/module-wishlist/fix-adding-to-wishlist.patch",
