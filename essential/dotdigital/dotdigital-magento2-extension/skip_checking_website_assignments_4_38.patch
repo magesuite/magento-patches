@@ -1,0 +1,23 @@
+Skips checking website assignments of child products when finding the lowest priced product.
+
+Since 4.38.0 LowestPriceProductFinder was merged into LowestPriceProductProvider, so the check is removed there.
+
+diff --git a/Model/Product/Provider/LowestPriceProductProvider.php b/Model/Product/Provider/LowestPriceProductProvider.php
+index c842a9a..2c00764 100644
+--- a/Model/Product/Provider/LowestPriceProductProvider.php
++++ b/Model/Product/Provider/LowestPriceProductProvider.php
+@@ -95,9 +95,11 @@ class LowestPriceProductProvider implements ProductProviderInterface
+ 
+         /** @var Product $childProduct */
+         foreach ($childProducts as $childProduct) {
+-            if ($storeId && !in_array($storeId, $childProduct->getStoreIds())) {
+-                continue;
+-            }
++            // BEGIN PATCH
++            // if ($storeId && !in_array($storeId, $childProduct->getStoreIds())) {
++            //     continue;
++            // }
++            // END PATCH
+ 
+             $childPrice = $childProduct->getPrice();
+             if ($childPrice !== null && ($lowestPrice === null || $childPrice < $lowestPrice)) {

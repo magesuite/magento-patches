@@ -3400,7 +3400,12 @@
                 {
                     "description": "Skip checking website assignments",
                     "filename": "essential/dotdigital/dotdigital-magento2-extension/skip_checking_website_assignments.patch",
-                    "version-constraint": ">=4.34.2"
+                    "version-constraint": ">=4.34.2,<4.38.0"
+                },
+                {
+                    "description": "Skip checking website assignments",
+                    "filename": "essential/dotdigital/dotdigital-magento2-extension/skip_checking_website_assignments_4_38.patch",
+                    "version-constraint": ">=4.38.0"
                 }
             ],
             "dotmailer/dotmailer-magento2-extension-sms": [
