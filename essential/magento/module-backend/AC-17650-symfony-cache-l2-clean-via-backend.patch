@@ -1,0 +1,22 @@
+Backport of magento/magento2 AC-17650 (merge 3a6b9667113, 2026-08-28) to Magento 2.4.9 (module-backend 102.0.9): the cache cleaning cron calls clean() on the cache backend.
+The FlushAll part of AC-17650 is already covered by 249-fix-flush-cache-storage-with-symfony-l2-cache.patch.
+
+diff --git a/Cron/CleanCache.php b/Cron/CleanCache.php
+index ff47cef..175f56e 100644
+--- a/Cron/CleanCache.php
++++ b/Cron/CleanCache.php
+@@ -35,8 +35,12 @@ class CleanCache
+     {
+         /** @var $cacheFrontend \Magento\Framework\Cache\FrontendInterface */
+         foreach ($this->cacheFrontendPool as $cacheFrontend) {
+-            // Clean old/expired cache entries - Symfony cache handles this automatically
+-            $cacheFrontend->clean(CacheConstants::CLEANING_MODE_OLD);
++            // PATCH START
++            // The cache frontend does not support the 'old' cleaning mode, so the backend is used
++            // directly (legacy parity). For symfony_l2 this prunes expired L1 files + sweeps the L2
++            // tag index; Redis data keys auto-expire via native TTL.
++            $cacheFrontend->getBackend()->clean(CacheConstants::CLEANING_MODE_OLD);
++            // PATCH END
+         }
+     }
+ }
