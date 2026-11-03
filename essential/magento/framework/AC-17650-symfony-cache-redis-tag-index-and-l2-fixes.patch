@@ -1,0 +1,4491 @@
+Backport of magento/magento2 AC-17650 (merge 3a6b9667113, 2026-08-28) together with its prerequisite ACP2E-4989 (327d5bfa12d) to Magento 2.4.9 (framework 103.0.9).
+Fixes the Symfony cache Redis tag index leak (cache:id_tags:* / cache:tags:* / cache:all_ids never pruned), L2 flush/clean, lifetime and compression handling.
+Built on top of allow-to-use-own-cache-dir.patch (upstream now returns absolute cache_dir as-is), so it has to be applied after it.
+Test files and dev/ changes are left out.
+Also contains the fork fixes of magento/magento2@19640e886e and the database-scoped persistent_id of @4d6f3a65a5 (AC-17867), so parallel indexers (MAGE_INDEXER_THREADS_COUNT > 1) no longer share the parent's Redis socket. This replaces the former optional 249-fix-parallel-indexer-shared-redis-connection.patch.
+Also contains the SymfonyL2Cache::save() fix of magento/magento2@0be8c3325ea (AC-17867): a tagged save of data that L2 already holds removes the remote entry and saves it again, so a changed tag set and lifetime reach Redis instead of being skipped as a redundant write.
+Also contains the fix for magento/magento2#41529 from PR #41719 (open upstream): the pipelined tag index prune, used when Redis refuses EVAL (ACL without scripts, RedisCluster), keeps the index of ids whose data key still exists, as the atomic Lua prune does.
+Also resets the symfony_l2 regeneration-lock state (cached lock adapter, signature, held locks) in a forked child, so the lock commands of parallel indexers do not run over the parent's Redis connection (the same reply mix-up as above; upstream 2.4-develop still caches the lock adapter across forks).
+
+diff --git a/App/Cache/Frontend/Factory.php b/App/Cache/Frontend/Factory.php
+index aa838cc..180387a 100644
+--- a/App/Cache/Frontend/Factory.php
++++ b/App/Cache/Frontend/Factory.php
+@@ -153,18 +153,9 @@ class Factory
+     {
+         $options = $this->_getExpandedOptions($options);
+ 
+-        // Optimize: Cache directory operations
+-        foreach (['backend_options', 'slow_backend_options'] as $section) {
+-            if (!empty($options[$section]['cache_dir'])) {
+-                $cacheDir = $options[$section]['cache_dir'];
+-                if (!isset($this->cachedDirectories[$cacheDir])) {
+-                    $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+-                    $directory->create($cacheDir);
+-                    $this->cachedDirectories[$cacheDir] = $directory->getAbsolutePath($cacheDir);
+-                }
+-                $options[$section]['cache_dir'] = $this->cachedDirectories[$cacheDir];
+-            }
+-        }
++        // PATCH START
++        $this->prepareCacheDirectories($options);
++        // PATCH END
+ 
+         // Optimize: Use cached ID prefix or generate once
+         $idPrefix = $this->getIdPrefix($options);
+@@ -490,20 +481,37 @@ class Factory
+             if (!empty($options[$section]['cache_dir'])) {
+                 $cacheDir = $options[$section]['cache_dir'];
+                 // PATCH START
+-                if (str_starts_with($cacheDir, '/dev/shm/')) {
+-                    continue;
+-                }
+                 // PATCH END
+                 if (!isset($this->cachedDirectories[$cacheDir])) {
+-                    $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+-                    $directory->create($cacheDir);
+-                    $this->cachedDirectories[$cacheDir] = $directory->getAbsolutePath($cacheDir);
++                    // PATCH START
++                    $this->cachedDirectories[$cacheDir] = $this->resolveCacheDir($cacheDir);
++                    // PATCH END
+                 }
+                 $options[$section]['cache_dir'] = $this->cachedDirectories[$cacheDir];
+             }
+         }
+     }
+ 
++    // PATCH START
++    /**
++     * Resolve a cache_dir value to an absolute path.
++     *
++     * Absolute paths (e.g. /dev/shm/magento_l1) are required for L2 cache configuration and returned as-is.
++     *
++     * @param string $path
++     * @return string
++     */
++    private function resolveCacheDir(string $path): string
++    {
++        if (str_starts_with($path, DIRECTORY_SEPARATOR)) {
++            return $path;
++        }
++        $directory = $this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
++        $directory->create($path);
++        return $directory->getAbsolutePath($path);
++    }
++
++    // PATCH END
+     /**
+      * Create cache frontend instance using Symfony Cache
+      *
+@@ -557,28 +565,56 @@ class Factory
+                 $adapterProvider,
+                 $originalBackendType,
+                 $backendOptions,
+-                $idPrefix,
+-                $defaultLifetime
++                // PATCH START
++                $idPrefix
++                // PATCH END
+             ) {
++                // PATCH START
++                // Build the PSR-6 pool with default lifetime 0 (no hidden TTL). The Symfony frontend
++                // adapter applies every lifetime explicitly via expiresAfter(), so a null lifetime must
++                // mean "no expiration" (legacy Zend/Cm parity) — if the pool imposed its own default,
++                // null-lifetime entries (config/layout caches) would wrongly expire after 2h.
++                // PATCH END
+                 return $adapterProvider->createAdapter(
+                     $originalBackendType,
+                     $backendOptions,
+                     $idPrefix,
+-                    $defaultLifetime
++                    // PATCH START
++                    0
++                    // PATCH END
+                 );
+             };
+ 
+             // Create initial cache pool
+             $cachePool = $cacheFactory();
+ 
+-            // Create tag adapter for backend-specific operations
+-            $adapter = $adapterProvider->createTagAdapter(
++            // PATCH START
++            // Factory that (re)builds the tag adapter for a given pool. Passed to the Symfony adapter so
++            // that, after a fork, the tag adapter is rebuilt against the child's fresh pool/connection
++            // (otherwise it keeps the parent's extracted Redis socket and corrupts tag ops).
++            $adapterFactory = function ($pool) use (
++                $adapterProvider,
++            // PATCH END
+                 $originalBackendType,
+-                $cachePool,
++                // PATCH START
++                // PATCH END
+                 $idPrefix,
+                 $isPageCache,
+                 $backendOptions
+-            );
++            // PATCH START
++            ) {
++                return $adapterProvider->createTagAdapter(
++                    $originalBackendType,
++                    $pool,
++                    $idPrefix,
++                    $isPageCache,
++                    $backendOptions
++                );
++            };
++
++            // Create tag adapter for backend-specific operations
++            $adapter = $adapterFactory($cachePool);
++            // PATCH END
+ 
+             // Create Symfony adapter with fork detection support and tag adapter
+             $result = $this->_objectManager->create(
+@@ -588,6 +624,9 @@ class Factory
+                     'adapter' => $adapter,
+                     'defaultLifetime' => $defaultLifetime,
+                     'idPrefix' => $idPrefix,
++                    // PATCH START
++                    'adapterFactory' => $adapterFactory,
++                    // PATCH END
+                 ]
+             );
+ 
+@@ -606,6 +645,9 @@ class Factory
+                     [
+                         'adapter' => $result,
+                         'preloadKeys' => $backendOptions['preload_keys'],
++                        // PATCH START
++                        'idPrefix' => $idPrefix,
++                        // PATCH END
+                     ]
+                 );
+             }
+@@ -634,9 +676,17 @@ class Factory
+      */
+     private function isCompressionEnabled(array $backendOptions): bool
+     {
+-        // Check if compress_data is explicitly enabled (value '1' or true)
+-        return isset($backendOptions['compress_data'])
+-            && ($backendOptions['compress_data'] === '1' || $backendOptions['compress_data'] === 1);
++        // PATCH START
++        // Opt-in: default OFF when compress_data is not configured (preserves write latency for
++        // installs that never set it, matching the legacy backend). When it IS set, treat any value
++        // other than an explicit falsey ('0', 0, false, 'false', '') as enabled — so 1, '1' and the
++        // boolean true all turn compression on.
++        if (!isset($backendOptions['compress_data'])) {
++            return false;
++        }
++
++        return !in_array($backendOptions['compress_data'], ['0', 0, false, 'false', ''], true);
++        // PATCH END
+     }
+ 
+     /**
+@@ -695,13 +745,16 @@ class Factory
+         ], true);
+     }
+ 
++    // PATCH START
+     /**
+      * Create SymfonyL2Cache (Clean L2 cache for Symfony)
+      *
+      * @param array $options
+      * @return FrontendInterface
+      * @throws \Exception
++     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+      */
++    // PATCH END
+     private function createSymfonyL2Cache(array $options): FrontendInterface
+     {
+         $backendOptions = $options['backend_options'] ?? [];
+@@ -710,9 +763,43 @@ class Factory
+         $remoteBackend = $backendOptions['remote_backend'] ?? 'redis';
+         $remoteBackendOptions = $backendOptions['remote_backend_options'] ?? [];
+ 
++        // PATCH START
++        // Mirror legacy RemoteSynchronizedCache: top-level ("universal") backend_options that are not
++        // L2 structural keys flow into the remote tier, so preload_keys works in either backend_options
++        // or remote_backend_options (remote_backend_options wins on conflict, matching legacy merge order).
++        $l2StructuralKeys = [
++            'remote_backend', 'remote_backend_custom_naming', 'remote_backend_autoload', 'remote_backend_options',
++            'local_backend', 'local_backend_options', 'local_backend_custom_naming', 'local_backend_autoload',
++            'use_stale_cache', 'cleanup_percentage',
++        ];
++        $universalOptions = array_diff_key($backendOptions, array_flip($l2StructuralKeys));
++        $remoteBackendOptions = array_merge($universalOptions, $remoteBackendOptions);
++
++        // PATCH END
+         // Get local backend configuration (L1 - fast, local)
+         $localBackend = $backendOptions['local_backend'] ?? 'file';
+         $localBackendOptions = $backendOptions['local_backend_options'] ?? [];
++        // PATCH START
++        // Never maintain an on-disk L1 tag index (tags/ + idtags/). The L2 remote (Redis) is the
++        // source of truth for tags and the :hash marker, and the L1 self-heals on read when its
++        // hash no longer matches the remote. This keeps the L1 from accumulating hundreds of
++        // thousands of tiny index files on the node (the post-deploy warmup degradation / tmpfs
++        // ENOSPC); cache data itself is still written normally to the L1 cache_dir, and
++        // clean-by-tag continues to work through the remote.
++        $localBackendOptions['index_tags'] = false;
++
++        // Resolve the L1 file cache directory up front so both the local backend and the L2 wrapper
++        // agree on it. SymfonyL2Cache uses it to gauge disk fill for size-based L1 eviction (the
++        // legacy disk-full safety valve). Only meaningful for the default file L1.
++        if (($localBackend === 'file') && empty($localBackendOptions['cache_dir'])) {
++            if (!isset($this->cachedDirectories['cache'])) {
++                $cacheDir = $this->_filesystem->getDirectoryWrite(DirectoryList::CACHE);
++                $this->cachedDirectories['cache'] = $cacheDir->getAbsolutePath();
++                $cacheDir->create();
++            }
++            $localBackendOptions['cache_dir'] = $this->cachedDirectories['cache'];
++        }
++        // PATCH END
+ 
+         // Get common options
+         $frontend = $this->_getFrontendOptions($options);
+@@ -749,6 +836,9 @@ class Factory
+                     'options' => [
+                         'cleanup_percentage' => $backendOptions['cleanup_percentage'] ?? 90,
+                         'use_stale_cache' => $backendOptions['use_stale_cache'] ?? false,
++                        // PATCH START
++                        'local_cache_dir' => $localBackendOptions['cache_dir'] ?? null,
++                        // PATCH END
+                     ],
+                 ]
+             );
+diff --git a/App/Cache/Manager.php b/App/Cache/Manager.php
+index aea1226..6bbf584 100644
+--- a/App/Cache/Manager.php
++++ b/App/Cache/Manager.php
+@@ -107,8 +107,12 @@ class Manager
+             if (in_array($backend, $flushedBackend, true)) { // it was already flushed from another frontend
+                 continue;
+             }
+-            // Call clean on frontend (not backend) for proper abstraction
+-            $frontend->clean();
++            // PATCH START
++            // flush() must PURGE the whole storage (not a tag-scoped clean). Call clean() on the
++            // backend directly, as legacy does — a frontend->clean() is downgraded by TagScope to a
++            // MATCHING_TAG clean, which cannot reach an untagged local (L1) tier and leaves it behind.
++            $backend->clean();
++            // PATCH END
+             $flushedBackend[] = $backend;
+         }
+     }
+diff --git a/Cache/Backend/SymfonyL2Cache.php b/Cache/Backend/SymfonyL2Cache.php
+index a1b4e07..94ee72d 100644
+--- a/Cache/Backend/SymfonyL2Cache.php
++++ b/Cache/Backend/SymfonyL2Cache.php
+@@ -9,16 +9,20 @@ namespace Magento\Framework\Cache\Backend;
+ 
+ use Magento\Framework\Cache\CacheConstants;
+ use Magento\Framework\Cache\Exception\CacheException;
++// PATCH START
++use Magento\Framework\Cache\Frontend\Adapter\SymfonyAdapters\RedisTagAdapter;
++// PATCH END
+ use Magento\Framework\Cache\FrontendInterface;
+ 
++// PATCH START
+ /**
+  * L2 (Two-Level) Cache Backend for Symfony Adapters
+  *
+  * This backend provides local + remote caching with automatic synchronization,
+  * designed specifically for Symfony cache adapters (PSR-6 compliant).
+  *
+- * Unlike RemoteSynchronizedCache (which requires ExtendedBackendInterface),
+- * this class works directly with Symfony's FrontendInterface.
++ * This class works directly with Symfony's FrontendInterface and does not require
++ * ExtendedBackendInterface.
+  *
+  * Architecture:
+  * - L1 (Local): Fast cache (file/APCu) - Per worker, ephemeral
+@@ -26,7 +30,9 @@ use Magento\Framework\Cache\FrontendInterface;
+  * - Sync: :hash mechanism detects stale local data
+  *
+  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
++ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
+  */
++// PATCH END
+ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+ {
+     /**
+@@ -77,6 +83,64 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+      */
+     private const INVALID_MARK_TTL = 86400;
+ 
++    // PATCH START
++    /**
++     * Regeneration lock key prefix (stored in remote L2)
++     */
++    private const LOCK_PREFIX = '___stale_regen_lock_';
++
++    /**
++     * Regeneration lock lifetime in seconds (auto-expires if a regenerator dies)
++     */
++    private const LOCK_TTL = 10;
++
++    /**
++     * Per-process signature to confirm regeneration-lock ownership
++     *
++     * @var string
++     */
++    private string $lockSign;
++
++    /**
++     * Resolved Redis tag adapter from the remote frontend, used for atomic lock ops.
++     * Null once resolution has run and the remote is not Redis-backed.
++     *
++     * @var RedisTagAdapter|null
++     */
++    private ?RedisTagAdapter $lockAdapter = null;
++
++    /**
++     * Whether lock-adapter resolution has been attempted (so a null result is not re-resolved)
++     *
++     * @var bool
++     */
++    private bool $lockAdapterResolved = false;
++
++    /**
++     * Cache ids for which this process currently holds the regeneration lock, so save() only
++     * issues a release round-trip for locks it actually owns.
++     *
++     * @var array<string, true>
++     */
++    private array $heldLocks = [];
++
++    /**
++     * PID that owns the lock state above; a forked child resets it so it never reuses the parent's
++     * lock adapter (and thereby the parent's Redis connection), signature or held locks.
++     *
++     * @var int
++     */
++    private int $lockPid;
++
++    /**
++     * Absolute path of the L1 (file) cache directory, used to gauge disk fill for size-based
++     * eviction. Null when the L1 is not file-backed (then eviction is disabled).
++     *
++     * @var string|null
++     */
++    private ?string $localCacheDir;
++
++    // PATCH END
+     /**
+      * Constructor
+      *
+@@ -96,6 +160,11 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         $this->local = $local;
+         $this->cleanupPercentage = (int)($options['cleanup_percentage'] ?? self::DEFAULT_CLEANUP_PERCENTAGE);
+         $this->useStaleCache = (bool)($options['use_stale_cache'] ?? false);
++        // PATCH START
++        $this->localCacheDir = isset($options['local_cache_dir']) ? (string)$options['local_cache_dir'] : null;
++        $this->lockSign = $this->generateLockSign();
++        $this->lockPid = (int)getmypid();
++        // PATCH END
+ 
+         // Validate cleanup percentage
+         if ($this->cleanupPercentage < 1 || $this->cleanupPercentage > 100) {
+@@ -126,6 +195,37 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         return $this->loadFromRemoteOrFallback($id, $localData);
+     }
+ 
++    // PATCH START
++    /**
++     * Batched multi-load from the remote (L2) tier in a single round-trip.
++     *
++     * Used by the preloading wrapper to warm a set of hot keys at once, mirroring the legacy Redis
++     * wrapper (which pipelines the preload from the shared/slave tier). The remote is the source of
++     * truth, so we fetch the values there in one call; per-id L1/hash validation is intentionally
++     * skipped for this warm-up path (any preloaded value is still re-validated on a normal load()).
++     *
++     * @param string[] $ids
++     * @return array<string, mixed>
++     */
++    public function loadMultiple(array $ids): array
++    {
++        if (empty($ids)) {
++            return [];
++        }
++        if (method_exists($this->remote, 'loadMultiple')) {
++            return $this->remote->loadMultiple($ids);
++        }
++        $out = [];
++        foreach ($ids as $id) {
++            $value = $this->remote->load($id);
++            if ($value !== false) {
++                $out[$id] = $value;
++            }
++        }
++        return $out;
++    }
++
++    // PATCH END
+     /**
+      * @inheritDoc
+      */
+@@ -148,19 +248,46 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         $hashSaved = false;
+ 
+         try {
+-            // Save data first to avoid hash pointing to non-existent data
+-            $remoteSaved = $this->remote->save($data, $id, $tags, $specificLifetime);
+-
+-            if ($remoteSaved !== false) {
+-                // Calculate and save hash to remote for synchronization
+-                $hash = $this->getDataHash($data);
+-                $hashSaved = $this->remote->save($hash, $id . self::HASH_SUFFIX, $tags, $specificLifetime);
++            // PATCH START
++            $sameRemoteData = $this->isRemoteUpToDate($data, $id);
++            // A tagged save must reach the remote adapter even when the payload is unchanged;
++            // otherwise changed tag associations would be skipped with the data deduplication.
++            if (empty($tags) && $sameRemoteData) {
++                // Skip redundant data and hash writes when L2 already contains this exact value,
++                // avoiding duplicate Redis traffic for repeated saves.
++                $remoteSaved = true;
++                $hashSaved = true;
++            } else {
++                if (!empty($tags) && $sameRemoteData) {
++                    // Remove first so all previous remote tag memberships are cleared before re-save.
++                    $this->remote->remove($id);
++                }
++                // Save data first to avoid hash pointing to non-existent data
++                $remoteSaved = $this->remote->save($data, $id, $tags, $specificLifetime);
++
++                if ($remoteSaved !== false) {
++                    // Calculate and save hash to remote for synchronization
++                    $hash = $this->getDataHash($data);
++                    $hashSaved = $this->remote->save($hash, $id . self::HASH_SUFFIX, $tags, $specificLifetime);
++                }
++            // PATCH END
+             }
+         } catch (\Exception $e) {
+             $remoteSaved = false;
+             $hashSaved = false;
+         }
+ 
++        // PATCH START
++        // Disk-full safety valve: occasionally flush the whole L1 when its partition is nearly full,
++        // BEFORE re-saving this entry so the current value survives the flush. Mirrors legacy
++        // RemoteSynchronizedCache::save(), which probabilistically calls local->clean() when the L1
++        // filling percentage reaches cleanup_percentage. clearLocal() is used (not local->clean(),
++        // which is tag-scoped and cannot see an index_tags=false L1).
++        if ($this->shouldCheckLocalSpace() && $this->isLocalCacheSpaceExceeded()) {
++            $this->clearLocal();
++        }
++
++        // PATCH END
+         // Save to local cache
+         $this->local->save($data, $id, $tags, $specificLifetime);
+ 
+@@ -172,6 +299,14 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+             }
+         }
+ 
++        // PATCH START
++        // If this process elected itself the regenerator for $id, the fresh value is now in L2,
++        // so release the lock immediately (ownership-safe) instead of leaving it to the TTL. This
++        // lets an immediate re-invalidation elect a new regenerator right away rather than serving
++        // stale until LOCK_TTL expires.
++        $this->releaseRegenLock($id);
++
++        // PATCH END
+         return $remoteSaved;
+     }
+ 
+@@ -212,11 +347,72 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+      */
+     public function clean($mode = CacheConstants::CLEANING_MODE_ALL, $tags = [])
+     {
+-        // Clean both caches
++        // PATCH START
++        if ($mode === CacheConstants::CLEANING_MODE_ALL) {
++            // Full flush: clear the L1 pool directly. A tag-scoped clean() cannot reach the local
++            // tier when index_tags=false (it has no tag index), so cache:flush would otherwise leave
++            // stale L1 data behind. Mirrors the legacy RemoteSynchronizedCache, whose clean(ALL)
++            // clears the raw local backend.
++            $this->clearLocal();
++            return $this->remote->clean($mode, $tags);
++        }
++        if ($mode === CacheConstants::CLEANING_MODE_OLD) {
++            // TTL garbage collection (run by the backend_clean_cache cron). Prune expired entries from
++            // BOTH tiers, mirroring legacy clean(OLD). The L1 FilesystemAdapter physically deletes
++            // expired files here; a tag-scoped local->clean() cannot (index_tags=false), so we prune the
++            // local backend directly. The remote's clean(OLD) sweeps the Redis tag index (data keys
++            // auto-expire via native TTL).
++            $this->pruneLocal();
++            return $this->remote->clean($mode, $tags);
++        }
++        // PATCH END
+         $this->local->clean($mode, $tags);
+         return $this->remote->clean($mode, $tags);
+     }
+ 
++    // PATCH START
++    /**
++     * Prune expired entries from the local (L1) tier when its backend supports pruning.
++     *
++     * @return void
++     */
++    private function pruneLocal(): void
++    {
++        $localBackend = $this->local->getBackend();
++        if (method_exists($localBackend, 'prune')) {
++            $localBackend->prune();
++        }
++    }
++
++    /**
++     * Fully wipe both cache tiers (L1 + L2). Used by FlushAll / cache:flush via getBackend()->clear().
++     *
++     * @return bool
++     */
++    public function clear(): bool
++    {
++        $this->clearLocal();
++        return (bool)$this->remote->clean(CacheConstants::CLEANING_MODE_ALL);
++    }
++
++    /**
++     * Empty the local (L1) tier completely.
++     *
++     * Bypasses the tag-scoped clean() that cannot see an index_tags=false file index.
++     *
++     * @return void
++     */
++    private function clearLocal(): void
++    {
++        $localBackend = $this->local->getBackend();
++        if (method_exists($localBackend, 'clear')) {
++            $localBackend->clear();
++        } else {
++            $this->local->clean(CacheConstants::CLEANING_MODE_ALL);
++        }
++    }
++
++    // PATCH END
+     /**
+      * Calculate hash of data for synchronization
+      *
+@@ -228,6 +424,29 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         return hash('sha256', $data);
+     }
+ 
++    // PATCH START
++    /**
++     * Whether the remote (L2) already holds exactly this value, so a re-write would be redundant.
++     *
++     * Compares the stored :hash first (cheap) and, only on a match, confirms the data itself is still
++     * present and identical — guarding against the data having been evicted while the hash lingered
++     * under a different TTL. Mirrors legacy RemoteSynchronizedCache::save()'s up-to-date check.
++     *
++     * @param string $data
++     * @param string $id
++     * @return bool
++     */
++    private function isRemoteUpToDate(string $data, string $id): bool
++    {
++        $remoteHash = $this->remote->load($id . self::HASH_SUFFIX);
++        if ($remoteHash === false || $remoteHash !== $this->getDataHash($data)) {
++            return false;
++        }
++        $remoteData = $this->remote->load($id);
++        return $remoteData !== false && $remoteData === $data;
++    }
++
++    // PATCH END
+     /**
+      * @inheritDoc
+      */
+@@ -275,13 +494,74 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         return [];
+     }
+ 
++    // PATCH START
+     /**
+      * @inheritDoc
+-     */
++     *
++     * Real remote (L2) storage filling percentage, matching legacy RemoteSynchronizedCache semantics
++     * (delegates to the remote backend, e.g. Cm_Cache_Backend_Redis::getFillingPercentage() computing
++     * used_memory/maxmemory). Kept distinct from the local L1 disk safety valve in
++     * getLocalFillingPercentage() — the two were separate public/private checks in legacy and
++     * collapsing them here would silently swap remote memory pressure for local disk usage in any
++     * caller of this public API. Returns 0 if the remote adapter can't report it (e.g. non-Redis tag
++     * adapter, or the remote is unavailable).
++     */
++    // PATCH END
+     public function getFillingPercentage()
+     {
+-        // Cannot determine filling percentage for L2 cache
+-        return 0;
++        // PATCH START
++        try {
++            return $this->remote->getLowLevelFrontend()->getTagAdapter()->getFillingPercentage();
++        } catch (\Throwable $e) {
++            return 0;
++        }
++    }
++
++    /**
++     * Disk-partition filling percentage of the L1 (file) cache dir, matching the legacy Zend file
++     * backend semantics (used only as a disk-full safety valve). Returns 0 when the L1 is not
++     * file-backed or the dir is unavailable, so eviction never triggers spuriously.
++     *
++     * @return int
++     */
++    private function getLocalFillingPercentage(): int
++    {
++        if ($this->localCacheDir === null || !is_dir($this->localCacheDir)) {
++            return 0;
++        }
++
++        $free = @disk_free_space($this->localCacheDir);
++        $total = @disk_total_space($this->localCacheDir);
++        if ($free === false || $total === false || $total <= 0 || $free >= $total) {
++            return 0;
++        }
++
++        return (int)(100.0 * ($total - $free) / $total);
++    }
++
++    /**
++     * Whether the L1 partition has reached the configured cleanup threshold.
++     *
++     * @return bool
++     */
++    private function isLocalCacheSpaceExceeded(): bool
++    {
++        return $this->getLocalFillingPercentage() >= $this->cleanupPercentage;
++    }
++
++    /**
++     * Throttle the (syscall-bearing) disk-space check so it does not stat the disk on every save.
++     * Mirrors the legacy ~1/101 probability. Kept as a protected seam so the eviction path can be
++     * exercised deterministically in tests.
++     *
++     * @return bool
++     */
++    protected function shouldCheckLocalSpace(): bool
++    {
++        // mt_rand() here is not for cryptographic use.
++        // phpcs:ignore Magento2.Security.InsecureFunction
++        return !mt_rand(0, 100);
++        // PATCH END
+     }
+ 
+     /**
+@@ -315,7 +595,27 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+             return false;
+         }
+ 
+-        return $this->save($data, $id, [], $extraLifetime);
++        // PATCH START
++        // Do NOT route through save(): its isRemoteUpToDate() short-circuit skips the remote write
++        // when the data is unchanged, which is exactly the touch() case (same bytes, longer TTL) and
++        // would leave the remote lifetime untouched. Re-persist the data and its :hash to the remote
++        // directly so the L2 TTL is actually extended, then refresh the local (L1) copy to match.
++        try {
++            $remoteSaved = $this->remote->save($data, $id, [], $extraLifetime);
++            if ($remoteSaved === false) {
++                return false;
++            }
++            $hash = $this->getDataHash($data);
++            $this->remote->save($hash, $id . self::HASH_SUFFIX, [], $extraLifetime);
++        } catch (\Exception $e) {
++            return false;
++        }
++
++        $this->local->save($data, $id, [], $extraLifetime);
++        $this->markValid($id);
++
++        return true;
++        // PATCH END
+     }
+ 
+     /**
+@@ -375,15 +675,29 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         $this->local->save('1', self::INVALID_KEY_PREFIX . $id, [], self::INVALID_MARK_TTL);
+     }
+ 
++    // PATCH START
+     /**
+      * Mark a cache key as valid (synchronized with remote)
+      *
++     * Only removes the L1 invalid marker when one actually exists. Markers are written without
++     * tags and only when a remote write fails, so on the healthy path (e.g. post-deploy cache
++     * warmup, remote up) there is nothing to clear. Skipping avoids an L1 remove() — and the
++     * FilesystemTagAdapter::onRemove() it triggers — on every successful save.
++     *
+      * @param string $id
++     * @param bool $knownInvalid Set by callers that already confirmed the marker exists, to skip
++     *        the redundant re-check (e.g. handleInvalidKey(), which only runs after load() has
++     *        already called isInvalid() and found it true).
+      * @return void
+      */
+-    private function markValid(string $id): void
++    private function markValid(string $id, bool $knownInvalid = false): void
++    // PATCH END
+     {
+-        $this->local->remove(self::INVALID_KEY_PREFIX . $id);
++        // PATCH START
++        if ($knownInvalid || $this->isInvalid($id)) {
++            $this->local->remove(self::INVALID_KEY_PREFIX . $id);
++        }
++        // PATCH END
+     }
+ 
+     /**
+@@ -416,7 +730,10 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         $this->local->remove($id);
+ 
+         if ($remoteCleanSuccess) {
+-            $this->markValid($id);
++            // PATCH START
++            // Caller (load()) already confirmed isInvalid($id) is true to reach this method.
++            $this->markValid($id, true);
++            // PATCH END
+         }
+         return false;
+     }
+@@ -433,6 +750,13 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         $remoteHash = $this->remote->load($id . self::HASH_SUFFIX);
+ 
+         if ($remoteHash === false && $this->useStaleCache) {
++            // PATCH START
++            // Elect one regenerator: lock winner returns a miss (rebuilds + repopulates L2),
++            // others serve stale L1 without waiting.
++            if ($this->tryLock($id)) {
++                return false;
++            }
++            // PATCH END
+             return $localData;
+         }
+ 
+@@ -445,6 +769,155 @@ class SymfonyL2Cache extends AbstractBackend implements ExtendedBackendInterface
+         return null;
+     }
+ 
++    // PATCH START
++    /**
++     * Try to acquire the non-blocking regeneration lock; returns true for exactly one reader.
++     *
++     * Uses an atomic SET NX EX on the remote Redis client when available, so exactly one caller
++     * cluster-wide wins the election. Falls back to a best-effort (non-atomic) scheme only when
++     * the remote is not Redis-backed.
++     *
++     * @param string $id
++     * @return bool
++     */
++    private function tryLock(string $id): bool
++    {
++        $this->resetLockStateOnFork();
++        $adapter = $this->getLockAdapter();
++
++        if ($adapter !== null) {
++            if ($adapter->acquireLock($id, $this->lockSign, self::LOCK_TTL)) {
++                $this->heldLocks[$id] = true;
++                return true;
++            }
++            return false;
++        }
++
++        return $this->tryLockFallback($id);
++    }
++
++    /**
++     * Release the regeneration lock for $id if this process acquired it (ownership-safe, no-op otherwise).
++     *
++     * Cheap: only issues a call when this process is recorded as the lock holder.
++     *
++     * @param string $id
++     * @return void
++     */
++    private function releaseRegenLock(string $id): void
++    {
++        $this->resetLockStateOnFork();
++        if (!isset($this->heldLocks[$id])) {
++            return;
++        }
++
++        $adapter = $this->getLockAdapter();
++        if ($adapter !== null) {
++            $adapter->releaseLock($id, $this->lockSign);
++        }
++        unset($this->heldLocks[$id]);
++    }
++
++    /**
++     * Drop the lock state inherited from the parent after a fork (e.g. parallel indexers).
++     *
++     * The cached lock adapter holds the Redis client of the parent's connection pool, so a child
++     * using it would interleave lock commands with the parent's traffic on one socket. After the
++     * reset getLockAdapter() resolves again through the remote frontend, which rebuilds its tag
++     * adapter on the child's own connection.
++     *
++     * @return void
++     */
++    private function resetLockStateOnFork(): void
++    {
++        $pid = (int)getmypid();
++        if ($pid === $this->lockPid) {
++            return;
++        }
++
++        $this->lockPid = $pid;
++        $this->lockAdapter = null;
++        $this->lockAdapterResolved = false;
++        $this->heldLocks = [];
++        $this->lockSign = $this->generateLockSign();
++    }
++
++    /**
++     * Best-effort, non-atomic lock used only when the remote is not Redis-backed.
++     *
++     * @param string $id
++     * @return bool
++     */
++    private function tryLockFallback(string $id): bool
++    {
++        $lockKey = self::LOCK_PREFIX . $id;
++
++        if ($this->remote->load($lockKey) !== false) {
++            return false;
++        }
++
++        $this->remote->save($this->lockSign, $lockKey, [], self::LOCK_TTL);
++
++        if ($this->remote->load($lockKey) === $this->lockSign) {
++            $this->heldLocks[$id] = true;
++            return true;
++        }
++
++        return false;
++    }
++
++    /**
++     * Lazily resolve the remote frontend's Redis tag adapter for atomic lock operations.
++     *
++     * Reaches through any frontend decorators via getLowLevelFrontend(); returns null (once)
++     * when the remote is not Redis-backed, in which case the best-effort fallback is used.
++     *
++     * @return RedisTagAdapter|null
++     */
++    private function getLockAdapter(): ?RedisTagAdapter
++    {
++        if ($this->lockAdapterResolved) {
++            return $this->lockAdapter;
++        }
++
++        $this->lockAdapterResolved = true;
++
++        try {
++            if (method_exists($this->remote, 'getLowLevelFrontend')) {
++                $lowLevel = $this->remote->getLowLevelFrontend();
++                if (method_exists($lowLevel, 'getTagAdapter')) {
++                    $adapter = $lowLevel->getTagAdapter();
++                    if ($adapter instanceof RedisTagAdapter) {
++                        $this->lockAdapter = $adapter;
++                    }
++                }
++            }
++        } catch (\Throwable $e) {
++            $this->lockAdapter = null;
++        }
++
++        return $this->lockAdapter;
++    }
++
++    /**
++     * Generate a unique per-process lock signature (pid-host-random) so lock ownership is unambiguous across servers.
++     *
++     * @return string
++     */
++    private function generateLockSign(): string
++    {
++        $sign = implode('-', [getmypid(), crc32((string)gethostname())]);
++
++        try {
++            $sign .= '-' . bin2hex(random_bytes(4));
++        } catch (\Exception $e) {
++            $sign .= '-' . uniqid('-uniqid-');
++        }
++
++        return $sign;
++    }
++
++    // PATCH END
+     /**
+      * Load from remote cache or fallback to stale local data
+      *
+diff --git a/Cache/Frontend/Adapter/PreloadingSymfonyAdapter.php b/Cache/Frontend/Adapter/PreloadingSymfonyAdapter.php
+index 3f3a8bf..6631633 100644
+--- a/Cache/Frontend/Adapter/PreloadingSymfonyAdapter.php
++++ b/Cache/Frontend/Adapter/PreloadingSymfonyAdapter.php
+@@ -33,54 +33,169 @@ class PreloadingSymfonyAdapter implements FrontendInterface
+      */
+     private array $preloadKeys;
+ 
++    // PATCH START
++    /**
++     * Fast-path lookup: normalized identifier => cached value. Mirrors $localCache but keyed by the
++     * canonical id form (see normalizeIdentifier) so a preload key configured as "SYSTEM_DEFAULT:hash"
++     * is served for the runtime id the app actually loads ("system_default:hash"). $localCache stays
++     * keyed by the original preload key for stats/diagnostics.
++     *
++     * @var array
++     */
++    private array $normalizedIndex = [];
++
++    /**
++     * Normalized forms of $preloadKeys (computed once), for membership checks in save().
++     *
++     * @var array
++     */
++    private array $normalizedPreloadKeys = [];
++
++    /**
++     * Whether the one-time preload has run yet (lazy, on first load).
++     *
++     * @var bool
++     */
++    private bool $preloaded = false;
++
+     /**
+      * Constructor
+      *
+      * @param FrontendInterface $adapter Underlying cache adapter
+      * @param array $preloadKeys List of cache key identifiers to preload
++     * @param string $idPrefix Backend id_prefix, so pre-prefixed config keys (e.g. "069_EAV_ENTITY_TYPES")
++     *        are normalized to the raw id the application actually loads ("EAV_ENTITY_TYPES")
+      */
++    // PATCH END
+     public function __construct(
+         FrontendInterface $adapter,
+-        array $preloadKeys = []
++        // PATCH START
++        array $preloadKeys = [],
++        string $idPrefix = ''
++        // PATCH END
+     ) {
+         $this->adapter = $adapter;
+-        $this->preloadKeys = $preloadKeys;
++        // PATCH START
++        // Normalize keys so both raw ("EAV_ENTITY_TYPES") and pre-prefixed ("069_EAV_ENTITY_TYPES")
++        // config values resolve to the id the app passes to load(). The adapter re-adds the prefix
++        // internally, so a pre-prefixed key would otherwise be double-prefixed and never hit.
++        $this->preloadKeys = ($idPrefix !== '')
++            ? array_map(
++                static fn (string $key): string => str_starts_with($key, $idPrefix)
++                    ? substr($key, strlen($idPrefix))
++                    : $key,
++                $preloadKeys
++            )
++            : $preloadKeys;
++        $this->normalizedPreloadKeys = array_map(
++            fn (string $key): string => $this->normalizeIdentifier($key),
++            $this->preloadKeys
++        );
++    }
++        // PATCH END
+ 
+-        // Preload keys on initialization (one-time cost per worker)
+-        if (!empty($preloadKeys)) {
+-            $this->preloadKeys($preloadKeys);
+-        }
++    // PATCH START
++    /**
++     * Normalize an identifier to the canonical form the Symfony adapter stores keys under.
++     *
++     * Mirrors Magento\Framework\Cache\Frontend\Adapter\Symfony::cleanIdentifier() so a preload key
++     * configured in any case/separator (e.g. "SYSTEM_DEFAULT:hash") resolves to the same local-cache
++     * slot as the runtime id the application loads (e.g. "system_default:hash"). Both clean to
++     * "SYSTEM_DEFAULT_HASH".
++     *
++     * @param string $identifier
++     * @return string
++     */
++    private function normalizeIdentifier(string $identifier): string
++    {
++        // Single source of truth (shared with Symfony::cleanIdentifier) so the preload fast-path key
++        // form cannot drift from the store-path key form.
++        return Symfony\IdentifierNormalizer::normalize($identifier);
++    // PATCH END
+     }
+ 
++    // PATCH START
+     /**
+-     * Preload specified keys from Redis into local memory
++     * Preload all configured keys in a SINGLE batched round-trip, lazily on first use.
++     *
++     * Matches the legacy Redis wrapper (Magento\Framework\Cache\Backend\Redis::load): fetch every hot
++     * key at once (one pipeline / getItems) rather than N sequential loads, and serve them from local
++     * memory afterwards. Falls back to per-key loads only if the underlying adapter cannot batch.
++     *
++     * NOTE: preload_keys must be the cache ids exactly as the application passes them to load() (the
++     * backend id_prefix is applied internally) — do NOT pre-prefix them, or lookups will miss.
+      *
+-     * @param array $keys
+      * @return void
+      */
+-    private function preloadKeys(array $keys): void
++    private function ensurePreloaded(): void
++    // PATCH END
+     {
+-        foreach ($keys as $key) {
+-            $value = $this->adapter->load($key);
+-            if ($value !== false) {
+-                $this->localCache[$key] = $value;
++        // PATCH START
++        if ($this->preloaded) {
++            return;
++        }
++        $this->preloaded = true;
++
++        if (empty($this->preloadKeys)) {
++            return;
++        }
++
++        if (method_exists($this->adapter, 'loadMultiple')) {
++            // one batched round-trip for all keys
++            $this->localCache = $this->adapter->loadMultiple($this->preloadKeys);
++        } else {
++            // fallback: per-key (no batching available on the underlying adapter)
++            foreach ($this->preloadKeys as $key) {
++                $value = $this->adapter->load($key);
++                if ($value !== false) {
++                    $this->localCache[$key] = $value;
++                }
++        // PATCH END
+             }
+         }
++        // PATCH START
++
++        // Build the normalized fast-path index so load() matches runtime ids regardless of
++        // case/separator (the miss confirmed by tracing: localCache was keyed "SYSTEM_DEFAULT:hash"
++        // but the app loads "system_default:hash").
++        $this->normalizedIndex = [];
++        foreach ($this->localCache as $key => $value) {
++            $this->normalizedIndex[$this->normalizeIdentifier((string)$key)] = $value;
++        }
++        // PATCH END
+     }
+ 
++    // PATCH START
+     /**
+      * @inheritDoc
+      *
+-     * Checks local cache first before delegating to Redis
++     * Checks the preload cache first (populated in one batched round-trip) before delegating to Redis.
+      */
++    // PATCH END
+     public function load($identifier)
+     {
+-        // Fast path: check local cache first (0.0001ms)
+-        if (isset($this->localCache[$identifier])) {
+-            return $this->localCache[$identifier];
++        // PATCH START
++        $this->ensurePreloaded();
++
++        // Nothing preloaded (the common case: no preload_keys configured, or all preload misses) — an
++        // empty index can never hit, so skip the id normalization (strtoupper+str_replace+preg_replace)
++        // entirely and go straight to the backend. This keeps the regex off the hot path unless preload
++        // is actually in use.
++        if ($this->normalizedIndex === []) {
++            return $this->adapter->load($identifier);
++        }
++
++        // Fast path: served from the in-process preload cache (no Redis round-trip). Look up by the
++        // normalized id so configured preload keys match the runtime ids regardless of case/separators.
++        $normalized = $this->normalizeIdentifier((string)$identifier);
++        if (isset($this->normalizedIndex[$normalized])) {
++            return $this->normalizedIndex[$normalized];
++        // PATCH END
+         }
+ 
+-        // Slow path: fetch from Redis (0.15ms)
++        // PATCH START
++        // Slow path: fetch from Redis
++        // PATCH END
+         return $this->adapter->load($identifier);
+     }
+ 
+@@ -94,9 +209,17 @@ class PreloadingSymfonyAdapter implements FrontendInterface
+         // Write through to Redis
+         $result = $this->adapter->save($data, $identifier, $tags, $lifeTime);
+ 
+-        // If this is a preloaded key, update local cache
+-        if ($result && in_array($identifier, $this->preloadKeys, true)) {
+-            $this->localCache[$identifier] = $data;
++        // PATCH START
++        // If this id is a configured preload key (matched on the normalized form), keep the preload
++        // cache fresh so a subsequent load() in this request serves the new value from memory. Skip the
++        // normalization entirely when no preload keys are configured (nothing can match).
++        if ($result && $this->normalizedPreloadKeys !== []) {
++            $normalized = $this->normalizeIdentifier((string)$identifier);
++            if (in_array($normalized, $this->normalizedPreloadKeys, true)) {
++                $this->localCache[$identifier] = $data;
++                $this->normalizedIndex[$normalized] = $data;
++            }
++        // PATCH END
+         }
+ 
+         return $result;
+@@ -119,8 +242,16 @@ class PreloadingSymfonyAdapter implements FrontendInterface
+      */
+     public function remove($identifier)
+     {
+-        // Remove from local cache if present
++        // PATCH START
++        // Remove from local cache if present (both the original-keyed view and the normalized index).
++        // Only pay for normalization when something was actually preloaded.
++        // PATCH END
+         unset($this->localCache[$identifier]);
++        // PATCH START
++        if ($this->normalizedIndex !== []) {
++            unset($this->normalizedIndex[$this->normalizeIdentifier((string)$identifier)]);
++        }
++        // PATCH END
+ 
+         return $this->adapter->remove($identifier);
+     }
+@@ -132,17 +263,18 @@ class PreloadingSymfonyAdapter implements FrontendInterface
+      */
+     public function clean($mode = CacheConstants::CLEANING_MODE_ALL, array $tags = [])
+     {
+-        // Clear local cache on clean operations
++        // PATCH START
++        // Drop the preload cache and arm a lazy re-preload on the next load().
++        // PATCH END
+         $this->localCache = [];
++        // PATCH START
++        $this->normalizedIndex = [];
++        $this->preloaded = false;
++        // PATCH END
+ 
+-        // Re-preload after clean if needed
+-        $result = $this->adapter->clean($mode, $tags);
+-
+-        if ($result && !empty($this->preloadKeys)) {
+-            $this->preloadKeys($this->preloadKeys);
+-        }
+-
+-        return $result;
++        // PATCH START
++        return $this->adapter->clean($mode, $tags);
++        // PATCH END
+     }
+ 
+     /**
+diff --git a/Cache/Frontend/Adapter/RemoteSynchronizedSymfonyAdapter.php b/Cache/Frontend/Adapter/RemoteSynchronizedSymfonyAdapter.php
+index f33d399..bf39569 100644
+--- a/Cache/Frontend/Adapter/RemoteSynchronizedSymfonyAdapter.php
++++ b/Cache/Frontend/Adapter/RemoteSynchronizedSymfonyAdapter.php
+@@ -24,23 +24,27 @@ class RemoteSynchronizedSymfonyAdapter implements FrontendInterface
+      */
+     private ExtendedBackendInterface $backend;
+ 
+-    /**
+-     * @var int
+-     */
+-    private int $defaultLifetime;
+-
++    // PATCH START
+     /**
+      * Constructor
+      *
++     * The default lifetime is NOT applied here: save() forwards the lifetime through untouched
++     * (including null => no expiry, matching legacy), and the actual default TTL is applied downstream
++     * by the underlying Symfony adapter. The $defaultLifetime parameter is kept only for backward-
++     * compatible DI wiring (the frontend Factory passes it) and is intentionally unused in this class.
++     *
+      * @param ExtendedBackendInterface $backend RemoteSynchronizedCache backend
+-     * @param int $defaultLifetime Default cache lifetime
++     * @param int $defaultLifetime Kept for DI wiring; applied by the underlying Symfony adapter, not here
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
++    // PATCH END
+     public function __construct(
+         ExtendedBackendInterface $backend,
+         int $defaultLifetime = 7200
+     ) {
+         $this->backend = $backend;
+-        $this->defaultLifetime = $defaultLifetime;
++    // PATCH START
++    // PATCH END
+     }
+ 
+     /**
+@@ -59,13 +63,44 @@ class RemoteSynchronizedSymfonyAdapter implements FrontendInterface
+         return $this->backend->load($identifier);
+     }
+ 
++    // PATCH START
++    /**
++     * Batched multi-load (used by the preloading wrapper).
++     *
++     * Delegates to the L2 backend's loadMultiple() when available (one round-trip to the remote
++     * tier); otherwise falls back to per-key loads.
++     *
++     * @param string[] $identifiers
++     * @return array<string, mixed>
++     */
++    public function loadMultiple(array $identifiers): array
++    {
++        if (method_exists($this->backend, 'loadMultiple')) {
++            return $this->backend->loadMultiple($identifiers);
++        }
++        $out = [];
++        foreach ($identifiers as $id) {
++            $value = $this->backend->load($id);
++            if ($value !== false) {
++                $out[$id] = $value;
++            }
++        }
++        return $out;
++    }
++
++    // PATCH END
+     /**
+      * @inheritDoc
+      */
+     public function save($data, $identifier, $tags = [], $lifeTime = null)
+     {
+-        $lifetime = $lifeTime ?? $this->defaultLifetime;
+-        return $this->backend->save($data, $identifier, $tags, $lifetime);
++        // PATCH START
++        // Pass the lifetime through untouched (including null) so the underlying Symfony adapter's
++        // calculateActualLifetime() is the single place that applies legacy semantics: null => no
++        // expiration, false/0 => default lifetime. Coercing null to the default here forced a TTL on
++        // L2 entries that legacy stored permanently.
++        return $this->backend->save($data, $identifier, $tags, $lifeTime);
++        // PATCH END
+     }
+ 
+     /**
+diff --git a/Cache/Frontend/Adapter/Symfony.php b/Cache/Frontend/Adapter/Symfony.php
+index 26d22ce..92f4414 100644
+--- a/Cache/Frontend/Adapter/Symfony.php
++++ b/Cache/Frontend/Adapter/Symfony.php
+@@ -19,11 +19,14 @@ use Psr\Cache\CacheItemPoolInterface;
+ use Symfony\Component\Cache\Adapter\TagAwareAdapterInterface;
+ use Symfony\Component\Cache\CacheItem;
+ 
++// PATCH START
+ /**
+  * Symfony Cache adapter for Magento
+  *
+  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
++ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+  */
++// PATCH END
+ class Symfony implements FrontendInterface
+ {
+     public const DEFAULT_CACHE_PREFIX = '69d_';
+@@ -46,6 +49,17 @@ class Symfony implements FrontendInterface
+      */
+     private ?Closure $cacheFactory;
+ 
++    // PATCH START
++    /**
++     * Factory that (re)builds the tag adapter bound to a given pool. Needed so that when the pool is
++     * re-created after a fork, the tag adapter is rebuilt too — otherwise it keeps the extracted
++     * PARENT Redis connection and corrupts tag operations in the child.
++     *
++     * @var Closure|null
++     */
++    private ?Closure $adapterFactory;
++
++    // PATCH END
+     /**
+      * @var int
+      */
+@@ -109,6 +123,7 @@ class Symfony implements FrontendInterface
+      */
+     private const RESPONSE_CACHE_TTL = 0;
+ 
++    // PATCH START
+     /**
+      * Constructor
+      *
+@@ -116,14 +131,23 @@ class Symfony implements FrontendInterface
+      * @param TagAdapterInterface|null $adapter Backend-specific tag adapter
+      * @param int $defaultLifetime Default cache lifetime in seconds
+      * @param string $idPrefix Cache ID prefix
++     * @param Closure|null $adapterFactory Factory that (re)builds the tag adapter
++     * @SuppressWarnings(Magento.TypeDuplication)
+      */
++    // PATCH END
+     public function __construct(
+         Closure $cacheFactory,
+         ?TagAdapterInterface $adapter = null,
+         int $defaultLifetime = self::DEFAULT_LIFETIME,
+-        string $idPrefix = self::DEFAULT_CACHE_PREFIX
++        // PATCH START
++        string $idPrefix = self::DEFAULT_CACHE_PREFIX,
++        ?Closure $adapterFactory = null
++        // PATCH END
+     ) {
+         $this->cacheFactory = $cacheFactory;
++        // PATCH START
++        $this->adapterFactory = $adapterFactory;
++        // PATCH END
+         $this->pid = getmypid();
+         $this->cache = $cacheFactory();
+         $this->defaultLifetime = $defaultLifetime;
+@@ -143,6 +167,13 @@ class Symfony implements FrontendInterface
+         if ($currentPid !== $this->pid) {
+             $this->parentCachePools[] = $this->cache;
+             $this->cache = ($this->cacheFactory)();
++            // PATCH START
++            // Rebuild the tag adapter against the NEW pool so tag operations use this process's own
++            // Redis connection instead of the parent's inherited (shared) socket.
++            if ($this->adapterFactory !== null) {
++                $this->adapter = ($this->adapterFactory)($this->cache);
++            }
++            // PATCH END
+             $this->pid = $currentPid;
+             $this->isTagAware = null;
+         }
+@@ -171,13 +202,11 @@ class Symfony implements FrontendInterface
+      */
+     private function cleanIdentifier(?string $identifier): ?string
+     {
+-        if ($identifier === null) {
+-            return null;
+-        }
+-
+-        $identifier = strtoupper($identifier);
+-        $cleaned = str_replace('.', '__', $identifier);
+-        return preg_replace('/[^a-zA-Z0-9_]/', '_', $cleaned);
++        // PATCH START
++        // Single source of truth (shared with PreloadingSymfonyAdapter) so key normalization
++        // cannot drift between the store path and the preload fast-path.
++        return $identifier === null ? null : Symfony\IdentifierNormalizer::normalize($identifier);
++        // PATCH END
+     }
+ 
+     /**
+@@ -281,6 +310,49 @@ class Symfony implements FrontendInterface
+         return $result;
+     }
+ 
++    // PATCH START
++    /**
++     * Load several ids in a SINGLE batched round-trip (PSR-6 getItems()).
++     *
++     * Used by the preloading wrapper to fetch all hot keys at once instead of N sequential load()s —
++     * matching the legacy Redis wrapper's pipeline preload. Returns [originalId => value] for hits only.
++     *
++     * @param string[] $identifiers
++     * @return array<string, mixed>
++     */
++    public function loadMultiple(array $identifiers): array
++    {
++        if (empty($identifiers)) {
++            return [];
++        }
++        if ($this->hasPendingWrites) {
++            $this->commitPendingWrites();
++        }
++
++        // Map cleaned key -> original id so the caller can look results up by the id it passed.
++        $cleanToOriginal = [];
++        foreach ($identifiers as $identifier) {
++            $cleanToOriginal[$this->cleanIdentifier($identifier)] = $identifier;
++        }
++
++        $results = [];
++        foreach ($this->getCache()->getItems(array_keys($cleanToOriginal)) as $cleanId => $item) {
++            if (!$item->isHit()) {
++                continue;
++            }
++            $wrappedData = $item->get();
++            $value = (is_array($wrappedData) && array_key_exists('data', $wrappedData))
++                ? $wrappedData['data']
++                : $wrappedData;
++            if ($value !== false) {
++                $results[$cleanToOriginal[$cleanId]] = $value;
++            }
++        }
++
++        return $results;
++    }
++
++    // PATCH END
+     /**
+      * @inheritDoc
+      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+@@ -462,15 +534,26 @@ class Symfony implements FrontendInterface
+      */
+     private function calculateActualLifetime($lifeTime): ?int
+     {
+-        $actualLifetime = null;
++        // PATCH START
++        // Legacy Zend/Cm parity for the lifetime argument:
++        //   null  => NO expiration — the entry persists until an explicit flush or tag invalidation
++        //            (config/layout-type caches). Legacy stored these with no TTL; coercing null to a
++        //            default forced a 2h expiry on entries that must live until invalidated.
++        //   false / 0 => fall back to the configured default lifetime (unchanged behavior).
++        //   > 0   => use that lifetime.
++        if ($lifeTime === null) {
++            return null;
++        }
++        // PATCH END
+ 
+-        if ($lifeTime !== null && $lifeTime !== false && $lifeTime !== 0) {
+-            $actualLifetime = (int)$lifeTime;
+-        } elseif ($lifeTime === 0 || $lifeTime === false) {
+-            // 0 or false means use default in Zend behavior
++        // PATCH START
++        if ($lifeTime === false || $lifeTime === 0) {
++        // PATCH END
+             $actualLifetime = $this->defaultLifetime;
+         } else {
+-            $actualLifetime = $this->defaultLifetime;
++            // PATCH START
++            $actualLifetime = (int)$lifeTime;
++            // PATCH END
+         }
+ 
+         // Enforce Redis MAX_LIFETIME limit (matches Zend behavior)
+@@ -537,9 +620,14 @@ class Symfony implements FrontendInterface
+             $cache->commit();
+         }
+ 
+-        // Notify helper about the save (for Redis/Filesystem to maintain indices)
+-        // Note: onSave() already handles reverse index, no need for separate call
+-        if ($success && !empty($cleanTags)) {
++        // PATCH START
++        // Notify the tag adapter on EVERY successful save, including tagless ones, so the backend
++        // index can register the id (e.g. Redis all_ids). This lets CLEANING_MODE_NOT_MATCHING_TAG
++        // sweep untagged entries too. Adapters treat an empty tag set as "index membership only" —
++        // no forward/reverse tag links are written — so the extra call is a cheap SADD (Redis) or a
++        // no-op (Generic/Filesystem).
++        if ($success) {
++        // PATCH END
+             $this->adapter->onSave($cleanId, $cleanTags);
+         }
+     }
+@@ -641,9 +729,13 @@ class Symfony implements FrontendInterface
+      */
+     private function cleanOld(CacheItemPoolInterface $cache): bool
+     {
+-        // Symfony handles expiration automatically
+-        // This is a no-op as expired items are not returned
+-        return true;
++        // PATCH START
++        // Symfony auto-expires the DATA key by TTL, but the id lingers in its tag SETs / reverse index
++        // (cache:tags:*, cache:id_tags:*, cache:all_ids). Sweep those orphaned members so the tag index
++        // does not grow unbounded — the L2 cron path reaches GC here via the remote frontend. Mirrors
++        // legacy Cm Redis clean(OLD) -> _collectGarbage(). No-op on adapters without such an index.
++        return $this->adapter->garbageCollect() >= 0;
++        // PATCH END
+     }
+ 
+     /**
+diff --git a/Cache/Frontend/Adapter/Symfony/BackendWrapper.php b/Cache/Frontend/Adapter/Symfony/BackendWrapper.php
+index c1d506e..4ca4b34 100644
+--- a/Cache/Frontend/Adapter/Symfony/BackendWrapper.php
++++ b/Cache/Frontend/Adapter/Symfony/BackendWrapper.php
+@@ -13,6 +13,9 @@ use Magento\Framework\Cache\CacheConstants;
+ use Magento\Framework\Cache\Frontend\Adapter\SymfonyAdapters\TagAdapterInterface;
+ use Magento\Framework\Cache\FrontendInterface;
+ use Psr\Cache\CacheItemPoolInterface;
++// PATCH START
++use Symfony\Component\Cache\PruneableInterface;
++// PATCH END
+ 
+ /**
+  * Backend wrapper for Symfony cache adapter
+@@ -63,13 +66,16 @@ class BackendWrapper implements BackendInterface
+         return $this->symfony->test($id);
+     }
+ 
++    // PATCH START
+     /**
+      * Load value with given id from cache
+      *
+      * @param string $id Cache id
+      * @param bool $doNotTestCacheValidity If true, validity not tested
+      * @return string|false Cached data or false if not available
++     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+      */
++    // PATCH END
+     public function load($id, $doNotTestCacheValidity = false)
+     {
+         // Delegate to frontend (validity always tested in Symfony)
+@@ -115,11 +121,41 @@ class BackendWrapper implements BackendInterface
+     {
+         return match ($mode) {
+             CacheConstants::CLEANING_MODE_ALL, 'all' => $this->clear(),
+-            CacheConstants::CLEANING_MODE_OLD, 'old' => true,
++            // PATCH START
++            CacheConstants::CLEANING_MODE_OLD, 'old' => $this->cleanOld(),
++            // PATCH END
+             default => throw new InvalidArgumentException("Backend clean only supports ALL and OLD modes")
+         };
+     }
+ 
++    // PATCH START
++    /**
++     * Garbage-collect old entries: delete expired items from the store, then sweep orphaned tag-index
++     * members. Mirrors legacy clean(OLD) (Zend file backend automatic_cleaning_factor + Cm Redis
++     * _collectGarbage), run by the backend_clean_cache cron.
++     *
++     * @return bool
++     */
++    private function cleanOld(): bool
++    {
++        // Remove expired entries from the underlying store. FilesystemAdapter physically deletes
++        // expired files here (parity with the legacy file backend); Redis auto-expires so this no-ops.
++        $this->prune();
++        // Sweep orphaned tag-index members (ids whose data key already expired). No-op on file/generic.
++        return $this->adapter->garbageCollect() >= 0;
++    }
++
++    /**
++     * Prune expired entries from the underlying pool when it supports pruning (e.g. FilesystemAdapter).
++     *
++     * @return bool
++     */
++    public function prune(): bool
++    {
++        return $this->cache instanceof PruneableInterface ? $this->cache->prune() : false;
++    }
++
++    // PATCH END
+     /**
+      * Set an option
+      *
+diff --git a/Cache/Frontend/Adapter/Symfony/IdentifierNormalizer.php b/Cache/Frontend/Adapter/Symfony/IdentifierNormalizer.php
+new file mode 100644
+index 0000000..b2dcc4b
+--- /dev/null
++++ b/Cache/Frontend/Adapter/Symfony/IdentifierNormalizer.php
+@@ -0,0 +1,34 @@
++<?php
++// PATCH START
++/**
++ * Copyright 2026 Adobe
++ * All Rights Reserved.
++ */
++declare(strict_types=1);
++
++namespace Magento\Framework\Cache\Frontend\Adapter\Symfony;
++
++/**
++ * Canonicalizes a cache identifier to the single form used for Symfony cache keys.
++ *
++ * Single source of truth shared by the Symfony frontend adapter (Symfony::cleanIdentifier) and the
++ * PreloadingSymfonyAdapter fast-path lookup, so the two cannot drift: a preload key configured in any
++ * case/separator (e.g. "SYSTEM_DEFAULT:hash") resolves to the same slot as the runtime id the app
++ * loads (e.g. "system_default:hash") — both become "SYSTEM_DEFAULT_HASH".
++ */
++class IdentifierNormalizer
++{
++    /**
++     * Normalize an identifier: upper-case, "." -> "__", and any other non [A-Za-z0-9_] char -> "_".
++     *
++     * @param string $identifier
++     * @return string
++     */
++    public static function normalize(string $identifier): string
++    {
++        $identifier = strtoupper($identifier);
++        $identifier = str_replace('.', '__', $identifier);
++        return (string) preg_replace('/[^a-zA-Z0-9_]/', '_', $identifier);
++    }
++}
++// PATCH END
+diff --git a/Cache/Frontend/Adapter/Symfony/LowLevelFrontend.php b/Cache/Frontend/Adapter/Symfony/LowLevelFrontend.php
+index 27de8a8..a68f392 100644
+--- a/Cache/Frontend/Adapter/Symfony/LowLevelFrontend.php
++++ b/Cache/Frontend/Adapter/Symfony/LowLevelFrontend.php
+@@ -118,6 +118,21 @@ class LowLevelFrontend
+         return [];
+     }
+ 
++    // PATCH START
++    /**
++     * Get the backend-specific tag adapter (e.g. RedisTagAdapter) backing this frontend.
++     *
++     * Exposes the adapter so higher-level backends (SymfonyL2Cache) can reach adapter-specific
++     * capabilities such as the atomic regeneration lock, working through any frontend decorators.
++     *
++     * @return TagAdapterInterface
++     */
++    public function getTagAdapter(): TagAdapterInterface
++    {
++        return $this->adapter;
++    }
++
++    // PATCH END
+     /**
+      * Get backend wrapper
+      *
+diff --git a/Cache/Frontend/Adapter/Symfony/RedisBase.php b/Cache/Frontend/Adapter/Symfony/RedisBase.php
+new file mode 100644
+index 0000000..95f1959
+--- /dev/null
++++ b/Cache/Frontend/Adapter/Symfony/RedisBase.php
+@@ -0,0 +1,57 @@
++<?php
++// PATCH START
++/**
++ * Copyright 2026 Adobe
++ * All Rights Reserved.
++ */
++
++// phpcs:ignoreFile PSR1.Files.SideEffects -- must combine the conditional declaration and the
++// class_alias() side effect in this one file: Composer's classmap generator is a static token scan,
++// so an authoritative/optimized classmap (composer dump-autoload -o -a) can only resolve "RedisBase"
++// correctly if it maps back to this exact file's own runtime branch (see comment below). Splitting
++// the phpredis-absent declaration into a second file would leave no literal "class RedisBase" token
++// anywhere for the classmap to find at all, breaking autoloading under classmap-authoritative on
++// every host; declaring it in a second file under the SAME name would let the classmap bind
++// "RedisBase" to that file unconditionally, bypassing this file's phpredis-present branch even on
++// hosts that DO have phpredis. Neither alternative is safe, so this file is deliberately exempted.
++declare(strict_types=1);
++
++namespace Magento\Framework\Cache\Frontend\Adapter\Symfony;
++
++/*
++ * Resolves the base class that SlaveAwareRedis extends, so that class is loadable and compilable on
++ * EVERY host — including one without the phpredis extension.
++ *
++ * The read-replica connection must be a real \Redis when phpredis is present: Symfony's RedisAdapter
++ * requires a \Redis instance and instantiates the subclass by name (new $class()), so SlaveAwareRedis
++ * has to BE a \Redis, not merely wrap one. But `class SlaveAwareRedis extends \Redis` cannot even be
++ * declared when the extension is absent — the parent does not exist — and setup:di:compile
++ * require_once's/reflects every class file, which would fatal with "Class \"Redis\" not found".
++ *
++ * So the parent is indirected through this module-owned RedisBase:
++ *   - phpredis present -> RedisBase is an alias of \Redis  -> SlaveAwareRedis IS a \Redis subclass
++ *                                                             (Symfony accepts it; instanceof \Redis
++ *                                                             and is_a(..., \Redis::class) hold).
++ *   - phpredis absent  -> RedisBase is a minimal stub      -> SlaveAwareRedis still loads/compiles;
++ *                                                             it is never instantiated on that host
++ *                                                             (the provider uses Predis instead).
++ * This keeps the whole concern inside the cache module — no di:compile scanner or command changes.
++ */
++if (!class_exists(RedisBase::class, false)) {
++    if (class_exists(\Redis::class)) {
++        // phpredis present: base IS \Redis, so SlaveAwareRedis inherits the real client.
++        class_alias(\Redis::class, RedisBase::class);
++    } else {
++        // phpredis absent: declare a real, empty class literally named RedisBase, in this same file,
++        // so Composer's classmap generator (a static token scan, not code execution) always resolves
++        // "RedisBase" back to this file regardless of which branch runs on a given host. Aliasing to a
++        // class declared in a second file would leave no file anywhere with a literal "class RedisBase"
++        // token, which an optimized/authoritative classmap (composer dump-autoload -o -a) cannot
++        // resolve at all — it fatals with "Class RedisBase not found" on every host, phpredis-present
++        // or absent, the moment SlaveAwareRedis needs its parent.
++        class RedisBase
++        {
++        }
++    }
++}
++// PATCH END
+diff --git a/Cache/Frontend/Adapter/Symfony/SlaveAwareRedis.php b/Cache/Frontend/Adapter/Symfony/SlaveAwareRedis.php
+new file mode 100644
+index 0000000..0ec95f7
+--- /dev/null
++++ b/Cache/Frontend/Adapter/Symfony/SlaveAwareRedis.php
+@@ -0,0 +1,191 @@
++<?php
++// PATCH START
++/**
++ * Copyright 2026 Adobe
++ * All Rights Reserved.
++ */
++declare(strict_types=1);
++
++namespace Magento\Framework\Cache\Frontend\Adapter\Symfony;
++
++/**
++ * A phpredis \Redis connection whose READ path is served from a read replica.
++ *
++ * The object is itself connected to the MASTER (Symfony's RedisAdapter builds it through the normal
++ * connection factory), so every command runs on the master by default — writes (SET/SETEX/DEL),
++ * tag-index ops (SADD/SREM/SMEMBERS), Lua (EVAL) and pipelines all stay on the master. The two data
++ * FETCH commands — mget() and get() — are routed to a replica. In practice Symfony's
++ * RedisTrait::doFetch fetches via mget(); get() is routed too (sharing the same pickReadClient logic)
++ * so a direct get() — or a future Symfony that fetches single keys via get() — is offloaded
++ * consistently rather than silently hitting the master. This mirrors legacy Cm_Cache_Backend_Redis,
++ * which sends only the data load() to load_from_slave and keeps everything else on the master.
++ *
++ * On any replica error the read transparently falls back to the master, so a flaky/lagging replica
++ * degrades to master-reads rather than failing (legacy skips a bad slave the same way).
++ *
++ * Extends RedisBase, which is \Redis when the phpredis extension is present (and a stub otherwise so
++ * the file still loads/compiles on hosts without phpredis — this object is only ever instantiated on
++ * the phpredis code path). See RedisBase for why the base class is indirected.
++ */
++class SlaveAwareRedis extends RedisBase
++{
++    /**
++     * @var \Redis[]
++     */
++    private array $slaves = [];
++
++    /**
++     * When true, the master serves NO reads (all reads go to replicas). When false (legacy default),
++     * the master participates in read load-balancing — a read has a ~1/(replicas+1) chance of being
++     * served by the master. Mirrors Cm Redis's master_write_only option.
++     *
++     * @var bool
++     */
++    private bool $masterWriteOnly = false;
++
++    /**
++     * When true, a replica MISS (nil) is retried on the master. When false (legacy default), a replica
++     * miss is returned as-is (treated as a cache miss). Mirrors Cm Redis's retry_reads_on_master.
++     *
++     * @var bool
++     */
++    private bool $retryReadsOnMaster = false;
++
++    /**
++     * Attach the read replicas (already-connected \Redis clients).
++     *
++     * @param \Redis[] $slaves
++     * @return void
++     */
++    public function setSlaves(array $slaves): void
++    {
++        $this->slaves = array_values(array_filter($slaves, static fn($s): bool => $s instanceof \Redis));
++    }
++
++    /**
++     * Set whether the master is write-only (excluded from read load-balancing).
++     *
++     * @param bool $masterWriteOnly
++     * @return void
++     */
++    public function setMasterWriteOnly(bool $masterWriteOnly): void
++    {
++        $this->masterWriteOnly = $masterWriteOnly;
++    }
++
++    /**
++     * Set whether a replica miss is retried on the master (legacy retry_reads_on_master).
++     *
++     * @param bool $retryReadsOnMaster
++     * @return void
++     */
++    public function setRetryReadsOnMaster(bool $retryReadsOnMaster): void
++    {
++        $this->retryReadsOnMaster = $retryReadsOnMaster;
++    }
++
++    /**
++     * Pick the client for the next read: a replica, or null to read from the master (this connection).
++     *
++     * - no replicas            -> master
++     * - master_write_only=true -> a random replica
++     * - master_write_only=false-> uniform pick over {master} ∪ replicas (legacy load-balancing intent)
++     *
++     * @return \Redis|null
++     */
++    private function pickReadClient(): ?\Redis
++    {
++        $count = count($this->slaves);
++        if ($count === 0) {
++            return null;
++        }
++        if ($this->masterWriteOnly) {
++            return $count === 1 ? $this->slaves[0] : $this->slaves[array_rand($this->slaves)];
++        }
++        // include the master (index 0) in the pool so it takes a share of reads, like legacy default.
++        // mt_rand (not the CSPRNG random_int) on purpose: this is read load-balancing, not a security
++        // decision, and it runs on the hot read path — legacy Cm Redis likewise uses array_rand/mt.
++        // phpcs:ignore Magento2.Security.InsecureFunction
++        $idx = mt_rand(0, $count);
++        return $idx === 0 ? null : $this->slaves[$idx - 1];
++    }
++
++    /**
++     * @inheritDoc
++     *
++     * Symfony's RedisTrait::doFetch fetches via mget(), not get(); this override is kept so a direct
++     * get() (or a future Symfony that uses it) is still served from a replica, sharing mget()'s routing.
++     */
++    public function get($key): mixed
++    {
++        $slave = $this->pickReadClient();
++        if ($slave !== null) {
++            try {
++                $value = $slave->get($key);
++                if ($value !== false) {
++                    return $value;                       // replica hit
++                }
++                if (!$this->retryReadsOnMaster) {
++                    return false;                        // legacy default: a replica miss stays a miss
++                }
++                // retry_reads_on_master: replica miss (e.g. replication lag) -> read master
++            // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock
++            } catch (\Throwable $e) {
++                // replica error -> read master (more resilient than legacy, which rethrows non-LOADING)
++            }
++        }
++        return parent::get($key);
++    }
++
++    /**
++     * @inheritDoc
++     *
++     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
++     * @SuppressWarnings(PHPMD.NPathComplexity)
++     */
++    public function mget($keys): \Redis|array|false
++    {
++        $slave = $this->pickReadClient();
++        if ($slave === null) {
++            return parent::mget($keys);
++        }
++
++        try {
++            $values = $slave->mget($keys);
++        } catch (\Throwable $e) {
++            return parent::mget($keys);           // replica error -> master
++        }
++        if (!is_array($values)) {
++            return parent::mget($keys);
++        }
++        if (!$this->retryReadsOnMaster) {
++            return $values;                 // legacy default: replica misses stay misses (no back-fill)
++        }
++
++        // retry_reads_on_master: back-fill any replica misses from the master
++        $keys = array_values($keys);
++        $missingPos = [];
++        foreach ($keys as $i => $k) {
++            if (($values[$i] ?? false) === false) {
++                $missingPos[$i] = $k;
++            }
++        }
++        if ($missingPos) {
++            try {
++                $masterValues = parent::mget(array_values($missingPos));
++                if (is_array($masterValues)) {
++                    $j = 0;
++                    foreach ($missingPos as $i => $k) {
++                        $values[$i] = $masterValues[$j] ?? false;
++                        $j++;
++                    }
++                }
++            // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock
++            } catch (\Throwable $e) {
++                // keep the replica results on master error
++            }
++        }
++        return $values;
++    }
++}
++// PATCH END
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapterProvider.php b/Cache/Frontend/Adapter/SymfonyAdapterProvider.php
+index ae9233a..c60ecd7 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapterProvider.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapterProvider.php
+@@ -10,6 +10,9 @@ namespace Magento\Framework\Cache\Frontend\Adapter;
+ use Magento\Framework\App\Filesystem\DirectoryList;
+ use Magento\Framework\App\ResourceConnection;
+ use Magento\Framework\Cache\Frontend\Adapter\Symfony\MagentoDatabaseAdapter;
++// PATCH START
++use Magento\Framework\Cache\Frontend\Adapter\Symfony\SlaveAwareRedis;
++// PATCH END
+ use Magento\Framework\Cache\Frontend\Adapter\SymfonyAdapters\FilesystemTagAdapter;
+ use Magento\Framework\Cache\Frontend\Adapter\SymfonyAdapters\GenericTagAdapter;
+ use Magento\Framework\Cache\Frontend\Adapter\SymfonyAdapters\RedisTagAdapter;
+@@ -59,6 +62,21 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+      */
+     private array $connectionPool = [];
+ 
++    // PATCH START
++    /**
++     * PID that owns the pooled connections.
++     *
++     * This provider is a shared singleton, so a process that forks (e.g. parallel indexers) hands the
++     * child a connection pool that still points at the PARENT's sockets. Sharing one socket across
++     * processes interleaves the Redis/Valkey protocol and corrupts reads (garbled describeTable() etc.).
++     * Detecting a PID change lets us drop the inherited connections so the child reconnects on its own
++     * socket — mirroring the legacy Zend adapter, which re-creates its connection when the PID changes.
++     *
++     * @var int|null
++     */
++    private ?int $poolPid = null;
++
++    // PATCH END
+     /**
+      * Cached adapter type mappings (lowercase => canonical)
+      *
+@@ -116,6 +134,27 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+     public function _resetState(): void
+     {
+         $this->connectionPool = [];
++        // PATCH START
++        $this->poolPid = null;
++    }
++
++    /**
++     * Drop pooled connections after a fork so a child process never reuses the parent's socket.
++     *
++     * We intentionally do NOT close the inherited handles: persistent connections are process-shared,
++     * and closing a forked socket could disturb the parent. Dropping our references is enough — the
++     * child then opens a fresh connection (see the PID-scoped persistent_id in createPhpRedisConnection).
++     *
++     * @return void
++     */
++    private function resetPooledConnectionsOnFork(): void
++    {
++        $pid = getmypid();
++        if ($this->poolPid !== $pid) {
++            $this->connectionPool = [];
++            $this->poolPid = $pid;
++        }
++        // PATCH END
+     }
+ 
+     /**
+@@ -138,21 +177,19 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         $backendTypeLower = strtolower($backendType);
+         $resolvedType = $this->adapterTypeMap[$backendTypeLower] ?? 'filesystem';
+ 
+-        // Create adapter based on resolved type with fallback to filesystem
+-        try {
+-            $adapter = match ($resolvedType) {
+-                'redis' => $this->createRedisAdapter($backendOptions, $namespace, $defaultLifetime),
+-                'memcached' => $this->createMemcachedAdapter($backendOptions, $namespace, $defaultLifetime),
+-                'filesystem' => $this->createFilesystemAdapter($backendOptions, $namespace, $defaultLifetime),
+-                'database' => $this->createDatabaseAdapter($backendOptions, $namespace, $defaultLifetime),
+-                'apcu' => $this->createApcuAdapter($namespace, $defaultLifetime),
+-                'twolevel' => $this->createTwoLevelAdapter($backendOptions, $namespace, $defaultLifetime),
+-                default => $this->createFilesystemAdapter($backendOptions, $namespace, $defaultLifetime),
+-            };
+-        } catch (\Exception $e) {
+-            // Fallback to filesystem adapter if the requested adapter fails
+-            $adapter = $this->createFilesystemAdapter($backendOptions, $namespace, $defaultLifetime);
+-        }
++        // PATCH START
++        // Create adapter based on resolved type. No fallback to filesystem: a backend (e.g. Redis)
++        // outage propagates instead of silently degrading to var/cache, matching legacy fail-fast.
++        $adapter = match ($resolvedType) {
++            'redis' => $this->createRedisAdapter($backendOptions, $namespace, $defaultLifetime),
++            'memcached' => $this->createMemcachedAdapter($backendOptions, $namespace, $defaultLifetime),
++            'filesystem' => $this->createFilesystemAdapter($backendOptions, $namespace, $defaultLifetime),
++            'database' => $this->createDatabaseAdapter($backendOptions, $namespace, $defaultLifetime),
++            'apcu' => $this->createApcuAdapter($namespace, $defaultLifetime),
++            'twolevel' => $this->createTwoLevelAdapter($backendOptions, $namespace, $defaultLifetime),
++            default => $this->createFilesystemAdapter($backendOptions, $namespace, $defaultLifetime),
++        };
++        // PATCH END
+ 
+         // Skip TagAwareAdapter for Redis/Filesystem (native tag support)
+         if (in_array($resolvedType, ['redis', 'filesystem'], true)) {
+@@ -198,7 +235,10 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+                 ),
+                 'filesystem' => new FilesystemTagAdapter(
+                     $cachePool,
+-                    $this->getCacheDirectory()
++                    // PATCH START
++                    !empty($backendOptions['cache_dir']) ? $backendOptions['cache_dir'] : $this->getCacheDirectory(),
++                    (bool)($backendOptions['index_tags'] ?? true)
++                    // PATCH END
+                 ),
+                 default => new GenericTagAdapter(
+                     $cachePool,
+@@ -223,6 +263,7 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         return $cacheDir->getAbsolutePath() . 'symfony';
+     }
+ 
++    // PATCH START
+     /**
+      * Create Redis cache adapter with automatic fallback support
+      *
+@@ -234,12 +275,20 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+      * @SuppressWarnings(PHPMD.NPathComplexity)
+      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
++     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+      */
++    // PATCH END
+     private function createRedisAdapter(
+         array $options,
+         string $namespace,
+         ?int $defaultLifetime
+     ): AdapterInterface {
++        // PATCH START
++        // Fork-safety: if this process forked since the pool was built (parallel indexers, queue
++        // consumers), discard the inherited connections so we reconnect on our own socket.
++        $this->resetPooledConnectionsOnFork();
++
++        // PATCH END
+         // Extract connection parameters (optimized with null coalescing)
+         $host = $options['server'] ?? $options['host'] ?? '127.0.0.1';
+         $port = (int)($options['port'] ?? 6379);
+@@ -269,12 +318,36 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         // For Predis with Ultra-Optimized client: use connection pooling like phpredis
+         // The client's internal cache is cleared on writes and database switches,
+         // so connection pooling is safe and provides better performance
++        // PATCH START
++        // Read-replica support (legacy parity with Cm Redis load_from_slave): data reads (get/mget)
++        // are served from a replica, writes/tags/EVAL stay on the master. Empty => no offload.
++        $slaveSpecs = $this->parseSlaveOption($options['load_from_slave'] ?? null, $port, $database);
++        // Legacy default: master participates in reads. master_write_only=1 => all reads to replicas.
++        $masterWriteOnly = isset($options['master_write_only']) ? (bool)$options['master_write_only'] : false;
++        // Legacy default (false): a replica miss is NOT retried on the master; =1 retries on miss.
++        $retryReadsOnMaster = isset($options['retry_reads_on_master'])
++            ? (bool)$options['retry_reads_on_master']
++            : false;
++
++        // PATCH END
+         $usePhpRedis = extension_loaded('redis');
+         $connectionKey = sprintf('redis:%s:%d:%d', $host, $port, $database);
++        // PATCH START
++        // Keep replica-backed and plain connections to the same master in separate pool slots, so a
++        // frontend that configures load_from_slave never reuses (or is reused as) a plain connection.
++        if ($slaveSpecs) {
++            $connectionKey .= ':slave=' . hash(
++                'sha256',
++                (string)json_encode([$slaveSpecs, $masterWriteOnly, $retryReadsOnMaster])
++            );
++        }
++        // PATCH END
+ 
+         if (!isset($this->connectionPool[$connectionKey])) {
+             if ($usePhpRedis) {
+-                $this->connectionPool[$connectionKey] = $this->createPhpRedisConnection(
++                // PATCH START
++                $master = $this->createPhpRedisConnection(
++                // PATCH END
+                     $host,
+                     $port,
+                     $password,
+@@ -284,8 +357,28 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+                     $timeout,
+                     $readTimeout,
+                     $retryInterval,
+-                    $connectRetries
++                    // PATCH START
++                    $connectRetries,
++                    $slaveSpecs ? SlaveAwareRedis::class : null
++                    // PATCH END
+                 );
++                // PATCH START
++                if ($slaveSpecs && $master instanceof SlaveAwareRedis) {
++                    $master->setSlaves($this->createSlaveConnections(
++                        $slaveSpecs,
++                        $password,
++                        $persistent,
++                        $persistentId,
++                        $timeout,
++                        $readTimeout,
++                        $retryInterval,
++                        $connectRetries
++                    ));
++                    $master->setMasterWriteOnly($masterWriteOnly);
++                    $master->setRetryReadsOnMaster($retryReadsOnMaster);
++                }
++                $this->connectionPool[$connectionKey] = $master;
++                // PATCH END
+             } elseif (class_exists(PredisClient::class)) {
+                 $this->connectionPool[$connectionKey] = $this->createOptimizedPredisConnection(
+                     $host,
+@@ -294,7 +387,12 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+                     $database,
+                     $persistent,
+                     $timeout,
+-                    $readTimeout
++                    // PATCH START
++                    $readTimeout,
++                    $slaveSpecs,
++                    $masterWriteOnly,
++                    $retryReadsOnMaster
++                    // PATCH END
+                 );
+             } else {
+                 throw new \RuntimeException(
+@@ -320,6 +418,7 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         );
+     }
+ 
++    // PATCH START
+     /**
+      * Create phpredis connection (native C extension)
+      *
+@@ -335,9 +434,12 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+      * @param float|null $readTimeout
+      * @param int|null $retryInterval
+      * @param int|null $connectRetries
++     * @param string|null $connectionClass
+      * @return \Redis|\RedisCluster|\Relay\Relay
+      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
++     * @SuppressWarnings(PHPMD.NPathComplexity)
+      */
++    // PATCH END
+     private function createPhpRedisConnection(
+         string $host,
+         int $port,
+@@ -348,7 +450,10 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         ?float $timeout,
+         ?float $readTimeout,
+         ?int $retryInterval,
+-        ?int $connectRetries
++        // PATCH START
++        ?int $connectRetries,
++        ?string $connectionClass = null
++        // PATCH END
+     ) {
+         // Build optimized DSN with all connection parameters
+         $dsnParams = [];
+@@ -356,9 +461,16 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         // Add persistent connection parameters
+         if ($persistent) {
+             $dsnParams[] = 'persistent=1';
+-            if ($persistentId) {
+-                $dsnParams[] = 'persistent_id=' . urlencode($persistentId);
+-            }
++            // PATCH START
++            // Scope the persistent_id to the current PID. phpredis keys persistent connections by
++            // persistent_id, so after a fork a child re-running pconnect() with the SAME id would get
++            // the parent's shared socket back. Including the PID makes each process open its OWN
++            // persistent connection (stable within a long-lived FPM/CLI worker, isolated per fork).
++            // The database keeps frontends on different databases (e.g. default vs page_cache) from
++            // collapsing onto one shared persistent socket.
++            $forkSafePersistentId = ($persistentId ?? 'default') . ':' . $database . ':' . getmypid();
++            $dsnParams[] = 'persistent_id=' . urlencode($forkSafePersistentId);
++            // PATCH END
+         }
+ 
+         // Add connection timeout parameters
+@@ -387,10 +499,130 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         // Append DSN parameters
+         $dsn = $dsnParams ? $baseDsn . '?' . implode('&', $dsnParams) : $baseDsn;
+ 
+-        // Create and return the connection using Symfony's factory
+-        return RedisAdapter::createConnection($dsn);
++        // PATCH START
++        // Create and return the connection using Symfony's factory. When a connectionClass is given
++        // (read-replica support), Symfony instantiates that \Redis subclass and runs all its normal
++        // connection setup (auth, select, options, persistent) on it.
++        return $connectionClass !== null
++            ? RedisAdapter::createConnection($dsn, ['class' => $connectionClass])
++            : RedisAdapter::createConnection($dsn);
++    }
++
++    /**
++     * Parse the load_from_slave option into a list of [host, port] replica targets.
++     *
++     * Accepts the legacy Cm Redis shapes: a "host" / "host:port" string, a single
++     * ['server'=>, 'port'=>] array, or a list of those. Empty/unset => no replicas.
++     *
++     * @param mixed $option
++     * @param int $defaultPort master port, used when a replica entry omits its port
++     * @param int $defaultDatabase master db, used when a replica entry omits its database
++     * @return array<int, array{0:string,1:int,2:int}>
++     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
++     */
++    private function parseSlaveOption($option, int $defaultPort, int $defaultDatabase): array
++    {
++        if (empty($option)) {
++            return [];
++        }
++        if (is_string($option)) {
++            return [$this->splitHostPort($option, $defaultPort, $defaultDatabase)];
++        }
++        if (!is_array($option)) {
++            return [];
++        }
++        // single slave: ['server' => ..., 'port' => ..., 'database' => ...]
++        if (isset($option['server'])) {
++            return [[
++                (string)$option['server'],
++                (int)($option['port'] ?? $defaultPort),
++                (int)($option['database'] ?? $defaultDatabase),
++            ]];
++        }
++        // list of slaves (strings and/or ['server'=>,'port'=>,'database'=>] arrays)
++        $out = [];
++        foreach ($option as $entry) {
++            if (is_string($entry) && $entry !== '') {
++                $out[] = $this->splitHostPort($entry, $defaultPort, $defaultDatabase);
++            } elseif (is_array($entry) && isset($entry['server'])) {
++                $out[] = [
++                    (string)$entry['server'],
++                    (int)($entry['port'] ?? $defaultPort),
++                    (int)($entry['database'] ?? $defaultDatabase),
++                ];
++            }
++        }
++        return $out;
++    }
++
++    /**
++     * Split "host" or "host:port" into [host, port, database].
++     *
++     * @param string $server
++     * @param int $defaultPort
++     * @param int $defaultDatabase
++     * @return array{0:string,1:int,2:int}
++     */
++    private function splitHostPort(string $server, int $defaultPort, int $defaultDatabase): array
++    {
++        if (strpos($server, ':') !== false) {
++            [$host, $port] = explode(':', $server, 2);
++            return [$host, (int)$port, $defaultDatabase];
++        }
++        return [$server, $defaultPort, $defaultDatabase];
++    }
++
++    /**
++     * Build the replica \Redis connections for SlaveAwareRedis. Unreachable replicas are skipped
++     * (legacy skips a bad slave and keeps the rest / falls back to master).
++     *
++     * @param array<int,array{0:string,1:int,2:int}> $slaveSpecs
++     * @param string|null $password
++     * @param bool $persistent
++     * @param string|null $persistentId
++     * @param float|null $timeout
++     * @param float|null $readTimeout
++     * @param int|null $retryInterval
++     * @param int|null $connectRetries
++     * @return \Redis[]
++     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
++     */
++    private function createSlaveConnections(
++        array $slaveSpecs,
++        ?string $password,
++        bool $persistent,
++        ?string $persistentId,
++        ?float $timeout,
++        ?float $readTimeout,
++        ?int $retryInterval,
++        ?int $connectRetries
++    ): array {
++        $slaves = [];
++        foreach ($slaveSpecs as $i => [$sHost, $sPort, $sDatabase]) {
++            try {
++                $slaves[] = $this->createPhpRedisConnection(
++                    $sHost,
++                    $sPort,
++                    $password,
++                    $sDatabase,
++                    $persistent,
++                    // distinct persistent id per replica so it doesn't collide with the master socket
++                    ($persistentId ?? 'default') . '_slave' . $i,
++                    $timeout,
++                    $readTimeout,
++                    $retryInterval,
++                    $connectRetries
++                );
++            // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock
++            } catch (\Throwable $e) {
++                // skip an unreachable replica; reads fall back to the master
++            }
++        }
++        return $slaves;
++        // PATCH END
+     }
+ 
++    // PATCH START
+     /**
+      * Create ultra-optimized Predis connection (Symfony-compatible, maximum performance)
+      *
+@@ -401,9 +633,14 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+      * @param bool $persistent
+      * @param float|null $timeout
+      * @param float|null $readTimeout
++     * @param array $slaveSpecs Read-replica targets [[host,port,db], ...] parsed from load_from_slave
++     * @param bool $masterWriteOnly phpredis-only refinement (Predis always routes reads to a replica)
++     * @param bool $retryReadsOnMaster phpredis-only refinement (see above)
+      * @return OptimizedPredisClient
+      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
++     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+      */
++    // PATCH END
+     private function createOptimizedPredisConnection(
+         string $host,
+         int $port,
+@@ -411,7 +648,12 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         int $database,
+         bool $persistent,
+         ?float $timeout,
+-        ?float $readTimeout
++        // PATCH START
++        ?float $readTimeout,
++        array $slaveSpecs = [],
++        bool $masterWriteOnly = false,
++        bool $retryReadsOnMaster = false
++        // PATCH END
+     ) {
+         $params = [
+             'scheme' => 'tcp',
+@@ -424,11 +666,38 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+             $params['password'] = $password;
+         }
+ 
+-        $options = [
+-            'exceptions' => false,
+-        ];
++        // PATCH START
++        // Single node: no replica configured.
++        if (empty($slaveSpecs)) {
++            return new OptimizedPredisClient($params, ['exceptions' => false]);
++        }
++        // PATCH END
++
++        // PATCH START
++        // Read replica(s): use Predis' native master/slave replication (load_from_slave parity). Reads
++        // are routed to a replica and writes/EVAL stay on the master (equivalent to phpredis
++        // SlaveAwareRedis with master_write_only=1); a failed replica transparently falls back to the
++        // master. Predis routes all reads to replicas, so master_write_only=0 (master shares reads) and
++        // retry_reads_on_master are phpredis-only refinements — on Predis reads always go to a replica
++        // with master fallback on connection error.
++        $params['role'] = 'master';
++        $connections = [$params];
++        foreach ($slaveSpecs as [$sHost, $sPort, $sDatabase]) {
++            $slave = [
++                'scheme' => 'tcp',
++                'host' => $sHost,
++                'port' => $sPort,
++                'database' => $sDatabase,
++                'role' => 'slave',
++            ];
++            if ($password) {
++                $slave['password'] = $password;
++            }
++            $connections[] = $slave;
++        }
+ 
+-        return new OptimizedPredisClient($params, $options);
++        return new OptimizedPredisClient($connections, ['replication' => 'predis', 'exceptions' => false]);
++        // PATCH END
+     }
+ 
+     /**
+@@ -500,6 +769,11 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         string $namespace,
+         ?int $defaultLifetime
+     ): AdapterInterface {
++        // PATCH START
++        // Fork-safety: drop connections inherited from a parent process (see resetPooledConnectionsOnFork).
++        $this->resetPooledConnectionsOnFork();
++
++        // PATCH END
+         // Build server list (optimized)
+         if (isset($options['servers'])) {
+             // Multiple servers - optimize with direct assignment
+@@ -508,7 +782,9 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+                 $servers[] = [$server[0] ?? '127.0.0.1', $server[1] ?? 11211];
+             }
+             // phpcs:ignore Magento2.Security.InsecureFunction,Magento2.Functions.DiscouragedFunction
+-            $connectionKey = 'memcached:' . md5(serialize($servers));
++            // PATCH START
++            $connectionKey = 'memcached:' . hash('sha256', serialize($servers));
++            // PATCH END
+         } else {
+             // Single server - fast path
+             $host = $options['server'] ?? $options['host'] ?? '127.0.0.1';
+@@ -542,19 +818,9 @@ class SymfonyAdapterProvider implements ResetAfterRequestInterface
+         string $namespace,
+         ?int $defaultLifetime
+     ): AdapterInterface {
+-        // Get cache directory (optimized path)
+-        if (isset($options['cache_dir'])) {
+-            $cacheDir = $options['cache_dir'];
+-        } else {
+-            // Cache the directory path for reuse
+-            static $defaultCacheDir = null;
+-            if ($defaultCacheDir === null) {
+-                $directory = $this->filesystem->getDirectoryWrite(DirectoryList::CACHE);
+-                $defaultCacheDir = $directory->getAbsolutePath();
+-                $directory->create();
+-            }
+-            $cacheDir = $defaultCacheDir;
+-        }
++        // PATCH START
++        $cacheDir = !empty($options['cache_dir']) ? $options['cache_dir'] : $this->getCacheDirectory();
++        // PATCH END
+ 
+         // Add igbinary marshaller support for file cache (70% faster, 58% smaller)
+         $serializer = $options['serializer'] ?? null;
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapters/FilesystemTagAdapter.php b/Cache/Frontend/Adapter/SymfonyAdapters/FilesystemTagAdapter.php
+index a29ecf7..5f33f03 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapters/FilesystemTagAdapter.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapters/FilesystemTagAdapter.php
+@@ -14,6 +14,15 @@ use Psr\Cache\CacheItemPoolInterface;
+  */
+ class FilesystemTagAdapter implements TagAdapterInterface
+ {
++    // PATCH START
++    /**
++     * Bound on reopen retries in mutateFileLocked() when the file is unlink()ed from under an
++     * acquired lock by a concurrent worker. High enough to absorb realistic contention, finite so a
++     * pathological churn can never spin forever.
++     */
++    private const MUTATE_MAX_ATTEMPTS = 50;
++
++    // PATCH END
+     /**
+      * @var CacheItemPoolInterface
+      */
+@@ -24,23 +33,102 @@ class FilesystemTagAdapter implements TagAdapterInterface
+      */
+     private string $tagDirectory;
+ 
++    // PATCH START
++    /**
++     * Directory holding the id -> tags reverse index (one file per tagged id). Lets onRemove and
++     * deleteByIds touch only the tag files a given id actually belongs to, instead of scanning the
++     * whole tag directory. Mirrors the reverse index the Redis tier already keeps.
++     *
++     * @var string
++     */
++    private string $reverseDirectory;
++
++    /**
++     * Whether to maintain the on-disk tag index. Disabled for an L1 tier that sits behind a
++     * Redis L2 (tags + :hash live in the remote, local self-heals on read); kept true for a
++     * file-only cache where the file tag index is the sole invalidation source.
++     *
++     * @var bool
++     */
++    private bool $indexTags;
++
+     /**
+      * @param CacheItemPoolInterface $cachePool
+      * @param string $tagDirectory Directory to store tag index files
++     * @param bool $indexTags Whether to write/maintain the on-disk tag index
+      */
+-    public function __construct(CacheItemPoolInterface $cachePool, string $tagDirectory)
++    public function __construct(CacheItemPoolInterface $cachePool, string $tagDirectory, bool $indexTags = true)
++    // PATCH END
+     {
+         $this->cachePool = $cachePool;
+-        $this->tagDirectory = rtrim($tagDirectory, '/') . '/tags/';
+-
+-        // Ensure tag directory exists with proper error handling
+-        if (!is_dir($this->tagDirectory)) {
+-            if (!@mkdir($this->tagDirectory, 0770, true) && !is_dir($this->tagDirectory)) {
+-                throw new \RuntimeException(
+-                    sprintf('Failed to create tag directory: %s', $this->tagDirectory)
+-                );
+-            }
++        // PATCH START
++        $base = rtrim($tagDirectory, '/');
++        $this->tagDirectory = $base . '/tags/';
++        $this->reverseDirectory = $base . '/idtags/';
++        $this->indexTags = $indexTags;
++        // Directories are created lazily on the first real write, so a tier that never indexes tags
++        // leaves no empty var/cache/symfony/{tags,idtags} directories behind.
++    }
++
++    /**
++     * Reverse-index file path for a cache id
++     *
++     * @param string $id
++     * @return string
++     */
++    private function getReverseFile(string $id): string
++    {
++        return $this->reverseDirectory . $id;
++    }
++
++    /**
++     * Read the tags associated with a cache id from the reverse index
++     *
++     * @param string $id
++     * @return array
++     */
++    private function getIdTags(string $id): array
++    {
++        $file = $this->getReverseFile($id);
++        if (!file_exists($file)) {
++            return [];
++        // PATCH END
+         }
++        // PATCH START
++        $content = @file_get_contents($file);
++        return $content === false ? [] : $this->parseIds($content);
++    }
++
++    /**
++     * Store the tags for a cache id in the reverse index (replace), or delete the file when empty
++     *
++     * @param string $id
++     * @param array $tags
++     * @return void
++     */
++    private function setIdTags(string $id, array $tags): void
++    {
++        $this->mutateFileLocked(
++            $this->getReverseFile($id),
++            $this->reverseDirectory,
++            static fn() => array_values(array_unique($tags))
++        );
++    }
++
++    /**
++     * Delete the reverse-index entry for a cache id
++     *
++     * @param string $id
++     * @return void
++     */
++    private function deleteIdTags(string $id): void
++    {
++        $this->mutateFileLocked(
++            $this->getReverseFile($id),
++            $this->reverseDirectory,
++            static fn() => []
++        );
++        // PATCH END
+     }
+ 
+     /**
+@@ -69,43 +157,137 @@ class FilesystemTagAdapter implements TagAdapterInterface
+         }
+ 
+         $content = @file_get_contents($file);
+-        if ($content === false || $content === '') {
++        // PATCH START
++        if ($content === false) {
+             return [];
+         }
+ 
+-        // IDs are stored one per line
++        return $this->parseIds($content);
++    }
++
++    /**
++     * Parse the on-disk tag-file body (one id per line) into an array of ids
++     *
++     * @param string $content
++     * @return array
++     */
++    private function parseIds(string $content): array
++    {
++        if ($content === '') {
++        // PATCH END
++            return [];
++        }
++
++        // PATCH START
++        // PATCH END
+         $ids = trim(substr($content, 0, strrpos($content, "\n") ?: strlen($content)));
+         return $ids !== '' ? explode("\n", $ids) : [];
+     }
+ 
++    // PATCH START
+     /**
+-     * Write IDs to a tag file
++     * Read-modify-write a tag file while holding an exclusive lock for the whole cycle.
++     *
++     * Holding flock(LOCK_EX) across the whole cycle means concurrent PHP-FPM workers on the same
++     * host can no longer lose an update (the previous getTagIds/setTagIds pair only locked the
++     * write, leaving the read-modify-write racy). $transform receives the current ids and returns
++     * the new ids, or null to signal "no change" (skips the rewrite).
+      *
+      * @param string $tag
+-     * @param array $ids
++     * @param callable $transform fn(array $ids): ?array
+      * @return void
+      */
+-    private function setTagIds(string $tag, array $ids): void
++    private function mutateTagFileLocked(string $tag, callable $transform): void
++    // PATCH END
+     {
+-        $file = $this->getTagFile($tag);
++        // PATCH START
++        $this->mutateFileLocked($this->getTagFile($tag), $this->tagDirectory, $transform);
++    }
++        // PATCH END
+ 
+-        if (empty($ids)) {
+-            // Remove tag file if no IDs
+-            @unlink($file);
+-            return;
++    // PATCH START
++    /**
++     * Read-modify-write a line-per-entry index file while holding an exclusive lock for the whole cycle.
++     *
++     * Used for both tag files (tag -> ids) and reverse-index files (id -> tags). Holding
++     * flock(LOCK_EX) across the whole cycle means concurrent workers on the same host cannot lose
++     * an update. $transform receives the current entries and returns the new entries, or null to
++     * signal "no change" (skips the rewrite). An empty result deletes the file.
++     *
++     * @param string $file
++     * @param string $dir Directory that must exist before writing
++     * @param callable $transform fn(array $entries): ?array
++     * @return void
++     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
++     * @SuppressWarnings(PHPMD.NPathComplexity)
++     */
++    private function mutateFileLocked(string $file, string $dir, callable $transform): void
++    {
++        if (!is_dir($dir)) {
++            @mkdir($dir, 0770, true);
++    // PATCH END
+         }
+ 
+-        // Ensure directory exists before writing (defensive check)
+-        if (!is_dir($this->tagDirectory)) {
+-            @mkdir($this->tagDirectory, 0770, true);
+-        }
++        // PATCH START
++        // Retry loop guarding the open()->flock() window. fopen() resolves $file to an inode before
++        // we hold the lock; a concurrent worker that empties and unlink()s the file in that window
++        // leaves our handle bound to an orphaned inode with no directory entry, so any write we make
++        // is silently lost. After locking we confirm the handle still refers to the file on disk and,
++        // if not, reopen and retry. The unlink of an emptied file therefore also stays inside the
++        // lock, so it can never delete another worker's freshly written membership.
++        for ($attempt = 0; $attempt < self::MUTATE_MAX_ATTEMPTS; $attempt++) {
++            $fp = @fopen($file, 'c+');
++            if ($fp === false) {
++                return;
++            }
++        // PATCH END
+ 
+-        // Write IDs, one per line, with trailing newline
+-        $content = implode("\n", $ids) . "\n";
+-        if (@file_put_contents($file, $content, LOCK_EX) === false) {
+-            throw new \RuntimeException(
+-                sprintf('Failed to write tag file: %s', $file)
+-            );
++            // PATCH START
++            if (!flock($fp, LOCK_EX)) {
++                fclose($fp);
++                return;
++            }
++
++            // Our handle must still be the file currently linked at $file. If it was unlink()ed (and
++            // possibly recreated) between fopen() and the lock, dev/ino diverge (or the path is gone);
++            // drop the stale handle and retry with a fresh open under a fresh lock.
++            clearstatcache(true, $file);
++            $held = @fstat($fp);
++            $onDisk = @stat($file);
++            if ($held === false || $onDisk === false
++                || $held['ino'] !== $onDisk['ino'] || $held['dev'] !== $onDisk['dev']) {
++                flock($fp, LOCK_UN);
++                fclose($fp);
++                continue;
++            }
++
++            try {
++                $content = stream_get_contents($fp);
++                $current = $this->parseIds($content !== false ? $content : '');
++                $new = $transform($current);
++
++                if ($new === null) {
++                    return; // no change; finally still unlocks/closes
++                }
++
++                if (empty($new)) {
++                    ftruncate($fp, 0);
++                    // Delete the now-empty file while still holding the lock and while our handle is
++                    // confirmed to be the linked file, so we cannot drop a membership another worker
++                    // writes after us.
++                    @unlink($file);
++                } else {
++                    ftruncate($fp, 0);
++                    rewind($fp);
++                    fwrite($fp, implode("\n", $new) . "\n");
++                    fflush($fp);
++                }
++            } finally {
++                flock($fp, LOCK_UN);
++                fclose($fp);
++            }
++            return;
++            // PATCH END
+         }
+     }
+ 
+@@ -118,11 +300,17 @@ class FilesystemTagAdapter implements TagAdapterInterface
+      */
+     private function addIdToTag(string $tag, string $id): void
+     {
+-        $ids = $this->getTagIds($tag);
+-        if (!in_array($id, $ids, true)) {
++        // PATCH START
++        $this->mutateTagFileLocked($tag, static function (array $ids) use ($id) {
++            if (in_array($id, $ids, true)) {
++                return null;
++            }
++        // PATCH END
+             $ids[] = $id;
+-            $this->setTagIds($tag, $ids);
+-        }
++            // PATCH START
++            return $ids;
++        });
++            // PATCH END
+     }
+ 
+     /**
+@@ -134,13 +322,18 @@ class FilesystemTagAdapter implements TagAdapterInterface
+      */
+     private function removeIdFromTag(string $tag, string $id): void
+     {
+-        $ids = $this->getTagIds($tag);
+-        $key = array_search($id, $ids, true);
+-
+-        if ($key !== false) {
++        // PATCH START
++        $this->mutateTagFileLocked($tag, static function (array $ids) use ($id) {
++            $key = array_search($id, $ids, true);
++            if ($key === false) {
++                return null;
++            }
++        // PATCH END
+             unset($ids[$key]);
+-            $this->setTagIds($tag, array_values($ids));
+-        }
++            // PATCH START
++            return array_values($ids);
++        });
++            // PATCH END
+     }
+ 
+     /**
+@@ -253,9 +446,54 @@ class FilesystemTagAdapter implements TagAdapterInterface
+             $this->cachePool->commit();
+         }
+ 
++        // PATCH START
++        // Prune the deleted ids from the on-disk tag index so it does not outlive its data. Uses
++        // the id -> tags reverse index to touch only the affected tag files (grouped so each tag
++        // file is rewritten once), instead of scanning the whole tag directory.
++        if ($this->indexTags) {
++            $this->pruneIdsFromIndex($ids);
++        }
++
++        // PATCH END
+         return $success;
+     }
+ 
++    // PATCH START
++    /**
++     * Remove the given ids from their tag files using the reverse index; delete files left empty.
++     *
++     * @param array $ids
++     * @return void
++     */
++    private function pruneIdsFromIndex(array $ids): void
++    {
++        // Build tag -> [ids] from the reverse index so each tag file is rewritten at most once.
++        $tagToIds = [];
++        $reverseToDelete = [];
++        foreach ($ids as $id) {
++            $tags = $this->getIdTags($id);
++            if (empty($tags)) {
++                continue;
++            }
++            foreach ($tags as $tag) {
++                $tagToIds[$tag][$id] = true;
++            }
++            $reverseToDelete[] = $id;
++        }
++
++        foreach ($tagToIds as $tag => $idSet) {
++            $this->mutateTagFileLocked($tag, static function (array $current) use ($idSet) {
++                $remaining = array_values(array_filter($current, static fn($id) => !isset($idSet[$id])));
++                return count($remaining) === count($current) ? null : $remaining;
++            });
++        }
++
++        foreach ($reverseToDelete as $id) {
++            $this->deleteIdTags($id);
++        }
++    }
++
++    // PATCH END
+     /**
+      * @inheritDoc
+      *
+@@ -263,36 +501,66 @@ class FilesystemTagAdapter implements TagAdapterInterface
+      */
+     public function onSave(string $id, array $tags): void
+     {
+-        if (empty($tags)) {
++        // PATCH START
++        if (!$this->indexTags || empty($tags)) {
++        // PATCH END
+             return;
+         }
+ 
+-        // Add ID to each tag file
++        // PATCH START
++        // Retag cleanup: drop the id from the forward file of any tag it no longer carries, so a
++        // re-save with a different tag set (e.g. [A,B] then [C]) does not leave the old A/B
++        // memberships dangling once the reverse index is replaced below. Mirrors the legacy
++        // Cm_Cache_Backend_Redis save() which array_diffs the previous tags and removes them.
++        foreach (array_diff($this->getIdTags($id), $tags) as $removedTag) {
++            $this->removeIdFromTag($removedTag, $id);
++        }
++
++        // Forward index: add the id to each tag file.
++        // PATCH END
+         foreach ($tags as $tag) {
+             $this->addIdToTag($tag, $id);
+         }
++        // PATCH START
++
++        // Reverse index: record this id's tags so onRemove/deleteByIds need not scan every tag file.
++        $this->setIdTags($id, $tags);
++        // PATCH END
+     }
+ 
++    // PATCH START
+     /**
+      * @inheritDoc
+      *
+-     * Removes ID from all tag files
++     * Removes ID from only the tag files it belongs to, via the reverse index.
+      */
++    // PATCH END
+     public function onRemove(string $id): void
+     {
+-        // We need to scan all tag files and remove this ID
+-        $tagFiles = glob($this->tagDirectory . '*');
++        // PATCH START
++        if (!$this->indexTags) {
++            return;
++        }
++        // PATCH END
+ 
+-        if ($tagFiles === false) {
++        // PATCH START
++        // No reverse entry => the id was saved without tags (e.g. an L2 invalid marker) or is not
++        // indexed. Either way there is nothing to prune, so this is O(1) rather than a full scan.
++        $tags = $this->getIdTags($id);
++        if (empty($tags)) {
++        // PATCH END
+             return;
+         }
+ 
+-        foreach ($tagFiles as $file) {
+-            if (is_file($file)) {
+-                $tag = basename($file);
+-                $this->removeIdFromTag($tag, $id);
+-            }
++        // PATCH START
++        foreach ($tags as $tag) {
++            $this->removeIdFromTag($tag, $id);
++        // PATCH END
+         }
++        // PATCH START
++
++        $this->deleteIdTags($id);
++        // PATCH END
+     }
+ 
+     /**
+@@ -300,17 +568,43 @@ class FilesystemTagAdapter implements TagAdapterInterface
+      */
+     public function clearAllIndices(): void
+     {
+-        // Remove all tag files
+-        $tagFiles = glob($this->tagDirectory . '*');
+-
+-        if ($tagFiles === false) {
+-            return;
+-        }
+-
+-        foreach ($tagFiles as $file) {
+-            if (is_file($file)) {
+-                @unlink($file);
++        // PATCH START
++        // Remove all forward tag files and all reverse-index files.
++        foreach ([$this->tagDirectory, $this->reverseDirectory] as $dir) {
++            $files = glob($dir . '*');
++            if ($files === false) {
++                continue;
++            }
++            foreach ($files as $file) {
++                if (is_file($file)) {
++                    @unlink($file);
++                }
++        // PATCH END
+             }
+         }
+     }
++    // PATCH START
++
++    /**
++     * @inheritDoc
++     *
++     * No-op: the file backend has no Redis-style tag SETs that accumulate orphaned members, and the
++     * memory-exhaustion concern this addresses is specific to the Redis/Valkey tag index.
++     */
++    public function garbageCollect(int $batchSize = 1000): int
++    {
++        return 0;
++    }
++
++    /**
++     * @inheritDoc
++     *
++     * No-op: the file backend has no server-memory concept analogous to Redis maxmemory. Local disk
++     * usage is tracked separately (SymfonyL2Cache's own L1 safety valve), not through this adapter.
++     */
++    public function getFillingPercentage(): int
++    {
++        return 0;
++    }
++    // PATCH END
+ }
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapters/GenericTagAdapter.php b/Cache/Frontend/Adapter/SymfonyAdapters/GenericTagAdapter.php
+index a4f4f42..e08733b 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapters/GenericTagAdapter.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapters/GenericTagAdapter.php
+@@ -171,6 +171,29 @@ class GenericTagAdapter implements TagAdapterInterface
+     {
+         // Intentional no-op: No separate indices exist
+     }
++    // PATCH START
++
++    /**
++     * @inheritDoc
++     *
++     * No-op: this adapter keeps no separate tag index that can accumulate orphaned members.
++     */
++    public function garbageCollect(int $batchSize = 1000): int
++    {
++        return 0;
++    }
++
++    /**
++     * @inheritDoc
++     *
++     * No-op: this fallback wraps backends (Memcached, APCu, Database, ...) with no uniform
++     * server-memory concept exposed through this adapter.
++     */
++    public function getFillingPercentage(): int
++    {
++        return 0;
++    }
++    // PATCH END
+     // phpcs:enable Magento2.CodeAnalysis.EmptyBlock
+ 
+     /**
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapters/RedisLuaHelper.php b/Cache/Frontend/Adapter/SymfonyAdapters/RedisLuaHelper.php
+index fec7fea..515d525 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapters/RedisLuaHelper.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapters/RedisLuaHelper.php
+@@ -8,13 +8,25 @@ declare(strict_types=1);
+ namespace Magento\Framework\Cache\Frontend\Adapter\SymfonyAdapters;
+ 
+ use InvalidArgumentException;
++// PATCH START
++use Magento\Framework\Cache\Frontend\Adapter\OptimizedPredisClient;
++use Predis\Client as PredisClient;
++// PATCH END
+ 
++// PATCH START
+ /**
+  * Redis Lua script helper for advanced atomic operations
+  *
+  * Provides Lua script functionality for operations that benefit from
+  * server-side execution and true atomicity beyond what pipelines offer.
++ *
++ * Works with both the phpredis extension (\Redis / \RedisCluster) and Predis. The two drivers expose
++ * different EVAL signatures — phpredis takes eval($script, $keysAndArgs, $numKeys) while Predis takes
++ * eval($script, $numKeys, ...$keysAndArgs) — so all script execution is funneled through rawEval()/
++ * rawEvalSha(), which normalize that difference. This lets a Predis deployment get the same atomic
++ * tag-index prune (use_lua=1) as phpredis instead of silently falling back to the non-atomic path.
+  */
++// PATCH END
+ class RedisLuaHelper
+ {
+     /**
+@@ -239,16 +251,87 @@ LUA;
+      */
+     public function __construct($redis, bool $enabled = true)
+     {
+-        // Runtime type check using get_class to avoid referencing Redis class directly
+-        // This prevents DI compilation errors with PHP extension classes
+-        if (!is_object($redis) || get_class($redis) !== 'Redis') {
+-            throw new InvalidArgumentException('Redis connection must be an instance of Redis');
++        // PATCH START
++        // Accept either a phpredis handle (\Redis / \RedisCluster — checked without referencing the
++        // class directly so DI compilation works when the extension is absent) or a Predis client.
++        $isPhpRedis = is_object($redis)
++            && class_exists('\Redis', false)
++            && ($redis instanceof \Redis || $redis instanceof \RedisCluster);
++        $isPredis = $redis instanceof PredisClient || $redis instanceof OptimizedPredisClient;
++        if (!$isPhpRedis && !$isPredis) {
++            throw new InvalidArgumentException(
++                'Redis connection must be a phpredis (\Redis/\RedisCluster) or Predis client'
++            );
++        // PATCH END
+         }
+ 
+         $this->redis = $redis;
+         $this->enabled = $enabled;
+     }
+ 
++    // PATCH START
++    /**
++     * Whether the underlying connection is a Predis client (vs the phpredis extension).
++     *
++     * @return bool
++     */
++    private function isPredis(): bool
++    {
++        return $this->redis instanceof PredisClient || $this->redis instanceof OptimizedPredisClient;
++    }
++
++    /**
++     * Execute a Lua script, normalizing the phpredis vs Predis EVAL argument order.
++     *
++     * Argument order: phpredis uses eval($script, $keysAndArgs, $numKeys); Predis uses
++     * eval($script, $numKeys, ...$keysAndArgs).
++     *
++     * @param string $script
++     * @param array $keysAndArgs Flat list: the $numKeys KEYS first, then the ARGV values
++     * @param int $numKeys
++     * @return mixed
++     */
++    private function rawEval(string $script, array $keysAndArgs, int $numKeys)
++    {
++        if ($this->isPredis()) {
++            return $this->unwrapPredis($this->redis->eval($script, $numKeys, ...$keysAndArgs));
++        }
++        return $this->redis->eval($script, $keysAndArgs, $numKeys);
++    }
++
++    /**
++     * Execute a cached Lua script by SHA, normalizing the phpredis vs Predis EVALSHA argument order.
++     *
++     * @param string $sha
++     * @param array $keysAndArgs Flat list: the $numKeys KEYS first, then the ARGV values
++     * @param int $numKeys
++     * @return mixed
++     */
++    private function rawEvalSha(string $sha, array $keysAndArgs, int $numKeys)
++    {
++        if ($this->isPredis()) {
++            return $this->unwrapPredis($this->redis->evalsha($sha, $numKeys, ...$keysAndArgs));
++        }
++        return $this->redis->evalSha($sha, $keysAndArgs, $numKeys);
++    }
++
++    /**
++     * Normalize a Predis reply to phpredis-like semantics: turn a server error response (e.g. NOSCRIPT
++     * when the client was built with exceptions=false) into a thrown exception so the callers' existing
++     * evalSha->eval fallback and try/catch handling fire the same way on both drivers.
++     *
++     * @param mixed $result
++     * @return mixed
++     */
++    private function unwrapPredis($result)
++    {
++        if ($result instanceof \Predis\Response\ErrorInterface) {
++            throw new \RuntimeException((string)$result->getMessage());
++        }
++        return $result;
++    }
++
++    // PATCH END
+     /**
+      * Check if Lua scripts are enabled and supported
+      *
+@@ -262,9 +345,13 @@ LUA;
+ 
+         try {
+             // Test if Lua is supported
+-            $this->redis->eval('return 1', [], 0);
++            // PATCH START
++            $this->rawEval('return 1', [], 0);
++            // PATCH END
+             return true;
+-        } catch (\RedisException $e) {
++        // PATCH START
++        } catch (\Throwable $e) {
++        // PATCH END
+             return false;
+         }
+     }
+@@ -289,16 +376,20 @@ LUA;
+         $sha = $this->loadScript(self::SCRIPT_CLEAN_BY_TAG_CONDITIONAL);
+ 
+         try {
+-            $result = $this->redis->evalSha(
++            // PATCH START
++            $result = $this->rawEvalSha(
++            // PATCH END
+                 $sha,
+                 [$tagKey, $prefix, time(), $condition],
+                 2  // Number of KEYS
+             );
+ 
+             return (int)$result;
+-        } catch (\RedisException $e) {
+-            // Fallback: script not loaded, try eval
+-            return (int)$this->redis->eval(
++        // PATCH START
++        } catch (\Throwable $e) {
++            // Fallback: script not loaded (NOSCRIPT), run the full script
++            return (int)$this->rawEval(
++        // PATCH END
+                 self::SCRIPT_CLEAN_BY_TAG_CONDITIONAL,
+                 [$tagKey, $prefix, time(), $condition],
+                 2
+@@ -334,16 +425,20 @@ LUA;
+         $argv = array_merge([$value, $ttl], $newTagKeys);
+ 
+         try {
+-            $result = $this->redis->evalSha(
++            // PATCH START
++            $result = $this->rawEvalSha(
++            // PATCH END
+                 $sha,
+                 array_merge([$cacheKey, $reverseIndexKey], $argv),
+                 2  // Number of KEYS
+             );
+ 
+             return (bool)$result;
+-        } catch (\RedisException $e) {
+-            // Fallback: script not loaded
+-            return (bool)$this->redis->eval(
++        // PATCH START
++        } catch (\Throwable $e) {
++            // Fallback: script not loaded (NOSCRIPT), run the full script
++            return (bool)$this->rawEval(
++        // PATCH END
+                 self::SCRIPT_ATOMIC_SAVE_WITH_TAGS,
+                 array_merge([$cacheKey, $reverseIndexKey], $argv),
+                 2
+@@ -376,7 +471,9 @@ LUA;
+ 
+         do {
+             try {
+-                $result = $this->redis->evalSha(
++                // PATCH START
++                $result = $this->rawEvalSha(
++                // PATCH END
+                     $sha,
+                     [$pattern, $tagPrefix, $batchSize, $cursor],
+                     2  // Number of KEYS
+@@ -391,7 +488,9 @@ LUA;
+                 if ($iterations >= 100) {
+                     break;
+                 }
+-            } catch (\RedisException $e) {
++            // PATCH START
++            } catch (\Throwable $e) {
++            // PATCH END
+                 // Fallback or break on error
+                 break;
+             }
+@@ -424,23 +523,31 @@ LUA;
+         $allIdsKey = 'cache:all_ids';
+ 
+         try {
+-            $result = $this->redis->evalSha(
++            // PATCH START
++            $result = $this->rawEvalSha(
++            // PATCH END
+                 $sha,
+                 [$tagPattern, $reversePattern, $allIdsKey, $batchSize],
+                 3  // Number of KEYS
+             );
+ 
+             return (int)$result;
+-        } catch (\RedisException $e) {
++        // PATCH START
++        } catch (\Throwable $e) {
++        // PATCH END
+             // Fallback: run script directly
+             try {
+-                $result = $this->redis->eval(
++                // PATCH START
++                $result = $this->rawEval(
++                // PATCH END
+                     self::SCRIPT_CLEAR_ALL_INDICES,
+                     [$tagPattern, $reversePattern, $allIdsKey, $batchSize],
+                     3
+                 );
+                 return (int)$result;
+-            } catch (\RedisException $e) {
++            // PATCH START
++            } catch (\Throwable $e) {
++            // PATCH END
+                 // Script execution failed
+                 return 0;
+             }
+@@ -462,10 +569,16 @@ LUA;
+         }
+ 
+         try {
+-            $sha = $this->redis->script('load', $script);
++            // PATCH START
++            $sha = $this->isPredis()
++                ? $this->unwrapPredis($this->redis->script('load', $script))
++                : $this->redis->script('load', $script);
++            // PATCH END
+             $this->scriptShas[$hash] = $sha;
+             return $sha;
+-        } catch (\RedisException $e) {
++        // PATCH START
++        } catch (\Throwable $e) {
++        // PATCH END
+             throw new \RuntimeException('Failed to load Lua script: ' . $e->getMessage(), 0, $e);
+         }
+     }
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php b/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php
+index 999451b..f646c56 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php
+@@ -23,6 +23,98 @@ class RedisTagAdapter implements TagAdapterInterface
+ {
+     private const TAG_INDEX_PREFIX = 'cache:tags:';
+     private const ALL_IDS_SET = 'cache:all_ids';
++    // PATCH START
++    private const REVERSE_INDEX_PREFIX = 'cache:id_tags:';
++
++    /**
++     * Key prefix for the stale-cache regeneration lock (owned by SymfonyL2Cache).
++     * Kept here because this adapter owns the raw Redis client and its type handling.
++     */
++    private const REGEN_LOCK_PREFIX = 'cache:regen_lock:';
++
++    /**
++     * Atomically prune the tag index for a batch of ids using their reverse index.
++     *
++     * For each id: read its reverse index (id -> tags), SREM the id from every tag SET, DEL the
++     * reverse index and SREM the id from all_ids. Running inside EVAL makes the whole
++     * read-modify-write atomic, so a concurrent onSave for the same id cannot be half-clobbered.
++     *
++     * Existence guard (finding #4): an id is pruned ONLY when its data key is gone. If a concurrent
++     * save has just (re)written the data, the index is left intact so the index never contradicts
++     * the data (no data-present / index-missing orphan). The guard fails safe: if the data-key
++     * prefix is wrong the EXISTS is 0 and pruning proceeds exactly as before.
++     *
++     * ARGV[1] = tag key prefix, ARGV[2] = namespace, ARGV[3] = data-key prefix (namespace + ':'),
++     * ARGV[4..] = ids to prune.
++     */
++    private const LUA_PRUNE_INDEX = <<<'LUA'
++local tag_prefix = ARGV[1]
++local namespace = ARGV[2]
++local data_prefix = ARGV[3]
++local rev_prefix = 'cache:id_tags:' .. namespace
++local pruned = 0
++for i = 4, #ARGV do
++    local id = ARGV[i]
++    if redis.call('EXISTS', data_prefix .. id) == 0 then
++        local rev = rev_prefix .. id
++        local tags_of_id = redis.call('SMEMBERS', rev)
++        for _, t in ipairs(tags_of_id) do
++            redis.call('SREM', tag_prefix .. namespace .. t, id)
++        end
++        redis.call('DEL', rev)
++        redis.call('SREM', 'cache:all_ids', id)
++        pruned = pruned + 1
++    end
++end
++return pruned
++LUA;
++
++    /**
++     * Atomically (re)build the tag index for one id, but ONLY while its data key exists.
++     *
++     * The pair (LUA_ONSAVE guarded on data-present, LUA_PRUNE_INDEX guarded on data-absent) makes
++     * the two index operations each conditional on the current data state, so the tag index can
++     * never end up contradicting the data under a concurrent save/delete on the same id
++     * (finding #4). The data write is committed before onSave runs, so under normal (non-racing)
++     * saves EXISTS is 1 and the index is written exactly as the old pipeline did.
++     *
++     * ARGV[1] = data key (namespace + ':' + id), ARGV[2] = id, ARGV[3] = all_ids key,
++     * ARGV[4] = tag key prefix, ARGV[5] = namespace, ARGV[6] = reverse index key,
++     * ARGV[7..] = tag names.
++     */
++    private const LUA_ONSAVE = <<<'LUA'
++if redis.call('EXISTS', ARGV[1]) == 0 then
++    return 0
++end
++local id = ARGV[2]
++local all_ids = ARGV[3]
++local tag_prefix = ARGV[4]
++local namespace = ARGV[5]
++local reverse_key = ARGV[6]
++-- Retag cleanup: drop the id from the forward SET of any tag it no longer carries. Without this a
++-- re-save with a different tag set (e.g. [A,B] then [C]) would leave the old A/B memberships
++-- dangling because the reverse index is about to be replaced. Mirrors the legacy
++-- Cm_Cache_Backend_Redis save() which array_diffs the previous tags and SREMs them.
++local keep = {}
++for i = 7, #ARGV do
++    keep[ARGV[i]] = true
++end
++local old_tags = redis.call('SMEMBERS', reverse_key)
++for j = 1, #old_tags do
++    if not keep[old_tags[j]] then
++        redis.call('SREM', tag_prefix .. namespace .. old_tags[j], id)
++    end
++end
++redis.call('SADD', all_ids, id)
++redis.call('DEL', reverse_key)
++for i = 7, #ARGV do
++    local tag = ARGV[i]
++    redis.call('SADD', tag_prefix .. namespace .. tag, id)
++    redis.call('SADD', reverse_key, tag)
++end
++return 1
++LUA;
++    // PATCH END
+ 
+     /**
+      * SUNION chunk size
+@@ -31,6 +123,16 @@ class RedisTagAdapter implements TagAdapterInterface
+      */
+     private const SUNION_CHUNK_SIZE = 500;
+ 
++    // PATCH START
++    /**
++     * Maximum set size for which a single SINTER call is safe.
++     * SINTER is O(N*M) where N = smallest set size. If the smallest set exceeds
++     * this threshold, SINTER blocks Valkey long enough to saturate PHP-FPM workers.
++     * Above the threshold, SMEMBERS + PHP array_intersect is used instead.
++     */
++    private const SINTER_SAFE_SIZE = 500;
++
++    // PATCH END
+     /**
+      * Maximum number of IDs to be removed at a time - matches Zend's $_removeChunkSize
+      * @see vendor/colinmollenhour/cache-backend-redis/Cm/Cache/Backend/Redis.php line 99
+@@ -51,6 +153,7 @@ class RedisTagAdapter implements TagAdapterInterface
+      *
+      * Performance: Single atomic Redis operation, ~10-15% faster than PHP implementation
+      */
++    // PATCH START
+     private const LUA_CLEAN_MATCHING_ANY_TAGS = <<<'LUA'
+ -- KEYS: array of tags to match (e.g., ["product", "category", "config"])
+ -- ARGV[1]: tag prefix (e.g., "cache:tags:")
+@@ -74,17 +177,28 @@ if #ids_to_delete == 0 then
+     return 0
+ end
+ 
+--- Delete cache items and remove from indices
++-- Delete cache items and remove from indices (forward tag SETs, reverse index, all_ids)
+ local deleted = 0
++local rev_prefix = 'cache:id_tags:' .. namespace
+ for _, id in ipairs(ids_to_delete) do
+-    -- Delete the actual cache item
+-    local cache_key = namespace .. id
++    -- Remove the id from every tag SET it belongs to, via its reverse index
++    local rev = rev_prefix .. id
++    local tags_of_id = redis.call('SMEMBERS', rev)
++    for _, t in ipairs(tags_of_id) do
++        redis.call('SREM', tag_prefix .. namespace .. t, id)
++    end
++    redis.call('DEL', rev)
++    redis.call('SREM', 'cache:all_ids', id)
++
++    -- Delete the actual cache item (data key is "<namespace>:<id>", note the ':' separator)
++    local cache_key = namespace .. ':' .. id
+     redis.call('DEL', cache_key)
+     deleted = deleted + 1
+ end
+ 
+ return deleted
+ LUA;
++    // PATCH END
+ 
+     /**
+      * Lua script for cleaning cache entries matching ANY tags within a scope (OR + AND logic)
+@@ -93,6 +207,7 @@ LUA;
+      *
+      * Performance: Single atomic Redis operation with scope filtering
+      */
++    // PATCH START
+     private const LUA_CLEAN_MATCHING_ANY_TAGS_WITH_SCOPE = <<<'LUA'
+ -- KEYS: array of tags to match (e.g., ["product", "category"])
+ -- ARGV[1]: tag prefix (e.g., "cache:tags:")
+@@ -141,16 +256,27 @@ if #filtered_ids == 0 then
+     return 0
+ end
+ 
+--- Step 4: Delete filtered IDs
++-- Step 4: Delete filtered IDs and remove from indices (tag SETs, reverse index, all_ids)
+ local deleted = 0
++local rev_prefix = 'cache:id_tags:' .. namespace
+ for _, id in ipairs(filtered_ids) do
+-    local cache_key = namespace .. id
++    local rev = rev_prefix .. id
++    local tags_of_id = redis.call('SMEMBERS', rev)
++    for _, t in ipairs(tags_of_id) do
++        redis.call('SREM', tag_prefix .. namespace .. t, id)
++    end
++    redis.call('DEL', rev)
++    redis.call('SREM', 'cache:all_ids', id)
++
++    -- Delete the actual cache item (data key is "<namespace>:<id>", note the ':' separator)
++    local cache_key = namespace .. ':' .. id
+     redis.call('DEL', cache_key)
+     deleted = deleted + 1
+ end
+ 
+ return deleted
+ LUA;
++    // PATCH END
+ 
+     /**
+      * @var \Redis|\RedisCluster|PredisClient|OptimizedPredisClient
+@@ -198,15 +324,17 @@ LUA;
+         $this->namespace = $namespace;
+         $this->redis = $this->extractRedisClient($cachePool);
+ 
+-        if ($this->isPredisClient()) {
+-            $this->useLua = false;
+-            $this->useLuaOnGc = false;
+-        } else {
+-            $this->useLua = $useLua;
+-            $this->useLuaOnGc = $useLuaOnGc;
+-        }
+-
+-        if (($this->useLua || $this->useLuaOnGc) && !$this->isPredisClient()) {
++        // PATCH START
++        // Lua is honored on both drivers: RedisLuaHelper normalizes the phpredis vs Predis EVAL
++        // signatures, so use_lua=1 gives Predis the same atomic tag-index prune as phpredis instead
++        // of silently degrading to the non-atomic pipeline path.
++        $this->useLua = $useLua;
++        $this->useLuaOnGc = $useLuaOnGc;
++        // PATCH END
++
++        // PATCH START
++        if ($this->useLua || $this->useLuaOnGc) {
++        // PATCH END
+             $this->luaHelper = new RedisLuaHelper($this->redis, true);
+         }
+     }
+@@ -254,6 +382,22 @@ LUA;
+         return self::TAG_INDEX_PREFIX . $this->namespace . $tag;
+     }
+ 
++    // PATCH START
++    /**
++     * Redis key prefix under which the Symfony adapter stores the actual cache DATA item.
++     *
++     * The data key is "<namespace>:<id>" (e.g. "792_:HOTKEY"), i.e. the tag-index namespace plus a
++     * ':' separator — distinct from the tag/reverse index keys which concatenate the namespace with
++     * no separator. Used by the existence guards that keep the index consistent with the data.
++     *
++     * @return string
++     */
++    private function dataKeyPrefix(): string
++    {
++        return $this->namespace . ':';
++    }
++
++    // PATCH END
+     /**
+      * Check if using Predis client (vs phpredis extension)
+      *
+@@ -295,23 +439,95 @@ LUA;
+         return $pipeline->exec();
+     }
+ 
++    // PATCH START
+     /**
+      * @inheritDoc
+      *
+-     * Uses Redis SINTER for efficient set intersection (true AND logic)
++     * Size-adaptive intersection: uses SINTER when the smallest matching set is
++     * small enough to be safe, falls back to SMEMBERS + PHP array_intersect when
++     * any set is large. A bare SINTER on large sets blocks Valkey (single-threaded)
++     * for the full O(N*M) duration, starving all other PHP workers.
+      */
++    // PATCH END
+     public function getIdsMatchingTags(array $tags): array
+     {
+         if (empty($tags)) {
+             return [];
+         }
+ 
+-        // Build tag keys for Redis SINTER
++        // PATCH START
++        if (count($tags) === 1) {
++            return $this->toIdsArray($this->redis->sMembers($this->getTagKey($tags[0])));
++        }
++
++        // PATCH END
+         $tagKeys = array_map([$this, 'getTagKey'], $tags);
++        // PATCH START
++        $sizes = $this->fetchSetSizes($tagKeys);
++
++        // Any empty set means the intersection is empty
++        if (in_array(0, $sizes, true)) {
++            return [];
++        }
++        // PATCH END
++
++        // PATCH START
++        // Sort ascending so the smallest set is first — SINTER is most efficient that way
++        array_multisort($sizes, SORT_ASC, $tagKeys);
++        // PATCH END
++
++        // PATCH START
++        // When the smallest set is large, a single SINTER would block Valkey, so distribute
++        // the work as multiple O(N) SMEMBERS calls intersected in PHP instead.
++        if ($sizes[0] > self::SINTER_SAFE_SIZE) {
++            return $this->intersectViaMembers($tagKeys);
++        }
+ 
+-        // Redis SINTER returns IDs present in ALL sets
+-        $ids = $this->redis->sinter($tagKeys);
++        return $this->toIdsArray($this->redis->sinter($tagKeys));
++    }
++
++    /**
++     * Fetch the cardinality of every set in a single pipeline round-trip
++     *
++     * @param string[] $tagKeys
++     * @return int[]
++     */
++    private function fetchSetSizes(array $tagKeys): array
++    {
++        $pipeline = $this->createPipeline();
++        foreach ($tagKeys as $key) {
++            $pipeline->scard($key);
++        }
+ 
++        return array_map('intval', (array)$this->executePipeline($pipeline));
++    }
++
++    /**
++     * Intersect the given sets client-side using SMEMBERS + array_intersect
++     *
++     * @param string[] $tagKeys
++     * @return string[]
++     */
++    private function intersectViaMembers(array $tagKeys): array
++    {
++        $pipeline = $this->createPipeline();
++        foreach ($tagKeys as $key) {
++            $pipeline->sMembers($key);
++        }
++        $sets = array_map([$this, 'toIdsArray'], (array)$this->executePipeline($pipeline));
++
++        return array_values(array_intersect(...$sets));
++    }
++
++    /**
++     * Normalize a Redis set result to a plain array of IDs
++     *
++     * @param mixed $ids
++     * @return array
++     */
++    private function toIdsArray($ids): array
++    {
++        // PATCH END
+         return is_array($ids) ? $ids : [];
+     }
+ 
+@@ -408,12 +624,12 @@ LUA;
+                     $success = false;
+                 }
+ 
+-                // Remove IDs from all_ids set for this chunk
+-                $pipeline = $this->createPipeline();
+-                foreach ($chunk as $id) {
+-                    $pipeline->srem(self::ALL_IDS_SET, $id);
+-                }
+-                $this->executePipeline($pipeline);
++                // PATCH START
++                // Prune the index (tag sets + reverse index + all_ids) for this chunk so it does
++                // not outlive its data. pruneTagIndex owns the all_ids removal — and, on the atomic
++                // path, guards it on data-absence so a concurrent save is not clobbered (finding #4).
++                $this->pruneTagIndex($chunk);
++                // PATCH END
+ 
+                 // Commit each chunk separately (important for large operations)
+                 if (method_exists($this->cachePool, 'commit')) {
+@@ -426,20 +642,13 @@ LUA;
+ 
+         $success = $this->cachePool->deleteItems($ids);
+ 
+-        if (count($ids) > 10) {
+-            $pipeline = $this->createPipeline();
+-
+-            // Remove each ID from all_ids set in pipeline
+-            foreach ($ids as $id) {
+-                $pipeline->srem(self::ALL_IDS_SET, $id);
+-            }
+-
+-            $this->executePipeline($pipeline);
+-        } else {
+-            // For small batches, use single command (slightly faster)
+-            array_unshift($ids, self::ALL_IDS_SET);
+-            call_user_func_array([$this->redis, 'sRem'], $ids);
+-        }
++        // PATCH START
++        // Prune the index (tag sets + reverse index + all_ids) for the removed ids. all_ids removal
++        // is currently handled inside pruneTagIndex (data-existence-guarded on the atomic path), so we
++        // must NOT strip all_ids separately here — an unconditional srem would defeat the guard and
++        // re-create the data-present / index-missing orphan (finding #4).
++        $this->pruneTagIndex($ids);
++        // PATCH END
+ 
+         // Ensure changes are committed immediately (important for MFTF and tests)
+         if (method_exists($this->cachePool, 'commit')) {
+@@ -472,7 +681,9 @@ LUA;
+                 }
+ 
+                 return $deleted >= 0; // Lua returns number of items deleted
+-            // phpcs:disable Magento2.CodeAnalysis.EmptyBlock
++                // PATCH START
++                // phpcs:disable Magento2.CodeAnalysis.EmptyBlock
++                // PATCH END
+             } catch (\Exception $e) {
+                 // Intentional: Fall through to PHP implementation on Lua failure
+             }
+@@ -523,7 +734,9 @@ LUA;
+                 }
+ 
+                 return $deleted >= 0; // Lua returns number of items deleted
+-            // phpcs:disable Magento2.CodeAnalysis.EmptyBlock
++                // PATCH START
++                // phpcs:disable Magento2.CodeAnalysis.EmptyBlock
++                // PATCH END
+             } catch (\Exception $e) {
+                 // Intentional: Fall through to PHP implementation on Lua failure
+             }
+@@ -571,22 +784,121 @@ LUA;
+     public function onSave(string $id, array $tags): void
+     {
+         if (empty($tags)) {
++            // PATCH START
++            // Tagless entry: still register it in all_ids so getIdsNotMatchingTags() (and GC) can see
++            // it. CLEANING_MODE_NOT_MATCHING_TAG must remove every entry that carries none of the
++            // given tags, which includes untagged ones; without this they would be invisible to the
++            // SDIFF and survive the clean. No forward tag SET or reverse index is written — there are
++            // no tags to link.
++            $this->registerId($id);
++            return;
++        }
++
++        // Prefer the atomic, data-existence-guarded EVAL so a concurrent delete on the same id
++        // cannot leave the index contradicting the data (finding #4). Falls back to the pipeline
++        // when EVAL is unavailable (Predis/cluster) or fails.
++        if ($this->supportsAtomicEval() && $this->onSaveAtomic($id, $tags)) {
++            // PATCH END
+             return;
+         }
+ 
++        // PATCH START
++        $this->onSavePipelined($id, $tags);
++    }
++
++    /**
++     * Register a (tagless) id in the all_ids set so NOT_MATCHING_TAG and GC can see it.
++     *
++     * Guarded on the data key existing so a failed or racing write cannot leave an all_ids entry
++     * with no data behind it — the same invariant the tagged onSave path enforces. The EXISTS+SADD
++     * pair is intentionally not atomic: a lost race only ever produces a transient orphan that
++     * garbageCollect() prunes (it drops all_ids members whose data key is gone), so a heavier EVAL
++     * is not warranted on this hot, per-save path.
++     *
++     * @param string $id
++     * @return void
++     */
++    private function registerId(string $id): void
++    {
++        try {
++            if ($this->redis->exists($this->dataKeyPrefix() . $id)) {
++                $this->redis->sadd(self::ALL_IDS_SET, $id);
++            }
++        // phpcs:ignore Magento2.CodeAnalysis.EmptyBlock
++        } catch (\Throwable $e) {
++            // Best-effort index maintenance; the next save or GC self-heals a missed registration.
++        }
++    }
++
++    /**
++     * Atomically (re)build the index for $id via LUA_ONSAVE, guarded on the data key existing.
++     *
++     * @param string $id
++     * @param array $tags
++     * @return bool True on success, false if EVAL failed (caller should fall back)
++     */
++    private function onSaveAtomic(string $id, array $tags): bool
++    {
++        try {
++            $args = array_merge(
++                [
++                    $this->dataKeyPrefix() . $id,                       // ARGV[1] data key
++                    $id,                                                // ARGV[2] id
++                    self::ALL_IDS_SET,                                  // ARGV[3] all_ids
++                    self::TAG_INDEX_PREFIX,                             // ARGV[4] tag prefix
++                    $this->namespace,                                   // ARGV[5] namespace
++                    self::REVERSE_INDEX_PREFIX . $this->namespace . $id // ARGV[6] reverse key
++                ],
++                array_values($tags)                                     // ARGV[7..] tag names
++            );
++            $this->evalNoKeys(self::LUA_ONSAVE, $args);
++            return true;
++        } catch (\Throwable $e) {
++            return false;
++        }
++    }
++
++    /**
++     * Non-atomic pipelined index build (fallback for Predis/cluster or when EVAL is disabled).
++     *
++     * @param string $id
++     * @param array $tags
++     * @return void
++     */
++    private function onSavePipelined(string $id, array $tags): void
++    {
++        $idTagsKey = self::REVERSE_INDEX_PREFIX . $this->namespace . $id;
++
++        // Retag cleanup: read the id's previous tags and drop it from the forward SET of any tag it
++        // no longer carries, so stale memberships cannot linger after a re-save with a different tag
++        // set. A separate read is required because a pipeline cannot branch on a value; mirrors the
++        // legacy Cm_Cache_Backend_Redis save() array_diff of old vs new tags.
++        $oldTags = $this->toIdsArray($this->redis->sMembers($idTagsKey));
++        $removedTags = array_diff($oldTags, $tags);
++
++        // PATCH END
+         $pipeline = $this->createPipeline();
+ 
++        // PATCH START
++        // Forward index: drop the id from tags it no longer has.
++        foreach ($removedTags as $tag) {
++            $pipeline->srem($this->getTagKey($tag), $id);
++        }
++
++        // PATCH END
+         // Add ID to all_ids set
+         $pipeline->sadd(self::ALL_IDS_SET, $id);
+ 
+         // Forward index: Add ID to each tag's SET
+         foreach ($tags as $tag) {
+-            $tagKey = $this->getTagKey($tag);
+-            $pipeline->sadd($tagKey, $id);
++            // PATCH START
++            $pipeline->sadd($this->getTagKey($tag), $id);
++            // PATCH END
+         }
+ 
+-        // Reverse index: Store tags for this ID (for cleanup on delete)
+-        $idTagsKey = 'cache:id_tags:' . $this->namespace . $id;
++        // PATCH START
++        // Reverse index: replace the id's tag set with the new tags.
++        // PATCH END
+         $pipeline->del($idTagsKey);  // Clear old tags first
+         foreach ($tags as $tag) {
+             $pipeline->sadd($idTagsKey, $tag);
+@@ -596,6 +908,319 @@ LUA;
+         $this->executePipeline($pipeline);
+     }
+ 
++    // PATCH START
++    /**
++     * Bulk-prune the tag index for the given ids: remove each id from its tag SETs and delete its reverse-index key.
++     *
++     * Prefers an atomic EVAL and falls back to a pipelined path.
++     *
++     * @param array $ids
++     * @return void
++     */
++    private function pruneTagIndex(array $ids): void
++    {
++        if (empty($ids)) {
++            return;
++        }
++
++        // Prefer the atomic EVAL path: reading the reverse index and applying the removals in a
++        // single script eliminates the read/write gap that let a concurrent onSave get clobbered.
++        // Falls back to the pipelined path when EVAL is unavailable (Predis/cluster) or fails.
++        if ($this->supportsAtomicEval() && $this->pruneTagIndexAtomic($ids)) {
++            return;
++        }
++
++        $this->pruneTagIndexPipelined($ids);
++    }
++
++    /**
++     * Atomically prune the tag index for the given ids via a single EVAL per chunk.
++     *
++     * @param array $ids
++     * @return bool True on success, false if EVAL failed (caller should fall back)
++     */
++    private function pruneTagIndexAtomic(array $ids): bool
++    {
++        try {
++            foreach (array_chunk(array_values($ids), self::LUA_MAX_CSTACK) as $chunk) {
++                // phpcs:ignore Magento2.Performance.ForeachArrayMerge
++                $args = array_merge(
++                    [self::TAG_INDEX_PREFIX, $this->namespace, $this->dataKeyPrefix()],
++                    $chunk
++                );
++                $this->evalNoKeys(self::LUA_PRUNE_INDEX, $args);
++            }
++            return true;
++        } catch (\Throwable $e) {
++            return false;
++        }
++    }
++
++    /**
++     * Non-atomic pipelined prune (fallback for Predis/cluster or when EVAL is disabled).
++     *
++     * Two pipelines: read whether each id still has data and its reverse index, then apply removals.
++     * Like the atomic path, an id whose data key still exists keeps its index (a failed delete, or a
++     * concurrent save after the delete). There is still a read/write gap here, so a save between the
++     * two pipelines may be clobbered; the atomic path above is preferred whenever the client supports it.
++     *
++     * @param array $ids
++     * @return void
++     */
++    private function pruneTagIndexPipelined(array $ids): void
++    {
++        // Read, for every id in one pipeline, whether its data key exists and its reverse index (id -> tags)
++        $ids = array_values($ids);
++        $readPipe = $this->createPipeline();
++        foreach ($ids as $id) {
++            $readPipe->exists($this->dataKeyPrefix() . $id);
++            $readPipe->smembers(self::REVERSE_INDEX_PREFIX . $this->namespace . $id);
++        }
++        $results = $this->executePipeline($readPipe);
++        if (!is_array($results)) {
++            return;
++        }
++
++        // Drop each id without data from all_ids and its tag SETs, and delete its reverse index,
++        // in one pipeline (this fallback owns the all_ids removal now that deleteByIds no longer
++        // removes it separately).
++        $writePipe = $this->createPipeline();
++        foreach ($ids as $i => $id) {
++            if ((int)($results[2 * $i] ?? 0) > 0) {
++                continue;
++            }
++            $writePipe->srem(self::ALL_IDS_SET, $id);
++            $tags = $results[2 * $i + 1] ?? [];
++            if (is_array($tags) && !empty($tags)) {
++                foreach ($tags as $tag) {
++                    $writePipe->srem($this->getTagKey($tag), $id);
++                }
++                $writePipe->del(self::REVERSE_INDEX_PREFIX . $this->namespace . $id);
++            }
++        }
++        $this->executePipeline($writePipe);
++    }
++
++    /**
++     * Whether the underlying client supports atomic single-node EVAL with computed keys.
++     *
++     * True for phpredis standalone (\Redis) and for Predis single-node/replication (EVAL runs on the
++     * master). Excludes \RedisCluster: these scripts compute their keys from ARGV (numKeys=0), which
++     * is unsafe across cluster slots, so a cluster still uses the pipelined fallback.
++     *
++     * @return bool
++     */
++    private function supportsAtomicEval(): bool
++    {
++        return $this->redis instanceof \Redis || $this->isPredisClient();
++    }
++
++    /**
++     * Run a keyless Lua script (numKeys=0, every value passed as ARGV), normalizing the phpredis vs
++     * Predis EVAL argument order and turning a Predis error reply (exceptions=false clients) into a
++     * thrown exception so the callers' try/catch fallback behaves the same on both drivers.
++     *
++     * @param string $script
++     * @param array $argv
++     * @return mixed
++     */
++    private function evalNoKeys(string $script, array $argv)
++    {
++        return $this->evalScript($script, $argv, 0);
++    }
++
++    /**
++     * Run a Lua script, normalizing the phpredis vs Predis EVAL argument order.
++     *
++     * Argument order: phpredis uses eval($script, $keysAndArgs, $numKeys); Predis uses
++     * eval($script, $numKeys, ...$keysAndArgs).
++     *
++     * @param string $script
++     * @param array $keysAndArgs Flat list: the $numKeys KEYS first, then the ARGV values
++     * @param int $numKeys
++     * @return mixed
++     */
++    private function evalScript(string $script, array $keysAndArgs, int $numKeys)
++    {
++        if ($this->isPredisClient()) {
++            return $this->unwrapPredisReply($this->redis->eval($script, $numKeys, ...$keysAndArgs));
++        }
++        return $this->redis->eval($script, $keysAndArgs, $numKeys);
++    }
++
++    /**
++     * Run a cached Lua script by SHA, normalizing the phpredis vs Predis EVALSHA argument order.
++     *
++     * @param string $sha
++     * @param array $keysAndArgs Flat list: the $numKeys KEYS first, then the ARGV values
++     * @param int $numKeys
++     * @return mixed
++     */
++    private function evalShaScript(string $sha, array $keysAndArgs, int $numKeys)
++    {
++        if ($this->isPredisClient()) {
++            return $this->unwrapPredisReply($this->redis->evalsha($sha, $numKeys, ...$keysAndArgs));
++        }
++        return $this->redis->evalSha($sha, $keysAndArgs, $numKeys);
++    }
++
++    /**
++     * SCRIPT LOAD a Lua script and return its SHA, normalizing the Predis error reply.
++     *
++     * @param string $script
++     * @return mixed SHA string
++     */
++    private function scriptLoad(string $script)
++    {
++        if ($this->isPredisClient()) {
++            return $this->unwrapPredisReply($this->redis->script('load', $script));
++        }
++        return $this->redis->script('load', $script);
++    }
++
++    /**
++     * Turn a Predis error reply (exceptions=false clients) into a thrown exception.
++     *
++     * This way callers' try/catch fallbacks fire identically on phpredis and Predis.
++     *
++     * @param mixed $result
++     * @return mixed
++     */
++    private function unwrapPredisReply($result)
++    {
++        if ($result instanceof \Predis\Response\ErrorInterface) {
++            throw new \RuntimeException((string)$result->getMessage());
++        }
++        return $result;
++    }
++
++    /**
++     * Iterate keys matching $pattern using SCAN, yielding them in batches.
++     *
++     * Cursor-based and non-blocking, normalizing phpredis vs Predis. Deliberately avoids the KEYS
++     * command: KEYS is O(N) over the WHOLE keyspace and blocks
++     * single-threaded Redis/Valkey for the entire scan, which would starve PHP workers when it runs
++     * from the backend_clean_cache cron / cache:flush. Legacy Cm_Cache_Backend_Redis GCs the same way
++     * (SSCAN over maintained sets), never KEYS. Errors are allowed to propagate so a failed sweep is
++     * surfaced, not masked.
++     *
++     * @param string $pattern
++     * @param int $count SCAN COUNT hint (batch size)
++     * @return \Generator<int, array>
++     */
++    private function scanKeys(string $pattern, int $count): \Generator
++    {
++        if ($this->isPredisClient()) {
++            $cursor = '0';
++            do {
++                [$cursor, $keys] = $this->unwrapPredisReply(
++                    $this->redis->scan($cursor, ['MATCH' => $pattern, 'COUNT' => $count])
++                );
++                if (!empty($keys)) {
++                    yield $keys;
++                }
++            } while ((string)$cursor !== '0');
++            return;
++        }
++
++        // phpredis: scan() returns a batch (possibly empty) and advances $iterator by reference,
++        // returning false once the full iteration is complete.
++        $iterator = null;
++        while (($keys = $this->redis->scan($iterator, $pattern, $count)) !== false) {
++            if (!empty($keys)) {
++                yield $keys;
++            }
++        }
++    }
++
++    /**
++     * Iterate the members of a Redis SET with SSCAN (cursor-based, non-blocking), normalizing phpredis
++     * vs Predis, and yield them in batches. This is how legacy Cm_Cache_Backend_Redis GC-scans its
++     * id/tag sets — it visits only the set's members, never the whole keyspace.
++     *
++     * @param string $key SET key
++     * @param int $count SSCAN COUNT hint (batch size)
++     * @return \Generator<int, array>
++     */
++    private function sscan(string $key, int $count): \Generator
++    {
++        if ($this->isPredisClient()) {
++            $cursor = '0';
++            do {
++                [$cursor, $members] = $this->unwrapPredisReply(
++                    $this->redis->sscan($key, $cursor, ['COUNT' => $count])
++                );
++                if (!empty($members)) {
++                    yield $members;
++                }
++            } while ((string)$cursor !== '0');
++            return;
++        }
++
++        // phpredis: sScan() returns a batch of members (possibly empty) and advances $iterator by
++        // reference, returning false once the full iteration is complete.
++        $iterator = null;
++        while (($members = $this->redis->sScan($key, $iterator, null, $count)) !== false) {
++            if (!empty($members)) {
++                yield $members;
++            }
++        }
++    }
++
++    /**
++     * Acquire the stale-cache regeneration lock atomically (SET key token NX EX ttl).
++     *
++     * Returns true for exactly one caller cluster-wide; the token identifies the owner so the
++     * lock can be released safely later. Any client error is treated as "not acquired".
++     *
++     * @param string $id Cache id being regenerated
++     * @param string $token Per-process ownership token
++     * @param int $ttl Lock lifetime in seconds (auto-expiry if the owner dies)
++     * @return bool
++     */
++    public function acquireLock(string $id, string $token, int $ttl): bool
++    {
++        $key = self::REGEN_LOCK_PREFIX . $this->namespace . $id;
++
++        try {
++            $result = $this->isPredisClient()
++                ? $this->redis->set($key, $token, 'EX', $ttl, 'NX')
++                : $this->redis->set($key, $token, ['NX', 'EX' => $ttl]);
++
++            // phpredis returns true/false; Predis returns a Status('OK') on set, null when NX fails
++            return $result !== null && $result !== false;
++        } catch (\Throwable $e) {
++            return false;
++        }
++    }
++
++    /**
++     * Release the regeneration lock only if this process still owns it (ownership-safe delete).
++     *
++     * Uses a GET+DEL compare-and-delete in a single EVAL so a lock re-acquired by another owner
++     * (e.g. after TTL expiry) is never deleted out from under it.
++     *
++     * @param string $id Cache id
++     * @param string $token The token used when acquiring
++     * @return bool True if this process owned the lock and it was released
++     */
++    public function releaseLock(string $id, string $token): bool
++    {
++        $key = self::REGEN_LOCK_PREFIX . $this->namespace . $id;
++        $lua = "if redis.call('GET', KEYS[1]) == ARGV[1] then return redis.call('DEL', KEYS[1]) else return 0 end";
++
++        try {
++            $result = $this->isPredisClient()
++                ? $this->redis->eval($lua, 1, $key, $token)
++                : $this->redis->eval($lua, [$key, $token], 1);
++
++            return (int)$result === 1;
++        } catch (\Throwable $e) {
++            return false;
++        }
++    }
++
++    // PATCH END
+     /**
+      * @inheritDoc
+      *
+@@ -645,25 +1270,28 @@ LUA;
+             return;
+         }
+ 
+-        // Fallback: PHP-based clearing (original implementation)
+-        // Get all tag keys
+-        $pattern = self::TAG_INDEX_PREFIX . $this->namespace . '*';
+-        $tagKeys = $this->redis->keys($pattern);
+-
+-        if (is_array($tagKeys) && !empty($tagKeys)) {
++        // PATCH START
++        // Fallback: PHP-based clearing. Enumerate with SCAN (cursor-based, non-blocking) rather than
++        // KEYS — this runs on every cache:flush / clean(ALL), and KEYS would block Redis/Valkey across
++        // the whole keyspace. Delete each batch as it is scanned.
++        $tagPattern = self::TAG_INDEX_PREFIX . $this->namespace . '*';
++        foreach ($this->scanKeys($tagPattern, 1000) as $chunk) {
++        // PATCH END
+             // PHP 8+ compatibility: use call_user_func_array to avoid spread operator issues
+-            call_user_func_array([$this->redis, 'del'], $tagKeys);
++            // PATCH START
++            call_user_func_array([$this->redis, 'del'], $chunk);
++            // PATCH END
+         }
+ 
+         // Clear all_ids set
+         $this->redis->del(self::ALL_IDS_SET);
+ 
+         // Clear reverse index keys
+-        $reversePattern = 'cache:id_tags:' . $this->namespace . '*';
+-        $reverseKeys = $this->redis->keys($reversePattern);
+-        if (is_array($reverseKeys) && !empty($reverseKeys)) {
+-            // PHP 8+ compatibility: use call_user_func_array to avoid spread operator issues
+-            call_user_func_array([$this->redis, 'del'], $reverseKeys);
++        // PATCH START
++        $reversePattern = self::REVERSE_INDEX_PREFIX . $this->namespace . '*';
++        foreach ($this->scanKeys($reversePattern, 1000) as $chunk) {
++            call_user_func_array([$this->redis, 'del'], $chunk);
++        // PATCH END
+         }
+     }
+ 
+@@ -706,18 +1334,102 @@ LUA;
+      */
+     public function garbageCollect(int $batchSize = 1000): int
+     {
+-        // Garbage collection specifically checks use_lua_on_gc flag
+-        if (!$this->useLuaOnGc || !$this->luaHelper) {
++        // PATCH START
++        // Always sweep via the reverse index. We deliberately do NOT use the Lua keyspace-scan GC
++        // (use_lua_on_gc): that script does SCAN MATCH "<namespace>*" and prunes keys whose TTL == -2,
++        // but a TTL-expired data key has already been removed from the keyspace by Redis, so SCAN
++        // never returns it — it can never find these orphans (it prunes 0). The tag SETs and reverse
++        // index persist after the data expires, so we walk the reverse index and prune the ids whose
++        // data key is gone. Mirrors legacy Cm Redis _collectGarbage() (which likewise reasons from the
++        // tag/id sets, not a keyspace scan of already-deleted keys).
++        return $this->garbageCollectClientSide($batchSize);
++    }
++
++    /**
++     * @inheritDoc
++     *
++     * Matches legacy Cm_Cache_Backend_Redis::getFillingPercentage() exactly: reads the configured
++     * ceiling via CONFIG GET (not INFO's maxmemory field, which is not always populated), and returns 1
++     * — not 0 — when no ceiling is configured, since "unlimited" has no meaningful fullness fraction and
++     * legacy treated that as effectively empty rather than ambiguous.
++     */
++    public function getFillingPercentage(): int
++    {
++        try {
++            $configReply = $this->unwrapPredisReply($this->redis->config('GET', 'maxmemory'));
++            $maxMemory = (int)($configReply['maxmemory'] ?? 0);
++            if ($maxMemory <= 0) {
++                return 1;
++            }
++
++            $info = $this->unwrapPredisReply($this->redis->info());
++            $usedMemory = (int)($this->isPredisClient()
++                ? ($info['Memory']['used_memory'] ?? 0)
++                : ($info['used_memory'] ?? 0));
++
++            return (int)round($usedMemory / $maxMemory * 100);
++        } catch (\Throwable $e) {
++        // PATCH END
+             return 0;
+         }
++    // PATCH START
++    }
++    // PATCH END
+ 
+-        $result = $this->luaHelper->garbageCollect(
+-            $this->namespace . '*',
+-            self::TAG_INDEX_PREFIX . $this->namespace,
+-            $batchSize
+-        );
++    // PATCH START
++    /**
++     * Non-Lua garbage collection: prune tag-index members whose data key no longer exists.
++     *
++     * Enumerates the maintained id set (cache:all_ids) with SSCAN — the direct analogue of legacy Cm
++     * Redis GC-scanning its zc:ids set, and the same set getIdsNotMatchingTags() already treats as this
++     * frontend's ids. SSCAN visits only the set's members (not the whole keyspace) and never issues the
++     * blocking KEYS. For each id whose data key has TTL-expired it hands the id to pruneTagIndex(),
++     * which removes it from its tag SETs, reverse index and all_ids. Only ids confirmed missing are
++     * pruned, so live entries are never touched; the data-key derivation (dataKeyPrefix() . id) is the
++     * same one the atomic prune's EXISTS guard relies on.
++     *
++     * A scan/prune error is intentionally NOT swallowed: it propagates so garbageCollect() ->
++     * clean(OLD) reports a FAILURE (the cron logs it) rather than a successful no-op while the tag
++     * index silently grows. Mirrors legacy, which throws on a GC error (Zend_Cache::throwException).
++     *
++     * @param int $batchSize
++     * @return int Number of orphaned index entries removed
++     */
++    private function garbageCollectClientSide(int $batchSize): int
++    {
++        $dataPrefix = $this->dataKeyPrefix();
++        $removed = 0;
++
++        foreach ($this->sscan(self::ALL_IDS_SET, max(1, $batchSize)) as $members) {
++            // EXISTS-check every id's data key in one pipeline.
++            $ids = array_values($members);
++            $pipe = $this->createPipeline();
++            foreach ($ids as $id) {
++                $pipe->exists($dataPrefix . $id);
++            }
++            $exists = $this->executePipeline($pipe);
++            if (!is_array($exists)) {
++                continue;
++            }
++
++            $expired = [];
++            foreach ($ids as $i => $id) {
++                // phpredis EXISTS returns 0/1 (int); a falsy value means the data key is gone.
++                if (empty($exists[$i])) {
++                    $expired[] = $id;
++                }
++            }
++    // PATCH END
+ 
+-        return $result[0]; // Return deleted count (first element)
++            // PATCH START
++            if (!empty($expired)) {
++                $this->pruneTagIndex($expired);
++                $removed += count($expired);
++            }
++        }
++
++        return $removed;
++            // PATCH END
+     }
+ 
+     /**
+@@ -770,35 +1482,27 @@ LUA;
+             return 0;
+         }
+ 
++        // PATCH START
++        // phpredis expects a SINGLE [KEYS..., ARGV...] array plus the KEY count; passing ARGV as
++        // extra positional params (the previous code) throws ArgumentCountError and never reaches
++        // the script. ARGV order: [tag_prefix, namespace, chunk_size].
++        $args = array_merge($tags, [self::TAG_INDEX_PREFIX, $this->namespace, 100]);
++
++        // PATCH END
+         try {
+-            // Load and execute Lua script
++            // PATCH START
++            // PATCH END
+             $sha = $this->loadLuaScript(self::LUA_CLEAN_MATCHING_ANY_TAGS);
+-
+-            // KEYS: array of tags
+-            // ARGV: [tag_prefix, namespace, chunk_size]
+-            $result = $this->redis->evalSha(
+-                $sha,
+-                $tags,  // KEYS
+-                count($tags),  // Number of KEYS
+-                self::TAG_INDEX_PREFIX,  // ARGV[1]
+-                $this->namespace,  // ARGV[2]
+-                100  // ARGV[3] - chunk size
+-            );
+-
+-            return (int)$result;
+-        } catch (\RedisException $e) {
+-            // Fallback: try executing script directly
++            // PATCH START
++            return (int)$this->evalShaScript($sha, $args, count($tags));
++        } catch (\Throwable $e) {
++            // Fallback: try executing the script directly
++            // PATCH END
+             try {
+-                $result = $this->redis->eval(
+-                    self::LUA_CLEAN_MATCHING_ANY_TAGS,
+-                    $tags,
+-                    count($tags),
+-                    self::TAG_INDEX_PREFIX,
+-                    $this->namespace,
+-                    100
+-                );
+-                return (int)$result;
+-            } catch (\RedisException $e) {
++                // PATCH START
++                return (int)$this->evalScript(self::LUA_CLEAN_MATCHING_ANY_TAGS, $args, count($tags));
++            } catch (\Throwable $e) {
++                // PATCH END
+                 // Return -1 to signal error (will fall back to PHP)
+                 return -1;
+             }
+@@ -818,54 +1522,49 @@ LUA;
+             return 0;
+         }
+ 
++        // PATCH START
++        // Single [KEYS..., ARGV...] array + KEY count (see cleanMatchingAnyTagsLua).
++        // ARGV order: [tag_prefix, namespace, scope_tag].
++        $args = array_merge($tags, [self::TAG_INDEX_PREFIX, $this->namespace, $scopeTag]);
++
++        // PATCH END
+         try {
+-            // Load and execute Lua script
++            // PATCH START
++            // PATCH END
+             $sha = $this->loadLuaScript(self::LUA_CLEAN_MATCHING_ANY_TAGS_WITH_SCOPE);
+-
+-            // KEYS: array of tags
+-            // ARGV: [tag_prefix, namespace, scope_tag]
+-            $result = $this->redis->evalSha(
+-                $sha,
+-                $tags,  // KEYS
+-                count($tags),  // Number of KEYS
+-                self::TAG_INDEX_PREFIX,  // ARGV[1]
+-                $this->namespace,  // ARGV[2]
+-                $scopeTag  // ARGV[3]
+-            );
+-
+-            return (int)$result;
+-        } catch (\RedisException $e) {
++            // PATCH START
++            return (int)$this->evalShaScript($sha, $args, count($tags));
++        } catch (\Throwable $e) {
++            // PATCH END
+             // Fallback: try executing script directly
+             try {
+-                $result = $this->redis->eval(
+-                    self::LUA_CLEAN_MATCHING_ANY_TAGS_WITH_SCOPE,
+-                    $tags,
+-                    count($tags),
+-                    self::TAG_INDEX_PREFIX,
+-                    $this->namespace,
+-                    $scopeTag
+-                );
+-                return (int)$result;
+-            } catch (\RedisException $e) {
++                // PATCH START
++                return (int)$this->evalScript(self::LUA_CLEAN_MATCHING_ANY_TAGS_WITH_SCOPE, $args, count($tags));
++            } catch (\Throwable $e) {
++                // PATCH END
+                 // Return -1 to signal error (will fall back to PHP)
+                 return -1;
+             }
+         }
+     }
+ 
++    // PATCH START
+     /**
+      * Load Lua script and return SHA1
+      *
+      * @param string $script Lua script content
+      * @return string SHA1 of the script
+-     * @throws \RedisException
++     * @throws \RuntimeException
+      */
++    // PATCH END
+     private function loadLuaScript(string $script): string
+     {
+         try {
+-            return $this->redis->script('load', $script);
+-        } catch (\RedisException $e) {
+-            throw new \RedisException('Failed to load Lua script: ' . $e->getMessage(), 0, $e);
++            // PATCH START
++            return (string)$this->scriptLoad($script);
++        } catch (\Throwable $e) {
++            throw new \RuntimeException('Failed to load Lua script: ' . $e->getMessage(), 0, $e);
++            // PATCH END
+         }
+     }
+ }
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapters/TagAdapterInterface.php b/Cache/Frontend/Adapter/SymfonyAdapters/TagAdapterInterface.php
+index fdc6d1d..ed5df4d 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapters/TagAdapterInterface.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapters/TagAdapterInterface.php
+@@ -83,4 +83,29 @@ interface TagAdapterInterface
+      * @return void
+      */
+     public function clearAllIndices(): void;
++    // PATCH START
++
++    /**
++     * Sweep tag-index members whose data entry has expired (CLEANING_MODE_OLD).
++     *
++     * Redis/Valkey auto-expire the data key by TTL but leave the id in its tag SETs; this prunes
++     * those orphaned members so the tag index does not grow unbounded. Mirrors legacy Cm Redis
++     * _collectGarbage(), run by the backend_clean_cache cron. Adapters with no such index (file)
++     * return 0.
++     *
++     * @param int $batchSize Number of ids to process per iteration
++     * @return int Number of orphaned index entries removed
++     */
++    public function garbageCollect(int $batchSize = 1000): int;
++
++    /**
++     * Return the filling percentage of the underlying storage server, if the backend can report one.
++     *
++     * Mirrors legacy Cm_Cache_Backend_Redis::getFillingPercentage() (used_memory / maxmemory). Adapters
++     * with no such server-level memory concept (filesystem, generic fallback) return 0.
++     *
++     * @return int Integer between 0 and 100
++     */
++    public function getFillingPercentage(): int;
++    // PATCH END
+ }
+diff --git a/Cache/Frontend/Decorator/Bare.php b/Cache/Frontend/Decorator/Bare.php
+index 4fb3afd..3187c6e 100644
+--- a/Cache/Frontend/Decorator/Bare.php
++++ b/Cache/Frontend/Decorator/Bare.php
+@@ -68,6 +68,32 @@ class Bare implements \Magento\Framework\Cache\FrontendInterface
+         return $this->_getFrontend()->load($identifier);
+     }
+ 
++    // PATCH START
++    /**
++     * Batched multi-load passthrough (used by the preloading wrapper). Delegates to the wrapped
++     * frontend's loadMultiple() when it has one; otherwise falls back to per-key loads so the chain
++     * still works for non-batching backends.
++     *
++     * @param string[] $identifiers
++     * @return array<string, mixed>
++     */
++    public function loadMultiple(array $identifiers): array
++    {
++        $frontend = $this->_getFrontend();
++        if (method_exists($frontend, 'loadMultiple')) {
++            return $frontend->loadMultiple($identifiers);
++        }
++        $out = [];
++        foreach ($identifiers as $id) {
++            $value = $frontend->load($id);
++            if ($value !== false) {
++                $out[$id] = $value;
++            }
++        }
++        return $out;
++    }
++
++    // PATCH END
+     /**
+      * @inheritDoc
+      */
+diff --git a/Cache/Frontend/Decorator/Compression.php b/Cache/Frontend/Decorator/Compression.php
+index d3a7e6b..0f36407 100644
+--- a/Cache/Frontend/Decorator/Compression.php
++++ b/Cache/Frontend/Decorator/Compression.php
+@@ -93,6 +93,31 @@ class Compression extends Bare
+         return $data;
+     }
+ 
++    // PATCH START
++    /**
++     * Batched multi-load — decompress each value just like load() does.
++     *
++     * Without this override the batched path (used by the preloading wrapper) would return the raw
++     * COMPRESSED payloads, which then fail to unserialize downstream. Mirrors load()'s decompression.
++     *
++     * @param string[] $identifiers
++     * @return array<string, mixed>
++     */
++    public function loadMultiple(array $identifiers): array
++    {
++        $results = parent::loadMultiple($identifiers);
++        foreach ($results as $id => $data) {
++            if (is_string($data) && $this->isCompressed($data)) {
++                $decompressed = $this->decompressData($data);
++                if ($decompressed !== false) {
++                    $results[$id] = $decompressed;
++                }
++            }
++        }
++        return $results;
++    }
++
++    // PATCH END
+     /**
+      * Compress data using configured compression library
+      *

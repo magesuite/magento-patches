@@ -79,6 +79,11 @@
                     "version-constraint": ">=102.0.9,<102.0.10"
                 },
                 {
+                    "description": "Backport of AC-17650 (Magento 2.4.9): the cache cleaning cron cleans the cache backend directly so Symfony L2 tiers are purged",
+                    "filename": "essential/magento/module-backend/AC-17650-symfony-cache-l2-clean-via-backend.patch",
+                    "version-constraint": ">=102.0.9,<102.0.9-p1"
+                },
+                {
                     "description": "Security patch VULN-39341 (Magento 2.4.8-p5): validate the grid row URL generator class against GeneratorInterface before instantiating it",
                     "filename": "essential/magento/module-backend/248p5-VULN-39341-CE.patch",
                     "version-constraint": ">=102.0.8,<102.0.9"
@@ -421,6 +426,11 @@
                     "description": "Allow to use own cache dir",
                     "filename": "essential/magento/framework/allow-to-use-own-cache-dir.patch",
                     "version-constraint": ">=103.0.9"
+                },
+                {
+                    "description": "Backport of AC-17650 with prerequisite ACP2E-4989 (Magento 2.4.9): prune the Symfony cache Redis tag index (cache:id_tags, cache:tags, cache:all_ids), fix L2 flush/clean, lifetime and compression handling, stop forked parallel indexers from sharing the parent's Redis socket and remove and re-write an L2 entry on every tagged save of unchanged data so new tags and lifetime reach Redis (both AC-17867), and keep the index of live entries in the pipelined prune (#41529). Must be applied after allow-to-use-own-cache-dir.patch",
+                    "filename": "essential/magento/framework/AC-17650-symfony-cache-redis-tag-index-and-l2-fixes.patch",
+                    "version-constraint": ">=103.0.9,<103.0.9-p1"
                 }
             ],
             "magento/module-asynchronous-operations": [
