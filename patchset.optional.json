@@ -2516,6 +2516,26 @@
           "description": "Skip orders without Datatrans transaction row in pending/outage crons instead of aborting the whole run",
           "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/cron-skip-orders-without-transaction-row.patch",
           "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Cancel order items on failed/canceled Datatrans payment so MSI stock reservations are compensated",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/cancel-order-items-on-failed-payment.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Allow lightbox cancel only via POST and only for the pending_payment order owning the Datatrans transaction",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/lightbox-cancel-require-post-and-transaction-ownership.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Release the Datatrans callback lock when payment processing fails so the next callback can process it",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/release-callback-lock-on-processing-failure.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Continue the outage recovery cron run when a single order fails and report all failures at the end",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/outage-cron-continue-on-order-error.patch",
+          "version-constraint": "1.0.3"
         }
       ],
       "techdivison/import-revert-stock": [

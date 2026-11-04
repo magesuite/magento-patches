@@ -1,0 +1,62 @@
+The lightbox cancel endpoint accepted GET requests (no CSRF protection) and cancelled the checkout session's
+last order of any payment method without checking that the given Datatrans transaction belongs to it;
+orders that could not be cancelled (e.g. paid/invoiced) were force-set to canceled.
+Allow POST only and cancel only a pending_payment order that owns the given transaction.
+
+diff --git a/Controller/Payment/LightboxCancel.php b/Controller/Payment/LightboxCancel.php
+--- a/Controller/Payment/LightboxCancel.php
++++ b/Controller/Payment/LightboxCancel.php
+@@ -29,6 +29,9 @@
+ 
+ use Magento\Framework\App\Action\Action;
+ use Magento\Framework\App\Action\Context;
++//BEGIN PATCH
++use Magento\Framework\App\Action\HttpPostActionInterface;
++//END PATCH
+ use Magento\Framework\Controller\Result\Json;
+ use Magento\Framework\Controller\Result\JsonFactory;
+ use Magento\Sales\Api\OrderRepositoryInterface;
+@@ -37,7 +40,10 @@
+ use Pits\DatatransPayment\Api\PaymentTransactionRepositoryInterface;
+ use Pits\DatatransPayment\Helper\Data;
+ 
+-class LightboxCancel extends Action
++//BEGIN PATCH
++//class LightboxCancel extends Action
++class LightboxCancel extends Action implements HttpPostActionInterface
++//END PATCH
+ {
+     /**
+      * @var JsonFactory
+@@ -109,14 +115,23 @@
+ 
+             $order = $this->checkoutSession->getLastRealOrder();
+ 
+-            if ($order && $order->getId()) {
+-                if ($order->canCancel()) {
+-                    $order->registerCancellation(__('Cancelled by customer (Datatrans lightbox closed).'));
+-                } else {
+-                    $order->setState(Order::STATE_CANCELED);
+-                    $order->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_CANCELED));
+-                    $order->addCommentToStatusHistory(__('Force cancelled due to Datatrans lightbox closed.'));
+-                }
++            //BEGIN PATCH
++//            if ($order && $order->getId()) {
++//                if ($order->canCancel()) {
++//                    $order->registerCancellation(__('Cancelled by customer (Datatrans lightbox closed).'));
++//                } else {
++//                    $order->setState(Order::STATE_CANCELED);
++//                    $order->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_CANCELED));
++//                    $order->addCommentToStatusHistory(__('Force cancelled due to Datatrans lightbox closed.'));
++//                }
++            if ($order && $order->getId()
++                && $transactionObj->getId()
++                && $transactionObj->getOrderIncrementId() === $order->getIncrementId()
++                && $order->getState() === Order::STATE_PENDING_PAYMENT
++                && $order->canCancel()
++            ) {
++                $order->registerCancellation(__('Cancelled by customer (Datatrans lightbox closed).'));
++            //END PATCH
+                 $this->orderRepository->save($order);
+ 
+                 // Restore quote
