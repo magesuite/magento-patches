@@ -1,0 +1,19 @@
+Send the tokenization mode of the transaction context in the V2 gateway update() call (IPET-3827).
+Only create() maps TransactionContext::$tokenizationMode, so a mode set on a pending transaction right before its confirmation never reached wallee.
+
+diff --git a/src/Sdk/WebServiceAPIV2/TransactionGateway.php b/src/Sdk/WebServiceAPIV2/TransactionGateway.php
+index 64a81ee..6ee8f8d 100644
+--- a/src/Sdk/WebServiceAPIV2/TransactionGateway.php
++++ b/src/Sdk/WebServiceAPIV2/TransactionGateway.php
+@@ -630,6 +630,11 @@ class TransactionGateway implements TransactionGatewayInterface
+         if ($context->failedUrl !== null) {
+             $sdkTransactionPending->setFailedUrl($context->failedUrl->value);
+         }
++        // BEGIN PATCH
++        if ($context->tokenizationMode) {
++            $sdkTransactionPending->setTokenizationMode($context->tokenizationMode->value);
++        }
++        // END PATCH
+ 
+         try {
+             $this->logger->debug("Gateway: Sending UPDATE request to SDK (patchPaymentTransactionsId).");

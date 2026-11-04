@@ -1,0 +1,17 @@
+Dispatch wallee_payment_confirm_transaction_before with the confirmation context, order, charge flow and token right before the transaction is updated and confirmed (IPET-3827).
+Observers can adjust the context, e.g. force the tokenization mode for subscription orders, without a plugin on a plugin-core class, for which setup:di:compile generates no interceptor.
+
+diff --git a/Model/Service/Order/TransactionService.php b/Model/Service/Order/TransactionService.php
+index 8a47938..647b0b8 100644
+--- a/Model/Service/Order/TransactionService.php
++++ b/Model/Service/Order/TransactionService.php
+@@ -249,6 +249,9 @@ class TransactionService extends AbstractTransactionService
+         try {
+             $context = $this->buildConfirmationContext($order, $spaceId, $chargeFlow, $token);
+             $context->transactionId = $transactionId;
++            // BEGIN PATCH
++            $this->eventManager->dispatch('wallee_payment_confirm_transaction_before', ['context' => $context, 'order' => $order, 'charge_flow' => $chargeFlow, 'token' => $token]);
++            // END PATCH
+ 
+             $upserted = $this->coreTransactionService->upsert($context, $this->noOpPersistence);
+ 
