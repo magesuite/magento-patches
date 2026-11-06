@@ -2548,6 +2548,16 @@
           "description": "Continue the outage recovery cron run when a single order fails and report all failures at the end",
           "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/outage-cron-continue-on-order-error.patch",
           "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Sync already settled Datatrans payments in the outage recovery cron instead of running the capture command again",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/outage-cron-sync-settled-without-capture.patch",
+          "version-constraint": "1.0.3"
+        },
+        {
+          "description": "Match the Datatrans transaction by order increment id in the outage and pending order crons, not only by quote id",
+          "filename": "vendor/creativestyle/magento-patches/optional/pits/datatrans/outage-and-pending-cron-match-transaction-by-order.patch",
+          "version-constraint": "1.0.3"
         }
       ],
       "techdivison/import-revert-stock": [
