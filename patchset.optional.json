@@ -1897,6 +1897,13 @@
                 "version-constraint": "*"
             }
         ],
+        "magefan/module-mautic-integration": [
+            {
+                "description": "Skip the Mautic wishlist tag sync when the removed wishlist item does not exist instead of failing with 'Call to a member function getProduct() on null', which turned e.g. a double-tapped remove into a 500 error",
+                "filename": "vendor/creativestyle/magento-patches/optional/magefan/module-mautic-integration/fix-wishlist-remove-of-missing-item.patch",
+                "version-constraint": ">=2.1.11,<3.0.0"
+            }
+        ],
         "wyomind/datafeedmanager": [
             {
                 "description": "Temporary fix for Wyomind Data Feed Manager filtering by qty on MSI.",
