@@ -515,7 +515,12 @@
                 {
                     "description": "Performance optimize product loading",
                     "filename": "essential/amasty/promo/performance-optimize-product-loading.patch",
-                    "version-constraint": ">=2.17.3"
+                    "version-constraint": ">=2.17.3,<2.20.0"
+                },
+                {
+                    "description": "Performance optimize product loading",
+                    "filename": "essential/amasty/promo/performance-optimize-product-loading-2.20.0.patch",
+                    "version-constraint": ">=2.20.0"
                 },
                 {
                     "description": "Allow nullable order item during tests",
