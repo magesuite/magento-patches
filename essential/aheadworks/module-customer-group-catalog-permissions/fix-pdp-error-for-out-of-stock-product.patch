@@ -1,0 +1,14 @@
+diff --git a/Model/PermissionResolver/PermissionStorage.php b/Model/PermissionResolver/PermissionStorage.php
+index 99a6c01..0d867c0 100644
+--- a/Model/PermissionResolver/PermissionStorage.php
++++ b/Model/PermissionResolver/PermissionStorage.php
+@@ -99,6 +99,9 @@ class PermissionStorage
+         $collection = $this->productCollectionFactory->create();
+         $collection->addIdFilter($productIds);
+         $collection->addAttributeToSelect('entity_id');
++        // BEGIN PATCH
++        $collection->setFlag('has_stock_status_filter', true);
++        // END PATCH
+         $collection->load(); //it will trigger loadForCollection automatically
+     }
+

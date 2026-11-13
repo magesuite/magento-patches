@@ -1240,6 +1240,11 @@
                     "description": "Remove foreign keys for indices",
                     "filename": "essential/aheadworks/module-customer-group-catalog-permissions/remove-foreign-keys-indexer-table.patch",
                     "version-constraint": ">=1.5.0"
+                },
+                {
+                    "description": "Fix 500 error on the product page of an out-of-stock product: the permission storage loads the product through a stock-filtered collection and reads a missing array key",
+                    "filename": "essential/aheadworks/module-customer-group-catalog-permissions/fix-pdp-error-for-out-of-stock-product.patch",
+                    "version-constraint": ">=1.5.0"
                 }
             ],
             "customweb/module-computopcw": [
