@@ -1,0 +1,79 @@
+diff --git a/Block/Items.php b/Block/Items.php
+index 9199ee8..e7127b8 100644
+--- a/Block/Items.php
++++ b/Block/Items.php
+@@ -211,7 +211,9 @@ class Items extends \Magento\Framework\View\Element\Template
+      */
+     public function getProductPrice(\Magento\Catalog\Model\Product $product)
+     {
+-        $product = $this->productStorage->getProductById($product->getId());
++        // PATCH START
++        // $product = $this->productStorage->getProductById($product->getId());
++        // PATCH END
+         $price = $product->getFinalPrice() * $this->store->getCurrentCurrencyRate();
+ 
+         $price = $this->catalogHelper->getTaxPrice($product, $price);
+@@ -255,7 +257,9 @@ class Items extends \Magento\Framework\View\Element\Template
+      */
+     public function getJsonConfig(\Magento\Catalog\Model\Product $product)
+     {
+-        $product = $this->productStorage->getProductById($product->getId());
++        // PATCH START
++        // $product = $this->productStorage->getProductById($product->getId());
++        // PATCH END
+         $this->registry->register('product', $product);
+         $jsonConfig = $this->productView->getJsonConfig();
+ 
+diff --git a/Helper/Data.php b/Helper/Data.php
+index c71cc04..cba4591 100644
+--- a/Helper/Data.php
++++ b/Helper/Data.php
+@@ -119,11 +119,22 @@ class Data
+             $products = $this->collectionFactory->create()
+                 ->addAttributeToSelect(['name', 'small_image', 'status', 'visibility', 'allow_open_amount'])
+                 ->addFieldToFilter('sku', ['in' => $allowedSku]);
+-            $this->inStockFilterApplier->execute($products);
+-
++            // PATCH START
++            $products->addPriceData();
++            //$this->inStockFilterApplier->execute($products);
++            $stockFlag = 'has_stock_status_filter';
++            if (!$products->hasFlag($stockFlag)) {
++                $stockResource = ObjectManager::getInstance()->get(\Magento\CatalogInventory\Model\ResourceModel\Stock\Status::class);
++                $stockResource->addStockDataToCollection($products, true);
++                $products->setFlag($stockFlag, true);
++            }
++            // PATCH END
+             // Sort items by promo rule SKUs in the order, same as saved by admin.
+             $products->getSelect()
+                 ->order(new Expression("FIELD(e.sku," . $products->getConnection()->quote($allowedSku) . ")"));
++            // PATCH START
++            $products->addUrlRewrite();
++            // PATCH END
+ 
+             /** @var \Magento\Catalog\Model\Product $product */
+             foreach ($products as $key => $product) {
+@@ -137,7 +148,7 @@ class Data
+                 }
+ 
+                 if (in_array($product->getTypeId(), $this->getCheckQtyProductTypes(), true)
+-                    && (!$product->isSalable() || !$this->product->checkAvailableQty($product->getSku(), 1))
++                    && (!$product->isSalable() )// ||  PATCH START !$this->product->checkAvailableQty($product->getSku(), 1)) PATCH END
+                 ) {
+                     $this->promoMessagesHelper->addAvailabilityError($product);
+ 
+diff --git a/view/frontend/templates/items.phtml b/view/frontend/templates/items.phtml
+index b092487..71f52f8 100644
+--- a/view/frontend/templates/items.phtml
++++ b/view/frontend/templates/items.phtml
+@@ -35,7 +35,9 @@ $isShowPrice = $block->getShowPriceInPopup();
+                 <div class="splide__list">
+                     <?php foreach ($products as $product): ?>
+                         <?php
+-                        $product = $block->getProductById($product->getId());
++                        // PATCH START
++                        // $product = $block->getProductById($product->getId());
++                        // PATCH END
+                         $isVisible = $product->getVisibility() != Visibility::VISIBILITY_NOT_VISIBLE;
+                         $optionsBlock = $block->getChildBlock($product->getTypeId() . '_prototype');
+                         if ($optionsBlock) {
