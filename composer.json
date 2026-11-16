@@ -840,6 +840,11 @@
                     "version-constraint": ">=103.0.5"
                 },
                 {
+                    "description": "Fix category image (Select from Gallery) not being saved when the store's media base URL is a separate domain (e.g. a CDN) instead of the store's own domain",
+                    "filename": "essential/magento/module-catalog/fix-category-image-cdn-media-base-url.patch",
+                    "version-constraint": ">=103.0.5"
+                },
+                {
                     "description": "Catalog product flat table is not updated when attribute is null",
                     "filename": "essential/magento/module-catalog/m23plus-fix-flat-table-indexer-on-null.patch",
                     "version-constraint": ">103.0.0"
