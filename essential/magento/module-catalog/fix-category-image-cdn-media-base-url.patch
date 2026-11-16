@@ -1,0 +1,131 @@
+Fixes the category "Image" field (Catalog > Categories > Content > Category Image) silently losing the
+selected image after save when picked via "Select from Gallery", whenever the store's configured
+"Base URL for User Media Files" is a separate, absolute domain (e.g. a CDN such as CloudFront) rather than
+the store's own domain.
+
+Root cause: Magento\Catalog\Model\Category\Attribute\Backend\Image::fileResidesOutsideCategoryDir()
+decides whether the picked image lives inside catalog/category (bare filename, assumed to already be on
+disk there) or elsewhere (full path, e.g. the WYSIWYG media gallery) by checking whether the image URL
+contains the local media directory's relative URI (e.g. "media") as a substring. When the media base URL
+is an absolute CDN domain, the image URL (e.g. https://cdn.example.com/wysiwyg/content/image.jpg) never
+contains that substring, so every gallery-picked image is misclassified as already residing in
+catalog/category. Magento then stores just the bare filename as the category's image attribute without
+ever copying the file there. If no file with that exact name happens to already exist in catalog/category
+(e.g. from an earlier direct "Upload"), the category image is saved as a dangling reference: the DB value
+looks correct, but Magento\Catalog\Model\Category\FileInfo::isExist() can't find the file on disk, so both
+the admin field and the storefront image render as empty.
+
+Fix: fileResidesOutsideCategoryDir() (and the "outside category dir" branch of beforeSave()) now resolve
+the image URL to a path relative to the media directory by first trying to strip the store's actually
+configured media base URL (StoreManagerInterface::getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA)),
+which correctly handles an absolute CDN domain, before falling back to the original relative-URI
+substring check for same-domain URLs. The resolved path is then stored as a canonical "/<media dir>/..."
+path (e.g. /media/wysiwyg/content/image.jpg) instead of the raw parse_url() path, so it round-trips
+correctly through FileInfo's own "is this inside catalog/category or in the media dir" detection on
+subsequent loads.
+
+Gotcha: this does not copy any files. It only fixes the attribute value that gets stored so it points
+at the image's real, already-existing location, instead of a bare filename inside catalog/category where
+no file was ever placed. Category images saved while the bug was present may already have a dangling
+bare-filename value and are not fixed retroactively by this patch.
+
+diff --git a/Model/Category/Attribute/Backend/Image.php b/Model/Category/Attribute/Backend/Image.php
+index 5a01f8b..b51a924 100644
+--- a/Model/Category/Attribute/Backend/Image.php
++++ b/Model/Category/Attribute/Backend/Image.php
+@@ -8,7 +8,9 @@ namespace Magento\Catalog\Model\Category\Attribute\Backend;
+ use Magento\Catalog\Model\ImageUploader;
+ use Magento\Framework\App\Filesystem\DirectoryList;
+ use Magento\Framework\App\ObjectManager;
++use Magento\Framework\Exception\NoSuchEntityException;
+ use Magento\Framework\File\Uploader;
++use Magento\Framework\UrlInterface;
+ use Magento\Store\Api\Data\StoreInterface;
+ use Magento\Store\Model\StoreManagerInterface;
+
+@@ -62,6 +64,11 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+      */
+     private $additionalData = '_additional_data_';
+
++    /**
++     * Path of the category image directory, relative to the media directory
++     */
++    private const CATEGORY_MEDIA_RELATIVE_PATH = 'catalog/category';
++
+     /**
+      * @var StoreManagerInterface
+      */
+@@ -157,8 +164,8 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+             }
+         } elseif ($this->fileResidesOutsideCategoryDir($value)) {
+             // use relative path for image attribute so we know it's outside of category dir when we fetch it
+-            // phpcs:ignore Magento2.Functions.DiscouragedFunction
+-            $value[0]['url'] = parse_url($value[0]['url'], PHP_URL_PATH);
++            $value[0]['url'] = '/' . ltrim((string) $this->_filesystem->getUri(DirectoryList::MEDIA), '/')
++                . '/' . $this->getPathRelativeToMediaDirectory($value[0]['url']);
+             $value[0]['name'] = $value[0]['url'];
+         }
+
+@@ -208,14 +215,58 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
+             return false;
+         }
+
+-        $fileUrl = ltrim($value[0]['url'], '/');
+-        $baseMediaDir = $this->_filesystem->getUri(DirectoryList::MEDIA);
++        $relativePath = $this->getPathRelativeToMediaDirectory($value[0]['url']);
+
+-        if (!$baseMediaDir) {
++        if ($relativePath === null) {
+             return false;
+         }
+
+-        return strpos($fileUrl, $baseMediaDir) !== false;
++        return strpos($relativePath, self::CATEGORY_MEDIA_RELATIVE_PATH . '/') !== 0;
++    }
++
++    /**
++     * Resolve a file URL to a path relative to the media directory.
++     *
++     * Handles both URLs served from the store's own domain (e.g. /media/wysiwyg/image.jpg) and URLs served
++     * from a separate, absolute media base URL such as a CDN (e.g. https://cdn.example.com/wysiwyg/image.jpg),
++     * which do not necessarily contain the local media directory name in their path.
++     *
++     * @param string $url
++     * @return string|null
++     */
++    private function getPathRelativeToMediaDirectory($url)
++    {
++        $mediaBaseUrl = $this->getMediaBaseUrl();
++
++        if ($mediaBaseUrl !== null && strpos($url, $mediaBaseUrl) === 0) {
++            return ltrim(substr($url, strlen($mediaBaseUrl)), '/');
++        }
++
++        // phpcs:ignore Magento2.Functions.DiscouragedFunction
++        $fileUrl = ltrim((string) parse_url($url, PHP_URL_PATH), '/');
++        $baseMediaDir = ltrim((string) $this->_filesystem->getUri(DirectoryList::MEDIA), '/');
++
++        if (!$baseMediaDir || strpos($fileUrl, $baseMediaDir . '/') !== 0) {
++            return null;
++        }
++
++        return substr($fileUrl, strlen($baseMediaDir) + 1);
++    }
++
++    /**
++     * Get the store's configured base URL for media files, without a trailing slash.
++     *
++     * @return string|null
++     */
++    private function getMediaBaseUrl()
++    {
++        try {
++            $mediaBaseUrl = rtrim($this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA), '/');
++        } catch (NoSuchEntityException $exception) {
++            return null;
++        }
++
++        return $mediaBaseUrl ?: null;
+     }
+
+     /**

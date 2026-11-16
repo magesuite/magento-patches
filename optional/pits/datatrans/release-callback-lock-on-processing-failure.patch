@@ -1,0 +1,57 @@
+The first Datatrans callback for a transaction takes a lock row in datatrans_payment_transaction_url.
+If its processing failed, the row stayed unprocessed forever: later callbacks only waited 30 s and gave up,
+so the order was left pending_payment until the outage cron. A missing status from the Datatrans API was
+even stored as processed (status NA). Release the lock row when processing fails and treat a missing
+status as a failure, so the next callback (webhook / redirect) processes the payment normally.
+Requires webhook-verify-signature-and-fetch-status.patch to be applied first.
+
+diff --git a/Model/Transaction/Processor.php b/Model/Transaction/Processor.php
+--- a/Model/Transaction/Processor.php
++++ b/Model/Transaction/Processor.php
+@@ -171,7 +171,15 @@ class Processor
+         $refId = $this->saveResponseCallback($transactionId, $urlType);
+         try {
+             if ($refId) {
+-                $result = $this->processResponseCallback($transactionId, $urlType, $params);
++                //BEGIN PATCH
++//                $result = $this->processResponseCallback($transactionId, $urlType, $params);
++                try {
++                    $result = $this->processResponseCallback($transactionId, $urlType, $params);
++                } catch (\Throwable $processingException) {
++                    $this->releaseResponseCallback($refId);
++                    throw $processingException;
++                }
++                //END PATCH
+                 $data = $this->transactionUrlFactory->create()->setId($refId)
+                     ->setStatus($result['status'] ?? 'NA')
+                     ->setIsProcessed(true);
+@@ -246,6 +254,11 @@ class Processor
+             $response = $statusResponse['body'] ?? [];
+             //END PATCH
+             $authorizationStatus = $response['status'] ?? null;
++            //BEGIN PATCH
++            if ($authorizationStatus === null) {
++                throw new LocalizedException(__('Datatrans transaction status could not be fetched.'));
++            }
++            //END PATCH
+             $quoteId = $transactionObj->getQuoteId();
+             $customerId = $transactionObj->getCustomerId();
+             $incrementId = $transactionObj->getOrderIncrementId();
+@@ -726,6 +739,17 @@ class Processor
+         ];
+     }
+ 
++    //BEGIN PATCH
++    private function releaseResponseCallback($refId): void
++    {
++        try {
++            $this->transactionUrlRepository->deleteById($refId);
++        } catch (\Throwable $e) {
++            $this->logger->error(sprintf('Could not release Datatrans callback lock %s: %s', $refId, $e->getMessage()));
++        }
++    }
++    //END PATCH
++
+     /**
+      * Handle alias management based on the response from Datatrans.
+      *

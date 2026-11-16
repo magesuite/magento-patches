@@ -1,0 +1,66 @@
+For orders already settled at Datatrans the outage recovery cron ran the capture command again.
+Datatrans rejects a second settle with INVALID_TRANSACTION_STATUS (already settled), which the capture
+validator reports as "Multicapture feature is not supported", so is_paid was never set and the order
+failed on every run. Sync the payment data from the already fetched status instead (is_paid from
+detail.settle.amount) and move the order to processing without calling the Datatrans settle API.
+
+diff --git a/Cron/OutageRecoveryChecker.php b/Cron/OutageRecoveryChecker.php
+--- a/Cron/OutageRecoveryChecker.php
++++ b/Cron/OutageRecoveryChecker.php
+@@ -296,25 +296,47 @@ class OutageRecoveryChecker
+     {
+         try {
+             $payment = $order->getPayment();
+-            $paymentDO = $this->paymentDataObjectFactory->create($payment);
+-            $command = $this->commandPool->get('capture');
++            //BEGIN PATCH
++//            $paymentDO = $this->paymentDataObjectFactory->create($payment);
++//            $command = $this->commandPool->get('capture');
++//
++//            $command->execute([
++//                'payment'       => $paymentDO,
++//                'order'         => $order,
++//                'transactionId' => $transactionId,
++//                'amount'        => $order->getGrandTotal()
++//            ]);
++            $orderId = (int)$order->getEntityId();
+ 
+-            $command->execute([
+-                'payment'       => $paymentDO,
+-                'order'         => $order,
+-                'transactionId' => $transactionId,
+-                'amount'        => $order->getGrandTotal()
+-            ]);
++            if (!empty($responseBody['transactionId'])) {
++                $transactionObj = $this->paymentTransactionRepository->getByTransactionId($transactionId);
++                $this->transactionProcessor->updateAuthorizationData($responseBody, $orderId);
++                $this->transactionProcessor->saveTransactionContextData(
++                    $responseBody,
++                    (int)$transactionObj->getId(),
++                    $orderId
++                );
++            }
++            //END PATCH
+ 
+             $order->setState(Order::STATE_PROCESSING)
+                 ->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_PROCESSING));
+ 
++            //BEGIN PATCH
++//            $order->addCommentToStatusHistory(
++//                __(
++//                    "Captured automatically by outage cron: Datatrans status 'settled' for Transaction %1",
++//                    $transactionId
++//                )
++//            );
+             $order->addCommentToStatusHistory(
+                 __(
+-                    "Captured automatically by outage cron: Datatrans status 'settled' for Transaction %1",
++                    "Updated by outage cron: Datatrans status '%1' for Transaction %2",
++                    $responseBody['status'] ?? 'settled',
+                     $transactionId
+                 )
+             );
++            //END PATCH
+ 
+             $this->orderRepository->save($order);
+             $payment->setAdditionalInformation('datatrans_status', $responseBody['status'] ?? 'settled');

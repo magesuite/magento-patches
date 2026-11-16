@@ -1,0 +1,53 @@
+An exception while processing one order aborted the whole outage recovery run, so the remaining orders
+(including paid pending_payment ones) were never checked and could be cancelled by Magento's pending
+order cleanup. Collect per-order errors (also \Error such as TypeError), continue with the next order
+and report all failures in one CronException at the end of the run.
+
+diff --git a/Cron/OutageRecoveryChecker.php b/Cron/OutageRecoveryChecker.php
+--- a/Cron/OutageRecoveryChecker.php
++++ b/Cron/OutageRecoveryChecker.php
+@@ -112,6 +112,9 @@ class OutageRecoveryChecker
+      */
+     public function execute()
+     {
++        //BEGIN PATCH
++        $errors = [];
++        //END PATCH
+         try {
+             $waitingPeriod = (new \DateTime())->modify('-2.0 hour')->format('Y-m-d H:i:s');
+ 
+@@ -172,17 +175,30 @@ class OutageRecoveryChecker
+                     }
+ 
+                     $this->processDatatransOrderStatus($order, $transactionId, $mode);
+-                } catch (\Exception $e) {
+-                    throw new CronException(
+-                        __('Error Processing Outage Order %1: %2', $incrementId, $e->getMessage())
+-                    );
++                //BEGIN PATCH
++//                } catch (\Exception $e) {
++//                    throw new CronException(
++//                        __('Error Processing Outage Order %1: %2', $incrementId, $e->getMessage())
++//                    );
++//                }
++                } catch (\Throwable $e) {
++                    $errors[] = sprintf('%s: %s', $incrementId, $e->getMessage());
+                 }
++                //END PATCH
+             }
+         } catch (\Exception $e) {
+             throw new CronException(
+                 __('Fatal error in Outage cron: %1', $e->getMessage())
+             );
+         }
++        //BEGIN PATCH
++
++        if ($errors) {
++            throw new CronException(
++                __('Error Processing Outage Orders: %1', implode('; ', $errors))
++            );
++        }
++        //END PATCH
+     }
+ 
+     /**

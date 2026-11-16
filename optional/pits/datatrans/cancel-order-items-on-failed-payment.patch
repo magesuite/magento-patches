@@ -1,0 +1,26 @@
+Failed or canceled Datatrans payments only set the order state to canceled, so order items were not
+cancelled and MSI never compensated the stock reservation (salable qty leaked on every failed payment).
+Cancel through registerCancellation() like the PITS crons and LightboxCancel already do.
+
+diff --git a/Model/Transaction/Processor.php b/Model/Transaction/Processor.php
+--- a/Model/Transaction/Processor.php
++++ b/Model/Transaction/Processor.php
+@@ -278,8 +278,16 @@
+             } elseif ($authorizationStatus === Constants::STATUS_CANCELED ||
+                 $authorizationStatus === Constants::STATUS_FAILED
+             ) {
+-                $order->setState(Order::STATE_CANCELED)
+-                    ->setStatus(Order::STATE_CANCELED);
++                //BEGIN PATCH
++//                $order->setState(Order::STATE_CANCELED)
++//                    ->setStatus(Order::STATE_CANCELED);
++                if ($order->canCancel()) {
++                    $order->registerCancellation();
++                } else {
++                    $order->setState(Order::STATE_CANCELED)
++                        ->setStatus(Order::STATE_CANCELED);
++                }
++                //END PATCH
+                 $order->addCommentToStatusHistory(__('Datatrans payment authorization failed.'));
+                 $maskedTransactionId = $this->helperData->getMaskedTxnId($transactionId);
+                 if ($authorizationStatus === Constants::STATUS_FAILED) {

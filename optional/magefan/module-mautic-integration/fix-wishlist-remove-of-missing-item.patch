@@ -1,0 +1,17 @@
+diff --git a/Observer/ProductRemoveFromWishlist.php b/Observer/ProductRemoveFromWishlist.php
+index 4703b3a..19690b6 100644
+--- a/Observer/ProductRemoveFromWishlist.php
++++ b/Observer/ProductRemoveFromWishlist.php
+@@ -94,6 +94,12 @@ class ProductRemoveFromWishlist implements ObserverInterface
+                     $item = $wishlist->getItem($itemId);
+                 }
+
++                // BEGIN PATCH
++                if (!$item || !$item->getId()) {
++                    return;
++                }
++                // END PATCH
++
+                 $mauticTags = ["-" . Config::WISHLIST_TAG . ' ' . $item->getProduct()->getSku()];
+
+                 if (count($collection) == 1) {

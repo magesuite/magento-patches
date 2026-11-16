@@ -1,0 +1,45 @@
+A payment retry after a failed or canceled attempt reuses the same quote, so several
+datatrans_payment_transaction rows share one quote_id. Both crons looked the transaction up by
+quote_id with LIMIT 1 and got the first (failed/canceled) attempt instead of the order's own
+transaction: the outage cron never synced the real payment, and the pending order checker could
+cancel a paid retry order when the first attempt was canceled. Match the row by
+order_increment_id as well, also in the outage cron's collection join.
+
+diff --git a/Cron/OutageRecoveryChecker.php b/Cron/OutageRecoveryChecker.php
+--- a/Cron/OutageRecoveryChecker.php
++++ b/Cron/OutageRecoveryChecker.php
+@@ -133,7 +133,10 @@ class OutageRecoveryChecker
+                 )
+                 ->join(
+                     ["dpt" => $datatransPaymentTransactionTable],
+-                    "main_table.quote_id = dpt.quote_id",
++                    //BEGIN PATCH
++//                    "main_table.quote_id = dpt.quote_id",
++                    "main_table.quote_id = dpt.quote_id AND main_table.increment_id = dpt.order_increment_id",
++                    //END PATCH
+                     ['is_authorized', 'is_paid', 'transaction_id']
+                 )
+                 ->where("sop.method LIKE ?", "%datatrans_%")
+@@ -161,6 +164,9 @@ class OutageRecoveryChecker
+                         $connection->select()
+                             ->from($datatransTable)
+                             ->where('quote_id = ?', $quoteId)
++                            //BEGIN PATCH
++                            ->where('order_increment_id = ?', $incrementId)
++                            //END PATCH
+                             ->limit(1)
+                     );
+ 
+diff --git a/Cron/PendingOrderChecker.php b/Cron/PendingOrderChecker.php
+--- a/Cron/PendingOrderChecker.php
++++ b/Cron/PendingOrderChecker.php
+@@ -111,6 +111,9 @@ class PendingOrderChecker
+                         $connection->select()
+                             ->from($datatransTable)
+                             ->where('quote_id = ?', $quoteId)
++                            //BEGIN PATCH
++                            ->where('order_increment_id = ?', $incrementId)
++                            //END PATCH
+                             ->limit(1)
+                     );
+ 
