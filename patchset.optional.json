@@ -1198,6 +1198,11 @@
                 "description": "Dispatch wallee_payment_confirm_transaction_before with the confirmation context, so observers can adjust it, e.g. force the tokenization mode for subscription orders (IPET-3827)",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/dispatch-event-before-transaction-confirmation.patch",
                 "version-constraint": ">=3.5.2"
+            },
+            {
+                "description": "Fix the refund job retry cron failing with a TypeError and store the refund external ID in the job, so the refund webhook deletes the job and a retry does not create a new refund (IPET-3586)",
+                "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/fix-refund-job-retry-cron.patch",
+                "version-constraint": ">=3.5.2"
             }
         ],
         "wallee/plugin-core": [

@@ -1,0 +1,48 @@
+Fix the refund job retry cron, which failed with a TypeError on every run as long as a refund job was left in the table (IPET-3586).
+Cron\Refund loads every job through the repository, so the refund column is unserialized into a RefundContext instead of being passed to plugin-core as a raw JSON string, and skips jobs without an external ID, because resubmitting them would create a new refund.
+RefundService::createRefund() sets the external ID when the refund context is built, as 2.x did, so it is stored in the job: the refund webhook finds and deletes the job, and a resubmitted job is recognised by wallee as the same refund.
+
+diff --git a/Cron/Refund.php b/Cron/Refund.php
+index 4de379a..9223d50 100644
+--- a/Cron/Refund.php
++++ b/Cron/Refund.php
+@@ -16,6 +16,9 @@ use Wallee\PluginCore\Log\LoggerInterface;
+ use Wallee\Payment\Api\RefundJobRepositoryInterface;
+ use Wallee\PluginCore\Refund\Exception\InvalidRefundException;
+ use Wallee\PluginCore\Refund\Exception\RefundException;
++// BEGIN PATCH
++use Wallee\PluginCore\Refund\RefundContext;
++// END PATCH
+ use Wallee\PluginCore\Refund\RefundService;
+ use Wallee\PluginCore\Transaction\Exception\TransactionException;
+ 
+@@ -82,7 +85,14 @@ class Refund
+         $refundJobs = $this->refundJobRepository->getList($searchCriteria)->getItems();
+         foreach ($refundJobs as $refundJob) {
+             try {
+-                $this->refundService->createRefund((int) $refundJob->getSpaceId(), $refundJob->getRefund());
++                // BEGIN PATCH
++                // $this->refundService->createRefund((int) $refundJob->getSpaceId(), $refundJob->getRefund());
++                $refundContext = $this->refundJobRepository->get($refundJob->getId())->getRefund();
++                if (! $refundContext instanceof RefundContext || $refundContext->externalId === null) {
++                    continue;
++                }
++                $this->refundService->createRefund((int) $refundJob->getSpaceId(), $refundContext);
++                // END PATCH
+                 $this->logger->info('Refund job resubmitted to the gateway.', ['refundJobId' => $refundJob->getId()]);
+             } catch (InvalidRefundException|RefundException|TransactionException $e) {
+                 if ($e->isRetryable()) {
+diff --git a/Model/Service/RefundService.php b/Model/Service/RefundService.php
+index d903a1b..982f16a 100644
+--- a/Model/Service/RefundService.php
++++ b/Model/Service/RefundService.php
+@@ -123,6 +123,9 @@ class RefundService
+             merchantReference: (string) $order->getIncrementId(),
+             type: CoreType::MERCHANT_INITIATED_ONLINE,
+             lineItems: $lineItems,
++            // BEGIN PATCH
++            externalId: \uniqid($creditmemo->getOrderId() . '-'),
++            // END PATCH
+         );
+     }
+ }
