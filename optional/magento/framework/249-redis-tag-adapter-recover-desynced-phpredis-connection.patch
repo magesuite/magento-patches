@@ -1,0 +1,232 @@
+Fixes reindex failures with the Symfony Redis cache on phpredis (Magento 2.4.9, on top of AC-17650):
+"RedisTagAdapter::getTagKey(): Argument #1 ($tag) must be of type string, false given",
+"Array sizes are inconsistent" and "Unable to unserialize value" in indexers that run after the first failure.
+
+Root cause 1: with phpredis the pipeline is not a separate object but a mode of the shared \Redis connection
+(the same connection is used by Symfony's RedisAdapter and by every cache frontend on the same host/db).
+An exception thrown while commands are queued (e.g. the getTagKey() TypeError in onRemove) leaves the
+connection in PIPELINE mode, so every later command in the process gets the wrong reply.
+Fix: queueing loops are wrapped in try/catch that discards the pipeline before rethrowing, and
+createPipeline()/onRemove() bring a connection left in PIPELINE/MULTI mode back to ATOMIC mode.
+
+Root cause 2: once the reply stream is out of sync, SCARD returns a different number of replies than
+commands sent and SMEMBERS returns nil-derived false values instead of tag names.
+Fix: getIdsMatchingTags(), onRemove() and pruneTagIndexPipelined() detect misaligned replies and
+re-open the phpredis connection in place (same host, port, timeouts, persistent id, auth, db), then retry.
+
+Predis is not affected (its pipeline is a separate object), which is why environments without the
+redis PHP extension do not reproduce the issue.
+
+diff --git a/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php b/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php
+index f646c56..5b0b6c2 100644
+--- a/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php
++++ b/Cache/Frontend/Adapter/SymfonyAdapters/RedisTagAdapter.php
+@@ -419,6 +419,9 @@ LUA;
+             return $this->redis->pipeline();
+         }
+ 
++        // BEGIN PATCH
++        $this->ensureAtomicMode();
++        // END PATCH
+         return $this->redis->multi(\Redis::PIPELINE);
+     }
+ 
+@@ -439,6 +442,78 @@ LUA;
+         return $pipeline->exec();
+     }
+ 
++    // BEGIN PATCH
++    /**
++     * Drop a phpredis pipeline whose commands could not all be queued, so the shared connection is not left in PIPELINE mode
++     *
++     * @param \Redis|object $pipeline
++     * @return void
++     */
++    private function discardPipeline($pipeline): void
++    {
++        if ($pipeline instanceof \Redis) {
++            $pipeline->discard();
++        }
++    }
++
++    /**
++     * Bring a phpredis connection left in PIPELINE/MULTI mode back to ATOMIC mode
++     *
++     * @return void
++     */
++    private function ensureAtomicMode(): void
++    {
++        if ($this->redis instanceof \Redis && $this->redis->getMode() !== \Redis::ATOMIC) {
++            $this->redis->discard();
++        }
++    }
++
++    /**
++     * Re-open the phpredis connection in place after its replies went out of sync with its commands
++     *
++     * @return void
++     */
++    private function reconnect(): void
++    {
++        if (!$this->redis instanceof \Redis) {
++            return;
++        }
++
++        $redis = $this->redis;
++        $host = (string)$redis->getHost();
++        $port = (int)$redis->getPort();
++        $timeout = (float)$redis->getTimeout();
++        $readTimeout = (float)$redis->getReadTimeout();
++        $persistentId = $redis->getPersistentID();
++        $auth = $redis->getAuth();
++        $database = (int)$redis->getDBNum();
++
++        $this->ensureAtomicMode();
++        $redis->close();
++
++        if (is_string($persistentId) && $persistentId !== '') {
++            $redis->pconnect($host, $port, $timeout, $persistentId, 0, $readTimeout);
++        } else {
++            $redis->connect($host, $port, $timeout, null, 0, $readTimeout);
++        }
++
++        if (!empty($auth)) {
++            $redis->auth($auth);
++        }
++
++        $redis->select($database);
++    }
++
++    /**
++     * @param array $values
++     * @return bool
++     */
++    private function isListOfStrings(array $values): bool
++    {
++        return count(array_filter($values, 'is_string')) === count($values);
++    }
++    // END PATCH
++
+     // PATCH START
+     /**
+      * @inheritDoc
+@@ -465,6 +540,17 @@ LUA;
+         // PATCH START
+         $sizes = $this->fetchSetSizes($tagKeys);
+ 
++        // BEGIN PATCH
++        if (count($sizes) !== count($tagKeys)) {
++            $this->reconnect();
++            $sizes = $this->fetchSetSizes($tagKeys);
++        }
++
++        if (count($sizes) !== count($tagKeys)) {
++            throw new \RuntimeException(sprintf('Redis returned %d replies for %d SCARD commands', count($sizes), count($tagKeys)));
++        }
++        // END PATCH
++
+         // Any empty set means the intersection is empty
+         if (in_array(0, $sizes, true)) {
+             return [];
+@@ -879,6 +965,9 @@ LUA;
+         // PATCH END
+         $pipeline = $this->createPipeline();
+ 
++        // BEGIN PATCH
++        try {
++        // END PATCH
+         // PATCH START
+         // Forward index: drop the id from tags it no longer has.
+         foreach ($removedTags as $tag) {
+@@ -903,6 +992,12 @@ LUA;
+         foreach ($tags as $tag) {
+             $pipeline->sadd($idTagsKey, $tag);
+         }
++        // BEGIN PATCH
++        } catch (\Throwable $e) {
++            $this->discardPipeline($pipeline);
++            throw $e;
++        }
++        // END PATCH
+ 
+         // Execute all operations in one go
+         $this->executePipeline($pipeline);
+@@ -981,10 +1076,20 @@ LUA;
+             return;
+         }
+ 
++        // BEGIN PATCH
++        if (count($results) !== 2 * count($ids)) {
++            $this->reconnect();
++            return;
++        }
++        // END PATCH
++
+         // Drop each id without data from all_ids and its tag SETs, and delete its reverse index,
+         // in one pipeline (this fallback owns the all_ids removal now that deleteByIds no longer
+         // removes it separately).
+         $writePipe = $this->createPipeline();
++        // BEGIN PATCH
++        try {
++        // END PATCH
+         foreach ($ids as $i => $id) {
+             if ((int)($results[2 * $i] ?? 0) > 0) {
+                 continue;
+@@ -998,6 +1103,12 @@ LUA;
+                 $writePipe->del(self::REVERSE_INDEX_PREFIX . $this->namespace . $id);
+             }
+         }
++        // BEGIN PATCH
++        } catch (\Throwable $e) {
++            $this->discardPipeline($writePipe);
++            throw $e;
++        }
++        // END PATCH
+         $this->executePipeline($writePipe);
+     }
+ 
+@@ -1231,8 +1342,18 @@ LUA;
+     {
+         // Find which tags this ID was associated with store a reverse index: cache:id:tags => SET{tag1, tag2}
+         $idTagsKey = 'cache:id_tags:' . $this->namespace . $id;
++        // BEGIN PATCH
++        $this->ensureAtomicMode();
++        // END PATCH
+         $tags = $this->redis->smembers($idTagsKey);
+ 
++        // BEGIN PATCH
++        if (is_array($tags) && !$this->isListOfStrings($tags)) {
++            $this->reconnect();
++            $tags = $this->redis->smembers($idTagsKey);
++        }
++        // END PATCH
++
+         if (!is_array($tags) || empty($tags)) {
+             // No tags, just remove from all_ids
+             $this->redis->srem(self::ALL_IDS_SET, $id);
+@@ -1245,11 +1366,21 @@ LUA;
+         // Remove from all_ids set
+         $pipeline->srem(self::ALL_IDS_SET, $id);
+ 
+-        // Remove ID from each tag's SET in pipeline
+-        foreach ($tags as $tag) {
+-            $tagKey = $this->getTagKey($tag);
+-            $pipeline->srem($tagKey, $id);
++        // BEGIN PATCH
++        // foreach ($tags as $tag) {
++        //     $tagKey = $this->getTagKey($tag);
++        //     $pipeline->srem($tagKey, $id);
++        // }
++        try {
++            foreach ($tags as $tag) {
++                $tagKey = $this->getTagKey($tag);
++                $pipeline->srem($tagKey, $id);
++            }
++        } catch (\Throwable $e) {
++            $this->discardPipeline($pipeline);
++            throw $e;
+         }
++        // END PATCH
+ 
+         // Delete the reverse index
+         $pipeline->del($idTagsKey);

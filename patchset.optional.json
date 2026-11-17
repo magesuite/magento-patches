@@ -483,6 +483,11 @@
               "description": "Fix parallel indexers (MAGE_INDEXER_THREADS_COUNT > 1) sharing the parent's Redis socket after fork in the Symfony cache, which mixes up cache replies between processes (Magento 2.4.9, backport of magento/magento2@19640e886e)",
               "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/249-fix-parallel-indexer-shared-redis-connection.patch",
               "version-constraint": ">=103.0.9,<103.0.10"
+            },
+            {
+              "description": "Recover a phpredis connection left in pipeline mode or out of sync in the Symfony cache RedisTagAdapter, which breaks reindex with 'getTagKey(): Argument #1 ($tag) must be of type string, false given' and 'Array sizes are inconsistent' (Magento 2.4.9, requires essential AC-17650)",
+              "filename": "vendor/creativestyle/magento-patches/optional/magento/framework/249-redis-tag-adapter-recover-desynced-phpredis-connection.patch",
+              "version-constraint": ">=103.0.9,<103.0.9-p1"
             }
         ],
         "magento/module-backend": [
