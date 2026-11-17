@@ -1436,6 +1436,11 @@
                     "version-constraint": ">=103.0.9"
                 },
                 {
+                    "description": "M2.4.8 Fix 'Delete operation is forbidden for current area' when registration address is invalid (AC-15723)",
+                    "filename": "essential/magento/module-customer/m248-fix-delete-operation-forbidden-when-registration-address-is-invalid.patch",
+                    "version-constraint": ">=103.0.8, <103.0.9"
+                },
+                {
                     "description": "Allow saving custom attributes in after unserialization",
                     "filename": "essential/magento/module-customer/allow-saving-custom-attributes-after-unserialization.patch",
                     "version-constraint": ">=103.0.7"
