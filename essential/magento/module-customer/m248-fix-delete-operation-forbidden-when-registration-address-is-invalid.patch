@@ -1,0 +1,46 @@
+Fixes "Delete operation is forbidden for current area" and the account left without an address when
+the registration address fails validation: the customer is now deleted in a secure area.
+Backport of AC-15723 (magento/magento2#38462), included in Magento 2.4.9.
+
+diff --git a/Model/AccountManagement.php b/Model/AccountManagement.php
+index 1425d29..41b51c7 100644
+--- a/Model/AccountManagement.php
++++ b/Model/AccountManagement.php
+@@ -948,7 +948,10 @@ class AccountManagement implements AccountManagementInterface
+             }
+             $this->customerRegistry->remove($customer->getId());
+         } catch (InputException $e) {
+-            $this->customerRepository->delete($customer);
++            // BEGIN PATCH
++            // $this->customerRepository->delete($customer);
++            $this->deleteCustomerInSecureArea($customer);
++            // END PATCH
+             throw $e;
+         }
+         $customer = $this->customerRepository->getById($customer->getId());
+@@ -1659,4 +1662,25 @@ class AccountManagement implements AccountManagementInterface
+ 
+         return in_array($address->getCountryId(), $allowedCountries);
+     }
++
++    // BEGIN PATCH
++    /**
++     * Set isSecureArea to true, then delete the customer and revert isSecureArea to original value
++     *
++     * @param  CustomerInterface  $customer
++     * @return void
++     * @throws LocalizedException
++     */
++    private function deleteCustomerInSecureArea(CustomerInterface $customer): void
++    {
++        $originalValue = $this->registry->registry('isSecureArea');
++        $this->registry->unregister('isSecureArea');
++        $this->registry->register('isSecureArea', true);
++
++        $this->customerRepository->delete($customer);
++
++        $this->registry->unregister('isSecureArea');
++        $this->registry->register('isSecureArea', $originalValue);
++    }
++    // END PATCH
+ }
