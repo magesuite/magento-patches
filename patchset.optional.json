@@ -1224,7 +1224,7 @@
         ],
         "wallee/plugin-core": [
             {
-                "description": "Send the tokenization mode of the transaction context in the V2 gateway update() call, so the mode set before the confirmation of a pending transaction reaches wallee (IPET-3827)",
+                "description": "Send the tokenization mode and the token of the transaction context in the V2 gateway update() call, so a mode or a token set before the confirmation of a pending transaction reaches wallee (IPET-3827, IPET-3857)",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/plugin-core/send-tokenization-mode-in-transaction-update.patch",
                 "version-constraint": ">=0.2.9"
             }
