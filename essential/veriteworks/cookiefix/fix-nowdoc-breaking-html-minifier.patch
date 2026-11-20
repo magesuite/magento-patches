@@ -1,0 +1,28 @@
+The nowdoc in cookie-config.phtml is not shielded by Magento's HTML minifier, which collapses the
+template into one line and drops the newline PHP requires after the opener - << is then parsed as a
+shift operator and every storefront page dies with a ParseError. A plain heredoc is shielded; the
+rendered JavaScript stays byte-identical.
+
+diff --git a/view/frontend/templates/cookie-config.phtml b/view/frontend/templates/cookie-config.phtml
+index f677b2a..3c8146b 100644
+--- a/view/frontend/templates/cookie-config.phtml
++++ b/view/frontend/templates/cookie-config.phtml
+@@ -8,7 +8,9 @@ if ($sameSite !== null) {
+     $encodedSameSite = json_encode($sameSite, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+     $script = 'window.cookiesConfig = window.cookiesConfig || {};';
+     if ($sameSite === 'none') {
+-        $script .= <<<'JS'
++        // BEGIN PATCH
++        // $script .= <<<'JS'
++        $script .= <<<JS
+ 
+ (function (ua, sameSite) {
+     function isSameSiteNoneIncompatible(ua) {
+@@ -34,6 +36,7 @@ if ($sameSite !== null) {
+     }
+ })(navigator.userAgent,
+ JS;
++        // END PATCH
+         $script .= $encodedSameSite . ');';
+     } else {
+         $script .= 'window.cookiesConfig.samesite = ' . $encodedSameSite . ';';

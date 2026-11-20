@@ -2676,6 +2676,13 @@
                     "filename": "essential/heidipay/core/fix-place-order-button-type.patch",
                     "version-constraint": ">=4.2.0"
                 }
+            ],
+            "veriteworks/cookiefix": [
+                {
+                    "description": "Fix fatal ParseError on every storefront page when minify_html is enabled: the nowdoc in cookie-config.phtml is not shielded by the HTML minifier, so the heredoc opener loses its newline and << is parsed as a shift operator",
+                    "filename": "essential/veriteworks/cookiefix/fix-nowdoc-breaking-html-minifier.patch",
+                    "version-constraint": ">=3.3.0"
+                }
             ]
         }
     }
