@@ -1117,7 +1117,12 @@
                 {
                     "description": "Fix using null as an array offset",
                     "filename": "essential/aheadworks/module-faq/fix-using-null-as-an-array-offset.patch",
-                    "version-constraint": ">=1.8.0"
+                    "version-constraint": ">=1.8.0,<1.8.2"
+                },
+                {
+                    "description": "Fix using null as an array offset in the product form modifier, the rest is fixed upstream since 1.8.2",
+                    "filename": "essential/aheadworks/module-faq/fix-using-null-as-an-array-offset-since-1.8.2.patch",
+                    "version-constraint": ">=1.8.2"
                 }
             ],
             "aheadworks/module-giftcard": [
