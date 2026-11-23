@@ -504,6 +504,11 @@
                     "description": "Optimize load label frontend settings",
                     "filename": "essential/amasty/label/optimize-load-label-frontend-setting.patch",
                     "version-constraint": ">=2.5.2"
+                },
+                {
+                    "description": "Fix label save percent floor float rounding",
+                    "filename": "essential/amasty/label/fix-label-save-percent-floor-float-rounding.patch",
+                    "version-constraint": ">=2.9.0"
                 }
             ],
             "amasty/promo": [

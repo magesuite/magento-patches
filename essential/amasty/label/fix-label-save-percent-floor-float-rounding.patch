@@ -1,0 +1,23 @@
+diff --git a/Model/Label/Text/Processors/PricesProcessor.php b/Model/Label/Text/Processors/PricesProcessor.php
+index 670e723..d9ae815 100644
+--- a/Model/Label/Text/Processors/PricesProcessor.php
++++ b/Model/Label/Text/Processors/PricesProcessor.php
+@@ -30,6 +30,7 @@ class PricesProcessor implements ProcessorInterface
+     public const STARTINGTO_PRICE = 'STARTINGTO_PRICE';
+     public const SAVE_AMOUNT = 'SAVE_AMOUNT';
+     public const SAVE_PERCENT = 'SAVE_PERCENT';
++    private const PERCENT_PRECISION = 6;
+
+     /**
+      * @var array
+@@ -242,7 +243,9 @@ class PricesProcessor implements ProcessorInterface
+
+         if ($priceConfig[self::PRICE] != 0.) {
+             $priceDifference = $priceConfig[self::PRICE] - $priceConfig[self::SPECIAL_PRICE];
+-            $result = $roundingFunction($priceDifference * 100 / $priceConfig[self::PRICE]);
++            $result = $roundingFunction(
++                round($priceDifference * 100 / $priceConfig[self::PRICE], self::PERCENT_PRECISION)
++            );
+         }
+
+         return $result;
