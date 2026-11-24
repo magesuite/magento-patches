@@ -1117,7 +1117,12 @@
                 {
                     "description": "Fix using null as an array offset",
                     "filename": "essential/aheadworks/module-faq/fix-using-null-as-an-array-offset.patch",
-                    "version-constraint": ">=1.8.0"
+                    "version-constraint": ">=1.8.0,<1.8.2"
+                },
+                {
+                    "description": "Fix using null as an array offset in the product form modifier, the rest is fixed upstream since 1.8.2",
+                    "filename": "essential/aheadworks/module-faq/fix-using-null-as-an-array-offset-since-1.8.2.patch",
+                    "version-constraint": ">=1.8.2"
                 }
             ],
             "aheadworks/module-giftcard": [
@@ -2675,6 +2680,13 @@
                     "description": "Fix Place Order button doing nothing when HeidiPay/HeyLight is the selected checkout payment method",
                     "filename": "essential/heidipay/core/fix-place-order-button-type.patch",
                     "version-constraint": ">=4.2.0"
+                }
+            ],
+            "veriteworks/cookiefix": [
+                {
+                    "description": "Fix fatal ParseError on every storefront page when minify_html is enabled: the nowdoc in cookie-config.phtml is not shielded by the HTML minifier, so the heredoc opener loses its newline and << is parsed as a shift operator",
+                    "filename": "essential/veriteworks/cookiefix/fix-nowdoc-breaking-html-minifier.patch",
+                    "version-constraint": ">=3.3.0"
                 }
             ]
         }

@@ -1,0 +1,11 @@
+--- a/Ui/DataProvider/Product/Form/Modifier/FaqArticles.php	2026-11-23 12:29:45
++++ b/Ui/DataProvider/Product/Form/Modifier/FaqArticles.php	2026-11-23 12:29:45
+@@ -72,7 +72,7 @@
+             $articles = [];
+         }
+ 
+-        $data[$product->getId()][self::DATA_SOURCE_DEFAULT][ProductAttributeInterface::CODE_AW_FAQ_ARTICLES] =
++        $data[(int)$product->getId()][self::DATA_SOURCE_DEFAULT][ProductAttributeInterface::CODE_AW_FAQ_ARTICLES] =
+             $this->convertArticlesToArray($articles);
+ 
+         return $data;
