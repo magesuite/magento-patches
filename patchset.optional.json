@@ -1129,7 +1129,7 @@
             {
                 "description": "Process shipping amount and payment fee correctly in wallee refund (IPET-1184 + IPET-1206 + IPET-1269)",
                 "filename": "vendor/creativestyle/magento-patches/optional/wallee/magento-2/process-shipping-amount-and-payment-fee-correctly-in-wallee-refund.patch",
-                "version-constraint": ">=3.5.2"
+                "version-constraint": ">=3.5.3"
             },
             {
                 "description": "Use the highest product tax class id as shipping tax class id",

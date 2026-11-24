@@ -1,6 +1,7 @@
-Process shipping amount and payment fee correctly in wallee refund (IPET-1184, IPET-1206, IPET-1269), updated for wallee/magento-2 3.5.2.
+Process shipping amount and payment fee correctly in wallee refund (IPET-1184, IPET-1206, IPET-1269), updated for wallee/magento-2 3.5.3.
 LineItemReductionService::convertShipping() subtracts the shipping discount tax compensation before comparing with the order shipping amount, otherwise a full shipping refund is never recognised.
-Webhook SuccessfulCommand does not pass a partial shipping refund (unit price reduction, recognised by the remaining quantity and amount of the shipping line in the reduced line items) as creditmemo shipping amount, adds the full shipping discount only when a shipping amount is refunded and tops up the positive adjustment when the refund amount from wallee is 0.01 below the open order total.
+Webhook SuccessfulCommand does not pass a partial shipping refund (unit price reduction, recognised by the remaining quantity and amount of the shipping line in the reduced line items) as creditmemo shipping amount, so reconcileCreditmemoTotal() books it as an adjustment, and adds the full shipping discount instead of its proportional share when a shipping amount is refunded.
+reconcileCreditmemoTotal() aligns the creditmemo with the open order total instead of the refund amount when the refund amount from wallee is 0.01 below it, so a full refund closes the order.
 
 diff --git a/Model/Service/LineItemReductionService.php b/Model/Service/LineItemReductionService.php
 index e1e4039..40bfc92 100644
@@ -21,10 +22,10 @@ index e1e4039..40bfc92 100644
              )) {
                  return $this->makeReduction('shipping', 1.0, 0.0);
 diff --git a/Model/Webhook/Refund/SuccessfulCommand.php b/Model/Webhook/Refund/SuccessfulCommand.php
-index f412216..e8517a5 100644
+index 707cf04..79fd145 100644
 --- a/Model/Webhook/Refund/SuccessfulCommand.php
 +++ b/Model/Webhook/Refund/SuccessfulCommand.php
-@@ -34,6 +34,9 @@ use Wallee\PluginCore\Webhook\WebhookContext;
+@@ -36,6 +36,9 @@ use Wallee\PluginCore\Webhook\WebhookContext;
  
  // SDK Dependencies
  use Wallee\PluginCore\Transaction\Invoice\State as CoreTransactionInvoiceState;
@@ -34,7 +35,7 @@ index f412216..e8517a5 100644
  
  class SuccessfulCommand extends WebhookCommand
  {
-@@ -260,7 +263,10 @@ class SuccessfulCommand extends WebhookCommand
+@@ -283,7 +286,10 @@ class SuccessfulCommand extends WebhookCommand
                  case CoreLineItem::TYPE_DISCOUNT:
                      break;
                  case CoreLineItem::TYPE_SHIPPING:
@@ -44,51 +45,40 @@ index f412216..e8517a5 100644
 +                    $shippingAmount = $this->isPartialShippingRefund($refund, $item) ? 0 : $item->amountIncludingTax;
 +                    // END PATCH
  
-                     if ($shippingAmount == $order->getShippingInclTax()) {
-                         $creditmemoAmount += $shippingAmount;
-@@ -271,8 +277,13 @@ class SuccessfulCommand extends WebhookCommand
-                     }
- 
-                     if ($order->getShippingDiscountAmount() > 0 && $order->getShippingAmount() > 0) {
+                     if ($shippingAmount != $order->getShippingInclTax()
+                         && $shippingAmount > $order->getShippingInclTax() - $order->getShippingRefunded()
+@@ -295,8 +301,11 @@ class SuccessfulCommand extends WebhookCommand
+                         && $order->getShippingDiscountAmount() > 0
+                         && $order->getShippingAmount() > 0
+                     ) {
 -                        $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
 -                            $order->getShippingDiscountAmount();
 +                        // BEGIN PATCH
 +                        // $shippingAmount += ($shippingAmount / $order->getShippingAmount()) *
 +                        //     $order->getShippingDiscountAmount();
-+                        if ($shippingAmount > 0) {
-+                            $shippingAmount += $order->getShippingDiscountAmount();
-+                        }
++                        $shippingAmount += $order->getShippingDiscountAmount();
 +                        // END PATCH
                      }
                      break;
              }
-@@ -291,6 +302,13 @@ class SuccessfulCommand extends WebhookCommand
-             $positiveAdjustment = $refund->amount - $roundedCreditmemoAmount;
-         }
+@@ -326,7 +335,10 @@ class SuccessfulCommand extends WebhookCommand
+         $orderCurrency = (string) $order->getOrderCurrencyCode();
+         $baseCurrency = (string) $order->getBaseCurrencyCode();
  
+-        $refundAmount = $this->helper->roundAmount((float) $refund->amount, $orderCurrency);
 +        // BEGIN PATCH
-+        $totalToRefund = $order->getGrandTotal() - $order->getTotalRefunded();
-+        if (CurrencyRoundingService::areAmountsEqual($refund->amount + 0.01, $totalToRefund, (string) $order->getOrderCurrencyCode())) {
-+            $positiveAdjustment += $this->helper->roundAmount($totalToRefund - $refund->amount, $order->getOrderCurrencyCode());
-+        }
++        // $refundAmount = $this->helper->roundAmount((float) $refund->amount, $orderCurrency);
++        $refundAmount = $this->getAmountToCredit($refund, $order);
 +        // END PATCH
-+
-         return [
-             'qtys' => $refundQuantities,
-             'shipping_amount' => $shippingAmount,
-@@ -298,4 +316,29 @@ class SuccessfulCommand extends WebhookCommand
-             'adjustment_negative' => $negativeAdjustment
-         ];
+         $baseRefundAmount = $this->toBaseAmount($refundAmount, $order);
+ 
+         $delta = $this->helper->roundAmount(
+@@ -422,4 +434,35 @@ class SuccessfulCommand extends WebhookCommand
+ 
+         return (float) $this->helper->roundAmount($amount / $rate, (string) $order->getBaseCurrencyCode());
      }
 +
 +    // BEGIN PATCH
-+    /**
-+     * Whether the refund covers only a part of the shipping costs (unit price reduction of the shipping line item).
-+     *
-+     * @param CoreRefund $refund
-+     * @param CoreLineItem $refundedShippingItem
-+     * @return bool
-+     */
 +    private function isPartialShippingRefund(CoreRefund $refund, CoreLineItem $refundedShippingItem): bool
 +    {
 +        if ($refund->reducedLineItems === null) {
@@ -103,6 +93,19 @@ index f412216..e8517a5 100644
 +        }
 +
 +        return false;
++    }
++
++    private function getAmountToCredit(CoreRefund $refund, Order $order): float
++    {
++        $orderCurrency = (string) $order->getOrderCurrencyCode();
++        $refundAmount = (float) $this->helper->roundAmount((float) $refund->amount, $orderCurrency);
++        $totalToRefund = (float) $this->helper->roundAmount((float) $order->getGrandTotal() - (float) $order->getTotalRefunded(), $orderCurrency);
++
++        if (CurrencyRoundingService::areAmountsEqual($refundAmount + 0.01, $totalToRefund, $orderCurrency)) {
++            return $totalToRefund;
++        }
++
++        return $refundAmount;
 +    }
 +    // END PATCH
  }
