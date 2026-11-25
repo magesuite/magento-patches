@@ -349,6 +349,11 @@
                     "description": "Optimise performance of ProcessLayoutRender observer",
                     "filename": "essential/magento/module-page-cache/process-layout-render-performance-optimisation.patch",
                     "version-constraint": ">=100.4.5"
+                },
+                {
+                    "description": "Do not let Varnish cache pages without X-Magento-Tags when full page cache gets disabled mid-request by stale L2 cache (RK-2559, magento/magento2#40281)",
+                    "filename": "essential/magento/module-page-cache/revoke-public-headers-when-fpc-disabled-mid-request.patch",
+                    "version-constraint": ">=100.4.6"
                 }
             ],
             "magento/module-sales": [
