@@ -1,0 +1,65 @@
+Fixes pages cached in Varnish without X-Magento-Tags, which no purge can remove (magento/magento2#40281, upstream PR magento/magento2#41038).
+
+Root cause: with a two-level cache and use_stale_cache enabled, RemoteSynchronizedCache::load() returns stale local data when the remote entry is gone and another process holds the regeneration lock. RuntimeStaleCacheStateModifier then disables full_page for the rest of the request. LayoutPlugin::afterGenerateElements() has already set public Cache-Control headers by then, but afterGetOutput() skips X-Magento-Tags because full page cache is no longer enabled. Varnish stores the page for the full TTL and no ban, including a full flush or a flush by URL, matches it; only a Varnish restart or the TTL removes it.
+Fix: when the layout is cacheable but full page cache is disabled in afterGetOutput(), replace Magento public cache headers (detected the same way as Kernel::process(): public with s-maxage) with no-cache headers.
+
+Gotcha: detection is limited to the public + s-maxage shape set by setPublicHeaders(), so intentionally private or no-cache responses stay untouched.
+
+diff --git a/Model/Layout/LayoutPlugin.php b/Model/Layout/LayoutPlugin.php
+index 6aff8ae..47cff8a 100644
+--- a/Model/Layout/LayoutPlugin.php
++++ b/Model/Layout/LayoutPlugin.php
+@@ -83,7 +83,14 @@ class LayoutPlugin
+      */
+     public function afterGetOutput(Layout $subject, $result)
+     {
+-        if ($subject->isCacheable() && $this->config->isEnabled()) {
++        // BEGIN PATCH
++        // if ($subject->isCacheable() && $this->config->isEnabled()) {
++        if (!$subject->isCacheable()) {
++            return $result;
++        }
++
++        if ($this->config->isEnabled()) {
++        // END PATCH
+             $tags = [];
+             $isVarnish = $this->config->getType() === Config::VARNISH;
+ 
+@@ -99,8 +106,37 @@ class LayoutPlugin
+             $tags = array_unique(array_merge([], ...$tags));
+             $tags = $this->pageCacheTagsPreprocessor->process($tags);
+             $this->response->setHeader('X-Magento-Tags', implode(',', $tags));
++        // BEGIN PATCH
++        // }
++        } else {
++            $this->revokePublicCacheHeaders();
+         }
++        // END PATCH
+ 
+         return $result;
+     }
++
++    // BEGIN PATCH
++    /**
++     * Replace public full page cache headers with no-cache ones when full page cache got disabled mid-request.
++     *
++     * @return void
++     * @see \Magento\Framework\App\PageCache\Kernel::process()
++     */
++    private function revokePublicCacheHeaders(): void
++    {
++        if (!$this->response instanceof \Magento\Framework\App\Response\Http) {
++            return;
++        }
++
++        $cacheControlHeader = $this->response->getHeader('Cache-Control');
++        if (!$cacheControlHeader) {
++            return;
++        }
++
++        if (preg_match('/public.*s-maxage=(\d+)/', (string)$cacheControlHeader->getFieldValue())) {
++            $this->response->setNoCacheHeaders();
++        }
++    }
++    // END PATCH
+ }
