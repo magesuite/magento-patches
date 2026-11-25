@@ -1,0 +1,23 @@
+Prevents adding the children categories queries to the category search query, to avoid heavy queries to Elasticsearch.
+
+Variant for smile/elasticsuite >=2.12.3, where buildCategorySearchQuery() was rewritten and checks getChildrenCount() instead of hasChildren().
+
+diff --git a/src/module-elasticsuite-virtual-category/Model/Rule.php b/src/module-elasticsuite-virtual-category/Model/Rule.php
+index 950a171..a6d3e62 100644
+--- a/src/module-elasticsuite-virtual-category/Model/Rule.php
++++ b/src/module-elasticsuite-virtual-category/Model/Rule.php
+@@ -602,9 +602,11 @@ class Rule extends \Smile\ElasticsuiteCatalogRule\Model\Rule implements VirtualR
+             // Using getChildrenCount() instead of hasChildren(): the children count includes the children of any store,
+             // active or not, while hasChildren() only counts the active children of the current store, which may not be
+             // the category store. The children collection, built in the category store, then keeps the active ones.
+-            if ($query && $category->getChildrenCount() > 0) {
+-                $query = $this->addChildrenQueries($query, $category, $excludedCategories);
+-            }
++            // BEGIN PATCH
++            // if ($query && $category->getChildrenCount() > 0) {
++            //     $query = $this->addChildrenQueries($query, $category, $excludedCategories);
++            // }
++            // END PATCH
+         } else {
+             $this->dependencyCollector->addTruncation([$category->getId()]);
+         }
