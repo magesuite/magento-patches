@@ -1155,6 +1155,11 @@
                     "description": "fix: Mismatch of order item id.",
                     "filename": "essential/aheadworks/module-giftcard/mismatch-order-item-id.patch",
                     "version-constraint": ">=1.8.2"
+                },
+                {
+                    "description": "Fix gift card amount resolved to null for predefined amounts without a discounted price",
+                    "filename": "essential/aheadworks/module-giftcard/fix-amount-without-discounted-price-1.10.4.patch",
+                    "version-constraint": ">=1.10.4,<1.10.5"
                 }
             ],
             "aheadworks/module-product-question": [
