@@ -1,0 +1,24 @@
+Fixes "Please specify gift card amount" when adding a gift card with a predefined amount to the cart (aheadworks/module-giftcard 1.10.4).
+
+Root cause: 1.10.4 resolves the paid price of a predefined amount through lookupPaidAmount(), which returns the
+discounted price ("custom_price") of the matching amount row even when it is empty. Amount rows without a discounted
+price store custom_price as NULL, so the resolved amount becomes null and validation rejects the buy request.
+Up to 1.10.3 the isset() check skipped such rows and the face value was used.
+Fix: use the discounted price only when it is numeric, otherwise fall back to the face value.
+
+diff --git a/Model/Product/Type/Giftcard.php b/Model/Product/Type/Giftcard.php
+index 82c1c9c..5eeb542 100644
+--- a/Model/Product/Type/Giftcard.php
++++ b/Model/Product/Type/Giftcard.php
+@@ -733,7 +733,10 @@ class Giftcard extends AbstractType
+     private function lookupPaidAmount($face, array $discountPrices)
+     {
+         foreach ($discountPrices as $mappedFace => $paid) {
+-            if (is_numeric($mappedFace) && abs((float)$mappedFace - (float)$face) < 0.00001) {
++            // BEGIN PATCH
++            // if (is_numeric($mappedFace) && abs((float)$mappedFace - (float)$face) < 0.00001) {
++            if (is_numeric($mappedFace) && abs((float)$mappedFace - (float)$face) < 0.00001 && is_numeric($paid)) {
++            // END PATCH
+                 return $paid;
+             }
+         }
